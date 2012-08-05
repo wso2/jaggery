@@ -1,0 +1,137 @@
+body {
+    background:url("../img/bg.jpg") fixed;
+}
+
+.container {
+    background-color:white;
+    height:auto;
+    -webkit-border-radius: 5px;
+border-radius: 5px;
+
+    -webkit-box-shadow:  0px 0px 10px 3px rgba(00, 00, 00, 0.8);
+
+    box-shadow:  0px 0px 10px 3px rgba(00, 00, 00, 0.8);
+            
+}
+
+.logo {
+    font-size:36px;
+    color: #007654;
+    font-family:'Arial';
+    text-transform:uppercase;
+    font-weight:bold;
+    margin:20px;
+    float:left;
+}
+
+.operations-main {
+    margin:20px;
+    float:left;
+}
+
+#order-window {
+    margin:10px;
+    padding:10px;
+    box-shadow:0px 0px 5px #CCC;
+    float:left;
+    width:96%;
+}
+.order-number {
+    font-weight:bold;
+    float:left;
+    margin-right:20px;
+}
+
+.order-content {
+    float:left;
+    font-size:16px;
+    font-weight:bold;
+    color:#666;
+}
+
+.notice {
+    padding:20px;
+}
+
+.help-block {
+    font-size:12px;
+    font-style:italic;
+    font-weight:normal;
+}
+
+.amount {
+    float:right;
+    font-size:22px;
+    margin-right:20px;
+    margin-top:5px;
+}
+
+.order-entry {
+    margin-bottom:10px;
+    padding-bottom:10px;
+    border-bottom:1px solid #efefef;
+    width:100%;
+    float:left;
+    padding-top:10px;
+}
+
+.order-actions {
+    float:right;
+}
+
+.orderstatus {
+    float:left;
+}
+
+.payment-action, .order-status {
+    list-style:none;
+    float:left;
+
+}
+
+.request-text, .response-text {
+    width:100%;
+
+
+}
+
+.request-text textarea, .response-text textarea {
+   width:95%;
+    margin-top:10px;
+    height:60px;
+	font-family:'courier new' !IMPORTANT;
+}
+
+.paid, .completed {
+    margin-left:20px;
+    float:left;
+}
+
+.container-collapse {
+    text-align:center;
+    margin-top:20px;
+    padding-top:10px;
+}
+
+.header-max {
+    text-align:left;
+    padding:0px 0px 10px 10px;
+}
+
+.minimize-button {
+    cursor:pointer;
+}
+
+.message-trace h4 {
+    text-align:left;
+    margin:10px;
+}
+
+.additional-toppings {
+}
+
+#addition-form, #addNewOrderForm {
+    text-align:center;
+    margin-top:20px;
+}
+

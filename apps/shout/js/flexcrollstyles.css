@@ -1,0 +1,34 @@
+/* Scroll Bar Master Styling Starts Here */
+/* All comments can be freely removed from the css */
+
+.scrollgeneric {
+line-height: 1px;
+font-size: 1px;
+position: absolute;
+top: 0; left: 0;
+}
+
+.vscrollerbase {
+width: 10px;
+background-color: white;
+}
+.vscrollerbar {
+width: 10px;
+background-color: lightgray;
+}
+.hscrollerbase {
+height: 10px;
+background-color: white;
+}
+.hscrollerbar {
+height: 10px;
+background-color: black;
+}
+
+.scrollerjogbox {
+width: 10px;
+height: 10px;
+top: auto; left: auto;
+bottom: 0px; right: 0px;
+background-color: gray;
+}

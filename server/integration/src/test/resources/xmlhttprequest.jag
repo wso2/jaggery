@@ -1,0 +1,25 @@
+<%
+    var xhr = new XMLHttpRequest();
+	var param = request.getParameter('action');
+if(param == "operations"){
+     xhr.open("GET", "http://localhost:9763/testapp/testhtml.html");
+     xhr.setRequestHeader("Content-Type", "application/json");
+     var header = xhr.getResponseHeader("Content-Type");	 
+     xhr.send();
+	 print("ResponseText : "+xhr.responseText);
+     print("Status : "+ xhr.status);
+	 print(", Statechange : "+xhr.onreadystatechange);
+	 xhr.abort();
+}else if (param == "asyncoperations"){
+print("xhr states : " +xhr.readyState);
+xhr.open("GET", "http://localhost:9763/testapp/testhtml.html",true);  
+print(", "+xhr.readyState);   
+    xhr.send();	
+    print(", "+xhr.readyState);}	
+
+else {
+    xhr.open("GET", "http://localhost:9763/testapp/testhtml.html");
+    xhr.send();
+    print(xhr.status);
+	}
+%>

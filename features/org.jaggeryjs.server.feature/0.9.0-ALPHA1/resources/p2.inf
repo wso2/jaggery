@@ -1,0 +1,7 @@
+instructions.configure = \
+org.eclipse.equinox.p2.touchpoint.natives.mkdir(path:${installFolder}/../../modules); \
+org.eclipse.equinox.p2.touchpoint.natives.copy(source:${installFolder}/features/org.jaggeryjs.server_${feature.version}/modules/,target:${installFolder}/../../modules,overwrite:true);\
+org.eclipse.equinox.p2.touchpoint.natives.remove(path:${installFolder}/features/org.jaggeryjs.server_${feature.version}/modules);\
+
+
+

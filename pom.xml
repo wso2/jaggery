@@ -1,0 +1,335 @@
+<!--
+ ~ Copyright (c) 2005-2010, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ ~
+ ~ WSO2 Inc. licenses this file to you under the Apache License,
+ ~ Version 2.0 (the "License"); you may not use this file except
+ ~ in compliance with the License.
+ ~ You may obtain a copy of the License at
+ ~
+ ~    http://www.apache.org/licenses/LICENSE-2.0
+ ~
+ ~ Unless required by applicable law or agreed to in writing,
+ ~ software distributed under the License is distributed on an
+ ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ ~ KIND, either express or implied.  See the License for the
+ ~ specific language governing permissions and limitations
+ ~ under the License.
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.jaggeryjs</groupId>
+    <artifactId>jaggery-parent</artifactId>
+    <version>0.9.0-ALPHA1</version>
+    <packaging>pom</packaging>
+    <name>jaggeryjs - Parent</name>
+    <url>http://jaggeryjs.org</url>
+    <description>Jaggery</description>
+
+    <repositories>
+        <repository>
+            <id>wso2-maven2-repository</id>
+            <name>WSO2 Maven2 Repository</name>
+            <url>http://dist.wso2.org/maven2/</url>
+        </repository>
+        <repository>
+            <id>wso2-maven2-snapshot-repository</id>
+            <name>WSO2 Maven2 Snapshot Repository</name>
+            <url>http://dist.wso2.org/snapshots/maven2/</url>
+        </repository>
+        <repository>
+            <id>wso2-nexus</id>
+            <name>WSO2 internal Repository</name>
+            <url>http://maven.wso2.org/nexus/content/groups/wso2-public/</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+                <checksumPolicy>ignore</checksumPolicy>
+            </releases>
+        </repository>
+    </repositories>
+
+    <licenses>
+        <license>
+            <name>Apache License Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
+
+    <modules>
+        <module>components</module>
+        <module>features</module>
+        <module>server/p2-profile-gen</module>
+        <module>server/distribution</module>
+        <module>server/integration</module>
+    </modules>
+
+    <scm>
+        <connection>scm:svn:http://svn.wso2.org/repos/wso2/trunk/carbon/products/appserver</connection>
+        <developerConnection>scm:svn:https://svn.wso2.org/repos/wso2/trunk/carbon/products/appserver
+        </developerConnection>
+    </scm>
+
+    <profiles>
+        <profile>
+            <id>jaggery</id>
+            <activation>
+                <property>
+                    <name>sign</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <organization>
+        <name>WSO2 Inc</name>
+        <url>http://wso2.com</url>
+    </organization>
+
+    <issueManagement>
+        <system>JIRA</system>
+        <url>https://wso2.org/jira/browse/CARBON</url>
+    </issueManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.wso2.maven</groupId>
+                    <artifactId>carbon-p2-plugin</artifactId>
+                    <version>${carbon.p2.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-antrun-plugin</artifactId>
+                    <version>${maven-antrun-plugin.version}</version>
+                </plugin>
+                <!--<plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>${maven-site-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>site</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>-->
+                <plugin>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>${maven-clean-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>auto-clean</id>
+                            <phase>initialize</phase>
+                            <goals>
+                                <goal>clean</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                    <configuration>
+                        <encoding>UTF-8</encoding>
+                        <source>1.6</source>
+                        <target>1.6</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>maven-scr-plugin</artifactId>
+                    <version>${maven-src-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>generate-scr-scrdescriptor</id>
+                            <goals>
+                                <goal>scr</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>maven-bundle-plugin</artifactId>
+                    <version>${maven-bunlde-plugin.version}</version>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <obrRepository>NONE</obrRepository>
+                        <!--<instructions>
+                          <_include>-osgi.bnd</_include>
+                        </instructions>-->
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${maven-source-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>jar-no-fork</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>${maven-assembly-plugin.version}</version>
+                </plugin>
+                <!--<plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>${maven-project-info-report-plugin.version}</version>
+                    <configuration>
+                        &lt;!&ndash; These features are disabled since they cause "mvn site" to hang &ndash;&gt;
+                        <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+                        <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
+                    </configuration>
+                </plugin>-->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>buildnumber-maven-plugin</artifactId>
+                    <version>${maven-buildnumber-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <phase>validate</phase>
+                            <goals>
+                                <goal>create</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>${maven-dependency-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>${maven-resources-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>${build-helper-maven-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>${mvn.gpg}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>${maven-jar-plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh</artifactId>
+                <version>2.1</version>
+            </extension>
+        </extensions>
+    </build>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>wso2-maven2-repository-1</id>
+            <url>http://dist.wso2.org/maven2</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>wso2-maven2-repository-2</id>
+            <url>http://dist.wso2.org/snapshots/maven2</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>repository.dev.java.net-maven2</id>
+            <name>Java.net Repository for Maven</name>
+            <url>http://download.java.net/maven/2/</url>
+            <layout>default</layout>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- jaggery versions -->
+        <jaggery.component.version>0.9.0-ALPHA1</jaggery.component.version>
+        <jaggery.feature.version>0.9.0-ALPHA1</jaggery.feature.version>
+        <jaggery.deployer.osgi.version>0.9.0.ALPHA1</jaggery.deployer.osgi.version>
+
+        <!-- carbon versions -->
+        <carbon.kernal.version>4.0.0</carbon.kernal.version>
+        <carbon.platform.version>4.0.0</carbon.platform.version>
+
+        <!-- feature versions -->
+        <ntask.feature.version>4.0.0</ntask.feature.version>
+
+        <!-- non-osgi bundle versions -->
+        <emma.version>2.1.5320</emma.version>
+
+        <!-- maven plugin versions -->
+        <build-helper-maven-plugin.version>1.7</build-helper-maven-plugin.version>
+        <maven-compiler-plugin.version>2.3.1</maven-compiler-plugin.version>
+        <maven-resources-plugin.version>2.5</maven-resources-plugin.version>
+        <maven-clean-plugin.version>2.5</maven-clean-plugin.version>
+        <maven-surefire-plugin.version>2.12</maven-surefire-plugin.version>
+        <maven-antrun-plugin.version>1.7</maven-antrun-plugin.version>
+        <maven-jar-plugin.version>2.4</maven-jar-plugin.version>
+        <felix.bundle.version>2.3.5</felix.bundle.version>
+        <felix.scr.version>1.7.2</felix.scr.version>
+        <carbon.p2.plugin.version>1.5-SNAPSHOT</carbon.p2.plugin.version>
+        <mvn.gpg>1.0-alpha-3</mvn.gpg>
+        <maven-site-plugin.version>3.0</maven-site-plugin.version>
+        <maven-src-plugin.version>1.7.2</maven-src-plugin.version>
+        <maven-bunlde-plugin.version>2.3.5</maven-bunlde-plugin.version>
+        <maven-source-plugin.version>2.1.2</maven-source-plugin.version>
+        <maven-assembly-plugin.version>2.2-beta-2</maven-assembly-plugin.version>
+        <maven-project-info-report-plugin.version>2.4</maven-project-info-report-plugin.version>
+        <maven-buildnumber-plugin.version>1.1</maven-buildnumber-plugin.version>
+        <maven-dependency-plugin.version>2.4</maven-dependency-plugin.version>
+    </properties>
+
+    <distributionManagement>
+        <repository>
+            <id>wso2-maven2-repository</id>
+            <name>WSO2 Maven2 Repository</name>
+            <url>scp://dist.wso2.org/home/httpd/dist.wso2.org/maven2/</url>
+        </repository>
+        <snapshotRepository>
+            <id>wso2-maven2-snapshot-repository</id>
+            <name>WSO2 Maven2 Snapshot Repository</name>
+            <url>scp://dist.wso2.org/home/httpd/dist.wso2.org/snapshots/maven2/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+</project>
