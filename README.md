@@ -1,4 +1,4 @@
-jaggery - The delicious Javascript framework
+{jaggery.js} - The delicious Javascript framework
 ============================================
 
 Jaggery is a framework to write webapps and HTTP-focused web services for all aspects of the application: front-end, communication, Server-side logic and persistence in pure Javascript. One of the intents of this framework is to reduce the gap between writing web apps and web services. Importantly, Jaggery is open-source and released under Apache 2.0
