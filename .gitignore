@@ -11,5 +11,11 @@
 # IDE files #
 *.iml
 *.ipw
-/.project
-/.idea
+.idea
+.classpath
+.project
+.settings
+*.ipr
+*.iml
+*.iws
+target
