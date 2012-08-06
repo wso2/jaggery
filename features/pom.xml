@@ -51,10 +51,10 @@
     </repositories>
 
     <modules>
-        <module>org.jaggeryjs.admin.styles.feature/0.9.0-ALPHA1</module>
-        <module>org.jaggeryjs.server.feature/0.9.0-ALPHA1</module>
-        <module>org.jaggeryjs.ui.feature/0.9.0-ALPHA1</module>
-        <module>org.jaggeryjs.feature/0.9.0-ALPHA1</module>
+        <module>org.jaggeryjs.admin.styles.feature</module>
+        <module>org.jaggeryjs.server.feature</module>
+        <module>org.jaggeryjs.ui.feature</module>
+        <module>org.jaggeryjs.feature</module>
     </modules>
 
     <properties>

@@ -32,12 +32,12 @@
     <url>http://wso2.org</url>
 
     <modules>
-        <module>org.jaggeryjs.jaggery.core/0.9.0-ALPHA1</module>
-        <module>org.jaggeryjs.jaggery.app.mgt/0.9.0-ALPHA1</module>
-        <module>org.jaggeryjs.jaggery.deployer/0.9.0-ALPHA1</module>
-        <module>org.jaggeryjs.jaggery.tools/0.9.0-ALPHA1</module>
-        <module>org.jaggeryjs.jaggery.app.mgt.stub/0.9.0-ALPHA1</module>
-        <module>org.jaggeryjs.jaggery.app.mgt.ui/0.9.0-ALPHA1</module>
+        <module>org.jaggeryjs.jaggery.core</module>
+        <module>org.jaggeryjs.jaggery.app.mgt</module>
+        <module>org.jaggeryjs.jaggery.deployer</module>
+        <module>org.jaggeryjs.jaggery.tools</module>
+        <module>org.jaggeryjs.jaggery.app.mgt.stub</module>
+        <module>org.jaggeryjs.jaggery.app.mgt.ui</module>
     </modules>
 
     <dependencyManagement>

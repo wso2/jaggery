@@ -34,20 +34,20 @@
     <url>http://wso2.org</url>
 
     <modules>
-        <module>org.jaggeryjs.hostobjects.db/0.9.0-ALPHA1</module>
-        <module>org.jaggeryjs.hostobjects.web/0.9.0-ALPHA1</module>
-        <module>org.jaggeryjs.hostobjects.file/0.9.0-ALPHA1</module>
-        <module>org.jaggeryjs.hostobjects.email/0.9.0-ALPHA1</module>
-        <module>org.jaggeryjs.hostobjects.registry/0.9.0-ALPHA1</module>
-        <module>org.jaggeryjs.hostobjects.ws/0.9.0-ALPHA1</module>
-        <module>org.jaggeryjs.hostobjects.xhr/0.9.0-ALPHA1</module>
-        <module>org.jaggeryjs.hostobjects.xslt/0.9.0-ALPHA1</module>
-        <module>org.jaggeryjs.hostobjects.oauth/0.9.0-ALPHA1</module>
-        <module>org.jaggeryjs.hostobjects.feed/0.9.0-ALPHA1</module>
-        <module>org.jaggeryjs.hostobjects.uri/0.9.0-ALPHA1</module>
-        <module>org.jaggeryjs.hostobjects.stream/0.9.0-ALPHA1</module>
-        <module>org.jaggeryjs.hostobjects.log/0.9.0-ALPHA1</module>
-        <module>org.jaggeryjs.hostobjects.jaggeryparser/0.9.0-ALPHA1</module>
+        <module>org.jaggeryjs.hostobjects.db</module>
+        <module>org.jaggeryjs.hostobjects.web</module>
+        <module>org.jaggeryjs.hostobjects.file</module>
+        <module>org.jaggeryjs.hostobjects.email</module>
+        <module>org.jaggeryjs.hostobjects.registry</module>
+        <module>org.jaggeryjs.hostobjects.ws</module>
+        <module>org.jaggeryjs.hostobjects.xhr</module>
+        <module>org.jaggeryjs.hostobjects.xslt</module>
+        <module>org.jaggeryjs.hostobjects.oauth</module>
+        <module>org.jaggeryjs.hostobjects.feed</module>
+        <module>org.jaggeryjs.hostobjects.uri</module>
+        <module>org.jaggeryjs.hostobjects.stream</module>
+        <module>org.jaggeryjs.hostobjects.log</module>
+        <module>org.jaggeryjs.hostobjects.jaggeryparser</module>
     </modules>
 
     <dependencyManagement>
