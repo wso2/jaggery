@@ -1,0 +1,14 @@
+# Compiled Sources #
+*.class
+
+# Packages #
+############
+*.jar
+*.rar
+*.tar
+*.zip
+
+# IDE files #
+*.iml
+*.ipw
+/.project
