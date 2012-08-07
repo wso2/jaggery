@@ -17,7 +17,7 @@
  -->
 <component xmlns="http://products.wso2.org/carbon">
     <menus>
-        <menu>
+        <!--menu>
             <id>jagger_webapps_menu</id>
             <i18n-key>jaggeryappmgt.services.menu</i18n-key>
             <i18n-bundle>org.jaggeryjs.jaggery.app.mgt.ui.i18n.Resources</i18n-bundle>
@@ -40,16 +40,16 @@
             <icon>../jaggeryapp-mgt/images/list.gif</icon>
             <style-class>home</style-class>
             <require-permission>/permission/admin/manage/manage/webapp</require-permission>
-        </menu>
+        </menu-->
         <menu>
             <id>jagger_webapps_add_menu</id>
-            <i18n-key>jaggeryappmgt.add.webapp.menu</i18n-key>
+            <i18n-key>jaggery</i18n-key>
             <i18n-bundle>org.jaggeryjs.jaggery.app.mgt.ui.i18n.Resources</i18n-bundle>
-            <parent-menu>jagger_webapps_menu</parent-menu>
+            <parent-menu>webapps_add_menu</parent-menu>
             <link>../jaggeryapp-mgt/uploadjaggeryapp.jsp</link>
             <region>region1</region>
             <order>10</order>
-            <icon>../jaggeryapp-mgt/images/add.gif</icon>
+            <icon>../jaggeryapp-mgt/images/webapps.gif</icon>
             <style-class>home</style-class>
             <require-permission>/permission/admin/manage/add/webapp</require-permission>
         </menu>

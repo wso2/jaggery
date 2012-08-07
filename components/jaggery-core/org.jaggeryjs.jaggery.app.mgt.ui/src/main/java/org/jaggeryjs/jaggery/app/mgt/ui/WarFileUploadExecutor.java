@@ -87,7 +87,7 @@ public class WarFileUploadExecutor extends AbstractFileUploadExecutor {
             }
 
             CarbonUIMessage.sendCarbonUIMessage(msg, CarbonUIMessage.INFO, request, response,
-                                                "../" + webContext + "/jaggeryapp-mgt/index.jsp");
+                                                "../" + webContext + "/webapp-list/index.jsp");
             return true;
         } catch (Exception e) {
             msg = "Jaggery application upload failed. " + e.getMessage();

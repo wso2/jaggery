@@ -67,6 +67,7 @@
         <!-- carbon versions -->
         <carbon.kernal.version>4.0.0</carbon.kernal.version>
         <carbon.platform.version>4.0.0</carbon.platform.version>
+        <carbon.platform.patch.version>4.0.1</carbon.platform.patch.version>
 
         <!-- osgi bundle versions -->
         <rhino.osgi.version>1.7.0.R1-wso2v3</rhino.osgi.version>
@@ -107,6 +108,7 @@
         <javax.servlet.osgi.version>3.0.0.wso2v1</javax.servlet.osgi.version>
         <geronimo-servlet_3.0_spec.version>1.0</geronimo-servlet_3.0_spec.version>
         <webapp.mgt.osgi.version>4.0.0</webapp.mgt.osgi.version>
+        <webapp.mgt.osgi.patch.version>4.0.1</webapp.mgt.osgi.patch.version>
 
         <!-- non-osgi bundle versions -->
         <json.version>20090211</json.version>
@@ -431,7 +433,7 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.webapp.mgt</artifactId>
-                <version>${webapp.mgt.osgi.version}</version>
+                <version>${webapp.mgt.osgi.patch.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
