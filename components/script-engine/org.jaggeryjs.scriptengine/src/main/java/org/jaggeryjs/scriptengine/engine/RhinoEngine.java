@@ -2,22 +2,18 @@ package org.jaggeryjs.scriptengine.engine;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.ContextFactory;
-import org.mozilla.javascript.Function;
-import org.mozilla.javascript.FunctionObject;
-import org.mozilla.javascript.Script;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
 import org.jaggeryjs.scriptengine.cache.CacheManager;
 import org.jaggeryjs.scriptengine.cache.ScriptCachingContext;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
+import org.jaggeryjs.scriptengine.security.RhinoSecurityController;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
+import org.mozilla.javascript.*;
 
 import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The <code>RhinoEngine</code> class acts as a global engine for executing JavaScript codes using Mozilla Rhino. Each engine instance
@@ -31,15 +27,18 @@ public class RhinoEngine {
 
     private static final Log log = LogFactory.getLog(RhinoEngine.class);
 
-    private static ContextFactory contextFactory;
+    private static ContextFactory globalContextFactory;
 
     private CacheManager cacheManager;
+    private ContextFactory contextFactory;
+    //private SecurityController securityController;
     private List<JavaScriptModule> modules = new ArrayList<JavaScriptModule>();
     private JavaScriptModule globalModule = new JavaScriptModule("global");
 
     static {
-        contextFactory = new CarbonContextFactory();
-        ContextFactory.initGlobal(contextFactory);
+        globalContextFactory = new RhinoContextFactory(
+                RhinoSecurityController.isSecurityEnabled() ? new RhinoSecurityController() : null);
+        ContextFactory.initGlobal(globalContextFactory);
     }
 
     /**
@@ -47,22 +46,12 @@ public class RhinoEngine {
      * <p>Scope of the engine will be a clone of the static global scope associates with the <code>RhinoEngine</code> class.
      * @param cacheManager  A {@code CacheManager} instance to be used as the cache manager of the engine
      */
-    public RhinoEngine(CacheManager cacheManager) {
+    public RhinoEngine(CacheManager cacheManager, SecurityController securityController) {
         this.cacheManager = cacheManager;
-    }
-
-    /**
-     * This constructor gets an existing <code>RhinoEngine</code> instance and a <code>CacheManager</code> instance and returns a new
-     * RhinoEngine instance with a cloned scope of the passed engine instance.
-     * @param engine An existing {@code RhinoEngine} instance.
-     * @param cacheManager A {@code CacheManager} instance to be used as the cache manager of the engine
-     * @throws ScriptException If the passed {@code CacheManager} instance is null
-     */
-    public RhinoEngine(RhinoEngine engine, CacheManager cacheManager) throws ScriptException {
-        if (cacheManager == null) {
-            String msg = "CacheManager cannot be null. Please specify a cache manager.";
-            log.error(msg);
-            throw new ScriptException(msg);
+        if(securityController != null) {
+            this.contextFactory = new RhinoContextFactory(securityController);
+        } else {
+            this.contextFactory = globalContextFactory;
         }
     }
 
@@ -115,7 +104,7 @@ public class RhinoEngine {
     }
 
     public static void defineScript(ScriptableObject scope, JavaScriptScript script) {
-        Context cx = enterContext();
+        Context cx = enterGlobalContext();
         script.getScript().exec(cx, scope);
         exitContext();
     }
@@ -268,7 +257,7 @@ public class RhinoEngine {
      */
     public ScriptableObject getRuntimeScope() throws ScriptException {
         Context cx = enterContext();
-        ScriptableObject scope = removeUnsafeObjects(new CarbonTopLevel(cx, false));
+        ScriptableObject scope = removeUnsafeObjects(new RhinoTopLevel(cx, false));
         exposeModule(scope, globalModule);
         for (JavaScriptModule module : modules) {
             String name = module.getName();
@@ -287,35 +276,39 @@ public class RhinoEngine {
         this.cacheManager.unloadTenant(tenantId);
     }
 
+    public Context enterContext() {
+        return contextFactory.enterContext();
+    }
+
     public static Scriptable newObject(String constructor, ScriptableObject scope, Object[] args) {
-        Context cx = enterContext();
+        Context cx = enterGlobalContext();
         Scriptable obj = cx.newObject(scope, constructor, args);
         exitContext();
         return obj;
     }
 
     public static Scriptable newObject(ScriptableObject scope) {
-        Context cx = enterContext();
+        Context cx = enterGlobalContext();
         Scriptable obj = cx.newObject(scope);
         exitContext();
         return obj;
     }
 
     public static void putContextProperty(Object key, Object value) {
-        Context cx = enterContext();
+        Context cx = enterGlobalContext();
         cx.putThreadLocal(key, value);
         exitContext();
     }
 
     public static Object getContextProperty(Object key) {
-        Context cx = enterContext();
+        Context cx = enterGlobalContext();
         Object value = cx.getThreadLocal(key);
         exitContext();
         return value;
     }
 
     public static ScriptableObject cloneScope(ScriptableObject scope) {
-        Context cx = enterContext();
+        Context cx = enterGlobalContext();
         ScriptableObject clone = (ScriptableObject) cx.newObject(scope);
         clone.setPrototype(scope.getPrototype());
         clone.setParentScope(scope.getParentScope());
@@ -323,8 +316,12 @@ public class RhinoEngine {
         return clone;
     }
 
-    public static Context enterContext() {
-        return contextFactory.enterContext();
+    public static Context enterContext(ContextFactory factory) {
+        return globalContextFactory.enterContext();
+    }
+
+    public static Context enterGlobalContext() {
+        return globalContextFactory.enterContext();
     }
 
     public static void exitContext() {

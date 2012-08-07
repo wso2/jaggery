@@ -18,14 +18,15 @@ package org.jaggeryjs.hostobjects.xslt;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jaggeryjs.scriptengine.engine.RhinoEngine;
+import org.jaggeryjs.scriptengine.exceptions.ScriptException;
+import org.jaggeryjs.scriptengine.util.HostObjectUtil;
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.NativeObject;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
-import org.jaggeryjs.scriptengine.exceptions.ScriptException;
-import org.jaggeryjs.scriptengine.util.HostObjectUtil;
-import org.jaggeryjs.scriptengine.engine.RhinoEngine;
 import org.wso2.javascript.xmlimpl.XML;
 
 import javax.xml.transform.Source;
@@ -236,15 +237,16 @@ public class XSLTHostObject extends ScriptableObject {
                 xho.transformer.transform(new StreamSource(xml), new StreamResult(result));
                 return result.toString();
             }
-            final ExecutorService es = Executors.newCachedThreadPool();
             final StringReader finalXml = xml;
             final Function finalCallback = callback;
             final Function finalUriResolver = uriResolver;
             final NativeObject finalParamMap = paramMap;
+            final ContextFactory factory = cx.getFactory();
+            final ExecutorService es = Executors.newCachedThreadPool();
             es.submit(new Callable() {
                 public Object call() throws Exception {
+                    RhinoEngine.enterContext(factory);
                     try {
-                        RhinoEngine.enterContext();
                         getTransformer(cx, thisObj, xho, finalParamMap, finalUriResolver).transform(
                                 new StreamSource(finalXml), new StreamResult(result));
                         finalCallback.call(cx, xho, xho, new Object[]{result.toString()});

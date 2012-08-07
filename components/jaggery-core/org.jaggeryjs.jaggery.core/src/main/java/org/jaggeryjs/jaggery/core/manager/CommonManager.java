@@ -4,14 +4,15 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.hostobjects.stream.StreamHostObject;
 import org.jaggeryjs.jaggery.core.ScriptReader;
+import org.jaggeryjs.scriptengine.cache.CacheManager;
+import org.jaggeryjs.scriptengine.engine.*;
+import org.jaggeryjs.scriptengine.exceptions.ScriptException;
+import org.jaggeryjs.scriptengine.security.RhinoSecurityController;
+import org.jaggeryjs.scriptengine.util.HostObjectUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
-import org.jaggeryjs.scriptengine.cache.CacheManager;
-import org.jaggeryjs.scriptengine.engine.*;
-import org.jaggeryjs.scriptengine.exceptions.ScriptException;
-import org.jaggeryjs.scriptengine.util.HostObjectUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,21 +31,24 @@ public class CommonManager {
 
     private static final Log log = LogFactory.getLog(CommonManager.class);
 
-    public static final int ENV_WEBAPP = 0;
-
     public static final String JAGGERY_CONTEXT = "jaggeryContext";
     public static final String JAGGERY_URLS_MAP = "jaggery.urls.map";
 
-    public static final String HOST_OBJECT_NAME = "CarbonTopLevel";
-    public static final String DEFAULT_CONTENT_TYPE = "text/html";
+    public static final String HOST_OBJECT_NAME = "RhinoTopLevel";
+
+    private static CommonManager manager;
 
     private RhinoEngine engine = null;
     private ModuleManager moduleManager = null;
-    private String modulesDir = null;
 
-    public CommonManager(String modulesDir) throws ScriptException {
-        this.modulesDir = modulesDir;
-        init();
+    private CommonManager() throws ScriptException {
+    }
+
+    public static CommonManager getInstance() throws ScriptException {
+        if(manager == null) {
+            manager = new CommonManager();
+        }
+        return manager;
     }
 
     public RhinoEngine getEngine() {
@@ -55,21 +59,17 @@ public class CommonManager {
         return this.moduleManager;
     }
 
-    private void init() throws ScriptException {
-        this.engine = new RhinoEngine(new CacheManager(null));
+    public void initialize(String modulesDir, RhinoSecurityController securityController) throws ScriptException {
+        this.engine = new RhinoEngine(new CacheManager(null), securityController);
         this.moduleManager = new ModuleManager(modulesDir);
         exposeDefaultModules(this.engine, this.moduleManager.getModules());
     }
 
-    protected void initContext(JaggeryContext context) throws ScriptException {
-        context.setManager(this);
-        context.setEngine(engine);
-        context.setScope(engine.getRuntimeScope());
+    public static void initContext(JaggeryContext context) throws ScriptException {
+        context.setManager(manager);
+        context.setEngine(manager.engine);
+        context.setScope(manager.engine.getRuntimeScope());
         setJaggeryContext(context);
-    }
-
-    protected void initModule(String module, ScriptableObject object, JaggeryContext context) {
-
     }
 
     private static void exposeDefaultModules(RhinoEngine engine, Map<String, JavaScriptModule> modules) throws ScriptException {
@@ -230,7 +230,6 @@ public class CommonManager {
         object.setPrototype(thisObj);
         object.setParentScope(null);
         exposeModule(cx, object, module);
-        manager.initModule(moduleName, object, context);
         return object;
     }
 
@@ -272,7 +271,7 @@ public class CommonManager {
 
         int argsCount = args.length;
         if (argsCount != 1) {
-            HostObjectUtil.invalidNumberOfArgs("CarbonTopLevel", functionName, argsCount, false);
+            HostObjectUtil.invalidNumberOfArgs("RhinoTopLevel", functionName, argsCount, false);
         }
         OutputStream out = jaggeryContext.getOutputStream();
         if (args[0] instanceof StreamHostObject) {

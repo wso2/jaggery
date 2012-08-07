@@ -19,9 +19,6 @@
 
 package org.jaggeryjs.jaggery.core.task;
 
-import java.io.File;
-import java.util.Map;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.jaggery.core.internal.JaggeryCoreServiceComponent;
@@ -29,9 +26,12 @@ import org.jaggeryjs.jaggery.core.manager.CommonManager;
 import org.jaggeryjs.scriptengine.engine.RhinoEngine;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.ScriptableObject;
 import org.wso2.carbon.ntask.core.AbstractTask;
+
+import java.util.Map;
 
 public class JaggeryTask extends AbstractTask {
 
@@ -57,9 +57,10 @@ public class JaggeryTask extends AbstractTask {
         	}
         	
         	Object[] parameters = (Object[]) taskProperties.get(JaggeryTaskConstants.FUNCTION_PARAMETERS);
-        	Object jsFunction = (Object) taskProperties.get(JaggeryTaskConstants.JAVASCRIPT_FUNCTION);
-        	
-        	Context context = RhinoEngine.enterContext();
+        	Object jsFunction = taskProperties.get(JaggeryTaskConstants.JAVASCRIPT_FUNCTION);
+        	ContextFactory factory = (ContextFactory) taskProperties.get(JaggeryTaskConstants.CONTEXT_FACTORY);
+
+        	Context context = RhinoEngine.enterContext(factory);
             Object[] args;
 
             String jaggeryDir = System.getProperty("jaggery.home");
@@ -71,9 +72,8 @@ public class JaggeryTask extends AbstractTask {
                 log.error("Unable to find jaggery.home or carbon.home system properties");
                 return;
             }
-            jaggeryDir = jaggeryDir + File.separator + JaggeryTaskConstants.JAGGERY_MODULES_DIR;
             
-            RhinoEngine engine = new CommonManager(jaggeryDir).getEngine();
+            RhinoEngine engine = CommonManager.getInstance().getEngine();
             ScriptableObject scope = engine.getRuntimeScope();
             if (jsFunction instanceof Function) {
                 if (parameters != null) {
@@ -87,10 +87,10 @@ public class JaggeryTask extends AbstractTask {
                 String jsString = (String) jsFunction;
                 context.evaluateString(scope, jsString, "Load JavaScriptString", 0, null);
             }
-            RhinoEngine.exitContext();
         } catch (ScriptException e) {
+            RhinoEngine.exitContext();
             log.error(e.getMessage(), e);
-        } 
+        }
 		
 	}
 

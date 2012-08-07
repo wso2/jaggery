@@ -18,8 +18,6 @@ package org.jaggeryjs.hostobjects.oauth;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.NativeObject;
 
 
 public class OAuthHostObjectTest {
@@ -39,7 +37,7 @@ public class OAuthHostObjectTest {
         Object[] args = {o};
 
         try {
-            Context cx = RhinoEngine.enterContext();
+            Context cx = RhinoEngine.enterGlobalContext();
             OAuthHostObject oauth = (OAuthHostObject) OAuthHostObject.jsConstructor(cx, args, null, true);
             String authUrl = oauth.jsFunction_getAuthorizationUrl(cx, oauth, null, null);
             assert authUrl.length() != 0;

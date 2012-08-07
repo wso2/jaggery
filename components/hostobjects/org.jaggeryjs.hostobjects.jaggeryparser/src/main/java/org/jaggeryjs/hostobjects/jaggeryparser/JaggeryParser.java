@@ -51,6 +51,7 @@ public class JaggeryParser {
                         }
                         continue;
                     }
+                    ch = is.read();
                 } else if (ch == '%') {
                     ch = is.read();
                     if (ch == '>') {
@@ -69,6 +70,7 @@ public class JaggeryParser {
                         }
                         continue;
                     }
+                    ch = is.read();
                 } else {
                     if (opened) {
                         if (isExpression) {
@@ -76,7 +78,9 @@ public class JaggeryParser {
                         } else {
                             source.append((char) ch);
                         }
+                        ch = is.read();
                     } else {
+                        int next = is.read();
                         if (ch == '"') {
                             html.append('\\').append('\"');
                         } else if (ch == '\\') {
@@ -84,17 +88,20 @@ public class JaggeryParser {
                         } else if (ch == '\r') {
                             html.append('\\').append('r');
                         } else if (ch == '\n') {
-                            source.append("print(\"").append(html.toString()).
-                                    append('\\').append('n').append("\");").append('\n');
+                            source.append("print(\"").append(html.toString());
+                            if (next != -1) {
+                                source.append('\\').append('n');
+                            }
+                            source.append("\");").append('\n');
                             html = new StringBuilder();
                         } else if (ch == '\t') { // Not sure we need this
                             html.append('\\').append('t');
                         } else {
                             html.append((char) ch);
                         }
+                        ch = next;
                     }
                 }
-                ch = is.read();
             }
             str = html.toString();
             if (!str.equals("")) {

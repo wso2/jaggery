@@ -9,11 +9,11 @@ import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
 
 
-public class CarbonTopLevel extends ImporterTopLevel {
+public class RhinoTopLevel extends ImporterTopLevel {
 
-    private static final Log log = LogFactory.getLog(CarbonTopLevel.class);
+    private static final Log log = LogFactory.getLog(RhinoTopLevel.class);
 
-    public CarbonTopLevel(Context context, boolean sealed) {
+    public RhinoTopLevel(Context context, boolean sealed) {
         super(context, sealed);
     }
 

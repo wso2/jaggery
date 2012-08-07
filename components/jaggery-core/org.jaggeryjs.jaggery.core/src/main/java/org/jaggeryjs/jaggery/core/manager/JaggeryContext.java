@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Stack;
 
 public class JaggeryContext {
-    private int environment = 0;
     private String tenantId = null;
     private RhinoEngine engine = null;
     private ScriptableObject scope = null;
@@ -17,15 +16,6 @@ public class JaggeryContext {
     private CommonManager manager = null;
     private Stack<String> includesCallstack = new Stack<String>();
     private Map<String, Boolean> includedScripts = new HashMap<String, Boolean>();
-
-
-    public int getEnvironment() {
-        return environment;
-    }
-
-    public void setEnvironment(int environment) {
-        this.environment = environment;
-    }
 
     public String getTenantId() {
         return tenantId;

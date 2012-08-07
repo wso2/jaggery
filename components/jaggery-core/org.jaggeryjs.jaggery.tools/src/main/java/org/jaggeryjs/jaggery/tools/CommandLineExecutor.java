@@ -15,13 +15,13 @@
  */
 package org.jaggeryjs.jaggery.tools;
 
-import java.io.*;
-
 import org.jaggeryjs.jaggery.core.ScriptReader;
-import org.mozilla.javascript.ScriptableObject;
+import org.jaggeryjs.jaggery.core.manager.CommandLineManager;
 import org.jaggeryjs.jaggery.core.manager.JaggeryContext;
 import org.jaggeryjs.scriptengine.engine.RhinoEngine;
-import org.jaggeryjs.jaggery.core.manager.CommandLineManager;
+import org.mozilla.javascript.ScriptableObject;
+
+import java.io.*;
 
 /**
 *
@@ -45,7 +45,7 @@ public final class CommandLineExecutor {
         try{
 
             //Initialize the Rhino context
-            RhinoEngine.enterContext();
+            RhinoEngine.enterGlobalContext();
 			final FileInputStream fstream = new FileInputStream(fileURL);
             
 			final RhinoEngine engine = CommandLineManager.getCommandLineEngine();
@@ -53,7 +53,6 @@ public final class CommandLineExecutor {
         	
         	//initialize JaggeryContext
 			final JaggeryContext jaggeryContext = new JaggeryContext();
-        	jaggeryContext.setEnvironment(CommandLineManager.ENV_COMMAND_LINE);
         	jaggeryContext.setTenantId("0");
         	jaggeryContext.setOutputStream(System.out);
         	jaggeryContext.setEngine(engine);
@@ -87,14 +86,13 @@ public final class CommandLineExecutor {
         try{
 
         	//Initialize the Rhino context
-            RhinoEngine.enterContext();
+            RhinoEngine.enterGlobalContext();
 
             final RhinoEngine engine = CommandLineManager.getCommandLineEngine();
             final ScriptableObject scope = engine.getRuntimeScope();
         	
         	//initialize JaggeryContext
             final JaggeryContext jaggeryContext = new JaggeryContext();
-        	jaggeryContext.setEnvironment(CommandLineManager.ENV_COMMAND_LINE);
         	jaggeryContext.setTenantId("0");
         	jaggeryContext.setOutputStream(out);
         	jaggeryContext.setEngine(engine);

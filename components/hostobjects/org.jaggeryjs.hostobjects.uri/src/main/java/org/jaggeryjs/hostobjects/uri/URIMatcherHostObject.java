@@ -73,7 +73,7 @@ public class URIMatcherHostObject extends ScriptableObject {
         String functionName = "match";
         int argsCount = args.length;
         if (argsCount != 1) {
-            HostObjectUtil.invalidNumberOfArgs("CarbonTopLevel", functionName, argsCount, false);
+            HostObjectUtil.invalidNumberOfArgs("RhinoTopLevel", functionName, argsCount, false);
         }
 
         String template = (String) args[0];
@@ -104,7 +104,7 @@ public class URIMatcherHostObject extends ScriptableObject {
         String functionName = "elements";
         int argsCount = args.length;
         if (argsCount != 0) {
-            HostObjectUtil.invalidNumberOfArgs("CarbonTopLevel", functionName, argsCount, false);
+            HostObjectUtil.invalidNumberOfArgs("RhinoTopLevel", functionName, argsCount, false);
         }
         URIMatcherHostObject uriho = (URIMatcherHostObject) thisObj;
         return uriho.uriParts;

@@ -111,7 +111,7 @@ public class WSRequestHostObject extends ScriptableObject {
     Function onReadyStateChangeFunction;
 
     //Rhino context.
-    private Context context;
+    Context context;
 
     private boolean async = true;
 

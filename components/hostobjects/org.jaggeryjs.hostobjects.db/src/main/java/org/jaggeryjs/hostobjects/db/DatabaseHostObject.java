@@ -1,26 +1,21 @@
 package org.jaggeryjs.hostobjects.db;
 
 import com.google.gson.Gson;
-import org.apache.commons.dbcp.ConnectionFactory;
-import org.apache.commons.dbcp.DriverManagerConnectionFactory;
-import org.apache.commons.dbcp.PoolableConnectionFactory;
-import org.apache.commons.dbcp.PoolingDataSource;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.commons.pool.ObjectPool;
-import org.apache.commons.pool.impl.GenericObjectPool;
+import org.jaggeryjs.scriptengine.engine.RhinoEngine;
+import org.jaggeryjs.scriptengine.exceptions.ScriptException;
+import org.jaggeryjs.scriptengine.util.HostObjectUtil;
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.Function;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.NativeArray;
 import org.mozilla.javascript.NativeObject;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
 import org.wso2.carbon.ndatasource.common.DataSourceException;
 import org.wso2.carbon.ndatasource.rdbms.RDBMSConfiguration;
 import org.wso2.carbon.ndatasource.rdbms.RDBMSDataSource;
-import org.jaggeryjs.scriptengine.util.HostObjectUtil;
-import org.jaggeryjs.scriptengine.exceptions.ScriptException;
-import org.jaggeryjs.scriptengine.engine.RhinoEngine;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -56,7 +51,7 @@ public class DatabaseHostObject extends ScriptableObject {
     private Context context = null;
 
     private Connection conn = null;
-    
+
     static RDBMSDataSource rdbmsDataSource = null;
 
     private Map<String, Savepoint> savePoints = new HashMap<String, Savepoint>();
@@ -115,7 +110,7 @@ public class DatabaseHostObject extends ScriptableObject {
             rdbmsConfig.setPassword((String) args[2]);
             rdbmsConfig.setUrl(dbUrl);
 
-            
+
             try {
                 rdbmsDataSource = new RDBMSDataSource(rdbmsConfig);
 
@@ -174,7 +169,7 @@ public class DatabaseHostObject extends ScriptableObject {
             }
             query = (String) args[0];
             PreparedStatement stmt = db.conn.prepareStatement(query);
-            return executeQuery(db, stmt, query, callback, true);
+            return executeQuery(cx, db, stmt, query, callback, true);
         } else if (argsCount == 2) {
             if (!(args[0] instanceof String)) {
                 //batch
@@ -193,7 +188,7 @@ public class DatabaseHostObject extends ScriptableObject {
                     HostObjectUtil.invalidArgsError(hostObjectName, functionName, "2", "array | function", args[0], false);
                 }
 
-                return executeBatch(db, queries, values, callback);
+                return executeBatch(cx, db, queries, values, callback);
 
             } else {
                 //query
@@ -205,7 +200,7 @@ public class DatabaseHostObject extends ScriptableObject {
                 } else if (args[1] instanceof String) {
                     setQueryParams(stmt, args, 1, argsCount);
                 }
-                return executeQuery(db, stmt, query, callback, true);
+                return executeQuery(cx, db, stmt, query, callback, true);
             }
         } else if (argsCount == 3) {
             if (!(args[0] instanceof String)) {
@@ -223,7 +218,7 @@ public class DatabaseHostObject extends ScriptableObject {
                 NativeArray queries = (NativeArray) args[0];
                 NativeArray values = (NativeArray) args[1];
                 callback = (Function) args[2];
-                return executeBatch(db, queries, values, callback);
+                return executeBatch(cx, db, queries, values, callback);
             } else {
                 //query
                 Function callback = null;
@@ -235,7 +230,7 @@ public class DatabaseHostObject extends ScriptableObject {
                 } else {
                     setQueryParams(stmt, args, 1, 2);
                 }
-                return executeQuery(db, stmt, query, callback, true);
+                return executeQuery(cx, db, stmt, query, callback, true);
             }
         } else {
             //args count > 3
@@ -251,7 +246,7 @@ public class DatabaseHostObject extends ScriptableObject {
             } else {
                 setQueryParams(stmt, args, 1, argsCount);
             }
-            return executeQuery(db, stmt, query, callback, true);
+            return executeQuery(cx, db, stmt, query, callback, true);
         }
     }
 
@@ -348,24 +343,24 @@ public class DatabaseHostObject extends ScriptableObject {
         }
     }
 
-	public static void jsFunction_close(Context cx, Scriptable thisObj, Object[] args,
-	                                    Function funObj) throws ScriptException {
-		String functionName = "c";
-		int argsCount = args.length;
-		if (argsCount > 0) {
-			HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
-		}
-		DatabaseHostObject db = (DatabaseHostObject) thisObj;
-		try {
-			db.conn.close();
-			rdbmsDataSource.getDataSource().close();
-		} catch (SQLException e) {
-			String msg = "Error while closing the Database Connection";
-			log.warn(msg, e);
-			throw new ScriptException(msg, e);
-		}
-	}
-	
+    public static void jsFunction_close(Context cx, Scriptable thisObj, Object[] args,
+                                        Function funObj) throws ScriptException {
+        String functionName = "c";
+        int argsCount = args.length;
+        if (argsCount > 0) {
+            HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
+        }
+        DatabaseHostObject db = (DatabaseHostObject) thisObj;
+        try {
+            db.conn.close();
+            rdbmsDataSource.getDataSource().close();
+        } catch (SQLException e) {
+            String msg = "Error while closing the Database Connection";
+            log.warn(msg, e);
+            throw new ScriptException(msg, e);
+        }
+    }
+
     private static String replaceWildcards(DatabaseHostObject db, String query, NativeArray params) throws SQLException {
         String openedChar = null;
         String lastChar = null;
@@ -450,17 +445,19 @@ public class DatabaseHostObject extends ScriptableObject {
         }
     }
 
-    private static Object executeQuery(final DatabaseHostObject db, final PreparedStatement stmt, String query, final Function callback, final boolean keyed) throws ScriptException {
+    private static Object executeQuery(Context cx, final DatabaseHostObject db, final PreparedStatement stmt, String query,
+                                       final Function callback, final boolean keyed) throws ScriptException {
 
         String regex = "^[\\s\\t\\r\\n]*[Ss][Ee][Ll][Ee][Cc][Tt].*";//select
         final boolean isSelect = query.matches(regex);
         if (callback != null) {
+            final ContextFactory factory = cx.getFactory();
             final ExecutorService es = Executors.newSingleThreadExecutor();
             es.submit(new Callable() {
                 public Object call() throws Exception {
-                    Object result;
+                    RhinoEngine.enterContext(factory);
                     try {
-                        RhinoEngine.enterContext();
+                        Object result;
                         if (isSelect) {
                             result = processResults(db, stmt.executeQuery(), keyed);
                         } else {
@@ -491,7 +488,9 @@ public class DatabaseHostObject extends ScriptableObject {
         }
     }
 
-    private static Object executeBatch(final DatabaseHostObject db, NativeArray queries, NativeArray params, final Function callback) throws ScriptException, SQLException {
+    private static Object executeBatch(Context cx, final DatabaseHostObject db, NativeArray queries,
+                                       NativeArray params, final Function callback)
+            throws ScriptException, SQLException {
         if (params != null && (queries.getLength() != params.getLength())) {
             String msg = "Query array and values array should be in the same size. HostObject : " +
                     hostObjectName + ", Method : query";
@@ -521,11 +520,12 @@ public class DatabaseHostObject extends ScriptableObject {
         }
 
         if (callback != null) {
+            final ContextFactory factory = cx.getFactory();
             final ExecutorService es = Executors.newSingleThreadExecutor();
             es.submit(new Callable() {
                 public Object call() throws Exception {
+                    RhinoEngine.enterContext(factory);
                     try {
-                        RhinoEngine.enterContext();
                         int[] result = stmt.executeBatch();
                         callback.call(db.context, db, db, new Object[]{result});
                     } catch (SQLException e) {

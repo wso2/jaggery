@@ -6,25 +6,19 @@ import org.apache.axiom.om.OMNamespace;
 import org.apache.axiom.om.impl.builder.StAXOMBuilder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.ScriptableObject;
-import org.jaggeryjs.scriptengine.engine.JavaScriptHostObject;
-import org.jaggeryjs.scriptengine.engine.JavaScriptMethod;
-import org.jaggeryjs.scriptengine.engine.JavaScriptModule;
-import org.jaggeryjs.scriptengine.engine.JavaScriptScript;
-import org.jaggeryjs.scriptengine.engine.RhinoEngine;
+import org.jaggeryjs.scriptengine.engine.*;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
+import org.jaggeryjs.scriptengine.security.RhinoSecurityController;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Script;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -61,6 +55,7 @@ public class ModuleManager {
                 getClassLoader().getResourceAsStream("META-INF/" + MODULE_FILE);
         initModule(xmlStream, false);
 
+        RhinoEngine.enterGlobalContext();
         //load user-defined modules
         File modulesDir = new File(this.modulesDir);
         File[] modules = modulesDir.listFiles();
@@ -78,6 +73,7 @@ public class ModuleManager {
                 }
             }
         }
+        RhinoEngine.exitContext();
     }
 
     public Map<String, JavaScriptModule> getModules() {
@@ -86,7 +82,7 @@ public class ModuleManager {
 
     private void initModule(InputStream modulesXML, boolean isCustom) throws ScriptException {
         try {
-            Context cx = RhinoEngine.enterContext();
+            Context cx = RhinoEngine.enterGlobalContext();
             StAXOMBuilder builder = new StAXOMBuilder(modulesXML);
             OMElement document = builder.getDocumentElement();
 
@@ -146,7 +142,22 @@ public class ModuleManager {
                 } else {
                     reader = new InputStreamReader(ModuleManager.class.getClassLoader().getResourceAsStream(path));
                 }
-                script.setScript(cx.compileReader(reader, name, 1, null));
+                final Script scriptObj = cx.compileReader(reader, name, 1, null);
+                if(RhinoSecurityController.isSecurityEnabled()) {
+                    script.setScript(new Script() {
+                        @Override
+                        public Object exec(final Context cx, final Scriptable scope) {
+                            return AccessController.doPrivileged(new PrivilegedAction<Object>() {
+                                @Override
+                                public Object run() {
+                                    return scriptObj.exec(cx, scope);
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    script.setScript(scriptObj);
+                }
                 module.addScript(script);
             } catch (FileNotFoundException e) {
                 String msg = "Error executing script. Script cannot be found, name : " + name + ", path : " + path;

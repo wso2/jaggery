@@ -20,7 +20,7 @@ public class CacheManager {
 
     private static final Log log = LogFactory.getLog(CacheManager.class);
 
-    private static final String PACKAGE_NAME = "org.wso2.carbon.rhino";
+    private static final String PACKAGE_NAME = "org.jaggeryjs.rhino";
 
     private ClassCompiler compiler;
 
@@ -84,7 +84,7 @@ public class CacheManager {
             String scriptPath = sctx.getContext() + sctx.getPath() + sctx.getCacheKey();
             Object[] compiled = compiler.compileToClassFiles(
                     HostObjectUtil.readerToString(scriptReader), scriptPath, 1, className);
-            ctx.setScript(getScript(compiled));
+            ctx.setScript(getScriptObject(compiled, sctx));
             ctx.setCacheUpdatedTime(System.currentTimeMillis());
             ctx.setSourceModifiedTime(sctx.getSourceModifiedTime());
             tenant.setCachingContext(ctx);
@@ -145,7 +145,7 @@ public class CacheManager {
     public static String getPackage(String context, String path) {
         path = normalizeForPackage(normalizePath(path));
         String pack = normalizeForPackage(normalizePath(context));
-        if(!path.equals("")) {
+        if (!path.equals("")) {
             pack += path;
         }
         return pack;
@@ -178,13 +178,13 @@ public class CacheManager {
         return tenant.getCachingContext(sctx);
     }
 
-    private Script getScript(Object[] compiled) throws ScriptException {
+    private Script getScriptObject(Object[] compiled, ScriptCachingContext sctx) throws ScriptException {
         String className = (String) compiled[0];
         byte[] classBytes = (byte[]) compiled[1];
         ClassLoader rhinoLoader = getClass().getClassLoader();
         GeneratedClassLoader loader;
-        loader = SecurityController.createLoader(rhinoLoader, null);
         try {
+            loader = SecurityController.createLoader(rhinoLoader, sctx.getSecurityDomain());
             Class cl = loader.defineClass(className, classBytes);
             loader.linkClass(cl);
             return (Script) cl.newInstance();
