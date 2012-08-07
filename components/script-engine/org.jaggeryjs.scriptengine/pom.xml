@@ -11,7 +11,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>org.jaggeryjs.scriptengine</artifactId>
     <packaging>bundle</packaging>
-    <name>carbon javascript engine</name>
+    <name>Rhino JavaScript Engine</name>
     <url>http://wso2.org</url>
 
     <dependencies>
