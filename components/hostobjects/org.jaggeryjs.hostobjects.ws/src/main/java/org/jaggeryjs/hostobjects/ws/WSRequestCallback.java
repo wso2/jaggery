@@ -74,7 +74,7 @@ public class WSRequestCallback implements AxisCallback {
         }
         this.wsrequest.readyState = 4;
         if (this.wsrequest.onReadyStateChangeFunction != null) {
-            Context cx = RhinoEngine.enterContext();
+            Context cx = RhinoEngine.enterContext(this.wsrequest.context.getFactory());
             this.wsrequest.onReadyStateChangeFunction.call(cx, wsrequest, wsrequest, new Object[0]);
             RhinoEngine.exitContext();
         }
@@ -84,7 +84,7 @@ public class WSRequestCallback implements AxisCallback {
         this.wsrequest.updateResponse(messageContext.getEnvelope().getBody().getFirstElement());
         this.wsrequest.readyState = 4;
         if (this.wsrequest.onReadyStateChangeFunction != null) {
-            Context cx = RhinoEngine.enterContext();
+            Context cx = RhinoEngine.enterContext(this.wsrequest.context.getFactory());
             this.wsrequest.onReadyStateChangeFunction.call(cx, wsrequest, wsrequest, new Object[0]);
             RhinoEngine.exitContext();
         }

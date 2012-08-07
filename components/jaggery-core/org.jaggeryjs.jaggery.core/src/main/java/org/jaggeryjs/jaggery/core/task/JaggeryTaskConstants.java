@@ -29,6 +29,8 @@ public class JaggeryTaskConstants {
 
     public static final String FUNCTION_PARAMETERS = "jsfunctionarguments";
 
+    public static final String CONTEXT_FACTORY = "contextFactory";
+
     public static final String AXIS2_SERVICE = "axisService";
 
     public static final String CONFIGURATION_CONTEXT = "configurationContext";
@@ -46,8 +48,6 @@ public class JaggeryTaskConstants {
     public static final String RESOURCES_FOLDER = "ResourcesFolder";
     
     public static final String AXIS2_CONFIGURATION_CONTEXT = "axisConfigurationContext";
-    
-    public static final String JAGGERY_MODULES_DIR = "modules";
     
     public static final String SCRIPTABLEOBJECT = "ScriptableObject";
 }

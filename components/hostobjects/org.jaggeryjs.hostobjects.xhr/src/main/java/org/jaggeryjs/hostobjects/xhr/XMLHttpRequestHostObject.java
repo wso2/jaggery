@@ -6,16 +6,19 @@ import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.mozilla.javascript.*;
 import org.jaggeryjs.scriptengine.engine.RhinoEngine;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
+import org.mozilla.javascript.*;
 
 import javax.xml.stream.XMLStreamException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 //TODO : need to add basic auth
 public class XMLHttpRequestHostObject extends ScriptableObject {
@@ -273,7 +276,7 @@ public class XMLHttpRequestHostObject extends ScriptableObject {
             HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
         }
         Object obj = argsCount == 1 ? args[0] : null;
-        xhr.send(obj);
+        xhr.send(cx, obj);
     }
 
     /**
@@ -447,23 +450,16 @@ public class XMLHttpRequestHostObject extends ScriptableObject {
     private static void updateReadyState(XMLHttpRequestHostObject xhr, short readyState) {
         xhr.readyState = readyState;
         if (xhr.async && xhr.onreadystatechange != null) {
-        	if(!(xhr.onreadystatechange instanceof Function)) {
-        		log.warn("A function must be specified for the XMLHttpRequest callback");
-        		return;
-        	}
             try {
-                RhinoEngine.enterContext();
                 xhr.onreadystatechange.call(xhr.context, xhr, xhr, new Object[0]);
             } catch (Exception e) {
                 log.warn("Error executing XHR callback for " + xhr.url, e);
                 e.printStackTrace();
-            } finally {
-                RhinoEngine.exitContext();
             }
         }
     }
 
-    private void send(Object obj) throws ScriptException {
+    private void send(Context cx, Object obj) throws ScriptException {
         final HttpMethodBase method;
         if ("GET".equalsIgnoreCase(methodName)) {
             method = new GetMethod(this.url);
@@ -502,16 +498,22 @@ public class XMLHttpRequestHostObject extends ScriptableObject {
         final XMLHttpRequestHostObject xhr = this;
         if (async) {
             updateReadyState(xhr, LOADING);
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
+            final ContextFactory factory = cx.getFactory();
+            final ExecutorService es = Executors.newSingleThreadExecutor();
+            es.submit(new Callable() {
+                public Object call() throws Exception {
+                    RhinoEngine.enterContext(factory);
                     try {
                         executeRequest(xhr);
                     } catch (ScriptException e) {
                         log.error(e.getMessage(), e);
+                    } finally {
+                        es.shutdown();
+                        RhinoEngine.exitContext();
                     }
+                    return null;
                 }
-            }).start();
+            });
         } else {
             executeRequest(xhr);
         }

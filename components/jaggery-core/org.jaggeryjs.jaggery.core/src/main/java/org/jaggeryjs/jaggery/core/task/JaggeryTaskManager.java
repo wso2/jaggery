@@ -19,6 +19,14 @@
 
 package org.jaggeryjs.jaggery.core.task;
 
+import org.apache.axiom.util.UIDGenerator;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.jaggeryjs.jaggery.core.internal.JaggeryCoreServiceComponent;
+import org.mozilla.javascript.*;
+import org.wso2.carbon.CarbonException;
+import org.wso2.carbon.ntask.common.TaskException;
+
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -26,19 +34,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.axiom.util.UIDGenerator;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.jaggeryjs.jaggery.core.internal.JaggeryCoreServiceComponent;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.EvaluatorException;
-import org.mozilla.javascript.Function;
-import org.mozilla.javascript.NativeArray;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
-import org.wso2.carbon.CarbonException;
-import org.wso2.carbon.ntask.common.TaskException;
 
 /**
  * <p/>
@@ -189,8 +184,7 @@ public class JaggeryTaskManager extends ScriptableObject {
                         NativeArray nativeArray = (NativeArray) arguments[2];
                         Object[] objects = nativeArray.getIds();
                         ArrayList<Object> tempParamHolder = new ArrayList<Object>();
-                        for (int i = 0; i < objects.length; i++) {
-                            Object currObject = objects[i];
+                        for (Object currObject : objects) {
                             if (currObject instanceof String) {
                                 String property = (String) currObject;
                                 if ("length".equals(property)) {
@@ -247,8 +241,7 @@ public class JaggeryTaskManager extends ScriptableObject {
                         NativeArray nativeArray = (NativeArray) arguments[2];
                         Object[] objects = nativeArray.getIds();
                         ArrayList<Object> tempParamHolder = new ArrayList<Object>();
-                        for (int i = 0; i < objects.length; i++) {
-                            Object currObject = objects[i];
+                        for (Object currObject : objects) {
                             if (currObject instanceof String) {
                                 String property = (String) currObject;
                                 if ("length".equals(property)) {
@@ -318,8 +311,7 @@ public class JaggeryTaskManager extends ScriptableObject {
                         NativeArray nativeArray = (NativeArray) arguments[2];
                         Object[] objects = nativeArray.getIds();
                         ArrayList<Object> tempParamHolder = new ArrayList<Object>();
-                        for (int i = 0; i < objects.length; i++) {
-                            Object currObject = objects[i];
+                        for (Object currObject : objects) {
                             if (currObject instanceof String) {
                                 String property = (String) currObject;
                                 if ("length".equals(property)) {
@@ -406,8 +398,7 @@ public class JaggeryTaskManager extends ScriptableObject {
                         NativeArray nativeArray = (NativeArray) arguments[2];
                         Object[] objects = nativeArray.getIds();
                         ArrayList<Object> tempParamHolder = new ArrayList<Object>();
-                        for (int i = 0; i < objects.length; i++) {
-                            Object currObject = objects[i];
+                        for (Object currObject : objects) {
                             if (currObject instanceof String) {
                                 String property = (String) currObject;
                                 if ("length".equals(property)) {
@@ -476,7 +467,8 @@ public class JaggeryTaskManager extends ScriptableObject {
         resources.put(JaggeryTaskConstants.FUNCTION_PARAMETERS, functionParams);
         resources.put(JaggeryTaskConstants.TASK_NAME, taskName);
         resources.put(JaggeryTaskConstants.JAVASCRIPT_FUNCTION, jsFunction);
-        
+        resources.put(JaggeryTaskConstants.CONTEXT_FACTORY, cx.getFactory());
+
         JaggeryCoreServiceComponent.getTaskMap().put(taskName, resources);
         
         final Map<String, String> propertyMap = new HashMap<String, String>();
@@ -649,6 +641,7 @@ public class JaggeryTaskManager extends ScriptableObject {
         resources.put(JaggeryTaskConstants.FUNCTION_PARAMETERS, functionParams);
         resources.put(JaggeryTaskConstants.TASK_NAME, taskName);
         resources.put(JaggeryTaskConstants.JAVASCRIPT_FUNCTION, jsFunction);
+        resources.put(JaggeryTaskConstants.CONTEXT_FACTORY, cx.getFactory());
         
         JaggeryCoreServiceComponent.getTaskMap().put(taskName, resources);
         

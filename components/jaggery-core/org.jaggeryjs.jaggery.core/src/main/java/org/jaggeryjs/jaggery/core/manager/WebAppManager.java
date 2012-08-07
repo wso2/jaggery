@@ -4,6 +4,8 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.hostobjects.file.FileHostObject;
+import org.jaggeryjs.scriptengine.security.RhinoSecurityController;
+import org.jaggeryjs.scriptengine.security.RhinoSecurityDomain;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
@@ -20,22 +22,57 @@ import org.wso2.carbon.context.CarbonContext;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.StringReader;
+import java.io.*;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.security.PermissionCollection;
 import java.util.*;
 
-public class WebAppManager extends CommonManager {
+public class WebAppManager {
 
     private static final Log log = LogFactory.getLog(WebAppManager.class);
+
     public static final String CORE_MODULE_NAME = "core";
 
-    public WebAppManager(String modulesDir) throws ScriptException {
-        super(modulesDir);
+    private static final String DEFAULT_CONTENT_TYPE = "text/html";
+
+    public static final String JAGGERY_MODULES_DIR = "modules";
+
+    static {
+        try {
+
+            String jaggeryDir = System.getProperty("jaggery.home");
+            if (jaggeryDir == null) {
+                jaggeryDir = System.getProperty("carbon.home");
+            }
+
+            if (jaggeryDir == null) {
+                log.error("Unable to find jaggery.home or carbon.home system properties");
+            }
+
+            String modulesDir = jaggeryDir + File.separator + JAGGERY_MODULES_DIR;
+
+            CommonManager.getInstance().initialize(modulesDir, new RhinoSecurityController() {
+                @Override
+                protected void updatePermissions(PermissionCollection permissions, RhinoSecurityDomain securityDomain) {
+                    JaggerySecurityDomain domain = (JaggerySecurityDomain) securityDomain;
+                    ServletContext context = domain.getServletContext();
+                    String docBase = context.getRealPath("/");
+                    // Create a file read permission for web app context directory
+                    if (!docBase.endsWith(File.separator)) {
+                        permissions.add(new FilePermission(docBase, "read"));
+                        docBase = docBase + File.separator;
+                    } else {
+                        permissions.add(new FilePermission(docBase.substring(0, docBase.length() - 1), "read"));
+                    }
+                    docBase = docBase + "-";
+                    permissions.add(new FilePermission(docBase, "read"));
+                }
+            });
+        } catch (ScriptException e) {
+            log.error(e.getMessage(), e);
+        }
     }
 
     public static void include(Context cx, Scriptable thisObj, Object[] args, Function funObj)
@@ -43,10 +80,10 @@ public class WebAppManager extends CommonManager {
         String functionName = "include";
         int argsCount = args.length;
         if (argsCount != 1) {
-            HostObjectUtil.invalidNumberOfArgs(HOST_OBJECT_NAME, functionName, argsCount, false);
+            HostObjectUtil.invalidNumberOfArgs(CommonManager.HOST_OBJECT_NAME, functionName, argsCount, false);
         }
         if (!(args[0] instanceof String)) {
-            HostObjectUtil.invalidArgsError(HOST_OBJECT_NAME, functionName, "1", "string", args[0], false);
+            HostObjectUtil.invalidArgsError(CommonManager.HOST_OBJECT_NAME, functionName, "1", "string", args[0], false);
         }
 
         JaggeryContext jaggeryContext = CommonManager.getJaggeryContext();
@@ -54,7 +91,7 @@ public class WebAppManager extends CommonManager {
         String parent = includesCallstack.lastElement();
         String fileURL = (String) args[0];
 
-        if (isHTTP(fileURL) || isHTTP(parent)) {
+        if (CommonManager.isHTTP(fileURL) || CommonManager.isHTTP(parent)) {
             CommonManager.include(cx, thisObj, args, funObj);
             return;
         }
@@ -66,10 +103,10 @@ public class WebAppManager extends CommonManager {
         String functionName = "include_once";
         int argsCount = args.length;
         if (argsCount != 1) {
-            HostObjectUtil.invalidNumberOfArgs(HOST_OBJECT_NAME, functionName, argsCount, false);
+            HostObjectUtil.invalidNumberOfArgs(CommonManager.HOST_OBJECT_NAME, functionName, argsCount, false);
         }
         if (!(args[0] instanceof String)) {
-            HostObjectUtil.invalidArgsError(HOST_OBJECT_NAME, functionName, "1", "string", args[0], false);
+            HostObjectUtil.invalidArgsError(CommonManager.HOST_OBJECT_NAME, functionName, "1", "string", args[0], false);
         }
 
         JaggeryContext jaggeryContext = CommonManager.getJaggeryContext();
@@ -77,7 +114,7 @@ public class WebAppManager extends CommonManager {
         String parent = includesCallstack.lastElement();
         String fileURL = (String) args[0];
 
-        if (isHTTP(fileURL) || isHTTP(parent)) {
+        if (CommonManager.isHTTP(fileURL) || CommonManager.isHTTP(parent)) {
             CommonManager.include_once(cx, thisObj, args, funObj);
             return;
         }
@@ -89,7 +126,7 @@ public class WebAppManager extends CommonManager {
      */
     public static void print(Context cx, Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException {
-        JaggeryContext jaggeryContext = getJaggeryContext();
+        JaggeryContext jaggeryContext = CommonManager.getJaggeryContext();
 
         //If the script itself havent set the content type we set the default content type to be text/html
         if (((WebAppContext) jaggeryContext).getServletResponse().getContentType() == null) {
@@ -109,11 +146,11 @@ public class WebAppManager extends CommonManager {
         String parent = includesCallstack.lastElement();
 
         String keys[] = WebAppManager.getKeys(context.getContextPath(), parent, fileURL);
-        fileURL = "/".equals(keys[1]) ? keys[2] : keys[1] + keys[2];
-        if(includesCallstack.search(fileURL) != -1) {
+        fileURL = getNormalizedScriptPath(keys);
+        if (includesCallstack.search(fileURL) != -1) {
             return scope;
         }
-        if(isIncludeOnce && includedScripts.get(fileURL) != null) {
+        if (isIncludeOnce && includedScripts.get(fileURL) != null) {
             return scope;
         }
 
@@ -139,6 +176,7 @@ public class WebAppManager extends CommonManager {
         }
 
         ScriptCachingContext sctx = new ScriptCachingContext(webAppContext.getTenantId(), keys[0], keys[1], keys[2]);
+        sctx.setSecurityDomain(new JaggerySecurityDomain(fileURL, context));
         long lastModified = WebAppManager.getScriptLastModified(context, fileURL);
         sctx.setSourceModifiedTime(lastModified);
 
@@ -153,15 +191,19 @@ public class WebAppManager extends CommonManager {
         return scope;
     }
 
+    private static String getNormalizedScriptPath(String[] keys) {
+        return "/".equals(keys[1]) ? keys[2] : keys[1] + keys[2];
+    }
+
     public static ScriptableObject require(Context cx, Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException, IOException {
         String functionName = "require";
         int argsCount = args.length;
         if (argsCount != 1) {
-            HostObjectUtil.invalidNumberOfArgs(HOST_OBJECT_NAME, functionName, argsCount, false);
+            HostObjectUtil.invalidNumberOfArgs(CommonManager.HOST_OBJECT_NAME, functionName, argsCount, false);
         }
         if (!(args[0] instanceof String)) {
-            HostObjectUtil.invalidArgsError(HOST_OBJECT_NAME, functionName, "1", "string", args[0], false);
+            HostObjectUtil.invalidArgsError(CommonManager.HOST_OBJECT_NAME, functionName, "1", "string", args[0], false);
         }
 
         String param = (String) args[0];
@@ -173,7 +215,9 @@ public class WebAppManager extends CommonManager {
         }
 
         if (dotIndex == -1) {
-            return CommonManager.require(cx, thisObj, args, funObj);
+            ScriptableObject object = CommonManager.require(cx, thisObj, args, funObj);
+            initModule(param, object, CommonManager.getJaggeryContext());
+            return object;
         }
 
         JaggeryContext jaggeryContext = CommonManager.getJaggeryContext();
@@ -194,34 +238,35 @@ public class WebAppManager extends CommonManager {
         }
     }
 
-    protected void initContext(JaggeryContext context) throws ScriptException {
-        super.initContext(context);
+    public static void initContext(JaggeryContext context) throws ScriptException {
+        CommonManager.initContext(context);
         defineProperties(context, context.getScope());
     }
 
-    protected void initModule(String module, ScriptableObject object, JaggeryContext context) {
+    public static void initModule(String module, ScriptableObject object, JaggeryContext context) {
         if (CORE_MODULE_NAME.equals(module)) {
             defineProperties(context, object);
         }
     }
 
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public static void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String scriptPath = getScriptPath(request);
         InputStream sourceIn = request.getServletContext().getResourceAsStream(scriptPath);
         if (sourceIn == null) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, request.getRequestURI());
             return;
         }
+        RhinoEngine engine = null;
         try {
-            //We need to get-in to the Rhino context
-            RhinoEngine.enterContext();
+            engine = CommonManager.getInstance().getEngine();
+            engine.enterContext();
             //Creating an OutputStreamWritter to write content to the servletResponse
             OutputStream out = response.getOutputStream();
-            JaggeryContext webAppContext = getJaggeryContext(out, scriptPath, request, response);
+            JaggeryContext webAppContext = createJaggeryContext(out, scriptPath, request, response);
             initContext(webAppContext);
             RhinoEngine.putContextProperty(FileHostObject.JAVASCRIPT_FILE_MANAGER,
                     new WebAppFileManager(request.getServletContext()));
-            getEngine().exec(new ScriptReader(sourceIn), webAppContext.getScope(),
+            CommonManager.getInstance().getEngine().exec(new ScriptReader(sourceIn), webAppContext.getScope(),
                     getScriptCachingContext(request, scriptPath));
             out.flush();
         } catch (ScriptException e) {
@@ -230,7 +275,9 @@ public class WebAppManager extends CommonManager {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, msg);
         } finally {
             //Exiting from the context
-            RhinoEngine.exitContext();
+            if (engine != null) {
+                engine.exitContext();
+            }
         }
     }
 
@@ -272,7 +319,7 @@ public class WebAppManager extends CommonManager {
         }
     }
 
-    private void defineProperties(JaggeryContext context, ScriptableObject scope) {
+    private static void defineProperties(JaggeryContext context, ScriptableObject scope) {
         WebAppContext ctx = (WebAppContext) context;
 
         JavaScriptProperty request = new JavaScriptProperty("request");
@@ -297,10 +344,9 @@ public class WebAppManager extends CommonManager {
 
     }
 
-    public JaggeryContext getJaggeryContext(OutputStream out, String scriptPath,
-                                            HttpServletRequest request, HttpServletResponse response) {
+    private static JaggeryContext createJaggeryContext(OutputStream out, String scriptPath,
+                                                       HttpServletRequest request, HttpServletResponse response) {
         WebAppContext context = new WebAppContext();
-        context.setEnvironment(ENV_WEBAPP);
         context.setTenantId(Integer.toString(CarbonContext.getCurrentContext().getTenantId()));
         context.setOutputStream(out);
         context.setServletRequest(request);
@@ -312,8 +358,9 @@ public class WebAppManager extends CommonManager {
         return context;
     }
 
-    protected static ScriptCachingContext getScriptCachingContext(HttpServletRequest request, String scriptPath) throws ScriptException {
-        JaggeryContext jaggeryContext = getJaggeryContext();
+    protected static ScriptCachingContext getScriptCachingContext(HttpServletRequest request, String scriptPath)
+            throws ScriptException {
+        JaggeryContext jaggeryContext = CommonManager.getJaggeryContext();
         String tenantId = jaggeryContext.getTenantId();
         String[] parts = getKeys(request.getContextPath(), scriptPath, scriptPath);
         /**
@@ -323,7 +370,9 @@ public class WebAppManager extends CommonManager {
          * cacheKey = name of the *.js file being cached
          */
         ScriptCachingContext sctx = new ScriptCachingContext(tenantId, parts[0], parts[1], parts[2]);
-        long lastModified = getScriptLastModified(request.getServletContext(), scriptPath);
+        ServletContext servletContext = request.getServletContext();
+        sctx.setSecurityDomain(new JaggerySecurityDomain(getNormalizedScriptPath(parts), servletContext));
+        long lastModified = getScriptLastModified(servletContext, scriptPath);
         sctx.setSourceModifiedTime(lastModified);
         return sctx;
     }

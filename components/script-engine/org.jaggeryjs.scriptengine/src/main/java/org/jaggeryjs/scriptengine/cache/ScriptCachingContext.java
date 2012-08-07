@@ -1,10 +1,13 @@
 package org.jaggeryjs.scriptengine.cache;
 
+import org.jaggeryjs.scriptengine.security.RhinoSecurityDomain;
+
 public class ScriptCachingContext {
     private String tenantId = null;
     private String context = null;
     private String path = null;
     private String cacheKey = null;
+    private RhinoSecurityDomain securityDomain = null;
     private volatile long sourceModifiedTime = 0L;
 
     public ScriptCachingContext(String tenantId, String context, String path, String cacheKey) {
@@ -32,6 +35,14 @@ public class ScriptCachingContext {
 
     public String getCacheKey() {
         return cacheKey;
+    }
+
+    public RhinoSecurityDomain getSecurityDomain() {
+        return securityDomain;
+    }
+
+    public void setSecurityDomain(RhinoSecurityDomain securityDomain) {
+        this.securityDomain = securityDomain;
     }
 
     public long getSourceModifiedTime() {

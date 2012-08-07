@@ -88,15 +88,15 @@
         <name>include_once</name>
     </method>
     <!--method>
-        <className>org.jaggeryjs.scriptengine.engine.CarbonTopLevel</className>
+        <className>org.jaggeryjs.scriptengine.engine.RhinoTopLevel/className>
         <name>log</name>
     </method-->
     <method>
-        <className>org.jaggeryjs.scriptengine.engine.CarbonTopLevel</className>
+        <className>org.jaggeryjs.scriptengine.engine.RhinoTopLevel</className>
         <name>parse</name>
     </method>
     <method>
-        <className>org.jaggeryjs.scriptengine.engine.CarbonTopLevel</className>
+        <className>org.jaggeryjs.scriptengine.engine.RhinoTopLevel</className>
         <name>stringify</name>
     </method>
 	<method>
