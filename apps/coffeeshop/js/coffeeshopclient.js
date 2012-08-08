@@ -42,7 +42,7 @@ CoffeeShop.loadOrders(html);
 }
 
 this.addAddittion = function(orderid, addition) {
-var content = '{"addition":'+addition+'}';
+var content = '{"addition":\''+addition+'\'}';
 CoffeShopAppUtil.makeRequest("PUT","/coffeeshop/orders/"+orderid, content , function(html) {
 $("#response-textarea").val(JSON.stringify(html)); 
 CoffeeShopClient.viewOrders();
