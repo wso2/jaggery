@@ -16,24 +16,8 @@
 
 package org.jaggeryjs.jaggery.app.mgt;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.axis2.context.ConfigurationContext;
-import org.apache.catalina.Context;
-import org.apache.catalina.Host;
-import org.apache.catalina.Lifecycle;
-import org.apache.catalina.LifecycleEvent;
-import org.apache.catalina.LifecycleListener;
-import org.apache.catalina.Wrapper;
+import org.apache.catalina.*;
 import org.apache.catalina.core.StandardContext;
 import org.apache.catalina.deploy.ErrorPage;
 import org.apache.catalina.deploy.LoginConfig;
@@ -51,12 +35,10 @@ import org.wso2.carbon.CarbonConstants;
 import org.wso2.carbon.CarbonException;
 import org.wso2.carbon.core.session.CarbonTomcatClusterableSessionManager;
 import org.wso2.carbon.utils.multitenancy.CarbonContextHolder;
-import org.wso2.carbon.webapp.mgt.CarbonTomcatSessionManager;
-import org.wso2.carbon.webapp.mgt.DataHolder;
-import org.wso2.carbon.webapp.mgt.TomcatGenericWebappsDeployer;
-import org.wso2.carbon.webapp.mgt.WebApplicationsHolder;
-import org.wso2.carbon.webapp.mgt.WebContextParameter;
-import org.wso2.carbon.webapp.mgt.WebappsConstants;
+import org.wso2.carbon.webapp.mgt.*;
+
+import java.io.*;
+import java.util.*;
 
 /**
  * This deployer is responsible for deploying/undeploying/updating those Jaggery apps.
@@ -256,7 +238,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
             }
             
             context.setReloadable(true);
-            JaggeryApplication webapp = new JaggeryApplication(context, webappFile);
+            JaggeryApplication webapp = new JaggeryApplication(this, context, webappFile);
             webapp.setServletParameters(servletParameters);
             webapp.setServletMappingParameters(servletMappingParameters);
             webapp.setServletContextParameters(webContextParams);
@@ -273,7 +255,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
             //catching a Throwable here to avoid web-apps crashing the server during startup
             StandardContext context = new StandardContext();
             context.setName(webappFile.getName());
-            JaggeryApplication webapp = new JaggeryApplication(context, webappFile);
+            JaggeryApplication webapp = new JaggeryApplication(this, context, webappFile);
             webapp.setProperty(WebappsConstants.WEBAPP_FILTER, JaggeryConstants.JAGGERY_WEBAPP_FILTER_PROP);
             String msg = "Error while deploying webapp: " + webapp;
             log.error(msg, e);

@@ -53,10 +53,6 @@
             <artifactId>org.wso2.carbon.webapp.mgt</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.wso2.carbon</groupId>
-            <artifactId>org.wso2.carbon.webapp.deployer</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.jaggeryjs</groupId>
             <artifactId>org.jaggeryjs.jaggery.tools</artifactId>
         </dependency>
@@ -321,11 +317,9 @@
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.jaggeryparser</bundleDef>
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.log</bundleDef>
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.oauth</bundleDef>
-
                             </bundles>
                             <importBundles>
                                 <importBundleDef>org.wso2.carbon:org.wso2.carbon.webapp.mgt</importBundleDef>
-                                <importBundleDef>org.wso2.carbon:org.wso2.carbon.webapp.deployer</importBundleDef>
                                 <importBundleDef>org.codehaus.jettison.wso2:jettison</importBundleDef>
                                 <importBundleDef>org.wso2.wsf.javascript:axiom-e4x</importBundleDef>
                                 <importBundleDef>org.apache.rampart.wso2:rampart-core</importBundleDef>

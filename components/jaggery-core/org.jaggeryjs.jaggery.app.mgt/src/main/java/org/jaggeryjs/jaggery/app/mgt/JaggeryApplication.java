@@ -15,14 +15,10 @@
  */
 package org.jaggeryjs.jaggery.app.mgt;
 
-import org.apache.catalina.Container;
 import org.apache.catalina.Context;
-import org.apache.catalina.LifecycleState;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.wso2.carbon.CarbonException;
-import org.wso2.carbon.utils.FileManipulator;
-import org.wso2.carbon.webapp.mgt.DataHolder;
+import org.wso2.carbon.webapp.mgt.TomcatGenericWebappsDeployer;
 import org.wso2.carbon.webapp.mgt.WebApplication;
 
 import java.io.File;
@@ -39,18 +35,9 @@ public class JaggeryApplication extends WebApplication {
     private List<ServletParameter> servletParameters;
     private List<ServletMappingParameter> servletMappingParameters;
 
-    public JaggeryApplication(Context context, File webappFile) {
-        super(context, webappFile);
-        this.context = context;
-        setWebappFile(webappFile);
-        setLastModifiedTime(webappFile.lastModified());
-        if (JaggeryDeploymentUtil.getConfig(webappFile) != null) {
-            setConfigDirLastModifiedTime(JaggeryDeploymentUtil.getConfig(webappFile).lastModified());
-        }
-    }
-
-    public JaggeryApplication(File webappFile) {
-        super(webappFile);
+    public JaggeryApplication(TomcatGenericWebappsDeployer tomcatGenericWebappsDeployer, Context context,
+                              File webappFile) {
+        super(tomcatGenericWebappsDeployer, context, webappFile);
         setWebappFile(webappFile);
         setLastModifiedTime(webappFile.lastModified());
         if (JaggeryDeploymentUtil.getConfig(webappFile) != null) {
