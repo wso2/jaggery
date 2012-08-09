@@ -430,6 +430,9 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
     }
 
     private static void setDisplayName(Context context, JSONObject obj) {
+        if(obj == null) {
+            return;
+        }
         String dName = (String) obj.get(JaggeryConstants.JaggeryConfigParams.DISPLAY_NAME);
         if (dName != null) {
             context.setDisplayName(dName);
