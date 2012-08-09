@@ -17,6 +17,10 @@ import org.wso2.carbon.ndatasource.common.DataSourceException;
 import org.wso2.carbon.ndatasource.rdbms.RDBMSConfiguration;
 import org.wso2.carbon.ndatasource.rdbms.RDBMSDataSource;
 
+import org.wso2.carbon.ndatasource.core.CarbonDataSource;
+import org.wso2.carbon.ndatasource.core.DataSourceManager;
+
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -68,12 +72,32 @@ public class DatabaseHostObject extends ScriptableObject {
     public static Scriptable jsConstructor(Context cx, Object[] args, Function ctorObj, boolean inNewExpr)
             throws ScriptException {
         int argsCount = args.length;
-        if (argsCount != 3 && argsCount != 4) {
+        DatabaseHostObject db = new DatabaseHostObject();
+
+        //args count 1 for dataSource name
+        if (argsCount !=1 && argsCount != 3 && argsCount != 4) {
             HostObjectUtil.invalidNumberOfArgs(hostObjectName, hostObjectName, argsCount, true);
         }
 
         if (!(args[0] instanceof String)) {
             HostObjectUtil.invalidArgsError(hostObjectName, hostObjectName, "1", "string", args[0], true);
+        }
+
+        if(argsCount == 1){
+            String dataSourceName = (String) args[0];
+            DataSourceManager dataSourceManager = new DataSourceManager();
+            try {
+                CarbonDataSource carbonDataSource = dataSourceManager.getInstance().getDataSourceRepository().getDataSource(dataSourceName);
+                DataSource dataSource = (DataSource)carbonDataSource.getDSObject();
+
+                db.conn = dataSource.getConnection();
+                db.context = cx;
+                return db;
+            } catch (DataSourceException e) {
+                log.error("Failed to access datasource " + dataSourceName, e);
+            } catch (SQLException e) {
+                log.error("Failed to get connection" ,e);
+            }
         }
 
         if (!(args[1] instanceof String)) {
@@ -95,7 +119,6 @@ public class DatabaseHostObject extends ScriptableObject {
         String dbUrl = (String) args[0];
         RDBMSConfiguration rdbmsConfig = new RDBMSConfiguration();
         try {
-            DatabaseHostObject db = new DatabaseHostObject();
             if (configs != null) {
                 Gson gson = new Gson();
                 rdbmsConfig = gson.fromJson(HostObjectUtil.serializeJSON(configs), RDBMSConfiguration.class);
