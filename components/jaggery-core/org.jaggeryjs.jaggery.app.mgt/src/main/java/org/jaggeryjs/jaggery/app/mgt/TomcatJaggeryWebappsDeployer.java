@@ -67,8 +67,8 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
     /**
      * Deploy webapps
      *
-     * @param webappFile The webapp file to be deployed
-     * @param webContextParams  context-params for this webapp
+     * @param webappFile                The webapp file to be deployed
+     * @param webContextParams          context-params for this webapp
      * @param applicationEventListeners Application event listeners
      * @throws CarbonException If a deployment error occurs
      */
@@ -223,29 +223,25 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                     DataHolder.getCarbonTomcatService().addWebApp(host, "/", webappFile.getAbsolutePath());
                 }
             }
-            
-            if(isDistributable(context, jaggeryConfigObj)) {
-            	//Clusterable manager implementation as DeltaManager
-            	context.setDistributable(true);
+
+            if (isDistributable(context, jaggeryConfigObj)) {
+                //Clusterable manager implementation as DeltaManager
+                context.setDistributable(true);
                 CarbonTomcatClusterableSessionManager sessionManager =
                         new CarbonTomcatClusterableSessionManager(tenantId);
                 context.setManager(sessionManager);
                 sessionManagerMap.put(context.getName(), sessionManager);
                 configurationContext.setProperty(CarbonConstants.TOMCAT_SESSION_MANAGER_MAP,
-                                                 sessionManagerMap);
-            }else {
-            	context.setManager(new CarbonTomcatSessionManager(tenantId)); 
+                        sessionManagerMap);
+            } else {
+                context.setManager(new CarbonTomcatSessionManager(tenantId));
             }
-            
+
             context.setReloadable(true);
             JaggeryApplication webapp = new JaggeryApplication(this, context, webappFile);
             webapp.setServletParameters(servletParameters);
             webapp.setServletMappingParameters(servletMappingParameters);
             webapp.setServletContextParameters(webContextParams);
-            //Adding Display Name from config
-            if (jaggeryConfigObj != null) {
-                setDisplayName(context, jaggeryConfigObj);
-            }
             webapp.setState("Started");
             webappsHolder.getStartedWebapps().put(filename, webapp);
             webappsHolder.getFaultyWebapps().remove(filename);
@@ -287,6 +283,9 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
             if (Lifecycle.BEFORE_START_EVENT.equals(event.getType())) {
                 initJaggeryappDefaults((Context) event.getLifecycle(), this.tomcat,
                         this.jaggeryConfig, this.servletParameters, this.servletMappingParameters, this.securityConstraint);
+            }
+            if (Lifecycle.START_EVENT.equals(event.getType())) {
+                setDisplayName(((Context) event.getLifecycle()), jaggeryConfig);
             }
         }
     }
@@ -352,14 +351,14 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
     }
 
     private static void addErrorPages(Context context, JSONObject obj) {
-    	JSONObject arr = (JSONObject) obj.get(JaggeryConstants.JaggeryConfigParams.ERROR_PAGES);        
-        if (arr != null) {        	
-                for (Object keys : arr.keySet() ) {
-                	  ErrorPage errPage = new ErrorPage();
-                	  errPage.setErrorCode((String) keys);
-                      errPage.setLocation((String) arr.get(keys));
-                      context.addErrorPage(errPage);
-                }
+        JSONObject arr = (JSONObject) obj.get(JaggeryConstants.JaggeryConfigParams.ERROR_PAGES);
+        if (arr != null) {
+            for (Object keys : arr.keySet()) {
+                ErrorPage errPage = new ErrorPage();
+                errPage.setErrorCode((String) keys);
+                errPage.setLocation((String) arr.get(keys));
+                context.addErrorPage(errPage);
+            }
         }
     }
 
@@ -436,25 +435,25 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
             context.setDisplayName(dName);
         }
     }
-    
+
     private static boolean isDistributable(Context context, JSONObject obj) {
-    	if(obj != null) {
-    		if(obj.get(JaggeryConstants.JaggeryConfigParams.DISTRIBUTABLE) 
-    				instanceof Boolean) {
-        		Boolean isDistributable = (Boolean)obj.get(JaggeryConstants.
-        				JaggeryConfigParams.DISTRIBUTABLE);
-        		if(isDistributable != null) {
-        			return isDistributable.booleanValue();
-        		}
-    		}else if(obj.get(JaggeryConstants.JaggeryConfigParams.DISTRIBUTABLE) 
-    				instanceof String) {
-    			String distributable = (String)obj.get(JaggeryConstants.
-    					JaggeryConfigParams.DISTRIBUTABLE);
-    			return (distributable != null && distributable.equalsIgnoreCase("true"));
-    		}
-    	}
-    	
-    	return false;
+        if (obj != null) {
+            if (obj.get(JaggeryConstants.JaggeryConfigParams.DISTRIBUTABLE)
+                    instanceof Boolean) {
+                Boolean isDistributable = (Boolean) obj.get(JaggeryConstants.
+                        JaggeryConfigParams.DISTRIBUTABLE);
+                if (isDistributable != null) {
+                    return isDistributable.booleanValue();
+                }
+            } else if (obj.get(JaggeryConstants.JaggeryConfigParams.DISTRIBUTABLE)
+                    instanceof String) {
+                String distributable = (String) obj.get(JaggeryConstants.
+                        JaggeryConfigParams.DISTRIBUTABLE);
+                return (distributable != null && distributable.equalsIgnoreCase("true"));
+            }
+        }
+
+        return false;
     }
 
     private static void addWelcomeFiles(Context context, JSONObject obj) {
