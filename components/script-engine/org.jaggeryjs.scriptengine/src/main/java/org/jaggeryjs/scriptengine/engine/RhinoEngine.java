@@ -295,15 +295,13 @@ public class RhinoEngine {
     }
 
     public static void putContextProperty(Object key, Object value) {
-        Context cx = enterGlobalContext();
+        Context cx = Context.getCurrentContext();
         cx.putThreadLocal(key, value);
-        exitContext();
     }
 
     public static Object getContextProperty(Object key) {
-        Context cx = enterGlobalContext();
+        Context cx = Context.getCurrentContext();
         Object value = cx.getThreadLocal(key);
-        exitContext();
         return value;
     }
 

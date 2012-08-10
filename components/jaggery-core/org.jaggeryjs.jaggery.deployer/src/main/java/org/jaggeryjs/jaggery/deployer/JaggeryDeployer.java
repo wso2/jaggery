@@ -56,7 +56,6 @@ public class JaggeryDeployer extends AbstractWebappDeployer {
 
     @Override
     public void deploy(DeploymentFileData deploymentFileData) throws DeploymentException {
-        log.info("Deploying Jaggery Web Application : " + deploymentFileData.getAbsolutePath());
         super.deploy(deploymentFileData);
     }
 
