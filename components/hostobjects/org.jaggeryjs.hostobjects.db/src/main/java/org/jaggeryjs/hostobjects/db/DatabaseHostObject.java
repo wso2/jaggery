@@ -376,7 +376,9 @@ public class DatabaseHostObject extends ScriptableObject {
         DatabaseHostObject db = (DatabaseHostObject) thisObj;
         try {
             db.conn.close();
-            rdbmsDataSource.getDataSource().close();
+           if(rdbmsDataSource!=null){
+               rdbmsDataSource.getDataSource().close();
+	        }
         } catch (SQLException e) {
             String msg = "Error while closing the Database Connection";
             log.warn(msg, e);
