@@ -107,8 +107,7 @@
         <wso2-uri-templates.osgi.version>1.0.0</wso2-uri-templates.osgi.version>
         <javax.servlet.osgi.version>3.0.0.wso2v1</javax.servlet.osgi.version>
         <geronimo-servlet_3.0_spec.version>1.0</geronimo-servlet_3.0_spec.version>
-        <webapp.mgt.osgi.version>4.0.0</webapp.mgt.osgi.version>
-        <webapp.mgt.osgi.patch.version>4.0.1</webapp.mgt.osgi.patch.version>
+        <webapp.mgt.osgi.version>4.0.1</webapp.mgt.osgi.version>
 
         <!-- non-osgi bundle versions -->
         <json.version>20090211</json.version>
@@ -438,7 +437,7 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.webapp.mgt</artifactId>
-                <version>${webapp.mgt.osgi.patch.version}</version>
+                <version>${webapp.mgt.osgi.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>

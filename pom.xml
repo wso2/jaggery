@@ -307,7 +307,7 @@
         <maven-jar-plugin.version>2.4</maven-jar-plugin.version>
         <felix.bundle.version>2.3.5</felix.bundle.version>
         <felix.scr.version>1.7.2</felix.scr.version>
-        <carbon.p2.plugin.version>1.5-SNAPSHOT</carbon.p2.plugin.version>
+        <carbon.p2.plugin.version>1.5</carbon.p2.plugin.version>
         <mvn.gpg>1.0-alpha-3</mvn.gpg>
         <maven-site-plugin.version>3.0</maven-site-plugin.version>
         <maven-src-plugin.version>1.7.2</maven-src-plugin.version>

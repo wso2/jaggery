@@ -53,11 +53,11 @@
                                     <pathelement
                                             location="${settings.localRepository}/org/apache/axis2/wso2/axis2/${axis2.osgi.version}/axis2-${axis2.osgi.version}.jar"/>
                                     <pathelement
-                                            location="${settings.localRepository}/wsdl4j/wso2/wsdl4j/${wss4j.osgi.version}/wsdl4j-${wss4j.osgi.version}.jar"/>
+                                            location="${settings.localRepository}/wsdl4j/wso2/wsdl4j/${wsdl4j.osgi.version}/wsdl4j-${wsdl4j.osgi.version}.jar"/>
                                     <pathelement
                                             location="${settings.localRepository}/commons-logging/commons-logging/${commons-logging.version}/commons-logging-${commons-logging.version}.jar"/>
                                     <pathelement
-                                            location="${settings.localRepository}/org/apache/neethi/neethi/${neethi.osgi.version}/neethi-${neethi.osgi.version}.jar"/>
+                                            location="${settings.localRepository}/org/apache/neethi/wso2/neethi/${neethi.osgi.version}/neethi-${neethi.osgi.version}.jar"/>
                                     <pathelement
                                             location="${settings.localRepository}/org/apache/ws/commons/axiom/wso2/axiom/${axiom.osgi.version}/axiom-${axiom.osgi.version}.jar"/>
                                     <pathelement
