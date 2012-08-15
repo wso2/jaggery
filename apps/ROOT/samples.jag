@@ -54,7 +54,7 @@ include('/includes/topnavi.jag');
               <p>
                   The TaskMaster is a task manager app which makes use of the session in Jaggery. The tasks are saved and can be viewed via the main page.
               </p>
-              <a href="#" class="btn primary" onclick="calls('/taskmaster/index.jag');">View Demo</a> <a href="https://github.com/wso2/jaggeryjs/tree/master/apps/taskmaster" target="_blank" class="btn info">View Source</a>
+              <a href="#" class="btn primary" onclick="calls('/taskmaster/index.jag');">View Demo</a> <a href="https://github.com/wso2/jaggery/tree/master/apps/taskmaster" target="_blank" class="btn info">View Source</a>
           </li>
 
           <li>
@@ -68,7 +68,7 @@ include('/includes/topnavi.jag');
              read / publish to their feeds.
          </p>
               <p><span class="label warning">Important</span> Sample requires you to be online</p>
-              <a href="#" class="btn primary" onclick="calls('/shout');">View Demo</a> <a href="https://github.com/wso2/jaggeryjs/tree/master/apps/shout" target="_blank" class="btn info">View Source</a>
+              <a href="#" class="btn primary" onclick="calls('/shout');">View Demo</a> <a href="https://github.com/wso2/jaggery/tree/master/apps/shout" target="_blank" class="btn info">View Source</a>
           </li>
 
           <li>
@@ -81,7 +81,7 @@ include('/includes/topnavi.jag');
              Release year, Plot and rating) as well as related videos from youtube. it acts as a central movie information search engine.
          </p>
               <p><span class="label warning">Important</span> Sample requires you to be online</p>
-               <a href="#"  class="btn primary" onclick="calls('/freshometer/index.jag');">View Demo</a> <a href="https://github.com/wso2/jaggeryjs/tree/master/apps/freshometer" target="_blank" class="btn info">View Source</a>
+               <a href="#"  class="btn primary" onclick="calls('/freshometer/index.jag');">View Demo</a> <a href="https://github.com/wso2/jaggery/tree/master/apps/freshometer" target="_blank" class="btn info">View Source</a>
           </li>
 
           <li>
@@ -94,7 +94,7 @@ include('/includes/topnavi.jag');
                   view descriptions, demos and samples and try out jaggery code. The documentation site also includes downloads
                   and sample apps.
               </p>
-              <a href="<%=context%>" target="_blank" class="btn primary">View Demo</a> <a href="https://github.com/wso2/jaggeryjs/tree/master/apps/ROOT" target="_blank" class="btn info">View Source</a>
+              <a href="<%=context%>" target="_blank" class="btn primary">View Demo</a> <a href="https://github.com/wso2/jaggery/tree/master/apps/ROOT" target="_blank" class="btn info">View Source</a>
           </li>
 		  
 		  <li>
@@ -108,7 +108,7 @@ include('/includes/topnavi.jag');
 				  this application with PUT, POST, GET and DELETE. This sample contains database connection, 
 				  URL mapping and web request in jaggery 
               </p>
-              <a href="#" class="btn primary" onclick="calls('/coffeeshop/');">View Demo</a> <a href="https://github.com/wso2/jaggeryjs/tree/master/apps/coffeeShop" target="_blank" class="btn info">View Source</a>
+              <a href="#" class="btn primary" onclick="calls('/coffeeshop/');">View Demo</a> <a href="https://github.com/wso2/jaggery/tree/master/apps/coffeeShop" target="_blank" class="btn info">View Source</a>
           </li>
 
 
