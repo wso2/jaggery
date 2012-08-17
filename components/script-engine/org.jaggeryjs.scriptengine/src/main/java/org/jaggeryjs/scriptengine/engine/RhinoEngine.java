@@ -44,11 +44,12 @@ public class RhinoEngine {
     /**
      * This constructor gets an existing <code>CacheManager</code> instance and returns a new engine instance with the new cache manager.
      * <p>Scope of the engine will be a clone of the static global scope associates with the <code>RhinoEngine</code> class.
-     * @param cacheManager  A {@code CacheManager} instance to be used as the cache manager of the engine
+     *
+     * @param cacheManager A {@code CacheManager} instance to be used as the cache manager of the engine
      */
     public RhinoEngine(CacheManager cacheManager, SecurityController securityController) {
         this.cacheManager = cacheManager;
-        if(securityController != null) {
+        if (securityController != null) {
             this.contextFactory = new RhinoContextFactory(securityController);
         } else {
             this.contextFactory = globalContextFactory;
@@ -57,7 +58,8 @@ public class RhinoEngine {
 
     /**
      * This method registers a hostobject in the engine scope.
-     * @param scope The scope where hostobject will be defined
+     *
+     * @param scope      The scope where hostobject will be defined
      * @param hostObject HostObject to be defined
      */
     public static void defineHostObject(ScriptableObject scope, JavaScriptHostObject hostObject)
@@ -82,7 +84,8 @@ public class RhinoEngine {
 
     /**
      * This method registers the specified object in the specified scope.
-     * @param scope The scope to register the bean object
+     *
+     * @param scope    The scope to register the bean object
      * @param property Property to be defined
      */
     public static void defineProperty(ScriptableObject scope, JavaScriptProperty property) {
@@ -131,8 +134,9 @@ public class RhinoEngine {
      * Evaluates the specified script and the result is returned. If the <code>sctx</code> is provided and cache is upto date, cached script
      * will be evaluated instead of the original one. Otherwise, a either cache will be updated or evaluated the script directly without caching.
      * <p>A clone of the engine scope will be used as the scope during the evaluation.
+     *
      * @param scriptReader Reader object to read the script when ever needed
-     * @param sctx Script caching context which contains caching data. When null is passed for this, caching will be disabled.
+     * @param sctx         Script caching context which contains caching data. When null is passed for this, caching will be disabled.
      * @return Returns the resulting object after evaluating script
      * @throws ScriptException If error occurred while evaluating
      */
@@ -144,9 +148,10 @@ public class RhinoEngine {
      * Evaluates the specified script and the result is returned. If the <code>sctx</code> is provided and cache is upto date, cached script
      * will be evaluated instead of the original one. Otherwise, either the cache will be updated or evaluated the script directly without caching.
      * <p>The specified scope will be used as the scope during the evaluation.
+     *
      * @param scriptReader Reader object to read the script when ever needed
-     * @param scope Scope to be used during the evaluation
-     * @param sctx Script caching context which contains caching data. When null is passed for this, caching will be disabled.
+     * @param scope        Scope to be used during the evaluation
+     * @param sctx         Script caching context which contains caching data. When null is passed for this, caching will be disabled.
      * @return Returns the resulting object after evaluating script
      * @throws ScriptException If error occurred while evaluating
      */
@@ -164,8 +169,9 @@ public class RhinoEngine {
      * Executes the script on a clone of the engine scope and the scope is returned.
      * <p>If the <code>sctx</code> is provided and cache is upto date, cached script
      * will be evaluated instead of the original one. Otherwise, either the cache will be updated or evaluated the script directly without caching.
+     *
      * @param scriptReader Reader object to read the script when ever needed
-     * @param sctx Script caching context which contains caching data. When null is passed for this, caching will be disabled.
+     * @param sctx         Script caching context which contains caching data. When null is passed for this, caching will be disabled.
      * @return Modified clone of the engine scope
      * @throws ScriptException If error occurred while evaluating
      */
@@ -177,9 +183,10 @@ public class RhinoEngine {
      * Executes the script on the specified scope.
      * <p>If the <code>sctx</code> is provided and cache is upto date, cached script
      * will be evaluated instead of the original one. Otherwise, either the cache will be updated or evaluated the script directly without caching.
+     *
      * @param scriptReader Reader object to read the script when ever needed
-     * @param scope Scope to be used during the execution
-     * @param sctx Script caching context which contains caching data. When null is passed for this, caching will be disabled.
+     * @param scope        Scope to be used during the execution
+     * @param sctx         Script caching context which contains caching data. When null is passed for this, caching will be disabled.
      * @throws ScriptException If error occurred while evaluating
      */
     public void exec(Reader scriptReader, ScriptableObject scope, ScriptCachingContext sctx) throws ScriptException {
@@ -193,10 +200,11 @@ public class RhinoEngine {
 
     /**
      * Executes a particular JavaScript function from a script on a clone of engine's scope and returns the result.
+     *
      * @param scriptReader Reader object to read the script when ever needed
-     * @param funcName Name of the function to be invoked
-     * @param args Arguments for the functions as an array of objects
-     * @param sctx Script caching context which contains caching data. When null is passed for this, caching will be disabled.
+     * @param funcName     Name of the function to be invoked
+     * @param args         Arguments for the functions as an array of objects
+     * @param sctx         Script caching context which contains caching data. When null is passed for this, caching will be disabled.
      * @return Returns the resulting object after invoking the function
      * @throws ScriptException If error occurred while invoking the function
      */
@@ -207,11 +215,12 @@ public class RhinoEngine {
 
     /**
      * Executes a particular JavaScript function from a script on a clone of engine's scope and returns the result.
+     *
      * @param scriptReader Reader object to read the script when ever needed
-     * @param funcName Name of the function to be invoked
-     * @param args Arguments for the functions as an array of objects
-     * @param thiz {@code this} object for the function
-     * @param sctx Script caching context which contains caching data. When null is passed for this, caching will be disabled.
+     * @param funcName     Name of the function to be invoked
+     * @param args         Arguments for the functions as an array of objects
+     * @param thiz         {@code this} object for the function
+     * @param sctx         Script caching context which contains caching data. When null is passed for this, caching will be disabled.
      * @return Returns the resulting object after invoking the function
      * @throws ScriptException If error occurred while invoking the function
      */
@@ -227,12 +236,13 @@ public class RhinoEngine {
 
     /**
      * Executes a particular JavaScript function from a script on the specified scope and returns the result.
+     *
      * @param scriptReader Reader object to read the script when ever needed
-     * @param funcName Name of the function to be invoked
-     * @param args Arguments for the functions as an array of objects
-     * @param thiz {@code this} object for the function
-     * @param scope The scope where function will be executed
-     * @param sctx Script caching context which contains caching data. When null is passed for this, caching will be disabled.
+     * @param funcName     Name of the function to be invoked
+     * @param args         Arguments for the functions as an array of objects
+     * @param thiz         {@code this} object for the function
+     * @param scope        The scope where function will be executed
+     * @param sctx         Script caching context which contains caching data. When null is passed for this, caching will be disabled.
      * @return Returns the resulting object after invoking the function
      * @throws ScriptException If error occurred while invoking the function
      */
@@ -253,16 +263,17 @@ public class RhinoEngine {
 
     /**
      * This clones the engine scope and returns.
+     *
      * @return Cloned scope
      */
     public ScriptableObject getRuntimeScope() throws ScriptException {
         Context cx = enterContext();
         ScriptableObject scope = removeUnsafeObjects(new RhinoTopLevel(cx, false));
-        exposeModule(scope, globalModule);
+        exposeModule(cx, scope, globalModule);
         for (JavaScriptModule module : modules) {
             String name = module.getName();
-            ScriptableObject object = (ScriptableObject) newObject(scope);
-            exposeModule(object, module);
+            ScriptableObject object = (ScriptableObject) cx.newObject(scope);
+            exposeModule(cx, object, module);
             JavaScriptProperty property = new JavaScriptProperty(name);
             property.setValue(object);
             property.setAttribute(ScriptableObject.PERMANENT);
@@ -278,13 +289,6 @@ public class RhinoEngine {
 
     public Context enterContext() {
         return contextFactory.enterContext();
-    }
-
-    public static Scriptable newObject(String constructor, ScriptableObject scope, Object[] args) {
-        Context cx = enterGlobalContext();
-        Scriptable obj = cx.newObject(scope, constructor, args);
-        exitContext();
-        return obj;
     }
 
     public static Scriptable newObject(ScriptableObject scope) {
@@ -303,15 +307,6 @@ public class RhinoEngine {
         Context cx = Context.getCurrentContext();
         Object value = cx.getThreadLocal(key);
         return value;
-    }
-
-    public static ScriptableObject cloneScope(ScriptableObject scope) {
-        Context cx = enterGlobalContext();
-        ScriptableObject clone = (ScriptableObject) cx.newObject(scope);
-        clone.setPrototype(scope.getPrototype());
-        clone.setParentScope(scope.getParentScope());
-        exitContext();
-        return clone;
     }
 
     public static Context enterContext(ContextFactory factory) {
@@ -343,8 +338,7 @@ public class RhinoEngine {
         scope.defineProperty(name, f, attribute);
     }
 
-    private void exposeModule(ScriptableObject scope, JavaScriptModule module) throws ScriptException {
-        Context cx = enterContext();
+    private void exposeModule(Context cx, ScriptableObject scope, JavaScriptModule module) throws ScriptException {
         for (JavaScriptHostObject hostObject : module.getHostObjects()) {
             defineClass(scope, hostObject.getClazz());
         }
@@ -356,7 +350,6 @@ public class RhinoEngine {
         for (JavaScriptScript script : module.getScripts()) {
             script.getScript().exec(cx, scope);
         }
-        exitContext();
     }
 
     private CacheManager getCacheManager() {

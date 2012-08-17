@@ -216,12 +216,12 @@ public class WebAppManager {
 
         if (dotIndex == -1) {
             ScriptableObject object = CommonManager.require(cx, thisObj, args, funObj);
-            initModule(param, object, CommonManager.getJaggeryContext());
+            initModule(cx, CommonManager.getJaggeryContext(), param, object);
             return object;
         }
 
         JaggeryContext jaggeryContext = CommonManager.getJaggeryContext();
-        ScriptableObject object = (ScriptableObject) RhinoEngine.newObject((ScriptableObject) thisObj);
+        ScriptableObject object = (ScriptableObject) cx.newObject(thisObj);
         object.setPrototype(thisObj);
         object.setParentScope(null);
         String ext = param.substring(dotIndex + 1);
@@ -238,14 +238,14 @@ public class WebAppManager {
         }
     }
 
-    public static void initContext(JaggeryContext context) throws ScriptException {
+    public static void initContext(Context cx, JaggeryContext context) throws ScriptException {
         CommonManager.initContext(context);
-        defineProperties(context, context.getScope());
+        defineProperties(cx, context, context.getScope());
     }
 
-    public static void initModule(String module, ScriptableObject object, JaggeryContext context) {
+    public static void initModule(Context cx, JaggeryContext context, String module, ScriptableObject object) {
         if (CORE_MODULE_NAME.equals(module)) {
-            defineProperties(context, object);
+            defineProperties(cx, context, object);
         }
     }
 
@@ -259,11 +259,11 @@ public class WebAppManager {
         RhinoEngine engine = null;
         try {
             engine = CommonManager.getInstance().getEngine();
-            engine.enterContext();
+            Context cx = engine.enterContext();
             //Creating an OutputStreamWritter to write content to the servletResponse
             OutputStream out = response.getOutputStream();
             JaggeryContext webAppContext = createJaggeryContext(out, scriptPath, request, response);
-            initContext(webAppContext);
+            initContext(cx, webAppContext);
             RhinoEngine.putContextProperty(FileHostObject.JAVASCRIPT_FILE_MANAGER,
                     new WebAppFileManager(request.getServletContext()));
             CommonManager.getInstance().getEngine().exec(new ScriptReader(sourceIn), webAppContext.getScope(),
@@ -319,26 +319,26 @@ public class WebAppManager {
         }
     }
 
-    private static void defineProperties(JaggeryContext context, ScriptableObject scope) {
+    private static void defineProperties(Context cx, JaggeryContext context, ScriptableObject scope) {
         WebAppContext ctx = (WebAppContext) context;
 
         JavaScriptProperty request = new JavaScriptProperty("request");
-        request.setValue(RhinoEngine.newObject("Request", scope, new Object[]{ctx.getServletRequest()}));
+        request.setValue(cx.newObject(scope, "Request", new Object[]{ctx.getServletRequest()}));
         request.setAttribute(ScriptableObject.READONLY);
         RhinoEngine.defineProperty(scope, request);
 
         JavaScriptProperty response = new JavaScriptProperty("response");
-        response.setValue(RhinoEngine.newObject("Response", scope, new Object[]{ctx.getServletResponse()}));
+        response.setValue(cx.newObject(scope, "Response", new Object[]{ctx.getServletResponse()}));
         response.setAttribute(ScriptableObject.READONLY);
         RhinoEngine.defineProperty(scope, response);
 
         JavaScriptProperty session = new JavaScriptProperty("session");
-        session.setValue(RhinoEngine.newObject("Session", scope, new Object[]{ctx.getServletRequest().getSession()}));
+        session.setValue(cx.newObject(scope, "Session", new Object[]{ctx.getServletRequest().getSession()}));
         session.setAttribute(ScriptableObject.READONLY);
         RhinoEngine.defineProperty(scope, session);
 
         JavaScriptProperty application = new JavaScriptProperty("application");
-        application.setValue(RhinoEngine.newObject("Application", scope, new Object[]{ctx.getServletConext()}));
+        application.setValue(cx.newObject(scope, "Application", new Object[]{ctx.getServletConext()}));
         application.setAttribute(ScriptableObject.READONLY);
         RhinoEngine.defineProperty(scope, application);
 

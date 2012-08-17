@@ -45,7 +45,7 @@ public class CommonManager {
     }
 
     public static CommonManager getInstance() throws ScriptException {
-        if(manager == null) {
+        if (manager == null) {
             manager = new CommonManager();
         }
         return manager;
@@ -225,8 +225,7 @@ public class CommonManager {
             log.error(msg);
             throw new ScriptException(msg);
         }
-
-        ScriptableObject object = (ScriptableObject) RhinoEngine.newObject((ScriptableObject) thisObj);
+        ScriptableObject object = (ScriptableObject) cx.newObject(thisObj);
         object.setPrototype(thisObj);
         object.setParentScope(null);
         exposeModule(cx, object, module);
