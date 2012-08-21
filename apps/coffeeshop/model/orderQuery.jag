@@ -1,20 +1,81 @@
 <%
-function addOrder(orderName) {
-	var orderIdx = 1;
-	var lastOrderID = db.query("SELECT MAX(ORDER_ID) AS LAST_ID FROM COFFEE_ORDER");
-	if(lastOrderID.length == 0) {
-		orderIdx = 0;
-	} else {
-		orderIdx = lastOrderID[0].LAST_ID;
-	}
-	var order = request.getParameter('order');
 
-	var price = db.query("SELECT COST FROM DRINKS WHERE DRINK ='" + order + "'");
-	if(price.length != 0) {
-		db.query("INSERT INTO COFFEE_ORDER VALUES(" + ++orderIdx + ",'','" + order + "','" + price[0].COST + "','In Progress',false)");
+var coffedata = {
+	"ADDITIONS" : [{
+		"name" : "Milk",
+		"cost" : "$1"
+	}, {
+		"name" : "Peppermint",
+		"cost" : "$1.5"
+	}, {
+		"name" : "Caramel",
+		"cost" : "$1.6"
+	}, {
+		"name" : "Whip Cream",
+		"cost" : "$2.1"
+	}],
+	"DRINKS" : [{
+		"name" : "Espresso",
+		"cost" : "$5"
+	}, {
+		"name" : "Percolator",
+		"cost" : "$4"
+	}, {
+		"name" : "Colombian Coffee",
+		"cost" : "$7"
+	}, {
+		"name" : "Hawaiian Kona",
+		"cost" : "$6"
+	}, {
+		"name" : "COCO",
+		"cost" : "$6"
+	}]
+};
+
+function addOrder(orderName) {
+	if(session.get("count") == null) {
+		session.put("count", 0);
+	}
+	var orderIdx = session.get("count");
+
+	var orderO = session.get("orders");
+	if(orderO != null) {
+		//orderIdx = orderO.length;
+		var orderCount = session.get("count");
+		orderCount++;
+		session.put("count", orderCount);
+		orderIdx = orderCount;
+	}
+
+	var order = request.getParameter('order');
+	var price = 0;
+	//menuID.info(coffedata);
+	for(var key in coffedata.DRINKS) {
+		if(coffedata.DRINKS[key].name == orderName) {
+			price = coffedata.DRINKS[key].cost;
+		}
+	}
+	if(price != 0) {
+		var orders;
+		if(orderO != null) {
+			var orderJson = session.get("orders");
+			orderJson.push(orderIdx);
+			session.put("orders", orderJson);
+		} else {
+			session.put("orders", [0]);
+		}
+		var object = {
+			"ORDER_ID" : orderIdx,
+			"ADDITION" : "",
+			"DRINK" : order,
+			"COST" : price,
+			"STATUS" : "In Progress",
+			"PAY" : false
+		};
+		session.put("o" + orderIdx, object);
 		//order is been taken
-		var result = db.query("SELECT * FROM COFFEE_ORDER WHERE ORDER_ID = " + orderIdx);
-		print(result[0]);
+		var result = session.get("o" + orderIdx);
+		print(result);
 	} else {
 		print({
 			"Infor" : "Sorry, Coffee is not in shop"
@@ -23,10 +84,16 @@ function addOrder(orderName) {
 }
 
 function listAllOrders() {
-	var order = db.query("SELECT * FROM COFFEE_ORDER ");
-	if(order.length != 0) {
+	var orderO = session.get("orders");
+	var listOrder = [];
+	if(orderO != null) {
+		var order
+		for(var key in orderO) {
+			order = session.get("o" + orderO[key]);
+			listOrder.push(order);
+		}
 		print({
-			"orders" : order
+			"orders" : listOrder
 		});
 	} else {
 
@@ -37,16 +104,15 @@ function listAllOrders() {
 }
 
 function updateStatus(orderid, status) {
-	//db processing
-	var order = db.query("SELECT * FROM COFFEE_ORDER WHERE ORDER_ID ='" + orderid + "'");
+	//get order from session
+	var order = session.get("o" + orderid);
 	//checking order is there
 	if(order.length != 0) {
 		//Order is existing
-		var order = db.query("UPDATE COFFEE_ORDER SET STATUS='" + status + "' WHERE ORDER_ID ='" + orderid + "'");
-		var order = db.query("SELECT * FROM COFFEE_ORDER WHERE ORDER_ID ='" + orderid + "'");
-		print(order[0]);
+		order.STATUS = status;
+		session.put("o" + orderid, order);
+		print(order);
 	} else {
-
 		print({
 			"Infor" : "Sorry, Order is not exsit"
 		});
@@ -55,34 +121,40 @@ function updateStatus(orderid, status) {
 }
 
 function addAddition(orderid, addition) {
+
 	//adding addition
-	//db processing
-	var order = db.query("SELECT STATUS, COST FROM COFFEE_ORDER WHERE ORDER_ID ='" + orderid + "'");
-	//print(order[0]);
+	var order = session.get("o" + orderid);
 	//checking order is there
-	if(order.length != 0) {
+	if(order != null) {
 		//checking for status
-		if(order[0].STATUS == "In Progress") {
+		if(order.STATUS == "In Progress") {
 			//Order is existing
 			//processing new price
-			var price = db.query("SELECT COST FROM ADDITIONS WHERE ADDITION ='" + addition + "'");
-			//print(price);
-			if(price.length != 0) {
-				var newPrice = parseFloat(price[0].COST.substring(1)) + parseFloat(order[0].COST.substring(1));
-				var order = db.query("UPDATE COFFEE_ORDER" + " SET ADDITION='" + addition + "', COST = '$" + newPrice + "', STATUS = 'Ready'" + " WHERE ORDER_ID ='" + orderid + "'");
-				var order = db.query("SELECT * FROM COFFEE_ORDER WHERE ORDER_ID ='" + orderid + "'");
-				print(order[0]);
+			var price = 0;
+			for(var key in coffedata.ADDITIONS) {
+				if(coffedata.ADDITIONS[key].name == addition) {
+					price = coffedata.ADDITIONS[key].cost;
+				}
+
+			}
+			if(price != 0) {
+				var newPrice = parseFloat(price.substring(1)) + parseFloat(order.COST.substring(1));
+				order.ADDITION = addition;
+				order.COST = "$" + newPrice;
+				order.STATUS = "Ready";
+				session.put("o" + orderid, order);
+				print(order);
 			} else {
 				print({
 					"Infor" : "Sorry, Addition is not in shop"
 				});
 			}
 		} else {
-			if(order[0].STATUS == "Ready") {
+			if(order.STATUS == "Ready") {
 				print({
 					"Infor" : "Sorry, Order can be added addition only one time"
 				});
-			} else if(order[0].STATUS == "Complete") {
+			} else if(order.STATUS == "Complete") {
 				print({
 					"Infor" : "Sorry, Order has been completed"
 				});
@@ -103,9 +175,9 @@ function addAddition(orderid, addition) {
 }
 
 function viewOrder(orderid) {
-	var order = db.query("SELECT * FROM COFFEE_ORDER WHERE ORDER_ID ='" + orderid + "'");
-	if(order.length != 0) {
-		print(order[0]);
+	var order = session.get("o" + orderid);
+	if(order != null) {
+		print(order);
 	} else {
 
 		print({
@@ -117,11 +189,18 @@ function viewOrder(orderid) {
 
 function deleteOrder(orderid) {
 	//db processing
-	var order = db.query("SELECT * FROM COFFEE_ORDER WHERE ORDER_ID ='" + orderid + "'");
+	var order = session.get("o" + orderid);
+	var orderO = session.get("orders");
 
 	//checking order is there
-	if(order.length != 0) {
-		var order = db.query("DELETE FROM COFFEE_ORDER WHERE ORDER_ID ='" + orderid + "'");
+	if(order != null && orderO != null) {
+		session.remove("o" + orderid);
+		for(var key in orderO) {
+			if(orderO[key] == orderid) {
+				orderO.splice(key, 1);
+				session.put("orders", orderO);
+			}
+		}
 		print({
 			"Infor" : "Order id " + orderid + " is removed"
 		});
@@ -132,4 +211,5 @@ function deleteOrder(orderid) {
 	}
 
 }
+
 %>

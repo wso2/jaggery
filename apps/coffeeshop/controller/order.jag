@@ -1,6 +1,5 @@
 <%
 
-include("../model/databaseConn.jag");
 include("../model/orderQuery.jag");
 response.contentType = 'text/javascript';
 
