@@ -63,7 +63,7 @@
         //adding a security token
         iframeUrl += '&st=' + encodeURIComponent(generateSecureToken());
 
-        print('<iframe src="' + iframeUrl + '" height="auto" width="auto" scrolling="no" frameborder="0"></iframe>');
+        print('<iframe src="' + iframeUrl + '" height="100%" width="auto" scrolling="no" frameborder="0"></iframe>');
 
     };
 

@@ -94,8 +94,8 @@ include('/includes/tryit_but.jag');
 <p class="description"><code>get()</code> is a wrapper for XMLHTTPRequest's GET method.
 using <code>get()</code> you can avoid the use of XHR and shorten the server-side get requests</p>
 
-    <pre class="prettyprint">get(url[, data][, type][, headers][, success(data, xhr)])</pre>
-    <pre class="prettyprint">var res = get(url[, data][, type][, headers])</pre>
+    <pre class="prettyprint">get(url[, data][, headers][, type][, success(data, xhr)])</pre>
+    <pre class="prettyprint">var res = get(url[, data][, headers][, type])</pre>
 
 </section>
 
@@ -130,7 +130,7 @@ using <code>get()</code> you can avoid the use of XHR and shorten the server-sid
             </tr>
             <tr>
                 <td><code>headers</code></td>
-                <td>String</td>
+                <td>Object</td>
                 <td>Optional HTTP headers</td>
             </tr>
             <tr>
