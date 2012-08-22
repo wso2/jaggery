@@ -1,3 +1,0 @@
-<%
- var db = new Database("jdbc:h2:tmp", "admin", "admin"); 
-%>

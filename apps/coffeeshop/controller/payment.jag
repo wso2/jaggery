@@ -1,6 +1,5 @@
 <%
 
-include("../model/databaseConn.jag");
 include("../model/paymentQuery.jag");
 response.contentType = 'text/javascript';
 
