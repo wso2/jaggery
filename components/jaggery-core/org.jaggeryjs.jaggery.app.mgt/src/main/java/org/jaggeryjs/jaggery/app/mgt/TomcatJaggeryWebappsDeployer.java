@@ -297,7 +297,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
         for (ServletParameter servletParameter : servletParameters) {
             if (servletParameter.getServletName() != null && servletParameter.getServletClass() != null) {
                 Wrapper servletWrapper = tomcat.addServlet(
-                        ctx.getName(), servletParameter.getServletName(), servletParameter.getServletClass());
+                        ctx, servletParameter.getServletName(), servletParameter.getServletClass());
 
                 if (servletParameter.getInitParams() != null) {
                     for (Map.Entry<String, String> entry : servletParameter.getInitParams().entrySet()) {
