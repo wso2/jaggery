@@ -45,11 +45,7 @@ public class JavaScriptFileManagerImpl implements JavaScriptFileManager {
             }
             file = new File(path);
         }
-        if (file.isDirectory()) {
-            String msg = "File hostobject doesn't handle directories. Specified path contains a directory : " + path;
-            log.error(msg);
-            throw new ScriptException(msg);
-        }
+
         return file;
     }
 }

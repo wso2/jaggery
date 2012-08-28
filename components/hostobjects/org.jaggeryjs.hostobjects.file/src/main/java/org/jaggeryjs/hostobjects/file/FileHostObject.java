@@ -2,15 +2,14 @@ package org.jaggeryjs.hostobjects.file;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Function;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
+import org.mozilla.javascript.*;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
 
+import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 public class FileHostObject extends ScriptableObject {
 
@@ -21,6 +20,9 @@ public class FileHostObject extends ScriptableObject {
     public static final String JAVASCRIPT_FILE_MANAGER = "hostobjects.file.filemanager";
 
     private JavaScriptFile file = null;
+
+    private File f = null;
+
     private JavaScriptFileManager manager = null;
     private Context context = null;
 
@@ -123,7 +125,7 @@ public class FileHostObject extends ScriptableObject {
         }
 
         FileHostObject fho = (FileHostObject) thisObj;
-        return fho.file.move((String)args[0]);
+        return fho.file.move((String) args[0]);
     }
 
     public static boolean jsFunction_saveAs(Context cx, Scriptable thisObj, Object[] args, Function funObj)
@@ -138,7 +140,7 @@ public class FileHostObject extends ScriptableObject {
         }
 
         FileHostObject fho = (FileHostObject) thisObj;
-        return fho.file.saveAs((String)args[0]);
+        return fho.file.saveAs((String) args[0]);
     }
 
     public static boolean jsFunction_del(Context cx, Scriptable thisObj, Object[] args, Function funObj)
@@ -215,7 +217,8 @@ public class FileHostObject extends ScriptableObject {
             HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
         }
         FileHostObject fho = (FileHostObject) thisObj;
-        return fho.context.newObject(thisObj, "Stream", new Object[]{ fho.file.getInputStream() });
+        return fho.context.newObject(thisObj, "Stream", new Object[]{fho.file.getInputStream()});
+
     }
 
     public InputStream getInputStream() throws ScriptException {
@@ -232,6 +235,34 @@ public class FileHostObject extends ScriptableObject {
 
     public JavaScriptFile getJavaScriptFile() throws ScriptException {
         return file;
+    }
+
+    public static boolean jsFunction_isDirectory(Context cx, Scriptable thisObj, Object[] args, Function funObj) throws ScriptException {
+        String functionName = "isDirectory";
+        int argsCount = args.length;
+        if (argsCount != 0) {
+            HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
+        }
+        FileHostObject fho = (FileHostObject) thisObj;
+        return fho.file.isDirectory();
+    }
+
+    public static Object jsFunction_listFiles(Context cx, Scriptable thisObj, Object[] args, Function funObj) throws ScriptException {
+        String functionName = "listFiles";
+        int argsCount = args.length;
+        if (argsCount != 0) {
+            HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
+        }
+        FileHostObject fho = (FileHostObject) thisObj;
+
+        ArrayList<String> fpaths = fho.file.listFiles();
+
+        ArrayList<Scriptable> fhol = new ArrayList<Scriptable>();
+
+        for (String jsf : fpaths) {
+            fhol.add(fho.context.newObject(thisObj, "File", new Object[]{fho.getName() + File.separator + jsf}));
+        }
+        return new NativeArray(fhol.toArray());
     }
 
 }

@@ -48,10 +48,10 @@ public class JaggeryappManagementServiceComponent {
     protected void activate(ComponentContext ctx) {
         try {
             // Register the valves with Tomcat
-            ArrayList<CarbonTomcatValve> valves = new ArrayList<CarbonTomcatValve>();
-            valves.add(new TenantLazyLoaderValve());
-            valves.add(new GhostWebappDeployerValve());
-            TomcatValveContainer.addValves(valves);
+            //ArrayList<CarbonTomcatValve> valves = new ArrayList<CarbonTomcatValve>();
+            //valves.add(new TenantLazyLoaderValve());
+            //valves.add(new GhostWebappDeployerValve());
+            //TomcatValveContainer.addValves(valves);
         } catch (Exception e) {
             log.error("Error occurred while activating JaggeryappManagementServiceComponent", e);
         }

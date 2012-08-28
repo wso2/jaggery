@@ -12,6 +12,7 @@ import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import javax.activation.FileTypeMap;
 import javax.servlet.ServletContext;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Stack;
 
 public class WebAppFile implements JavaScriptFile {
@@ -21,6 +22,7 @@ public class WebAppFile implements JavaScriptFile {
     private ServletContext context = null;
 
     private RandomAccessFile file = null;
+    private File f = null;
     private String path = null;
     private boolean opened = false;
 
@@ -36,7 +38,7 @@ public class WebAppFile implements JavaScriptFile {
 
     @Override
     public void construct() throws ScriptException {
-
+        f = new File(path);
     }
 
     private String getFilePath(String fileURL) throws ScriptException {
@@ -136,7 +138,7 @@ public class WebAppFile implements JavaScriptFile {
 
     @Override
     public void close() throws ScriptException {
-        if(!opened) {
+        if (!opened) {
             return;
         }
         try {
@@ -150,11 +152,11 @@ public class WebAppFile implements JavaScriptFile {
 
     @Override
     public String read(long count) throws ScriptException {
-        if(!opened) {
+        if (!opened) {
             log.warn("You need to open the file for reading");
             return null;
         }
-        if(!readable) {
+        if (!readable) {
             log.warn("File has not opened in a readable mode.");
             return null;
         }
@@ -173,11 +175,11 @@ public class WebAppFile implements JavaScriptFile {
 
     @Override
     public void write(String data) throws ScriptException {
-        if(!opened) {
+        if (!opened) {
             log.warn("You need to open the file for writing");
             return;
         }
-        if(!writable) {
+        if (!writable) {
             log.warn("File has not opened in a writable mode.");
             return;
         }
@@ -191,11 +193,11 @@ public class WebAppFile implements JavaScriptFile {
 
     @Override
     public String readAll() throws ScriptException {
-        if(!opened) {
+        if (!opened) {
             log.warn("You need to open the file for reading");
             return null;
         }
-        if(!readable) {
+        if (!readable) {
             log.warn("File has not opened in a readable mode.");
             return null;
         }
@@ -213,7 +215,7 @@ public class WebAppFile implements JavaScriptFile {
 
     @Override
     public boolean move(String dest) throws ScriptException {
-        if(opened) {
+        if (opened) {
             log.warn("Please close the file before moving");
             return false;
         }
@@ -222,7 +224,7 @@ public class WebAppFile implements JavaScriptFile {
 
     @Override
     public boolean del() throws ScriptException {
-        if(opened) {
+        if (opened) {
             log.warn("Please close the file before deleting");
             return false;
         }
@@ -282,6 +284,21 @@ public class WebAppFile implements JavaScriptFile {
     @Override
     public boolean saveAs(String dest) throws ScriptException {
         return move(dest);
+    }
+
+    @Override
+    public boolean isDirectory() throws ScriptException {
+        return f.isDirectory();
+    }
+
+    @Override
+    public ArrayList<String> listFiles() throws ScriptException {
+        File[] fileList = f.listFiles();
+        ArrayList<String> jsfl = new ArrayList<String>();
+        for (File fi : fileList) {
+            jsfl.add(fi.getName());
+        }
+        return jsfl;
     }
 
     public void setFileManager(JavaScriptFileManager fileManager) {

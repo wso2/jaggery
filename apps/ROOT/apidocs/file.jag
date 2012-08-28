@@ -297,6 +297,20 @@ file.close();</pre>
                                     <td>Boolean</td>
                                     <td>Checks whether this file actually exists. Returns True if the file exists.</td>
                                 </tr>
+                                <tr>
+                                    <td>
+                                        <code>isDirectory()</code>
+                                    </td>
+                                    <td>Boolean</td>
+                                    <td>Checks whether the given file path is a directory</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <code>listFiles()</code>
+                                    </td>
+                                    <td>File[]</td>
+                                    <td>Returns the list of files in a directory</td>
+                                </tr>
                     </tbody>
                 </table>
             </section>
