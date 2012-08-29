@@ -296,7 +296,7 @@ public class WebAppFile implements JavaScriptFile {
         File[] fileList = f.listFiles();
         ArrayList<String> jsfl = new ArrayList<String>();
         for (File fi : fileList) {
-            jsfl.add(fi.getName());
+            jsfl.add(fi.getPath());
         }
         return jsfl;
     }
