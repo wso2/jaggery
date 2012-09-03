@@ -76,6 +76,17 @@ public class ResponseHostObject extends ScriptableObject {
         return response.getContentType();
     }
 
+    public void jsSet_characterEncoding(Object object) throws ScriptException {
+        if (!(object instanceof String)) {
+            HostObjectUtil.invalidProperty(hostObjectName, "characterEncoding", "string", object);
+        }
+        response.setCharacterEncoding((String) object);
+    }
+
+    public String jsGet_characterEncoding() throws ScriptException {
+        return response.getCharacterEncoding();
+    }
+
     public void jsSet_status(Object object) throws ScriptException {
         if (!(object instanceof Integer)) {
             HostObjectUtil.invalidProperty(hostObjectName, "status", "integer", object);
