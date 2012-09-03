@@ -327,6 +327,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
             setLoginConfig(ctx, jaggeryConfig);
             addSecurityRoles(ctx, jaggeryConfig);
             addUrlMappings(ctx, jaggeryConfig);
+            addParameters(ctx, jaggeryConfig);
         }
     }
 
@@ -430,7 +431,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
     }
 
     private static void setDisplayName(Context context, JSONObject obj) {
-        if(obj == null) {
+        if (obj == null) {
             return;
         }
         String dName = (String) obj.get(JaggeryConstants.JaggeryConfigParams.DISPLAY_NAME);
@@ -473,6 +474,19 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
         } else {
             context.addWelcomeFile("index.jag");
             context.addWelcomeFile("index.html");
+        }
+    }
+
+    private static void addParameters(Context context, JSONObject obj) {
+        if (obj != null) {
+            Iterator<?> keys = obj.keySet().iterator();
+
+            while (keys.hasNext()) {
+                String key = (String) keys.next();
+                if (obj.get(key) instanceof String) {
+                    context.addParameter(key, (String) obj.get(key));
+                }
+            }
         }
     }
 
