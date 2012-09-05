@@ -37,6 +37,8 @@ public class WebAppManager {
 
     private static final String DEFAULT_CONTENT_TYPE = "text/html";
 
+    private static final String DEFAULT_CHAR_ENCODING = "UTF-8";
+
     public static final String JAGGERY_MODULES_DIR = "modules";
 
     static {
@@ -133,6 +135,12 @@ public class WebAppManager {
             ((WebAppContext) CommonManager.getJaggeryContext()).getServletResponse()
                     .setContentType(DEFAULT_CONTENT_TYPE);
         }
+
+        if (((WebAppContext) jaggeryContext).getServletResponse().getCharacterEncoding() == null) {
+            ((WebAppContext) CommonManager.getJaggeryContext()).getServletResponse()
+                    .setCharacterEncoding(DEFAULT_CHAR_ENCODING);
+        }
+
         CommonManager.print(cx, thisObj, args, funObj);
     }
 

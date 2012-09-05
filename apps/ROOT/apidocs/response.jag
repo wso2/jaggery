@@ -127,6 +127,16 @@ include('/includes/topnavi.jag');
                     </tr>
                     <tr>
 
+                        <td><code>characterEncoding</code></td>
+                         <td>String</td>
+                        <td><pre class="prettyprint">response.characterEncoding = 'UTF-8'</pre>
+                            Sets response character encoding
+
+                        </td>
+
+                    </tr>
+                    <tr>
+
                         <td><code>content</code></td>
                          <td>String | Object | XML</td>
                         <td>

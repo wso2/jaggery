@@ -11,6 +11,7 @@ import org.jaggeryjs.scriptengine.util.HostObjectUtil;
 import javax.activation.FileTypeMap;
 import javax.servlet.ServletContext;
 import java.io.*;
+import java.util.ArrayList;
 
 public class UploadedFile implements JavaScriptFile {
 
@@ -191,6 +192,16 @@ public class UploadedFile implements JavaScriptFile {
     @Override
     public boolean saveAs(String dest) throws ScriptException {
         return move(dest);
+    }
+
+    @Override
+    public boolean isDirectory() throws ScriptException {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public ArrayList<String> listFiles() throws ScriptException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     public void setFileManager(JavaScriptFileManager fileManager) {

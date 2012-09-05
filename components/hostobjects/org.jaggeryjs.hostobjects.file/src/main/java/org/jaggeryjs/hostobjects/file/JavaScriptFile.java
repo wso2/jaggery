@@ -4,6 +4,7 @@ import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 public interface JavaScriptFile {
 
@@ -38,4 +39,8 @@ public interface JavaScriptFile {
     public String getContentType() throws ScriptException;
 
     public boolean saveAs(String dest) throws ScriptException;
+
+    public boolean isDirectory() throws ScriptException;
+
+    public ArrayList<String> listFiles() throws ScriptException;
 }

@@ -13,11 +13,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
+import java.util.ArrayList;
 
 public class JavaScriptFileImpl implements JavaScriptFile {
 
     private static final Log log = LogFactory.getLog(JavaScriptFileImpl.class);
     private RandomAccessFile file = null;
+    private File f = null;
     private String path = null;
     private boolean opened = false;
 
@@ -30,7 +32,7 @@ public class JavaScriptFileImpl implements JavaScriptFile {
 
     @Override
     public void construct() throws ScriptException {
-
+        f = new File(path);
     }
 
     @Override
@@ -116,7 +118,7 @@ public class JavaScriptFileImpl implements JavaScriptFile {
 
     @Override
     public void close() throws ScriptException {
-        if(!opened) {
+        if (!opened) {
             return;
         }
         try {
@@ -130,11 +132,11 @@ public class JavaScriptFileImpl implements JavaScriptFile {
 
     @Override
     public String read(long count) throws ScriptException {
-        if(!opened) {
+        if (!opened) {
             log.warn("You need to open the file for reading");
             return null;
         }
-        if(!readable) {
+        if (!readable) {
             log.warn("File has not opened in a readable mode.");
             return null;
         }
@@ -153,11 +155,11 @@ public class JavaScriptFileImpl implements JavaScriptFile {
 
     @Override
     public void write(String data) throws ScriptException {
-        if(!opened) {
+        if (!opened) {
             log.warn("You need to open the file for writing");
             return;
         }
-        if(!writable) {
+        if (!writable) {
             log.warn("File has not opened in a writable mode.");
             return;
         }
@@ -171,11 +173,11 @@ public class JavaScriptFileImpl implements JavaScriptFile {
 
     @Override
     public String readAll() throws ScriptException {
-        if(!opened) {
+        if (!opened) {
             log.warn("You need to open the file for reading");
             return null;
         }
-        if(!readable) {
+        if (!readable) {
             log.warn("File has not opened in a readable mode.");
             return null;
         }
@@ -193,7 +195,7 @@ public class JavaScriptFileImpl implements JavaScriptFile {
 
     @Override
     public boolean move(String dest) throws ScriptException {
-        if(opened) {
+        if (opened) {
             log.warn("Please close the file before moving");
             return false;
         }
@@ -202,7 +204,7 @@ public class JavaScriptFileImpl implements JavaScriptFile {
 
     @Override
     public boolean del() throws ScriptException {
-        if(opened) {
+        if (opened) {
             log.warn("Please close the file before deleting");
             return false;
         }
@@ -226,7 +228,7 @@ public class JavaScriptFileImpl implements JavaScriptFile {
 
     @Override
     public String getName() throws ScriptException {
-       return new File(path).getName();
+        return new File(path).getName();
     }
 
     @Override
@@ -262,5 +264,18 @@ public class JavaScriptFileImpl implements JavaScriptFile {
     @Override
     public boolean saveAs(String dest) throws ScriptException {
         return move(dest);
+    }
+
+    public boolean isDirectory() throws ScriptException {
+        return f.isDirectory();
+    }
+
+    public ArrayList<String> listFiles() throws ScriptException {
+        File[] fileList = f.listFiles();
+        ArrayList<String> jsfl = new ArrayList<String>();
+        for (File fi : fileList) {
+            jsfl.add(fi.getPath());
+        }
+        return jsfl;
     }
 }
