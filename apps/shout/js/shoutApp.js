@@ -1,6 +1,7 @@
 ShoutApp = new function() {
+var tstatus =0;
 	this.authPopUp = function() {
-
+	
 		ShoutAppUtil.makeRequest("/shout/twitter.jag", "", function(html) {
 			var windowName = 'Twitter Auth'; 
 			var popUp = window.open(html, windowName, 'width=1000, height=700, left=24, top=24, scrollbars, resizable');
@@ -9,11 +10,14 @@ ShoutApp = new function() {
 			} 
 			else { 	
 				popUp.focus();
+				console.log("Called for popUp.focus PopUp");
 			}
 			$('#key').show();
+			console.log("Called $('#key').show() Auth PopUp");
 		});
 		$.fancybox.close();
 		console.log("Called for Auth PopUp");
+		
 	}
 
 	this.sendVerificationCode = function() {
@@ -24,9 +28,13 @@ ShoutApp = new function() {
 				+ $('#authKey').val(), "", function(html) {
 			$('#key').hide();
 			ShoutApp.readXML(html);
+			tstatus = 1; 
 		});
 		
 	}
+}
+this.statusOfTwitter= function() {
+return tstatus;
 }
 	this.readXML = function(xml) {
 		$("#feed_scroll").html("");
@@ -53,6 +61,7 @@ ShoutApp = new function() {
 													+ "</span>"
 													+ "<span class=\"status_details\"><a href=\"#\"><img src=\"images/twitter_tiny.png\" alt=\"\" />"
 													+ "</span>" + "</div>");
+										tstatus = 2; 			
 						});
 
 	}
@@ -70,11 +79,8 @@ ShoutApp = new function() {
 		}
 	}
 	
-
-
 	this.loadBack = function() {
 		console.log("Loading back Time line");
-
 		ShoutAppUtil.makeRequest("/shout/twitter.jag?loadback=load", "",
 				function(html) {
 					ShoutApp.readXML(html);

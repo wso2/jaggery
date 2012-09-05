@@ -20,6 +20,16 @@
 		contentId.style.display == "block" ? contentId.style.display = "none"
 				: contentId.style.display = "block";
 	}
+	
+
+ 
+function doCheck() {
+if (ShoutApp.statusOfTwitter() != 0) {
+document.getElementById("twitter_add").innerHTML= "<p class='authorized'>Twitter Authorized</p>";
+
+ }
+}
+
 </script>
 <meta charset="utf-8">
 
@@ -51,7 +61,7 @@
        Modernizr enables HTML5 elements & feature detects; Respond is a polyfill for min/max-width CSS3 Media Queries
        For optimal performance, use a custom Modernizr build: www.modernizr.com/download/ -->
 <script src="js/libs/modernizr-2.0.6.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="js/jquery.min.js"></script>
 <script src="js/shoutApp.js"></script>
 <script src="js/util.js"></script>
 
@@ -76,7 +86,7 @@
              <li><input type="checkbox"  disabled="disabled" value="google" id="google" /> <label for="google">Google</label> </li>
              </ul>
 
-					<a href="#inline" class="addaccount" id="various3" class="addaccount">+ Add an account</a>
+					<a href="#inline" class="addaccount" id="various3" class="addaccount" onclick="doCheck()">+ Add an account</a>
                     
 				</form>
 			
@@ -120,7 +130,7 @@
 				<li><a href="#"><img src="images/add_fb_button.png" alt="" />
 				</a></li>
 				
-				<li><a href="#" onclick="ShoutApp.authPopUp()"><img src="images/add_twitter_button.png"
+				<li id="twitter_add"><a href="#" onclick="ShoutApp.authPopUp()"><img src="images/add_twitter_button.png"
 						alt="" /> </a></li>
 				<li><a href="#"><img src="images/add_google_button.png"
 						alt="" /> </a></li>
