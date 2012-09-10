@@ -437,7 +437,7 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.webapp.mgt</artifactId>
-                <version>${webapp.mgt.osgi.version}</version>
+                <version>${carbon.platform.patch.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
