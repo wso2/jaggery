@@ -82,6 +82,9 @@
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Bundle-Name>${project.artifactId}</Bundle-Name>
+                        <Private-Package>
+                            org.jaggeryjs.hostobjects.ws.internal
+                        </Private-Package>
                         <Export-Package>
                             org.jaggeryjs.hostobjects.ws.*;
                         </Export-Package>

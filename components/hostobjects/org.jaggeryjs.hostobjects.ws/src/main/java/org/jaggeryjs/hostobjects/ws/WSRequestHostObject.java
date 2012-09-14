@@ -32,10 +32,11 @@ import org.apache.axis2.addressing.EndpointReference;
 import org.apache.axis2.client.Options;
 import org.apache.axis2.client.ServiceClient;
 import org.apache.axis2.client.async.AxisCallback;
-import org.apache.axis2.context.ConfigurationContext;
-import org.apache.axis2.context.ConfigurationContextFactory;
 import org.apache.axis2.context.MessageContext;
-import org.apache.axis2.description.*;
+import org.apache.axis2.description.AxisBindingMessage;
+import org.apache.axis2.description.AxisEndpoint;
+import org.apache.axis2.description.AxisService;
+import org.apache.axis2.description.WSDL2Constants;
 import org.apache.axis2.transport.http.CommonsTransportHeaders;
 import org.apache.axis2.transport.http.HTTPConstants;
 import org.apache.axis2.transport.http.HttpTransportProperties;
@@ -58,10 +59,11 @@ import org.apache.rampart.policy.model.CryptoConfig;
 import org.apache.rampart.policy.model.KerberosConfig;
 import org.apache.rampart.policy.model.RampartConfig;
 import org.apache.ws.security.handler.WSHandlerConstants;
-import org.mozilla.javascript.*;
-import org.w3c.dom.Document;
+import org.jaggeryjs.hostobjects.ws.internal.WSRequestServiceComponent;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
+import org.mozilla.javascript.*;
+import org.w3c.dom.Document;
 import org.wso2.javascript.xmlimpl.XML;
 
 import javax.wsdl.Definition;
@@ -136,17 +138,6 @@ public class WSRequestHostObject extends ScriptableObject {
 
     private CommonsTransportHeaders transportHeaders = null;
 
-    private static ConfigurationContext configurationContext = null;
-
-    static {
-        try {
-            configurationContext = ConfigurationContextFactory.createConfigurationContextFromFileSystem(null, null);
-            configurationContext.getAxisConfiguration().addModule(new AxisModule(RAMPART));
-            configurationContext.getAxisConfiguration().addModule(new AxisModule(ADDRESSING));
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        }
-    }
     /**
      * Constructor for the use by Rhino
      */
@@ -197,7 +188,7 @@ public class WSRequestHostObject extends ScriptableObject {
         try {
             //ConfigurationContext configurationContext = ConfigurationContextFactory.
             //createBasicConfigurationContext("META-INF/axis2_client.xml");
-            wsRequest.sender = new ServiceClient(configurationContext, null);
+            wsRequest.sender = new ServiceClient(WSRequestServiceComponent.getConfigurationContext(), null);
         } catch (Exception axisFault) {
             log.error("Error creating ServiceClient for WSRequest Hostobject", axisFault);
             throw new ScriptException(axisFault);
