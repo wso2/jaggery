@@ -51,7 +51,7 @@ public class WSRequestServiceComponent {
         } else {
             String msg = "ConfigurationContextService cannot be found";
             log.error(msg);
-            throw new AxisFault(msg);
+            return null;
         }
     }
 
