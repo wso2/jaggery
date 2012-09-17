@@ -2,6 +2,8 @@ package org.jaggeryjs.scriptengine.engine;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.wst.jsdt.debug.internal.rhino.debugger.RhinoDebuggerImpl;
+import org.eclipse.wst.jsdt.debug.internal.rhino.transport.RhinoTransportService;
 import org.jaggeryjs.scriptengine.cache.CacheManager;
 import org.jaggeryjs.scriptengine.cache.ScriptCachingContext;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
@@ -34,11 +36,19 @@ public class RhinoEngine {
     //private SecurityController securityController;
     private List<JavaScriptModule> modules = new ArrayList<JavaScriptModule>();
     private JavaScriptModule globalModule = new JavaScriptModule("global");
+    private static boolean debugMode=false;
+    private static String debugPort="-1";
 
     static {
         globalContextFactory = new RhinoContextFactory(
                 RhinoSecurityController.isSecurityEnabled() ? new RhinoSecurityController() : null);
         ContextFactory.initGlobal(globalContextFactory);
+
+        String property = System.getProperty("jsDebug");
+        if(property!=null){
+            debugPort =property;
+            debugMode = true;
+        }
     }
 
     /**
@@ -53,6 +63,12 @@ public class RhinoEngine {
             this.contextFactory = new RhinoContextFactory(securityController);
         } else {
             this.contextFactory = globalContextFactory;
+        }
+        //If the server is started in debug mode create a debugger with the given port
+        if(debugMode){
+            RhinoDebuggerImpl debugger = new RhinoDebuggerImpl(new RhinoTransportService(), debugPort, true, true);
+            debugger.start();
+            this.contextFactory.addListener(debugger);
         }
     }
 
@@ -362,7 +378,10 @@ public class RhinoEngine {
         try {
             if (sctx == null) {
                 cx.evaluateString(scope, HostObjectUtil.readerToString(scriptReader), "wso2js", 1, null);
-            } else {
+            }else if(sctx !=null && debugMode){ //If the server is started to debug scripts
+                String scriptPath = sctx.getContext() + sctx.getPath() + sctx.getCacheKey();
+                cx.evaluateString(scope, HostObjectUtil.readerToString(scriptReader), scriptPath, 1, null);
+            }  else {
                 Script script = cacheManager.getScriptObject(scriptReader, sctx);
                 if (script == null) {
                     cacheManager.cacheScript(scriptReader, sctx);
@@ -402,6 +421,9 @@ public class RhinoEngine {
         try {
             if (sctx == null) {
                 result = cx.evaluateString(scope, HostObjectUtil.readerToString(scriptReader), "wso2js", 1, null);
+            } else if(sctx !=null && debugMode){ //If the server is started to debug scripts
+                String scriptPath = sctx.getContext() + sctx.getPath() + sctx.getCacheKey();
+                result=cx.evaluateString(scope, HostObjectUtil.readerToString(scriptReader), scriptPath, 1, null);
             } else {
                 Script script = cacheManager.getScriptObject(scriptReader, sctx);
                 if (script == null) {
@@ -425,6 +447,9 @@ public class RhinoEngine {
         try {
             if (sctx == null) {
                 cx.evaluateString(scope, HostObjectUtil.readerToString(scriptReader), "wso2js", 1, null);
+            } else if(sctx !=null && debugMode){ //If the server is started to debug scripts
+                String scriptPath = sctx.getContext() + sctx.getPath() + sctx.getCacheKey();
+                cx.evaluateString(scope, HostObjectUtil.readerToString(scriptReader), scriptPath, 1, null);
             } else {
                 Script script = cacheManager.getScriptObject(scriptReader, sctx);
                 if (script == null) {
