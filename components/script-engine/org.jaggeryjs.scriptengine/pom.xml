@@ -35,6 +35,16 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
         </dependency>
+        <dependency>
+        <groupId>org.eclipse.wst.jsdt</groupId>
+        <artifactId>org.eclipse.wst.jsdt.debug.rhino.debugger</artifactId>
+        <version>1.0.300.v201109150503</version>
+        </dependency>
+        <dependency>
+        <groupId>org.eclipse.wst.jsdt</groupId>
+        <artifactId>org.eclipse.wst.jsdt.debug.transport</artifactId>
+        <version>1.0.100.v201109150330</version>
+        </dependency>
     </dependencies>
 
     <build>
