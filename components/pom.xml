@@ -80,6 +80,10 @@
         <carbon.platform.version>4.0.0</carbon.platform.version>
         <carbon.platform.patch.version>4.0.1</carbon.platform.patch.version>
 
+        <!--rhino debugger versions-->
+        <eclipse-debugger.version>1.0.300.v201109150503</eclipse-debugger.version>
+        <eclipse-transport.version>1.0.100.v201109150330</eclipse-transport.version>
+
         <!-- osgi bundle versions -->
         <rhino.osgi.version>1.7.0.R1-wso2v3</rhino.osgi.version>
         <commons-httpclient.osgi.version>3.1.0.wso2v2</commons-httpclient.osgi.version>
@@ -343,6 +347,16 @@
                 <groupId>rhino.wso2</groupId>
                 <artifactId>js</artifactId>
                 <version>${rhino.osgi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.wst.jsdt</groupId>
+                <artifactId>org.eclipse.wst.jsdt.debug.rhino.debugger</artifactId>
+                <version>${eclipse-debugger.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.wst.jsdt</groupId>
+                <artifactId>org.eclipse.wst.jsdt.debug.transport</artifactId>
+                <version>${eclipse-transport.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.google.code.gson</groupId>
