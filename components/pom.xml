@@ -48,6 +48,17 @@
                 <checksumPolicy>ignore</checksumPolicy>
             </releases>
         </repository>
+        <repository>
+            <id>wso2-nexus-thirdparty</id>
+            <name>WSO2 internal third party Repository</name>
+            <url>http://maven.wso2.org/nexus/content/repositories/thirdparty/</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+                <checksumPolicy>ignore</checksumPolicy>
+            </releases>
+        </repository>
+
     </repositories>
 
     <modules>
