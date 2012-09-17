@@ -9,7 +9,14 @@ import org.jaggeryjs.scriptengine.cache.ScriptCachingContext;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.security.RhinoSecurityController;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
-import org.mozilla.javascript.*;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.ContextFactory;
+import org.mozilla.javascript.Function;
+import org.mozilla.javascript.FunctionObject;
+import org.mozilla.javascript.Script;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
+import org.mozilla.javascript.SecurityController;
 
 import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
@@ -36,8 +43,8 @@ public class RhinoEngine {
     //private SecurityController securityController;
     private List<JavaScriptModule> modules = new ArrayList<JavaScriptModule>();
     private JavaScriptModule globalModule = new JavaScriptModule("global");
-    private static boolean debugMode=false;
-    private static String debugPort="-1";
+    private static boolean debugMode = false;
+    private static String debugPort = "-1";
 
     static {
         globalContextFactory = new RhinoContextFactory(
@@ -45,8 +52,8 @@ public class RhinoEngine {
         ContextFactory.initGlobal(globalContextFactory);
 
         String property = System.getProperty("jsDebug");
-        if(property!=null){
-            debugPort =property;
+        if (property != null) {
+            debugPort = property;
             debugMode = true;
         }
     }
@@ -65,7 +72,7 @@ public class RhinoEngine {
             this.contextFactory = globalContextFactory;
         }
         //If the server is started in debug mode create a debugger with the given port
-        if(debugMode){
+        if (debugMode) {
             RhinoDebuggerImpl debugger = new RhinoDebuggerImpl(new RhinoTransportService(), debugPort, true, true);
             debugger.start();
             this.contextFactory.addListener(debugger);
@@ -108,8 +115,8 @@ public class RhinoEngine {
         String name = property.getName();
         Object object = property.getValue();
         if ((object instanceof Number) ||
-                (object instanceof String) ||
-                (object instanceof Boolean)) {
+            (object instanceof String) ||
+            (object instanceof Boolean)) {
             scope.defineProperty(name, object, property.getAttribute());
         } else {
             // Must wrap non-scriptable objects before presenting to Rhino
@@ -132,7 +139,8 @@ public class RhinoEngine {
         globalModule.addScript(script);
     }
 
-    public static void defineMethod(ScriptableObject scope, JavaScriptMethod method) throws ScriptException {
+    public static void defineMethod(ScriptableObject scope, JavaScriptMethod method)
+            throws ScriptException {
         String name = method.getName();
         FunctionObject f = new FunctionObject(name, method.getMethod(), scope);
         scope.defineProperty(name, f, method.getAttribute());
@@ -191,7 +199,8 @@ public class RhinoEngine {
      * @return Modified clone of the engine scope
      * @throws ScriptException If error occurred while evaluating
      */
-    public ScriptableObject exec(Reader scriptReader, ScriptCachingContext sctx) throws ScriptException {
+    public ScriptableObject exec(Reader scriptReader, ScriptCachingContext sctx)
+            throws ScriptException {
         return execScript(scriptReader, getRuntimeScope(), sctx);
     }
 
@@ -205,7 +214,8 @@ public class RhinoEngine {
      * @param sctx         Script caching context which contains caching data. When null is passed for this, caching will be disabled.
      * @throws ScriptException If error occurred while evaluating
      */
-    public void exec(Reader scriptReader, ScriptableObject scope, ScriptCachingContext sctx) throws ScriptException {
+    public void exec(Reader scriptReader, ScriptableObject scope, ScriptCachingContext sctx)
+            throws ScriptException {
         if (scope == null) {
             String msg = "ScriptableObject value for scope, can not be null.";
             log.error(msg);
@@ -224,7 +234,8 @@ public class RhinoEngine {
      * @return Returns the resulting object after invoking the function
      * @throws ScriptException If error occurred while invoking the function
      */
-    public Object call(Reader scriptReader, String funcName, Object[] args, ScriptCachingContext sctx)
+    public Object call(Reader scriptReader, String funcName, Object[] args,
+                       ScriptCachingContext sctx)
             throws ScriptException {
         return execFunc(scriptReader, funcName, args, getRuntimeScope(), getRuntimeScope(), sctx);
     }
@@ -354,7 +365,8 @@ public class RhinoEngine {
         scope.defineProperty(name, f, attribute);
     }
 
-    private void exposeModule(Context cx, ScriptableObject scope, JavaScriptModule module) throws ScriptException {
+    private void exposeModule(Context cx, ScriptableObject scope, JavaScriptModule module)
+            throws ScriptException {
         for (JavaScriptHostObject hostObject : module.getHostObjects()) {
             defineClass(scope, hostObject.getClazz());
         }
@@ -372,16 +384,18 @@ public class RhinoEngine {
         return cacheManager;
     }
 
-    private Object execFunc(Reader scriptReader, String funcName, Object[] args, ScriptableObject thiz,
-                            ScriptableObject scope, ScriptCachingContext sctx) throws ScriptException {
+    private Object execFunc(Reader scriptReader, String funcName, Object[] args,
+                            ScriptableObject thiz,
+                            ScriptableObject scope, ScriptCachingContext sctx)
+            throws ScriptException {
         Context cx = enterContext();
         try {
             if (sctx == null) {
                 cx.evaluateString(scope, HostObjectUtil.readerToString(scriptReader), "wso2js", 1, null);
-            }else if(sctx !=null && debugMode){ //If the server is started to debug scripts
+            } else if (sctx != null && debugMode) { //If the server is started to debug scripts
                 String scriptPath = sctx.getContext() + sctx.getPath() + sctx.getCacheKey();
                 cx.evaluateString(scope, HostObjectUtil.readerToString(scriptReader), scriptPath, 1, null);
-            }  else {
+            } else {
                 Script script = cacheManager.getScriptObject(scriptReader, sctx);
                 if (script == null) {
                     cacheManager.cacheScript(scriptReader, sctx);
@@ -414,16 +428,17 @@ public class RhinoEngine {
         }
     }
 
-    private Object evalScript(Reader scriptReader, ScriptableObject scope, ScriptCachingContext sctx)
+    private Object evalScript(Reader scriptReader, ScriptableObject scope,
+                              ScriptCachingContext sctx)
             throws ScriptException {
         Context cx = enterContext();
         Object result;
         try {
             if (sctx == null) {
                 result = cx.evaluateString(scope, HostObjectUtil.readerToString(scriptReader), "wso2js", 1, null);
-            } else if(sctx !=null && debugMode){ //If the server is started to debug scripts
+            } else if (sctx != null && debugMode) { //If the server is started to debug scripts
                 String scriptPath = sctx.getContext() + sctx.getPath() + sctx.getCacheKey();
-                result=cx.evaluateString(scope, HostObjectUtil.readerToString(scriptReader), scriptPath, 1, null);
+                result = cx.evaluateString(scope, HostObjectUtil.readerToString(scriptReader), scriptPath, 1, null);
             } else {
                 Script script = cacheManager.getScriptObject(scriptReader, sctx);
                 if (script == null) {
@@ -441,13 +456,14 @@ public class RhinoEngine {
         }
     }
 
-    private ScriptableObject execScript(Reader scriptReader, ScriptableObject scope, ScriptCachingContext sctx)
+    private ScriptableObject execScript(Reader scriptReader, ScriptableObject scope,
+                                        ScriptCachingContext sctx)
             throws ScriptException {
         Context cx = enterContext();
         try {
             if (sctx == null) {
                 cx.evaluateString(scope, HostObjectUtil.readerToString(scriptReader), "wso2js", 1, null);
-            } else if(sctx !=null && debugMode){ //If the server is started to debug scripts
+            } else if (sctx != null && debugMode) { //If the server is started to debug scripts
                 String scriptPath = sctx.getContext() + sctx.getPath() + sctx.getCacheKey();
                 cx.evaluateString(scope, HostObjectUtil.readerToString(scriptReader), scriptPath, 1, null);
             } else {
