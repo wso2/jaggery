@@ -10,6 +10,7 @@ var context = request.getContextPath();
                 <li id="about"><a href="<%=context%>/about.jag">About</a></li>
                 <li id="howto"><a href="<%=context%>/howto.jag">Quick Start</a></li>
                 <li id="docs"><a href="<%=context%>/documentation.jag">Documentation</a></li>
+                <li id="docs"><a href="<%=context%>/tools.jag">Tools</a></li>
                 <li id="samples"><a href="<%=context%>/samples.jag">Samples</a></li>
                 <li id="tryit"><a href="<%=context%>/tryitview.jag">Try It !</a></li>
             </ul>
