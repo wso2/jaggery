@@ -12,7 +12,7 @@
     <![endif]-->
 
     <!-- Le styles -->
-    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="../css/bootstrap.css" rel="stylesheet">
     <style type="text/css">
         body {
             padding-top: 60px;
@@ -43,14 +43,14 @@
             text-align:center;
         }
     </style>
-    <link href="css/prettify.css" rel="stylesheet">
+    <link href="/css/prettify.css" rel="stylesheet">
     <!-- Le fav and touch icons -->
-    <link rel="shortcut icon" href="images/favicon.ico">
-    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
     <link rel="apple-touch-icon" sizes="72x72"
-          href="images/apple-touch-icon-72x72.png">
+          href="/images/apple-touch-icon-72x72.png">
     <link rel="apple-touch-icon" sizes="114x114"
-          href="images/apple-touch-icon-114x114.png">
+          href="/images/apple-touch-icon-114x114.png">
 </head>
 
 <body>
@@ -59,6 +59,17 @@
 include('/includes/topnavi.jag');
 %>
 
+<div class="container-fluid" style="width: 960px; margin: auto;">
+<div class="row">
+    <div class="span16">
+        <div class="page-header">
+            <h1>
+                Tools
+            </h1>
+        </div>
+    </div>
+</div>
+
 <div class="container">
 
 
@@ -66,11 +77,11 @@ include('/includes/topnavi.jag');
     <!-- Example row of columns -->
     <div class="row">
         <div class="span16">
-            <div class="page-header">
-                <h1>
+                <h2>
                     Jaggery Debugger
-                </h1>
-            </div>
+                </h2>
+                </br>
+                </br>
             <h3>Introduction</h3>
             <p>Jaggery debugging feature is enabled by the means of Rhino JavaScript Debugger. Eclipse IDE has plugin
                 support for Remote Javascript debugging with Rhino. Support is given for both client and server side
@@ -105,7 +116,7 @@ include('/includes/topnavi.jag');
                         Add a new File association as <b>.jag</b>.</li>
                 </ol>
                 </br>
-                <img src="images/editor_config.png" alt="" class="config_thumb" align="middle"/>
+                <img src="/images/editor_config.png" alt="" class="config_thumb" align="middle"/>
                 </br>
                 </br>
                 </br>
@@ -116,14 +127,14 @@ include('/includes/topnavi.jag');
                     <li><b>Mozilla Rhino - Attaching Connector</b> should be selected as the connector.</li>
                     <li>Fill in the <b>hostname</b> and the <b>port number</b> of the host where the debugger is running.</li>
                     </br>
-                    <img src="images/debug_config1.png" alt="" class="config_thumb" align="middle"/>
+                    <img src="/images/debug_config1.png" alt="" class="config_thumb" align="middle"/>
                     </br>
                     </br>
                     </br>
                     <li>Switch to the <b>Source tab</b>, remove the <b>Default</b> project and add the project which you want to
                         debug.</li>
                     </br>
-                    <img src="images/debug_config2.png" alt="" class="config_thumb" align="middle"/>
+                    <img src="/images/debug_config2.png" alt="" class="config_thumb" align="middle"/>
                     </br>
                     </br>
                     </br>
@@ -133,29 +144,27 @@ include('/includes/topnavi.jag');
             <h3>Starting the debugger</h3>
             <ol class=steps3>
                 <li>Navigate to <code>JAGGERY_HOME/bin</code>.</li>
-                <li>Run <code>sh ./server.sh -DjsDebug=<port></code> command to  start the server in debug mode.</li>
-                <li>Point the browser url to <code><a href="http://localhost:9763/apps/<project_name>/<file_name>.jag" target="_blank">http://localhost:9763/apps/<project_name>/<file_name>.jag</a></code>.
-                    Page will wait without loading until the debugger client is connected.</li>
+                <li>Run <code>sh ./server.sh -DjsDebug=&lt;port&gt;</code> command to  start the server in debug mode.</li>
+                <li>Point the browser url to <code><a href="http://localhost:9763/apps/&lt;project_name&gt;/&lt;file_name&gt;.jag"
+                    target="_blank">http://localhost:9763/apps/&lt;project_name&gt;/&lt;file_name&gt;.jag</a></code>.Page will
+                    wait without loading until the debugger client is connected.</li>
                 <li>Go to the <b>Eclipse IDE</b> and launch the newly created debug configuration.</li>
                 </br>
-                <img src="images/debugger.png" alt="" class="config_thumb" align="middle"/>
+                <img src="/images/debugger.png" alt="" class="config_thumb" align="middle"/>
                 </br>
                 </br>
                 </br>
             </ol>
-            <p><b>IMPORTANT</b>:As we don't have editor support for Jaggery yet, debugging can be used on scripts which have only JavaScript
-                content. Also as the JavaScript editor doesn't allow <b>&lt;%</b> and <b>%&gt;</b> characters they need to be commented out. We are working
-                on improving the debugger.</p>
+            <p><b>IMPORTANT</b>:As we don't have editor support for Jaggery yet, debugging can be used on scripts which have
+                only JavaScript content. Also as the JavaScript editor doesn't allow <b>&lt;%</b> and <b>%&gt;</b> characters
+                they need to be commented out. We are working on improving the debugger.</p>
         </div>
     </div>
 
-
-
-
     <%
-    include('includes/footer.jag');
+    include('/includes/footer.jag');
     %>
-
 </div>
+
 </body>
 </html>
