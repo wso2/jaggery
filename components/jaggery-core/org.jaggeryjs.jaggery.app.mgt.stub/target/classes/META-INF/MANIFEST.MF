@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Export-Package: org.jaggeryjs.jaggery.app.mgt.stub.types.carbon;uses:=
+ "org.jaggeryjs.jaggery.app.mgt.stub.types.axis2";version="0.9.0.SNAPS
+ HOT",org.jaggeryjs.jaggery.app.mgt.stub.types.axis2;uses:="org.jagger
+ yjs.jaggery.app.mgt.stub.types.carbon";version="0.9.0.SNAPSHOT",org.j
+ aggeryjs.jaggery.app.mgt.stub;uses:="org.jaggeryjs.jaggery.app.mgt.st
+ ub.types.carbon,org.jaggeryjs.jaggery.app.mgt.stub.types.axis2";versi
+ on="0.9.0.SNAPSHOT"
+DynamicImport-Package: *
+Built-By: praveena
+Build-Jdk: 1.7.0_04
+Bundle-Version: 0.9.0.SNAPSHOT
+Tool: Bnd-1.43.0
+Bundle-Name: org.jaggeryjs.jaggery.app.mgt.stub
+Bnd-LastModified: 1348031989654
+Created-By: Apache Maven Bundle Plugin
+Bundle-ManifestVersion: 2
+Bundle-SymbolicName: org.jaggeryjs.jaggery.app.mgt.stub
+

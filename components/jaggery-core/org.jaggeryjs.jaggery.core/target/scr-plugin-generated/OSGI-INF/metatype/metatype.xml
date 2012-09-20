@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><metatype:MetaData xmlns:metatype="http://www.osgi.org/xmlns/metatype/v1.0.0" localization="OSGI-INF/metatype/metatype">
+    <OCD id="org.jaggeryjs.jaggery.core" name="%org.jaggeryjs.jaggery.core.name" description="%org.jaggeryjs.jaggery.core.description"/>
+    <Designate pid="org.jaggeryjs.jaggery.core">
+        <Object ocdref="org.jaggeryjs.jaggery.core"/>
+    </Designate>
+</metatype:MetaData>

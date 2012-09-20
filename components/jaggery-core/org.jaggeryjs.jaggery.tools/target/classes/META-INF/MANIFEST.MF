@@ -1,0 +1,82 @@
+Manifest-Version: 1.0
+Implementation-Title: jaggery - Tools
+Implementation-Version: 0.9.0-SNAPSHOT
+Built-By: praveena
+Class-Path: lib/org.jaggeryjs.jaggery.core-0.9.0-SNAPSHOT.jar lib/java
+ x.servlet.jsp-2.0.0.v200806031607.jar lib/commons-io-2.0.0.wso2v1.jar
+  lib/geronimo-servlet_3.0_spec-1.0.jar lib/org.jaggeryjs.scriptengine
+ -0.9.0-SNAPSHOT.jar lib/axiom-e4x-2.0.1.wso2v1.jar lib/js-1.7R1.jar l
+ ib/axiom-api-1.2.11.jar lib/geronimo-activation_1.1_spec-1.0.2.jar li
+ b/geronimo-javamail_1.4_spec-1.0.jar lib/geronimo-stax-api_1.0_spec-1
+ .0.1.jar lib/axiom-impl-1.2.11.jar lib/wstx-asl-3.2.9.jar lib/activat
+ ion-1.1.jar lib/mail-1.4.jar lib/junit-3.8.2.jar lib/commons-httpclie
+ nt-3.1.0.wso2v2.jar lib/commons-httpclient-3.1.jar lib/commons-codec-
+ 1.2.jar lib/not-yet-commons-ssl-0.3.9.jar lib/gson-2.1.jar lib/org.ec
+ lipse.wst.jsdt.debug.rhino.debugger-1.0.300.v201109150503.jar lib/org
+ .eclipse.wst.jsdt.debug.transport-1.0.100.v201109150330.jar lib/org.w
+ so2.carbon.core-4.0.0.jar lib/org.eclipse.osgi-3.7.0.v20110613.jar li
+ b/org.eclipse.osgi.services-3.3.0.v20110513.jar lib/org.eclipse.equin
+ ox.http.helper-1.0.0.jar lib/bcprov-jdk15-132.jar lib/org.wso2.carbon
+ .context-4.0.0.jar lib/org.wso2.carbon.registry.api-4.0.0.jar lib/org
+ .wso2.carbon.user.core-4.0.0.jar lib/org.wso2.carbon.user.api-4.0.0.j
+ ar lib/org.wso2.carbon.caching.core-4.0.0.jar lib/infinispan-core-5.1
+ .2.wso2v1.jar lib/infinispan-core-5.1.2.FINAL.jar lib/jboss-transacti
+ on-api_1.1_spec-1.0.0.Final.jar lib/rhq-pluginAnnotations-3.0.4.jar l
+ ib/woodstox-core-asl-4.1.1.jar lib/stax2-api-3.1.1.jar lib/marshallin
+ g-1.3.6.wso2v1.jar lib/jboss-marshalling-1.3.6.GA.jar lib/jboss-marsh
+ alling-river-1.3.6.GA.jar lib/jboss-logging-3.1.0.wso2v1.jar lib/jbos
+ s-logging-3.1.0.CR2.jar lib/jgroups-3.0.6.wso2v1.jar lib/jgroups-3.0.
+ 6.Final.jar lib/commons-dbcp-1.4.0.wso2v1.jar lib/org.wso2.carbon.nda
+ tasource.rdbms-4.0.0.jar lib/org.wso2.carbon.ndatasource.common-4.0.0
+ .jar lib/jdbc-pool-7.0.28.wso2v1.jar lib/tomcat-jdbc-7.0.28.jar lib/o
+ rg.wso2.securevault-1.0.0-wso2v2.jar lib/log4j-1.2.14.jar lib/jline-0
+ .9.94.jar lib/commons-cli-1.0.jar lib/commons-lang-1.0.jar lib/common
+ s-io-2.0.jar lib/org.wso2.carbon.registry.core-4.0.0.jar lib/annotati
+ ons-1.3.2.jar lib/XmlSchema-1.4.7.wso2v1.jar lib/XmlSchema-1.4.7-wso2
+ v1.jar lib/org.wso2.carbon.registry.xboot-4.0.0.jar lib/compass-2.0.1
+ .wso2v2.jar lib/abdera-1.0.0.wso2v3.jar lib/poi-scratchpad-3.5.0.wso2
+ v1.jar lib/poi-scratchpad-3.5-FINAL.jar lib/poi-3.5-FINAL.jar lib/com
+ mons-pool-1.5.6.wso2v1.jar lib/commons-pool-1.5.6.jar lib/org.wso2.ca
+ rbon.utils-4.0.0.jar lib/jsr107cache-1.1.0-wso2v2.jar lib/org.wso2.ca
+ rbon.queuing-4.0.0.jar lib/org.wso2.carbon.base-4.0.0.jar lib/org.wso
+ 2.carbon.securevault-4.0.0.jar lib/smack-3.0.4.wso2v1.jar lib/smackx-
+ 3.0.4.wso2v1.jar lib/jaxen-1.1.1.jar lib/dom4j-1.6.1.jar lib/jdom-1.0
+ .jar lib/xml-apis-1.3.02.jar lib/xercesImpl-2.6.2.jar lib/xom-1.0.jar
+  lib/xmlParserAPIs-2.6.2.jar lib/xalan-2.6.0.jar lib/icu4j-2.6.1.jar 
+ lib/ant-1.7.0.wso2v1.jar lib/ant-1.7.0.jar lib/ant-launcher-1.7.0.jar
+  lib/servlet-api-2.4.jar lib/commons-collections-3.2.0.wso2v1.jar lib
+ /axis2-1.6.1.wso2v5.jar lib/neethi-2.0.4.wso2v3.jar lib/httpcore-4.1.
+ 0-wso2v1.jar lib/tomcat-ha-7.0.28.wso2v1.jar lib/tomcat-catalina-ha-7
+ .0.28.jar lib/tomcat-juli-7.0.28.jar lib/tomcat-tribes-7.0.28.jar lib
+ /tomcat-catalina-7.0.28.jar lib/tomcat-annotations-api-7.0.28.jar lib
+ /tomcat-api-7.0.28.jar lib/tomcat-util-7.0.28.jar lib/wsdl4j-1.6.2.ws
+ o2v3.jar lib/org.jaggeryjs.hostobjects.file-0.9.0-SNAPSHOT.jar lib/or
+ g.jaggeryjs.hostobjects.web-0.9.0-SNAPSHOT.jar lib/wso2-uri-templates
+ -1.0.0.jar lib/commons-fileupload-1.2.2.wso2v1.jar lib/commons-fileup
+ load-1.2.2.jar lib/javax.servlet-3.0.0.wso2v1.jar lib/tomcat-servlet-
+ api-7.0.21.jar lib/org.jaggeryjs.hostobjects.stream-0.9.0-SNAPSHOT.ja
+ r lib/org.jaggeryjs.hostobjects.jaggeryparser-0.9.0-SNAPSHOT.jar lib/
+ axiom-1.2.11.wso2v2.jar lib/js-1.7.0.R1-wso2v3.jar lib/org.wso2.carbo
+ n.ntask.core-4.0.0.jar lib/org.wso2.carbon.ntask.common-4.0.0.jar lib
+ /org.wso2.carbon.coordination.core-4.0.0.jar lib/org.wso2.carbon.coor
+ dination.common-4.0.0.jar lib/apache-zookeeper-3.3.5.wso2v1.jar lib/z
+ ookeeper-3.3.5.jar lib/quartz-2.1.1.wso2v1.jar lib/quartz-2.1.1.jar l
+ ib/c3p0-0.9.1.1.jar lib/slf4j-api-1.6.1.jar lib/org.wso2.carbon.ntask
+ .solutions-4.0.0.jar lib/org.wso2.carbon.logging-4.0.0.jar lib/org.ap
+ ache.log4j-1.2.13.v200706111418.jar lib/commons-cli-1.2.0.wso2v1.jar 
+ lib/commons-logging-1.1.1.jar lib/h2-database-engine-1.2.140.wso2v3.j
+ ar
+Tool: Bnd-1.43.0
+Bundle-Name: org.jaggeryjs.jaggery.tools
+Created-By: Apache Maven Bundle Plugin
+DynamicImport-Package: *
+Implementation-Vendor-Id: org.jaggeryjs
+Build-Jdk: 1.7.0_04
+Bundle-Version: 0.9.0.SNAPSHOT
+Bnd-LastModified: 1348031986271
+Specification-Title: jaggery - Tools
+Bundle-ManifestVersion: 2
+Specification-Version: 0.9.0-SNAPSHOT
+Bundle-SymbolicName: org.jaggeryjs.jaggery.tools
+Main-Class: org.jaggeryjs.jaggery.tools.CommandLineClient
+

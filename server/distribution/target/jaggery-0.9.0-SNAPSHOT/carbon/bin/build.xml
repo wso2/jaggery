@@ -1,0 +1,142 @@
+<!--
+  ~ Copyright 2005-2011 WSO2, Inc. (http://wso2.com)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<project default="setup" basedir="..">
+
+    <property name="carbon.home" value="${basedir}"/>
+
+    <property name="lib" value="${carbon.home}/repository/lib"/>
+    <property name="tempdir" value="${carbon.home}/tmp/setup"/>
+    <property name="output.dir" value="${carbon.home}/tmp/wso2"/>
+
+    <target name="setup">
+        <mkdir dir="${lib}"/>
+
+        <copy todir="${lib}" overwrite="false">
+            <fileset dir="${carbon.home}/repository/components/plugins/">
+		<include name="org.wso2.carbon.ndatasource*.jar"/>
+		<include name="jdbc-pool*.jar"/>
+                <include name="axis2*.jar"/>
+                <include name="axiom*.jar"/>
+                <include name="woden*.jar"/>
+                <include name="wsdl4j*.jar"/>
+                <include name="xerces*.jar"/>
+                <include name="xalan*.jar"/>
+                <include name="xml-apis*.jar"/>
+                <include name="XmlSchema*.jar"/>
+                <include name="neethi*.jar"/>
+                <include name="backport-util-concurrent*.jar"/>
+                <include name="commons-httpclient*.jar"/>
+                <include name="commons-codec*.jar"/>
+                <include name="commons-fileupload*.jar"/>
+                <include name="rampart-policy*.jar"/>
+                <include name="rampart-core*.jar"/>
+                <include name="wss4j*.jar"/>
+                <include name="httpcore*.jar"/>
+                <include name="org.wso2.carbon.core*.jar"/>
+                <include name="org.wso2.carbon.utils*.jar"/>
+                <include name="jibx*.jar"/>
+                <include name="axis2-jibx*.jar"/>
+                <include name="bcel*.jar"/>
+                <include name="hibernate*.jar"/>
+                <include name="derby*.jar"/>
+                <include name="abdera*.jar"/>
+                <include name="org.wso2.carbon.registry.core*.jar"/>
+                <include name="org.wso2.carbon.registry.ws*.jar"/><!-- used by the g-reg ws client sample-->
+                <include name="org.wso2.carbon.registry.admin.api*.jar"/><!-- used for g-reg JMX API-->
+		        <include name="org.wso2.carbon.authenticator.proxy*.jar"/> <!-- used by the g-reg ws client sample-->
+		        <include name="org.wso2.carbon.authenticator.stub*.jar"/> <!-- used by the g-reg ws client sample-->
+                <include name="org.wso2.carbon.user.core*.jar"/>
+                <include name="opensaml*.jar"/>
+                <include name="xmlbeans*.jar"/>
+                <include name="geronimo-*.jar"/>
+                <include name="ehcache*.jar"/> <!-- The following 4 jars required in using Embedded Registry. -->
+                <include name="commons-pool*.jar"/>
+                <include name="commons-dbcp*.jar"/>
+                <include name="commons-io*.jar"/>
+                <include name="compass*.jar"/>
+                <include name="org.wso2.carbon.rm*.jar"/>
+                <include name="rampart-trust*.jar"/>
+                <include name="org.wso2.carbon.security.mgt*.jar"/>
+                <include name="org.wso2.carbon.addressing*.jar"/>
+                <include name="org.wso2.carbon.xfer*.jar"/>
+                <include name="org.wso2.carbon.mex*.jar"/>
+                <include name="savan-core*.jar"/>
+                <include name="xkms*.jar"/>
+                <include name="derby*.jar"/> <!-- This is required by WSAS DS Sample. Please don't remove -->
+                <include name="org.wso2.carbon.discovery.core*.jar"/>
+                <include name="org.osgi.core*.jar"/><!-- used by the g-reg jcr api-->
+                <include name="javax.jcr*.jar"/><!-- used by the g-reg ws jcr api-->
+                <include name="org.wso2.carbon.registry.jcr*.jar"/><!-- used by the g-reg ws jcr api-->
+                <include name="org.wso2.carbon.dataservices.core*.jar"/> <!-- Required by DSS for custom validators etc.. -->
+                <include name="org.wso2.carbon.governance.api*.jar"/> 
+                <include name="org.wso2.carbon.registry.extensions*.jar"/> 
+                <include name="jettison*.jar"/><!-- used by the JSON sample client in appserver -->
+                <include name="org.wso2.carbon.user.api*.jar"/>
+                <include name="org.wso2.carbon.registry.api*.jar"/>
+                <include name="org.wso2.carbon.context*.jar"/>
+                <include name="org.wso2.carbon.base*.jar"/>
+                <include name="org.wso2.carbon.logging*.jar"/>
+                <include name="jsr107cache*.jar"/><!-- used by the G-reg jcr sample-->
+                <include name="org.wso2.carbon.caching.core*.jar"/> <!-- used by the G-reg jcr sample-->
+                <include name="org.wso2.securevault*.jar"/> <!-- used by the G-reg jcr sample-->
+		<include name="org.wso2.pwprovider*.jar"/>
+		<include name="org.wso2.carbon.rule.core*.jar"/>
+                <include name="cxf-bundle*.jar"/><!-- used by the JAX-RS and JAX-WS sample cliets in appserver -->
+                <include name="spring.framework*.jar"/><!-- used by the JAX-RS and JAX-WS sample clients in appserver -->
+                <include name="javax.ws.rs.jsr311-api*.jar"/><!-- used by the JAX-RS sample client in appserver -->
+            </fileset>
+        </copy>
+
+        <!-- Copy policy xml files-->
+        <mkdir dir="${tempdir}"/>
+        <unzip dest="${tempdir}">
+            <fileset dir="${carbon.home}/repository/components/plugins/">
+                <include name="org.wso2.carbon.security.mgt*.jar"/>
+            </fileset>
+        </unzip>
+        <delete dir="${tempdir}"/>
+        <!-- End Copy policy xml files-->
+
+        <unzip dest="${lib}">
+            <fileset dir="${carbon.home}/repository/components/plugins/">
+                <!--<include name="org.wso2.carbon.stax.*.jar"/>-->
+                <include name="org.wso2.carbon.utils*.jar"/>
+                <include name="h2-database-engine*.jar"/>
+            </fileset>
+        </unzip>
+
+        <copy todir="${lib}" overwrite="false">
+            <fileset dir="${carbon.home}/lib">
+                <include name="commons-*.jar"/>
+                <include name="backport-util-concurrent-*.jar"/>
+            </fileset>
+        </copy>
+
+        <move todir="${lib}">
+            <fileset dir="${lib}"/>
+            <mapper>
+                <mapper type="regexp" from="(.*).wso2v(.*)" to="\1-wso2v\2" />
+                <mapper type="regexp" from="(.*).SNAPSHOT(.*)" to="\1-SNAPSHOT\2" />
+            </mapper>
+        </move>
+
+        <delete dir="${lib}/META-INF"/>
+        <delete dir="${lib}/org"/>
+        <delete dir="${lib}/com"/>
+        <delete dir="${lib}/javax"/>
+    </target>
+</project>

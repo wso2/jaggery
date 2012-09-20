@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><metatype:MetaData xmlns:metatype="http://www.osgi.org/xmlns/metatype/v1.0.0" localization="OSGI-INF/metatype/metatype">
+    <OCD id="org.jaggeryjs.jaggery.app.mgt.internal.JaggeryappManagementServiceComponent" name="%org.jaggeryjs.jaggery.app.mgt.internal.JaggeryappManagementServiceComponent.name" description="%org.jaggeryjs.jaggery.app.mgt.internal.JaggeryappManagementServiceComponent.description"/>
+    <Designate pid="org.jaggeryjs.jaggery.app.mgt.internal.JaggeryappManagementServiceComponent">
+        <Object ocdref="org.jaggeryjs.jaggery.app.mgt.internal.JaggeryappManagementServiceComponent"/>
+    </Designate>
+</metatype:MetaData>

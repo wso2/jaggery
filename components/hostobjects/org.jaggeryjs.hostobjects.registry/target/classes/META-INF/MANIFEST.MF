@@ -1,0 +1,36 @@
+Manifest-Version: 1.0
+Export-Package: org.jaggeryjs.hostobjects.registry;uses:="org.jaggeryj
+ s.scriptengine.exceptions,org.mozilla.javascript,org.wso2.carbon.regi
+ stry.api,org.wso2.carbon.registry.core.service,org.apache.commons.log
+ ging,org.wso2.carbon.registry.core.exceptions,org.jaggeryjs.scripteng
+ ine.util,org.wso2.carbon.registry.core.session,org.wso2.carbon.regist
+ ry.core,org.wso2.carbon.user.core,org.wso2.carbon,org.wso2.javascript
+ .xmlimpl,org.apache.axiom.om";version="0.9.0.SNAPSHOT",org.jaggeryjs.
+ hostobjects.registry.internal;uses:="org.wso2.carbon.registry.core.se
+ rvice,org.apache.commons.logging,org.jaggeryjs.hostobjects.registry";
+ version="0.9.0.SNAPSHOT"
+Service-Component: OSGI-INF/serviceComponents.xml
+Built-By: praveena
+Tool: Bnd-1.43.0
+Bundle-Name: org.jaggeryjs.hostobjects.registry
+Created-By: Apache Maven Bundle Plugin
+DynamicImport-Package: *
+Build-Jdk: 1.7.0_04
+Bundle-Version: 0.9.0.SNAPSHOT
+Bnd-LastModified: 1348031970627
+Bundle-ManifestVersion: 2
+Import-Package: org.apache.axiom.om;resolution:=optional;version="[1.2
+ ,2)",org.apache.commons.logging;resolution:=optional;version="[1.1,2)
+ ",org.jaggeryjs.scriptengine.exceptions;resolution:=optional;version=
+ "[0.9,1)",org.jaggeryjs.scriptengine.util;resolution:=optional;versio
+ n="[0.9,1)",org.mozilla.javascript;resolution:=optional;version="[1.7
+ ,2)",org.wso2.carbon;resolution:=optional,org.wso2.carbon.registry.ap
+ i;resolution:=optional;version="[1.0,2)",org.wso2.carbon.registry.cor
+ e;resolution:=optional;version="[1.0,2)",org.wso2.carbon.registry.cor
+ e.exceptions;resolution:=optional;version="[1.0,2)",org.wso2.carbon.r
+ egistry.core.service;resolution:=optional;version="[1.0,2)",org.wso2.
+ carbon.registry.core.session;resolution:=optional;version="[1.0,2)",o
+ rg.wso2.carbon.user.core;resolution:=optional,org.wso2.javascript.xml
+ impl;version="0.0.0"
+Bundle-SymbolicName: org.jaggeryjs.hostobjects.registry
+

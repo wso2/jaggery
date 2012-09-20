@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<feature id="org.wso2.carbon.ntask" label="WSO2 Carbon - Tasks Feature" provider-name="%providerName" version="4.0.0">
+  <description>This feature contains the bundles required for tasks functionality</description>
+  <copyright>%copyright</copyright>
+  <license url="%licenseURL">%license</license>
+  <includes id="org.wso2.carbon.ntask.core" optional="false" version="4.0.0"/>
+</feature>

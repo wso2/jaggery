@@ -1,0 +1,6 @@
+<%
+    include("syntax.jag");
+	include("syntax.jag");
+	include_once("log.jag");
+	include_once("log.jag");
+%>

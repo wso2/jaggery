@@ -1,0 +1,28 @@
+<%
+
+var param = request.getParameter('action');
+var entry = new Entry();
+entry.id = "1";
+entry.title = "Jaggery Sample Entry";
+entry.content = "This is content for a sample atom entry";
+entry.authors = ["madhuka", "nuwan"];
+entry.categories = ["js", "jaggery"];
+entry.links = ["http://jaggeryjs.org/", "madhukaudantha.blogspot.com"];
+entry.summary = "summary test"
+entry.rights = "rights list test"
+entry.contributors = ["madhuka", "nuwan", "ruchira"];
+
+var entries = new Array();
+entries.push(entry);
+
+var feed = new Feed();
+feed.entries = entries;
+if(param == "xml") {
+	print("XML : ");
+	print(feed.toXML());
+} else {
+	print("String : ");
+	print(feed.toString());
+}
+
+%>

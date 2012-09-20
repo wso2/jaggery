@@ -1,0 +1,5 @@
+<html>
+    <%
+    print("this is a private file");
+%>
+</html>

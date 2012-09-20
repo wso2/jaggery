@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Export-Package: org.jaggeryjs.hostobjects.uri;uses:="org.jaggeryjs.scr
+ iptengine.exceptions,org.apache.commons.logging,org.jaggeryjs.scripte
+ ngine.util,org.mozilla.javascript,org.wso2.uri.template";version="0.9
+ .0.SNAPSHOT"
+Built-By: praveena
+Tool: Bnd-1.43.0
+Bundle-Name: org.jaggeryjs.hostobjects.uri
+Created-By: Apache Maven Bundle Plugin
+DynamicImport-Package: *
+Bundle-Version: 0.9.0.SNAPSHOT
+Build-Jdk: 1.7.0_04
+Bnd-LastModified: 1348031975715
+Bundle-ManifestVersion: 2
+Import-Package: javax.xml.namespace;version="0.0.0",org.apache.commons
+ .logging;resolution:=optional,org.jaggeryjs.scriptengine.exceptions;r
+ esolution:=optional;version="[0.9,1)",org.jaggeryjs.scriptengine.util
+ ;resolution:=optional;version="[0.9,1)",org.mozilla.javascript;resolu
+ tion:=optional;version="[1.7,2)",org.wso2.uri.template;resolution:=op
+ tional
+Bundle-SymbolicName: org.jaggeryjs.hostobjects.uri
+

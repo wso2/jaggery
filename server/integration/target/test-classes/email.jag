@@ -1,0 +1,17 @@
+<%
+     
+    var content = "Test Content";
+    var to = "mashupserver@gmail.com";
+    var subject = "Test Subject";
+  
+    var msg = require('email');
+    var email = new msg.Sender("smtp.gmail.com", "25", "mashupserver", "wso2wsas");
+     
+    email.from = "mashupserver@gmail.com";
+    email.to = to;
+    email.subject = subject;
+    email.text = content;
+    email.send();
+     
+    print("email successfully sent");
+%>

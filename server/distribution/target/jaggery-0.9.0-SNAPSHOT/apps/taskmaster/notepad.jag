@@ -1,0 +1,48 @@
+<%
+
+        if  (request.getParameter("action")== "add") {
+var text = decodeURI(request.getParameter("text"));
+var time = request.getParameter("time");
+        var id = request.getParameter("id");
+
+		
+        var entry = {
+        id : id,
+        time : time,
+        text : text
+        };
+
+  if (session.get("entries")) {
+        var entries = session.get("entries");
+        entries.unshift(entry);
+
+        } else {
+            var entries = new Array();
+            entries[0] = entry;
+        }
+
+       session.put("entries",entries);
+       print("<li id=\""+id+"\"> <span class='timestamp'>"+entry.time+"</span><p>"+entry.text+"</p><a href='#' onclick='delete_entry("+id+")' class='delbtn'>Delete</a></li>");
+              
+
+
+ } else if (request.getParameter("action")== "delete")
+        {
+            id = request.getParameter("id");
+            var entries = session.get("entries");
+
+            for (var j=0; j < entries.length; j++) {
+
+            if (entries[j].id == id) {
+            entries.splice(j,1);
+            
+            }
+
+        }
+
+            session.put("entries",entries);
+         
+        }
+       
+
+%>

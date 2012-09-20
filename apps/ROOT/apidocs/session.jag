@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Jaggery - Delicious Javascript</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+        }
+    </style>
+    <link href="../css/prettify.css" rel="stylesheet">
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="../images/favicon.ico">
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72"
+          href="../images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114"
+          href="../images/apple-touch-icon-114x114.png">
+</head>
+
+<body>
+
+<%
+include('/includes/topnavi.jag');
+%>
+
+<div class="container-fluid" style="width: 960px; margin: auto;">
+    <div class="row">
+        <div class="span16">
+            <div class="page-header">
+                <h1>
+                    Documentation
+                    <small>API documentation for Jaggery.js</small>
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="span4">
+            <div class="well">
+                <%
+                include('/includes/navi.jag');
+                %>
+
+            </div>
+
+        </div>
+        <div class="span12">
+            <div class="content" id="email" name="email">
+                <h3>session</h3>
+
+           
+        <pre class="prettyprint linenums">
+&lt%
+    var obj = {
+    	name : "wso2",
+    	cat : "software",
+    	address : {
+    		number : "59",
+    		address : "Flower Rd.",
+    		city : "Colombo 7"
+    	}
+    };
+    session.put("wso2", obj);
+
+    var o = session.get("wso2");
+    print("&lt;html&gt;&lt;body&gt;");
+    print(o);
+    print("&lt;/body&gt;&lt;/html&gt;");
+%&gt
+</pre>
+                <%
+                var sesCode = '&lt%'
+                + '\n var obj = {'
+                + '\n   name : "wso2",'
+                + '\n   cat : "software",'
+                + '\n   address : {'
+                + '\n        number : "59",'
+                + '\n        address : "Flower Rd.",'
+                + '\n        city : "Colombo 7"'
+                + '\n    }'
+                + '\n };'
+                + '\n session.put("wso2", obj);'
+
+                + '\n var o = session.get("wso2");'
+                + '\n print("&lt;html&gt;&lt;body&gt;");'
+                + '\n print(o);'
+                + '\n print("&lt;/body&gt;&lt;/html&gt;");'
+                + '\n %&gt';
+
+                var codeSnip = encodeURIComponent(sesCode);
+                var urlString = '../tryitframe.jag?code='+codeSnip;
+
+                include('/includes/tryit_but.jag');
+                %>
+
+                <div id="pageLinks">
+                                <a class="navilink" href="#overview">Overview</a>
+                                <a class="navilink" href="#members">Members</a>
+                                <a class="navilink" href="#operations">Operations</a>
+                                </div>
+                                 <section id="overview">
+
+
+                                <h4>Overview</h4>
+                                <p class="description">Object that provides the properties and functions of HTTP Session.</p>
+
+                                </section>
+
+                                <section id="members">
+                                <h4>Members</h4>
+
+                <table class="clsStd member-table">
+
+                    <tbody>
+
+                    <tr>
+
+                        <th>Member</th>
+                        <th>Type</th>
+                        <th>Description</th>
+
+                    </tr>
+
+                    <tr>
+
+                        <td><code>maxInactive</code></td>
+                         <td>Number</td>
+                        <td>
+                            <pre class="prettyprint">session.maxInactive</pre>
+                            Returns the max inactive interval of the session
+                            <br>
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+                </table>
+                                    </section>
+                <section id="operations">
+                    <h4>Operations</h4>
+
+                 <table class="clsStd operations-table">
+                     <tbody>
+                     <tr>
+                         <th>Operation</th>
+                         <th>Returns</th>
+                         <th>Description</th>
+                     </tr>
+                                        <tr>
+
+                        <td><code>getCreationTime()</code></td>
+                       <td>String</td>
+                        <td><pre class="prettyprint">session.getCreationTime()</pre>
+                            Returns the session created time
+                        </td>
+
+                    </tr>
+                    <tr>
+
+                        <td><code>getLastAccessedTime()</code></td>
+                        <td>String</td>
+                        <td>
+                            <pre class="prettyprint">session.getLastAccessedTime()</pre>
+                            Returns the last accessed time of the session
+
+                        </td>
+
+                    </tr>
+                    <tr>
+
+                        <td><code>put(key, value)</code>
+                        </td>
+                           <td>None</td>
+                        <td>
+                            <pre class="prettyprint">session.put('name', 'wso2')</pre>
+                            Functions to put values to the session
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td><code>get(key)</code>
+                        </td>
+                        <td>String</td>
+                        <td>
+                            <pre class="prettyprint">session.get('name')</pre>
+                            Returns values in the session
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td><code>getId()</code>
+                        </td>
+                        <td>String</td>
+                        <td>
+                            <pre class="prettyprint">session.getId()</pre>
+                            Returns Id of the session
+
+                        </td>
+
+                    </tr>
+					
+                    <tr>
+
+                        <td><code>remove(key)</code>
+                        </td>
+                       <td>None</td>
+                        <td>
+                            <pre class="prettyprint">session.remove(key)</pre>
+                            Removes an attribute from the session.
+                            <br/>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td><code>invalidate()</code>
+                        </td>
+                       <td>None</td>
+                        <td>
+                            <pre class="prettyprint">session.invalidate()</pre>
+                            invalidates the session
+                            <br/>
+                        </td>
+
+                    </tr>
+                                        <tr>
+
+                        <td><code>isNew()</code></td>
+                            <td>Boolean</td>
+                        <td>
+                            <pre class="prettyprint">session.isNew()</pre>
+                            Returns the true|false
+
+                        </td>
+
+                    </tr>
+                     </tbody>
+                 </table>
+
+                </section>
+            </div>
+            <br>
+            <br>
+        </div>
+
+    </div>
+    <%
+    include('/includes/footer.jag');
+    %>
+
+</div>
+
+<!-- /container -->
+<%
+include('/includes/scripts.jag')
+%>
+
+	<script>	
+		
+		$(document).ready(function(){
+        $('#ses').toggleClass('active')
+		$('#docs').addClass('active')
+        })
+	</script>
+</body>
+</html>

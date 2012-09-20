@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<feature id="org.jaggeryjs.server" label="Jaggery Server Feature" provider-name="%providerName" version="0.9.0.SNAPSHOT">
+  <description>This feature contains the core bundles required for jaggery
+        functionality</description>
+  <copyright>%copyright</copyright>
+  <license url="%licenseURL">%license</license>
+  <plugin id="org.jaggeryjs.hostobjects.file" unpack="false" version="0.9.0.SNAPSHOT"/>
+  <plugin id="org.jaggeryjs.hostobjects.uri" unpack="false" version="0.9.0.SNAPSHOT"/>
+  <plugin id="org.jaggeryjs.jaggery.core" unpack="false" version="0.9.0.SNAPSHOT"/>
+  <plugin id="org.jaggeryjs.hostobjects.feed" unpack="false" version="0.9.0.SNAPSHOT"/>
+  <plugin id="org.jaggeryjs.hostobjects.log" unpack="false" version="0.9.0.SNAPSHOT"/>
+  <plugin id="org.jaggeryjs.hostobjects.registry" unpack="false" version="0.9.0.SNAPSHOT"/>
+  <plugin id="org.jaggeryjs.hostobjects.web" unpack="false" version="0.9.0.SNAPSHOT"/>
+  <plugin id="org.jaggeryjs.hostobjects.email" unpack="false" version="0.9.0.SNAPSHOT"/>
+  <plugin id="org.jaggeryjs.hostobjects.xhr" unpack="false" version="0.9.0.SNAPSHOT"/>
+  <plugin id="org.jaggeryjs.hostobjects.xslt" unpack="false" version="0.9.0.SNAPSHOT"/>
+  <plugin id="org.jaggeryjs.hostobjects.oauth" unpack="false" version="0.9.0.SNAPSHOT"/>
+  <plugin id="org.jaggeryjs.hostobjects.jaggeryparser" unpack="false" version="0.9.0.SNAPSHOT"/>
+  <plugin id="org.jaggeryjs.jaggery.deployer" unpack="false" version="0.9.0.SNAPSHOT"/>
+  <plugin id="org.jaggeryjs.hostobjects.ws" unpack="false" version="0.9.0.SNAPSHOT"/>
+  <plugin id="org.jaggeryjs.jaggery.app.mgt" unpack="false" version="0.9.0.SNAPSHOT"/>
+  <plugin id="org.jaggeryjs.scriptengine" unpack="false" version="0.9.0.SNAPSHOT"/>
+  <plugin id="org.jaggeryjs.hostobjects.db" unpack="false" version="0.9.0.SNAPSHOT"/>
+  <plugin id="org.jaggeryjs.jaggery.tools" unpack="false" version="0.9.0.SNAPSHOT"/>
+  <plugin id="org.jaggeryjs.hostobjects.stream" unpack="false" version="0.9.0.SNAPSHOT"/>
+  <require>
+    <import match="equivalent" plugin="wso2-uri-templates" version="1.6.2"/>
+    <import match="equivalent" plugin="js" version="1.7.0.R1-wso2v3"/>
+    <import match="equivalent" plugin="commons-dbcp" version="1.4.0.wso2v1"/>
+    <import match="equivalent" plugin="commons-fileupload" version="1.2.2.wso2v1"/>
+    <import match="equivalent" plugin="javax.servlet" version="3.0.0.wso2v1"/>
+    <import match="equivalent" plugin="com.google.gson" version="2.1"/>
+    <import match="equivalent" plugin="org.eclipse.wst.jsdt.debug.transport" version="1.0.100.v201109150330"/>
+    <import match="equivalent" plugin="jdom" version="1.0.0.wso2v1"/>
+    <import match="equivalent" plugin="rampart-core" version="1.6.1.wso2v3"/>
+    <import match="equivalent" plugin="org.wso2.carbon.addressing" version="4.0.0"/>
+    <import match="equivalent" plugin="org.wso2.carbon.webapp.mgt" version="4.0.1"/>
+    <import match="equivalent" plugin="jettison" version="1.1.0.wso2v1"/>
+    <import match="equivalent" plugin="wss4j" version="1.5.11.wso2v3"/>
+    <import match="equivalent" plugin="rampart-trust" version="1.6.1.wso2v3"/>
+    <import match="equivalent" plugin="javax.servlet.jsp" version="2.0.0.v200806031607"/>
+    <import match="equivalent" plugin="json-simple" version="1.1.0.wso2v1"/>
+    <import match="equivalent" plugin="commons-io" version="2.0.0.wso2v1"/>
+    <import match="equivalent" plugin="geronimo-stax-api_1.0_spec" version="1.0.1.wso2v1"/>
+    <import match="equivalent" plugin="axis2" version="1.6.1.wso2v5"/>
+    <import match="equivalent" plugin="commons-cli" version="1.2.0.wso2v1"/>
+    <import match="equivalent" plugin="axiom-e4x" version="2.0.1.wso2v1"/>
+    <import match="equivalent" plugin="org.eclipse.wst.jsdt.debug.rhino.debugger" version="1.0.300.v201109150503"/>
+    <import match="equivalent" plugin="rome" version="0.9.0.wso2v1"/>
+    <import match="equivalent" plugin="rampart-policy" version="1.6.1.wso2v3"/>
+    <import match="equivalent" plugin="org.wso2.carbon.utils" version="4.0.0"/>
+    <import match="equivalent" plugin="saxon.bps" version="9.0.0.x-wso2v1"/>
+    <import match="equivalent" plugin="axiom" version="1.2.11.wso2v1"/>
+    <import feature="org.wso2.carbon.ntask.core" match="equivalent" version="4.0.0"/>
+  </require>
+</feature>

@@ -1,0 +1,43 @@
+Manifest-Version: 1.0
+Export-Package: org.jaggeryjs.jaggery.app.mgt;uses:="org.apache.axis2,
+ javax.activation,org.apache.commons.logging,org.apache.axis2.engine,o
+ rg.wso2.carbon.utils,org.wso2.carbon.webapp.mgt,org.apache.catalina,o
+ rg.apache.catalina.deploy,org.apache.catalina.startup,org.json.simple
+ ,org.wso2.carbon.tomcat.api,org.apache.catalina.core,org.apache.axis2
+ .context,org.wso2.carbon,org.wso2.carbon.url.mapper,javax.servlet,org
+ .wso2.carbon.core.session,org.wso2.carbon.utils.multitenancy,org.apac
+ he.commons.io";version="0.9.0.SNAPSHOT"
+Service-Component: OSGI-INF/serviceComponents.xml
+Built-By: praveena
+Tool: Bnd-1.43.0
+Bundle-Name: org.jaggeryjs.jaggery.app.mgt
+Created-By: Apache Maven Bundle Plugin
+DynamicImport-Package: *
+Build-Jdk: 1.7.0_04
+Bundle-Version: 0.9.0.SNAPSHOT
+Bnd-LastModified: 1348031984283
+Bundle-ManifestVersion: 2
+Bundle-Activator: org.jaggeryjs.jaggery.app.mgt.internal.JaggeryAppMan
+ agementActivator
+Bundle-Description: Jaggery management BE fuctionalities
+Bundle-SymbolicName: org.jaggeryjs.jaggery.app.mgt
+Import-Package: javax.activation;resolution:=optional;version="[1.1,2)
+ ",javax.servlet;resolution:=optional;version="[2.6,3)",org.apache.axi
+ s2;version="1.6.1.wso2v5",org.apache.axis2.context;version="1.6.1.wso
+ 2v5",org.apache.axis2.engine;version="1.6.1.wso2v5",org.apache.catali
+ na;resolution:=optional;version="[1.7,2)",org.apache.catalina.core;re
+ solution:=optional;version="[1.7,2)",org.apache.catalina.deploy;resol
+ ution:=optional;version="[1.7,2)",org.apache.catalina.startup;resolut
+ ion:=optional;version="[1.7,2)",org.apache.commons.io;resolution:=opt
+ ional,org.apache.commons.logging;resolution:=optional;version="[1.1,2
+ )",org.json.simple;resolution:=optional,org.osgi.framework;version="[
+ 1.6,2)",org.osgi.service.component;resolution:=optional;version="[1.1
+ ,2)",org.wso2.carbon;resolution:=optional,org.wso2.carbon.core.sessio
+ n;resolution:=optional,org.wso2.carbon.registry.core.service;resoluti
+ on:=optional;version="[1.0,2)",org.wso2.carbon.tomcat.api;resolution:
+ =optional,org.wso2.carbon.url.mapper;resolution:=optional,org.wso2.ca
+ rbon.user.core.service;resolution:=optional,org.wso2.carbon.utils;res
+ olution:=optional,org.wso2.carbon.utils.multitenancy;resolution:=opti
+ onal,org.wso2.carbon.webapp.mgt;resolution:=optional;version="[4.0,5)
+ "
+

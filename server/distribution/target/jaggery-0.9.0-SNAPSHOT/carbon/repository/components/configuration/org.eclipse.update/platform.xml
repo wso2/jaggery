@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config transient="false" date="1344936659457">
+	<site enabled="true" updateable="true" policy="USER-EXCLUDE" url="platform:/base/">
+		<feature id="org.jaggeryjs" url="features/org.jaggeryjs_0.9.0.SNAPSHOT/" version="0.9.0.SNAPSHOT">
+		</feature>
+		<feature id="org.wso2.carbon.core.server" url="features/org.wso2.carbon.core.server_4.0.0/" version="4.0.0">
+		</feature>
+		<feature id="org.wso2.carbon.core.runtime" url="features/org.wso2.carbon.core.runtime_4.0.0/" version="4.0.0">
+		</feature>
+		<feature id="org.wso2.carbon.core.common" url="features/org.wso2.carbon.core.common_4.0.0/" version="4.0.0">
+		</feature>
+		<feature id="org.wso2.carbon.core" url="features/org.wso2.carbon.core_4.0.0/" version="4.0.0">
+		</feature>
+		<feature id="org.wso2.carbon.ntask" url="features/org.wso2.carbon.ntask_4.0.0/" version="4.0.0">
+		</feature>
+		<feature id="org.jaggeryjs.ui" url="features/org.jaggeryjs.ui_0.9.0.SNAPSHOT/" version="0.9.0.SNAPSHOT">
+		</feature>
+		<feature id="org.wso2.carbon.core.ui" url="features/org.wso2.carbon.core.ui_4.0.0/" version="4.0.0">
+		</feature>
+		<feature id="org.wso2.jaggery.styles" url="features/org.wso2.jaggery.styles_0.9.0.SNAPSHOT/" version="0.9.0.SNAPSHOT">
+		</feature>
+		<feature id="org.jaggeryjs.server" url="features/org.jaggeryjs.server_0.9.0.SNAPSHOT/" version="0.9.0.SNAPSHOT">
+		</feature>
+		<feature id="org.wso2.carbon.ntask.core" url="features/org.wso2.carbon.ntask.core_4.0.0/" version="4.0.0">
+		</feature>
+	</site>
+</config>

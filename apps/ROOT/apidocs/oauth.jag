@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Jaggery - Delicious Javascript</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+        }
+    </style>
+    <link href="../css/prettify.css" rel="stylesheet">
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="../images/favicon.ico">
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72"
+          href="../images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114"
+          href="../images/apple-touch-icon-114x114.png">
+</head>
+
+<body>
+
+<%
+include('/includes/topnavi.jag');
+%>
+
+<div class="container-fluid" style="width: 960px; margin: auto;">
+    <div class="row">
+        <div class="span16">
+            <div class="page-header">
+                <h1>
+                    Documentation
+                    <small>API documentation for Jaggery.js</small>
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="span4">
+            <div class="well">
+                <%
+                include('/includes/navi.jag');
+                %>
+
+            </div>
+
+        </div>
+        <div class="span12">
+            <div class="content" id="stringify" name="stringify">
+                <h3>OAuthProvider</h3>
+
+    <pre class="prettyprint linenums">
+&lt%
+var oauth = require("oauth");
+var provider = {
+    "oauth_version" : "1",
+    "authorization_url" : "https://www.linkedin.com/uas/oauth/authorize",
+    "access_token_url" : "https://api.linkedin.com/uas/oauth/accessToken",
+    "request_token_url" : "https://api.linkedin.com/uas/oauth/requestToken",
+    "api_key" : "API_KEY",
+    "api_secret" : "SECRET"
+}
+var linkedin = new oauth.OAuthProvider(provider);
+print(linkedin.getAuthorizationUrl());
+%&gt
+</pre>
+
+<pre class="prettyprint linenums">
+&lt%
+var accessToken = linkedin.getAccessToken("3741501");
+var response = linkedin.sendOAuthRequest(accessToken, "GET", "http://api.linkedin.com/v1/groups/59053/posts?count=20&start=1&format=json");
+print(response.getBody());
+%&gt
+</pre>
+ <% hasMembers = false; %>
+                <div id="pageLinks">
+                    <a class="navilink" href="#overview">Overview</a>
+                    <%if(hasMembers) {%>
+                    <a class="navilink" href="#members">Members</a>
+                    <%}%>
+                    <%if(hasOps) {%>
+                    <a class="navilink" href="#operations">Operations</a>
+                    <%}%>
+                </div>
+
+                <section id="overview">
+
+                    <h4>Overview</h4>
+                    <p class="description"><code>OAuthProvider</code> api act as an oauth client for accessing resources protected by OAuth</p>
+
+
+                </section>
+
+                <section id="operations">
+                    <h4>Operations</h4>
+                    <table class="clsStd operations-table">
+
+                        <tbody>
+
+                        <tr>
+
+                            <th>Member</th>
+                            <th>Returns</th>
+                            <th>Description</th>
+
+                        </tr>
+
+                        <tr>
+                            <td><code>OAuthProvider(provider)</code></td>
+                            <td>OAuthProvider Object</td>
+                            <td>Returns the OAuthProvider Object<br><br>
+                                <pre class="prettyprint">
+var oauth = require("oauth");
+var provider = {
+    "oauth_version" : "1",
+    "authorization_url" : "https://www.linkedin.com/uas/oauth/authorize",
+    "access_token_url" : "https://api.linkedin.com/uas/oauth/accessToken",
+    "request_token_url" : "https://api.linkedin.com/uas/oauth/requestToken",
+    "api_key" : "API_KEY",
+    "api_secret" : "SECRET"
+}
+
+var linkedin = new oauth.OAuthProvider(provider);</pre>
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td><code>getAuthorizationUrl()</code></td>
+                            <td>String</td>
+                            <td>Returns the authorization url to obtain the authentication code<br><br>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td><code>getAccessToken(authCode)</code></td>
+                            <td>Object</td>
+                            <td>returns a token object
+                                <br><br>
+                                <pre class="prettyprint">var accessToken = linkedin.getAccessToken("3741501");</pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><code>sendOAuthRequest(accessToken, verb, url[,parameters])</code></td>
+                            <td>Object</td>
+                            <td>returns a oauth response object.
+                                <br><br>
+                                <pre class="prettyprint">var response = linkedin.sendOAuthRequest(accessToken, "GET", "http://api.linkedin.com/v1/groups/59053/posts?count=20&start=1&format=json");</pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><code>response.getBody()</code></td>
+                            <td>String</td>
+                            <td>returns the response body.
+                                <br><br>
+                                <pre class="prettyprint">print(response.getBody());</pre>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+            </div>
+            <!-- /JSON div -->
+            <br>
+            <br>
+        </div>
+
+    </div>
+    <%
+    include('/includes/footer.jag');
+    %>
+
+</div>
+<%
+include('/includes/scripts.jag')
+%>
+<!-- /container -->
+
+<script>
+    $(document).ready(function(){
+        $('#oauth').toggleClass('active')
+        $('#docs').addClass('active')
+    })
+
+</script>
+</body>
+</html>

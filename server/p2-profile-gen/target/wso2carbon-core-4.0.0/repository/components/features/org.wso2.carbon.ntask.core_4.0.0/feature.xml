@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<feature id="org.wso2.carbon.ntask.core" label="WSO2 Carbon - Tasks Core Feature" provider-name="%providerName" version="4.0.0">
+  <description>This feature contains the bundles required for core tasks functionality</description>
+  <copyright>%copyright</copyright>
+  <license url="%licenseURL">%license</license>
+  <plugin id="org.wso2.carbon.ntask.common" unpack="false" version="4.0.0"/>
+  <plugin id="org.wso2.carbon.ntask.core" unpack="false" version="4.0.0"/>
+  <plugin id="quartz" unpack="false" version="2.1.1.wso2v1"/>
+  <plugin id="slf4j" unpack="false" version="1.5.10.wso2v1"/>
+  <plugin id="org.wso2.carbon.ntask.solutions" unpack="false" version="4.0.0"/>
+</feature>

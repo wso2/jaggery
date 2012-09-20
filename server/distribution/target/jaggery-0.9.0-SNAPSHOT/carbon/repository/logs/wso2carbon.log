@@ -1,0 +1,457 @@
+TID: [] [Jaggery Runtime] [2012-09-20 09:40:45,799]  INFO {org.wso2.carbon.coordination.core.services.impl.ZKCoordinationService} -  Coordination service disabled. {org.wso2.carbon.coordination.core.services.impl.ZKCoordinationService}
+TID: [] [Jaggery Runtime] [2012-09-20 09:40:46,402]  INFO {org.wso2.carbon.core.internal.CarbonCoreActivator} -  Starting WSO2 Carbon... {org.wso2.carbon.core.internal.CarbonCoreActivator}
+TID: [] [Jaggery Runtime] [2012-09-20 09:40:46,403]  INFO {org.wso2.carbon.core.internal.CarbonCoreActivator} -  Operating System : Linux 3.2.0-30-generic, amd64 {org.wso2.carbon.core.internal.CarbonCoreActivator}
+TID: [] [Jaggery Runtime] [2012-09-20 09:40:46,403]  INFO {org.wso2.carbon.core.internal.CarbonCoreActivator} -  Java Home        : /usr/lib/jvm/jdk1.7.0_04/jre {org.wso2.carbon.core.internal.CarbonCoreActivator}
+TID: [] [Jaggery Runtime] [2012-09-20 09:40:46,403]  INFO {org.wso2.carbon.core.internal.CarbonCoreActivator} -  Java Version     : 1.7.0_04 {org.wso2.carbon.core.internal.CarbonCoreActivator}
+TID: [] [Jaggery Runtime] [2012-09-20 09:40:46,403]  INFO {org.wso2.carbon.core.internal.CarbonCoreActivator} -  Java VM          : Java HotSpot(TM) 64-Bit Server VM 23.0-b21,Oracle Corporation {org.wso2.carbon.core.internal.CarbonCoreActivator}
+TID: [] [Jaggery Runtime] [2012-09-20 09:40:46,404]  INFO {org.wso2.carbon.core.internal.CarbonCoreActivator} -  Carbon Home      : /home/praveena/Jaggery/server/distribution/target/jaggery-0.9.0-SNAPSHOT/carbon {org.wso2.carbon.core.internal.CarbonCoreActivator}
+TID: [] [Jaggery Runtime] [2012-09-20 09:40:46,404]  INFO {org.wso2.carbon.core.internal.CarbonCoreActivator} -  Java Temp Dir    : /home/praveena/Jaggery/server/distribution/target/jaggery-0.9.0-SNAPSHOT/carbon/tmp {org.wso2.carbon.core.internal.CarbonCoreActivator}
+TID: [] [Jaggery Runtime] [2012-09-20 09:40:46,404]  INFO {org.wso2.carbon.core.internal.CarbonCoreActivator} -  User             : praveena, en-US, Asia/Colombo {org.wso2.carbon.core.internal.CarbonCoreActivator}
+TID: [] [Jaggery Runtime] [2012-09-20 09:40:48,195]  INFO {org.wso2.carbon.registry.core.jdbc.EmbeddedRegistryService} -  Configured Registry in 54ms {org.wso2.carbon.registry.core.jdbc.EmbeddedRegistryService}
+TID: [] [Jaggery Runtime] [2012-09-20 09:40:48,318]  INFO {org.wso2.carbon.registry.core.internal.RegistryCoreServiceComponent} -  Registry Mode    : READ-WRITE {org.wso2.carbon.registry.core.internal.RegistryCoreServiceComponent}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:40:48,998]  INFO {org.apache.axis2.deployment.ClusterBuilder} -  Clustering has been disabled {org.apache.axis2.deployment.ClusterBuilder}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:40:48,998]  INFO {org.apache.axis2.deployment.ClusterBuilder} -  Clustering has been disabled {org.apache.axis2.deployment.ClusterBuilder}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:40:49,312]  INFO {org.wso2.carbon.core.CarbonAxisConfigurator} -  No modules directory was found under /home/praveena/Jaggery/server/distribution/target/jaggery-0.9.0-SNAPSHOT. {org.wso2.carbon.core.CarbonAxisConfigurator}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:40:49,338]  INFO {org.apache.axis2.transport.tcp.TCPTransportSender} -  TCP Sender started {org.apache.axis2.transport.tcp.TCPTransportSender}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:40:49,338]  INFO {org.apache.axis2.transport.tcp.TCPTransportSender} -  TCP Sender started {org.apache.axis2.transport.tcp.TCPTransportSender}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:40:49,421]  INFO {org.jaggeryjs.jaggery.app.mgt.TomcatJaggeryWebappsDeployer} -  Deployed webapp: StandardEngine[Catalina].StandardHost[localhost].StandardContext[/sample].File[/home/praveena/Jaggery/server/distribution/target/jaggery-0.9.0-SNAPSHOT/apps/sample] {org.jaggeryjs.jaggery.app.mgt.TomcatJaggeryWebappsDeployer}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:40:49,447]  INFO {org.jaggeryjs.jaggery.app.mgt.TomcatJaggeryWebappsDeployer} -  Deployed webapp: StandardEngine[Catalina].StandardHost[localhost].StandardContext[/freshometer].File[/home/praveena/Jaggery/server/distribution/target/jaggery-0.9.0-SNAPSHOT/apps/freshometer] {org.jaggeryjs.jaggery.app.mgt.TomcatJaggeryWebappsDeployer}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:40:49,470]  INFO {org.jaggeryjs.jaggery.app.mgt.TomcatJaggeryWebappsDeployer} -  Deployed webapp: StandardEngine[Catalina].StandardHost[localhost].StandardContext[/coffeeshop].File[/home/praveena/Jaggery/server/distribution/target/jaggery-0.9.0-SNAPSHOT/apps/coffeeshop] {org.jaggeryjs.jaggery.app.mgt.TomcatJaggeryWebappsDeployer}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:40:49,491]  INFO {org.jaggeryjs.jaggery.app.mgt.TomcatJaggeryWebappsDeployer} -  Deployed webapp: StandardEngine[Catalina].StandardHost[localhost].StandardContext[/shout].File[/home/praveena/Jaggery/server/distribution/target/jaggery-0.9.0-SNAPSHOT/apps/shout] {org.jaggeryjs.jaggery.app.mgt.TomcatJaggeryWebappsDeployer}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:40:49,505]  INFO {org.jaggeryjs.jaggery.app.mgt.TomcatJaggeryWebappsDeployer} -  Deployed webapp: StandardEngine[Catalina].StandardHost[localhost].StandardContext[/].File[/home/praveena/Jaggery/server/distribution/target/jaggery-0.9.0-SNAPSHOT/apps/ROOT] {org.jaggeryjs.jaggery.app.mgt.TomcatJaggeryWebappsDeployer}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:40:49,522]  INFO {org.jaggeryjs.jaggery.app.mgt.TomcatJaggeryWebappsDeployer} -  Deployed webapp: StandardEngine[Catalina].StandardHost[localhost].StandardContext[/helloapp].File[/home/praveena/Jaggery/server/distribution/target/jaggery-0.9.0-SNAPSHOT/apps/helloapp] {org.jaggeryjs.jaggery.app.mgt.TomcatJaggeryWebappsDeployer}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:40:49,542]  INFO {org.jaggeryjs.jaggery.app.mgt.TomcatJaggeryWebappsDeployer} -  Deployed webapp: StandardEngine[Catalina].StandardHost[localhost].StandardContext[/taskmaster].File[/home/praveena/Jaggery/server/distribution/target/jaggery-0.9.0-SNAPSHOT/apps/taskmaster] {org.jaggeryjs.jaggery.app.mgt.TomcatJaggeryWebappsDeployer}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:40:49,674]  INFO {org.apache.axis2.deployment.ModuleDeployer} -  Deploying module: addressing-1.6.1-wso2v5 - file:/home/praveena/Jaggery/server/distribution/target/jaggery-0.9.0-SNAPSHOT/carbon/repository/deployment/client/modules/addressing-1.6.1-wso2v5.mar {org.apache.axis2.deployment.ModuleDeployer}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:40:49,674]  INFO {org.apache.axis2.deployment.ModuleDeployer} -  Deploying module: addressing-1.6.1-wso2v5 - file:/home/praveena/Jaggery/server/distribution/target/jaggery-0.9.0-SNAPSHOT/carbon/repository/deployment/client/modules/addressing-1.6.1-wso2v5.mar {org.apache.axis2.deployment.ModuleDeployer}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:40:49,677]  INFO {org.apache.axis2.transport.tcp.TCPTransportSender} -  TCP Sender started {org.apache.axis2.transport.tcp.TCPTransportSender}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:40:49,677]  INFO {org.apache.axis2.transport.tcp.TCPTransportSender} -  TCP Sender started {org.apache.axis2.transport.tcp.TCPTransportSender}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:40:50,369]  INFO {org.wso2.carbon.core.init.CarbonServerManager} -  Repository       : /home/praveena/Jaggery/server/distribution/target/jaggery-0.9.0-SNAPSHOT/ {org.wso2.carbon.core.init.CarbonServerManager}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:40:50,386]  INFO {org.wso2.carbon.core.internal.permission.update.PermissionUpdater} -  Permission cache updated for tenant -1234 {org.wso2.carbon.core.internal.permission.update.PermissionUpdater}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:40:50,615]  INFO {org.wso2.carbon.core.transports.http.HttpsTransportListener} -  HTTPS port       : 9443 {org.wso2.carbon.core.transports.http.HttpsTransportListener}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:40:50,615]  INFO {org.wso2.carbon.core.transports.http.HttpTransportListener} -  HTTP port        : 9763 {org.wso2.carbon.core.transports.http.HttpTransportListener}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:40:50,623] ERROR {org.wso2.carbon.tomcat.internal.CarbonTomcat} -  LifeCycleException while starting tomcat connector {org.wso2.carbon.tomcat.internal.CarbonTomcat}
+org.apache.catalina.LifecycleException: Failed to start component [Connector[org.apache.coyote.http11.Http11NioProtocol-9763]]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:154)
+	at org.wso2.carbon.tomcat.internal.CarbonTomcat.startConnectors(CarbonTomcat.java:341)
+	at org.wso2.carbon.tomcat.ext.transport.ServletTransportManager.startTransports(ServletTransportManager.java:78)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at org.wso2.carbon.core.internal.StartupFinalizerServiceComponent.completeInitialization(StartupFinalizerServiceComponent.java:184)
+	at org.wso2.carbon.core.internal.StartupFinalizerServiceComponent.serviceChanged(StartupFinalizerServiceComponent.java:266)
+	at org.eclipse.osgi.internal.serviceregistry.FilteredServiceListener.serviceChanged(FilteredServiceListener.java:104)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.dispatchEvent(BundleContextImpl.java:861)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.ListenerQueue.dispatchEventSynchronous(ListenerQueue.java:148)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.publishServiceEventPrivileged(ServiceRegistry.java:819)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.publishServiceEvent(ServiceRegistry.java:771)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistrationImpl.register(ServiceRegistrationImpl.java:130)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.registerService(ServiceRegistry.java:214)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.registerService(BundleContextImpl.java:433)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.registerService(BundleContextImpl.java:451)
+	at org.wso2.carbon.server.admin.internal.ServerAdminServiceComponent.activate(ServerAdminServiceComponent.java:106)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at org.eclipse.equinox.internal.ds.model.ServiceComponent.activate(ServiceComponent.java:252)
+	at org.eclipse.equinox.internal.ds.model.ServiceComponentProp.activate(ServiceComponentProp.java:146)
+	at org.eclipse.equinox.internal.ds.model.ServiceComponentProp.build(ServiceComponentProp.java:346)
+	at org.eclipse.equinox.internal.ds.InstanceProcess.buildComponent(InstanceProcess.java:588)
+	at org.eclipse.equinox.internal.ds.InstanceProcess.buildComponents(InstanceProcess.java:196)
+	at org.eclipse.equinox.internal.ds.Resolver.getEligible(Resolver.java:328)
+	at org.eclipse.equinox.internal.ds.SCRManager.serviceChanged(SCRManager.java:221)
+	at org.eclipse.osgi.internal.serviceregistry.FilteredServiceListener.serviceChanged(FilteredServiceListener.java:104)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.dispatchEvent(BundleContextImpl.java:861)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.ListenerQueue.dispatchEventSynchronous(ListenerQueue.java:148)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.publishServiceEventPrivileged(ServiceRegistry.java:819)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.publishServiceEvent(ServiceRegistry.java:771)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistrationImpl.register(ServiceRegistrationImpl.java:130)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.registerService(ServiceRegistry.java:214)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.registerService(BundleContextImpl.java:433)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.registerService(BundleContextImpl.java:451)
+	at org.wso2.carbon.core.init.CarbonServerManager.initializeCarbon(CarbonServerManager.java:505)
+	at org.wso2.carbon.core.init.CarbonServerManager.removePendingItem(CarbonServerManager.java:288)
+	at org.wso2.carbon.core.init.PreAxis2ConfigItemListener.bundleChanged(PreAxis2ConfigItemListener.java:118)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.dispatchEvent(BundleContextImpl.java:847)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
+Caused by: org.apache.catalina.LifecycleException: service.getName(): "Catalina";  Protocol handler start failed
+	at org.apache.catalina.connector.Connector.startInternal(Connector.java:1010)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:150)
+	... 46 more
+Caused by: java.net.BindException: Address already in use
+	at sun.nio.ch.Net.bind0(Native Method)
+	at sun.nio.ch.Net.bind(Net.java:344)
+	at sun.nio.ch.Net.bind(Net.java:336)
+	at sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:199)
+	at sun.nio.ch.ServerSocketAdaptor.bind(ServerSocketAdaptor.java:74)
+	at org.apache.tomcat.util.net.NioEndpoint.bind(NioEndpoint.java:470)
+	at org.apache.tomcat.util.net.AbstractEndpoint.start(AbstractEndpoint.java:617)
+	at org.apache.coyote.AbstractProtocol.start(AbstractProtocol.java:438)
+	at org.apache.catalina.connector.Connector.startInternal(Connector.java:1003)
+	... 47 more
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:40:50,629] ERROR {org.wso2.carbon.tomcat.internal.CarbonTomcat} -  LifeCycleException while starting tomcat connector {org.wso2.carbon.tomcat.internal.CarbonTomcat}
+org.apache.catalina.LifecycleException: Failed to start component [Connector[org.apache.coyote.http11.Http11NioProtocol-9443]]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:154)
+	at org.wso2.carbon.tomcat.internal.CarbonTomcat.startConnectors(CarbonTomcat.java:341)
+	at org.wso2.carbon.tomcat.ext.transport.ServletTransportManager.startTransports(ServletTransportManager.java:78)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at org.wso2.carbon.core.internal.StartupFinalizerServiceComponent.completeInitialization(StartupFinalizerServiceComponent.java:184)
+	at org.wso2.carbon.core.internal.StartupFinalizerServiceComponent.serviceChanged(StartupFinalizerServiceComponent.java:266)
+	at org.eclipse.osgi.internal.serviceregistry.FilteredServiceListener.serviceChanged(FilteredServiceListener.java:104)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.dispatchEvent(BundleContextImpl.java:861)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.ListenerQueue.dispatchEventSynchronous(ListenerQueue.java:148)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.publishServiceEventPrivileged(ServiceRegistry.java:819)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.publishServiceEvent(ServiceRegistry.java:771)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistrationImpl.register(ServiceRegistrationImpl.java:130)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.registerService(ServiceRegistry.java:214)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.registerService(BundleContextImpl.java:433)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.registerService(BundleContextImpl.java:451)
+	at org.wso2.carbon.server.admin.internal.ServerAdminServiceComponent.activate(ServerAdminServiceComponent.java:106)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at org.eclipse.equinox.internal.ds.model.ServiceComponent.activate(ServiceComponent.java:252)
+	at org.eclipse.equinox.internal.ds.model.ServiceComponentProp.activate(ServiceComponentProp.java:146)
+	at org.eclipse.equinox.internal.ds.model.ServiceComponentProp.build(ServiceComponentProp.java:346)
+	at org.eclipse.equinox.internal.ds.InstanceProcess.buildComponent(InstanceProcess.java:588)
+	at org.eclipse.equinox.internal.ds.InstanceProcess.buildComponents(InstanceProcess.java:196)
+	at org.eclipse.equinox.internal.ds.Resolver.getEligible(Resolver.java:328)
+	at org.eclipse.equinox.internal.ds.SCRManager.serviceChanged(SCRManager.java:221)
+	at org.eclipse.osgi.internal.serviceregistry.FilteredServiceListener.serviceChanged(FilteredServiceListener.java:104)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.dispatchEvent(BundleContextImpl.java:861)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.ListenerQueue.dispatchEventSynchronous(ListenerQueue.java:148)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.publishServiceEventPrivileged(ServiceRegistry.java:819)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.publishServiceEvent(ServiceRegistry.java:771)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistrationImpl.register(ServiceRegistrationImpl.java:130)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.registerService(ServiceRegistry.java:214)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.registerService(BundleContextImpl.java:433)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.registerService(BundleContextImpl.java:451)
+	at org.wso2.carbon.core.init.CarbonServerManager.initializeCarbon(CarbonServerManager.java:505)
+	at org.wso2.carbon.core.init.CarbonServerManager.removePendingItem(CarbonServerManager.java:288)
+	at org.wso2.carbon.core.init.PreAxis2ConfigItemListener.bundleChanged(PreAxis2ConfigItemListener.java:118)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.dispatchEvent(BundleContextImpl.java:847)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
+Caused by: org.apache.catalina.LifecycleException: service.getName(): "Catalina";  Protocol handler start failed
+	at org.apache.catalina.connector.Connector.startInternal(Connector.java:1010)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:150)
+	... 46 more
+Caused by: java.net.BindException: Address already in use
+	at sun.nio.ch.Net.bind0(Native Method)
+	at sun.nio.ch.Net.bind(Net.java:344)
+	at sun.nio.ch.Net.bind(Net.java:336)
+	at sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:199)
+	at sun.nio.ch.ServerSocketAdaptor.bind(ServerSocketAdaptor.java:74)
+	at org.apache.tomcat.util.net.NioEndpoint.bind(NioEndpoint.java:470)
+	at org.apache.tomcat.util.net.AbstractEndpoint.start(AbstractEndpoint.java:617)
+	at org.apache.coyote.AbstractProtocol.start(AbstractProtocol.java:438)
+	at org.apache.catalina.connector.Connector.startInternal(Connector.java:1003)
+	... 47 more
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:40:50,638] ERROR {org.wso2.carbon.core.init.JMXServerManager} -  Could not create the RMI local registry {org.wso2.carbon.core.init.JMXServerManager}
+java.rmi.server.ExportException: Port already in use: 9999; nested exception is: 
+	java.net.BindException: Address already in use
+	at sun.rmi.transport.tcp.TCPTransport.listen(TCPTransport.java:328)
+	at sun.rmi.transport.tcp.TCPTransport.exportObject(TCPTransport.java:236)
+	at sun.rmi.transport.tcp.TCPEndpoint.exportObject(TCPEndpoint.java:411)
+	at sun.rmi.transport.LiveRef.exportObject(LiveRef.java:147)
+	at sun.rmi.server.UnicastServerRef.exportObject(UnicastServerRef.java:207)
+	at sun.rmi.registry.RegistryImpl.setup(RegistryImpl.java:122)
+	at sun.rmi.registry.RegistryImpl.<init>(RegistryImpl.java:108)
+	at java.rmi.registry.LocateRegistry.createRegistry(LocateRegistry.java:203)
+	at org.wso2.carbon.core.init.JMXServerManager.startJMXService(JMXServerManager.java:89)
+	at org.wso2.carbon.core.internal.StartupFinalizerServiceComponent.completeInitialization(StartupFinalizerServiceComponent.java:194)
+	at org.wso2.carbon.core.internal.StartupFinalizerServiceComponent.serviceChanged(StartupFinalizerServiceComponent.java:266)
+	at org.eclipse.osgi.internal.serviceregistry.FilteredServiceListener.serviceChanged(FilteredServiceListener.java:104)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.dispatchEvent(BundleContextImpl.java:861)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.ListenerQueue.dispatchEventSynchronous(ListenerQueue.java:148)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.publishServiceEventPrivileged(ServiceRegistry.java:819)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.publishServiceEvent(ServiceRegistry.java:771)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistrationImpl.register(ServiceRegistrationImpl.java:130)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.registerService(ServiceRegistry.java:214)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.registerService(BundleContextImpl.java:433)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.registerService(BundleContextImpl.java:451)
+	at org.wso2.carbon.server.admin.internal.ServerAdminServiceComponent.activate(ServerAdminServiceComponent.java:106)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at org.eclipse.equinox.internal.ds.model.ServiceComponent.activate(ServiceComponent.java:252)
+	at org.eclipse.equinox.internal.ds.model.ServiceComponentProp.activate(ServiceComponentProp.java:146)
+	at org.eclipse.equinox.internal.ds.model.ServiceComponentProp.build(ServiceComponentProp.java:346)
+	at org.eclipse.equinox.internal.ds.InstanceProcess.buildComponent(InstanceProcess.java:588)
+	at org.eclipse.equinox.internal.ds.InstanceProcess.buildComponents(InstanceProcess.java:196)
+	at org.eclipse.equinox.internal.ds.Resolver.getEligible(Resolver.java:328)
+	at org.eclipse.equinox.internal.ds.SCRManager.serviceChanged(SCRManager.java:221)
+	at org.eclipse.osgi.internal.serviceregistry.FilteredServiceListener.serviceChanged(FilteredServiceListener.java:104)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.dispatchEvent(BundleContextImpl.java:861)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.ListenerQueue.dispatchEventSynchronous(ListenerQueue.java:148)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.publishServiceEventPrivileged(ServiceRegistry.java:819)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.publishServiceEvent(ServiceRegistry.java:771)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistrationImpl.register(ServiceRegistrationImpl.java:130)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.registerService(ServiceRegistry.java:214)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.registerService(BundleContextImpl.java:433)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.registerService(BundleContextImpl.java:451)
+	at org.wso2.carbon.core.init.CarbonServerManager.initializeCarbon(CarbonServerManager.java:505)
+	at org.wso2.carbon.core.init.CarbonServerManager.removePendingItem(CarbonServerManager.java:288)
+	at org.wso2.carbon.core.init.PreAxis2ConfigItemListener.bundleChanged(PreAxis2ConfigItemListener.java:118)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.dispatchEvent(BundleContextImpl.java:847)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
+Caused by: java.net.BindException: Address already in use
+	at java.net.PlainSocketImpl.socketBind(Native Method)
+	at java.net.AbstractPlainSocketImpl.bind(AbstractPlainSocketImpl.java:376)
+	at java.net.ServerSocket.bind(ServerSocket.java:376)
+	at java.net.ServerSocket.<init>(ServerSocket.java:237)
+	at java.net.ServerSocket.<init>(ServerSocket.java:128)
+	at sun.rmi.transport.proxy.RMIDirectSocketFactory.createServerSocket(RMIDirectSocketFactory.java:45)
+	at sun.rmi.transport.proxy.RMIMasterSocketFactory.createServerSocket(RMIMasterSocketFactory.java:349)
+	at sun.rmi.transport.tcp.TCPEndpoint.newServerSocket(TCPEndpoint.java:667)
+	at sun.rmi.transport.tcp.TCPTransport.listen(TCPTransport.java:317)
+	... 48 more
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:40:50,645] ERROR {org.wso2.carbon.core.init.JMXServerManager} -  Could not initialize RMI server {org.wso2.carbon.core.init.JMXServerManager}
+java.rmi.server.ExportException: Port already in use: 11111; nested exception is: 
+	java.net.BindException: Address already in use
+	at sun.rmi.transport.tcp.TCPTransport.listen(TCPTransport.java:328)
+	at sun.rmi.transport.tcp.TCPTransport.exportObject(TCPTransport.java:236)
+	at sun.rmi.transport.tcp.TCPEndpoint.exportObject(TCPEndpoint.java:411)
+	at sun.rmi.transport.LiveRef.exportObject(LiveRef.java:147)
+	at sun.rmi.server.UnicastServerRef.exportObject(UnicastServerRef.java:207)
+	at java.rmi.server.UnicastRemoteObject.exportObject(UnicastRemoteObject.java:310)
+	at java.rmi.server.UnicastRemoteObject.exportObject(UnicastRemoteObject.java:273)
+	at javax.management.remote.rmi.RMIJRMPServerImpl.export(RMIJRMPServerImpl.java:118)
+	at javax.management.remote.rmi.RMIJRMPServerImpl.export(RMIJRMPServerImpl.java:95)
+	at javax.management.remote.rmi.RMIConnectorServer.start(RMIConnectorServer.java:403)
+	at org.wso2.carbon.core.init.JMXServerManager.startJMXService(JMXServerManager.java:121)
+	at org.wso2.carbon.core.internal.StartupFinalizerServiceComponent.completeInitialization(StartupFinalizerServiceComponent.java:194)
+	at org.wso2.carbon.core.internal.StartupFinalizerServiceComponent.serviceChanged(StartupFinalizerServiceComponent.java:266)
+	at org.eclipse.osgi.internal.serviceregistry.FilteredServiceListener.serviceChanged(FilteredServiceListener.java:104)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.dispatchEvent(BundleContextImpl.java:861)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.ListenerQueue.dispatchEventSynchronous(ListenerQueue.java:148)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.publishServiceEventPrivileged(ServiceRegistry.java:819)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.publishServiceEvent(ServiceRegistry.java:771)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistrationImpl.register(ServiceRegistrationImpl.java:130)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.registerService(ServiceRegistry.java:214)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.registerService(BundleContextImpl.java:433)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.registerService(BundleContextImpl.java:451)
+	at org.wso2.carbon.server.admin.internal.ServerAdminServiceComponent.activate(ServerAdminServiceComponent.java:106)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at org.eclipse.equinox.internal.ds.model.ServiceComponent.activate(ServiceComponent.java:252)
+	at org.eclipse.equinox.internal.ds.model.ServiceComponentProp.activate(ServiceComponentProp.java:146)
+	at org.eclipse.equinox.internal.ds.model.ServiceComponentProp.build(ServiceComponentProp.java:346)
+	at org.eclipse.equinox.internal.ds.InstanceProcess.buildComponent(InstanceProcess.java:588)
+	at org.eclipse.equinox.internal.ds.InstanceProcess.buildComponents(InstanceProcess.java:196)
+	at org.eclipse.equinox.internal.ds.Resolver.getEligible(Resolver.java:328)
+	at org.eclipse.equinox.internal.ds.SCRManager.serviceChanged(SCRManager.java:221)
+	at org.eclipse.osgi.internal.serviceregistry.FilteredServiceListener.serviceChanged(FilteredServiceListener.java:104)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.dispatchEvent(BundleContextImpl.java:861)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.ListenerQueue.dispatchEventSynchronous(ListenerQueue.java:148)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.publishServiceEventPrivileged(ServiceRegistry.java:819)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.publishServiceEvent(ServiceRegistry.java:771)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistrationImpl.register(ServiceRegistrationImpl.java:130)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.registerService(ServiceRegistry.java:214)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.registerService(BundleContextImpl.java:433)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.registerService(BundleContextImpl.java:451)
+	at org.wso2.carbon.core.init.CarbonServerManager.initializeCarbon(CarbonServerManager.java:505)
+	at org.wso2.carbon.core.init.CarbonServerManager.removePendingItem(CarbonServerManager.java:288)
+	at org.wso2.carbon.core.init.PreAxis2ConfigItemListener.bundleChanged(PreAxis2ConfigItemListener.java:118)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.dispatchEvent(BundleContextImpl.java:847)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
+Caused by: java.net.BindException: Address already in use
+	at java.net.PlainSocketImpl.socketBind(Native Method)
+	at java.net.AbstractPlainSocketImpl.bind(AbstractPlainSocketImpl.java:376)
+	at java.net.ServerSocket.bind(ServerSocket.java:376)
+	at java.net.ServerSocket.<init>(ServerSocket.java:237)
+	at java.net.ServerSocket.<init>(ServerSocket.java:128)
+	at sun.rmi.transport.proxy.RMIDirectSocketFactory.createServerSocket(RMIDirectSocketFactory.java:45)
+	at sun.rmi.transport.proxy.RMIMasterSocketFactory.createServerSocket(RMIMasterSocketFactory.java:349)
+	at sun.rmi.transport.tcp.TCPEndpoint.newServerSocket(TCPEndpoint.java:667)
+	at sun.rmi.transport.tcp.TCPTransport.listen(TCPTransport.java:317)
+	... 50 more
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:40:50,647]  INFO {org.wso2.carbon.core.internal.StartupFinalizerServiceComponent} -  Server           :  Jaggery Runtime-0.9.0-SNAPSHOT {org.wso2.carbon.core.internal.StartupFinalizerServiceComponent}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:40:50,648]  INFO {org.wso2.carbon.core.internal.StartupFinalizerServiceComponent} -  WSO2 Carbon started in 9 sec {org.wso2.carbon.core.internal.StartupFinalizerServiceComponent}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:40:50,843]  INFO {org.wso2.carbon.ui.internal.CarbonUIServiceComponent} -  Mgt Console URL  : https://10.100.3.144:9443/admin/carbon/ {org.wso2.carbon.ui.internal.CarbonUIServiceComponent}
+TID: [] [Jaggery Runtime] [2012-09-20 09:41:20,023]  INFO {org.wso2.carbon.core.init.CarbonServerManager} -  Gracefully shutting down Jaggery Runtime... {org.wso2.carbon.core.init.CarbonServerManager}
+TID: [] [Jaggery Runtime] [2012-09-20 09:41:20,029]  INFO {org.wso2.carbon.core.ServerManagement} -  Starting to switch to maintenance mode... {org.wso2.carbon.core.ServerManagement}
+TID: [] [Jaggery Runtime] [2012-09-20 09:41:20,031] ERROR {org.wso2.carbon.tomcat.internal.CarbonTomcat} -  LifeCycleException while stopping tomcat connector {org.wso2.carbon.tomcat.internal.CarbonTomcat}
+org.apache.catalina.LifecycleException: Failed to stop component [Connector[org.apache.coyote.http11.Http11NioProtocol-9443]]
+	at org.apache.catalina.util.LifecycleBase.stop(LifecycleBase.java:236)
+	at org.wso2.carbon.tomcat.internal.CarbonTomcat.stopConnector(CarbonTomcat.java:409)
+	at org.wso2.carbon.tomcat.ext.transport.ServletTransportManager.stopTransport(ServletTransportManager.java:91)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at org.wso2.carbon.utils.transport.AbstractTransportListener.stop(AbstractTransportListener.java:145)
+	at org.wso2.carbon.core.ServerManagement.startMaintenance(ServerManagement.java:81)
+	at org.wso2.carbon.core.ServerManagement.startMaintenanceForShutDown(ServerManagement.java:95)
+	at org.wso2.carbon.core.init.CarbonServerManager.shutdownGracefully(CarbonServerManager.java:857)
+	at org.wso2.carbon.core.init.CarbonServerManager$4.run(CarbonServerManager.java:872)
+Caused by: org.apache.catalina.LifecycleException: An invalid Lifecycle transition was attempted ([before_stop]) for component [org.apache.catalina.connector.MapperListener@4a853012] in state [INITIALIZED]
+	at org.apache.catalina.util.LifecycleBase.invalidTransition(LifecycleBase.java:408)
+	at org.apache.catalina.util.LifecycleBase.stop(LifecycleBase.java:219)
+	at org.apache.catalina.connector.Connector.stopInternal(Connector.java:1037)
+	at org.apache.catalina.util.LifecycleBase.stop(LifecycleBase.java:232)
+	... 11 more
+TID: [] [Jaggery Runtime] [2012-09-20 09:41:20,036] ERROR {org.wso2.carbon.tomcat.internal.CarbonTomcat} -  LifeCycleException while stopping tomcat connector {org.wso2.carbon.tomcat.internal.CarbonTomcat}
+org.apache.catalina.LifecycleException: Failed to stop component [Connector[org.apache.coyote.http11.Http11NioProtocol-9763]]
+	at org.apache.catalina.util.LifecycleBase.stop(LifecycleBase.java:236)
+	at org.wso2.carbon.tomcat.internal.CarbonTomcat.stopConnector(CarbonTomcat.java:409)
+	at org.wso2.carbon.tomcat.ext.transport.ServletTransportManager.stopTransport(ServletTransportManager.java:91)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at org.wso2.carbon.utils.transport.AbstractTransportListener.stop(AbstractTransportListener.java:145)
+	at org.wso2.carbon.core.ServerManagement.startMaintenance(ServerManagement.java:81)
+	at org.wso2.carbon.core.ServerManagement.startMaintenanceForShutDown(ServerManagement.java:95)
+	at org.wso2.carbon.core.init.CarbonServerManager.shutdownGracefully(CarbonServerManager.java:857)
+	at org.wso2.carbon.core.init.CarbonServerManager$4.run(CarbonServerManager.java:872)
+Caused by: org.apache.catalina.LifecycleException: An invalid Lifecycle transition was attempted ([before_stop]) for component [org.apache.catalina.connector.MapperListener@4bba0231] in state [INITIALIZED]
+	at org.apache.catalina.util.LifecycleBase.invalidTransition(LifecycleBase.java:408)
+	at org.apache.catalina.util.LifecycleBase.stop(LifecycleBase.java:219)
+	at org.apache.catalina.connector.Connector.stopInternal(Connector.java:1037)
+	at org.apache.catalina.util.LifecycleBase.stop(LifecycleBase.java:232)
+	... 11 more
+TID: [] [Jaggery Runtime] [2012-09-20 09:41:20,037]  INFO {org.wso2.carbon.core.ServerManagement} -  Stopped all transport listeners {org.wso2.carbon.core.ServerManagement}
+TID: [] [Jaggery Runtime] [2012-09-20 09:41:20,038]  INFO {org.wso2.carbon.core.ServerManagement} -  Waiting for request service completion... {org.wso2.carbon.core.ServerManagement}
+TID: [] [Jaggery Runtime] [2012-09-20 09:41:20,039]  INFO {org.wso2.carbon.core.ServerManagement} -  All requests have been served. {org.wso2.carbon.core.ServerManagement}
+TID: [] [Jaggery Runtime] [2012-09-20 09:41:20,039]  INFO {org.wso2.carbon.core.ServerManagement} -  Waiting for deployment completion... {org.wso2.carbon.core.ServerManagement}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:41:20,062]  INFO {org.wso2.carbon.webapp.mgt.WebApplication} -  Unloaded webapp: StandardEngine[Catalina].StandardHost[localhost].StandardContext[/freshometer] {org.wso2.carbon.webapp.mgt.WebApplication}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:41:20,068]  INFO {org.wso2.carbon.webapp.mgt.WebApplication} -  Unloaded webapp: StandardEngine[Catalina].StandardHost[localhost].StandardContext[/sample] {org.wso2.carbon.webapp.mgt.WebApplication}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:41:20,074]  INFO {org.wso2.carbon.webapp.mgt.WebApplication} -  Unloaded webapp: StandardEngine[Catalina].StandardHost[localhost].StandardContext[/taskmaster] {org.wso2.carbon.webapp.mgt.WebApplication}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:41:20,080]  INFO {org.wso2.carbon.webapp.mgt.WebApplication} -  Unloaded webapp: StandardEngine[Catalina].StandardHost[localhost].StandardContext[/shout] {org.wso2.carbon.webapp.mgt.WebApplication}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:41:20,087]  INFO {org.wso2.carbon.webapp.mgt.WebApplication} -  Unloaded webapp: StandardEngine[Catalina].StandardHost[localhost].StandardContext[/] {org.wso2.carbon.webapp.mgt.WebApplication}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:41:20,092]  INFO {org.wso2.carbon.webapp.mgt.WebApplication} -  Unloaded webapp: StandardEngine[Catalina].StandardHost[localhost].StandardContext[/coffeeshop] {org.wso2.carbon.webapp.mgt.WebApplication}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:41:20,098]  INFO {org.wso2.carbon.webapp.mgt.WebApplication} -  Unloaded webapp: StandardEngine[Catalina].StandardHost[localhost].StandardContext[/helloapp] {org.wso2.carbon.webapp.mgt.WebApplication}
+TID: [] [Jaggery Runtime] [2012-09-20 09:41:20,098]  INFO {org.wso2.carbon.core.ServerManagement} -  All deployment tasks have been completed. {org.wso2.carbon.core.ServerManagement}
+TID: [] [Jaggery Runtime] [2012-09-20 09:41:20,098]  INFO {org.wso2.carbon.core.ServerManagement} -  Waiting for server task completion... {org.wso2.carbon.core.ServerManagement}
+TID: [] [Jaggery Runtime] [2012-09-20 09:41:20,099]  INFO {org.wso2.carbon.core.ServerManagement} -  All server tasks have been completed. {org.wso2.carbon.core.ServerManagement}
+TID: [] [Jaggery Runtime] [2012-09-20 09:41:20,099]  INFO {org.wso2.carbon.core.init.CarbonServerManager} -  Shutting down Jaggery Runtime... {org.wso2.carbon.core.init.CarbonServerManager}
+TID: [] [Jaggery Runtime] [2012-09-20 09:41:20,099] ERROR {org.wso2.carbon.tomcat.internal.CarbonTomcat} -  LifeCycleException while stopping tomcat connector {org.wso2.carbon.tomcat.internal.CarbonTomcat}
+org.apache.catalina.LifecycleException: Failed to stop component [Connector[org.apache.coyote.http11.Http11NioProtocol-9443]]
+	at org.apache.catalina.util.LifecycleBase.stop(LifecycleBase.java:236)
+	at org.wso2.carbon.tomcat.internal.CarbonTomcat.stopConnector(CarbonTomcat.java:409)
+	at org.wso2.carbon.tomcat.ext.transport.ServletTransportManager.stopTransport(ServletTransportManager.java:91)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at org.wso2.carbon.utils.transport.AbstractTransportListener.stop(AbstractTransportListener.java:145)
+	at org.apache.axis2.engine.ListenerManager.stop(ListenerManager.java:203)
+	at org.apache.axis2.engine.ListenerManager.destroy(ListenerManager.java:282)
+	at org.wso2.carbon.core.init.CarbonServerManager.stopListenerManager(CarbonServerManager.java:661)
+	at org.wso2.carbon.core.init.CarbonServerManager.shutdown(CarbonServerManager.java:826)
+	at org.wso2.carbon.core.init.CarbonServerManager.shutdownGracefully(CarbonServerManager.java:862)
+	at org.wso2.carbon.core.init.CarbonServerManager$4.run(CarbonServerManager.java:872)
+Caused by: org.apache.catalina.LifecycleException: An invalid Lifecycle transition was attempted ([before_stop]) for component [org.apache.catalina.connector.MapperListener@4a853012] in state [INITIALIZED]
+	at org.apache.catalina.util.LifecycleBase.invalidTransition(LifecycleBase.java:408)
+	at org.apache.catalina.util.LifecycleBase.stop(LifecycleBase.java:219)
+	at org.apache.catalina.connector.Connector.stopInternal(Connector.java:1037)
+	at org.apache.catalina.util.LifecycleBase.stop(LifecycleBase.java:232)
+	... 13 more
+TID: [] [Jaggery Runtime] [2012-09-20 09:41:20,100] ERROR {org.wso2.carbon.tomcat.internal.CarbonTomcat} -  LifeCycleException while stopping tomcat connector {org.wso2.carbon.tomcat.internal.CarbonTomcat}
+org.apache.catalina.LifecycleException: Failed to stop component [Connector[org.apache.coyote.http11.Http11NioProtocol-9763]]
+	at org.apache.catalina.util.LifecycleBase.stop(LifecycleBase.java:236)
+	at org.wso2.carbon.tomcat.internal.CarbonTomcat.stopConnector(CarbonTomcat.java:409)
+	at org.wso2.carbon.tomcat.ext.transport.ServletTransportManager.stopTransport(ServletTransportManager.java:91)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at org.wso2.carbon.utils.transport.AbstractTransportListener.stop(AbstractTransportListener.java:145)
+	at org.apache.axis2.engine.ListenerManager.stop(ListenerManager.java:203)
+	at org.apache.axis2.engine.ListenerManager.destroy(ListenerManager.java:282)
+	at org.wso2.carbon.core.init.CarbonServerManager.stopListenerManager(CarbonServerManager.java:661)
+	at org.wso2.carbon.core.init.CarbonServerManager.shutdown(CarbonServerManager.java:826)
+	at org.wso2.carbon.core.init.CarbonServerManager.shutdownGracefully(CarbonServerManager.java:862)
+	at org.wso2.carbon.core.init.CarbonServerManager$4.run(CarbonServerManager.java:872)
+Caused by: org.apache.catalina.LifecycleException: An invalid Lifecycle transition was attempted ([before_stop]) for component [org.apache.catalina.connector.MapperListener@4bba0231] in state [INITIALIZED]
+	at org.apache.catalina.util.LifecycleBase.invalidTransition(LifecycleBase.java:408)
+	at org.apache.catalina.util.LifecycleBase.stop(LifecycleBase.java:219)
+	at org.apache.catalina.connector.Connector.stopInternal(Connector.java:1037)
+	at org.apache.catalina.util.LifecycleBase.stop(LifecycleBase.java:232)
+	... 13 more
+TID: [] [Jaggery Runtime] [2012-09-20 09:41:20,101]  INFO {org.apache.axis2.transport.tcp.TCPTransportSender} -  TCP Sender Shutdown {org.apache.axis2.transport.tcp.TCPTransportSender}
+TID: [] [Jaggery Runtime] [2012-09-20 09:41:20,101]  INFO {org.apache.axis2.transport.tcp.TCPTransportSender} -  TCP Sender Shutdown {org.apache.axis2.transport.tcp.TCPTransportSender}
+TID: [] [Jaggery Runtime] [2012-09-20 09:41:20,103]  INFO {org.wso2.carbon.core.init.CarbonServerManager} -  Shutting down OSGi framework... {org.wso2.carbon.core.init.CarbonServerManager}
+TID: [] [Jaggery Runtime] [2012-09-20 09:41:20,147]  INFO {org.wso2.carbon.core.init.CarbonServerManager} -  Stopping CarbonServerManager... {org.wso2.carbon.core.init.CarbonServerManager}
+TID: [] [Jaggery Runtime] [2012-09-20 09:41:20,156]  INFO {org.wso2.carbon.tomcat.ext.internal.CarbonTomcatServiceComponent} -  Stopping the carbon web-app registered under : /admin {org.wso2.carbon.tomcat.ext.internal.CarbonTomcatServiceComponent}
+TID: [] [Jaggery Runtime] [2012-09-20 09:41:21,141]  INFO {org.wso2.carbon.core.init.CarbonServerManager} -  Shutdown complete {org.wso2.carbon.core.init.CarbonServerManager}
+TID: [] [Jaggery Runtime] [2012-09-20 09:41:21,141]  INFO {org.wso2.carbon.core.init.CarbonServerManager} -  Halting JVM {org.wso2.carbon.core.init.CarbonServerManager}
+TID: [] [Jaggery Runtime] [2012-09-20 09:53:00,647]  INFO {org.wso2.carbon.coordination.core.services.impl.ZKCoordinationService} -  Coordination service disabled. {org.wso2.carbon.coordination.core.services.impl.ZKCoordinationService}
+TID: [] [Jaggery Runtime] [2012-09-20 09:53:00,922]  INFO {org.wso2.carbon.core.internal.CarbonCoreActivator} -  Starting WSO2 Carbon... {org.wso2.carbon.core.internal.CarbonCoreActivator}
+TID: [] [Jaggery Runtime] [2012-09-20 09:53:00,922]  INFO {org.wso2.carbon.core.internal.CarbonCoreActivator} -  Operating System : Linux 3.2.0-30-generic, amd64 {org.wso2.carbon.core.internal.CarbonCoreActivator}
+TID: [] [Jaggery Runtime] [2012-09-20 09:53:00,922]  INFO {org.wso2.carbon.core.internal.CarbonCoreActivator} -  Java Home        : /usr/lib/jvm/jdk1.7.0_04/jre {org.wso2.carbon.core.internal.CarbonCoreActivator}
+TID: [] [Jaggery Runtime] [2012-09-20 09:53:00,922]  INFO {org.wso2.carbon.core.internal.CarbonCoreActivator} -  Java Version     : 1.7.0_04 {org.wso2.carbon.core.internal.CarbonCoreActivator}
+TID: [] [Jaggery Runtime] [2012-09-20 09:53:00,923]  INFO {org.wso2.carbon.core.internal.CarbonCoreActivator} -  Java VM          : Java HotSpot(TM) 64-Bit Server VM 23.0-b21,Oracle Corporation {org.wso2.carbon.core.internal.CarbonCoreActivator}
+TID: [] [Jaggery Runtime] [2012-09-20 09:53:00,923]  INFO {org.wso2.carbon.core.internal.CarbonCoreActivator} -  Carbon Home      : /home/praveena/Jaggery/server/distribution/target/jaggery-0.9.0-SNAPSHOT/carbon {org.wso2.carbon.core.internal.CarbonCoreActivator}
+TID: [] [Jaggery Runtime] [2012-09-20 09:53:00,923]  INFO {org.wso2.carbon.core.internal.CarbonCoreActivator} -  Java Temp Dir    : /home/praveena/Jaggery/server/distribution/target/jaggery-0.9.0-SNAPSHOT/carbon/tmp {org.wso2.carbon.core.internal.CarbonCoreActivator}
+TID: [] [Jaggery Runtime] [2012-09-20 09:53:00,923]  INFO {org.wso2.carbon.core.internal.CarbonCoreActivator} -  User             : praveena, en-US, Asia/Colombo {org.wso2.carbon.core.internal.CarbonCoreActivator}
+TID: [] [Jaggery Runtime] [2012-09-20 09:53:02,483]  INFO {org.wso2.carbon.registry.core.jdbc.EmbeddedRegistryService} -  Configured Registry in 45ms {org.wso2.carbon.registry.core.jdbc.EmbeddedRegistryService}
+TID: [] [Jaggery Runtime] [2012-09-20 09:53:02,601]  INFO {org.wso2.carbon.registry.core.internal.RegistryCoreServiceComponent} -  Registry Mode    : READ-WRITE {org.wso2.carbon.registry.core.internal.RegistryCoreServiceComponent}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:53:11,779]  INFO {org.apache.axis2.deployment.ClusterBuilder} -  Clustering has been disabled {org.apache.axis2.deployment.ClusterBuilder}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:53:11,779]  INFO {org.apache.axis2.deployment.ClusterBuilder} -  Clustering has been disabled {org.apache.axis2.deployment.ClusterBuilder}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:53:11,981]  INFO {org.wso2.carbon.core.CarbonAxisConfigurator} -  No modules directory was found under /home/praveena/Jaggery/server/distribution/target/jaggery-0.9.0-SNAPSHOT. {org.wso2.carbon.core.CarbonAxisConfigurator}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:53:11,999]  INFO {org.apache.axis2.transport.tcp.TCPTransportSender} -  TCP Sender started {org.apache.axis2.transport.tcp.TCPTransportSender}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:53:11,999]  INFO {org.apache.axis2.transport.tcp.TCPTransportSender} -  TCP Sender started {org.apache.axis2.transport.tcp.TCPTransportSender}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:53:12,047]  INFO {org.jaggeryjs.jaggery.app.mgt.TomcatJaggeryWebappsDeployer} -  Deployed webapp: StandardEngine[Catalina].StandardHost[localhost].StandardContext[/sample].File[/home/praveena/Jaggery/server/distribution/target/jaggery-0.9.0-SNAPSHOT/apps/sample] {org.jaggeryjs.jaggery.app.mgt.TomcatJaggeryWebappsDeployer}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:53:12,065]  INFO {org.jaggeryjs.jaggery.app.mgt.TomcatJaggeryWebappsDeployer} -  Deployed webapp: StandardEngine[Catalina].StandardHost[localhost].StandardContext[/freshometer].File[/home/praveena/Jaggery/server/distribution/target/jaggery-0.9.0-SNAPSHOT/apps/freshometer] {org.jaggeryjs.jaggery.app.mgt.TomcatJaggeryWebappsDeployer}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:53:12,081]  INFO {org.jaggeryjs.jaggery.app.mgt.TomcatJaggeryWebappsDeployer} -  Deployed webapp: StandardEngine[Catalina].StandardHost[localhost].StandardContext[/coffeeshop].File[/home/praveena/Jaggery/server/distribution/target/jaggery-0.9.0-SNAPSHOT/apps/coffeeshop] {org.jaggeryjs.jaggery.app.mgt.TomcatJaggeryWebappsDeployer}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:53:12,096]  INFO {org.jaggeryjs.jaggery.app.mgt.TomcatJaggeryWebappsDeployer} -  Deployed webapp: StandardEngine[Catalina].StandardHost[localhost].StandardContext[/shout].File[/home/praveena/Jaggery/server/distribution/target/jaggery-0.9.0-SNAPSHOT/apps/shout] {org.jaggeryjs.jaggery.app.mgt.TomcatJaggeryWebappsDeployer}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:53:12,111]  INFO {org.jaggeryjs.jaggery.app.mgt.TomcatJaggeryWebappsDeployer} -  Deployed webapp: StandardEngine[Catalina].StandardHost[localhost].StandardContext[/].File[/home/praveena/Jaggery/server/distribution/target/jaggery-0.9.0-SNAPSHOT/apps/ROOT] {org.jaggeryjs.jaggery.app.mgt.TomcatJaggeryWebappsDeployer}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:53:12,128]  INFO {org.jaggeryjs.jaggery.app.mgt.TomcatJaggeryWebappsDeployer} -  Deployed webapp: StandardEngine[Catalina].StandardHost[localhost].StandardContext[/helloapp].File[/home/praveena/Jaggery/server/distribution/target/jaggery-0.9.0-SNAPSHOT/apps/helloapp] {org.jaggeryjs.jaggery.app.mgt.TomcatJaggeryWebappsDeployer}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:53:12,145]  INFO {org.jaggeryjs.jaggery.app.mgt.TomcatJaggeryWebappsDeployer} -  Deployed webapp: StandardEngine[Catalina].StandardHost[localhost].StandardContext[/taskmaster].File[/home/praveena/Jaggery/server/distribution/target/jaggery-0.9.0-SNAPSHOT/apps/taskmaster] {org.jaggeryjs.jaggery.app.mgt.TomcatJaggeryWebappsDeployer}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:53:12,236]  INFO {org.apache.axis2.deployment.ModuleDeployer} -  Deploying module: addressing-1.6.1-wso2v5 - file:/home/praveena/Jaggery/server/distribution/target/jaggery-0.9.0-SNAPSHOT/carbon/repository/deployment/client/modules/addressing-1.6.1-wso2v5.mar {org.apache.axis2.deployment.ModuleDeployer}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:53:12,236]  INFO {org.apache.axis2.deployment.ModuleDeployer} -  Deploying module: addressing-1.6.1-wso2v5 - file:/home/praveena/Jaggery/server/distribution/target/jaggery-0.9.0-SNAPSHOT/carbon/repository/deployment/client/modules/addressing-1.6.1-wso2v5.mar {org.apache.axis2.deployment.ModuleDeployer}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:53:12,238]  INFO {org.apache.axis2.transport.tcp.TCPTransportSender} -  TCP Sender started {org.apache.axis2.transport.tcp.TCPTransportSender}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:53:12,238]  INFO {org.apache.axis2.transport.tcp.TCPTransportSender} -  TCP Sender started {org.apache.axis2.transport.tcp.TCPTransportSender}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:53:12,833]  INFO {org.wso2.carbon.core.init.CarbonServerManager} -  Repository       : /home/praveena/Jaggery/server/distribution/target/jaggery-0.9.0-SNAPSHOT/ {org.wso2.carbon.core.init.CarbonServerManager}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:53:12,848]  INFO {org.wso2.carbon.core.internal.permission.update.PermissionUpdater} -  Permission cache updated for tenant -1234 {org.wso2.carbon.core.internal.permission.update.PermissionUpdater}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:53:12,960]  INFO {org.wso2.carbon.core.transports.http.HttpsTransportListener} -  HTTPS port       : 9443 {org.wso2.carbon.core.transports.http.HttpsTransportListener}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:53:12,961]  INFO {org.wso2.carbon.core.transports.http.HttpTransportListener} -  HTTP port        : 9763 {org.wso2.carbon.core.transports.http.HttpTransportListener}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:53:13,258]  INFO {org.wso2.carbon.core.init.JMXServerManager} -  JMX Service URL  : service:jmx:rmi://localhost:11111/jndi/rmi://localhost:9999/jmxrmi {org.wso2.carbon.core.init.JMXServerManager}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:53:13,258]  INFO {org.wso2.carbon.core.internal.StartupFinalizerServiceComponent} -  Server           :  Jaggery Runtime-0.9.0-SNAPSHOT {org.wso2.carbon.core.internal.StartupFinalizerServiceComponent}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:53:13,258]  INFO {org.wso2.carbon.core.internal.StartupFinalizerServiceComponent} -  WSO2 Carbon started in 14 sec {org.wso2.carbon.core.internal.StartupFinalizerServiceComponent}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 09:53:13,418]  INFO {org.wso2.carbon.ui.internal.CarbonUIServiceComponent} -  Mgt Console URL  : https://10.100.3.144:9443/admin/carbon/ {org.wso2.carbon.ui.internal.CarbonUIServiceComponent}
+TID: [] [Jaggery Runtime] [2012-09-20 10:39:22,252]  INFO {org.wso2.carbon.core.init.CarbonServerManager} -  Gracefully shutting down Jaggery Runtime... {org.wso2.carbon.core.init.CarbonServerManager}
+TID: [] [Jaggery Runtime] [2012-09-20 10:39:22,261]  INFO {org.wso2.carbon.core.ServerManagement} -  Starting to switch to maintenance mode... {org.wso2.carbon.core.ServerManagement}
+TID: [] [Jaggery Runtime] [2012-09-20 10:39:24,451]  INFO {org.wso2.carbon.core.ServerManagement} -  Stopped all transport listeners {org.wso2.carbon.core.ServerManagement}
+TID: [] [Jaggery Runtime] [2012-09-20 10:39:24,452]  INFO {org.wso2.carbon.core.ServerManagement} -  Waiting for request service completion... {org.wso2.carbon.core.ServerManagement}
+TID: [] [Jaggery Runtime] [2012-09-20 10:39:24,456]  INFO {org.wso2.carbon.core.ServerManagement} -  All requests have been served. {org.wso2.carbon.core.ServerManagement}
+TID: [] [Jaggery Runtime] [2012-09-20 10:39:24,456]  INFO {org.wso2.carbon.core.ServerManagement} -  Waiting for deployment completion... {org.wso2.carbon.core.ServerManagement}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 10:39:24,480]  INFO {org.wso2.carbon.webapp.mgt.WebApplication} -  Unloaded webapp: StandardEngine[Catalina].StandardHost[localhost].StandardContext[/freshometer] {org.wso2.carbon.webapp.mgt.WebApplication}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 10:39:24,491]  INFO {org.wso2.carbon.webapp.mgt.WebApplication} -  Unloaded webapp: StandardEngine[Catalina].StandardHost[localhost].StandardContext[/sample] {org.wso2.carbon.webapp.mgt.WebApplication}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 10:39:24,503]  INFO {org.wso2.carbon.webapp.mgt.WebApplication} -  Unloaded webapp: StandardEngine[Catalina].StandardHost[localhost].StandardContext[/taskmaster] {org.wso2.carbon.webapp.mgt.WebApplication}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 10:39:24,517]  INFO {org.wso2.carbon.webapp.mgt.WebApplication} -  Unloaded webapp: StandardEngine[Catalina].StandardHost[localhost].StandardContext[/shout] {org.wso2.carbon.webapp.mgt.WebApplication}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 10:39:24,528]  INFO {org.wso2.carbon.webapp.mgt.WebApplication} -  Unloaded webapp: StandardEngine[Catalina].StandardHost[localhost].StandardContext[/] {org.wso2.carbon.webapp.mgt.WebApplication}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 10:39:24,534]  INFO {org.wso2.carbon.webapp.mgt.WebApplication} -  Unloaded webapp: StandardEngine[Catalina].StandardHost[localhost].StandardContext[/coffeeshop] {org.wso2.carbon.webapp.mgt.WebApplication}
+TID: [-1234] [Jaggery Runtime] [2012-09-20 10:39:24,540]  INFO {org.wso2.carbon.webapp.mgt.WebApplication} -  Unloaded webapp: StandardEngine[Catalina].StandardHost[localhost].StandardContext[/helloapp] {org.wso2.carbon.webapp.mgt.WebApplication}
+TID: [] [Jaggery Runtime] [2012-09-20 10:39:24,540]  INFO {org.wso2.carbon.core.ServerManagement} -  All deployment tasks have been completed. {org.wso2.carbon.core.ServerManagement}
+TID: [] [Jaggery Runtime] [2012-09-20 10:39:24,540]  INFO {org.wso2.carbon.core.ServerManagement} -  Waiting for server task completion... {org.wso2.carbon.core.ServerManagement}
+TID: [] [Jaggery Runtime] [2012-09-20 10:39:24,540]  INFO {org.wso2.carbon.core.ServerManagement} -  All server tasks have been completed. {org.wso2.carbon.core.ServerManagement}
+TID: [] [Jaggery Runtime] [2012-09-20 10:39:24,541]  INFO {org.wso2.carbon.core.init.CarbonServerManager} -  Shutting down Jaggery Runtime... {org.wso2.carbon.core.init.CarbonServerManager}
+TID: [] [Jaggery Runtime] [2012-09-20 10:39:24,541]  INFO {org.apache.axis2.transport.tcp.TCPTransportSender} -  TCP Sender Shutdown {org.apache.axis2.transport.tcp.TCPTransportSender}
+TID: [] [Jaggery Runtime] [2012-09-20 10:39:24,541]  INFO {org.apache.axis2.transport.tcp.TCPTransportSender} -  TCP Sender Shutdown {org.apache.axis2.transport.tcp.TCPTransportSender}
+TID: [] [Jaggery Runtime] [2012-09-20 10:39:24,543]  INFO {org.wso2.carbon.core.init.CarbonServerManager} -  Shutting down OSGi framework... {org.wso2.carbon.core.init.CarbonServerManager}
+TID: [] [Jaggery Runtime] [2012-09-20 10:39:24,591]  INFO {org.wso2.carbon.core.init.CarbonServerManager} -  Stopping CarbonServerManager... {org.wso2.carbon.core.init.CarbonServerManager}
+TID: [] [Jaggery Runtime] [2012-09-20 10:39:24,599]  INFO {org.wso2.carbon.tomcat.ext.internal.CarbonTomcatServiceComponent} -  Stopping the carbon web-app registered under : /admin {org.wso2.carbon.tomcat.ext.internal.CarbonTomcatServiceComponent}
+TID: [] [Jaggery Runtime] [2012-09-20 10:39:25,277]  INFO {org.wso2.carbon.core.init.CarbonServerManager} -  Shutdown complete {org.wso2.carbon.core.init.CarbonServerManager}
+TID: [] [Jaggery Runtime] [2012-09-20 10:39:25,277]  INFO {org.wso2.carbon.core.init.CarbonServerManager} -  Halting JVM {org.wso2.carbon.core.init.CarbonServerManager}

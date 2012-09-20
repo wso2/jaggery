@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?><components xmlns:scr="http://www.osgi.org/xmlns/scr/v1.0.0">
+    <scr:component enabled="true" immediate="true" name="org.jaggeryjs.jaggery.core">
+        <implementation class="org.jaggeryjs.jaggery.core.internal.JaggeryCoreServiceComponent"/>
+        <property name="service.pid" value="org.jaggeryjs.jaggery.core" private="false"/>
+        <reference name="ntask.component" interface="org.wso2.carbon.ntask.core.service.TaskService" cardinality="1..1" policy="dynamic" bind="setTaskService" unbind="unsetTaskService" checked="true" strategy="event"/>
+    </scr:component>
+</components>

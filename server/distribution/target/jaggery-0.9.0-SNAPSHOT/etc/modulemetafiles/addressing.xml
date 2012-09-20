@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?><module name="addressing">
+    <version id="4.0" globallyEngaged="false" successfullyAdded="true">
+        <parameter name="managedModule">true</parameter>
+    </version>
+</module>

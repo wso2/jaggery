@@ -1,0 +1,33 @@
+Manifest-Version: 1.0
+Export-Package: org.jaggeryjs.jaggery.app.mgt.ui;uses:="org.apache.axi
+ s2,org.apache.commons.logging,org.jaggeryjs.jaggery.app.mgt.stub.type
+ s.carbon,org.apache.axis2.client,org.jaggeryjs.jaggery.app.mgt.stub,o
+ rg.apache.axis2.context,org.wso2.carbon.ui.transports.fileupload,org.
+ wso2.carbon.ui,org.apache.commons.fileupload,org.wso2.carbon,javax.ac
+ tivation,org.wso2.carbon.utils,javax.servlet.http";version="0.9.0.SNA
+ PSHOT",org.jaggeryjs.jaggery.app.mgt.ui.i18n;version="0.9.0.SNAPSHOT"
+Built-By: praveena
+Tool: Bnd-1.43.0
+Bundle-Name: org.jaggeryjs.jaggery.app.mgt.ui
+Created-By: Apache Maven Bundle Plugin
+Build-Jdk: 1.7.0_04
+Bundle-Version: 0.9.0.SNAPSHOT
+Bnd-LastModified: 1347965519691
+Bundle-ManifestVersion: 2
+Bundle-Activator: org.jaggeryjs.jaggery.app.mgt.ui.internal.JaggeryMan
+ agementUIActivator
+Bundle-Description: Jaggery management UI bundle
+Carbon-Component: UIBundle
+Import-Package: javax.activation;resolution:=optional;version="[1.1,2)
+ ",javax.servlet.http;resolution:=optional,org.apache.axis2;version="1
+ .6.1.wso2v5",org.apache.axis2.client;version="1.6.1.wso2v5",org.apach
+ e.axis2.context;version="1.6.1.wso2v5",org.apache.commons.fileupload;
+ resolution:=optional;version="[1.2,2)",org.apache.commons.logging;res
+ olution:=optional;version="[1.1,2)",org.jaggeryjs.jaggery.app.mgt.stu
+ b;version="0.9.0.SNAPSHOT",org.jaggeryjs.jaggery.app.mgt.stub.types.c
+ arbon;version="0.9.0.SNAPSHOT",org.osgi.framework;resolution:=optiona
+ l;version="[1.6,2)",org.wso2.carbon;resolution:=optional,org.wso2.car
+ bon.ui;resolution:=optional,org.wso2.carbon.ui.transports.fileupload;
+ resolution:=optional,org.wso2.carbon.utils;resolution:=optional
+Bundle-SymbolicName: org.jaggeryjs.jaggery.app.mgt.ui
+
