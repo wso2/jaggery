@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><components xmlns:scr="http://www.osgi.org/xmlns/scr/v1.0.0">
-    <scr:component enabled="true" name="mashup.javascript.hostobjects.wsrequest.dscomponent">
-        <implementation class="org.jaggeryjs.hostobjects.ws.internal.WSRequestServiceComponent"/>
-        <property name="service.pid" value="mashup.javascript.hostobjects.wsrequest.dscomponent" private="false"/>
-        <reference name="carbon.core.configurationContextService" interface="org.wso2.carbon.utils.ConfigurationContextService" cardinality="1..1" policy="dynamic" bind="setConfigurationContextService" unbind="unsetConfigurationContextService" checked="true" strategy="event"/>
-    </scr:component>
-</components>

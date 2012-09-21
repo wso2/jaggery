@@ -1,4 +1,0 @@
-<%
-        var name = 'Jagery';
-        print('Hello' + name );
-%>            

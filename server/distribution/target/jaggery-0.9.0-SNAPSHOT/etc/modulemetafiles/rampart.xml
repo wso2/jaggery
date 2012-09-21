@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><module name="rampart">
-    <version id="1.61-wso2v3" globallyEngaged="false" successfullyAdded="true">
-        <parameter name="managedModule">true</parameter>
-    </version>
-</module>
