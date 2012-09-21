@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Jaggery - Delicious Javascript</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+        }
+    </style>
+    <link href="../css/prettify.css" rel="stylesheet">
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="../images/favicon.ico">
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72"
+          href="../images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114"
+          href="../images/apple-touch-icon-114x114.png">
+</head>
+
+<body>
+
+<%
+include('/includes/topnavi.jag');
+%>
+
+<div class="container-fluid" style="width: 960px; margin: auto;">
+<div class="row">
+    <div class="span16">
+        <div class="page-header">
+            <h1>
+                Documentation
+                <small>API documentation for Jaggery.js</small>
+            </h1>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+<div class="span4">
+    <div class="well">
+        <%
+        include('/includes/navi.jag');
+        %>
+
+    </div>
+
+</div>
+<div class="span12">
+<div class="content" id="atomFeed" name="atomFeed">
+    <h3>AtomFeed</h3>
+
+        <pre class="prettyprint linenums">
+&lt%
+// Creating an instance of APPClient
+var client = new APPClient();
+
+// Creating an instance of AtomFeed
+var feed = new AtomFeed();
+
+// Setting login credentials for the client
+//client.credentials={username:"you@email.com",password:"xxx",service:"blogger",authtype:"google"};
+
+// Retrieving and online feed
+feed = client.getFeed("http://ruchirawageesha.blogspot.com/feeds/posts/default");
+
+// Getting an array of individual entries from the feed
+var entries = feed.getEntries();
+for(var i=0;i &lt entries.length; i++) {
+	var entry = entries[i];
+%&gt
+	&lttr&gt
+        &lttd&gt&lta href="&lt%=entry.link[0]%&gt"&gt&lt%=entry.title%&gt&lt/a&gt&lt/td&gt
+        &lttd&gt&lt%=entry.updated%&gt&lt/td&gt
+        &lt/tr&gt
+&lt%
+}
+%&gt
+</pre>
+    <%
+    var reqCode = '&lt%'
+    + '\n // Creating an instance of APPClient'
+    + '\n var client = new APPClient();'
+    + '\n '
+    + '\n // Creating an instance of AtomFeed '
+    + '\n var feed = new AtomFeed();'
+    + '\n'
+    + '\n // Setting login credentials for the client '
+    + '\n //client.credentials={username:"you@email.com",password:"xxx",service:"blogger",authtype:"google"};'
+    + '\n'
+    + '\n // Retrieving and online feed '
+    + '\n feed = client.getFeed("http://ruchirawageesha.blogspot.com/feeds/posts/default");'
+    + '\n '
+    + '\n // Getting an array of individual entries from the feed'
+    + '\n var entries = feed.getEntries();'
+    + '\n for(var i=0;i &lt entries.length; i++) {'
+    + '\n var entry = entries[i];'
+    + '\n %&gt'
+    + '\n &lttr&gt'
+    + '\n &lttd&gt&lta href="&lt%=entry.link[0]%&gt"&gt&lt%=entry.title%&gt&lt/a&gt&lt/td&gt'
+    + '\n &lttd&gt&lt%=entry.updated%&gt&lt/td&gt '
+    + '\n &lt/tr&gt'
+    + '\n &lt%'
+    + '\n }'
+    + '\n %&gt';
+
+    var codeSnip = encodeURIComponent(reqCode);
+    var urlString = '../tryitframe.jag?code='+codeSnip;
+
+    include('/includes/tryit_but.jag');
+    %>
+
+    <div id="pageLinks">
+<a class="navilink" href="#overview">Overview</a>
+<a class="navilink" href="#members">Members</a>
+<a class="navilink" href="#operations">Operations</a>
+</div>
+
+    <section id="overview">
+        <h4>Overview</h4>
+
+        <p class="description">The "AtomFeed" serves as the top level element of an Atom Feed Document, acting as a container for meta
+            data and data associated with the feed. Its element children consist of meta data elements followed by
+            zero or more "AtomEntry" child elements.</p>
+        
+    </section>
+
+   <section id="members">
+   <h4>Members</h4>
+    <table class="clsStd member-table">
+
+        <tbody>
+
+        <tr>
+
+            <th>Member</th>
+            <th>Type</th>
+            <th>Description</th>
+
+        </tr>
+
+        
+        <tr>
+            <td>
+                <code>author</code>
+            </td>
+            <td>String</td>
+            <td>The author of this feed.</td>
+        </tr>
+        <tr>
+            <td>
+                <code>category</code>
+            </td>
+            <td>String</td>
+            <td>The category of this feed.</td>
+        </tr>
+        <tr>
+            <td>
+                <code>contributor</code>
+            </td>
+            <td>String</td>
+            <td>The contributor of this feed.</td>
+        </tr>
+        <tr>
+            <td>
+                <code>id</code>
+            </td>
+            <td>String</td>
+            <td>The id of this feed.</td>
+        </tr>
+        <tr>
+            <td>
+                <code>rights</code>
+            </td>
+            <td>String</td>
+            <td>The rights associated with this feed.</td>
+        </tr>
+        <tr>
+            <td>
+                <code>link</code>
+            </td>
+            <td>Array String[] </td>
+            <td>The location(s) of this feed.</td>
+        </tr>
+        <tr>
+            <td>
+                <code>title</code>
+            </td>
+            <td>String</td>
+            <td>The title of this feed.</td>
+        </tr>
+        <tr>
+            <td>
+                <code>updated</code>
+            </td>
+            <td>String</td>
+            <td>The date when this feed was last updated.</td>
+        </tr>
+        <tr>
+            <td>
+                <code>XML</code>
+            </td>
+            <td>XML Object</td>
+            <td>Returns the E4X XML contents of this AtomFeed object.</td>
+        </tr>
+
+
+        </tbody>
+    </table>
+
+    </section>
+
+<section id="operations">
+    <h4>Operations</h4>
+
+    <table class="clsStd operations-table">
+        <tbody>
+        <tr>
+            <th>Operation</th>
+            <th>Returns</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>
+                <code>addEntry(newEntry)</code>
+            </td>
+            <td>None</td>
+            <td><pre class="prettyprint">atomfeed.addEntry(newEntry);</pre>
+                Adds a new AtomEntry to the end of the collection of entries.
+
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <code>getEntries()</code>
+            </td>
+            <td>Array AtomEntry[]</td>
+            <td>
+                <pre class="prettyprint">var atomentries = atomfeed.getEntries();</pre>
+                Returns the complete set of entries contained in this feed.
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <code>getEntry(String id)</code>
+            </td>
+            <td>AtomEntry</td>
+            <td><pre class="prettyprint">var atomentry = atomfeed.getEntry('id5432');</pre>
+                Returns the first entry in the feed with the given atom:id value.
+
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <code>writeTo(fileName)</code>
+            </td>
+            <td>None</td>
+            <td>
+                <pre class="prettyprint">atomfeed.writeTo("file-name.xml");</pre>
+                Serializes the AtomFeed to a given local file/
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</section>
+</div>
+<br>
+</div>
+
+</div>
+<%
+include('/includes/footer.jag');
+%>
+
+</div>
+
+<!-- /container -->
+<%
+include('/includes/scripts.jag')
+%>
+<script>
+
+    $(document).ready(function () {
+        $('#atomfeed').toggleClass('active')
+        $('#docs').addClass('active')
+    })
+</script>
+</body>
+</html>

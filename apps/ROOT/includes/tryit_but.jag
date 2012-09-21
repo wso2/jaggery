@@ -1,0 +1,16 @@
+<div id="tryitwindow" class="modal hide fade">
+    <div class="modal-header">
+        <a href="#" class="close">&times;</a>
+        <h3>Try it now</h3>
+    </div>
+    <div class="modal-body">
+        <iframe src="<%=urlString%>" style="border: none;" width="98%"
+        height="520px" scrolling="no"></iframe>
+    </div>
+
+</div>
+
+<p align="right">
+    <button class="btn primary"  data-keyboard="true" data-backdrop="true"
+    data-controls-modal="tryitwindow">Try it now</button>
+    </p>

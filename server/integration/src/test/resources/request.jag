@@ -1,0 +1,19 @@
+<%
+var param = request.getParameter('param');
+if(param != null) {
+	print("Param : " + request.getParameter('param'));
+} else {
+	print("Method : " + request.getMethod() );
+	print(", Protocol : " + request.getProtocol());
+	//  print("User-Agent : " + request.getHeader("User-Agent"));
+	print(", QueryString : " + request.getQueryString());
+	print(", URI : " + request.getRequestURI());
+	print(", URL : " + request.getRequestURL());
+	print(", LocalPort : " + request.getLocalPort());
+	print(", ContentLength : " + request.getContentLength());
+	print(", PathInfo : " + request.getPathInfo());
+	print(", ContextPath : " + request.getContextPath());
+
+}
+
+%>

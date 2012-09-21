@@ -1,0 +1,54 @@
+<%
+
+/*
+ * READ ME
+ *
+ * The code is used for tryit in jaggery and it has over ride the print method in jaggery
+ * because  in here we have used eval() funtion so to get the print of inputstream code
+ *
+ * When You called tryit.jag in services with params with key inputstream
+ * and value of the inputstream represent the jss code.
+ * Finally it makes output of the inputstream code.
+ *
+ */
+
+var p = print;
+var F = File;
+
+(function() {
+    var inputStream, htmlResult, print, File;
+
+    inputStream = request.getParameter('inputstream');
+
+    //setting the print funtion for write funrion
+    htmlResult = "";
+
+    inputStream = new JaggeryParser().parse(inputStream).toString();
+	
+    //over riding the print funtion
+    print = function (text) {
+        if(typeof text === "object") {
+            htmlResult += stringify(text);
+        } else {
+            htmlResult += text;
+        }
+    };
+
+    File = function (path) {
+        path = '/tmp' + path;
+        return new F(path);
+    };
+	
+
+
+    (function() {
+        try {
+            eval(inputStream);
+        } catch(e) {
+            print(e.message + ' at line #' +e.lineNumber);
+        }
+    }());
+
+    p(htmlResult);
+})();
+%>

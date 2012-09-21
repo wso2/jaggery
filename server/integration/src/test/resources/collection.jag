@@ -1,0 +1,22 @@
+<%
+var param = request.getParameter('action');
+
+var dataStore = new MetadataStore("admin", "admin");
+var collection = dataStore.newCollection();
+dataStore.put("wso2", collection);
+//creating resource and adding it to collection
+var resource = dataStore.newResource();
+dataStore.put("wso2products/jaggery.xml", resource);
+dataStore.put("wso2products/AM.xml", resource);
+dataStore.put("wso2products/GS.xml", resource);
+//now we reading from collection
+var res = dataStore.get("wso2products");
+if(param == "members") {
+
+	print(res.childCount);
+	dataStore.remove("wso2products");
+} else {
+print(res.getChildren());
+dataStore.remove("wso2products");
+}
+%>

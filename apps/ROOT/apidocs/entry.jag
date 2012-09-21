@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Jaggery - Delicious Javascript</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+        }
+    </style>
+    <link href="../css/prettify.css" rel="stylesheet">
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="../images/favicon.ico">
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72"
+          href="../images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114"
+          href="../images/apple-touch-icon-114x114.png">
+</head>
+
+<body>
+
+<%
+include('/includes/topnavi.jag');
+%>
+
+<div class="container-fluid" style="width: 960px; margin: auto;">
+<div class="row">
+    <div class="span16">
+        <div class="page-header">
+            <h1>
+                Documentation
+                <small>API documentation for Jaggery.js</small>
+            </h1>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+<div class="span4">
+    <div class="well">
+        <%
+        include('/includes/navi.jag');
+        %>
+
+    </div>
+
+</div>
+<div class="span12">
+<div class="content" id="atomFeed" name="atomFeed">
+    <h3>Entry</h3>
+
+        <pre class="prettyprint linenums">
+&lt%
+//creating entries for feed
+var entry = new Entry();
+entry.title = "Jaggery Sample Entry";
+entry.content = "This is content for a sample atom entry";
+entry.authors = ["wso2", "Jaggery"];
+
+//creating list of entris
+var entries  = new Array();
+entries.push(entry);
+
+//creating feed
+var feed= new Feed();
+//adding new entries for Feed
+feed.entries = entries;
+
+//printing the feed
+print(feed.toString());
+%&gt
+</pre>
+    <%
+    var reqCode = '&lt%'
+    + '\n var entry = new Entry();'
+    + '\n entry.title = "Jaggery Sample Entry";'
+    + '\n entry.content = "This is content for a sample atom entry";'
+    + '\n entry.authors = ["wso2", "Jaggery"];'
+    + '\n'
+    + '\n var entries  = new Array();'
+    + '\n entries.push(entry);'
+    + '\n '
+    + '\n var feed= new Feed();'
+    + '\n feed.entries = entries;'
+    + '\n '
+    + '\n print(feed.toString());'
+    + '\n %&gt';
+
+    var codeSnip = encodeURIComponent(reqCode);
+    var urlString = '../tryitframe.jag?code='+codeSnip;
+
+    include('/includes/tryit_but.jag');
+    %>
+
+    <div id="pageLinks">
+                <a class="navilink" href="#overview">Overview</a>
+                <a class="navilink" href="#members">Members</a>
+                <a class="navilink" href="#operations">Operations</a>
+                </div>
+                 <section id="overview">
+                     <h4>Overview</h4>
+                      <p class="description">Entry object is the container for entries returned by Feed.</p>
+                     </section>
+
+    <section id="members">
+        <h4>Members</h4>
+
+        <table class="clsStd member-table">
+            <tbody>
+            <tr>
+                <th>Member</th>
+                <th>Type</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>id</td>
+                <td>String</td>
+                <td>get/set the id attribute</td>
+            </tr>
+            <tr>
+                <td>authors</td>
+                <td>String [ ] </td>
+                <td>get/set the authors attribute</td>
+            </tr>
+            <tr>
+                <td>categories</td>
+                <td>string [ ]</td>
+                <td>get/set an array of categories</td>
+            </tr>
+            <tr>
+                <td>content</td>
+                <td>String </td>
+                <td>get/set the content attribute</td>
+            </tr>
+            <tr>
+                <td>contributors</td>
+                <td>String [ ] </td>
+                <td>get/set the contributors attribute</td>
+            </tr>
+            <tr>
+                <td>links</td>
+                <td>String [ ] </td>
+                <td>get/set the links set</td>
+            </tr>
+            <tr>
+                <td>published</td>
+                <td>Date </td>
+                <td>get/set the date attribute</td>
+            </tr>
+            <tr>
+                <td>rights</td>
+                <td>String </td>
+                <td>get/set rights associated with this entry</td>
+            </tr>
+            <tr>
+                <td>summary</td>
+                <td>String </td>
+                <td>get/set the summary attribute</td>
+            </tr>
+            <tr>
+                <td>title</td>
+                <td>String </td>
+                <td>get/set the title attribute</td>
+            </tr>
+            <tr>
+                <td>updated</td>
+                <td>Date</td>
+                <td>get/set updated date</td>
+            </tr>
+
+            </tbody>
+        </table>
+    </section>
+        <section id="operations">
+<h4>Operations</h4>
+<table class="clsStd operations-table">
+
+    <tbody>
+
+    <tr>
+
+        <th>Operations</th>
+       <th>Returns</th>
+        <th>Description</th>
+
+    </tr>
+                <tr>
+                    <td>
+                    <code>Entry()</code>
+                    </td>
+                    <td>Entry</td>
+                    <td>Returns an Entry object</td>
+                </tr>
+				<tr>
+                    <td>
+                    <code>toXML()</code>
+                    </td>
+                    <td>XML</td>
+                    <td>Returns the E4X XML contents of this Entry object.</td>
+                </tr>
+                <tr>
+                    <td>
+                    <code>toString()</code>
+                    </td>
+                    <td>String</td>
+                    <td>Returns the string representation of the Entry</td>
+                </tr>
+
+    <tbody>
+    </table>
+    </section>
+
+
+
+</div>
+<br>
+</div>
+
+</div>
+<%
+include('/includes/footer.jag');
+%>
+
+</div>
+
+<!-- /container -->
+<%
+include('/includes/scripts.jag')
+%>
+<script>
+
+    $(document).ready(function () {
+        $('#entry').toggleClass('active')
+        $('#docs').addClass('active')
+    })
+</script>
+</body>
+</html>

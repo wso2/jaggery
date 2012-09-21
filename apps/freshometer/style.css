@@ -1,0 +1,264 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+    background-color:#006680;
+    
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+.logo {
+  text-align:center;
+    margin-top:40px;
+}
+
+#searchbar {
+    text-align:center;
+    margin-top:30px;
+
+}
+
+#searchbar ul li {
+    display:inline;
+}
+
+.large-search {
+    width:600px;
+    font-size:20px;
+    margin:auto;
+    padding:10px;
+    font-family:'arial';
+    -moz-border-radius: 5px;
+border-radius: 5px;
+    height:22px;
+    
+}
+
+#searchbtn {
+   margin-top:10px;
+   
+}
+
+input {
+    vertical-align:middle;
+}
+
+/** awesome buttons **/
+
+.awesome, .awesome:visited {
+	background: #222;
+	display: inline-block;
+	padding: 5px 10px 6px;
+	color: #fff;
+	text-decoration: none;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+	text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+	border-bottom: 1px solid rgba(0,0,0,0.25);
+	position: relative;
+	cursor: pointer;
+    border:none !important;
+    font-size:20px;
+    font-family:'Arial';
+}
+
+	.awesome:hover							{ background-color: #111; color: #fff; }
+	.awesome:active							{ top: 1px; }
+	.small.awesome, .small.awesome:visited 			{ font-size: 11px; padding: ; }
+	.awesome, .awesome:visited,
+	.medium.awesome, .medium.awesome:visited 		{ font-size: 13px; font-weight: bold; line-height: 1; text-shadow: 0 -1px 1px rgba(0,0,0,0.25); }
+	.large.awesome, .large.awesome:visited 			{ font-size: 14px; padding: 15px 20px 16px; }
+
+	.green.awesome, .green.awesome:visited		{ background-color: #91bd09; }
+	.green.awesome:hover						{ background-color: #749a02; }
+	.blue.awesome, .blue.awesome:visited		{ background-color: #2daebf; }
+	.blue.awesome:hover							{ background-color: #007d9a; }
+	.red.awesome, .red.awesome:visited			{ background-color: #e33100; }
+	.red.awesome:hover							{ background-color: #872300; }
+	.magenta.awesome, .magenta.awesome:visited		{ background-color: #a9014b; }
+	.magenta.awesome:hover							{ background-color: #630030; }
+	.orange.awesome, .orange.awesome:visited		{ background-color: #ff5c00; }
+	.orange.awesome:hover							{ background-color: #d45500; }
+	.yellow.awesome, .yellow.awesome:visited		{ background-color: #ffb515; }
+	.yellow.awesome:hover							{ background-color: #fc9200; }
+
+
+#results {
+    width:960px;
+    margin:auto;
+    margin-top:60px;
+    font-family:'Arial';
+    color:#FFF;
+}
+
+h1#title {
+    font-size:36px;
+    color:white;
+    font-family:'Arial';
+    float:left;
+}
+
+#poster {
+    float:left;
+    margin-right:20px;
+}
+
+#rating {
+    font-family:'Arial';
+    float:left;
+    color:white;
+    margin-top:8px;
+}
+
+.content-about {
+    float:left;
+    width:700px;
+}
+
+#icon {
+    float:left;
+    margin-left:10px;
+    margin-top:5px;
+}
+
+#synopsis {
+    font-size:12px;
+    color:#aaeeff;
+    line-height:1.25em;
+}
+
+h3 {
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    border-bottom:1px solid #FFF;
+    padding-bottom:7px;
+    margin-bottom:8px;
+    clear:both;
+}
+
+#director {
+    float:left;
+    width:100%;
+    clear:both;
+    font-size:12px;
+    color:#aaeeff;
+    font-style:italic;
+    margin-bottom:5px;
+    margin-top:10px;
+}
+
+#Starring {
+    clear:both;
+    margin-bottom:20px;
+    float:left;
+     font-size:12px;
+    color:#aaeeff;
+    margin-top:10px;
+}
+
+#consensus {
+    float:left;
+    font-size:11px;
+    margin-bottom:20px;
+    line-height:1.25em;
+}
+
+h2 {
+    font-size:32px;
+    color:white;
+    font-family:'Arial';
+    text-align:center;
+    margin-top:20px;
+}
+
+#myDiv {
+    margin-left:30px;
+    min-height:400px;
+    width:960px;
+    margin:auto;
+}
+
+.year {
+    float:left;
+    margin-top:20px;
+    font-size:12px;
+}
+
+.trailers {
+    float:left;
+    margin-top:20px;
+}
+
+.trailers li {
+            float:left;
+    margin:10px;
+}
+
+
+.shadowmaker {
+    width:960px;
+    margin:auto;
+    bottom:0px;
+    background-image:url("images/bg-footer.png");
+    background-repeat:no-repeat;
+    height:80px;
+        
+}
+
+.footer-logos #youtube {
+}
+
+.footer-logos {
+    
+}
+
+footer {
+    width:100%;
+    text-align:center;
+    float:left;
+}

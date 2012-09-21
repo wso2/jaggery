@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Jaggery - Delicious Javascript</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+        }
+    </style>
+    <link href="../css/prettify.css" rel="stylesheet">
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="../images/favicon.ico">
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72"
+          href="../images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114"
+          href="../images/apple-touch-icon-114x114.png">
+</head>
+
+<body>
+
+<%
+include('/includes/topnavi.jag');
+%>
+
+<div class="container-fluid" style="width: 960px; margin: auto;">
+<div class="row">
+    <div class="span16">
+        <div class="page-header">
+            <h1  id="top">
+                Documentation
+                <small>API documentation for Jaggery.js</small>
+            </h1>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+<div class="span4">
+    <div class="well">
+        <%
+        include('/includes/navi.jag');
+        %>
+
+    </div>
+
+</div>
+<div class="span12">
+<div class="content" id="include" name="include">
+<h3>include()</h3>
+
+<pre class="prettyprint linenums">
+&lt%
+    include("header.jag")
+%&gt;
+</pre>
+    <%hasRets=false;%>
+    <div id="pageLinks">
+        <a class="navilink" href="#overview">Overview</a>
+        <%if(hasParams) {%>
+        <a class="navilink" href="#parameters">Parameters</a>
+        <%}%>
+        <%if(hasRets) {%>
+        <a class="navilink" href="#returnVals">Return values</a>
+        <%}%>
+    </div>
+
+
+<section id="overview">  
+
+<h4>Overview</h4>
+<p class="description"><code>include()</code> can include external jaggery scripts to the working script</p>
+    <pre class="prettyprint">include(path)</pre>
+
+</section>
+
+    <section id="parameters">
+
+        <h4>Parameters</h4>
+        <table class="clsStd operations-table">
+            <tbody>
+            <tr>
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td><code>path</code></td>
+                <td>String</td>
+                <td>
+        <pre class="prettyprint">
+include("header.jag");
+</pre>
+                    Path to the jaggery script
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+    </section>
+</div>
+<!-- /include div -->
+<br>
+<br>
+</div>
+
+</div>
+<%
+include('/includes/footerfunc.jag');
+%>
+
+
+</div>
+<!-- /container -->
+<%
+include('/includes/scripts.jag')
+%>
+
+
+	<script>	
+		
+		$(document).ready(function(){
+        $('#include').toggleClass('active')
+		$('#docs').addClass('active')
+        });
+		
+	
+		    
+		
+	</script>
+</body>
+</html>
