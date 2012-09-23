@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Jaggery - Delicious Javascript</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+        }
+    </style>
+    <link href="css/prettify.css" rel="stylesheet">
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72"
+          href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114"
+          href="images/apple-touch-icon-114x114.png">
+</head>
+
+<body>
+
+<%
+include('/includes/topnavi.jag');
+%>
+
+<div class="container">
+
+ <div class="row" style="margin-top:20px;">
+ <div class="span16">
+
+     <div class="bigNum">404</div>
+     <h1>Page not found.</h1>
+     <p>Sorry the page you requested cannot be found.. return <a href="/">home</a>, before someone misses you</p>
+
+   </div>
+     </div>
+    <%
+    include('includes/footer.jag');
+    %>
+
+</div>
+<!-- /container -->
+
+<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+<script src="js/google-code-prettify/prettify.js"></script>
+<script>$(function () {
+    prettyPrint();
+})
+
+$(document).ready(function () {
+  })
+</script>
+<script src="js/bootstrap-modal.js"></script>
+<script src="js/bootstrap-alerts.js"></script>
+<script src="js/bootstrap-twipsy.js"></script>
+<script src="js/bootstrap-popover.js"></script>
+<script src="js/bootstrap-dropdown.js"></script>
+<script src="js/bootstrap-scrollspy.js"></script>
+<script src="js/bootstrap-tabs.js"></script>
+<script src="js/bootstrap-buttons.js"></script>
+
+</body>
+</html>

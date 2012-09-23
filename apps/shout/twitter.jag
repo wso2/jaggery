@@ -1,0 +1,72 @@
+<%
+	var oauth = require("oauth");
+	var twitter = session.get('cnt');
+	var accessToken = session.get('atoken');
+	var authCode = request.getParameter('atoken');
+	var share = request.getParameter('share');
+	var test = request.getParameter('test');
+	var loadback = request.getParameter('loadback');
+
+var log = new Log();
+	
+	// if not session not authorized
+	if (twitter == null ) {
+
+		var twitter = new oauth.OAuthProvider(oauth.twitterAPI("d0CTc4Zg9pufCnMkteDc7w",
+			"z4FMZhP87U5QEwycggDe5JN6TDDh7xEyhnAcEpdWk"));
+		session.put("cnt", twitter);
+		var authUrl = twitter.getAuthorizationUrl();
+
+		print(authUrl);
+	} else if (twitter != null && authCode != null && accessToken == null) {
+	log.info("twt not null");
+		var accessToken = twitter.getAccessToken(authCode);
+		session.put('atoken', accessToken);
+		var requestParams = {
+			count : '20'
+		};
+		var resp = twitter.sendOAuthRequest(accessToken, "GET", "https://api.twitter.com/1/statuses/home_timeline.xml?include_entities=true", requestParams);
+
+		print(resp.getBody());	
+	
+	} else if (twitter != null && authCode == null && accessToken == null) {
+	//session is not clear
+	session.remove('cnt');
+	var twitter = new oauth.OAuthProvider(oauth.twitterAPI("d0CTc4Zg9pufCnMkteDc7w",
+			"z4FMZhP87U5QEwycggDe5JN6TDDh7xEyhnAcEpdWk"));
+		session.put("cnt", twitter);
+		var authUrl = twitter.getAuthorizationUrl();
+		print(authUrl);
+	}
+
+	if (twitter != null && accessToken != null) {
+	
+		// post by shouter
+		if (share != null) {
+			var requestParams1 = {
+				status : '' + share
+			};
+			var resp = twitter.sendOAuthRequest(accessToken, "POST", "https://api.twitter.com/1/statuses/update.json", requestParams1);
+			//log.info(resp.getBody());
+			//print(resp.getBody());
+		}
+
+		// load back called again xml from twitter
+		if (loadback != null) {
+			var requestParams = {
+				count : '10'
+			};
+			var resp = twitter.sendOAuthRequest(accessToken, "GET", "https://api.twitter.com/1/statuses/home_timeline.xml?include_entities=true", requestParams);
+			print(resp.getBody());
+		}
+}
+		// for testing token params in url mode
+		if (test != null) {
+			if (session.get('atoken') != null) {
+				var accessToken = request.getParameter('atoken');
+				print("acess token from session " + accessToken + "::"
+						+ twitter.getRequestToken());
+			}
+		}
+	
+%>

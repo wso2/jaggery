@@ -1,0 +1,108 @@
+<!doctype html>
+
+<html>
+<head>
+
+
+	<title>TaskMaster3000</title>
+	<!-- Google will often use this as its description of your page/site. Make it good. -->
+
+	<!-- Dublin Core Metadata : http://dublincore.org/ -->
+    <link rel="stylesheet" href="styles.css">
+
+
+</head>
+
+<body>
+
+<div id="wrapper">
+   <div class="left-main-area">
+    <h1>Thing's to be done and other short notes.</h1>
+
+    <form id="task" name="task">
+                <textarea rows="" cols="" id="textboxmain" name="textboxmain"></textarea>
+                <input type="button" id="savebtn" value="Save"/>
+            </form>   
+
+    <ul class="feed">
+        <% if (session.get("entries")) { 
+            var list = session.get("entries");
+            for (var i=0; i < list.length; i++) {
+        %>
+        <li id="<%=list[i].id%>">
+            <span class="timestamp"><%=list[i].time%></span>
+            <p><%=list[i].text%></p>
+            
+            <a href="#" class="delbtn" onclick="delete_entry(<%=list[i].id%>)">Delete</a>
+        </li>
+
+        <% } } else  {
+          print("<li id='message'><p>Session Entries not created yet</p></li>");
+           
+        } %>
+
+    </ul>
+
+   </div>    <!--/main left -->
+
+    <div class="right-activitylog">
+        <h2>TaskMaster3000</h2>
+        <p>Is the easiest way to keep track of things you need to do, and notes that you need to remember. Created Using Jaggery.</p>
+		<img src="logo.png" />
+    </div><!--/right log-->
+</div><!--/wrapper -->
+
+<!-- here comes the javascript -->
+
+<!-- Grab Google CDN's jQuery. fall back to local if necessary -->
+<script src="jquery.min.js"></script>
+
+<script type="text/javascript">
+
+function getTime() {
+var d = new Date().toString();
+
+var dateStr = d.substring(0, d.indexOf(":",20));    
+return dateStr;
+
+}
+    $("#savebtn").click(function() {
+        
+		if (document.task.textboxmain.value == "") {
+			alert("Sorry Task cannot be blank");
+			document.task.textboxmain.focus();
+			exit(0);
+		}
+		var id = Math.floor(Math.random()*100000);
+        var curtime = getTime();
+
+       
+        var textNew = encodeURI(document.task.textboxmain.value);
+        $.get("notepad.jag", { text: textNew, time: curtime, action: "add", id:id },
+   function(data){
+        $(data).hide().prependTo(".feed").fadeIn("slow");
+        $("#message").hide();
+		
+		$("#textboxmain").val("");
+   });
+
+
+});
+
+
+    
+ function delete_entry (id) {
+     $("#"+id).fadeOut("slow");
+        $.get("notepad.jag", { id: id, action: "delete" },
+   function(data){
+
+   });
+ }
+
+
+
+</script>
+
+
+</body>
+</html>

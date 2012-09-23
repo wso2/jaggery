@@ -1,0 +1,94 @@
+<hostObjects>
+
+    <hostObject>
+        <className>org.jaggeryjs.hostobjects.email.EmailHostObject</className>
+        <name>Email</name>
+    </hostObject>
+<!--
+    <hostObject>
+        <className>org.jaggeryjs.hostobjects.xhr.XMLHttpRequestHostObject</className>
+        <name>XMLHttpRequest</name>
+    </hostObject>
+-->
+
+    <hostObject>
+        <className>org.jaggeryjs.hostobjects.registry.RegistryHostObject</className>
+        <name>Registry</name>
+    </hostObject>
+
+    <hostObject>
+        <className>org.jaggeryjs.hostobjects.registry.ResourceHostObject</className>
+        <name>Resource</name>
+    </hostObject>
+
+    <hostObject>
+        <className>org.jaggeryjs.hostobjects.registry.CollectionHostObject</className>
+        <name>Collection</name>
+    </hostObject>
+
+    <hostObject>
+        <className>org.jaggeryjs.hostobjects.db.DatabaseHostObject</className>
+        <name>RDB</name>
+    </hostObject>
+
+    <hostObject>
+        <className>org.jaggeryjs.hostobjects.xslt.XSLTHostObject</className>
+        <name>XSLT</name>
+    </hostObject>
+
+    <hostObject>
+        <className>org.jaggeryjs.hostobjects.file.FileHostObject</className>
+        <name>File</name>
+    </hostObject>
+<!--
+    <hostObject>
+        <className>org.jaggeryjs.hostobjects.extra.TwitterConnectHostObject</className>
+        <name>TwitterConnect</name>
+    </hostObject>
+-->
+
+    <hostObject>
+        <className>org.jaggeryjs.hostobjects.ws.WSRequestHostObject</className>
+        <name>WSRequest</name>
+    </hostObject>
+
+    <hostObject>
+        <className>org.jaggeryjs.hostobjects.ws.WSStubHostObject</className>
+        <name>WSStub</name>
+    </hostObject>
+
+    <hostObject>
+        <className>org.jaggeryjs.hostobjects.feed.Entry</className>
+        <name>Entry</name>
+    </hostObject>
+
+    <hostObject>
+        <className>org.jaggeryjs.hostobjects.feed.Feed</className>
+        <name>Feed</name>
+    </hostObject>
+
+    <hostObject>
+        <className>org.jaggeryjs.hostobjects.feed.FeedReader</className>
+        <name>FeedReader</name>
+    </hostObject>
+
+    <hostObject>
+        <className>org.jaggeryjs.hostobjects.feed.MediaModule</className>
+        <name>MediaModule</name>
+    </hostObject>
+
+    <hostObject>
+        <className>org.jaggeryjs.hostobjects.atom.APPClientHostObject</className>
+        <name>APPClient</name>
+    </hostObject>
+
+    <hostObject>
+        <className>org.jaggeryjs.hostobjects.atom.AtomEntryHostObject</className>
+        <name>AtomEntry</name>
+    </hostObject>
+
+    <hostObject>
+        <className>org.jaggeryjs.hostobjects.atom.AtomFeedHostObject</className>
+        <name>AtomFeed</name>
+    </hostObject>
+</hostObjects>

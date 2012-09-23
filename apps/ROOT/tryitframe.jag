@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=8">
+<meta charset="utf-8">
+<title>Jaggery - Delicious Javascript</title>
+<meta name="description" content="">
+<meta name="author" content="">
+
+<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+<!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+<!-- Le styles -->
+<link href="css/bootstrap.css" rel="stylesheet">
+<style type="text/css">
+body {
+	padding-top: 60px;
+    background: none;
+}
+
+    .CodeMirror-scroll, .CodeMirror {
+        height:460px !important;
+    }
+
+</style>
+
+<link rel="stylesheet" href="css/codemirror.css">
+    <script src="js/codemirror.js"></script>
+    <script src="js/simple-hint.js"></script>
+    <link rel="stylesheet" href="css/simple-hint.css">
+    <script src="js/javascript-hint.js"></script>
+    <script src="js/xml.js"></script>
+    <script src="js/javascript.js"></script>
+    <script src="js/css.js"></script>
+    <script src="js/htmlmixed.js"></script>
+    <script src="js/htmlembedded.js"></script>
+    <script src="js/jaggery-hint-api.js"></script>
+    <script src="js/jaggery.js"></script>
+
+<link href="css/prettify.css" rel="stylesheet">
+<!-- Le fav and touch icons -->
+<link rel="shortcut icon" href="images/favicon.ico">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72"
+	href="images/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114"
+	href="images/apple-touch-icon-114x114.png">
+</head>
+
+<body style="padding-top: 0px;">
+
+	<div class="container-fluid">
+
+	
+		<!-- Example row of columns -->
+
+		<div class="row" style="margin-top: 0px;">
+
+			<div class="span8">
+				<input type="submit" value="Try it >>" id="tryitbtn"
+					class="btn primary" onclick="Tryit.call('')">
+
+			    <textarea id="codeinput" name="codeinput">
+</textarea>
+           <span class="help-block"> Edit the code above to generate your output <strong>(use Ctrl + space for autocompletion)</strong></span>
+			</div>
+
+			<div class="span8">
+				<h4 id="result">Your Result :</h4>
+				<iframe class="span-full" id="output" style="height: 460px;"></iframe>
+
+			</div>
+
+		</div>
+		<!-- /row -->
+
+	</div>
+	<!-- /container -->
+	<script src="js/google-code-prettify/prettify.js"></script>
+    <script src="js/jquery-1.7.1.min.js"></script>
+    <script src="js/tryit.jag"></script>
+    <script src="js/util.js"></script>
+    <%
+        include('/includes/editarea_popup.jag');
+    %>
+</body>
+</html>

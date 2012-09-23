@@ -1,0 +1,67 @@
+Installing Jaggery ${carbon.product.version}
+
+Standalone Mode
+---------------
+1. The directory containing this INSTALL file will the root and it will be
+   treated as Jaggery home directory and let it be JAGGERY_HOME.
+
+2. All the shell scripts and .bat files are available in JAGGERY_HOME/bin directory.
+
+3. To start Jaggery, one can use either server.sh in all *nix
+   systems & server.bat file on Windows operating systems.
+
+4. Either of the following commands can be used to start Jaggery
+      i)  ./server.sh {console|start|stop|restart|status|dump|version}
+     ii)  server.bat {start|stop|version}
+
+            Usage: server.sh [command] [system-properties]
+
+            command:
+                --debug <port> 	Start the server in remote debugging mode.
+                        port: The remote debugging port.
+                --run		Run the server
+                --start		Start Jaggery as a Unix daemon in the background
+                --console	Start Jaggery as a Unix daemon in the foreground
+                --stop		Stop the Jaggery Unix daemon
+                --status	Get the status of the Jaggery Unix daemon
+                --dump		Print a thread dump of the Jaggery Unix daemon
+                --restart	Restart the Jaggery Unix daemon
+                --startHttpTransports	Immediately starts all Tomcat HTTP connectors.
+                --cleanRegistry	Clean registry space
+                --reset		Clean the cache & component repository and the
+                            registry space
+                --version	What version of the product are you running?
+                --n <number of instances> 	Number of instances to start if you have installed the Multiple-instance Feature
+	            --portsgiven 			In Multiple-instance case if you want to give the ports manually using ports-config.xml
+	            --disable-lb 			In Multiple-instance case if you wants to disable load-balancing configuration
+
+            system-properties:
+                -DhttpPort		Overrides the HTTP port defined in the
+                                transports.xml file
+                -DhttpsPort		Overrides the HTTPS port defined in the
+                                transports.xml file
+                -DosgiConsole=[port]	Start Jaggery with Equinox OSGi console.
+                            If the optional 'port' parameter is provided, a
+                            telnet port will be opened
+                -DosgiDebugOptions=[options-file]
+                            Start Jaggery with OSGi debugging enabled.
+                            If the optional 'options-file is provided, the OSGi
+                            debug options will be loaded from it.
+
+
+Hardware Requirements
+-------------------
+1. Minimum memory - 256MB
+2. Processor      - Pentium 800MHz or equivalent at minimum
+
+Software Requirements
+-------------------
+1. Java SE Development Kit - 1.6 (1.6.0_21 onwards)
+2. The Management Console requires full Javascript enablement of the Web browser
+   NOTE:
+     On Windows Server 2003, it is not allowed to go below the medium security
+     level in Internet Explorer 6.x.
+
+
+
+

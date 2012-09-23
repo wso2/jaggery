@@ -1,0 +1,14 @@
+<%
+var param = request.getParameter('action');
+var reqType = request.getMethod();
+if(param == "stringify"){
+    var myJson = {};
+    myJson.name = "Test parameters";
+	myJson.type = reqType;
+    print(stringify(myJson));
+	}else{
+   var jsonString = '[{"name":"Test", "type":"'+reqType+'"}]';
+   print(parse(jsonString));
+   }
+   
+%>
