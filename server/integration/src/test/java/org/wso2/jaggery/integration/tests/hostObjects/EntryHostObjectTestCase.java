@@ -93,8 +93,13 @@ public class EntryHostObjectTestCase {
   			e.printStackTrace();
   		} finally {
   			assertEquals(finalOutput, "String : <feed xmlns=\"http://www.w3.org/2005/Atom\"><entry><id>1</id><title type=\"text\">Jaggery Sample Entry</title><content type=\"text\">This is content for a sample atom entry"
+<<<<<<< HEAD
+  					+"</content><author><name>madhuka</name></author><author><name>nuwan</name></author><category term=\"js\"/><category term=\"jaggery\"/><link href=\"http://jaggeryjs.org/\"/>"
+  					+"<link href=\"madhukaudantha.blogspot.com\"/><summary type=\"text\">summary test</summary><rights type=\"text\">rights list test</rights><contributor><name>madhuka</name></contributor><contributor>"
+=======
   					+"</content><author><name>madhuka</name></author><author><name>nuwan</name></author><category term=\"js\" /><category term=\"jaggery\" /><link href=\"http://jaggeryjs.org/\" />"
   					+"<link href=\"madhukaudantha.blogspot.com\" /><summary type=\"text\">summary test</summary><rights type=\"text\">rights list test</rights><contributor><name>madhuka</name></contributor><contributor>"
+>>>>>>> upstream/master
   					+"<name>nuwan</name></contributor><contributor><name>ruchira</name></contributor></entry></feed>");
           
       }
@@ -125,8 +130,13 @@ public class EntryHostObjectTestCase {
   			e.printStackTrace();
   		} finally {
   			assertEquals(finalOutput, "XML : <feed xmlns=\"http://www.w3.org/2005/Atom\"><entry><id>1</id><title type=\"text\">Jaggery Sample Entry</title><content type=\"text\">This is content for a sample atom entry"
+<<<<<<< HEAD
+  					+"</content><author><name>madhuka</name></author><author><name>nuwan</name></author><category term=\"js\"/><category term=\"jaggery\"/><link href=\"http://jaggeryjs.org/\"/>"
+  					+"<link href=\"madhukaudantha.blogspot.com\"/><summary type=\"text\">summary test</summary><rights type=\"text\">rights list test</rights><contributor><name>madhuka</name></contributor><contributor>"
+=======
   					+"</content><author><name>madhuka</name></author><author><name>nuwan</name></author><category term=\"js\" /><category term=\"jaggery\" /><link href=\"http://jaggeryjs.org/\" />"
   					+"<link href=\"madhukaudantha.blogspot.com\" /><summary type=\"text\">summary test</summary><rights type=\"text\">rights list test</rights><contributor><name>madhuka</name></contributor><contributor>"
+>>>>>>> upstream/master
   					+"<name>nuwan</name></contributor><contributor><name>ruchira</name></contributor></entry></feed>");
           
       }
