@@ -64,7 +64,7 @@ include('/includes/topnavi.jag');
     <div class="span16">
         <div class="page-header">
             <h1>
-                Tools
+                <span class="parent">Tools</span> / Debugger 
             </h1>
         </div>
     </div>
@@ -77,11 +77,7 @@ include('/includes/topnavi.jag');
     <!-- Example row of columns -->
     <div class="row">
         <div class="span16">
-                <h2>
-                    Jaggery Debugger
-                </h2>
-                </br>
-                </br>
+                                
             <h3>Introduction</h3>
             <p>Jaggery debugging feature is enabled by the means of Rhino JavaScript Debugger. Eclipse IDE has plugin
                 support for Remote Javascript debugging with Rhino. Support is given for both client and server side
