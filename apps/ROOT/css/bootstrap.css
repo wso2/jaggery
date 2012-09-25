@@ -478,7 +478,7 @@ ol {
     list-style: decimal;
 }
 li {
-    line-height: 18px;
+    line-height: 20px;
     color: #808080;
 }
 ul.unstyled {
@@ -1800,7 +1800,8 @@ footer {
 	padding-bottom: 20px;
 }
 .page-header {
-    margin-bottom: 17px;
+    margin-bottom: 30px;
+    margin-top:30px;
     border-bottom: 1px solid #ddd;
     -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
     -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
@@ -2837,3 +2838,73 @@ ul.sampleapps li h3 {
     margin-top:60px;
     min-height:500px;
 }
+
+
+.topbar a.forkme{
+background: url("../images/label-forkme.png") no-repeat scroll 0 0 transparent;
+    color: #FFFFFF;
+    display: block;
+    float: right;
+    height: 27px;
+    line-height: 27px;
+    margin-top: 12px;
+    outline: medium none;
+    padding-left: 29px;
+    width: 60px;
+}
+.topbar a.forkme:hover{
+background-position:left bottom;
+text-decoration:none;
+}
+
+ul.tool-links {
+margin-left:0;
+}
+
+.tool-links li{
+background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #CCCCCC;
+    list-style: none outside none;
+    padding: 25px;
+    text-align: left;
+    width: 400px;
+}
+.tool-links li.even{
+margin-right:20px;
+float:left;
+}
+.tool-links li.odd{
+float:right;
+}
+
+ul.tool-links li img{
+float:left;
+margin-right: 18px;
+}
+ul.tool-links li h3{
+float:left;
+}
+ul.tool-links li p{
+clear: both;
+    display: block;
+    float: left;
+    margin-top: 15px;
+}
+ul.tool-links li a.link{
+text-decoration: underline;
+float:left;
+clear:both;
+margin-top:10px;
+}
+
+ul.tool-links li i{
+float:left;
+clear:both;
+margin-top:10px;
+}
+
+h1 span.parent{
+color:#ccc;
+}
+
+
