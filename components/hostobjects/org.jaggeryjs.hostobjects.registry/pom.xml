@@ -5,7 +5,7 @@
         <groupId>org.jaggeryjs</groupId>
         <artifactId>hostobjects</artifactId>
         <version>0.9.0-SNAPSHOT</version>
-<relativePath>../pom.xml</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>org.jaggeryjs.hostobjects.registry</artifactId>
@@ -25,6 +25,10 @@
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.registry.core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon</groupId>
+            <artifactId>org.wso2.carbon.registry.ws.client</artifactId>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>

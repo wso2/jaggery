@@ -449,6 +449,11 @@
                 <version>${carbon.kernal.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.registry.ws.client</artifactId>
+                <version>${carbon.platform.patch.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.scribe</groupId>
                 <artifactId>scribe</artifactId>
                 <version>${scribe.version}</version>

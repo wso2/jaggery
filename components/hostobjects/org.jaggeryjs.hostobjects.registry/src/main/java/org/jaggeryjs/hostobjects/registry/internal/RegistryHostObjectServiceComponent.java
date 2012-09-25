@@ -19,31 +19,50 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.hostobjects.registry.RegistryHostObjectContext;
 import org.jaggeryjs.hostobjects.registry.RegistryHostObjectContext;
+import org.wso2.carbon.CarbonException;
 import org.wso2.carbon.registry.core.service.RegistryService;
+import org.wso2.carbon.user.core.service.RealmService;
 
 /**
  * @scr.component name="mashup.javascript.hostobjects.registry.dscomponent"
- *                immediate="true"
+ * immediate="true"
  * @scr.reference name="registry.service"
- *                interface="org.wso2.carbon.registry.core.service.RegistryService"
- *                cardinality="1..1" policy="dynamic" bind="setRegistryService"
- *                unbind="unsetRegistryService"
+ * interface="org.wso2.carbon.registry.core.service.RegistryService"
+ * cardinality="1..1" policy="dynamic" bind="setRegistryService"
+ * unbind="unsetRegistryService"
+ * @scr.reference name="user.realmservice.default"
+ * interface="org.wso2.carbon.user.core.service.RealmService"
+ * cardinality="1..1" policy="dynamic" bind="setRealmService"
+ * unbind="unsetRealmService"
  */
 public class RegistryHostObjectServiceComponent {
 
     private static final Log log = LogFactory.getLog(RegistryHostObjectServiceComponent.class);
 
-	protected void setRegistryService(RegistryService registryService) {
-		if (log.isDebugEnabled()) {
-			log.info("Setting the Registry Service");
-		}
-		RegistryHostObjectContext.setRegistryService(registryService);
-	}
+    protected void setRegistryService(RegistryService registryService) {
+        if (log.isDebugEnabled()) {
+            log.info("Setting the Registry Service to RegistryHostObjectContext");
+        }
+        RegistryHostObjectContext.setRegistryService(registryService);
+    }
 
-	protected void unsetRegistryService(RegistryService registryService) {
-		if (log.isDebugEnabled()) {
-			log.info("Unsetting the Registry Service");
-		}
-		RegistryHostObjectContext.setRegistryService(null);
-	}
+    protected void unsetRegistryService(RegistryService registryService) {
+        if (log.isDebugEnabled()) {
+            log.info("Unsetting the Registry Service");
+        }
+        RegistryHostObjectContext.setRegistryService(null);
+    }
+
+    protected void setRealmService(RealmService realmService) throws CarbonException {
+        if (log.isDebugEnabled()) {
+            log.info("Setting the Realm Service to RegistryHostObjectContext");
+        }
+        RegistryHostObjectContext.setRealmService(realmService);
+    }
+
+    protected void unsetRealmService(RealmService realmService) throws CarbonException {
+        RegistryHostObjectContext.setRealmService(null);
+    }
+
+
 }

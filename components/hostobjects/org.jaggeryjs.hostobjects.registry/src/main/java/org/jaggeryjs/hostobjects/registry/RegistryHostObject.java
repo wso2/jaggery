@@ -51,12 +51,16 @@ public class RegistryHostObject extends ScriptableObject {
     public static Scriptable jsConstructor(Context cx, Object[] args, Function ctorObj,
                                            boolean inNewExpr) throws ScriptException {
         int argsCount = args.length;
-        if (args.length != 2 && (args[0] instanceof String) && (args[1] instanceof String)) {
+        if (args.length > 2 && args.length != 0) {
             HostObjectUtil.invalidNumberOfArgs(hostObjectName, hostObjectName, argsCount, true);
         }
 
         RegistryHostObject rho = new RegistryHostObject();
-        rho.registry = getRegistry((String) args[0], (String) args[1]);
+        if (args.length == 2) {
+            rho.registry = getRegistry((String) args[0], (String) args[1]);
+        } else {
+            rho.registry = getRegistry((String) args[0]);
+        }
         return rho;
     }
 
@@ -210,9 +214,45 @@ public class RegistryHostObject extends ScriptableObject {
     private static Registry getRegistry(String username, String password) throws ScriptException {
         Registry registry;
         RegistryService registryService = RegistryHostObjectContext.getRegistryService();
+
+        String tDomain;
         try {
-            registry = registryService.getGovernanceUserRegistry(username, password);
-        } catch (org.wso2.carbon.registry.core.exceptions.RegistryException e) {
+            tDomain = username.split("@")[1];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            //if tenant domain is not present in the username we treat is as a super user
+            tDomain = "carbon.super";
+        }
+
+        try {
+            int tId = RegistryHostObjectContext.getRealmService().getTenantManager().getTenantId(tDomain);
+            registry = registryService.getGovernanceUserRegistry(username, password, tId);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw new ScriptException(e);
+        }
+        if (registry == null) {
+            String msg = "User governance registry cannot be retrieved";
+            throw new ScriptException(msg);
+        }
+        return registry;
+    }
+
+    private static Registry getRegistry(String username) throws ScriptException {
+        Registry registry;
+        RegistryService registryService = RegistryHostObjectContext.getRegistryService();
+
+        String tDomain;
+        try {
+            tDomain = username.split("@")[1];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            //if tenant domain is not present in the username we treat is as a super user
+            tDomain = "carbon.super";
+        }
+
+        try {
+            int tId = RegistryHostObjectContext.getRealmService().getTenantManager().getTenantId(tDomain);
+            registry = registryService.getGovernanceUserRegistry(username, tId);
+        } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new ScriptException(e);
         }
