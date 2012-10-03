@@ -68,7 +68,7 @@ include('/includes/topnavi.jag');
     var subject = request.getParameter("sub");
 
     var email = require('email');
-    var sender = new msg.Sender("smtp.gmail.com", "25", "username", "password");
+    var sender = new msg.Sender("smtp.gmail.com", "25", "username", "password", "tls");
 
     sender.from = "";
     sender.to = to;
@@ -270,13 +270,14 @@ sender.cc= cc; </pre>
         <td><code>Sender()</code></td>
         <td>None</td>
         <td>
-		<pre class="prettyprint">
-var sender = new email.Sender("smtp.gmail.com", "username@gmail.com", "password");</pre>
+            <pre class="prettyprint">
+var sender = new email.Sender("smtp.example.com", "25", "username@example.com", "password");
+                    </pre>
             <br/>
             <pre class="prettyprint">
-var sender = new email.Sender("smtp.gmail.com", "25", "username@gmail.com", "password");
-                    </pre> 
-            Has two constructors for different arguments<br>
+var sender = new email.Sender("smtp.gmail.com", "25", "username@gmail.com", "password", "tls");
+                    </pre>
+            Adding <code>"tls"</code> as the fifth argument will enable TLS for the communication<br>
             
 
         </td>

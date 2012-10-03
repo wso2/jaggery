@@ -128,7 +128,7 @@ public class SenderHostObject extends ScriptableObject {
         senderHostObject.properties = props;
         senderHostObject.multipart = new MimeMultipart();
 
-        String host, username, password;
+        String host, username, password, tls;
         String port = null;
         //ServerConfiguration serverConfig = ServerConfiguration.getInstance();
 
@@ -140,12 +140,25 @@ public class SenderHostObject extends ScriptableObject {
             password = (String) args[2];
             port = serverConfig.getFirstProperty("SenderConfig.port");
         } else*/
-        if (length == 4) {
+        if (length == 5) {
             //We assume that the parameters are host, port, username and password
             host = (String) args[0];
             port = (String) args[1];
             username = (String) args[2];
             password = (String) args[3];
+            tls = (String) args[4];
+            if ("tls".equals(tls)) {
+                senderHostObject.setProperty("mail.smtp.starttls.enable", "true");
+            } else {
+                throw new ScriptException("Fifth property has to be : tls");
+            }
+        } else if (length == 4) {
+            //We assume that the parameters are host, port, username and password
+            host = (String) args[0];
+            port = (String) args[1];
+            username = (String) args[2];
+            password = (String) args[3];
+            senderHostObject.setProperty("mail.smtp.starttls.enable", "false");
         } else {
             throw new ScriptException("Incorrect number of arguments. Please specify host, username, " +
                     "password or host, port, username, password within the constructor of Sender hostobject.");
@@ -169,7 +182,6 @@ public class SenderHostObject extends ScriptableObject {
         Session session = Session.getInstance(props, smtpAuthenticator);
         senderHostObject.message = new MimeMessage(session);
 
-        senderHostObject.setProperty("mail.smtp.starttls.enable", "true");
 
         return senderHostObject;
     }
