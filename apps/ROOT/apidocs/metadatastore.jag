@@ -191,6 +191,14 @@ boolean existance = dataStore.resourceExists("middleware/wso2/products");
                             specified path in the Metadata store.
                         </td>
                     </tr>
+                        <tr>
+                            <td>
+                                <code>createLink(String path, String target);</code>
+                            </td>
+                            <td>String</td>
+                            <td>Creates a link to a existing resource.
+                            </td>
+                        </tr>
                     <tr>
                         <td>
                             <code>newResource();</code>

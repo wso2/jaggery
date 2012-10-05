@@ -12,6 +12,10 @@ if(param == "exists") {
 	print("exists : "+dataStore.resourceExists("wso2products.xml"));
 	//now we read the resource again
 	
+}else if(param == "link") {
+    dataStore.createLink("productxml", "wso2products.xml");
+    print("created : "+dataStore.resourceExists("productxml"));
+
 }else if(param == "remove"){
 	print("exists : "+dataStore.resourceExists("wso2products.xml"));
 	print(", Removing resource, ");
