@@ -23,7 +23,7 @@ import org.mozilla.javascript.NativeObject;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
-import org.wso2.carbon.registry.api.Resource;
+import org.wso2.carbon.registry.core.Resource;
 import org.wso2.carbon.registry.api.RegistryException;
 import org.wso2.javascript.xmlimpl.XML;
 
@@ -231,6 +231,10 @@ public class ResourceHostObject extends ScriptableObject {
 
     public String jsGet_permanentPath() {
         return this.resource.getPermanentPath();
+    }
+
+    public String jsGet_UUID() {
+        return this.resource.getUUID();
     }
 
     public int jsGet_state() {
