@@ -293,7 +293,7 @@
 		<carbon.kernal.patch.version>4.0.2</carbon.kernal.patch.version>
 		
         <!-- feature versions -->
-        <ntask.feature.version>4.0.0</ntask.feature.version>
+        <ntask.feature.version>4.0.2</ntask.feature.version>
 		<org.wso2.carbon.integration.framework.version>4.0.2</org.wso2.carbon.integration.framework.version>
 
         <!-- non-osgi bundle versions -->
