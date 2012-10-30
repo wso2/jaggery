@@ -21,8 +21,8 @@ import org.mozilla.javascript.Function;
 import org.mozilla.javascript.NativeArray;
 import org.mozilla.javascript.Scriptable;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
-import org.wso2.carbon.registry.api.Collection;
-import org.wso2.carbon.registry.api.Resource;
+import org.wso2.carbon.registry.core.Collection;
+import org.wso2.carbon.registry.core.Resource;
 import org.wso2.carbon.registry.api.RegistryException;
 
 /**

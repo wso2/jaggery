@@ -121,6 +121,33 @@ public class MetaDataHostObjectTestCase {
 		}
         
     }
+
+    @Test(groups = {"jaggery"},
+            description = "Test create link operations")
+    public void metaDataCreateLinkOperations() {
+        ClientConnectionUtil.waitForPort(9763);
+
+        String finalOutput = null;
+
+        try {
+            URL jaggeryURL = new URL("http://localhost:9763/testapp/metadata.jag?action=link");
+            URLConnection jaggeryServerConnection = jaggeryURL.openConnection();
+            BufferedReader in = new BufferedReader(new InputStreamReader(
+                    jaggeryServerConnection.getInputStream()));
+
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                finalOutput = inputLine;
+            }
+
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            assertEquals(finalOutput, "created : true");
+        }
+
+    }
     
     @Test(groups = {"jaggery"},
             description = "Test MetaData remove operations")

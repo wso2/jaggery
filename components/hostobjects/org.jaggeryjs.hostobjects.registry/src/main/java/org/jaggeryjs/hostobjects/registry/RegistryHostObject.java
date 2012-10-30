@@ -211,6 +211,25 @@ public class RegistryHostObject extends ScriptableObject {
         }
     }
 
+    public static void jsFunction_createLink(Context cx, Scriptable thisObj,
+                                             Object[] arguments,
+                                             Function funObj) throws ScriptException {
+        RegistryHostObject registryHostObject = (RegistryHostObject) thisObj;
+        if (arguments.length == 2) {
+            if (arguments[0] instanceof String && arguments[1] instanceof String) {
+                try {
+                    registryHostObject.registry.createLink((String) arguments[0], (String) arguments[1]);
+                } catch (RegistryException e) {
+                    throw new ScriptException("Error occurred while creating a Link", e);
+                }
+            } else {
+                throw new ScriptException("Invalid argument types for createLink() method");
+            }
+        } else {
+            throw new ScriptException("Invalid no. of arguments");
+        }
+    }
+
     private static Registry getRegistry(String username, String password) throws ScriptException {
         Registry registry;
         RegistryService registryService = RegistryHostObjectContext.getRegistryService();
