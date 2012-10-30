@@ -29,7 +29,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.apache.axiom.om.util.Base64;
-import org.wso2.carbon.core.multitenancy.SuperTenantCarbonContext;
+import org.wso2.carbon.context.PrivilegedCarbonContext;
 import org.wso2.carbon.ntask.core.TaskInfo;
 import org.wso2.carbon.ntask.core.TaskInfo.TriggerInfo;
 
@@ -94,10 +94,10 @@ public class JaggeryTaskUtils {
     }
 
     public static String getTenantDomainFromId(int tid) {
-        SuperTenantCarbonContext.startTenantFlow();
-        SuperTenantCarbonContext.getCurrentContext().setTenantId(tid);
-        String tenantDomain = SuperTenantCarbonContext.getCurrentContext().getTenantDomain();
-        SuperTenantCarbonContext.endTenantFlow();
+        PrivilegedCarbonContext.startTenantFlow();
+        PrivilegedCarbonContext.getCurrentContext().setTenantId(tid);
+        String tenantDomain = PrivilegedCarbonContext.getCurrentContext().getTenantDomain();
+        PrivilegedCarbonContext.endTenantFlow();
         return tenantDomain;
     }
 

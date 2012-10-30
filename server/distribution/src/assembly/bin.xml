@@ -24,7 +24,7 @@
 
     <fileSets>
         <fileSet>
-            <directory>target/wso2carbon-core-${carbon.kernal.version}</directory>
+            <directory>target/wso2carbon-core-${carbon.kernal.patch.version}</directory>
             <outputDirectory>jaggery-${pom.version}/carbon</outputDirectory>
             <excludes>
                 <exclude>**/*.sh</exclude>
@@ -45,7 +45,7 @@
             </excludes>
         </fileSet>
         <fileSet>
-            <directory>target/wso2carbon-core-${carbon.kernal.version}</directory>
+            <directory>target/wso2carbon-core-${carbon.kernal.patch.version}</directory>
             <outputDirectory>jaggery-${pom.version}/carbon</outputDirectory>
             <includes>
                 <include>**/*.sh</include>
@@ -109,13 +109,13 @@
             <fileMode>644</fileMode>
         </file>
         <file>
-            <source>target/wso2carbon-core-${carbon.kernal.version}/bin/README.txt</source>
+            <source>target/wso2carbon-core-${carbon.kernal.patch.version}/bin/README.txt</source>
             <outputDirectory>jaggery-${pom.version}/carbon/bin/</outputDirectory>
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
         <file>
-            <source>target/wso2carbon-core-${carbon.kernal.version}/bin/version.txt</source>
+            <source>target/wso2carbon-core-${carbon.kernal.patch.version}/bin/version.txt</source>
             <outputDirectory>jaggery-${pom.version}/carbon/bin/</outputDirectory>
             <filtered>true</filtered>
             <fileMode>644</fileMode>
@@ -131,7 +131,7 @@
             <filtered>true</filtered>
         </file-->
         <file>
-            <source>target/wso2carbon-core-${carbon.kernal.version}/repository/conf/axis2/axis2.xml</source>
+            <source>target/wso2carbon-core-${carbon.kernal.patch.version}/repository/conf/axis2/axis2.xml</source>
             <outputDirectory>jaggery-${pom.version}/carbon/repository/conf/axis2/</outputDirectory>
             <filtered>true</filtered>
             <fileMode>644</fileMode>
@@ -142,7 +142,7 @@
             <filtered>true</filtered>
         </file>
         <file>
-            <source>target/wso2carbon-core-${carbon.kernal.version}/repository/conf/README</source>
+            <source>target/wso2carbon-core-${carbon.kernal.patch.version}/repository/conf/README</source>
             <outputDirectory>jaggery-${pom.version}/carbon/repository/conf/</outputDirectory>
             <filtered>true</filtered>
             <fileMode>644</fileMode>

@@ -78,8 +78,8 @@
         <!-- carbon versions -->
         <carbon.kernal.version>4.0.0</carbon.kernal.version>
         <carbon.platform.version>4.0.0</carbon.platform.version>
-        <carbon.platform.patch.version>4.0.1</carbon.platform.patch.version>
-
+        <carbon.platform.patch.version>4.0.2</carbon.platform.patch.version>
+		
         <!--rhino debugger versions-->
         <eclipse-debugger.version>1.0.300.v201109150503</eclipse-debugger.version>
         <eclipse-transport.version>1.0.100.v201109150330</eclipse-transport.version>
@@ -123,7 +123,13 @@
         <javax.servlet.osgi.version>3.0.0.wso2v1</javax.servlet.osgi.version>
         <geronimo-servlet_3.0_spec.version>1.0</geronimo-servlet_3.0_spec.version>
         <webapp.mgt.osgi.version>4.0.1</webapp.mgt.osgi.version>
-
+		<webapp.mgt.osgi.patch.version>4.0.2</webapp.mgt.osgi.patch.version>
+		<org.wso2.carbon.utils.version>4.0.2</org.wso2.carbon.utils.version>
+		<org.wso2.carbon.registry.core.version>4.0.2</org.wso2.carbon.registry.core.version>
+		<org.wso2.carbon.ui.version>4.0.2</org.wso2.carbon.ui.version>
+		<org.wso2.carbon.core.version>4.0.2</org.wso2.carbon.core.version>
+		<org.wso2.carbon.ndatasource.core.version>4.0.2</org.wso2.carbon.ndatasource.core.version>
+	
         <!-- non-osgi bundle versions -->
         <json.version>20090211</json.version>
         <commons-logging.version>1.1.1</commons-logging.version>
@@ -386,7 +392,7 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.ndatasource.core</artifactId>
-                <version>${carbon.kernal.version}</version>
+                <version>${org.wso2.carbon.ndatasource.core.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.geronimo.specs</groupId>
@@ -421,7 +427,7 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.utils</artifactId>
-                <version>${carbon.kernal.version}</version>
+                <version>${org.wso2.carbon.utils.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
@@ -446,7 +452,7 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.registry.core</artifactId>
-                <version>${carbon.kernal.version}</version>
+                <version>${org.wso2.carbon.registry.core.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
@@ -467,12 +473,12 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.webapp.mgt</artifactId>
-                <version>${carbon.platform.patch.version}</version>
+                <version>${webapp.mgt.osgi.patch.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.ui</artifactId>
-                <version>${carbon.kernal.version}</version>
+                <version>${org.wso2.carbon.ui.version}</version>
             </dependency>
 
             <!-- jaggery-core dep -->
@@ -484,7 +490,7 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.core</artifactId>
-                <version>${carbon.kernal.version}</version>
+                <version>${org.wso2.carbon.core.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>

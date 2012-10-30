@@ -78,7 +78,7 @@
                                 <artifactItem>
                                     <groupId>org.wso2.carbon</groupId>
                                     <artifactId>wso2carbon-core</artifactId>
-                                    <version>${carbon.kernal.version}</version>
+                                    <version>${carbon.kernal.patch.version}</version>
                                     <type>zip</type>
                                     <overWrite>true</overWrite>
                                     <outputDirectory>target</outputDirectory>
@@ -109,7 +109,7 @@
                                         <include name="jaggery-${pom.version}.zip"/>
                                     </fileset>
                                 </unzip>
-                                <copy todir="target/wso2carbon-core-${carbon.kernal.version}/repository/components"
+                                <copy todir="target/wso2carbon-core-${carbon.kernal.patch.version}/repository/components"
                                       overwrite="true">
                                     <fileset
                                             dir="${tempdir}/jaggery-${pom.version}/carbon/repository/components">
@@ -119,7 +119,7 @@
                                     <fileset dir="src/resources/jar"/>
                                     <zipfileset includes="**/*" src="target/wso2carbon-core-${carbon.platform.version}/repository/components/plugins/org.wso2.carbon.jaggery.deployer_${jaggery.components.version}.jar"/>
                                 </jar-->
-                                <unzip src="target/wso2carbon-core-${carbon.kernal.version}/repository/components/plugins/org.jaggeryjs.jaggery.deployer_${jaggery.deployer.osgi.version}.jar"
+                                <unzip src="target/wso2carbon-core-${carbon.kernal.patch.version}/repository/components/plugins/org.jaggeryjs.jaggery.deployer_${jaggery.deployer.osgi.version}.jar"
                                        dest="${jardir}/deployer">
                                     <patternset>
                                         <exclude name="**/component.xml"/>
@@ -127,8 +127,8 @@
                                 </unzip>
                                 <copy file="src/resources/jar/META-INF/component.xml"
                                       todir="${jardir}/deployer/META-INF"/>
-                                <delete file="target/wso2carbon-core-${carbon.kernal.version}/repository/components/plugins/org.jaggeryjs.jaggery.deployer_${jaggery.deployer.osgi.version}.jar"></delete>
-                                <zip destfile="target/wso2carbon-core-${carbon.kernal.version}/repository/components/plugins/org.jaggeryjs.jaggery.deployer_${jaggery.deployer.osgi.version}.jar"
+                                <delete file="target/wso2carbon-core-${carbon.kernal.patch.version}/repository/components/plugins/org.jaggeryjs.jaggery.deployer_${jaggery.deployer.osgi.version}.jar"></delete>
+                                <zip destfile="target/wso2carbon-core-${carbon.kernal.patch.version}/repository/components/plugins/org.jaggeryjs.jaggery.deployer_${jaggery.deployer.osgi.version}.jar"
                                      basedir="${jardir}/deployer"/>
 
 
@@ -137,7 +137,7 @@
                                 <mkdir dir="${tempdir}"/>
                                 <unzip dest="${tempdir}">
                                     <fileset
-                                            dir="target/wso2carbon-core-${carbon.kernal.version}/repository/components/plugins/">
+                                            dir="target/wso2carbon-core-${carbon.kernal.patch.version}/repository/components/plugins/">
                                         <include name="*.ui*.jar"/>
                                     </fileset>
                                 </unzip>
@@ -199,7 +199,7 @@
                                 <delete dir="target/archive-tmp"/>
                                 <delete dir="target/dependency-maven-plugin-markers"/>
                                 <delete dir="target/maven-archiver"/>
-                                <delete dir="target/wso2carbon-core-${carbon.kernal.version}"/>
+                                <delete dir="target/wso2carbon-core-${carbon.kernal.patch.version}"/>
                                 <delete file="target/jaggery-${pom.version}.jar"/>
                                 <delete dir="target/sources"/>
                                 <delete dir="target/site"/>

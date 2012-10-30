@@ -290,9 +290,11 @@
         <!-- carbon versions -->
         <carbon.kernal.version>4.0.0</carbon.kernal.version>
         <carbon.platform.version>4.0.0</carbon.platform.version>
-
+		<carbon.kernal.patch.version>4.0.2</carbon.kernal.patch.version>
+		
         <!-- feature versions -->
         <ntask.feature.version>4.0.0</ntask.feature.version>
+		<org.wso2.carbon.integration.framework.version>4.0.2</org.wso2.carbon.integration.framework.version>
 
         <!-- non-osgi bundle versions -->
         <emma.version>2.1.5320</emma.version>

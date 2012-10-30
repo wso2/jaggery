@@ -33,8 +33,10 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.wso2.carbon.CarbonConstants;
 import org.wso2.carbon.CarbonException;
+//import org.wso2.carbon.context.ApplicationContext;
+//import org.wso2.carbon.tomcat.ext.utils.URLMappingHolder;
 import org.wso2.carbon.core.session.CarbonTomcatClusterableSessionManager;
-import org.wso2.carbon.utils.multitenancy.CarbonContextHolder;
+import org.wso2.carbon.context.PrivilegedCarbonContext;
 import org.wso2.carbon.webapp.mgt.*;
 
 import java.io.*;
@@ -75,12 +77,11 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
     public void deploy(File webappFile,
                        List<WebContextParameter> webContextParams,
                        List<Object> applicationEventListeners) throws CarbonException {
-        CarbonContextHolder currentCarbonContextHolder =
-                CarbonContextHolder.getCurrentCarbonContextHolder();
-        currentCarbonContextHolder.startTenantFlow();
+    
         try {
-            currentCarbonContextHolder.setTenantId(tenantId);
-            currentCarbonContextHolder.setTenantDomain(tenantDomain);
+
+        	PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(tenantId);
+        	PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(tenantDomain);
             long lastModifiedTime = webappFile.lastModified();
             long configLastModified = 0;
             if (JaggeryDeploymentUtil.getConfig(webappFile) != null) {
@@ -103,9 +104,10 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                     (configLastModified != 0 && faultyWebapp.getConfigDirLastModifiedTime() != configLastModified)) {
                 handleHotDeployment(webappFile, webContextParams, applicationEventListeners);
             }
-        } finally {
-            currentCarbonContextHolder.endTenantFlow();
-        }
+        } catch(Throwable t){
+            log.error("Error while Tomact jaggery web apps Deployment " ,t);
+            }
+       
     }
 
     /**
@@ -215,12 +217,16 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
             Context context =
                     DataHolder.getCarbonTomcatService().addWebApp(contextStr, webappFile.getAbsolutePath(),
                             new JaggeryConfListener(tomcat, servletParameters, servletMappingParameters, jaggeryConfigObj, securityConstraint));
-            //deploying web app for url-mapper
+            //deploying web app for url mapping inside virtual host
             if (DataHolder.getHotUpdateService() != null) {
                 List<String> hostNames = DataHolder.getHotUpdateService().getMappigsPerWebapp(contextStr);
                 for (String hostName : hostNames) {
-                    Host host = (Host) tomcat.getEngine().findChild(hostName);
-                    DataHolder.getCarbonTomcatService().addWebApp(host, "/", webappFile.getAbsolutePath());
+                    Host host = DataHolder.getHotUpdateService().addHost(hostName);
+/*                    ApplicationContext.getCurrentApplicationContext().putUrlMappingForApplication(hostName, contextStr);
+  */                  Context contextForHost =
+                            DataHolder.getCarbonTomcatService().addWebApp(host, "/", webappFile.getAbsolutePath(),
+                                    new JaggeryConfListener(tomcat, servletParameters, servletMappingParameters, jaggeryConfigObj, securityConstraint));
+                    log.info("Deployed JaggeryApp on host: " + contextForHost);
                 }
             }
 
@@ -431,7 +437,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
     }
 
     private static void setDisplayName(Context context, JSONObject obj) {
-        if (obj == null) {
+        if(obj == null) {
             return;
         }
         String dName = (String) obj.get(JaggeryConstants.JaggeryConfigParams.DISPLAY_NAME);
@@ -460,6 +466,19 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
         return false;
     }
 
+    private static void addParameters(Context context, JSONObject obj) {
+        if (obj != null) {
+            Iterator<?> keys = obj.keySet().iterator();
+
+            while (keys.hasNext()) {
+                String key = (String) keys.next();
+                if (obj.get(key) instanceof String) {
+                    context.addParameter(key, (String) obj.get(key));
+                }
+            }
+        }
+    }
+
     private static void addWelcomeFiles(Context context, JSONObject obj) {
         if (obj != null) {
             JSONArray arr = (JSONArray) obj.get(JaggeryConstants.JaggeryConfigParams.WELCOME_FILES);
@@ -474,19 +493,6 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
         } else {
             context.addWelcomeFile("index.jag");
             context.addWelcomeFile("index.html");
-        }
-    }
-
-    private static void addParameters(Context context, JSONObject obj) {
-        if (obj != null) {
-            Iterator<?> keys = obj.keySet().iterator();
-
-            while (keys.hasNext()) {
-                String key = (String) keys.next();
-                if (obj.get(key) instanceof String) {
-                    context.addParameter(key, (String) obj.get(key));
-                }
-            }
         }
     }
 
