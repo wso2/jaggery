@@ -107,7 +107,7 @@ include('/includes/topnavi.jag');
                 <ol class="steps1">
 
                     <li><a href="http://www.jetbrains.com/idea/download/">Download </a> IntelliJ IDEA if you haven't done so far.(Make sure you download the ultimate edition).</li>
-                    <li><a href="www.jaggeryjs.org">Download </a> the plugin.</li>
+                    <li><a href="http://plugins.intellij.net/plugin?pr=idea&pluginId=7108">Download </a> the plugin.</li>
 
                     <li>Go to <b>File</b> --> <b>settings</b>. </li>
                     <li>Choose plugins under <b>IDE settings</b>.</li>
