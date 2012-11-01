@@ -75,11 +75,15 @@ include('/includes/topnavi.jag');
             <ul class="tool-links">
 		    <li class="even">
 			<img src="images/icon-editor.png">
-							<a href="<%=context%>/tools/debugger.jag"><h3>Editor</h3> </a>
+							<a href="<%=context%>/tools/editor.jag"><h3>Editor</h3> </a>
 
 
-							<p>Use your favorite IDE to write your own Jaggery web apps. Jaggery Editor provides you with plugins for <b>Ecplise</b> and <b>IntelliJ IDEA</b> so that you get started easily. </p>
-							<i>This tool is coming soon!</i>
+
+							<p> Currently IDE support for <b>IntelliJ IDEA</b> ultimate edition is implemented where you can create .jag file on your own with syntax highlighting and code completion support for Jaggery,HTML and Javascript. </p>
+
+
+							 <i><b>Eclipse</b> based IDE will also be available soon!</i>  </p>
+							<a class="link" href="<%=context%>/tools/editor.jag">Learn more</a>
 			
 
 		    </li>
