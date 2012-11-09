@@ -18,17 +18,14 @@ package org.jaggeryjs.hostobjects.registry;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Function;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
-import org.wso2.carbon.registry.core.service.RegistryService;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
-import org.wso2.carbon.registry.api.Registry;
-import org.wso2.carbon.registry.api.RegistryException;
-import org.wso2.carbon.registry.api.Resource;
-import org.wso2.carbon.registry.api.Collection;
+import org.mozilla.javascript.*;
+import org.wso2.carbon.registry.api.*;
+import org.wso2.carbon.registry.core.service.RegistryService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p/>
@@ -230,9 +227,126 @@ public class RegistryHostObject extends ScriptableObject {
         }
     }
 
-    public static void jsFunction_copy(Context cx, Scriptable thisObj,
-                                             Object[] arguments,
+    public static void jsFunction_addRating(Context cx, Scriptable thisObj,
+                                            Object[] args,
+                                            Function funObj) throws ScriptException {
+        String functionName = "addRating";
+        int argsCount = args.length;
+        if (argsCount != 2) {
+            HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
+        }
+        if (!(args[0] instanceof String)) {
+            HostObjectUtil.invalidArgsError(hostObjectName, functionName, "1", "string", args[0], false);
+        }
+        if (!(args[1] instanceof Number)) {
+            HostObjectUtil.invalidArgsError(hostObjectName, functionName, "2", "number", args[1], false);
+        }
+        RegistryHostObject registryHostObject = (RegistryHostObject) thisObj;
+        try {
+            registryHostObject.registry.rateResource((String) args[0], ((Number) args[1]).intValue());
+        } catch (RegistryException e) {
+            throw new ScriptException(e);
+        }
+    }
+
+    public static void jsFunction_addComment(Context cx, Scriptable thisObj,
+                                             Object[] args,
                                              Function funObj) throws ScriptException {
+        String functionName = "addComment";
+        int argsCount = args.length;
+        if (argsCount != 2) {
+            HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
+        }
+        if (!(args[0] instanceof String)) {
+            HostObjectUtil.invalidArgsError(hostObjectName, functionName, "1", "string", args[0], false);
+        }
+        if (!(args[1] instanceof String)) {
+            HostObjectUtil.invalidArgsError(hostObjectName, functionName, "2", "string", args[1], false);
+        }
+        RegistryHostObject registryHostObject = (RegistryHostObject) thisObj;
+        try {
+            registryHostObject.registry.addComment((String) args[0],
+                    new org.wso2.carbon.registry.core.Comment((String) args[1]));
+        } catch (RegistryException e) {
+            throw new ScriptException(e);
+        }
+    }
+
+
+    public static Number jsFunction_getRating(Context cx, Scriptable thisObj,
+                                              Object[] args,
+                                              Function funObj) throws ScriptException {
+        String functionName = "getRating";
+        int argsCount = args.length;
+        if (argsCount != 2) {
+            HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
+        }
+        RegistryHostObject registryHostObject = (RegistryHostObject) thisObj;
+        if (!(args[0] instanceof String)) {
+            HostObjectUtil.invalidArgsError(hostObjectName, functionName, "1", "string", args[0], false);
+        }
+        if (!(args[1] instanceof String)) {
+            HostObjectUtil.invalidArgsError(hostObjectName, functionName, "2", "string", args[1], false);
+        }
+        try {
+            return registryHostObject.registry.getRating((String) args[0], (String) args[1]);
+        } catch (RegistryException e) {
+            throw new ScriptException(e);
+        }
+    }
+
+    public static Number jsFunction_getAvgRating(Context cx, Scriptable thisObj,
+                                                 Object[] args,
+                                                 Function funObj) throws ScriptException {
+        String functionName = "getAvgRating";
+        int argsCount = args.length;
+        if (argsCount != 1) {
+            HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
+        }
+        RegistryHostObject registryHostObject = (RegistryHostObject) thisObj;
+        if (!(args[0] instanceof String)) {
+            HostObjectUtil.invalidArgsError(hostObjectName, functionName, "1", "string", args[0], false);
+        }
+        try {
+            return registryHostObject.registry.getAverageRating((String) args[0]);
+        } catch (RegistryException e) {
+            throw new ScriptException(e);
+        }
+    }
+
+
+    public static NativeArray jsFunction_getComments(Context cx, Scriptable thisObj,
+                                                     Object[] args,
+                                                     Function funObj) throws ScriptException {
+        String functionName = "getComments";
+        int argsCount = args.length;
+        if (argsCount != 1) {
+            HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
+        }
+        if (!(args[0] instanceof String)) {
+            HostObjectUtil.invalidArgsError(hostObjectName, functionName, "1", "string", args[0], false);
+        }
+        try {
+            List<NativeObject> commentsArray = new ArrayList<NativeObject>();
+            RegistryHostObject registryHostObject = (RegistryHostObject) thisObj;
+            Comment[] comments = registryHostObject.registry.getComments((String) args[0]);
+            for (Comment comment : comments) {
+                NativeObject commentObj = new NativeObject();
+                commentObj.put("cid", commentObj, comment.getCommentID());
+                commentObj.put("author", commentObj, comment.getUser());
+                commentObj.put("content", commentObj, comment.getText());
+                commentObj.put("created", commentObj, comment.getCreatedTime().getTime());
+                commentsArray.add(commentObj);
+            }
+            return new NativeArray(commentsArray.toArray());
+        } catch (RegistryException e) {
+            throw new ScriptException(e);
+        }
+    }
+
+    public static void jsFunction_copy(Context cx, Scriptable thisObj,
+                                       Object[] arguments,
+                                       Function funObj) throws ScriptException {
         RegistryHostObject registryHostObject = (RegistryHostObject) thisObj;
         if (arguments.length == 2) {
             if (arguments[0] instanceof String && arguments[1] instanceof String) {
