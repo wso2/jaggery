@@ -40,6 +40,7 @@
                 <exclude>**/INSTALL.txt</exclude>
                 <exclude>**/release-notes.html</exclude>
                 <exclude>**/carbon.xml</exclude>
+                <exclude>**/registry.xml</exclude>
                 <exclude>**/axis2/axis2.xml</exclude>
                 <exclude>**/ciphertool.bat</exclude>
             </excludes>
@@ -122,6 +123,11 @@
         </file>
         <file>
             <source>src/resources/conf/carbon.xml</source>
+            <outputDirectory>jaggery-${pom.version}/carbon/repository/conf/</outputDirectory>
+            <filtered>true</filtered>
+        </file>
+        <file>
+            <source>src/resources/conf/registry.xml</source>
             <outputDirectory>jaggery-${pom.version}/carbon/repository/conf/</outputDirectory>
             <filtered>true</filtered>
         </file>

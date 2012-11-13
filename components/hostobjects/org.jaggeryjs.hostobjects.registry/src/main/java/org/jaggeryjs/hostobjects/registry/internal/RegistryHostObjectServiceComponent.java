@@ -18,7 +18,6 @@ package org.jaggeryjs.hostobjects.registry.internal;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.hostobjects.registry.RegistryHostObjectContext;
-import org.jaggeryjs.hostobjects.registry.RegistryHostObjectContext;
 import org.wso2.carbon.CarbonException;
 import org.wso2.carbon.registry.core.service.RegistryService;
 import org.wso2.carbon.user.core.service.RealmService;
@@ -63,6 +62,5 @@ public class RegistryHostObjectServiceComponent {
     protected void unsetRealmService(RealmService realmService) throws CarbonException {
         RegistryHostObjectContext.setRealmService(null);
     }
-
 
 }

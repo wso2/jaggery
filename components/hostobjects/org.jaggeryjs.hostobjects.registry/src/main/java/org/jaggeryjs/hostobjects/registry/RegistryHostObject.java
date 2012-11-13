@@ -18,14 +18,32 @@ package org.jaggeryjs.hostobjects.registry;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrDocumentList;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
 import org.mozilla.javascript.*;
-import org.wso2.carbon.registry.api.*;
+import org.wso2.carbon.CarbonException;
+import org.wso2.carbon.context.CarbonContext;
+import org.wso2.carbon.registry.api.RegistryException;
+import org.wso2.carbon.registry.common.ResourceData;
+import org.wso2.carbon.registry.common.TagCount;
+import org.wso2.carbon.registry.common.utils.CommonUtil;
+import org.wso2.carbon.registry.core.*;
+import org.wso2.carbon.registry.core.Collection;
 import org.wso2.carbon.registry.core.service.RegistryService;
+import org.wso2.carbon.registry.core.session.UserRegistry;
+import org.wso2.carbon.registry.core.utils.RegistryUtils;
+import org.wso2.carbon.registry.indexing.indexer.IndexerException;
+import org.wso2.carbon.registry.indexing.solr.SolrClient;
+import org.wso2.carbon.registry.search.beans.AdvancedSearchResultsBean;
+import org.wso2.carbon.registry.search.beans.CustomSearchParameterBean;
+import org.wso2.carbon.registry.search.services.utils.AdvancedSearchResultsBeanPopulator;
+import org.wso2.carbon.registry.search.services.utils.SearchUtils;
+import org.wso2.carbon.user.core.UserRealm;
+import org.wso2.carbon.user.core.UserStoreException;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * <p/>
@@ -39,7 +57,7 @@ public class RegistryHostObject extends ScriptableObject {
 
     private static final String hostObjectName = "MetadataStore";
 
-    private Registry registry = null;
+    private UserRegistry registry = null;
 
     public RegistryHostObject() {
         super();
@@ -314,7 +332,6 @@ public class RegistryHostObject extends ScriptableObject {
         }
     }
 
-
     public static NativeArray jsFunction_getComments(Context cx, Scriptable thisObj,
                                                      Object[] args,
                                                      Function funObj) throws ScriptException {
@@ -344,6 +361,61 @@ public class RegistryHostObject extends ScriptableObject {
         }
     }
 
+    public static NativeArray jsFunction_search(Context cx, Scriptable thisObj,
+                                                Object[] args,
+                                                Function funObj) throws ScriptException {
+        String functionName = "search";
+        int argsCount = args.length;
+        if (argsCount != 1) {
+            HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
+        }
+        if (!(args[0] instanceof NativeObject)) {
+            HostObjectUtil.invalidArgsError(hostObjectName, functionName, "1", "json", args[0], false);
+        }
+        NativeObject options = (NativeObject) args[0];
+        CustomSearchParameterBean parameters = new CustomSearchParameterBean();
+        List<String[]> values = new ArrayList<String[]>();
+        for (Object idObj : options.getIds()) {
+            String id = (String) idObj;
+            String value = HostObjectUtil.serializeObject(options.get(id, options));
+            values.add(new String[]{id, value});
+        }
+        parameters.setParameterValues(values.toArray(new String[0][0]));
+        RegistryHostObject registryHostObject = (RegistryHostObject) thisObj;
+        int tenantId = CarbonContext.getThreadLocalCarbonContext().getTenantId();
+        try {
+            UserRegistry userRegistry = RegistryHostObjectContext.getRegistryService().getRegistry("admin", tenantId);
+            Registry configRegistry = RegistryHostObjectContext.getRegistryService().getConfigSystemRegistry(tenantId);
+            AdvancedSearchResultsBean resultsBean = registryHostObject.search(configRegistry, userRegistry, parameters);
+            List<NativeObject> results = new ArrayList<NativeObject>();
+            for (ResourceData resourceData : resultsBean.getResourceDataList()) {
+                NativeObject result = new NativeObject();
+                result.put("author", result, resourceData.getAuthorUserName());
+                result.put("rating", result, resourceData.getAverageRating());
+                result.put("created", result, resourceData.getCreatedOn().getTime().getTime());
+                result.put("description", result, resourceData.getDescription());
+                result.put("name", result, resourceData.getName());
+                result.put("path", result, resourceData.getResourcePath());
+                List<NativeObject> tags = new ArrayList<NativeObject>();
+                if (resourceData.getTagCounts() != null) {
+                    for (TagCount tagCount : resourceData.getTagCounts()) {
+                        NativeObject tag = new NativeObject();
+                        tag.put("name", tag, tagCount.getKey());
+                        tag.put("count", tag, tagCount.getValue());
+                        tags.add(tag);
+                    }
+                }
+                result.put("tags", result, new NativeArray(tags.toArray()));
+                results.add(result);
+            }
+            return new NativeArray(results.toArray());
+        } catch (RegistryException e) {
+            throw new ScriptException(e);
+        } catch (CarbonException e) {
+            throw new ScriptException(e);
+        }
+    }
+
     public static void jsFunction_copy(Context cx, Scriptable thisObj,
                                        Object[] arguments,
                                        Function funObj) throws ScriptException {
@@ -363,8 +435,196 @@ public class RegistryHostObject extends ScriptableObject {
         }
     }
 
-    private static Registry getRegistry(String username, String password) throws ScriptException {
-        Registry registry;
+    private AdvancedSearchResultsBean search(Registry configSystemRegistry, UserRegistry registry,
+                                             CustomSearchParameterBean parameters) throws CarbonException {
+        RegistryUtils.recordStatistics(parameters);
+        AdvancedSearchResultsBean metaDataSearchResultsBean;
+        ResourceData[] contentSearchResourceData;
+        String[][] tempParameterValues = parameters.getParameterValues();
+
+        //        Doing a validation of all the values sent
+        boolean allEmpty = true;
+        for (String[] tempParameterValue : tempParameterValues) {
+            if (tempParameterValue[1] != null & tempParameterValue[1].trim().length() > 0) {
+                allEmpty = false;
+                //                Validating all the dates
+                if (tempParameterValue[0].equals("createdAfter") || tempParameterValue[0].equals("createdBefore") ||
+                        tempParameterValue[0].equals("updatedAfter") || tempParameterValue[0].equals("updatedBefore")) {
+                    if (!SearchUtils.validateDateInput(tempParameterValue[1])) {
+                        String message = tempParameterValue[0] + " contains illegal characters";
+                        return SearchUtils.getEmptyResultBeanWithErrorMsg(message);
+                    }
+                } else if (tempParameterValue[0].equals("mediaType")) {
+                    if (SearchUtils.validateMediaTypeInput(tempParameterValue[1])) {
+                        String message = tempParameterValue[0] + " contains illegal characters";
+                        return SearchUtils.getEmptyResultBeanWithErrorMsg(message);
+                    }
+                } else if (tempParameterValue[0].equals("content")) {
+                    if (SearchUtils.validateContentInput(tempParameterValue[1])) {
+                        String message = tempParameterValue[0] + " contains illegal characters";
+                        return SearchUtils.getEmptyResultBeanWithErrorMsg(message);
+                    }
+                } else if (tempParameterValue[0].equals("tags")) {
+                    boolean containsTag = false;
+                    for (String str : tempParameterValue[1].split(",")) {
+                        if (str.trim().length() > 0) {
+                            containsTag = true;
+                            break;
+                        }
+                    }
+                    if (!containsTag) {
+                        String message = tempParameterValue[0] + " contains illegal characters";
+                        return SearchUtils.getEmptyResultBeanWithErrorMsg(message);
+                    }
+                    if (SearchUtils.validateTagsInput(tempParameterValue[1])) {
+                        String message = tempParameterValue[0] + " contains illegal characters";
+                        return SearchUtils.getEmptyResultBeanWithErrorMsg(message);
+                    }
+                } else {
+                    if (SearchUtils.validatePathInput(tempParameterValue[1])) {
+                        String message = tempParameterValue[0] + " contains illegal characters";
+                        return SearchUtils.getEmptyResultBeanWithErrorMsg(message);
+                    }
+                }
+            }
+        }
+
+        if (allEmpty) {
+            return SearchUtils.getEmptyResultBeanWithErrorMsg("At least one field must be filled");
+        }
+
+        boolean onlyContent = true;
+        for (String[] tempParameterValue : tempParameterValues) {
+            if (!tempParameterValue[0].equals("content") && !tempParameterValue[0].equals("leftOp") &&
+                    !tempParameterValue[0].equals("rightOp") && tempParameterValue[1] != null &&
+                    tempParameterValue[1].length() > 0) {
+                onlyContent = false;
+                break;
+            }
+        }
+
+        for (String[] tempParameterValue : tempParameterValues) {
+            if (tempParameterValue[0].equals("content") && tempParameterValue[1] != null &&
+                    tempParameterValue[1].length() > 0) {
+                try {
+                    contentSearchResourceData = search(registry, tempParameterValue[1]);
+                } catch (Exception e) {
+                    metaDataSearchResultsBean = new AdvancedSearchResultsBean();
+                    metaDataSearchResultsBean.setErrorMessage(e.getMessage());
+                    return metaDataSearchResultsBean;
+                }
+
+                //                If there are no resource paths returned from content, then there is no point of searching for more
+                if (contentSearchResourceData != null && contentSearchResourceData.length > 0) {
+                    //                    Map<String, ResourceData> resourceDataMap = new HashMap<String, ResourceData>();
+                    Map<String, ResourceData> aggregatedMap = new HashMap<String, ResourceData>();
+
+                    for (ResourceData resourceData : contentSearchResourceData) {
+                        aggregatedMap.put(resourceData.getResourcePath(), resourceData);
+                    }
+
+                    metaDataSearchResultsBean = AdvancedSearchResultsBeanPopulator.populate(configSystemRegistry,
+                            registry, parameters);
+
+                    if (metaDataSearchResultsBean != null) {
+                        ResourceData[] metaDataResourceData = metaDataSearchResultsBean.getResourceDataList();
+                        if (metaDataResourceData != null && metaDataResourceData.length > 0) {
+
+                            List<String> invalidKeys = new ArrayList<String>();
+                            for (String key : aggregatedMap.keySet()) {
+                                boolean keyFound = false;
+                                for (ResourceData resourceData : metaDataResourceData) {
+                                    if (resourceData.getResourcePath().equals(key)) {
+                                        keyFound = true;
+                                        break;
+                                    }
+                                }
+                                if (!keyFound) {
+                                    invalidKeys.add(key);
+                                }
+                            }
+                            for (String invalidKey : invalidKeys) {
+                                aggregatedMap.remove(invalidKey);
+                            }
+                        } else if (!onlyContent) {
+                            aggregatedMap.clear();
+                        }
+                    }
+
+                    ArrayList<ResourceData> sortedList = new ArrayList<ResourceData>(aggregatedMap.values());
+                    SearchUtils.sortResourceDataList(sortedList);
+
+                    metaDataSearchResultsBean = new AdvancedSearchResultsBean();
+                    metaDataSearchResultsBean.setResourceDataList(sortedList.toArray(new ResourceData[sortedList.size()]));
+                    return metaDataSearchResultsBean;
+                } else {
+                    metaDataSearchResultsBean = new AdvancedSearchResultsBean();
+                    metaDataSearchResultsBean.setResourceDataList(contentSearchResourceData);
+                    return metaDataSearchResultsBean;
+                }
+            }
+        }
+        return AdvancedSearchResultsBeanPopulator.populate(configSystemRegistry, registry, parameters);
+    }
+
+    private ResourceData[] search(UserRegistry registry, String searchQuery) throws IndexerException, RegistryException {
+        SolrClient client = SolrClient.getInstance();
+        SolrDocumentList results = client.query(searchQuery, registry.getTenantId());
+
+        if (log.isDebugEnabled()) log.debug("result received " + results);
+
+        List<ResourceData> filteredResults = new ArrayList<ResourceData>();
+        for (int i = 0; i < results.getNumFound(); i++) {
+            SolrDocument solrDocument = results.get(i);
+            String path = getPathFromId((String) solrDocument.getFirstValue("id"));
+            //if (AuthorizationUtils.authorize(path, ActionConstants.GET)){
+            if ((registry.resourceExists(path)) && (isAuthorized(registry, path, ActionConstants.GET))) {
+                filteredResults.add(loadResourceByPath(registry, path));
+            }
+        }
+        if (log.isDebugEnabled()) {
+            log.debug("filtered results " + filteredResults + " for user " + registry.getUserName());
+        }
+        return filteredResults.toArray(new ResourceData[0]);
+    }
+
+    private String getPathFromId(String id) {
+        return id.substring(0, id.lastIndexOf("tenantId"));
+    }
+
+    private ResourceData loadResourceByPath(UserRegistry registry, String path) throws RegistryException {
+        ResourceData resourceData = new ResourceData();
+        resourceData.setResourcePath(path);
+
+        if (path != null) {
+            if (RegistryConstants.ROOT_PATH.equals(path)) {
+                resourceData.setName("root");
+            } else {
+                String[] parts = path.split(RegistryConstants.PATH_SEPARATOR);
+                resourceData.setName(parts[parts.length - 1]);
+            }
+        }
+
+        Resource child = registry.get(path);
+
+        resourceData.setResourceType(child instanceof Collection ? "collection"
+                : "resource");
+        resourceData.setAuthorUserName(child.getAuthorUserName());
+        resourceData.setDescription(child.getDescription());
+        resourceData.setAverageRating(registry
+                .getAverageRating(child.getPath()));
+        Calendar createdDateTime = Calendar.getInstance();
+        createdDateTime.setTime(child.getCreatedTime());
+        resourceData.setCreatedOn(createdDateTime);
+        CommonUtil.populateAverageStars(resourceData);
+
+        child.discard();
+
+        return resourceData;
+    }
+
+    private static UserRegistry getRegistry(String username, String password) throws ScriptException {
+        UserRegistry registry;
         RegistryService registryService = RegistryHostObjectContext.getRegistryService();
 
         String tDomain;
@@ -389,8 +649,8 @@ public class RegistryHostObject extends ScriptableObject {
         return registry;
     }
 
-    private static Registry getRegistry(String username) throws ScriptException {
-        Registry registry;
+    private static UserRegistry getRegistry(String username) throws ScriptException {
+        UserRegistry registry;
         RegistryService registryService = RegistryHostObjectContext.getRegistryService();
 
         String tDomain;
@@ -413,5 +673,22 @@ public class RegistryHostObject extends ScriptableObject {
             throw new ScriptException(msg);
         }
         return registry;
+    }
+
+    private boolean isAuthorized(UserRegistry registry, String resourcePath, String action) throws RegistryException {
+        UserRealm userRealm = registry.getUserRealm();
+        String userName = registry.getUserName();
+
+        try {
+            if (!userRealm.getAuthorizationManager().isUserAuthorized(userName,
+                    resourcePath, action)) {
+                return false;
+            }
+        } catch (UserStoreException e) {
+            throw new org.wso2.carbon.registry.core.exceptions.RegistryException("Error at Authorizing " + resourcePath
+                    + " with user " + userName + ":" + e.getMessage(), e);
+        }
+
+        return true;
     }
 }

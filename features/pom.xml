@@ -115,6 +115,11 @@
         <geronimo-servlet_3.0_spec.version>1.0</geronimo-servlet_3.0_spec.version>
 		<webapp.mgt.osgi.patch.version402>4.0.2</webapp.mgt.osgi.patch.version402>
         <webapp.mgt.osgi.version>4.0.1</webapp.mgt.osgi.version>
+        <org.wso2.solr.version>1.4.1.wso2v1</org.wso2.solr.version>
+        <org.wso2.carbon.registry.indexing.version>4.0.2</org.wso2.carbon.registry.indexing.version>
+        <org.wso2.carbon.registry.common.version>4.0.2</org.wso2.carbon.registry.common.version>
+        <org.wso2.carbon.registry.search.version>4.0.1</org.wso2.carbon.registry.search.version>
+        <org.wso2.carbon.registry.adminapi.version>4.0.1</org.wso2.carbon.registry.adminapi.version>
 
         <!-- non-osgi bundle versions -->
         <json.version>20090211</json.version>
@@ -450,6 +455,31 @@
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.webapp.mgt</artifactId>
                 <version>${webapp.mgt.osgi.patch.version402}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.registry.search</artifactId>
+                <version>${org.wso2.carbon.registry.search.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.registry.admin.api</artifactId>
+                <version>${org.wso2.carbon.registry.adminapi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.registry.common</artifactId>
+                <version>${org.wso2.carbon.registry.common.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.registry.indexing</artifactId>
+                <version>${org.wso2.carbon.registry.indexing.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>solr.wso2</groupId>
+                <artifactId>solr</artifactId>
+                <version>${org.wso2.solr.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>

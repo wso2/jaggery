@@ -6,7 +6,6 @@ import org.wso2.carbon.CarbonException;
 import org.wso2.carbon.registry.core.Registry;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.core.service.RegistryService;
-import org.wso2.carbon.registry.ws.client.registry.*;
 import org.wso2.carbon.user.core.UserStoreException;
 import org.wso2.carbon.user.core.service.RealmService;
 
@@ -56,6 +55,4 @@ public class RegistryHostObjectContext {
         }
         return realmService;
     }
-
-
 }
