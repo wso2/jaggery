@@ -245,6 +245,9 @@ public class HostObjectUtil {
         Object[] ids = obj.getIds();
         boolean first = true;
         for (Object id : ids) {
+            if(!(id instanceof Integer)) {
+                continue;
+            }
             Object value = obj.get((Integer) id, obj);
             if (!first) {
                 json.append(", ");

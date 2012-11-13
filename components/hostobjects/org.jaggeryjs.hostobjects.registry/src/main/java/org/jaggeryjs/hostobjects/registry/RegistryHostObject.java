@@ -43,6 +43,8 @@ import org.wso2.carbon.registry.search.services.utils.SearchUtils;
 import org.wso2.carbon.user.core.UserRealm;
 import org.wso2.carbon.user.core.UserStoreException;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -361,7 +363,7 @@ public class RegistryHostObject extends ScriptableObject {
         }
     }
 
-    public static NativeArray jsFunction_search(Context cx, Scriptable thisObj,
+    public static Scriptable jsFunction_search(Context cx, Scriptable thisObj,
                                                 Object[] args,
                                                 Function funObj) throws ScriptException {
         String functionName = "search";
@@ -376,6 +378,8 @@ public class RegistryHostObject extends ScriptableObject {
         CustomSearchParameterBean parameters = new CustomSearchParameterBean();
         String path = null;
         List<String[]> values = new ArrayList<String[]>();
+        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        String val;
         for (Object idObj : options.getIds()) {
             String id = (String) idObj;
             Object value = options.get(id, options);
@@ -386,7 +390,19 @@ public class RegistryHostObject extends ScriptableObject {
                 path = (String) value;
                 continue;
             }
-            values.add(new String[]{id, HostObjectUtil.serializeObject(value)});
+            if ("createdBefore".equals(id) || "createdAfter".equals(id) ||
+                    "updatedBefore".equals(id) || "updatedAfter".equals(id)) {
+                long t;
+                if (value instanceof Number) {
+                    t = ((Number)value).longValue();
+                } else {
+                    t = Long.parseLong(HostObjectUtil.serializeObject(value));
+                }
+                val = new String(dateFormat.format(new Date(t)).getBytes());
+            } else {
+                val = HostObjectUtil.serializeObject(value);
+            }
+            values.add(new String[]{id, val});
         }
         parameters.setParameterValues(values.toArray(new String[0][0]));
         RegistryHostObject registryHostObject = (RegistryHostObject) thisObj;
@@ -396,10 +412,16 @@ public class RegistryHostObject extends ScriptableObject {
                     registryHostObject.registry.getUserName(), tenantId);
             Registry configRegistry = RegistryHostObjectContext.getRegistryService().getConfigSystemRegistry(tenantId);
             AdvancedSearchResultsBean resultsBean = registryHostObject.search(configRegistry, userRegistry, parameters);
+            if (resultsBean.getResourceDataList() == null) {
+                NativeObject error = new NativeObject();
+                error.put("error", error, true);
+                error.put("description", error, resultsBean.getErrorMessage());
+                return error;
+            }
             List<NativeObject> results = new ArrayList<NativeObject>();
             for (ResourceData resourceData : resultsBean.getResourceDataList()) {
                 String resourcePath = resourceData.getResourcePath();
-                if(path != null && !resourcePath.startsWith(path)) {
+                if (path != null && !resourcePath.startsWith(path)) {
                     continue;
                 }
                 NativeObject result = new NativeObject();
