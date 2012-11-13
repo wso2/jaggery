@@ -374,21 +374,34 @@ public class RegistryHostObject extends ScriptableObject {
         }
         NativeObject options = (NativeObject) args[0];
         CustomSearchParameterBean parameters = new CustomSearchParameterBean();
+        String path = null;
         List<String[]> values = new ArrayList<String[]>();
         for (Object idObj : options.getIds()) {
             String id = (String) idObj;
-            String value = HostObjectUtil.serializeObject(options.get(id, options));
-            values.add(new String[]{id, value});
+            Object value = options.get(id, options);
+            if (value == null || value instanceof Undefined) {
+                continue;
+            }
+            if ("path".equals(id)) {
+                path = (String) value;
+                continue;
+            }
+            values.add(new String[]{id, HostObjectUtil.serializeObject(value)});
         }
         parameters.setParameterValues(values.toArray(new String[0][0]));
         RegistryHostObject registryHostObject = (RegistryHostObject) thisObj;
         int tenantId = CarbonContext.getThreadLocalCarbonContext().getTenantId();
         try {
-            UserRegistry userRegistry = RegistryHostObjectContext.getRegistryService().getRegistry("admin", tenantId);
+            UserRegistry userRegistry = RegistryHostObjectContext.getRegistryService().getRegistry(
+                    registryHostObject.registry.getUserName(), tenantId);
             Registry configRegistry = RegistryHostObjectContext.getRegistryService().getConfigSystemRegistry(tenantId);
             AdvancedSearchResultsBean resultsBean = registryHostObject.search(configRegistry, userRegistry, parameters);
             List<NativeObject> results = new ArrayList<NativeObject>();
             for (ResourceData resourceData : resultsBean.getResourceDataList()) {
+                String resourcePath = resourceData.getResourcePath();
+                if(path != null && !resourcePath.startsWith(path)) {
+                    continue;
+                }
                 NativeObject result = new NativeObject();
                 result.put("author", result, resourceData.getAuthorUserName());
                 result.put("rating", result, resourceData.getAverageRating());
