@@ -48,6 +48,7 @@
         <module>org.jaggeryjs.hostobjects.stream</module>
         <module>org.jaggeryjs.hostobjects.log</module>
         <module>org.jaggeryjs.hostobjects.jaggeryparser</module>
+        <module>org.jaggeryjs.hostobjects.uuid</module>
     </modules>
 
     <dependencyManagement>

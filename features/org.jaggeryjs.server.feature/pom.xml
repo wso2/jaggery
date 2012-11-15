@@ -107,6 +107,10 @@
         </dependency>
         <dependency>
             <groupId>org.jaggeryjs</groupId>
+            <artifactId>org.jaggeryjs.hostobjects.uuid</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jaggeryjs</groupId>
             <artifactId>org.jaggeryjs.hostobjects.uri</artifactId>
         </dependency>
         <dependency>
@@ -341,6 +345,7 @@
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.db</bundleDef>
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.email</bundleDef>
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.xslt</bundleDef>
+                                <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.uuid</bundleDef>
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.uri</bundleDef>
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.jaggeryparser</bundleDef>
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.log</bundleDef>
