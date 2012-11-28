@@ -23,6 +23,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.jaggery.core.internal.JaggeryCoreServiceComponent;
 import org.jaggeryjs.jaggery.core.manager.CommonManager;
+import org.jaggeryjs.jaggery.core.manager.JaggeryContext;
 import org.jaggeryjs.scriptengine.engine.RhinoEngine;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.mozilla.javascript.Context;
@@ -55,12 +56,16 @@ public class JaggeryTask extends AbstractTask {
         	if(taskProperties == null) {
         		return;
         	}
-        	
-        	Object[] parameters = (Object[]) taskProperties.get(JaggeryTaskConstants.FUNCTION_PARAMETERS);
-        	Object jsFunction = taskProperties.get(JaggeryTaskConstants.JAVASCRIPT_FUNCTION);
-        	ContextFactory factory = (ContextFactory) taskProperties.get(JaggeryTaskConstants.CONTEXT_FACTORY);
 
-        	Context context = RhinoEngine.enterContext(factory);
+            Object[] parameters = (Object[]) taskProperties.get(JaggeryTaskConstants.FUNCTION_PARAMETERS);
+            Object jsFunction = taskProperties.get(JaggeryTaskConstants.JAVASCRIPT_FUNCTION);
+            ContextFactory factory = (ContextFactory) taskProperties.get(JaggeryTaskConstants.CONTEXT_FACTORY);
+            JaggeryContext cx = new JaggeryContext();
+            cx.getIncludesCallstack().push((String) taskProperties.get(JaggeryTaskConstants.SCRIPT_PATH));
+
+            Context context = RhinoEngine.enterContext(factory);
+            RhinoEngine.putContextProperty(CommonManager.JAGGERY_CONTEXT, cx);
+
             Object[] args;
 
             String jaggeryDir = System.getProperty("jaggery.home");

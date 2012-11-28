@@ -124,6 +124,7 @@
         <geronimo-servlet_3.0_spec.version>1.0</geronimo-servlet_3.0_spec.version>
         <webapp.mgt.osgi.version>4.0.1</webapp.mgt.osgi.version>
         <webapp.mgt.osgi.patch.version>4.0.2</webapp.mgt.osgi.patch.version>
+        <ntask.osgi.patch.version>4.0.2</ntask.osgi.patch.version>
         <org.wso2.carbon.utils.version>4.0.2</org.wso2.carbon.utils.version>
         <org.wso2.carbon.registry.core.version>4.0.2</org.wso2.carbon.registry.core.version>
         <org.wso2.carbon.registry.indexing.version>4.0.2</org.wso2.carbon.registry.indexing.version>

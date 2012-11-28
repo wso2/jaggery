@@ -395,6 +395,7 @@
                             </importBundles>
                             <importFeatures>
                                 <importFeatureDef>org.wso2.carbon.ntask.core:${ntask.feature.version}</importFeatureDef>
+                                <importFeatureDef>org.wso2.carbon.coordination:${coordination.feature.version}</importFeatureDef>
                             </importFeatures>
                         </configuration>
                     </execution>

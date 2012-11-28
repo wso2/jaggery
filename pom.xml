@@ -294,6 +294,7 @@
 		
         <!-- feature versions -->
         <ntask.feature.version>4.0.2</ntask.feature.version>
+        <coordination.feature.version>4.0.2</coordination.feature.version>
 		<org.wso2.carbon.integration.framework.version>4.0.2</org.wso2.carbon.integration.framework.version>
 
         <!-- non-osgi bundle versions -->

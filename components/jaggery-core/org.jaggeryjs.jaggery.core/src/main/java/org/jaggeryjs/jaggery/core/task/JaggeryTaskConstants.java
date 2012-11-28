@@ -31,6 +31,8 @@ public class JaggeryTaskConstants {
 
     public static final String CONTEXT_FACTORY = "contextFactory";
 
+    public static final String SCRIPT_PATH = "scriptPath";
+
     public static final String AXIS2_SERVICE = "axisService";
 
     public static final String CONFIGURATION_CONTEXT = "configurationContext";

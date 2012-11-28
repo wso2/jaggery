@@ -3,13 +3,13 @@ package org.jaggeryjs.hostobjects.log;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.jaggeryjs.jaggery.core.manager.JaggeryContext;
+import org.jaggeryjs.scriptengine.exceptions.ScriptException;
+import org.jaggeryjs.scriptengine.util.HostObjectUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
-import org.jaggeryjs.jaggery.core.manager.WebAppContext;
-import org.jaggeryjs.scriptengine.exceptions.ScriptException;
-import org.jaggeryjs.scriptengine.util.HostObjectUtil;
 
 public class LogHostObject extends ScriptableObject {
 
@@ -49,7 +49,7 @@ public class LogHostObject extends ScriptableObject {
         if (argsCount == 1 && (args[0] instanceof String)) {
             loggerName = (String) args[0];
         } else {
-            String requestString = ((WebAppContext) cx.getThreadLocal("jaggeryContext")).getServletRequest().getRequestURI();
+            String requestString = ((JaggeryContext) cx.getThreadLocal("jaggeryContext")).getIncludesCallstack().peek();
             loggerName = ROOT_LOGGER + requestString.replace(".jag", ":jag").replace(".js", ":js").replace("/", ".");
         }
         LogHostObject logObj = new LogHostObject();

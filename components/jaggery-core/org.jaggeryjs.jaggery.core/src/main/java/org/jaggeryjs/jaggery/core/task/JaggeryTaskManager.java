@@ -23,6 +23,7 @@ import org.apache.axiom.util.UIDGenerator;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.jaggery.core.internal.JaggeryCoreServiceComponent;
+import org.jaggeryjs.jaggery.core.manager.CommonManager;
 import org.mozilla.javascript.*;
 import org.wso2.carbon.CarbonException;
 import org.wso2.carbon.ntask.common.TaskException;
@@ -464,10 +465,7 @@ public class JaggeryTaskManager extends ScriptableObject {
                 throw new CarbonException("Invalid number of parameters.");
         }
 
-        resources.put(JaggeryTaskConstants.FUNCTION_PARAMETERS, functionParams);
-        resources.put(JaggeryTaskConstants.TASK_NAME, taskName);
-        resources.put(JaggeryTaskConstants.JAVASCRIPT_FUNCTION, jsFunction);
-        resources.put(JaggeryTaskConstants.CONTEXT_FACTORY, cx.getFactory());
+        addCommonResources(cx, taskName, jsFunction, functionParams, resources);
 
         JaggeryCoreServiceComponent.getTaskMap().put(taskName, resources);
         
@@ -638,10 +636,7 @@ public class JaggeryTaskManager extends ScriptableObject {
                 throw new CarbonException("Invalid number of parameters.");
         }
 
-        resources.put(JaggeryTaskConstants.FUNCTION_PARAMETERS, functionParams);
-        resources.put(JaggeryTaskConstants.TASK_NAME, taskName);
-        resources.put(JaggeryTaskConstants.JAVASCRIPT_FUNCTION, jsFunction);
-        resources.put(JaggeryTaskConstants.CONTEXT_FACTORY, cx.getFactory());
+        addCommonResources(cx, taskName, jsFunction, functionParams, resources);
         
         JaggeryCoreServiceComponent.getTaskMap().put(taskName, resources);
         
@@ -659,6 +654,14 @@ public class JaggeryTaskManager extends ScriptableObject {
 
         return taskName;
 
+    }
+
+    private static void addCommonResources(Context cx, String taskName, Object jsFunction, Object[] functionParams, Map<String, Object> resources) {
+        resources.put(JaggeryTaskConstants.FUNCTION_PARAMETERS, functionParams);
+        resources.put(JaggeryTaskConstants.TASK_NAME, taskName);
+        resources.put(JaggeryTaskConstants.JAVASCRIPT_FUNCTION, jsFunction);
+        resources.put(JaggeryTaskConstants.CONTEXT_FACTORY, cx.getFactory());
+        resources.put(JaggeryTaskConstants.SCRIPT_PATH, CommonManager.getJaggeryContext().getIncludesCallstack().peek());
     }
 
 

@@ -5,7 +5,7 @@
         <groupId>org.jaggeryjs</groupId>
         <artifactId>jaggery-core</artifactId>
         <version>0.9.0-SNAPSHOT</version>
-<relativePath>../pom.xml</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>org.jaggeryjs.jaggery.core</artifactId>
@@ -18,19 +18,19 @@
             <groupId>org.eclipse.equinox</groupId>
             <artifactId>javax.servlet.jsp</artifactId>
         </dependency>
-		<dependency>
+        <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.utils</artifactId>
             <version>4.0.2</version>
             <exclusions>
-            	<exclusion>
-            		<groupId>javax.servlet</groupId>
-            		<artifactId>servlet-api</artifactId>
-            	</exclusion>
+                <exclusion>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>servlet-api</artifactId>
+                </exclusion>
             </exclusions>
-       </dependency>
-	<dependency>	   
-	<groupId>commons-io.wso2</groupId>
+        </dependency>
+        <dependency>
+            <groupId>commons-io.wso2</groupId>
             <artifactId>commons-io</artifactId>
         </dependency>
         <dependency>
@@ -72,12 +72,12 @@
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.ntask.core</artifactId>
-            <version>${carbon.platform.version}</version>
+            <version>${ntask.osgi.patch.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.ntask.solutions</artifactId>
-            <version>${carbon.platform.version}</version>
+            <version>${ntask.osgi.patch.version}</version>
         </dependency>
     </dependencies>
 
