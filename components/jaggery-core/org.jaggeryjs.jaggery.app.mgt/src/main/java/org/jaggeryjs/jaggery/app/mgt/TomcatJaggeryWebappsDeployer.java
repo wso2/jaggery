@@ -27,20 +27,28 @@ import org.apache.catalina.startup.Tomcat;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jaggeryjs.jaggery.core.ScriptReader;
 import org.jaggeryjs.jaggery.core.manager.CommonManager;
+import org.jaggeryjs.jaggery.core.manager.JaggeryContext;
+import org.jaggeryjs.jaggery.core.manager.WebAppManager;
+import org.jaggeryjs.scriptengine.engine.RhinoEngine;
+import org.jaggeryjs.scriptengine.exceptions.ScriptException;
+import org.jaggeryjs.scriptengine.util.HostObjectUtil;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+import org.mozilla.javascript.ScriptableObject;
 import org.wso2.carbon.CarbonConstants;
 import org.wso2.carbon.CarbonException;
-//import org.wso2.carbon.context.ApplicationContext;
-//import org.wso2.carbon.tomcat.ext.utils.URLMappingHolder;
-import org.wso2.carbon.core.session.CarbonTomcatClusterableSessionManager;
 import org.wso2.carbon.context.PrivilegedCarbonContext;
+import org.wso2.carbon.core.session.CarbonTomcatClusterableSessionManager;
 import org.wso2.carbon.webapp.mgt.*;
 
 import java.io.*;
 import java.util.*;
+
+//import org.wso2.carbon.context.ApplicationContext;
+//import org.wso2.carbon.tomcat.ext.utils.URLMappingHolder;
 
 /**
  * This deployer is responsible for deploying/undeploying/updating those Jaggery apps.
@@ -77,11 +85,11 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
     public void deploy(File webappFile,
                        List<WebContextParameter> webContextParams,
                        List<Object> applicationEventListeners) throws CarbonException {
-    
+
         try {
 
-        	PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(tenantId);
-        	PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(tenantDomain);
+            PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(tenantId);
+            PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(tenantDomain);
             long lastModifiedTime = webappFile.lastModified();
             long configLastModified = 0;
             if (JaggeryDeploymentUtil.getConfig(webappFile) != null) {
@@ -104,10 +112,9 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                     (configLastModified != 0 && faultyWebapp.getConfigDirLastModifiedTime() != configLastModified)) {
                 handleHotDeployment(webappFile, webContextParams, applicationEventListeners);
             }
-        } catch(Throwable t){
-            log.error("Error while Tomact jaggery web apps Deployment " ,t);
-            }
-       
+        } catch (Throwable t) {
+            log.error("Error while Tomact jaggery web apps Deployment ", t);
+        }
     }
 
     /**
@@ -223,7 +230,8 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                 for (String hostName : hostNames) {
                     Host host = DataHolder.getHotUpdateService().addHost(hostName);
 /*                    ApplicationContext.getCurrentApplicationContext().putUrlMappingForApplication(hostName, contextStr);
-  */                  Context contextForHost =
+  */
+                    Context contextForHost =
                             DataHolder.getCarbonTomcatService().addWebApp(host, "/", webappFile.getAbsolutePath(),
                                     new JaggeryConfListener(tomcat, servletParameters, servletMappingParameters, jaggeryConfigObj, securityConstraint));
                     log.info("Deployed JaggeryApp on host: " + contextForHost);
@@ -289,9 +297,18 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
             if (Lifecycle.BEFORE_START_EVENT.equals(event.getType())) {
                 initJaggeryappDefaults((Context) event.getLifecycle(), this.tomcat,
                         this.jaggeryConfig, this.servletParameters, this.servletMappingParameters, this.securityConstraint);
+                return;
             }
             if (Lifecycle.START_EVENT.equals(event.getType())) {
                 setDisplayName(((Context) event.getLifecycle()), jaggeryConfig);
+                executeScripts((Context) event.getLifecycle(),
+                        (JSONArray) jaggeryConfig.get(JaggeryConstants.JaggeryConfigParams.INIT_SCRIPTS));
+                return;
+            }
+            if (Lifecycle.STOP_EVENT.equals(event.getType())) {
+                executeScripts((Context) event.getLifecycle(),
+                        (JSONArray) jaggeryConfig.get(JaggeryConstants.JaggeryConfigParams.DESTROY_SCRIPTS));
+                return;
             }
         }
     }
@@ -355,6 +372,43 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
         }
 
         return (JSONObject) JSONValue.parse(jsonString);
+    }
+
+    private static void executeScripts(Context context, JSONArray arr) {
+        if (arr != null) {
+            try {
+                RhinoEngine engine = WebAppManager.getEngine();
+                engine.enterContext();
+                JaggeryContext cx = new JaggeryContext();
+                RhinoEngine.putContextProperty(CommonManager.JAGGERY_CONTEXT, cx);
+                ScriptableObject scope = engine.getRuntimeScope();
+                Object[] scripts = arr.toArray();
+                for (Object script : scripts) {
+                    if (!(script instanceof String)) {
+                        log.error("Invalid value for initScripts/destroyScripts in jaggery.conf : " + script);
+                        continue;
+                    }
+                    String path = (String) script;
+                    cx.getIncludesCallstack().push(path);
+                    engine.exec(new ScriptReader(context.getServletContext().getResourceAsStream(path)) {
+                        @Override
+                        protected void build() throws IOException {
+                            try {
+                                sourceReader = new StringReader(HostObjectUtil.streamToString(sourceIn));
+                            } catch (ScriptException e) {
+                                throw new IOException(e);
+                            }
+                        }
+                    }, scope, null);
+                }
+            } catch (ScriptException e) {
+                log.error(e.getMessage(), e);
+            } finally {
+                if (org.mozilla.javascript.Context.getCurrentContext() != null) {
+                    RhinoEngine.exitContext();
+                }
+            }
+        }
     }
 
     private static void addErrorPages(Context context, JSONObject obj) {
@@ -437,7 +491,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
     }
 
     private static void setDisplayName(Context context, JSONObject obj) {
-        if(obj == null) {
+        if (obj == null) {
             return;
         }
         String dName = (String) obj.get(JaggeryConstants.JaggeryConfigParams.DISPLAY_NAME);

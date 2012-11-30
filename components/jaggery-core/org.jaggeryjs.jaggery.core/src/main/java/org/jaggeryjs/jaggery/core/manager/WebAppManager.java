@@ -77,6 +77,10 @@ public class WebAppManager {
         }
     }
 
+    public static RhinoEngine getEngine() throws ScriptException {
+        return CommonManager.getInstance().getEngine();
+    }
+
     public static void include(Context cx, Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException {
         String functionName = "include";
