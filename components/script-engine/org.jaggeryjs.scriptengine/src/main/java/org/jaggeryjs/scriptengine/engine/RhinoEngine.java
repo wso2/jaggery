@@ -463,7 +463,7 @@ public class RhinoEngine {
         try {
             if (sctx == null) {
                 cx.evaluateString(scope, HostObjectUtil.readerToString(scriptReader), "wso2js", 1, null);
-            } else if (sctx != null && debugMode) { //If the server is started to debug scripts
+            } else if (debugMode) { //If the server is started to debug scripts
                 String scriptPath = sctx.getContext() + sctx.getPath() + sctx.getCacheKey();
                 cx.evaluateString(scope, HostObjectUtil.readerToString(scriptReader), scriptPath, 1, null);
             } else {

@@ -301,13 +301,17 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
             }
             if (Lifecycle.START_EVENT.equals(event.getType())) {
                 setDisplayName(((Context) event.getLifecycle()), jaggeryConfig);
-                executeScripts((Context) event.getLifecycle(),
-                        (JSONArray) jaggeryConfig.get(JaggeryConstants.JaggeryConfigParams.INIT_SCRIPTS));
+                if (jaggeryConfig != null) {
+                    executeScripts((Context) event.getLifecycle(),
+                            (JSONArray) jaggeryConfig.get(JaggeryConstants.JaggeryConfigParams.INIT_SCRIPTS));
+                }
                 return;
             }
             if (Lifecycle.STOP_EVENT.equals(event.getType())) {
-                executeScripts((Context) event.getLifecycle(),
-                        (JSONArray) jaggeryConfig.get(JaggeryConstants.JaggeryConfigParams.DESTROY_SCRIPTS));
+                if (jaggeryConfig != null) {
+                    executeScripts((Context) event.getLifecycle(),
+                            (JSONArray) jaggeryConfig.get(JaggeryConstants.JaggeryConfigParams.DESTROY_SCRIPTS));
+                }
                 return;
             }
         }
