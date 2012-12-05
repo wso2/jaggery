@@ -7,14 +7,17 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.mozilla.javascript.*;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Function;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.net.CookieStore;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 public class RequestHostObject extends ScriptableObject {
@@ -29,7 +32,7 @@ public class RequestHostObject extends ScriptableObject {
 
     private boolean isParsed = false;
 
-    private Map<String, String> parameterMap = new HashMap<String, String>();
+    private Map<String, FileItem> parameterMap = new HashMap<String, FileItem>();
     private Map<String, Scriptable> fileMap = new HashMap<String, Scriptable>();
 
     private Scriptable parameterFields = null;
@@ -294,19 +297,31 @@ public class RequestHostObject extends ScriptableObject {
             throws ScriptException {
         String functionName = "getParameter";
         int argsCount = args.length;
-        if (argsCount != 1) {
+        if (argsCount != 1 && argsCount != 2) {
             HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
         }
         if (!(args[0] instanceof String)) {
             HostObjectUtil.invalidArgsError(hostObjectName, functionName, "1", "string", args[0], false);
         }
+        if (argsCount == 2 && !(args[1] instanceof String)) {
+            HostObjectUtil.invalidArgsError(hostObjectName, functionName, "2", "string", args[1], false);
+        }
+
         String parameter = (String) args[0];
         RequestHostObject rho = (RequestHostObject) thisObj;
-        if (rho.isMultipart) {
-            parse(rho);
-            return rho.parameterMap.get(parameter);
-        } else {
+        if (!rho.isMultipart) {
             return rho.request.getParameter(parameter);
+        }
+        parse(rho);
+        FileItem item = rho.parameterMap.get(parameter);
+        if (argsCount == 1) {
+            return item.getString();
+        }
+        try {
+            return item.getString((String) args[1]);
+        } catch (UnsupportedEncodingException e) {
+            log.error(e.getMessage(), e);
+            throw new ScriptException(e);
         }
     }
 
@@ -369,7 +384,7 @@ public class RequestHostObject extends ScriptableObject {
             FileItem item = (FileItem) obj;
             name = item.getFieldName();
             if (item.isFormField()) {
-                rho.parameterMap.put(name, item.getString());
+                rho.parameterMap.put(name, item);
                 paramsNames.add(name);
             } else {
                 rho.fileMap.put(item.getFieldName(), rho.context.newObject(rho, "File", new Object[]{item}));

@@ -296,10 +296,7 @@ public class CommonManager {
             }
         } else {
             try {
-                String content = HostObjectUtil.serializeObject(args[0]);
-                for (int i = 0; i < content.length(); i++) {
-                    out.write(content.codePointAt(i));
-                }
+                out.write(HostObjectUtil.serializeObject(args[0]).getBytes());
             } catch (IOException e) {
                 log.error(e.getMessage(), e);
                 throw new ScriptException(e);
