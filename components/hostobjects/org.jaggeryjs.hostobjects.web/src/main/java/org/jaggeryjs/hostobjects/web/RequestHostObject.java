@@ -314,6 +314,9 @@ public class RequestHostObject extends ScriptableObject {
         }
         parse(rho);
         FileItem item = rho.parameterMap.get(parameter);
+        if(item == null) {
+            return null;
+        }
         if (argsCount == 1) {
             return item.getString();
         }
