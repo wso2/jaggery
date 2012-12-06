@@ -221,7 +221,7 @@ public class DatabaseHostObject extends ScriptableObject {
                 if (args[1] instanceof Function) {
                     callback = (Function) args[1];
                 } else if (args[1] instanceof String) {
-                    setQueryParams(stmt, args, 1, argsCount);
+                    setQueryParams(stmt, args, 1, 1);
                 }
                 return executeQuery(cx, db, stmt, query, callback, true);
             }
@@ -267,7 +267,7 @@ public class DatabaseHostObject extends ScriptableObject {
                 callback = (Function) args[argsCount - 1];
                 setQueryParams(stmt, args, 1, argsCount - 1);
             } else {
-                setQueryParams(stmt, args, 1, argsCount);
+                setQueryParams(stmt, args, 1, argsCount - 1);
             }
             return executeQuery(cx, db, stmt, query, callback, true);
         }
