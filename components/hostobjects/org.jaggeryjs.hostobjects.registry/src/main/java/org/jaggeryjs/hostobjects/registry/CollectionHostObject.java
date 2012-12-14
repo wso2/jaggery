@@ -16,14 +16,13 @@
 
 package org.jaggeryjs.hostobjects.registry;
 
+import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
-import org.mozilla.javascript.NativeArray;
 import org.mozilla.javascript.Scriptable;
-import org.jaggeryjs.scriptengine.exceptions.ScriptException;
+import org.wso2.carbon.registry.api.RegistryException;
 import org.wso2.carbon.registry.core.Collection;
 import org.wso2.carbon.registry.core.Resource;
-import org.wso2.carbon.registry.api.RegistryException;
 
 /**
  * <p/>
@@ -48,7 +47,7 @@ public class CollectionHostObject extends ResourceHostObject {
                 return new CollectionHostObject((Collection) args[0], cx);
             } else if (args[0] instanceof Scriptable) {
                 throw new ScriptException("Collection object cannot be initialized directly, " +
-                                          "use registry.newCollection() instead");
+                        "use registry.newCollection() instead");
             } else {
                 throw new ScriptException("Invalid argument type for Collection constructor");
             }
@@ -74,19 +73,19 @@ public class CollectionHostObject extends ResourceHostObject {
         return ResourceHostObject.jsFunction_getProperty(cx, thisObj, arguments, funObj);
     }
 
-    public static NativeArray jsFunction_getPropertyValues(Context cx, Scriptable thisObj, Object[] arguments,
-                                                Function funObj) throws ScriptException {
+    public static Scriptable jsFunction_getPropertyValues(Context cx, Scriptable thisObj, Object[] arguments,
+                                                          Function funObj) throws ScriptException {
         return ResourceHostObject.jsFunction_getPropertyValues(cx, thisObj, arguments, funObj);
     }
 
-    public static NativeArray jsFunction_getProperties(Context cx, Scriptable thisObj,
+    public static Scriptable jsFunction_getProperties(Context cx, Scriptable thisObj,
                                                       Object[] arguments,
                                                       Function funObj) throws ScriptException {
         return ResourceHostObject.jsFunction_getProperties(cx, thisObj, arguments, funObj);
     }
 
     public static void jsFunction_editPropertyValue(Context cx, Scriptable thisObj, Object[] arguments,
-                                               Function funObj) throws ScriptException {
+                                                    Function funObj) throws ScriptException {
         ResourceHostObject.jsFunction_editPropertyValue(cx, thisObj, arguments, funObj);
     }
 
@@ -106,20 +105,20 @@ public class CollectionHostObject extends ResourceHostObject {
         ResourceHostObject.jsFunction_setProperty(cx, thisObj, arguments, funObj);
     }
 
-    public static NativeArray jsFunction_getChildren(Context cx, Scriptable thisObj,
+    public static Scriptable jsFunction_getChildren(Context cx, Scriptable thisObj,
                                                     Object[] arguments,
                                                     Function funObj) throws ScriptException {
         CollectionHostObject collectionHostObject = (CollectionHostObject) thisObj;
         if (arguments.length == 0) {
             try {
-                return new NativeArray(((Collection)collectionHostObject.getResource()).getChildren());
+                return cx.newArray(thisObj, ((Collection) collectionHostObject.getResource()).getChildren());
             } catch (RegistryException e) {
                 throw new ScriptException("Error occurred while creating a new Resource.", e);
             }
         } else if (arguments.length == 2) {
             if (arguments[0] instanceof Number && arguments[1] instanceof Number) {
                 try {
-                    return new NativeArray(((Collection)collectionHostObject.getResource()).getChildren(
+                    return cx.newArray(thisObj, ((Collection) collectionHostObject.getResource()).getChildren(
                             ((Number) arguments[0]).intValue(),
                             ((Number) arguments[1]).intValue()));
                 } catch (RegistryException e) {
@@ -135,7 +134,7 @@ public class CollectionHostObject extends ResourceHostObject {
 
     public int jsGet_childCount() throws ScriptException {
         try {
-            return ((Collection)this.getResource()).getChildCount();
+            return ((Collection) this.getResource()).getChildCount();
         } catch (RegistryException e) {
             throw new ScriptException("Error occurred while creating a new Resource.", e);
         }
@@ -143,81 +142,81 @@ public class CollectionHostObject extends ResourceHostObject {
 
     @Override
     public String jsGet_author() {
-        return super.jsGet_author();    
+        return super.jsGet_author();
     }
 
     @Override
     public String jsGet_lastUpdatedUser() {
-        return super.jsGet_lastUpdatedUser();    
+        return super.jsGet_lastUpdatedUser();
     }
 
     @Override
     public Scriptable jsGet_createdTime() {
-        return super.jsGet_createdTime();    
+        return super.jsGet_createdTime();
     }
 
     @Override
     public Scriptable jsGet_lastUpdatedTime() {
-        return super.jsGet_lastUpdatedTime();    
+        return super.jsGet_lastUpdatedTime();
     }
 
     @Override
     public String jsGet_id() {
-        return super.jsGet_id();    
+        return super.jsGet_id();
     }
 
     @Override
     public String jsGet_parentPath() {
-        return super.jsGet_parentPath();    
+        return super.jsGet_parentPath();
     }
 
     @Override
     public String jsGet_path() {
-        return super.jsGet_path();    
+        return super.jsGet_path();
     }
 
     @Override
     public String jsGet_permanentPath() {
-        return super.jsGet_permanentPath();    
+        return super.jsGet_permanentPath();
     }
 
     @Override
     public int jsGet_state() {
-        return super.jsGet_state();    
+        return super.jsGet_state();
     }
 
     @Override
     public String jsGet_mediaType() {
-        return super.jsGet_mediaType();    
+        return super.jsGet_mediaType();
     }
 
     @Override
     public void jsSet_mediaType(Object mediaType) throws ScriptException {
-        super.jsSet_mediaType(mediaType);    
+        super.jsSet_mediaType(mediaType);
     }
 
     @Override
     public Object jsGet_content() throws ScriptException {
-        return super.jsGet_content();    
+        return super.jsGet_content();
     }
 
     @Override
     public void jsSet_content(Object content) throws ScriptException {
-        super.jsSet_content(content);    
+        super.jsSet_content(content);
     }
 
     @Override
     public String jsGet_description() {
-        return super.jsGet_description();    
+        return super.jsGet_description();
     }
 
     @Override
     public void jsSet_description(Object description) throws ScriptException {
-        super.jsSet_description(description);    
+        super.jsSet_description(description);
     }
 
     @Override
     protected Resource getResource() {
-        return super.getResource();    
+        return super.getResource();
     }
 }

@@ -262,7 +262,7 @@ public class FileHostObject extends ScriptableObject {
         for (String jsf : fpaths) {
             fhol.add(fho.context.newObject(thisObj, "File", new Object[]{"file://" + jsf}));
         }
-        return new NativeArray(fhol.toArray());
+        return cx.newArray(thisObj, fhol.toArray());
     }
 
 }

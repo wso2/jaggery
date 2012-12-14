@@ -21,9 +21,10 @@ package org.jaggeryjs.jaggery.core.task;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jaggeryjs.hostobjects.file.FileHostObject;
 import org.jaggeryjs.jaggery.core.internal.JaggeryCoreServiceComponent;
 import org.jaggeryjs.jaggery.core.manager.CommonManager;
-import org.jaggeryjs.jaggery.core.manager.JaggeryContext;
+import org.jaggeryjs.jaggery.core.manager.WebAppContext;
 import org.jaggeryjs.scriptengine.engine.RhinoEngine;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.mozilla.javascript.Context;
@@ -32,39 +33,42 @@ import org.mozilla.javascript.Function;
 import org.mozilla.javascript.ScriptableObject;
 import org.wso2.carbon.ntask.core.AbstractTask;
 
+import javax.servlet.ServletContext;
 import java.util.Map;
 
 public class JaggeryTask extends AbstractTask {
 
-	private static final Log log = LogFactory.getLog(JaggeryTask.class);
+    private static final Log log = LogFactory.getLog(JaggeryTask.class);
 
-	@Override
-	public void execute() {
-		
+    @Override
+    public void execute() {
+
         try {
 
-			Map<String, Object> taskMap = JaggeryCoreServiceComponent.getTaskMap();
-			String taskName = getProperties().get(JaggeryTaskConstants.TASK_NAME);
+            Map<String, Object> taskMap = JaggeryCoreServiceComponent.getTaskMap();
+            String taskName = getProperties().get(JaggeryTaskConstants.TASK_NAME);
 
-        	if(taskName == null) {
-        		return;
-        	}
-        	
-			@SuppressWarnings("unchecked")
-			Map<String, Object> taskProperties = (Map<String, Object>) taskMap.get(taskName);
-        	
-        	if(taskProperties == null) {
-        		return;
-        	}
+            if (taskName == null) {
+                return;
+            }
+
+            @SuppressWarnings("unchecked")
+            Map<String, Object> taskProperties = (Map<String, Object>) taskMap.get(taskName);
+
+            if (taskProperties == null) {
+                return;
+            }
 
             Object[] parameters = (Object[]) taskProperties.get(JaggeryTaskConstants.FUNCTION_PARAMETERS);
             Object jsFunction = taskProperties.get(JaggeryTaskConstants.JAVASCRIPT_FUNCTION);
             ContextFactory factory = (ContextFactory) taskProperties.get(JaggeryTaskConstants.CONTEXT_FACTORY);
-            JaggeryContext cx = new JaggeryContext();
+            Context context = RhinoEngine.enterContext(factory);
+            WebAppContext cx = new WebAppContext();
+            cx.setServletConext((ServletContext) taskProperties.get(JaggeryTaskConstants.SERVLET_CONTEXT));
             cx.getIncludesCallstack().push((String) taskProperties.get(JaggeryTaskConstants.SCRIPT_PATH));
 
-            Context context = RhinoEngine.enterContext(factory);
             RhinoEngine.putContextProperty(CommonManager.JAGGERY_CONTEXT, cx);
+            RhinoEngine.putContextProperty(FileHostObject.JAVASCRIPT_FILE_MANAGER, taskProperties.get(JaggeryTaskConstants.FILE_MANAGER));
 
             Object[] args;
 
@@ -73,11 +77,11 @@ public class JaggeryTask extends AbstractTask {
                 jaggeryDir = System.getProperty("carbon.home");
             }
 
-            if(jaggeryDir == null) {
+            if (jaggeryDir == null) {
                 log.error("Unable to find jaggery.home or carbon.home system properties");
                 return;
             }
-            
+
             RhinoEngine engine = CommonManager.getInstance().getEngine();
             ScriptableObject scope = engine.getRuntimeScope();
             if (jsFunction instanceof Function) {
@@ -96,7 +100,7 @@ public class JaggeryTask extends AbstractTask {
             RhinoEngine.exitContext();
             log.error(e.getMessage(), e);
         }
-		
-	}
+
+    }
 
 }

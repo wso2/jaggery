@@ -75,7 +75,7 @@ public class DatabaseHostObject extends ScriptableObject {
         DatabaseHostObject db = new DatabaseHostObject();
 
         //args count 1 for dataSource name
-        if (argsCount !=1 && argsCount != 3 && argsCount != 4) {
+        if (argsCount != 1 && argsCount != 3 && argsCount != 4) {
             HostObjectUtil.invalidNumberOfArgs(hostObjectName, hostObjectName, argsCount, true);
         }
 
@@ -83,12 +83,12 @@ public class DatabaseHostObject extends ScriptableObject {
             HostObjectUtil.invalidArgsError(hostObjectName, hostObjectName, "1", "string", args[0], true);
         }
 
-        if(argsCount == 1){
+        if (argsCount == 1) {
             String dataSourceName = (String) args[0];
             DataSourceManager dataSourceManager = new DataSourceManager();
             try {
                 CarbonDataSource carbonDataSource = dataSourceManager.getInstance().getDataSourceRepository().getDataSource(dataSourceName);
-                DataSource dataSource = (DataSource)carbonDataSource.getDSObject();
+                DataSource dataSource = (DataSource) carbonDataSource.getDSObject();
 
                 db.conn = dataSource.getConnection();
                 db.context = cx;
@@ -96,7 +96,7 @@ public class DatabaseHostObject extends ScriptableObject {
             } catch (DataSourceException e) {
                 log.error("Failed to access datasource " + dataSourceName, e);
             } catch (SQLException e) {
-                log.error("Failed to get connection" ,e);
+                log.error("Failed to get connection", e);
             }
         }
 
@@ -376,9 +376,9 @@ public class DatabaseHostObject extends ScriptableObject {
         DatabaseHostObject db = (DatabaseHostObject) thisObj;
         try {
             db.conn.close();
-           if(rdbmsDataSource!=null){
-               rdbmsDataSource.getDataSource().close();
-	        }
+            if (rdbmsDataSource != null) {
+                rdbmsDataSource.getDataSource().close();
+            }
         } catch (SQLException e) {
             String msg = "Error while closing the Database Connection";
             log.warn(msg, e);
@@ -480,11 +480,11 @@ public class DatabaseHostObject extends ScriptableObject {
             final ExecutorService es = Executors.newSingleThreadExecutor();
             es.submit(new Callable() {
                 public Object call() throws Exception {
-                    RhinoEngine.enterContext(factory);
+                    Context cx = RhinoEngine.enterContext(factory);
                     try {
                         Object result;
                         if (isSelect) {
-                            result = processResults(db, stmt.executeQuery(), keyed);
+                            result = processResults(cx, db, db, stmt.executeQuery(), keyed);
                         } else {
                             result = stmt.executeUpdate();
                         }
@@ -502,7 +502,7 @@ public class DatabaseHostObject extends ScriptableObject {
         } else {
             try {
                 if (isSelect) {
-                    return processResults(db, stmt.executeQuery(), keyed);
+                    return processResults(cx, db, db, stmt.executeQuery(), keyed);
                 } else {
                     return stmt.executeUpdate();
                 }
@@ -569,7 +569,7 @@ public class DatabaseHostObject extends ScriptableObject {
 
     }
 
-    private static Scriptable processResults(DatabaseHostObject db, ResultSet results, boolean keyed) throws SQLException, ScriptException {
+    private static Scriptable processResults(Context cx, Scriptable scope, DatabaseHostObject db, ResultSet results, boolean keyed) throws SQLException, ScriptException {
         List<ScriptableObject> rows = new ArrayList<ScriptableObject>();
         while (results.next()) {
             ScriptableObject row;
@@ -582,7 +582,7 @@ public class DatabaseHostObject extends ScriptableObject {
                     row.put(columnName, row, columnValue);
                 }
             } else {
-                row = new NativeArray(rsmd.getColumnCount());
+                row = (ScriptableObject) cx.newArray(scope, rsmd.getColumnCount());
                 for (int i = 0; i < rsmd.getColumnCount(); i++) {
                     Object columnValue = getValue(db, results, i + 1, rsmd.getColumnType(i + 1));
                     row.put(i + 1, row, columnValue);

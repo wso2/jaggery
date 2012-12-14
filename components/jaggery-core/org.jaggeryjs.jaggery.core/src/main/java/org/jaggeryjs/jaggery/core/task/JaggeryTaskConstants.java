@@ -22,14 +22,18 @@ package org.jaggeryjs.jaggery.core.task;
 public class JaggeryTaskConstants {
 
     public static final String JAGGERY_TASK_TYPE = "JAGGERY_TASK";
-    
+
     public static int REPEAT_INDEFINITELY = -1;
-    
+
     public static final String JAVASCRIPT_FUNCTION = "jsfunction";
 
     public static final String FUNCTION_PARAMETERS = "jsfunctionarguments";
 
     public static final String CONTEXT_FACTORY = "contextFactory";
+
+    public static final String SERVLET_CONTEXT = "servletContext";
+
+    public static final String FILE_MANAGER = "fileManager";
 
     public static final String SCRIPT_PATH = "scriptPath";
 
@@ -46,11 +50,11 @@ public class JaggeryTaskConstants {
     public static final String JS_FUNCTION_MAP = "js_sheduled_function_map";
 
     public static final String TASK_NAME = "taskName";
-    
+
     public static final String RESOURCES_FOLDER = "ResourcesFolder";
-    
+
     public static final String AXIS2_CONFIGURATION_CONTEXT = "axisConfigurationContext";
-    
+
     public static final String SCRIPTABLEOBJECT = "ScriptableObject";
 }
 

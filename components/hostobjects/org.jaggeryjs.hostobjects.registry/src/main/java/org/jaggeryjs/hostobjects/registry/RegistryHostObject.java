@@ -334,9 +334,9 @@ public class RegistryHostObject extends ScriptableObject {
         }
     }
 
-    public static NativeArray jsFunction_getComments(Context cx, Scriptable thisObj,
-                                                     Object[] args,
-                                                     Function funObj) throws ScriptException {
+    public static Scriptable jsFunction_getComments(Context cx, Scriptable thisObj,
+                                                    Object[] args,
+                                                    Function funObj) throws ScriptException {
         String functionName = "getComments";
         int argsCount = args.length;
         if (argsCount != 1) {
@@ -357,15 +357,15 @@ public class RegistryHostObject extends ScriptableObject {
                 commentObj.put("created", commentObj, comment.getCreatedTime().getTime());
                 commentsArray.add(commentObj);
             }
-            return new NativeArray(commentsArray.toArray());
+            return cx.newArray(thisObj, commentsArray.toArray());
         } catch (RegistryException e) {
             throw new ScriptException(e);
         }
     }
 
     public static Scriptable jsFunction_search(Context cx, Scriptable thisObj,
-                                                Object[] args,
-                                                Function funObj) throws ScriptException {
+                                               Object[] args,
+                                               Function funObj) throws ScriptException {
         String functionName = "search";
         int argsCount = args.length;
         if (argsCount != 1) {
@@ -394,7 +394,7 @@ public class RegistryHostObject extends ScriptableObject {
                     "updatedBefore".equals(id) || "updatedAfter".equals(id)) {
                 long t;
                 if (value instanceof Number) {
-                    t = ((Number)value).longValue();
+                    t = ((Number) value).longValue();
                 } else {
                     t = Long.parseLong(HostObjectUtil.serializeObject(value));
                 }
@@ -440,10 +440,10 @@ public class RegistryHostObject extends ScriptableObject {
                         tags.add(tag);
                     }
                 }
-                result.put("tags", result, new NativeArray(tags.toArray()));
+                result.put("tags", result, cx.newArray(thisObj, tags.toArray()));
                 results.add(result);
             }
-            return new NativeArray(results.toArray());
+            return cx.newArray(thisObj, results.toArray());
         } catch (RegistryException e) {
             throw new ScriptException(e);
         } catch (CarbonException e) {

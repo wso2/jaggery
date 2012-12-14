@@ -22,8 +22,11 @@ package org.jaggeryjs.jaggery.core.task;
 import org.apache.axiom.util.UIDGenerator;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jaggeryjs.hostobjects.file.FileHostObject;
 import org.jaggeryjs.jaggery.core.internal.JaggeryCoreServiceComponent;
 import org.jaggeryjs.jaggery.core.manager.CommonManager;
+import org.jaggeryjs.jaggery.core.manager.WebAppContext;
+import org.jaggeryjs.scriptengine.engine.RhinoEngine;
 import org.mozilla.javascript.*;
 import org.wso2.carbon.CarbonException;
 import org.wso2.carbon.ntask.common.TaskException;
@@ -38,7 +41,7 @@ import java.util.Map;
 
 /**
  * <p/>
- * This the method implementations of Jaggery setInterval, 
+ * This the method implementations of Jaggery setInterval,
  * setTimeout, clearInterval and clearTimeout functions.
  * </p>
  */
@@ -93,7 +96,7 @@ public class JaggeryTaskManager extends ScriptableObject {
      *    //Setting to start in 2 minutes from now
      *    var startTime = new Date();
      *    startTime.setMinutes(startTime.getMinutes() + 2);
-     * <p/>
+     *
      *    var id = setInterval(myJavaScriptFunction, 2000, 'I am a parameter value', startTime);
      *    or
      *    var id = setInterval('myJavaScriptFunction("I am a parameter value");', 2000, null, startTime);
@@ -104,11 +107,11 @@ public class JaggeryTaskManager extends ScriptableObject {
      *    //Setting to start in 2 minutes from now
      *    var startTime = new Date();
      *    startTime.setMinutes(startTime.getMinutes() + 2);
-     * <p/>
+     *
      *    //Setting to end in 4 minutes after starting
      *    var endtime = new Date();
      *    endtime.setMinutes(startTime.getMinutes() + 4);
-     * <p/>
+     *
      *    var id = setInterval(myJavaScriptFunction, 2000, 'I am a parameter value', startTime, endtime);
      *    or
      *    var id = setInterval('myJavaScriptFunction("I am a parameter value");', 2000, null, startTime, endtime);
@@ -118,7 +121,7 @@ public class JaggeryTaskManager extends ScriptableObject {
      */
 
     public static String setInterval(Context cx, Scriptable thisObj, Object[] arguments,
-                                                Function funObj) throws CarbonException, TaskException, IOException {
+                                     Function funObj) throws CarbonException, TaskException, IOException {
 
         //Generating UUID + current time for the taskName
         String taskName =
@@ -132,7 +135,7 @@ public class JaggeryTaskManager extends ScriptableObject {
         Date endTime = null;
         final Map<String, Object> resources = new HashMap<String, Object>();
         JaggeryTaskInfo jaggeryTaskInfo = new JaggeryTaskInfo();
-        
+
         switch (argCount) {
 
             case 2://A javascript function and its execution frequency were passed
@@ -142,7 +145,7 @@ public class JaggeryTaskManager extends ScriptableObject {
                     jsFunction = arguments[0];
                 } else {
                     throw new CarbonException("Invalid parameter. The first parameter must be " +
-                                              "a JavaScript function.");
+                            "a JavaScript function.");
                 }
 
                 //Extracting the frequency from the arguments
@@ -150,7 +153,7 @@ public class JaggeryTaskManager extends ScriptableObject {
                     frequency = ((Number) arguments[1]).longValue();
                 } else {
                     throw new CarbonException("Invalid parameter. The second parameter " +
-                                              "must be the execution frequency in milliseconds.");
+                            "must be the execution frequency in milliseconds.");
                 }
 
                 //Creating the trigger. There will be a one-to-one mapping between jobs and triggers in this implementation
@@ -166,7 +169,7 @@ public class JaggeryTaskManager extends ScriptableObject {
                     jsFunction = arguments[0];
                 } else {
                     throw new CarbonException("Invalid parameter. The first parameter must " +
-                                              "be a JavaScript function.");
+                            "be a JavaScript function.");
                 }
 
                 //Extracting the frequency from the arguments
@@ -175,7 +178,7 @@ public class JaggeryTaskManager extends ScriptableObject {
                 } else {
                     throw new CarbonException(
                             "Invalid parameter. The second parameter must be the " +
-                            "execution frequency in milliseconds.");
+                                    "execution frequency in milliseconds.");
                 }
 
                 //Extracting function parameters from the arguments
@@ -207,7 +210,7 @@ public class JaggeryTaskManager extends ScriptableObject {
                     } else {
                         throw new CarbonException(
                                 "Invalid parameter. The third parameter must be an Array " +
-                                "of parameters to the argument, a string value for the task name or null.");
+                                        "of parameters to the argument, a string value for the task name or null.");
                     }
                 }
 
@@ -233,7 +236,7 @@ public class JaggeryTaskManager extends ScriptableObject {
                 } else {
                     throw new CarbonException(
                             "Invalid parameter. The second parameter must be the execution " +
-                            "frequency in milliseconds.");
+                                    "frequency in milliseconds.");
                 }
 
                 //Extracting function parameters from the arguments
@@ -261,7 +264,7 @@ public class JaggeryTaskManager extends ScriptableObject {
                     } else {
                         throw new CarbonException(
                                 "Invalid parameter. The third parameter must be an Array of " +
-                                "parameters to the argument or null.");
+                                        "parameters to the argument or null.");
                     }
                 }
 
@@ -274,8 +277,8 @@ public class JaggeryTaskManager extends ScriptableObject {
                         } catch (EvaluatorException e) {
                             throw new CarbonException(
                                     "Invalid parameter. The fourth parameter must be " +
-                                    "the start time in date format or a string value " +
-                                    "for the task name.", e);
+                                            "the start time in date format or a string value " +
+                                            "for the task name.", e);
                         }
                     }
                 }
@@ -294,7 +297,7 @@ public class JaggeryTaskManager extends ScriptableObject {
                     jsFunction = arguments[0];
                 } else {
                     throw new CarbonException("Invalid parameter. The first parameter must be a " +
-                                              "JavaScript function.");
+                            "JavaScript function.");
                 }
 
                 //Extracting the frequency from the arguments
@@ -303,7 +306,7 @@ public class JaggeryTaskManager extends ScriptableObject {
                 } else {
                     throw new CarbonException(
                             "Invalid parameter. The second parameter must be the execution " +
-                            "frequency in milliseconds.");
+                                    "frequency in milliseconds.");
                 }
 
                 //Extracting function parameters from the arguments
@@ -331,7 +334,7 @@ public class JaggeryTaskManager extends ScriptableObject {
                     } else {
                         throw new CarbonException(
                                 "Invalid parameter. The third parameter must be an Array of " +
-                                "parameters to the argument or null.");
+                                        "parameters to the argument or null.");
                     }
                 }
 
@@ -345,7 +348,7 @@ public class JaggeryTaskManager extends ScriptableObject {
                         } catch (EvaluatorException e) {
                             throw new CarbonException(
                                     "Invalid parameter. The fourth parameter must be " +
-                                    "the start time in date format.", e);
+                                            "the start time in date format.", e);
                         }
                     }
                 }
@@ -360,8 +363,8 @@ public class JaggeryTaskManager extends ScriptableObject {
                         } catch (EvaluatorException e) {
                             throw new CarbonException(
                                     "Invalid parameter. The fifth parameter must be " +
-                                    "the end time in date format or a string value " +
-                                    "for the task name.", e);
+                                            "the end time in date format or a string value " +
+                                            "for the task name.", e);
                         }
                     }
                 }
@@ -381,7 +384,7 @@ public class JaggeryTaskManager extends ScriptableObject {
                     jsFunction = arguments[0];
                 } else {
                     throw new CarbonException("Invalid parameter. The first parameter must be a " +
-                                              "JavaScript function.");
+                            "JavaScript function.");
                 }
 
                 //Extracting the frequency from the arguments
@@ -390,7 +393,7 @@ public class JaggeryTaskManager extends ScriptableObject {
                 } else {
                     throw new CarbonException(
                             "Invalid parameter. The second parameter must be the execution " +
-                            "frequency in milliseconds.");
+                                    "frequency in milliseconds.");
                 }
 
                 //Extracting function parameters from the arguments
@@ -418,7 +421,7 @@ public class JaggeryTaskManager extends ScriptableObject {
                     } else {
                         throw new CarbonException(
                                 "Invalid parameter. The third parameter must be an Array of " +
-                                "parameters to the argument or null.");
+                                        "parameters to the argument or null.");
                     }
                 }
 
@@ -429,7 +432,7 @@ public class JaggeryTaskManager extends ScriptableObject {
                     } catch (EvaluatorException e) {
                         throw new CarbonException(
                                 "Invalid parameter. The fourth parameter must be " +
-                                "the start time in date format.", e);
+                                        "the start time in date format.", e);
                     }
                 }
 
@@ -439,7 +442,7 @@ public class JaggeryTaskManager extends ScriptableObject {
                     } catch (EvaluatorException e) {
                         throw new CarbonException(
                                 "Invalid parameter. The fifth parameter must be " +
-                                "the end time in date format.", e);
+                                        "the end time in date format.", e);
                     }
                 }
 
@@ -449,7 +452,7 @@ public class JaggeryTaskManager extends ScriptableObject {
                     } else {
                         throw new CarbonException(
                                 "Invalid parameter. The sixth parameter must be a string value " +
-                                "for the task name");
+                                        "for the task name");
                     }
                 }
 
@@ -468,18 +471,18 @@ public class JaggeryTaskManager extends ScriptableObject {
         addCommonResources(cx, taskName, jsFunction, functionParams, resources);
 
         JaggeryCoreServiceComponent.getTaskMap().put(taskName, resources);
-        
+
         final Map<String, String> propertyMap = new HashMap<String, String>();
         propertyMap.put(JaggeryTaskConstants.TASK_NAME, taskName);
         jaggeryTaskInfo.setTaskProperties(propertyMap);
-        
+
         JaggeryTaskAdmin taskAdmin = new JaggeryTaskAdmin();
-        
+
         try {
-			taskAdmin.scheduleTask(jaggeryTaskInfo);
-		} catch (TaskException e) {
-			throw new CarbonException("Unable to create the scheduling task");
-		}
+            taskAdmin.scheduleTask(jaggeryTaskInfo);
+        } catch (TaskException e) {
+            throw new CarbonException("Unable to create the scheduling task");
+        }
 
         return taskName;
     }
@@ -497,7 +500,7 @@ public class JaggeryTaskManager extends ScriptableObject {
      */
 
     public static void clearInterval(Context cx, Scriptable thisObj, Object[] arguments,
-                                                Function funObj) throws CarbonException {
+                                     Function funObj) throws CarbonException {
 
         if (arguments[0] instanceof String) {
             deleteJob(arguments);
@@ -512,19 +515,19 @@ public class JaggeryTaskManager extends ScriptableObject {
 
         JaggeryTaskAdmin taskAdmin = new JaggeryTaskAdmin();
         try {
-			taskAdmin.deleteTask(taskName);
-		} catch (TaskException e) {
-			log.error("Unable to delete job : " + e.getMessage());
-		}
+            taskAdmin.deleteTask(taskName);
+        } catch (TaskException e) {
+            log.error("Unable to delete job : " + e.getMessage());
+        }
     }
 
     public static boolean isTaskScheduled(Context cx, Scriptable thisObj,
-                                                  Object[] arguments, Function funObj)
+                                          Object[] arguments, Function funObj)
             throws CarbonException, TaskException {
 
         if (arguments[0] instanceof String) {
             JaggeryTaskAdmin taskAdmin = new JaggeryTaskAdmin();
-            
+
             return taskAdmin.isTaskScheduled((String) arguments[0]);
         } else {
             return false;
@@ -546,22 +549,22 @@ public class JaggeryTaskManager extends ScriptableObject {
      * setTimeout() also returns a numeric timeout ID that can be used to track the timeout. This is most commonly used with the clearTimeout() method
      *
      * @throws CarbonException Thrown in case any exceptions occur
-     * @throws IOException 
+     * @throws IOException
      */
 
     public static String setTimeout(Context cx, Scriptable thisObj, Object[] arguments,
-                                               Function funObj) throws CarbonException, IOException {
+                                    Function funObj) throws CarbonException, IOException {
 
         //Generating UUID + current time for the taskName
         String taskName =
-        		JaggeryTaskManager.getFormattedCurrentDateTime() + "-" + UIDGenerator.generateUID().substring(9);
+                JaggeryTaskManager.getFormattedCurrentDateTime() + "-" + UIDGenerator.generateUID().substring(9);
 
         int argCount = arguments.length;
         Object jsFunction = null;
         Object[] functionParams = null;
         long timeout = 0;
         Date currentTime = new Date();
-        
+
         final Map<String, Object> resources = new HashMap<String, Object>();
         JaggeryTaskInfo jaggeryTaskInfo = new JaggeryTaskInfo();
 
@@ -574,7 +577,7 @@ public class JaggeryTaskManager extends ScriptableObject {
                     jsFunction = arguments[0];
                 } else {
                     throw new CarbonException("Invalid parameter. The first parameter must be " +
-                                              "a JavaScript function.");
+                            "a JavaScript function.");
                 }
 
                 //Extracting the frequency from the arguments
@@ -582,15 +585,15 @@ public class JaggeryTaskManager extends ScriptableObject {
                     timeout = ((Number) arguments[1]).longValue();
                 } else {
                     throw new CarbonException("Invalid parameter. The second parameter " +
-                                              "must be function starting timeout.");
+                            "must be function starting timeout.");
                 }
-                
+
                 //Creating the trigger. There will be a one-to-one mapping between jobs and triggers in this implementation
                 jaggeryTaskInfo.setName(taskName);
                 jaggeryTaskInfo.setTaskCount(0);
                 jaggeryTaskInfo.setTaskInterval(0);
                 jaggeryTaskInfo.setStartTime(JaggeryTaskUtils.dateToCal(new Date(currentTime.getTime() + timeout)));
-                
+
                 break;
 
             case 3://A javascript function its execution frequency and parameters were passed
@@ -600,7 +603,7 @@ public class JaggeryTaskManager extends ScriptableObject {
                     jsFunction = arguments[0];
                 } else {
                     throw new CarbonException("Invalid parameter. The first parameter must " +
-                                              "be a JavaScript function.");
+                            "be a JavaScript function.");
                 }
 
                 //Extracting the frequency from the arguments
@@ -609,7 +612,7 @@ public class JaggeryTaskManager extends ScriptableObject {
                 } else {
                     throw new CarbonException(
                             "Invalid parameter. The second parameter must be the " +
-                            "execution frequency in milliseconds.");
+                                    "execution frequency in milliseconds.");
                 }
 
                 //Extracting function parameters from the arguments
@@ -620,10 +623,10 @@ public class JaggeryTaskManager extends ScriptableObject {
                     } else {
                         throw new CarbonException(
                                 "Invalid parameter. The third parameter must be a string " +
-                                "value for the  the task name");
+                                        "value for the  the task name");
                     }
                 }
-                
+
                 //Creating the trigger. There will be a one-to-one mapping between jobs and triggers in this implementation
                 jaggeryTaskInfo.setName(taskName);
                 jaggeryTaskInfo.setTaskCount(0);
@@ -637,20 +640,20 @@ public class JaggeryTaskManager extends ScriptableObject {
         }
 
         addCommonResources(cx, taskName, jsFunction, functionParams, resources);
-        
+
         JaggeryCoreServiceComponent.getTaskMap().put(taskName, resources);
-        
+
         final Map<String, String> propertyMap = new HashMap<String, String>();
         propertyMap.put(JaggeryTaskConstants.TASK_NAME, taskName);
         jaggeryTaskInfo.setTaskProperties(propertyMap);
-        
+
         JaggeryTaskAdmin taskAdmin = new JaggeryTaskAdmin();
-        
+
         try {
-			taskAdmin.scheduleTask(jaggeryTaskInfo);
-		} catch (TaskException e) {
-			throw new CarbonException("Unable to create the scheduling task");
-		}
+            taskAdmin.scheduleTask(jaggeryTaskInfo);
+        } catch (TaskException e) {
+            throw new CarbonException("Unable to create the scheduling task");
+        }
 
         return taskName;
 
@@ -661,7 +664,9 @@ public class JaggeryTaskManager extends ScriptableObject {
         resources.put(JaggeryTaskConstants.TASK_NAME, taskName);
         resources.put(JaggeryTaskConstants.JAVASCRIPT_FUNCTION, jsFunction);
         resources.put(JaggeryTaskConstants.CONTEXT_FACTORY, cx.getFactory());
+        resources.put(JaggeryTaskConstants.FILE_MANAGER, RhinoEngine.getContextProperty(FileHostObject.JAVASCRIPT_FILE_MANAGER));
         resources.put(JaggeryTaskConstants.SCRIPT_PATH, CommonManager.getJaggeryContext().getIncludesCallstack().peek());
+        resources.put(JaggeryTaskConstants.SERVLET_CONTEXT, ((WebAppContext)CommonManager.getJaggeryContext()).getServletConext());
     }
 
 
@@ -679,7 +684,7 @@ public class JaggeryTaskManager extends ScriptableObject {
      * @throws CarbonException Thrown in case any exceptions occur
      */
     public static void clearTimeout(Context cx, Scriptable thisObj, Object[] arguments,
-                                               Function funObj) throws CarbonException {
+                                    Function funObj) throws CarbonException {
 
         if (arguments[0] instanceof String) {
             deleteJob(arguments);

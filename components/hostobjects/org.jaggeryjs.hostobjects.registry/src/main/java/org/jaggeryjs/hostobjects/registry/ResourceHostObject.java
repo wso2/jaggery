@@ -103,12 +103,12 @@ public class ResourceHostObject extends ScriptableObject {
         }
     }
 
-    public static NativeArray jsFunction_getPropertyValues(Context cx, Scriptable thisObj, Object[] arguments,
-                                                           Function funObj) throws ScriptException {
+    public static Scriptable jsFunction_getPropertyValues(Context cx, Scriptable thisObj, Object[] arguments,
+                                                          Function funObj) throws ScriptException {
         ResourceHostObject resourceHostObject = (ResourceHostObject) thisObj;
         if (arguments.length == 1) {
             if (arguments[0] instanceof String) {
-                return new NativeArray(resourceHostObject.resource.getPropertyValues((String) arguments[0]).toArray());
+                return cx.newArray(thisObj, resourceHostObject.resource.getPropertyValues((String) arguments[0]).toArray());
             } else {
                 throw new ScriptException("Invalid argument type for getProperty() method");
             }
@@ -117,9 +117,9 @@ public class ResourceHostObject extends ScriptableObject {
         }
     }
 
-    public static NativeArray jsFunction_getProperties(Context cx, Scriptable thisObj,
-                                                       Object[] arguments,
-                                                       Function funObj) throws ScriptException {
+    public static Scriptable jsFunction_getProperties(Context cx, Scriptable thisObj,
+                                                      Object[] arguments,
+                                                      Function funObj) throws ScriptException {
         ResourceHostObject resourceHostObject = (ResourceHostObject) thisObj;
         if (arguments.length == 0) {
             List<NativeObject> props = new ArrayList<NativeObject>();
@@ -132,7 +132,7 @@ public class ResourceHostObject extends ScriptableObject {
                 property.put("value", property, properties.get(key));
                 props.add(property);
             }
-            return new NativeArray(props.toArray());
+            return cx.newArray(thisObj, props.toArray());
         } else {
             throw new ScriptException("getProperties() method doesn't accept arguments");
         }
@@ -266,7 +266,7 @@ public class ResourceHostObject extends ScriptableObject {
                 }
                 return new String((byte[]) result);
             } else if (result instanceof String[]) {
-                return new NativeArray((String[]) result);
+                return context.newArray(this, (String[]) result);
             } else {
                 return Context.toObject(result, this);
             }
