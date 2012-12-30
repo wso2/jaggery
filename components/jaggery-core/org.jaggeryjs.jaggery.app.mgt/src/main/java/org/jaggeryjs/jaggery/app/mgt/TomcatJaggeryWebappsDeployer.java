@@ -170,6 +170,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
         // listeners.add(new CarbonServletRequestListener());
         ServletParameter jaggeryServletParameter = new ServletParameter();
         ServletParameter jsspParameter = new ServletParameter();
+        ServletParameter jaggeryWebsocketServletParameter = new ServletParameter();
 
         jaggeryServletParameter.setServletName(JaggeryConstants.JAGGERY_SERVLET_NAME);
         jaggeryServletParameter.setServletClass(JaggeryConstants.JAGGERY_SERVLET_CLASS);
@@ -177,6 +178,10 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
         jsspParameter.setServletName(JaggeryConstants.JSSP_NAME);
         jsspParameter.setServletClass(JaggeryConstants.JSSP_CLASS);
         jsspParameter.setLoadOnStartup(2);
+
+        jaggeryWebsocketServletParameter.setServletName(JaggeryConstants.JAGGERY_WEBSOCKET_SERVLET_NAME);
+        jaggeryWebsocketServletParameter.setServletClass(JaggeryConstants.JAGGERY_WEBSOCKET_SERVLET_CLASS);
+
         HashMap<String, String> jsspInitParamMap = new HashMap<String, String>();
         jsspInitParamMap.put("fork", "false");
         jsspParameter.setInitParams(jsspInitParamMap);
@@ -185,12 +190,17 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                 new ArrayList<ServletParameter>();
         servletParameters.add(jaggeryServletParameter);
         servletParameters.add(jsspParameter);
+        servletParameters.add(jaggeryWebsocketServletParameter);
 
         ServletMappingParameter jaggeryServletMappingParameter = new ServletMappingParameter();
         ServletMappingParameter jsspMappingParameter = new ServletMappingParameter();
+        ServletMappingParameter jaggeryWebSocketServletMappingParameter = new ServletMappingParameter();
 
         jaggeryServletMappingParameter.setServletName(JaggeryConstants.JAGGERY_SERVLET_NAME);
         jaggeryServletMappingParameter.setUrlPattern(JaggeryConstants.JAGGERY_SERVLET_URL_PATTERN);
+
+        jaggeryWebSocketServletMappingParameter.setServletName(JaggeryConstants.JAGGERY_WEBSOCKET_SERVLET_NAME);
+        jaggeryWebSocketServletMappingParameter.setUrlPattern(JaggeryConstants.JAGGERY_WEBSOCKET_SERVLET_URL_PATTERN);
 
         SecurityConstraint securityConstraint = new SecurityConstraint();
         securityConstraint.setAuthConstraint(true);
@@ -206,6 +216,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                 new ArrayList<ServletMappingParameter>();
         servletMappingParameters.add(jaggeryServletMappingParameter);
         servletMappingParameters.add(jsspMappingParameter);
+        servletMappingParameters.add(jaggeryWebSocketServletMappingParameter);
 
         try {
             JSONObject jaggeryConfigObj = readJaggeryConfig(webappFile);
