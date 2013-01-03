@@ -65,12 +65,14 @@
         <jaggery.feature.version>0.9.0-SNAPSHOT</jaggery.feature.version>
 
         <!-- carbon versions -->
-        <carbon.kernal.version>4.0.0</carbon.kernal.version>
+        <carbon.kernal.version>4.0.5</carbon.kernal.version>
         <carbon.platform.version>4.0.0</carbon.platform.version>
 
-        <!-- feature versions -->
-        <ntask.feature.version>4.0.2</ntask.feature.version>
-        <coordination.feature.version>4.0.2</coordination.feature.version>
+        <!-- patch versions -->
+        <patch.version.401>4.0.1</patch.version.401>
+        <patch.version.402>4.0.2</patch.version.402>
+        <patch.version.404>4.0.4</patch.version.404>
+        <patch.version.405>4.0.5</patch.version.405>
 
         <!--rhino debugger versions-->
         <eclipse-debugger.version>1.0.300.v201109150503</eclipse-debugger.version>
@@ -114,13 +116,7 @@
         <wso2-uri-templates.osgi.version>1.0.0</wso2-uri-templates.osgi.version>
         <javax.servlet.osgi.version>3.0.0.wso2v1</javax.servlet.osgi.version>
         <geronimo-servlet_3.0_spec.version>1.0</geronimo-servlet_3.0_spec.version>
-		<webapp.mgt.osgi.patch.version402>4.0.2</webapp.mgt.osgi.patch.version402>
-        <webapp.mgt.osgi.version>4.0.1</webapp.mgt.osgi.version>
         <org.wso2.solr.version>1.4.1.wso2v1</org.wso2.solr.version>
-        <org.wso2.carbon.registry.indexing.version>4.0.2</org.wso2.carbon.registry.indexing.version>
-        <org.wso2.carbon.registry.common.version>4.0.2</org.wso2.carbon.registry.common.version>
-        <org.wso2.carbon.registry.search.version>4.0.1</org.wso2.carbon.registry.search.version>
-        <org.wso2.carbon.registry.adminapi.version>4.0.1</org.wso2.carbon.registry.adminapi.version>
 
         <!-- non-osgi bundle versions -->
         <json.version>20090211</json.version>
@@ -374,12 +370,12 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.context</artifactId>
-                <version>${carbon.kernal.version}</version>
+                <version>${patch.version.401}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.ndatasource.rdbms</artifactId>
-                <version>${carbon.kernal.version}</version>
+                <version>${carbon.platform.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.geronimo.specs</groupId>
@@ -409,7 +405,7 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.addressing</artifactId>
-                <version>${carbon.kernal.version}</version>
+                <version>${carbon.platform.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
@@ -450,32 +446,32 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.logging</artifactId>
-                <version>${carbon.kernal.version}</version>
+                <version>${carbon.platform.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.webapp.mgt</artifactId>
-                <version>${webapp.mgt.osgi.patch.version402}</version>
+                <version>${patch.version.405}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.registry.search</artifactId>
-                <version>${org.wso2.carbon.registry.search.version}</version>
+                <version>${patch.version.401}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.registry.admin.api</artifactId>
-                <version>${org.wso2.carbon.registry.adminapi.version}</version>
+                <version>${patch.version.405}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.registry.common</artifactId>
-                <version>${org.wso2.carbon.registry.common.version}</version>
+                <version>${patch.version.405}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.registry.indexing</artifactId>
-                <version>${org.wso2.carbon.registry.indexing.version}</version>
+                <version>${patch.version.405}</version>
             </dependency>
             <dependency>
                 <groupId>solr.wso2</groupId>
@@ -485,12 +481,12 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.webapp.mgt.stub</artifactId>
-                <version>${webapp.mgt.osgi.version}</version>
+                <version>${patch.version.401}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.webapp.list.ui</artifactId>
-                <version>${webapp.mgt.osgi.version}</version>
+                <version>${patch.version.405}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
@@ -510,7 +506,7 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.server</artifactId>
-                <version>${carbon.kernal.version}</version>
+                <version>${patch.version.402}</version>
             </dependency>
             <dependency>
                 <groupId>com.googlecode.json-simple.wso2</groupId>

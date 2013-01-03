@@ -288,16 +288,16 @@
         <jaggery.deployer.osgi.version>0.9.0.SNAPSHOT</jaggery.deployer.osgi.version>
 
         <!-- carbon versions -->
-        <carbon.kernal.version>4.0.0</carbon.kernal.version>
+        <carbon.kernal.version>4.0.5</carbon.kernal.version>
         <carbon.platform.version>4.0.0</carbon.platform.version>
-		<carbon.kernal.patch.version>4.0.2</carbon.kernal.patch.version>
-		
-        <!-- feature versions -->
-        <ntask.feature.version>4.0.2</ntask.feature.version>
-        <coordination.feature.version>4.0.2</coordination.feature.version>
-		<org.wso2.carbon.integration.framework.version>4.0.2</org.wso2.carbon.integration.framework.version>
 
-        <!-- non-osgi bundle versions -->
+        <!-- patch versions -->
+        <patch.version.401>4.0.1</patch.version.401>
+        <patch.version.402>4.0.2</patch.version.402>
+        <patch.version.403>4.0.3</patch.version.403>
+        <patch.version.404>4.0.4</patch.version.404>
+        <patch.version.405>4.0.5</patch.version.405>
+
         <emma.version>2.1.5320</emma.version>
 
         <!-- maven plugin versions -->

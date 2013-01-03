@@ -72,12 +72,10 @@
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.ntask.core</artifactId>
-            <version>${ntask.osgi.patch.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.ntask.solutions</artifactId>
-            <version>${ntask.osgi.patch.version}</version>
         </dependency>
     </dependencies>
 

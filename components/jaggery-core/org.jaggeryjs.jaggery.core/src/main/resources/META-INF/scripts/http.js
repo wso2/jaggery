@@ -179,7 +179,7 @@ var get, post, put, del, head, options, trace, connect;
 
         if (callback) {
             xhr.onreadystatechange = function() {
-                if (xhr.readyState() === 4 && xhr.status === 200) {
+                if (xhr.readyState === 4 && xhr.status === 200) {
                     callback.call(that, formatData(xhr, dataType), xhr);
                 }
             };

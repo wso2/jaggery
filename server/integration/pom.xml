@@ -54,7 +54,7 @@
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.integration.core</artifactId>
-            <version>${org.wso2.carbon.integration.framework.version}</version>
+            <version>${patch.version.403}</version>
             <classifier>tests</classifier>
             <scope>test</scope>
             <exclusions>
@@ -67,12 +67,12 @@
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.integration.framework</artifactId>
-            <version>${org.wso2.carbon.integration.framework.version}</version>
+            <version>${patch.version.403}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>SecVerifier</artifactId>
-            <version>${org.wso2.carbon.integration.framework.version}</version>
+            <version>${patch.version.403}</version>
             <type>aar</type>
         </dependency>
     </dependencies>
