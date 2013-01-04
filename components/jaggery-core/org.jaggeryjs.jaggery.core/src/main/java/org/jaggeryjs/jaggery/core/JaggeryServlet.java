@@ -25,7 +25,7 @@ public class JaggeryServlet extends HttpServlet {
 
             String uri = request.getRequestURI();
             request.setAttribute("reqURI", uri);
-            request.getRequestDispatcher("websocket").forward(request,response);
+            request.getRequestDispatcher("/websocket").forward(request,response);
 
         }else
             WebAppManager.execute(request, response);

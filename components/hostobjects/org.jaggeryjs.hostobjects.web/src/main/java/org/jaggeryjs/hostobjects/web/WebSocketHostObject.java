@@ -18,7 +18,7 @@ public class WebSocketHostObject extends ScriptableObject {
     private Context context;
     private static WsOutbound wsOutbound;
 
-    private Function onMessageFunction;
+    private Function onTextMessageFunction;
     private Function onBinMessageFunction;
 
 
@@ -58,26 +58,26 @@ public class WebSocketHostObject extends ScriptableObject {
     }
 
 
-    public void jsSet_onMessage(Object outPutMessage) {
+    public void jsSet_onTextMessage(Object outPutMessage) {
 
         if (outPutMessage instanceof Function) {
-            this.setOnMessageFunction((Function) outPutMessage);
+            this.setOnTextMessageFunction((Function) outPutMessage);
         }
 
     }
 
 
-    public Scriptable jsGet_onMessage() {
-        return getOnMessageFunction();
+    public Scriptable jsGet_onTextMessage() {
+        return getOnTextMessageFunction();
     }
 
 
-    public Function getOnMessageFunction() {
-        return onMessageFunction;
+    public Function getOnTextMessageFunction() {
+        return onTextMessageFunction;
     }
 
-    private void setOnMessageFunction(Function onMessageFunction) {
-        this.onMessageFunction = onMessageFunction;
+    private void setOnTextMessageFunction(Function onMessageFunction) {
+        this.onTextMessageFunction = onMessageFunction;
     }
 
 

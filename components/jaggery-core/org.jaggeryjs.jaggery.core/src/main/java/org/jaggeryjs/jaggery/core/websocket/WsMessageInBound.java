@@ -77,7 +77,7 @@ public class WsMessageInBound extends MessageInbound {
         }
         WebSocketHostObject.setWsOutbound(out);
 
-        Function onMessageFunction = webSockHostObject.getOnMessageFunction();
+        Function onMessageFunction = webSockHostObject.getOnTextMessageFunction();
 
         onMessageFunction.call(webSockHostObject.getContext(), webSockHostObject, webSockHostObject, new Object[]{getMsg()});
 
