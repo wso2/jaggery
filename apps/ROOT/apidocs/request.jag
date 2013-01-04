@@ -268,15 +268,47 @@ include('/includes/topnavi.jag');
                         </td>
 
                     </tr>
+                    <tr>
+
+                        <td><code>getAllHeaders() </code>
+                        </td>
+                         <td>Object</td>
+                        <td>
+                            <pre class="prettyprint">request.getAllHeaders()</pre>
+                            Returns all request headers as an object.<br/><br/>
+<pre class="prettyprint">{
+    "Content-Type": "application/json",
+    "User-Agent": "Mozilla/5.0",
+    "Cookie": "JSESSIONID=4DA02FE19BA086964227"
+}</pre>
+
+                        </td>
+
+                    </tr>
 
                     <tr>
 
-                        <td><code>getParameter(paramname) </code>
+                        <td><code>getParameter(paramname [,charset]) </code>
                         </td>
                            <td>String</td>
                         <td>
                             <pre class="prettyprint">request.getParameter("action")</pre>
-                            Returns the request parameter
+                            Returns the request parameter. For <code>multipart/form-data</code> requests, an optional
+                            <code>charset</code> parameter can be passed to get the encoded value.
+                            <br/>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td><code>getAllParameters([charset]) </code>
+                        </td>
+                           <td>Object</td>
+                        <td>
+                            <pre class="prettyprint">request.getAllParameters("UTF-8")</pre>
+                            Returns all request parameters as an object. For <code>multipart/form-data</code> requests,
+                            an optional <code>charset</code> parameter can be passed to get the encoded values.
                             <br/>
                         </td>
 
@@ -286,13 +318,78 @@ include('/includes/topnavi.jag');
 
                         <td><code>getFile(formFeildName)</code>
                         </td>
-                           <td>String</td>
+                           <td>File</td>
                         <td>
                             <pre class="prettyprint">request.getFile("fieldName")</pre>
                             Returns a file object when the content type is <code>multipart/form-data</code>
                                                         <br/><br/>
 <pre class="prettyprint">var file = request.getFile("userfile");
 file.saveAs(file.getName());</pre>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td><code>getAllFiles()</code>
+                        </td>
+                           <td>Object</td>
+                        <td>
+                            <pre class="prettyprint">request.getAllFiles()</pre>
+                            Returns an object of files when the content type is <code>multipart/form-data</code>
+                                                        <br/><br/>
+<pre class="prettyprint">var files = request.getAllFiles();
+for(var name in files) {
+    if(files.hasOwnProperty(file)) {
+        var file = files[name];
+        file.saveAs(name);
+    }
+}</pre>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td><code>getCookie(name)</code>
+                        </td>
+                           <td>String</td>
+                        <td>
+                            <pre class="prettyprint">request.getCookie(name)</pre>
+                            Returns a cookie object.<br/><br/>
+<pre class="prettyprint">{
+    "name": "user",
+    "value": "ruchira",
+    "domain": "jaggeryjs.org",
+    "maxAge": 100000,
+    "secure": true,
+    "path": "/",
+    "comment": "Authenticated user"
+}
+</pre>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td><code>getAllCookies()</code>
+                        </td>
+                           <td>Object</td>
+                        <td>
+                            <pre class="prettyprint">request.getAllCookies()</pre>
+                            Returns an object with cookies.<br/><br/>
+<pre class="prettyprint">{
+    "user" : {
+        "name": "user",
+        .....
+    },
+    "remember" : {
+        "name": "remember",
+        .....
+    }
+}
+</pre>
                         </td>
 
                     </tr>
