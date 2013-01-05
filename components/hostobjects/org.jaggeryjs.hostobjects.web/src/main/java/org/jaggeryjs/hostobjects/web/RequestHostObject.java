@@ -90,7 +90,7 @@ public class RequestHostObject extends ScriptableObject {
             if (contentType != null && (
                     contentType.equals("application/json") ||
                             contentType.equals("application/json/badgerfish"))) {
-                rho.content = cx.evaluateString(thisObj, data, "wso2js", 1, null);
+                rho.content = HostObjectUtil.parseJSON(thisObj, data);
             } else {
                 rho.content = data;
             }

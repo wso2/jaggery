@@ -1,18 +1,16 @@
 package org.jaggeryjs.scriptengine.util;
 
 
-import org.apache.commons.httpclient.Credentials;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpMethod;
-import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
-import org.apache.commons.httpclient.UsernamePasswordCredentials;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import org.apache.commons.httpclient.*;
 import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.cookie.CookiePolicy;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.mozilla.javascript.*;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
+import org.mozilla.javascript.*;
 import org.wso2.javascript.xmlimpl.XML;
 import org.wso2.javascript.xmlimpl.XMLList;
 
@@ -67,6 +65,19 @@ public class HostObjectUtil {
         String msg = object + " Object has been reserved and cannot be instantiated by a script.";
         log.warn(msg);
         throw new ScriptException(msg);
+    }
+
+    public static Object parseJSON(Scriptable scope, String json) {
+        Gson gson = new Gson();
+        JsonElement element = gson.fromJson(json, JsonElement.class);
+        String source = "var x = " + element.toString() + ";";
+        Context cx = Context.getCurrentContext();
+        int optimization = cx.getOptimizationLevel();
+        cx.setOptimizationLevel(-1);
+        Scriptable o = cx.newObject(scope);
+        cx.evaluateString(o, source, "wso2js", 1, null);
+        cx.setOptimizationLevel(optimization);
+        return o.get("x", o);
     }
 
     public static String serializeJSON(Object obj) {
@@ -245,7 +256,7 @@ public class HostObjectUtil {
         Object[] ids = obj.getIds();
         boolean first = true;
         for (Object id : ids) {
-            if(!(id instanceof Integer)) {
+            if (!(id instanceof Integer)) {
                 continue;
             }
             Object value = obj.get((Integer) id, obj);

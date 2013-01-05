@@ -1,12 +1,14 @@
 package org.jaggeryjs.scriptengine.engine;
 
-import com.google.gson.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.mozilla.javascript.*;
 import org.jaggeryjs.scriptengine.EngineConstants;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Function;
+import org.mozilla.javascript.ImporterTopLevel;
+import org.mozilla.javascript.Scriptable;
 
 
 public class RhinoTopLevel extends ImporterTopLevel {
@@ -29,13 +31,7 @@ public class RhinoTopLevel extends ImporterTopLevel {
             HostObjectUtil.invalidArgsError(EngineConstants.GLOBAL_OBJECT_NAME,
                     EngineConstants.GLOBAL_OBJECT_NAME, "1", "string", args[0], true);
         }
-
-        Gson gson = new Gson();
-        JsonElement element = gson.fromJson((String) args[0], JsonElement.class);
-
-        String source = "var x = " + element.toString() + ";";
-        cx.evaluateString(funObj, source, "wso2js", 1, null);
-        return funObj.get("x", funObj);
+        return HostObjectUtil.parseJSON(thisObj, (String) args[0]);
     }
 
     public static String stringify(Context cx, Scriptable thisObj, Object[] args, Function funObj)
