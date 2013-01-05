@@ -3,6 +3,7 @@ package org.jaggeryjs.scriptengine.util;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
 import org.apache.commons.httpclient.*;
 import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.cookie.CookiePolicy;
@@ -24,6 +25,7 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map.Entry;
 import java.util.TimeZone;
 
 public class HostObjectUtil {
@@ -68,16 +70,36 @@ public class HostObjectUtil {
     }
 
     public static Object parseJSON(Scriptable scope, String json) {
-        Gson gson = new Gson();
-        JsonElement element = gson.fromJson(json, JsonElement.class);
-        String source = "var x = " + element.toString() + ";";
-        Context cx = Context.getCurrentContext();
-        int optimization = cx.getOptimizationLevel();
-        cx.setOptimizationLevel(-1);
-        Scriptable o = cx.newObject(scope);
-        cx.evaluateString(o, source, "wso2js", 1, null);
-        cx.setOptimizationLevel(optimization);
-        return o.get("x", o);
+        return buildObject(Context.getCurrentContext(), scope, new Gson().fromJson(json, JsonElement.class));
+    }
+
+    private static Object buildObject(Context cx, Scriptable scope, JsonElement element) {
+        if(element.isJsonArray()) {
+            Scriptable o = cx.newArray(scope, 0);
+            int i = 0;
+            for (JsonElement el : element.getAsJsonArray()) {
+                o.put(i++, o, buildObject(cx, scope, el));
+            }
+            return o;
+        }
+        if(element.isJsonObject()) {
+            Scriptable o = cx.newObject(scope);
+            for(Entry<String, JsonElement> entry : element.getAsJsonObject().entrySet()) {
+                o.put(entry.getKey(), o, buildObject(cx, scope, entry.getValue()));
+            }
+            return o;
+        }
+        if(element.isJsonPrimitive()) {
+            JsonPrimitive primitive = element.getAsJsonPrimitive();
+            if(primitive.isBoolean()) {
+                return primitive.getAsBoolean();
+            }
+            if(primitive.isNumber()) {
+                return primitive.getAsNumber();
+            }
+            return primitive.getAsString();
+        }
+        return null;
     }
 
     public static String serializeJSON(Object obj) {
