@@ -18,8 +18,10 @@
 
 package org.wso2.jaggery.integration.tests.hostObjects;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
+import org.json.JSONException;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.testng.annotations.Test;
+import org.wso2.carbon.integration.framework.ClientConnectionUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,8 +29,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.testng.annotations.Test;
-import org.wso2.carbon.integration.framework.ClientConnectionUtil;
+import static org.testng.Assert.assertNotNull;
 
 /**
  * Test cases for HTTP client (GET/PUT/POST/DELETE)
@@ -66,7 +67,7 @@ public class HttpClientTestCase {
     
     @Test(groups = {"jaggery"},
             description = "Test Http Client GET operation ")
-    public void testHttpClientGetOperations() {
+    public void testHttpClientGetOperations() throws JSONException {
         ClientConnectionUtil.waitForPort(9763);
         
         String finalOutput = null;
@@ -86,14 +87,14 @@ public class HttpClientTestCase {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			assertEquals(finalOutput, "{\"data\" : [{\"type\" : \"GET\", \"name\" : \"Test\"}], \"xhr\" : {}}");
+			JSONAssert.assertEquals("{\"data\" : [{\"type\" : \"GET\", \"name\" : \"Test\"}], \"xhr\" : {}}", finalOutput, true);
 		}
         
     }
     
     @Test(groups = {"jaggery"},
             description = "Test Http Client GET operation ")
-    public void testHttpClientGetParameters() {
+    public void testHttpClientGetParameters() throws JSONException {
         ClientConnectionUtil.waitForPort(9763);
         
         String finalOutput = null;
@@ -113,7 +114,7 @@ public class HttpClientTestCase {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			assertEquals(finalOutput, "{\"data\" : {\"type\" : \"GET\", \"name\" : \"Test parameters\"}, \"xhr\" : {}}");
+			JSONAssert.assertEquals("{\"data\" : {\"type\" : \"GET\", \"name\" : \"Test parameters\"}, \"xhr\" : {}}", finalOutput, true);
 		}
         
     }
@@ -151,7 +152,7 @@ public class HttpClientTestCase {
     
     @Test(groups = {"jaggery"},
             description = "Test Http Client POST operation ")
-    public void testHttpClientPostOperations() {
+    public void testHttpClientPostOperations() throws JSONException {
         ClientConnectionUtil.waitForPort(9763);
         
         String finalOutput = null;
@@ -171,14 +172,14 @@ public class HttpClientTestCase {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			assertEquals(finalOutput, "{\"data\" : [{\"type\" : \"POST\", \"name\" : \"Test\"}], \"xhr\" : {}}");
+			JSONAssert.assertEquals("{\"data\" : [{\"type\" : \"POST\", \"name\" : \"Test\"}], \"xhr\" : {}}", finalOutput, true);
 		}
         
     }
     
     @Test(groups = {"jaggery"},
             description = "Test Http Client POST operation with params")
-    public void testHttpClientPostParameters() {
+    public void testHttpClientPostParameters() throws JSONException {
         ClientConnectionUtil.waitForPort(9763);
         
         String finalOutput = null;
@@ -198,11 +199,11 @@ public class HttpClientTestCase {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			assertEquals(finalOutput, "{\"data\" : {\"type\" : \"POST\", \"name\" : \"Test parameters\"}, \"xhr\" : {}}");
+			JSONAssert.assertEquals("{\"data\" : {\"type\" : \"POST\", \"name\" : \"Test parameters\"}, \"xhr\" : {}}", finalOutput, true);
 		}
         
     }
-    
+
     //end for the post
     
     //for testing put
@@ -236,7 +237,7 @@ public class HttpClientTestCase {
     
     @Test(groups = {"jaggery"},
             description = "Test Http Client PUT operation ")
-    public void testHttpClientPutOperations() {
+    public void testHttpClientPutOperations() throws JSONException {
         ClientConnectionUtil.waitForPort(9763);
         
         String finalOutput = null;
@@ -256,15 +257,15 @@ public class HttpClientTestCase {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			assertEquals(finalOutput, "{\"data\" : \"[{\\\"type\\\" : \\\"PUT\\\"" 
-					+", \\\"name\\\" : \\\"Test\\\"}]\", \"xhr\" : {}}");
+			JSONAssert.assertEquals("{\"data\" : \"[{\\\"type\\\" : \\\"PUT\\\""
+                    + ", \\\"name\\\" : \\\"Test\\\"}]\", \"xhr\" : {}}", finalOutput, true);
 		}
         
     }
     
     @Test(groups = {"jaggery"},
             description = "Test Http Client PUT operation with params")
-    public void testHttpClientPutParameters() {
+    public void testHttpClientPutParameters() throws JSONException {
         ClientConnectionUtil.waitForPort(9763);
         
         String finalOutput = null;
@@ -284,7 +285,7 @@ public class HttpClientTestCase {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			assertEquals(finalOutput, "{\"data\" : {\"type\" : \"PUT\", \"name\" : \"Test parameters\"}, \"xhr\" : {}}");
+			JSONAssert.assertEquals("{\"data\" : {\"type\" : \"PUT\", \"name\" : \"Test parameters\"}, \"xhr\" : {}}", finalOutput, true);
 		}
         
     }
@@ -322,7 +323,7 @@ public class HttpClientTestCase {
     
     @Test(groups = {"jaggery"},
             description = "Test Http Client Del operation ")
-    public void testHttpClientDelOperations() {
+    public void testHttpClientDelOperations() throws JSONException {
         ClientConnectionUtil.waitForPort(9763);
         
         String finalOutput = null;
@@ -342,15 +343,15 @@ public class HttpClientTestCase {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			assertEquals(finalOutput, "{\"data\" : \"[{\\\"type\\\" : \\\"DELETE\\\"" 
-					+", \\\"name\\\" : \\\"Test\\\"}]\", \"xhr\" : {}}");
+			JSONAssert.assertEquals("{\"data\" : \"[{\\\"type\\\" : \\\"DELETE\\\""
+					+", \\\"name\\\" : \\\"Test\\\"}]\", \"xhr\" : {}}", finalOutput, true);
 		}
         
     }
     
     @Test(groups = {"jaggery"},
             description = "Test Http Client DEL operation with params")
-    public void testHttpClientDelParameters() {
+    public void testHttpClientDelParameters() throws JSONException {
         ClientConnectionUtil.waitForPort(9763);
         
         String finalOutput = null;
@@ -370,7 +371,7 @@ public class HttpClientTestCase {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			assertEquals(finalOutput, "{\"data\" : {\"type\" : \"DELETE\", \"name\" : \"Test parameters\"}, \"xhr\" : {}}");
+			JSONAssert.assertEquals("{\"data\" : {\"type\" : \"DELETE\", \"name\" : \"Test parameters\"}, \"xhr\" : {}}", finalOutput, true);
 		}
         
     }

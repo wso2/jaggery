@@ -18,8 +18,10 @@
 
 package org.wso2.jaggery.integration.tests.hostObjects;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
+import org.json.JSONException;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.testng.annotations.Test;
+import org.wso2.carbon.integration.framework.ClientConnectionUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,8 +29,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.testng.annotations.Test;
-import org.wso2.carbon.integration.framework.ClientConnectionUtil;
+import static org.testng.Assert.assertNotNull;
 
 /**
  * Test cases for Database Host Object
@@ -64,7 +65,7 @@ public class DatabaseHostObjectTestCase {
     
     @Test(groups = {"jaggery"},
             description = "Test for database host object")
-      public void testDB() {
+      public void testDB() throws JSONException {
           ClientConnectionUtil.waitForPort(9763);
           
           String finalOutput = null;
@@ -84,8 +85,8 @@ public class DatabaseHostObjectTestCase {
   		} catch (IOException e) {
   			e.printStackTrace();
   		} finally {
-  	        assertEquals(finalOutput, "[{\"ADDRESS\" : \"WSO2\", \"NAME\" : \"1\"}," +
-  	        		" {\"ADDRESS\" : \"59 Flower Rd\", \"NAME\" : \"2\"}]");
+  	        JSONAssert.assertEquals("[{\"ADDRESS\" : \"WSO2\", \"NAME\" : \"1\"}," +
+                      " {\"ADDRESS\" : \"59 Flower Rd\", \"NAME\" : \"2\"}]", finalOutput, true);
   		}
           
       }
