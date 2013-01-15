@@ -260,7 +260,7 @@ public class HostObjectUtil {
     private static void serializeNativeDate(ScriptableObject obj, StringWriter json) {
         Double time = (Double) ScriptableObject.callMethod(obj, "getTime", new Object[0]);
         Date date = new Date(Math.round(time));
-        json.append(dateFormat.format(date));
+        json.append("\"" + dateFormat.format(date) + "\"");
     }
 
     private static String serializeString(String obj) {
