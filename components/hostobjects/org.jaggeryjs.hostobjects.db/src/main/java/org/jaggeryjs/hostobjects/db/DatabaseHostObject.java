@@ -599,6 +599,8 @@ public class DatabaseHostObject extends ScriptableObject {
                 return results.getBigDecimal(index).toPlainString();
             case Types.BINARY:
                 return HostObjectUtil.streamToString(results.getBinaryStream(index));
+            case Types.CLOB:
+                return results.getClob(index).toString();
             default:
                 return Context.javaToJS(results.getObject(index), db);
         }
