@@ -4,22 +4,24 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.hostobjects.file.FileHostObject;
-import org.jaggeryjs.scriptengine.security.RhinoSecurityController;
-import org.jaggeryjs.scriptengine.security.RhinoSecurityDomain;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Function;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
 import org.jaggeryjs.jaggery.core.ScriptReader;
 import org.jaggeryjs.jaggery.core.plugins.WebAppFileManager;
 import org.jaggeryjs.scriptengine.cache.ScriptCachingContext;
 import org.jaggeryjs.scriptengine.engine.JavaScriptProperty;
 import org.jaggeryjs.scriptengine.engine.RhinoEngine;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
+import org.jaggeryjs.scriptengine.security.RhinoSecurityController;
+import org.jaggeryjs.scriptengine.security.RhinoSecurityDomain;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Function;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
 import org.wso2.carbon.context.CarbonContext;
 
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -41,7 +43,11 @@ public class WebAppManager {
 
     public static final String JAGGERY_MODULES_DIR = "modules";
 
-    private static  boolean isWebSocket = false;
+    public static final String WS_REQUEST_PATH = "requestURI";
+
+    public static final String WS_SERVLET_CONTEXT = "/websocket";
+
+    private static boolean isWebSocket = false;
 
     static {
         try {
@@ -134,7 +140,7 @@ public class WebAppManager {
      */
     public static void print(Context cx, Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException {
-       if(!isWebSocket){
+        if (!isWebSocket) {
             JaggeryContext jaggeryContext = CommonManager.getJaggeryContext();
 
             //If the script itself havent set the content type we set the default content type to be text/html
@@ -145,8 +151,8 @@ public class WebAppManager {
 
             if (((WebAppContext) jaggeryContext).getServletResponse().getCharacterEncoding() == null) {
                 ((WebAppContext) CommonManager.getJaggeryContext()).getServletResponse()
-                     .setCharacterEncoding(DEFAULT_CHAR_ENCODING);
-             }
+                        .setCharacterEncoding(DEFAULT_CHAR_ENCODING);
+            }
 
             CommonManager.print(cx, thisObj, args, funObj);
         }
@@ -265,7 +271,8 @@ public class WebAppManager {
         }
     }
 
-    public static void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public static void execute(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
         String scriptPath = getScriptPath(request);
         InputStream sourceIn = request.getServletContext().getResourceAsStream(scriptPath);
         if (sourceIn == null) {
@@ -284,7 +291,7 @@ public class WebAppManager {
                     new WebAppFileManager(request.getServletContext()));
             CommonManager.getInstance().getEngine().exec(new ScriptReader(sourceIn), webAppContext.getScope(),
                     getScriptCachingContext(request, scriptPath));
-            out.flush();
+            //out.flush();
         } catch (ScriptException e) {
             String msg = e.getMessage();
             log.error(msg, e);
@@ -292,7 +299,7 @@ public class WebAppManager {
         } finally {
             //Exiting from the context
             if (engine != null) {
-                engine.exitContext();
+                RhinoEngine.exitContext();
             }
         }
     }
@@ -357,6 +364,13 @@ public class WebAppManager {
         application.setValue(cx.newObject(scope, "Application", new Object[]{ctx.getServletConext()}));
         application.setAttribute(ScriptableObject.READONLY);
         RhinoEngine.defineProperty(scope, application);
+
+        if (isWebSocket(ctx.getServletRequest())) {
+            JavaScriptProperty websocket = new JavaScriptProperty("websocket");
+            websocket.setValue(cx.newObject(scope, "WebSocket", new Object[0]));
+            websocket.setAttribute(ScriptableObject.READONLY);
+            RhinoEngine.defineProperty(scope, websocket);
+        }
 
     }
 
@@ -516,25 +530,8 @@ public class WebAppManager {
         return (c == '/' || c == '\\');
     }
 
-    public static boolean isWebSocket(HttpServletRequest request) {
-
-        Enumeration headerNames = request.getHeaderNames();
-
-        isWebSocket= false;
-
-        while (headerNames.hasMoreElements()) {
-            String headerName = (String) headerNames.nextElement();
-
-            headerName = request.getHeader(headerName);
-
-            if ("websocket".equals(headerName)) {
-
-                isWebSocket = true;
-
-            }
-
-        }
-
-        return isWebSocket;
+    public static boolean isWebSocket(ServletRequest request) {
+        isWebSocket = "websocket".equals(((HttpServletRequest) request).getHeader("Upgrade"));
+        return "websocket".equals(((HttpServletRequest) request).getHeader("Upgrade"));
     }
 }

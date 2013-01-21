@@ -5,7 +5,7 @@
         <groupId>org.jaggeryjs</groupId>
         <artifactId>hostobjects</artifactId>
         <version>0.9.0-SNAPSHOT</version>
-<relativePath>../pom.xml</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>org.jaggeryjs.hostobjects.web</artifactId>
@@ -39,13 +39,17 @@
             <artifactId>geronimo-servlet_3.0_spec</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.jaggeryjs</groupId>
+            <artifactId>org.jaggeryjs.hostobjects.stream</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.wso2.uri.template</groupId>
             <artifactId>wso2-uri-templates</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.tomcat.wso2</groupId>
             <artifactId>tomcat</artifactId>
-            <version>7.0.28.wso2v1</version>
         </dependency>
     </dependencies>
 

@@ -3,6 +3,7 @@ package org.jaggeryjs.jaggery.core;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.jaggery.core.manager.WebAppManager;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,16 +21,7 @@ public class JaggeryServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        if(WebAppManager.isWebSocket(request)){
-
-            String uri = request.getRequestURI();
-            request.setAttribute("reqURI", uri);
-            request.getRequestDispatcher("/websocket").forward(request,response);
-
-        }else
-            WebAppManager.execute(request, response);
-
+        WebAppManager.execute(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

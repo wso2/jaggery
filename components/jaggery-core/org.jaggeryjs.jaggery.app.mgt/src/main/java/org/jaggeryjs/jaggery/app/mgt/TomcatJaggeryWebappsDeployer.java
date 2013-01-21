@@ -19,14 +19,12 @@ package org.jaggeryjs.jaggery.app.mgt;
 import org.apache.axis2.context.ConfigurationContext;
 import org.apache.catalina.*;
 import org.apache.catalina.core.StandardContext;
-import org.apache.catalina.deploy.ErrorPage;
-import org.apache.catalina.deploy.LoginConfig;
-import org.apache.catalina.deploy.SecurityCollection;
-import org.apache.catalina.deploy.SecurityConstraint;
+import org.apache.catalina.deploy.*;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jaggeryjs.jaggery.core.JaggeryCoreConstants;
 import org.jaggeryjs.jaggery.core.ScriptReader;
 import org.jaggeryjs.jaggery.core.manager.CommonManager;
 import org.jaggeryjs.jaggery.core.manager.JaggeryContext;
@@ -177,39 +175,6 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
         String filename = webappFile.getName();
         ArrayList<Object> listeners = new ArrayList<Object>(1);
         // listeners.add(new CarbonServletRequestListener());
-        ServletParameter jaggeryServletParameter = new ServletParameter();
-        ServletParameter jsspParameter = new ServletParameter();
-        ServletParameter jaggeryWebsocketServletParameter = new ServletParameter();
-
-        jaggeryServletParameter.setServletName(JaggeryConstants.JAGGERY_SERVLET_NAME);
-        jaggeryServletParameter.setServletClass(JaggeryConstants.JAGGERY_SERVLET_CLASS);
-
-        jsspParameter.setServletName(JaggeryConstants.JSSP_NAME);
-        jsspParameter.setServletClass(JaggeryConstants.JSSP_CLASS);
-        jsspParameter.setLoadOnStartup(2);
-
-        jaggeryWebsocketServletParameter.setServletName(JaggeryConstants.JAGGERY_WEBSOCKET_SERVLET_NAME);
-        jaggeryWebsocketServletParameter.setServletClass(JaggeryConstants.JAGGERY_WEBSOCKET_SERVLET_CLASS);
-
-        HashMap<String, String> jsspInitParamMap = new HashMap<String, String>();
-        jsspInitParamMap.put("fork", "false");
-        jsspParameter.setInitParams(jsspInitParamMap);
-
-        List<ServletParameter> servletParameters =
-                new ArrayList<ServletParameter>();
-        servletParameters.add(jaggeryServletParameter);
-        servletParameters.add(jsspParameter);
-        servletParameters.add(jaggeryWebsocketServletParameter);
-
-        ServletMappingParameter jaggeryServletMappingParameter = new ServletMappingParameter();
-        ServletMappingParameter jsspMappingParameter = new ServletMappingParameter();
-        ServletMappingParameter jaggeryWebSocketServletMappingParameter = new ServletMappingParameter();
-
-        jaggeryServletMappingParameter.setServletName(JaggeryConstants.JAGGERY_SERVLET_NAME);
-        jaggeryServletMappingParameter.setUrlPattern(JaggeryConstants.JAGGERY_SERVLET_URL_PATTERN);
-
-        jaggeryWebSocketServletMappingParameter.setServletName(JaggeryConstants.JAGGERY_WEBSOCKET_SERVLET_NAME);
-        jaggeryWebSocketServletMappingParameter.setUrlPattern(JaggeryConstants.JAGGERY_WEBSOCKET_SERVLET_URL_PATTERN);
 
         SecurityConstraint securityConstraint = new SecurityConstraint();
         securityConstraint.setAuthConstraint(true);
@@ -221,12 +186,6 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
 
         securityConstraint.addCollection(securityCollection);
 
-        List<ServletMappingParameter> servletMappingParameters =
-                new ArrayList<ServletMappingParameter>();
-        servletMappingParameters.add(jaggeryServletMappingParameter);
-        servletMappingParameters.add(jsspMappingParameter);
-        servletMappingParameters.add(jaggeryWebSocketServletMappingParameter);
-
         try {
             JSONObject jaggeryConfigObj = readJaggeryConfig(webappFile);
 
@@ -234,7 +193,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
 
             Context context =
                     DataHolder.getCarbonTomcatService().addWebApp(contextStr, webappFile.getAbsolutePath(),
-                            new JaggeryConfListener(tomcat, servletParameters, servletMappingParameters, jaggeryConfigObj, securityConstraint));
+                            new JaggeryConfListener(jaggeryConfigObj, securityConstraint));
             //deploying web app for url mapping inside virtual host
             if (DataHolder.getHotUpdateService() != null) {
                 List<String> hostNames = DataHolder.getHotUpdateService().getMappigsPerWebapp(contextStr);
@@ -244,7 +203,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
   */
                     Context contextForHost =
                             DataHolder.getCarbonTomcatService().addWebApp(host, "/", webappFile.getAbsolutePath(),
-                                    new JaggeryConfListener(tomcat, servletParameters, servletMappingParameters, jaggeryConfigObj, securityConstraint));
+                                    new JaggeryConfListener(jaggeryConfigObj, securityConstraint));
                     log.info("Deployed JaggeryApp on host: " + contextForHost);
                 }
             }
@@ -264,8 +223,6 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
 
             context.setReloadable(true);
             JaggeryApplication webapp = new JaggeryApplication(this, context, webappFile);
-            webapp.setServletParameters(servletParameters);
-            webapp.setServletMappingParameters(servletMappingParameters);
             webapp.setServletContextParameters(webContextParams);
             webapp.setState("Started");
             webappsHolder.getStartedWebapps().put(filename, webapp);
@@ -288,26 +245,17 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
     }
 
     private static class JaggeryConfListener implements LifecycleListener {
-        private List<ServletParameter> servletParameters;
-        private List<ServletMappingParameter> servletMappingParameters;
         private JSONObject jaggeryConfig;
-        private Tomcat tomcat;
         private SecurityConstraint securityConstraint;
 
-        private JaggeryConfListener(Tomcat tomcat, List<ServletParameter> servletParameters,
-                                    List<ServletMappingParameter> servletMappingParameters,
-                                    JSONObject jaggeryConfig, SecurityConstraint securityConstraint) {
-            this.servletParameters = servletParameters;
-            this.servletMappingParameters = servletMappingParameters;
+        private JaggeryConfListener(JSONObject jaggeryConfig, SecurityConstraint securityConstraint) {
             this.jaggeryConfig = jaggeryConfig;
-            this.tomcat = tomcat;
             this.securityConstraint = securityConstraint;
         }
 
         public void lifecycleEvent(LifecycleEvent event) {
             if (Lifecycle.BEFORE_START_EVENT.equals(event.getType())) {
-                initJaggeryappDefaults((Context) event.getLifecycle(), this.tomcat,
-                        this.jaggeryConfig, this.servletParameters, this.servletMappingParameters, this.securityConstraint);
+                initJaggeryappDefaults((Context) event.getLifecycle(), this.jaggeryConfig, this.securityConstraint);
                 return;
             }
             if (Lifecycle.START_EVENT.equals(event.getType())) {
@@ -328,32 +276,20 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
         }
     }
 
-    private static void initJaggeryappDefaults(Context ctx, Tomcat tomcat,
-                                               JSONObject jaggeryConfig, List<ServletParameter> servletParameters,
-                                               List<ServletMappingParameter> servletMappingParameters, SecurityConstraint securityConstraint) {
+    private static void initJaggeryappDefaults(Context ctx, JSONObject jaggeryConfig, SecurityConstraint securityConstraint) {
 
-        for (ServletParameter servletParameter : servletParameters) {
-            if (servletParameter.getServletName() != null && servletParameter.getServletClass() != null) {
-                Wrapper servletWrapper = tomcat.addServlet(
-                        ctx, servletParameter.getServletName(), servletParameter.getServletClass());
+        Tomcat.addServlet(ctx, JaggeryCoreConstants.JAGGERY_SERVLET_NAME, JaggeryCoreConstants.JAGGERY_SERVLET_CLASS);
+        Tomcat.addServlet(ctx, JaggeryCoreConstants.JAGGERY_WEBSOCKET_SERVLET_NAME, JaggeryCoreConstants.JAGGERY_WEBSOCKET_SERVLET_CLASS);
 
-                if (servletParameter.getInitParams() != null) {
-                    for (Map.Entry<String, String> entry : servletParameter.getInitParams().entrySet()) {
-                        servletWrapper.addInitParameter(entry.getKey(), entry.getValue());
-                    }
-                }
+        FilterDef filterDef = new FilterDef();
+        filterDef.setFilterName(JaggeryCoreConstants.JAGGERY_FILTER_NAME);
+        filterDef.setFilterClass(JaggeryCoreConstants.JAGGERY_FILTER_CLASS);
+        ctx.addFilterDef(filterDef);
 
-                if (servletParameter.getLoadOnStartup() != 0) {
-                    servletWrapper.setLoadOnStartup(servletParameter.getLoadOnStartup());
-                }
-            }
-        }
-
-        for (ServletMappingParameter servletMappingParameter : servletMappingParameters) {
-            if (servletMappingParameter.getServletName() != null && servletMappingParameter.getUrlPattern() != null) {
-                ctx.addServletMapping(servletMappingParameter.getUrlPattern(), servletMappingParameter.getServletName());
-            }
-        }
+        FilterMap filter1mapping = new FilterMap();
+        filter1mapping.setFilterName(JaggeryCoreConstants.JAGGERY_FILTER_NAME);
+        filter1mapping.addURLPattern(JaggeryCoreConstants.JAGGERY_URL_PATTERN);
+        ctx.addFilterMap(filter1mapping);
 
         ctx.addConstraint(securityConstraint);
         addWelcomeFiles(ctx, jaggeryConfig);
@@ -575,7 +511,10 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                 String path = (String) mapping.get(JaggeryConstants.JaggeryConfigParams.URL_MAPPINGS_PATH);
                 if (url != null && path != null) {
                     path = path.startsWith("/") ? path : "/" + path;
-                    context.addServletMapping(url, JaggeryConstants.JAGGERY_SERVLET_NAME);
+                    FilterMap filterMap = new FilterMap();
+                    filterMap.setFilterName(JaggeryCoreConstants.JAGGERY_FILTER_NAME);
+                    filterMap.addURLPattern(url);
+                    context.addFilterMap(filterMap);
                     if (url.equals("/")) {
                         urlMappings.put("/", path);
                         continue;

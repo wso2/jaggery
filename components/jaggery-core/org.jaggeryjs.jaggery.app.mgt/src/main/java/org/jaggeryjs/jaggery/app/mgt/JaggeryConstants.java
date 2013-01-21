@@ -23,19 +23,8 @@ public final class JaggeryConstants {
     public static final String WEBAPP_DEPLOYMENT_FOLDER = "jaggeryapps";
     public static final String WEBAPP_DEPLOYMENT_FOLDER_IN_JAGGERY = "apps";
     public static final String WEBAPP_EXTENSION = "zip";
-    public static final String JAGGERY_SERVLET_NAME = "JaggeryServlet";
-    public static final String JAGGERY_SERVLET_CLASS =
-            "org.jaggeryjs.jaggery.core.JaggeryServlet";
-    public static final String JAGGERY_SERVLET_URL_PATTERN = "*.jag";
-    public static final String JSSP_NAME = "jssp";
-    public static final String JSSP_CLASS = "org.apache.jasper.servlet.JspServlet";
     public static final String JAGGERY_CONF_FILE = "jaggery.conf";
     public static final String JAGGERY_WEBAPP_FILTER_PROP = "jaggeryWebapp";
-
-    public static final String JAGGERY_WEBSOCKET_SERVLET_NAME = "JaggeryWebSocketServlet";
-    public static final String JAGGERY_WEBSOCKET_SERVLET_CLASS ="org.jaggeryjs.jaggery.core.websocket.JaggeryWebSocketServlet";
-    public static final String JAGGERY_WEBSOCKET_SERVLET_URL_PATTERN = "/websocket";
-
 
     public static final class JaggeryConfigParams {
 
@@ -71,7 +60,8 @@ public final class JaggeryConstants {
         public static final String STARTED = "started";
         public static final String STOPPED = "stopped";
 
-        private WebappState() {}
+        private WebappState() {
+        }
     }
 
     private JaggeryConstants() {

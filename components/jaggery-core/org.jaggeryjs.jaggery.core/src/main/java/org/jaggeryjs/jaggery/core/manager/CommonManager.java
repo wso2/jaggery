@@ -278,7 +278,7 @@ public class CommonManager {
             try {
                 byte[] buffer = new byte[BYTE_BUFFER_SIZE];
                 int count;
-                while ((count = in.read(buffer)) >= 0) {
+                while ((count = in.read(buffer)) != -1) {
                     out.write(buffer, 0, count);
                 }
                 in.close();
