@@ -32,6 +32,11 @@ public final class JaggeryConstants {
     public static final String JAGGERY_CONF_FILE = "jaggery.conf";
     public static final String JAGGERY_WEBAPP_FILTER_PROP = "jaggeryWebapp";
 
+    public static final String JAGGERY_WEBSOCKET_SERVLET_NAME = "JaggeryWebSocketServlet";
+    public static final String JAGGERY_WEBSOCKET_SERVLET_CLASS ="org.jaggeryjs.jaggery.core.websocket.JaggeryWebSocketServlet";
+    public static final String JAGGERY_WEBSOCKET_SERVLET_URL_PATTERN = "/websocket";
+
+
     public static final class JaggeryConfigParams {
 
         public static final String ERROR_PAGES = "errorPages";

@@ -42,6 +42,11 @@
             <groupId>org.wso2.uri.template</groupId>
             <artifactId>wso2-uri-templates</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat.wso2</groupId>
+            <artifactId>tomcat</artifactId>
+            <version>7.0.28.wso2v1</version>
+        </dependency>
     </dependencies>
 
     <build>
