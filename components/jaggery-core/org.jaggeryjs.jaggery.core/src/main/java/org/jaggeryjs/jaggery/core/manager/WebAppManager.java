@@ -41,6 +41,8 @@ public class WebAppManager {
 
     public static final String JAGGERY_MODULES_DIR = "modules";
 
+    private static  boolean isWebSocket = false;
+
     static {
         try {
 
@@ -132,20 +134,22 @@ public class WebAppManager {
      */
     public static void print(Context cx, Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException {
-        JaggeryContext jaggeryContext = CommonManager.getJaggeryContext();
+       if(!isWebSocket){
+            JaggeryContext jaggeryContext = CommonManager.getJaggeryContext();
 
-        //If the script itself havent set the content type we set the default content type to be text/html
-        if (((WebAppContext) jaggeryContext).getServletResponse().getContentType() == null) {
-            ((WebAppContext) CommonManager.getJaggeryContext()).getServletResponse()
-                    .setContentType(DEFAULT_CONTENT_TYPE);
+            //If the script itself havent set the content type we set the default content type to be text/html
+            if (((WebAppContext) jaggeryContext).getServletResponse().getContentType() == null) {
+                ((WebAppContext) CommonManager.getJaggeryContext()).getServletResponse()
+                        .setContentType(DEFAULT_CONTENT_TYPE);
+            }
+
+            if (((WebAppContext) jaggeryContext).getServletResponse().getCharacterEncoding() == null) {
+                ((WebAppContext) CommonManager.getJaggeryContext()).getServletResponse()
+                     .setCharacterEncoding(DEFAULT_CHAR_ENCODING);
+             }
+
+            CommonManager.print(cx, thisObj, args, funObj);
         }
-
-        if (((WebAppContext) jaggeryContext).getServletResponse().getCharacterEncoding() == null) {
-            ((WebAppContext) CommonManager.getJaggeryContext()).getServletResponse()
-                    .setCharacterEncoding(DEFAULT_CHAR_ENCODING);
-        }
-
-        CommonManager.print(cx, thisObj, args, funObj);
     }
 
     private static ScriptableObject executeScript(JaggeryContext jaggeryContext, ScriptableObject scope,
@@ -510,5 +514,27 @@ public class WebAppManager {
 
     private static boolean isPathSeparator(char c) {
         return (c == '/' || c == '\\');
+    }
+
+    public static boolean isWebSocket(HttpServletRequest request) {
+
+        Enumeration headerNames = request.getHeaderNames();
+
+        isWebSocket= false;
+
+        while (headerNames.hasMoreElements()) {
+            String headerName = (String) headerNames.nextElement();
+
+            headerName = request.getHeader(headerName);
+
+            if ("websocket".equals(headerName)) {
+
+                isWebSocket = true;
+
+            }
+
+        }
+
+        return isWebSocket;
     }
 }
