@@ -536,6 +536,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
             Object obj = map.get(part);
             if (obj != null) {
                 log.error("Conflicting url patterns for the path : " + path);
+                return;
             }
             if (part.startsWith("*")) {
                 int dotIndex = part.lastIndexOf(".");

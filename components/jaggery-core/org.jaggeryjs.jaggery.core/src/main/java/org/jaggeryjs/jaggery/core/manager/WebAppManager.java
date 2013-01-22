@@ -306,40 +306,55 @@ public class WebAppManager {
 
     public static String getScriptPath(HttpServletRequest request) {
         String url = request.getServletPath();
-        if (request.getPathInfo() != null) {
-            // if there are more path info it should be sent to a wild card
-            url += "/*";
-        }
         Map<String, Object> urlMappings = (Map<String, Object>) request.getServletContext()
                 .getAttribute(CommonManager.JAGGERY_URLS_MAP);
         if (urlMappings == null) {
             return url;
         }
+        String path;
         if (url.equals("/")) {
-            Object obj = urlMappings.get("/");
-            return obj != null ? (String) obj : url;
+            path = getPath(urlMappings, url);
+        } else {
+            path = resolveScriptPath(new ArrayList<String>(Arrays.asList(url.substring(1).split("/"))), urlMappings);
         }
-        String tmpUrl = url.startsWith("/") ? url.substring(1) : url;
-        String path = resolveScriptPath(new ArrayList<String>(Arrays.asList(tmpUrl.split("/"))), urlMappings);
         return path == null ? url : path;
     }
 
     private static String resolveScriptPath(List<String> parts, Map<String, Object> map) {
         String part = parts.remove(0);
         if (parts.isEmpty()) {
-            Object obj = map.get(part);
-            if (obj instanceof Map) {
-                return (String) ((Map) obj).get("/");
-            } else {
-                return (String) obj;
-            }
+            return getPath(map, part);
         }
         Object obj = map.get(part);
+        if (obj == null) {
+            return getPath(map, "/");
+        }
         if (obj instanceof Map) {
             return resolveScriptPath(parts, (Map<String, Object>) obj);
-        } else {
-            return (String) map.get("*");
         }
+        return null;
+    }
+
+    private static String getPath(Map map, String part) {
+        Object obj = "/".equals(part) ? null : map.get(part);
+        if (obj == null) {
+            obj = map.get("/");
+            if (obj != null) {
+                return (String) obj;
+            }
+            obj = map.get("*");
+            return (String) obj;
+        }
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        map = (Map) obj;
+        obj = map.get("/");
+        if (obj != null) {
+            return (String) obj;
+        }
+        obj = map.get("*");
+        return (String) obj;
     }
 
     private static void defineProperties(Context cx, JaggeryContext context, ScriptableObject scope) {
