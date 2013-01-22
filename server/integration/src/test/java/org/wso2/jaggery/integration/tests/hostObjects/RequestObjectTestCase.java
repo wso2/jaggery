@@ -18,8 +18,8 @@
 
 package org.wso2.jaggery.integration.tests.hostObjects;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
+import org.testng.annotations.Test;
+import org.wso2.carbon.integration.framework.ClientConnectionUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,8 +27,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.testng.annotations.Test;
-import org.wso2.carbon.integration.framework.ClientConnectionUtil;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
 /**
  * Test cases for Request Object
@@ -114,7 +114,7 @@ public class RequestObjectTestCase {
 					finalOutput,
 					"Method : GET, Protocol : HTTP/1.1, QueryString : test=hi,"
 					+" URI : /testapp/request.jag, URL : http://localhost:9763/testapp/request.jag,"
-					+" LocalPort : 9763, ContentLength : -1, PathInfo : null, ContextPath : /testapp");
+					+" LocalPort : 9763, ContentLength : -1, ContextPath : /testapp");
 		}
 
 	}

@@ -18,8 +18,8 @@
 
 package org.wso2.jaggery.integration.tests.hostObjects;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
+import org.testng.annotations.Test;
+import org.wso2.carbon.integration.framework.ClientConnectionUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,8 +27,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.testng.annotations.Test;
-import org.wso2.carbon.integration.framework.ClientConnectionUtil;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
 /**
  * Test cases for URI matcher Object
@@ -145,32 +145,4 @@ public class URIObjectTestCase {
 		}
         
     }
-    
-    @Test(groups = {"jaggery"},
-            description = "Test URI operations for PathInfor in request")
-    public void testURIOperationsPathInfor() {
-        ClientConnectionUtil.waitForPort(9763);
-        
-        String finalOutput = null;
-        
-        try {
-        	URL jaggeryURL = new URL("http://localhost:9763/testapp/uri/test");
-        	URLConnection jaggeryServerConnection = jaggeryURL.openConnection();
-        	BufferedReader in = new BufferedReader(new InputStreamReader(
-        			jaggeryServerConnection.getInputStream()));
-        
-          	String inputLine;
-  			while ((inputLine = in.readLine()) != null) {
-  				finalOutput = inputLine;
-  			}
-			    
-			in.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			assertEquals(finalOutput, "request getPathInfo : /test");
-		}
-        
-    }
-
 }

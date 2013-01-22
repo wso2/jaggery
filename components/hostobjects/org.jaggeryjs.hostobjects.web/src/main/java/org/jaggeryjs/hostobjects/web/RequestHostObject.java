@@ -307,18 +307,6 @@ public class RequestHostObject extends ScriptableObject {
         return rho.request.getRemoteAddr();
     }
 
-    public static String jsFunction_getPathInfo(Context cx, Scriptable thisObj, Object[] args, Function funObj)
-            throws ScriptException {
-        String functionName = "getPathInfo";
-        int argsCount = args.length;
-        if (argsCount != 0) {
-            HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
-        }
-
-        RequestHostObject rho = (RequestHostObject) thisObj;
-        return rho.request.getPathInfo();
-    }
-
     public static String jsFunction_getLocale(Context cx, Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException {
         String functionName = "getLocale";
