@@ -69,6 +69,11 @@ public class XMLHttpRequestHostObject extends ScriptableObject {
 
     public XMLHttpRequestHostObject() {
         httpClient = new HttpClient(new MultiThreadedHttpConnectionManager());
+        
+        ProxyHost proxyConfig = getProxyConfig();
+        if ( proxyConfig != null){
+        	httpClient.getHostConfiguration().setProxyHost(proxyConfig);
+        }
     }
 
     @Override
@@ -561,4 +566,30 @@ public class XMLHttpRequestHostObject extends ScriptableObject {
         return false;
     }
 
+    private ProxyHost getProxyConfig(){
+    	
+    	ProxyHost proxyConfig = null;
+    	
+    	String proxyHost = System.getProperty("http.proxyHost");
+        int proxyPort = -1;
+    	if ( proxyHost != null){
+        	proxyHost = proxyHost.trim();
+        }
+        
+        String proxyPortStr = System.getProperty("http.proxyPort");
+        if ( proxyPortStr != null){
+        	try{
+        		proxyPort = Integer.parseInt(proxyPortStr);
+        		
+        		if ( !proxyHost.isEmpty()){
+        			proxyConfig = new ProxyHost(proxyHost, proxyPort);
+        		}
+        	}catch(NumberFormatException e){
+        		log.error(e.getMessage(), e);
+        	}
+        }
+        
+        return proxyConfig;
+    }
+    
 }
