@@ -29,10 +29,6 @@ public class ScriptCachingContext {
         return path;
     }
 
-    public String getFilteredPath() {
-       return CacheManager.getPackage(context, path);
-    }
-
     public String getCacheKey() {
         return cacheKey;
     }
