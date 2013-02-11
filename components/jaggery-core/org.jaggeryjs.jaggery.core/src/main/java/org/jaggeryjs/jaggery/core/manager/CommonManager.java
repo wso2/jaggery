@@ -19,6 +19,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
@@ -40,6 +42,9 @@ public class CommonManager {
 
     private RhinoEngine engine = null;
     private ModuleManager moduleManager = null;
+
+    private Map<String, List<String>> tenantTimeoutTasks = new HashMap<String, List<String>>();
+    private Map<String, List<String>> tenantIntervalTasks = new HashMap<String, List<String>>();
 
     private CommonManager() throws ScriptException {
     }
@@ -85,6 +90,27 @@ public class CommonManager {
             }
         }
 
+    }
+
+    public void unloadTenant(String tenantId) {
+        List<String> taskIds = tenantTimeoutTasks.get(tenantId);
+        for (String taskId : taskIds) {
+            RhinoTopLevel.clearTimeout(taskId);
+        }
+        taskIds = tenantIntervalTasks.get(tenantId);
+        for (String taskId : taskIds) {
+            RhinoTopLevel.clearInterval(taskId);
+        }
+        engine.unloadTenant(tenantId);
+    }
+
+    public static String setTimeout(final Context cx, final Scriptable thisObj, Object[] args, Function funObj)
+            throws ScriptException {
+        JaggeryContext jaggeryContext = CommonManager.getJaggeryContext();
+        String tenantId = jaggeryContext.getTenantId();
+        String taskId = RhinoTopLevel.setTimeout(cx, thisObj, args, funObj);
+        //CommonManager.getInstance().
+        return taskId;
     }
 
     public static void include(Context cx, Scriptable thisObj, Object[] args, Function funObj)
