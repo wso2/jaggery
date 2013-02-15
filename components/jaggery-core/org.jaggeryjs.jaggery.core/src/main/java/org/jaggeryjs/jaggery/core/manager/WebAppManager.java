@@ -400,6 +400,12 @@ public class WebAppManager {
         context.setScriptPath(scriptPath);
         context.getIncludesCallstack().push(scriptPath);
         context.getIncludedScripts().put(scriptPath, true);
+
+        String logLevel = request.getServletContext().getInitParameter(JaggeryContext.LOG_LEVEL);
+        if (logLevel != null) {
+            context.setLogLevel(logLevel);
+        }
+
         return context;
     }
 

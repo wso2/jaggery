@@ -9,6 +9,9 @@ import java.util.Map;
 import java.util.Stack;
 
 public class JaggeryContext {
+
+    public static final String LOG_LEVEL = "logLevel";
+
     private String tenantId = null;
     private RhinoEngine engine = null;
     private ScriptableObject scope = null;
@@ -16,6 +19,7 @@ public class JaggeryContext {
     private CommonManager manager = null;
     private Stack<String> includesCallstack = new Stack<String>();
     private Map<String, Boolean> includedScripts = new HashMap<String, Boolean>();
+    private String logLevel = "debug";
 
     public String getTenantId() {
         return tenantId;
@@ -63,5 +67,13 @@ public class JaggeryContext {
 
     public Map<String, Boolean> getIncludedScripts() {
         return includedScripts;
+    }
+
+    public String getLogLevel() {
+        return logLevel;
+    }
+
+    public void setLogLevel(String logLevel) {
+        this.logLevel = logLevel;
     }
 }

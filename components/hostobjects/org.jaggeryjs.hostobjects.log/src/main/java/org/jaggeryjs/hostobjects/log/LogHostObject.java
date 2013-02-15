@@ -15,8 +15,13 @@ public class LogHostObject extends ScriptableObject {
 
     public static final String HOSTOBJECT_NAME = "Log";
     private static final String ROOT_LOGGER = "JAGGERY";
+    private static final String LOG_LEVEL_INFO = "info";
+    private static final String LOG_LEVEL_WARN = "warn";
+    private static final String LOG_LEVEL_DEBUG = "debug";
+    private static final String LOG_LEVEL_ERROR = "error";
+    private static final String LOG_LEVEL_FATAL = "fatal";
 
-    private static Logger logger = Logger.getLogger(LogHostObject.class.getName());
+    private Logger logger;
 
     @Override
     public String getClassName() {
@@ -46,17 +51,28 @@ public class LogHostObject extends ScriptableObject {
             HostObjectUtil.invalidNumberOfArgs(HOSTOBJECT_NAME, HOSTOBJECT_NAME, argsCount, true);
         }
         String loggerName;
+        JaggeryContext context = ((JaggeryContext) cx.getThreadLocal("jaggeryContext"));
         if (argsCount == 1 && (args[0] instanceof String)) {
             loggerName = (String) args[0];
         } else {
-            String requestString = ((JaggeryContext) cx.getThreadLocal("jaggeryContext")).getIncludesCallstack().peek();
+            String requestString = context.getIncludesCallstack().peek();
             loggerName = ROOT_LOGGER + requestString.replace(".jag", ":jag").replace(".js", ":js").replace("/", ".");
         }
         LogHostObject logObj = new LogHostObject();
         logObj.logger = Logger.getLogger(loggerName);
 
-        //TODO need to remove this once the set from config is implemented
-        logObj.logger.setLevel(Level.DEBUG);
+        String logLevel = context.getLogLevel();
+        if (LOG_LEVEL_INFO.equalsIgnoreCase(logLevel)) {
+            logObj.logger.setLevel(Level.INFO);
+        } else if (LOG_LEVEL_WARN.equalsIgnoreCase(logLevel)) {
+            logObj.logger.setLevel(Level.WARN);
+        } else if (LOG_LEVEL_DEBUG.equalsIgnoreCase(logLevel)) {
+            logObj.logger.setLevel(Level.DEBUG);
+        } else if (LOG_LEVEL_ERROR.equalsIgnoreCase(logLevel)) {
+            logObj.logger.setLevel(Level.ERROR);
+        } else {
+            logObj.logger.setLevel(Level.FATAL);
+        }
         return logObj;
     }
 
@@ -68,7 +84,7 @@ public class LogHostObject extends ScriptableObject {
             HostObjectUtil.invalidNumberOfArgs(HOSTOBJECT_NAME, functionName, argsCount, false);
         }
         LogHostObject logObj = (LogHostObject) thisObj;
-        logObj.logger.debug(HostObjectUtil.serializeJSON(args[0]));
+        logObj.logger.debug(HostObjectUtil.serializeObject(args[0]));
     }
 
     //prints an info message
@@ -79,7 +95,7 @@ public class LogHostObject extends ScriptableObject {
             HostObjectUtil.invalidNumberOfArgs(HOSTOBJECT_NAME, functionName, argsCount, false);
         }
         LogHostObject logObj = (LogHostObject) thisObj;
-        logObj.logger.info(HostObjectUtil.serializeJSON(args[0]));
+        logObj.logger.info(HostObjectUtil.serializeObject(args[0]));
     }
 
     //prints an error message
@@ -90,7 +106,7 @@ public class LogHostObject extends ScriptableObject {
             HostObjectUtil.invalidNumberOfArgs(HOSTOBJECT_NAME, functionName, argsCount, false);
         }
         LogHostObject logObj = (LogHostObject) thisObj;
-        logObj.logger.error(HostObjectUtil.serializeJSON(args[0]));
+        logObj.logger.error(HostObjectUtil.serializeObject(args[0]));
     }
 
     //prints a warning message
@@ -101,7 +117,7 @@ public class LogHostObject extends ScriptableObject {
             HostObjectUtil.invalidNumberOfArgs(HOSTOBJECT_NAME, functionName, argsCount, false);
         }
         LogHostObject logObj = (LogHostObject) thisObj;
-        logObj.logger.warn(HostObjectUtil.serializeJSON(args[0]));
+        logObj.logger.warn(HostObjectUtil.serializeObject(args[0]));
     }
 
     //prints a fatal message
@@ -112,7 +128,7 @@ public class LogHostObject extends ScriptableObject {
             HostObjectUtil.invalidNumberOfArgs(HOSTOBJECT_NAME, functionName, argsCount, false);
         }
         LogHostObject logObj = (LogHostObject) thisObj;
-        logObj.logger.fatal(HostObjectUtil.serializeJSON(args[0]));
+        logObj.logger.fatal(HostObjectUtil.serializeObject(args[0]));
     }
 
     //check if debug is enabled

@@ -302,6 +302,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
             addSecurityRoles(ctx, jaggeryConfig);
             addUrlMappings(ctx, jaggeryConfig);
             addParameters(ctx, jaggeryConfig);
+            addLogLevel(ctx, jaggeryConfig);
         }
     }
 
@@ -528,6 +529,15 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
             }
             context.getServletContext().setAttribute(CommonManager.JAGGERY_URLS_MAP, urlMappings);
         }
+    }
+
+    private static void addLogLevel(Context cx, JSONObject jaggeryConfig) {
+        String level = (String) jaggeryConfig.get(JaggeryConstants.JaggeryConfigParams.LOG_LEVEL);
+        if(level == null) {
+            return;
+        }
+        cx.removeParameter(JaggeryContext.LOG_LEVEL);
+        cx.addParameter(JaggeryContext.LOG_LEVEL, level);
     }
 
     private static void addMappings(Map<String, Object> map, List<String> parts, String path) {

@@ -54,6 +54,7 @@ public final class JaggeryConstants {
         public static final String DISTRIBUTABLE = "distributable";
         public static final String INIT_SCRIPTS = "initScripts";
         public static final String DESTROY_SCRIPTS = "destroyScripts";
+        public static final String LOG_LEVEL = "logLevel";
     }
 
     public static final class WebappState {
