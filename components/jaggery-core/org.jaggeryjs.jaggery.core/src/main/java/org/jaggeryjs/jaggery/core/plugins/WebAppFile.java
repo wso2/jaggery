@@ -219,7 +219,7 @@ public class WebAppFile implements JavaScriptFile {
             log.warn("Please close the file before moving");
             return false;
         }
-        return new File(path).renameTo(fileManager.getFile(path));
+        return new File(path).renameTo(fileManager.getFile(dest));
     }
 
     @Override

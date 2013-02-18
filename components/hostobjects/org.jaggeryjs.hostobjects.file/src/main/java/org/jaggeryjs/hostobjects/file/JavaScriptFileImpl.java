@@ -199,7 +199,7 @@ public class JavaScriptFileImpl implements JavaScriptFile {
             log.warn("Please close the file before moving");
             return false;
         }
-        return new File(path).renameTo(new File(path));
+        return new File(path).renameTo(new File(dest));
     }
 
     @Override
