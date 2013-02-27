@@ -332,8 +332,8 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                 RhinoEngine engine = WebAppManager.getEngine();
                 engine.enterContext();
                 JaggeryContext cx = new JaggeryContext();
-                RhinoEngine.putContextProperty(CommonManager.JAGGERY_CONTEXT, cx);
-                ScriptableObject scope = engine.getRuntimeScope();
+                CommonManager.initContext(cx);
+                ScriptableObject scope = cx.getScope();
                 Object[] scripts = arr.toArray();
                 for (Object script : scripts) {
                     if (!(script instanceof String)) {
@@ -533,7 +533,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
 
     private static void addLogLevel(Context cx, JSONObject jaggeryConfig) {
         String level = (String) jaggeryConfig.get(JaggeryConstants.JaggeryConfigParams.LOG_LEVEL);
-        if(level == null) {
+        if (level == null) {
             return;
         }
         cx.removeParameter(JaggeryContext.LOG_LEVEL);

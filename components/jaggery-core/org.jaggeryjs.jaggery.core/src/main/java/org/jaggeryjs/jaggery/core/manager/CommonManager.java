@@ -97,7 +97,7 @@ public class CommonManager {
         if (!(args[0] instanceof String)) {
             HostObjectUtil.invalidArgsError(HOST_OBJECT_NAME, functionName, "1", "string", args[0], false);
         }
-        JaggeryContext jaggeryContext = CommonManager.getJaggeryContext();
+        JaggeryContext jaggeryContext = getJaggeryContext();
         RhinoEngine engine = jaggeryContext.getEngine();
         if (engine == null) {
             log.error("Rhino Engine in Jaggery context is null");
@@ -150,7 +150,7 @@ public class CommonManager {
         if (!(args[0] instanceof String)) {
             HostObjectUtil.invalidArgsError(HOST_OBJECT_NAME, functionName, "1", "string", args[0], false);
         }
-        JaggeryContext jaggeryContext = CommonManager.getJaggeryContext();
+        JaggeryContext jaggeryContext = getJaggeryContext();
         RhinoEngine engine = jaggeryContext.getEngine();
         if (engine == null) {
             log.error("Rhino Engine in Jaggery context is null");

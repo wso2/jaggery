@@ -24,7 +24,7 @@ import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.hostobjects.file.FileHostObject;
 import org.jaggeryjs.jaggery.core.internal.JaggeryCoreServiceComponent;
 import org.jaggeryjs.jaggery.core.manager.CommonManager;
-import org.jaggeryjs.jaggery.core.manager.WebAppContext;
+import org.jaggeryjs.jaggery.core.manager.JaggeryContext;
 import org.jaggeryjs.scriptengine.engine.RhinoEngine;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.mozilla.javascript.Context;
@@ -33,7 +33,6 @@ import org.mozilla.javascript.Function;
 import org.mozilla.javascript.ScriptableObject;
 import org.wso2.carbon.ntask.core.AbstractTask;
 
-import javax.servlet.ServletContext;
 import java.util.Map;
 
 public class JaggeryTask extends AbstractTask {
@@ -63,8 +62,7 @@ public class JaggeryTask extends AbstractTask {
             Object jsFunction = taskProperties.get(JaggeryTaskConstants.JAVASCRIPT_FUNCTION);
             ContextFactory factory = (ContextFactory) taskProperties.get(JaggeryTaskConstants.CONTEXT_FACTORY);
             Context context = RhinoEngine.enterContext(factory);
-            WebAppContext cx = new WebAppContext();
-            cx.setServletConext((ServletContext) taskProperties.get(JaggeryTaskConstants.SERVLET_CONTEXT));
+            JaggeryContext cx = new JaggeryContext();
             cx.getIncludesCallstack().push((String) taskProperties.get(JaggeryTaskConstants.SCRIPT_PATH));
 
             RhinoEngine.putContextProperty(CommonManager.JAGGERY_CONTEXT, cx);

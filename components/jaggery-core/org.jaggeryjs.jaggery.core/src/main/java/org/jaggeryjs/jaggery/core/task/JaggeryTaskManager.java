@@ -25,7 +25,6 @@ import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.hostobjects.file.FileHostObject;
 import org.jaggeryjs.jaggery.core.internal.JaggeryCoreServiceComponent;
 import org.jaggeryjs.jaggery.core.manager.CommonManager;
-import org.jaggeryjs.jaggery.core.manager.WebAppContext;
 import org.jaggeryjs.scriptengine.engine.RhinoEngine;
 import org.mozilla.javascript.*;
 import org.wso2.carbon.CarbonException;
@@ -666,7 +665,6 @@ public class JaggeryTaskManager extends ScriptableObject {
         resources.put(JaggeryTaskConstants.CONTEXT_FACTORY, cx.getFactory());
         resources.put(JaggeryTaskConstants.FILE_MANAGER, RhinoEngine.getContextProperty(FileHostObject.JAVASCRIPT_FILE_MANAGER));
         resources.put(JaggeryTaskConstants.SCRIPT_PATH, CommonManager.getJaggeryContext().getIncludesCallstack().peek());
-        resources.put(JaggeryTaskConstants.SERVLET_CONTEXT, ((WebAppContext)CommonManager.getJaggeryContext()).getServletConext());
     }
 
 
