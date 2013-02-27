@@ -376,6 +376,7 @@ public class RhinoEngine {
      */
     public void unloadTenant(String tenantId) {
         this.cacheManager.unloadTenant(tenantId);
+        RhinoTopLevel.removeTasks(tenantId);
     }
 
     /**

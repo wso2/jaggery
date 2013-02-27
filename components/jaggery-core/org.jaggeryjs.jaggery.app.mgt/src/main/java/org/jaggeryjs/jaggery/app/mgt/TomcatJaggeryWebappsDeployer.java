@@ -24,10 +24,11 @@ import org.apache.catalina.startup.Tomcat;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jaggeryjs.hostobjects.log.LogHostObject;
 import org.jaggeryjs.jaggery.core.JaggeryCoreConstants;
 import org.jaggeryjs.jaggery.core.ScriptReader;
 import org.jaggeryjs.jaggery.core.manager.CommonManager;
-import org.jaggeryjs.jaggery.core.manager.JaggeryContext;
+import org.jaggeryjs.scriptengine.engine.JaggeryContext;
 import org.jaggeryjs.jaggery.core.manager.WebAppManager;
 import org.jaggeryjs.scriptengine.engine.RhinoEngine;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
@@ -113,6 +114,11 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
         } catch (Throwable t) {
             log.error("Error while Tomact jaggery web apps Deployment ", t);
         }
+    }
+
+    public void undeploy(File webappFile) throws CarbonException {
+        //TODO : handle undeployment
+        super.undeploy(webappFile);
     }
 
     /**
@@ -320,7 +326,6 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
             StringWriter writer = new StringWriter();
             IOUtils.copy(fis, writer, null);
             jsonString = writer.toString();
-
         }
 
         return (JSONObject) JSONValue.parse(jsonString);
@@ -333,6 +338,10 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                 engine.enterContext();
                 JaggeryContext cx = new JaggeryContext();
                 CommonManager.initContext(cx);
+                String logLevel = context.findParameter(LogHostObject.LOG_LEVEL);
+                if (logLevel != null) {
+                    cx.addProperty(LogHostObject.LOG_LEVEL, logLevel);
+                }
                 ScriptableObject scope = cx.getScope();
                 Object[] scripts = arr.toArray();
                 for (Object script : scripts) {
@@ -341,7 +350,9 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                         continue;
                     }
                     String path = (String) script;
-                    cx.getIncludesCallstack().push(path);
+                    path = path.startsWith("/") ? path : "/" + path;
+                    Stack<String> callstack = CommonManager.getCallstack(cx);
+                    callstack.push(path);
                     engine.exec(new ScriptReader(context.getServletContext().getResourceAsStream(path)) {
                         @Override
                         protected void build() throws IOException {
@@ -384,12 +395,10 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                 loginConfig.setLoginPage((String) ((JSONObject) loginObj.get(JaggeryConstants.JaggeryConfigParams.FORM_LOGIN_CONFIG)).get(JaggeryConstants.JaggeryConfigParams.FORM_LOGIN_PAGE));
                 loginConfig.setErrorPage((String) ((JSONObject) loginObj.get(JaggeryConstants.JaggeryConfigParams.FORM_LOGIN_CONFIG)).get(JaggeryConstants.JaggeryConfigParams.FORM_ERROR_PAGE));
                 context.setLoginConfig(loginConfig);
-
             } else if (loginObj.get(JaggeryConstants.JaggeryConfigParams.AUTH_METHOD).equals(JaggeryConstants.JaggeryConfigParams.AUTH_METHOD_BASIC)) {
                 LoginConfig loginConfig = new LoginConfig();
                 loginConfig.setAuthMethod(JaggeryConstants.JaggeryConfigParams.AUTH_METHOD_BASIC);
                 context.setLoginConfig(loginConfig);
-
             }
         }
     }
@@ -536,8 +545,8 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
         if (level == null) {
             return;
         }
-        cx.removeParameter(JaggeryContext.LOG_LEVEL);
-        cx.addParameter(JaggeryContext.LOG_LEVEL, level);
+        cx.removeParameter(LogHostObject.LOG_LEVEL);
+        cx.addParameter(LogHostObject.LOG_LEVEL, level);
     }
 
     private static void addMappings(Map<String, Object> map, List<String> parts, String path) {

@@ -393,10 +393,6 @@
                                 <importBundleDef>com.googlecode.json-simple.wso2:json-simple</importBundleDef>
                                 <importBundleDef>com.google.code.gson:gson</importBundleDef>
                             </importBundles>
-                            <importFeatures>
-                                <importFeatureDef>org.wso2.carbon.ntask.core:${patch.version.405}</importFeatureDef>
-                                <importFeatureDef>org.wso2.carbon.coordination:${patch.version.405}</importFeatureDef>
-                            </importFeatures>
                         </configuration>
                     </execution>
                 </executions>

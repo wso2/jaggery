@@ -3,7 +3,9 @@ package org.jaggeryjs.hostobjects.log;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.jaggeryjs.jaggery.core.manager.JaggeryContext;
+import org.jaggeryjs.scriptengine.EngineConstants;
+import org.jaggeryjs.scriptengine.engine.JaggeryContext;
+import org.jaggeryjs.scriptengine.engine.RhinoEngine;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
 import org.mozilla.javascript.Context;
@@ -11,9 +13,15 @@ import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
+import java.util.Stack;
+
 public class LogHostObject extends ScriptableObject {
 
-    public static final String HOSTOBJECT_NAME = "Log";
+    public static final String LOG_LEVEL = "hostobject.log.loglevel";
+    //TODO : move this to a constants class
+    public static final String JAGGERY_INCLUDES_CALLSTACK = "jaggery.includes.callstack";
+
+    private static final String HOSTOBJECT_NAME = "Log";
     private static final String ROOT_LOGGER = "JAGGERY";
     private static final String LOG_LEVEL_INFO = "info";
     private static final String LOG_LEVEL_WARN = "warn";
@@ -51,17 +59,17 @@ public class LogHostObject extends ScriptableObject {
             HostObjectUtil.invalidNumberOfArgs(HOSTOBJECT_NAME, HOSTOBJECT_NAME, argsCount, true);
         }
         String loggerName;
-        JaggeryContext context = ((JaggeryContext) cx.getThreadLocal("jaggeryContext"));
+        JaggeryContext context = (JaggeryContext) RhinoEngine.getContextProperty(EngineConstants.JAGGERY_CONTEXT);
         if (argsCount == 1 && (args[0] instanceof String)) {
             loggerName = (String) args[0];
         } else {
-            String requestString = context.getIncludesCallstack().peek();
+            String requestString = ((Stack<String>) context.getProperty(JAGGERY_INCLUDES_CALLSTACK)).peek();
             loggerName = ROOT_LOGGER + requestString.replace(".jag", ":jag").replace(".js", ":js").replace("/", ".");
         }
         LogHostObject logObj = new LogHostObject();
         logObj.logger = Logger.getLogger(loggerName);
 
-        String logLevel = context.getLogLevel();
+        String logLevel = (String) context.getProperty(LOG_LEVEL);
         if (LOG_LEVEL_INFO.equalsIgnoreCase(logLevel)) {
             logObj.logger.setLevel(Level.INFO);
         } else if (LOG_LEVEL_WARN.equalsIgnoreCase(logLevel)) {
@@ -77,7 +85,8 @@ public class LogHostObject extends ScriptableObject {
     }
 
     //prints a debug message
-    public static void jsFunction_debug(Context cx, Scriptable thisObj, Object[] args, Function funObj) throws ScriptException {
+    public static void jsFunction_debug(Context cx, Scriptable thisObj, Object[] args, Function funObj)
+            throws ScriptException {
         String functionName = "debug";
         int argsCount = args.length;
         if (argsCount != 1) {
@@ -88,7 +97,8 @@ public class LogHostObject extends ScriptableObject {
     }
 
     //prints an info message
-    public static void jsFunction_info(Context cx, Scriptable thisObj, Object[] args, Function funObj) throws ScriptException {
+    public static void jsFunction_info(Context cx, Scriptable thisObj, Object[] args, Function funObj)
+            throws ScriptException {
         String functionName = "info";
         int argsCount = args.length;
         if (argsCount != 1) {
@@ -99,7 +109,8 @@ public class LogHostObject extends ScriptableObject {
     }
 
     //prints an error message
-    public static void jsFunction_error(Context cx, Scriptable thisObj, Object[] args, Function funObj) throws ScriptException {
+    public static void jsFunction_error(Context cx, Scriptable thisObj, Object[] args, Function funObj)
+            throws ScriptException {
         String functionName = "error";
         int argsCount = args.length;
         if (argsCount != 1) {
@@ -110,7 +121,8 @@ public class LogHostObject extends ScriptableObject {
     }
 
     //prints a warning message
-    public static void jsFunction_warn(Context cx, Scriptable thisObj, Object[] args, Function funObj) throws ScriptException {
+    public static void jsFunction_warn(Context cx, Scriptable thisObj, Object[] args, Function funObj)
+            throws ScriptException {
         String functionName = "warn";
         int argsCount = args.length;
         if (argsCount != 1) {
@@ -121,7 +133,8 @@ public class LogHostObject extends ScriptableObject {
     }
 
     //prints a fatal message
-    public static void jsFunction_fatal(Context cx, Scriptable thisObj, Object[] args, Function funObj) throws ScriptException {
+    public static void jsFunction_fatal(Context cx, Scriptable thisObj, Object[] args, Function funObj)
+            throws ScriptException {
         String functionName = "fatal";
         int argsCount = args.length;
         if (argsCount != 1) {

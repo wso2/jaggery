@@ -23,8 +23,8 @@ public class RhinoTopLevel extends ImporterTopLevel {
 
     private static final ScheduledExecutorService timerExecutor;
 
-    private static final Map<String, ScheduledFuture> timeouts = new HashMap<String, ScheduledFuture>();
-    private static final Map<String, ScheduledFuture> intervals = new HashMap<String, ScheduledFuture>();
+    private static final Map<String, Map<String, ScheduledFuture>> timeouts = new HashMap<String, Map<String, ScheduledFuture>>();
+    private static final Map<String, Map<String, ScheduledFuture>> intervals = new HashMap<String, Map<String, ScheduledFuture>>();
 
     static {
         String threadCount = System.getProperty(JS_TIMER_THREADS);
@@ -88,17 +88,32 @@ public class RhinoTopLevel extends ImporterTopLevel {
             log.error(error);
             throw new ScriptException(error);
         }
+        final JaggeryContext context = getJaggeryContext();
         final Object[] params = Arrays.copyOfRange(args, 2, args.length);
         final Function callback = function;
         timeout = ((Number) args[1]).longValue();
         String uuid = UUID.randomUUID().toString();
         ScheduledFuture future = timerExecutor.schedule(new Callable<Void>() {
             public Void call() throws Exception {
-                callback.call(cx, thisObj, thisObj, params);
+                try {
+                    RhinoEngine.enterContext(cx.getFactory());
+                    RhinoEngine.putContextProperty(EngineConstants.JAGGERY_CONTEXT, context);
+                    callback.call(cx, thisObj, thisObj, params);
+                } catch (Exception e) {
+                    log.error(e.getMessage(), e);
+                } finally {
+                    RhinoEngine.exitContext();
+                }
                 return null;
             }
         }, timeout, TimeUnit.MILLISECONDS);
-        timeouts.put(uuid, future);
+
+        Map<String, ScheduledFuture> tasks = timeouts.get(context.getTenantId());
+        if (tasks == null) {
+            tasks = new HashMap<String, ScheduledFuture>();
+            timeouts.put(context.getTenantId(), tasks);
+        }
+        tasks.put(uuid, future);
         return uuid;
     }
 
@@ -129,6 +144,7 @@ public class RhinoTopLevel extends ImporterTopLevel {
             log.error(error);
             throw new ScriptException(error);
         }
+        final JaggeryContext context = getJaggeryContext();
         final Object[] params = Arrays.copyOfRange(args, 2, args.length);
         final Function callback = function;
         interval = ((Number) args[1]).longValue();
@@ -136,11 +152,36 @@ public class RhinoTopLevel extends ImporterTopLevel {
         ScheduledFuture future = timerExecutor.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
-                callback.call(cx, thisObj, thisObj, params);
+                try {
+                    RhinoEngine.enterContext(cx.getFactory());
+                    RhinoEngine.putContextProperty(EngineConstants.JAGGERY_CONTEXT, context);
+                    callback.call(cx, thisObj, thisObj, params);
+                } catch (Exception e) {
+                    log.error(e.getMessage(), e);
+                } finally {
+                    RhinoEngine.exitContext();
+                }
             }
         }, interval, interval, TimeUnit.MILLISECONDS);
-        intervals.put(uuid, future);
+
+        Map<String, ScheduledFuture> tasks = intervals.get(context.getTenantId());
+        if (tasks == null) {
+            tasks = new HashMap<String, ScheduledFuture>();
+            intervals.put(context.getTenantId(), tasks);
+        }
+        tasks.put(uuid, future);
         return uuid;
+    }
+
+    private static JaggeryContext getJaggeryContext() throws ScriptException {
+        final JaggeryContext context = (JaggeryContext) RhinoEngine.getContextProperty(EngineConstants.JAGGERY_CONTEXT);
+        if (context == null) {
+            String error = "JaggeryContext instance cannot be found in the current thread : " +
+                    Thread.currentThread().getName();
+            log.error(error);
+            throw new ScriptException(error);
+        }
+        return context;
     }
 
     public static void clearTimeout(Context cx, Scriptable thisObj, Object[] args, Function funObj)
@@ -173,14 +214,29 @@ public class RhinoTopLevel extends ImporterTopLevel {
         clearInterval((String) args[0]);
     }
 
-    public static void clearTimeout(String taskId) {
-        ScheduledFuture future = timeouts.get(taskId);
+    public static void clearTimeout(String taskId) throws ScriptException {
+        JaggeryContext context = getJaggeryContext();
+        Map<String, ScheduledFuture> tasks = timeouts.get(context.getTenantId());
+        if (tasks == null) {
+            return;
+        }
+        ScheduledFuture future = tasks.get(taskId);
         future.cancel(true);
     }
 
-    public static void clearInterval(String taskId) {
-        ScheduledFuture future = intervals.get(taskId);
+    public static void clearInterval(String taskId) throws ScriptException {
+        JaggeryContext context = getJaggeryContext();
+        Map<String, ScheduledFuture> tasks = intervals.get(context.getTenantId());
+        if (tasks == null) {
+            return;
+        }
+        ScheduledFuture future = tasks.get(taskId);
         future.cancel(true);
+    }
+
+    public static void removeTasks(String tenantId) {
+        intervals.remove(tenantId);
+        timeouts.remove(tenantId);
     }
 
     private static Function getFunction(Context cx, Scriptable thisObj, String source, String functionName) {

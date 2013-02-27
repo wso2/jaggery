@@ -13,4 +13,6 @@ public final class JaggeryCoreConstants {
     public static final String JAGGERY_FILTER_NAME = "JaggeryFilter";
     public static final String JAGGERY_FILTER_CLASS = "org.jaggeryjs.jaggery.core.JaggeryFilter";
 
+    public static final String JAGGERY_OUTPUT_STREAM = "JaggeryOutputStream";
+
 }

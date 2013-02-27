@@ -6,7 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.hostobjects.web.WebSocketHostObject;
 import org.jaggeryjs.jaggery.core.manager.CommonManager;
-import org.jaggeryjs.jaggery.core.manager.JaggeryContext;
+import org.jaggeryjs.scriptengine.engine.JaggeryContext;
 import org.jaggeryjs.jaggery.core.manager.WebAppManager;
 import org.jaggeryjs.scriptengine.engine.RhinoEngine;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
