@@ -18,6 +18,7 @@ package org.jaggeryjs.jaggery.app.mgt;
 
 import org.apache.axis2.context.ConfigurationContext;
 import org.apache.catalina.*;
+import org.apache.catalina.Context;
 import org.apache.catalina.core.StandardContext;
 import org.apache.catalina.deploy.*;
 import org.apache.catalina.startup.Tomcat;
@@ -29,16 +30,17 @@ import org.jaggeryjs.hostobjects.log.LogHostObject;
 import org.jaggeryjs.jaggery.core.JaggeryCoreConstants;
 import org.jaggeryjs.jaggery.core.ScriptReader;
 import org.jaggeryjs.jaggery.core.manager.CommonManager;
+import org.jaggeryjs.jaggery.core.manager.WebAppManager;
 import org.jaggeryjs.jaggery.core.plugins.WebAppFileManager;
 import org.jaggeryjs.scriptengine.engine.JaggeryContext;
-import org.jaggeryjs.jaggery.core.manager.WebAppManager;
+import org.jaggeryjs.scriptengine.engine.JavaScriptProperty;
 import org.jaggeryjs.scriptengine.engine.RhinoEngine;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
-import org.mozilla.javascript.ScriptableObject;
+import org.mozilla.javascript.*;
 import org.wso2.carbon.CarbonConstants;
 import org.wso2.carbon.CarbonException;
 import org.wso2.carbon.context.CarbonContext;
@@ -339,18 +341,24 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
         if (arr != null) {
             try {
                 RhinoEngine engine = WebAppManager.getEngine();
-                engine.enterContext();
-                JaggeryContext cx = new JaggeryContext();
-                CommonManager.initContext(cx);
-                cx.setTenantId(Integer.toString(CarbonContext.getCurrentContext().getTenantId()));
+                org.mozilla.javascript.Context cx = engine.enterContext();
+                JaggeryContext jaggeryContext = new JaggeryContext();
+                CommonManager.initContext(jaggeryContext);
+                jaggeryContext.setTenantId(Integer.toString(CarbonContext.getCurrentContext().getTenantId()));
                 final ServletContext servletContext = context.getServletContext();
-                cx.addProperty(WebAppManager.SERVLET_CONTEXT, servletContext);
-                cx.addProperty(FileHostObject.JAVASCRIPT_FILE_MANAGER, new WebAppFileManager(servletContext));
+                ScriptableObject scope = jaggeryContext.getScope();
+
+                JavaScriptProperty application = new JavaScriptProperty("application");
+                application.setValue(cx.newObject(scope, "Application", new Object[]{servletContext}));
+                application.setAttribute(ScriptableObject.READONLY);
+                RhinoEngine.defineProperty(scope, application);
+
+                jaggeryContext.addProperty(WebAppManager.SERVLET_CONTEXT, servletContext);
+                jaggeryContext.addProperty(FileHostObject.JAVASCRIPT_FILE_MANAGER, new WebAppFileManager(servletContext));
                 String logLevel = (String) servletContext.getAttribute(LogHostObject.LOG_LEVEL);
                 if (logLevel != null) {
-                    cx.addProperty(LogHostObject.LOG_LEVEL, logLevel);
+                    jaggeryContext.addProperty(LogHostObject.LOG_LEVEL, logLevel);
                 }
-                ScriptableObject scope = cx.getScope();
                 Object[] scripts = arr.toArray();
                 for (Object script : scripts) {
                     if (!(script instanceof String)) {
@@ -359,7 +367,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                     }
                     String path = (String) script;
                     path = path.startsWith("/") ? path : "/" + path;
-                    Stack<String> callstack = CommonManager.getCallstack(cx);
+                    Stack<String> callstack = CommonManager.getCallstack(jaggeryContext);
                     callstack.push(path);
                     engine.exec(new ScriptReader(servletContext.getResourceAsStream(path)) {
                         @Override
