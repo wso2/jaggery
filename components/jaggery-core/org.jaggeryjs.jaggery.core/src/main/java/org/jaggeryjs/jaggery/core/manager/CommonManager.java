@@ -33,7 +33,7 @@ public class CommonManager {
 
     private static final Log log = LogFactory.getLog(CommonManager.class);
 
-    public static final String JAGGERY_CONTEXT = "jaggeryContext";
+    //public static final String JAGGERY_CONTEXT = "jaggeryContext";
     public static final String JAGGERY_URLS_MAP = "jaggery.urls.map";
     public static final String JAGGERY_OUTPUT_STREAM = "jaggery.output.stream";
     public static final String JAGGERY_INCLUDED_SCRIPTS = "jaggery.included.scripts";

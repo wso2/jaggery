@@ -291,11 +291,11 @@ public class WebAppManager {
             Context cx = engine.enterContext();
             //Creating an OutputStreamWritter to write content to the servletResponse
             OutputStream out = response.getOutputStream();
-            JaggeryContext webAppContext = createJaggeryContext(out, scriptPath, request, response);
-            initContext(cx, webAppContext);
-            RhinoEngine.putContextProperty(FileHostObject.JAVASCRIPT_FILE_MANAGER,
+            JaggeryContext context = createJaggeryContext(out, scriptPath, request, response);
+            initContext(cx, context);
+            context.addProperty(FileHostObject.JAVASCRIPT_FILE_MANAGER,
                     new WebAppFileManager(request.getServletContext()));
-            CommonManager.getInstance().getEngine().exec(new ScriptReader(sourceIn), webAppContext.getScope(),
+            CommonManager.getInstance().getEngine().exec(new ScriptReader(sourceIn), context.getScope(),
                     getScriptCachingContext(request, scriptPath));
             //out.flush();
         } catch (ScriptException e) {
@@ -404,13 +404,11 @@ public class WebAppManager {
         context.addProperty(SERVLET_REQUEST, request);
         context.addProperty(SERVLET_RESPONSE, response);
         context.addProperty(SERVLET_CONTEXT, request.getServletContext());
-        context.addProperty(LogHostObject.LOG_LEVEL,
-                request.getServletContext().getInitParameter(LogHostObject.LOG_LEVEL));
         CommonManager.getCallstack(context).push(scriptPath);
         CommonManager.getIncludes(context).put(scriptPath, true);
         context.addProperty(CommonManager.JAGGERY_OUTPUT_STREAM, out);
 
-        String logLevel = request.getServletContext().getInitParameter(LogHostObject.LOG_LEVEL);
+        String logLevel = (String) request.getServletContext().getAttribute(LogHostObject.LOG_LEVEL);
         if (logLevel != null) {
             context.addProperty(LogHostObject.LOG_LEVEL, logLevel);
         }

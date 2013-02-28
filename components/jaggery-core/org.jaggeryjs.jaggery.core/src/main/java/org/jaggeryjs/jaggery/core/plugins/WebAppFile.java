@@ -19,8 +19,6 @@ public class WebAppFile implements JavaScriptFile {
 
     private static final Log log = LogFactory.getLog(WebAppFile.class);
 
-    private ServletContext context = null;
-
     private RandomAccessFile file = null;
     private File f = null;
     private String path = null;
@@ -33,7 +31,6 @@ public class WebAppFile implements JavaScriptFile {
 
     public WebAppFile(String path, ServletContext context) throws ScriptException {
         this.path = context.getRealPath(getFilePath(path));
-        this.context = context;
     }
 
     @Override

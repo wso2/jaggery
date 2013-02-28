@@ -2,6 +2,9 @@ package org.jaggeryjs.hostobjects.file;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jaggeryjs.scriptengine.EngineConstants;
+import org.jaggeryjs.scriptengine.engine.JaggeryContext;
+import org.jaggeryjs.scriptengine.engine.RhinoEngine;
 import org.mozilla.javascript.*;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
@@ -34,7 +37,8 @@ public class FileHostObject extends ScriptableObject {
         }
 
         FileHostObject fho = new FileHostObject();
-        Object obj = cx.getThreadLocal(JAVASCRIPT_FILE_MANAGER);
+        JaggeryContext context = (JaggeryContext) RhinoEngine.getContextProperty(EngineConstants.JAGGERY_CONTEXT);
+        Object obj = context.getProperty(JAVASCRIPT_FILE_MANAGER);
         if (obj instanceof JavaScriptFileManager) {
             fho.manager = (JavaScriptFileManager) obj;
         } else {

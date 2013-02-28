@@ -24,10 +24,12 @@ import org.apache.catalina.startup.Tomcat;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jaggeryjs.hostobjects.file.FileHostObject;
 import org.jaggeryjs.hostobjects.log.LogHostObject;
 import org.jaggeryjs.jaggery.core.JaggeryCoreConstants;
 import org.jaggeryjs.jaggery.core.ScriptReader;
 import org.jaggeryjs.jaggery.core.manager.CommonManager;
+import org.jaggeryjs.jaggery.core.plugins.WebAppFileManager;
 import org.jaggeryjs.scriptengine.engine.JaggeryContext;
 import org.jaggeryjs.jaggery.core.manager.WebAppManager;
 import org.jaggeryjs.scriptengine.engine.RhinoEngine;
@@ -39,10 +41,12 @@ import org.json.simple.JSONValue;
 import org.mozilla.javascript.ScriptableObject;
 import org.wso2.carbon.CarbonConstants;
 import org.wso2.carbon.CarbonException;
+import org.wso2.carbon.context.CarbonContext;
 import org.wso2.carbon.context.PrivilegedCarbonContext;
 import org.wso2.carbon.core.session.CarbonTomcatClusterableSessionManager;
 import org.wso2.carbon.webapp.mgt.*;
 
+import javax.servlet.ServletContext;
 import java.io.*;
 import java.util.*;
 
@@ -338,7 +342,11 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                 engine.enterContext();
                 JaggeryContext cx = new JaggeryContext();
                 CommonManager.initContext(cx);
-                String logLevel = context.findParameter(LogHostObject.LOG_LEVEL);
+                cx.setTenantId(Integer.toString(CarbonContext.getCurrentContext().getTenantId()));
+                final ServletContext servletContext = context.getServletContext();
+                cx.addProperty(WebAppManager.SERVLET_CONTEXT, servletContext);
+                cx.addProperty(FileHostObject.JAVASCRIPT_FILE_MANAGER, new WebAppFileManager(servletContext));
+                String logLevel = (String) servletContext.getAttribute(LogHostObject.LOG_LEVEL);
                 if (logLevel != null) {
                     cx.addProperty(LogHostObject.LOG_LEVEL, logLevel);
                 }
@@ -353,7 +361,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                     path = path.startsWith("/") ? path : "/" + path;
                     Stack<String> callstack = CommonManager.getCallstack(cx);
                     callstack.push(path);
-                    engine.exec(new ScriptReader(context.getServletContext().getResourceAsStream(path)) {
+                    engine.exec(new ScriptReader(servletContext.getResourceAsStream(path)) {
                         @Override
                         protected void build() throws IOException {
                             try {
@@ -545,8 +553,8 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
         if (level == null) {
             return;
         }
-        cx.removeParameter(LogHostObject.LOG_LEVEL);
-        cx.addParameter(LogHostObject.LOG_LEVEL, level);
+        ServletContext context = cx.getServletContext();
+        context.setAttribute(LogHostObject.LOG_LEVEL, level);
     }
 
     private static void addMappings(Map<String, Object> map, List<String> parts, String path) {
