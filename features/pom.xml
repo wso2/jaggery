@@ -603,6 +603,11 @@
             </dependency>
             <dependency>
                 <groupId>org.jaggeryjs</groupId>
+                <artifactId>org.jaggeryjs.hostobjects.process</artifactId>
+                <version>${jaggery.component.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jaggeryjs</groupId>
                 <artifactId>org.jaggeryjs.hostobjects.uri</artifactId>
                 <version>${jaggery.component.version}</version>
             </dependency>

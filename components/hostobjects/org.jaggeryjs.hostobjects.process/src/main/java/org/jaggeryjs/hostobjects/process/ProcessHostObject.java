@@ -59,7 +59,7 @@ public class ProcessHostObject {
         Map<String, String> envs = System.getenv();
         Scriptable object = cx.newObject(thisObj);
         for (String name : envs.keySet()) {
-            object.put(name, thisObj, envs.get(name));
+            object.put(name, object, envs.get(name));
         }
         return object;
     }
@@ -80,19 +80,17 @@ public class ProcessHostObject {
         return System.setProperty((String) args[0], (String) args[1]);
     }
 
-    public static Scriptable getProperty(Context cx, Scriptable thisObj, Object[] args, Function funObj)
+    public static String getProperty(Context cx, Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException {
         String functionName = "getProperty";
         int argsCount = args.length;
-        if (argsCount != 0) {
+        if (argsCount != 1) {
             HostObjectUtil.invalidNumberOfArgs(MODULE_NAME, functionName, argsCount, false);
         }
-        Map<String, String> envs = System.getenv();
-        Scriptable object = cx.newObject(thisObj);
-        for (String name : envs.keySet()) {
-            object.put(name, thisObj, envs.get(name));
+        if (!(args[0] instanceof String)) {
+            HostObjectUtil.invalidArgsError(MODULE_NAME, MODULE_NAME, "1", "string", args[0], false);
         }
-        return object;
+        return System.getProperty((String) args[0]);
     }
 
     public static Scriptable getProperties(Context cx, Scriptable thisObj, Object[] args, Function funObj)
@@ -105,7 +103,7 @@ public class ProcessHostObject {
         Properties properties = System.getProperties();
         Scriptable object = cx.newObject(thisObj);
         for (String name : properties.stringPropertyNames()) {
-            object.put(name, thisObj, properties.getProperty(name));
+            object.put(name, object, properties.getProperty(name));
         }
         return object;
     }
