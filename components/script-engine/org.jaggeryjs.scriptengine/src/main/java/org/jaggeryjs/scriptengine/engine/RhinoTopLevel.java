@@ -195,7 +195,7 @@ public class RhinoTopLevel extends ImporterTopLevel {
         }
         if (!(args[0] instanceof String)) {
             HostObjectUtil.invalidArgsError(EngineConstants.GLOBAL_OBJECT_NAME,
-                    EngineConstants.GLOBAL_OBJECT_NAME, "1", "string", args[1], false);
+                    EngineConstants.GLOBAL_OBJECT_NAME, "1", "string", args[0], false);
         }
         clearTimeout((String) args[0]);
     }
@@ -210,7 +210,7 @@ public class RhinoTopLevel extends ImporterTopLevel {
         }
         if (!(args[0] instanceof String)) {
             HostObjectUtil.invalidArgsError(EngineConstants.GLOBAL_OBJECT_NAME,
-                    EngineConstants.GLOBAL_OBJECT_NAME, "1", "string", args[1], false);
+                    EngineConstants.GLOBAL_OBJECT_NAME, "1", "string", args[0], false);
         }
         clearInterval((String) args[0]);
     }
