@@ -1,5 +1,6 @@
 package org.jaggeryjs.jaggery.core.plugins;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.hostobjects.file.JavaScriptFile;
@@ -225,7 +226,7 @@ public class WebAppFile implements JavaScriptFile {
             log.warn("Please close the file before deleting");
             return false;
         }
-        return new File(path).delete();
+        return FileUtils.deleteQuietly(new File(path));
     }
 
     @Override
