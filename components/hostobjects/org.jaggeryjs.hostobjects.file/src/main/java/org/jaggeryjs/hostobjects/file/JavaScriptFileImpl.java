@@ -200,7 +200,7 @@ public class JavaScriptFileImpl implements JavaScriptFile {
             log.warn("Please close the file before moving");
             return false;
         }
-        return new File(path).renameTo(new File(dest));
+        return f.renameTo(new File(dest));
     }
 
     @Override
@@ -209,7 +209,7 @@ public class JavaScriptFileImpl implements JavaScriptFile {
             log.warn("Please close the file before deleting");
             return false;
         }
-        return FileUtils.deleteQuietly(new File(path));
+        return FileUtils.deleteQuietly(f);
     }
 
     @Override
@@ -224,17 +224,17 @@ public class JavaScriptFileImpl implements JavaScriptFile {
 
     @Override
     public long getLastModified() throws ScriptException {
-        return new File(path).lastModified();
+        return f.lastModified();
     }
 
     @Override
     public String getName() throws ScriptException {
-        return new File(path).getName();
+        return f.getName();
     }
 
     @Override
     public boolean isExist() throws ScriptException {
-        return new File(path).exists();
+        return f.exists();
     }
 
     @Override
@@ -267,6 +267,11 @@ public class JavaScriptFileImpl implements JavaScriptFile {
         return move(dest);
     }
 
+    @Override
+    public boolean mkdir() throws ScriptException {
+        return f.mkdir();
+    }
+
     public boolean isDirectory() throws ScriptException {
         return f.isDirectory();
     }
@@ -274,8 +279,10 @@ public class JavaScriptFileImpl implements JavaScriptFile {
     public ArrayList<String> listFiles() throws ScriptException {
         File[] fileList = f.listFiles();
         ArrayList<String> jsfl = new ArrayList<String>();
-        for (File fi : fileList) {
-            jsfl.add(fi.getPath());
+        if(fileList != null) {
+            for (File fi : fileList) {
+                jsfl.add(fi.getPath());
+            }
         }
         return jsfl;
     }

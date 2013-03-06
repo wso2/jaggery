@@ -40,6 +40,8 @@ public interface JavaScriptFile {
 
     public boolean saveAs(String dest) throws ScriptException;
 
+    public boolean mkdir() throws ScriptException;
+
     public boolean isDirectory() throws ScriptException;
 
     public ArrayList<String> listFiles() throws ScriptException;

@@ -217,7 +217,7 @@ public class WebAppFile implements JavaScriptFile {
             log.warn("Please close the file before moving");
             return false;
         }
-        return new File(path).renameTo(fileManager.getFile(dest));
+        return f.renameTo(fileManager.getFile(dest));
     }
 
     @Override
@@ -226,7 +226,7 @@ public class WebAppFile implements JavaScriptFile {
             log.warn("Please close the file before deleting");
             return false;
         }
-        return FileUtils.deleteQuietly(new File(path));
+        return FileUtils.deleteQuietly(f);
     }
 
     @Override
@@ -241,17 +241,17 @@ public class WebAppFile implements JavaScriptFile {
 
     @Override
     public long getLastModified() throws ScriptException {
-        return new File(path).lastModified();
+        return f.lastModified();
     }
 
     @Override
     public String getName() throws ScriptException {
-        return new File(path).getName();
+        return f.getName();
     }
 
     @Override
     public boolean isExist() throws ScriptException {
-        return new File(path).exists();
+        return f.exists();
     }
 
     @Override
@@ -285,6 +285,11 @@ public class WebAppFile implements JavaScriptFile {
     }
 
     @Override
+    public boolean mkdir() throws ScriptException {
+        return f.mkdir();
+    }
+
+    @Override
     public boolean isDirectory() throws ScriptException {
         return f.isDirectory();
     }
@@ -293,8 +298,10 @@ public class WebAppFile implements JavaScriptFile {
     public ArrayList<String> listFiles() throws ScriptException {
         File[] fileList = f.listFiles();
         ArrayList<String> jsfl = new ArrayList<String>();
-        for (File fi : fileList) {
-            jsfl.add(fi.getPath());
+        if (fileList != null) {
+            for (File fi : fileList) {
+                jsfl.add(fi.getPath());
+            }
         }
         return jsfl;
     }

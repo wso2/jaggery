@@ -5,11 +5,13 @@ import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.scriptengine.EngineConstants;
 import org.jaggeryjs.scriptengine.engine.JaggeryContext;
 import org.jaggeryjs.scriptengine.engine.RhinoEngine;
-import org.mozilla.javascript.*;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Function;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
 
-import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -23,8 +25,6 @@ public class FileHostObject extends ScriptableObject {
     public static final String JAVASCRIPT_FILE_MANAGER = "hostobjects.file.filemanager";
 
     private JavaScriptFile file = null;
-
-    private File f = null;
 
     private JavaScriptFileManager manager = null;
     private Context context = null;
@@ -249,6 +249,16 @@ public class FileHostObject extends ScriptableObject {
         }
         FileHostObject fho = (FileHostObject) thisObj;
         return fho.file.isDirectory();
+    }
+
+    public static boolean jsFunction_mkdir(Context cx, Scriptable thisObj, Object[] args, Function funObj) throws ScriptException {
+        String functionName = "mkdir";
+        int argsCount = args.length;
+        if (argsCount != 0) {
+            HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
+        }
+        FileHostObject fho = (FileHostObject) thisObj;
+        return fho.file.mkdir();
     }
 
     public static Object jsFunction_listFiles(Context cx, Scriptable thisObj, Object[] args, Function funObj) throws ScriptException {

@@ -196,12 +196,17 @@ public class UploadedFile implements JavaScriptFile {
 
     @Override
     public boolean isDirectory() throws ScriptException {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return false;
+    }
+
+    @Override
+    public boolean mkdir() throws ScriptException {
+        return false;
     }
 
     @Override
     public ArrayList<String> listFiles() throws ScriptException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null;
     }
 
     public void setFileManager(JavaScriptFileManager fileManager) {
