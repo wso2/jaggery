@@ -257,6 +257,7 @@ public class WebAppFile implements JavaScriptFile {
     @Override
     public InputStream getInputStream() throws ScriptException {
         try {
+            open("r");
             return new FileInputStream(file.getFD());
         } catch (IOException e) {
             log.error(e.getMessage(), e);
@@ -267,6 +268,7 @@ public class WebAppFile implements JavaScriptFile {
     @Override
     public OutputStream getOutputStream() throws ScriptException {
         try {
+            open("w");
             return new FileOutputStream(file.getFD());
         } catch (IOException e) {
             log.error(e.getMessage(), e);

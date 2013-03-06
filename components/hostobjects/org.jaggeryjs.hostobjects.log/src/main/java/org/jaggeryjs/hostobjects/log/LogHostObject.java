@@ -70,8 +70,8 @@ public class LogHostObject extends ScriptableObject {
         logObj.logger = Logger.getLogger(loggerName);
 
         String logLevel = (String) context.getProperty(LOG_LEVEL);
-        if (LOG_LEVEL_INFO.equalsIgnoreCase(logLevel)) {
-            logObj.logger.setLevel(Level.INFO);
+        if (LOG_LEVEL_FATAL.equalsIgnoreCase(logLevel)) {
+            logObj.logger.setLevel(Level.FATAL);
         } else if (LOG_LEVEL_WARN.equalsIgnoreCase(logLevel)) {
             logObj.logger.setLevel(Level.WARN);
         } else if (LOG_LEVEL_DEBUG.equalsIgnoreCase(logLevel)) {
@@ -79,7 +79,7 @@ public class LogHostObject extends ScriptableObject {
         } else if (LOG_LEVEL_ERROR.equalsIgnoreCase(logLevel)) {
             logObj.logger.setLevel(Level.ERROR);
         } else {
-            logObj.logger.setLevel(Level.FATAL);
+            logObj.logger.setLevel(Level.INFO);
         }
         return logObj;
     }

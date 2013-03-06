@@ -172,6 +172,7 @@ public class UploadedFile implements JavaScriptFile {
     @Override
     public InputStream getInputStream() throws ScriptException {
         try {
+            open("r");
             return fileItem.getInputStream();
         } catch (IOException e) {
             log.error(e.getMessage(), e);
