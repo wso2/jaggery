@@ -44,5 +44,7 @@ public interface JavaScriptFile {
 
     public boolean isDirectory() throws ScriptException;
 
+    public String getPath() throws ScriptException;
+
     public ArrayList<String> listFiles() throws ScriptException;
 }

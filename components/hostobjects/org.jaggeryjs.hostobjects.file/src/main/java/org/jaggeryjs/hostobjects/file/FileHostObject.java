@@ -28,6 +28,7 @@ public class FileHostObject extends ScriptableObject {
 
     private JavaScriptFileManager manager = null;
     private Context context = null;
+    private String path;
 
     public static Scriptable jsConstructor(Context cx, Object[] args, Function ctorObj,
                                            boolean inNewExpr) throws ScriptException {
@@ -249,6 +250,16 @@ public class FileHostObject extends ScriptableObject {
         }
         FileHostObject fho = (FileHostObject) thisObj;
         return fho.file.isDirectory();
+    }
+
+    public static String jsFunction_getPath(Context cx, Scriptable thisObj, Object[] args, Function funObj) throws ScriptException {
+        String functionName = "getPath";
+        int argsCount = args.length;
+        if (argsCount != 0) {
+            HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
+        }
+        FileHostObject fho = (FileHostObject) thisObj;
+        return fho.file.getPath();
     }
 
     public static boolean jsFunction_mkdir(Context cx, Scriptable thisObj, Object[] args, Function funObj) throws ScriptException {

@@ -22,6 +22,7 @@ public class WebAppFile implements JavaScriptFile {
 
     private RandomAccessFile file = null;
     private File f = null;
+    private String realPath = null;
     private String path = null;
     private boolean opened = false;
 
@@ -31,12 +32,13 @@ public class WebAppFile implements JavaScriptFile {
     private boolean writable = false;
 
     public WebAppFile(String path, ServletContext context) throws ScriptException {
-        this.path = context.getRealPath(getFilePath(path));
+        this.path = path;
+        this.realPath = context.getRealPath(getFilePath(path));
     }
 
     @Override
     public void construct() throws ScriptException {
-        f = new File(path);
+        f = new File(realPath);
     }
 
     private String getFilePath(String fileURL) throws ScriptException {
@@ -57,7 +59,7 @@ public class WebAppFile implements JavaScriptFile {
     public void open(String mode) throws ScriptException {
         if ("r".equals(mode)) {
             try {
-                file = new RandomAccessFile(path, "r");
+                file = new RandomAccessFile(realPath, "r");
             } catch (FileNotFoundException e) {
                 log.error(e.getMessage(), e);
                 throw new ScriptException(e);
@@ -65,7 +67,7 @@ public class WebAppFile implements JavaScriptFile {
             readable = true;
         } else if ("r+".equals(mode)) {
             try {
-                file = new RandomAccessFile(path, "rw");
+                file = new RandomAccessFile(realPath, "rw");
                 file.seek(0);
             } catch (FileNotFoundException e) {
                 log.error(e.getMessage(), e);
@@ -78,7 +80,7 @@ public class WebAppFile implements JavaScriptFile {
             writable = true;
         } else if ("w".equals(mode)) {
             try {
-                file = new RandomAccessFile(path, "rw");
+                file = new RandomAccessFile(realPath, "rw");
                 file.setLength(0);
             } catch (FileNotFoundException e) {
                 log.error(e.getMessage(), e);
@@ -90,7 +92,7 @@ public class WebAppFile implements JavaScriptFile {
             writable = true;
         } else if ("w+".equals(mode)) {
             try {
-                file = new RandomAccessFile(path, "rw");
+                file = new RandomAccessFile(realPath, "rw");
                 file.setLength(0);
             } catch (FileNotFoundException e) {
                 log.error(e.getMessage(), e);
@@ -103,7 +105,7 @@ public class WebAppFile implements JavaScriptFile {
             writable = true;
         } else if ("a".equals(mode)) {
             try {
-                file = new RandomAccessFile(path, "rw");
+                file = new RandomAccessFile(realPath, "rw");
                 file.seek(file.length());
             } catch (FileNotFoundException e) {
                 log.error(e.getMessage(), e);
@@ -115,7 +117,7 @@ public class WebAppFile implements JavaScriptFile {
             writable = true;
         } else if ("a+".equals(mode)) {
             try {
-                file = new RandomAccessFile(path, "rw");
+                file = new RandomAccessFile(realPath, "rw");
                 file.seek(file.length());
             } catch (FileNotFoundException e) {
                 log.error(e.getMessage(), e);
@@ -127,7 +129,7 @@ public class WebAppFile implements JavaScriptFile {
             readable = true;
             writable = true;
         } else {
-            String msg = "Invalid or unsupported file mode, path : " + path + ", mode : " + mode;
+            String msg = "Invalid or unsupported file mode, path : " + realPath + ", mode : " + mode;
             log.error(msg);
             throw new ScriptException(msg);
         }
@@ -231,12 +233,7 @@ public class WebAppFile implements JavaScriptFile {
 
     @Override
     public long getLength() throws ScriptException {
-        try {
-            return file.length();
-        } catch (IOException e) {
-            log.error(e.getMessage(), e);
-            throw new ScriptException(e);
-        }
+        return f.length();
     }
 
     @Override
@@ -294,6 +291,11 @@ public class WebAppFile implements JavaScriptFile {
     @Override
     public boolean isDirectory() throws ScriptException {
         return f.isDirectory();
+    }
+
+    @Override
+    public String getPath() throws ScriptException {
+        return this.path;
     }
 
     @Override

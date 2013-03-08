@@ -74,7 +74,7 @@ public class HostObjectUtil {
     }
 
     private static Object buildObject(Context cx, Scriptable scope, JsonElement element) {
-        if(element.isJsonArray()) {
+        if (element.isJsonArray()) {
             Scriptable o = cx.newArray(scope, 0);
             int i = 0;
             for (JsonElement el : element.getAsJsonArray()) {
@@ -82,19 +82,19 @@ public class HostObjectUtil {
             }
             return o;
         }
-        if(element.isJsonObject()) {
+        if (element.isJsonObject()) {
             Scriptable o = cx.newObject(scope);
-            for(Entry<String, JsonElement> entry : element.getAsJsonObject().entrySet()) {
+            for (Entry<String, JsonElement> entry : element.getAsJsonObject().entrySet()) {
                 o.put(entry.getKey(), o, buildObject(cx, scope, entry.getValue()));
             }
             return o;
         }
-        if(element.isJsonPrimitive()) {
+        if (element.isJsonPrimitive()) {
             JsonPrimitive primitive = element.getAsJsonPrimitive();
-            if(primitive.isBoolean()) {
+            if (primitive.isBoolean()) {
                 return primitive.getAsBoolean();
             }
-            if(primitive.isNumber()) {
+            if (primitive.isNumber()) {
                 return primitive.getAsNumber();
             }
             return primitive.getAsString();
@@ -103,6 +103,10 @@ public class HostObjectUtil {
     }
 
     public static String serializeJSON(Object obj) {
+        if (obj instanceof Wrapper) {
+            obj = ((Wrapper) obj).unwrap();
+        }
+
         if (obj == null) {
             return "null";
         }
@@ -129,9 +133,6 @@ public class HostObjectUtil {
         }
 
         StringWriter json = new StringWriter();
-        if (obj instanceof Wrapper) {
-            obj = ((Wrapper) obj).unwrap();
-        }
 
         if (obj instanceof NativeObject) {
             serializeNativeObject((NativeObject) obj, json);
