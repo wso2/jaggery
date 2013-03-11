@@ -600,7 +600,7 @@ public class DatabaseHostObject extends ScriptableObject {
             case Types.BINARY:
                 return HostObjectUtil.streamToString(results.getBinaryStream(index));
             case Types.CLOB:
-                return results.getClob(index).toString();
+                return cx.newObject(db, "Stream", new Object[]{results.getClob(index).getAsciiStream()});
             default:
                 return Context.javaToJS(results.getObject(index), db);
         }
