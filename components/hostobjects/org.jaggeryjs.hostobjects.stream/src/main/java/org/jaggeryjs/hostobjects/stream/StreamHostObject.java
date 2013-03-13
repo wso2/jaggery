@@ -2,12 +2,9 @@ package org.jaggeryjs.hostobjects.stream;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Function;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
+import org.mozilla.javascript.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -37,10 +34,15 @@ public class StreamHostObject extends ScriptableObject {
         }
 
         StreamHostObject sho = new StreamHostObject();
-        if(args[0] instanceof String) {
-            sho.stream = new ByteArrayInputStream(((String)args[0]).getBytes());
-        } else if (args[0] instanceof InputStream) {
-            sho.stream = (InputStream) args[0];
+        Object obj = args[0];
+        if (obj instanceof Wrapper) {
+            obj = ((Wrapper) obj).unwrap();
+        }
+
+        if (obj instanceof String) {
+            sho.stream = new ByteArrayInputStream(((String) args[0]).getBytes());
+        } else if (obj instanceof InputStream) {
+            sho.stream = (InputStream) obj;
         } else {
             HostObjectUtil.invalidArgsError(hostObjectName, hostObjectName, "1", "string", args[0], true);
         }
