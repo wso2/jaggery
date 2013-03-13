@@ -594,7 +594,7 @@ public class RhinoEngine {
          * parseFloat, Error, undefined, parseInt, Object, Continuation, decodeURIComponent, StopIteration, log,
          * Namespace, isXMLName, global, eval
          */
-        scope.delete("JavaAdapter");
+        /*scope.delete("JavaAdapter");
         scope.delete("org");
         scope.delete("java");
         scope.delete("JavaImporter");
@@ -607,7 +607,7 @@ public class RhinoEngine {
         scope.delete("net");
         scope.delete("Packages");
         scope.delete("importClass");
-        scope.delete("importPackage");
+        scope.delete("importPackage");*/
         return scope;
     }
 
