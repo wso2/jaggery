@@ -173,7 +173,9 @@ var get, post, put, del, head, options, trace, connect;
             url = query ? url + "?" + query : url;
             query = null;
         } else if (method === "POST") {
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+            if(!headers["Content-Type"]) {
+                headers["Content-Type"] = "application/x-www-form-urlencoded; charset=UTF-8";
+            }
         }
         for (name in headers) {
             if (headers.hasOwnProperty(name)) {
