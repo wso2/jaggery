@@ -173,7 +173,7 @@ var get, post, put, del, head, options, trace, connect;
             url = query ? url + "?" + query : url;
             query = null;
         } else if (method === "POST") {
-            if(!headers["Content-Type"]) {
+            if(headers && headers["Content-Type"]) {
                 headers["Content-Type"] = "application/x-www-form-urlencoded; charset=UTF-8";
             }
         }
