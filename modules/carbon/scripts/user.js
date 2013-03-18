@@ -2,9 +2,8 @@ var user = {};
 
 (function(user) {
 
-    user.User = function(username, password) {
+    user.User = function(username) {
         this.username = username;
-        this.password = password;
     };
 
 }(user));

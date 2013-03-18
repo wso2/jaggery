@@ -1,24 +1,24 @@
 <module name="carbon" xmlns="http://wso2.org/projects/jaggery/module.xml">
     <!-- scripts -->
     <script>
-        <name>config</name>
-        <path>scripts/config.js</path>
+        <name>osgi</name>
+        <path>scripts/osgi.js</path>
     </script>
     <script>
         <name>tenant</name>
         <path>scripts/tenant.js</path>
     </script>
     <script>
-        <name>osgi</name>
-        <path>scripts/osgi.js</path>
+        <name>server</name>
+        <path>scripts/server.js</path>
+    </script>
+    <script>
+        <name>config</name>
+        <path>scripts/config.js</path>
     </script>
     <script>
         <name>user</name>
         <path>scripts/user.js</path>
-    </script>
-    <script>
-        <name>server</name>
-        <path>scripts/server.js</path>
     </script>
     <script>
         <name>registry</name>

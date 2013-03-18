@@ -1,9 +1,7 @@
-var loadConfig;
-
-(function () {
+(function (server) {
     var process = require('process'),
         configDir = 'file:///' + process.getProperty('carbon.config.dir.path').replace(/[\\]/g, '/').replace(/^[\/]/g, '') + '/';
-    loadConfig = function (path) {
+    server.loadConfig = function (path) {
         var content,
             index = path.lastIndexOf('.'),
             ext = (index !== -1 && index < path.length) ? path.substring(index + 1) : '',
@@ -29,4 +27,4 @@ var loadConfig;
         }
     };
 
-}());
+}(server));

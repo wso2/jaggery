@@ -1,11 +1,11 @@
-var osgiService;
+var server = {};
 
-(function () {
-    var PrivilegedCarbonContext = Packages.org.wso2.carbon.context.PrivilegedCarbonContext;
-    var context = PrivilegedCarbonContext.getCurrentContext();
-    var Class = java.lang.Class;
+(function (server) {
+    var PrivilegedCarbonContext = Packages.org.wso2.carbon.context.PrivilegedCarbonContext,
+        context = PrivilegedCarbonContext.getCurrentContext(),
+        Class = java.lang.Class;
 
-    osgiService = function (clazz) {
+    server.osgiService = function (clazz) {
         return context.getOSGiService(Class.forName(clazz));
     };
-}());
+}(server));

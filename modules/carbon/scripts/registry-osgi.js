@@ -1,6 +1,6 @@
 var registry = registry || {};
 
-(function (registry) {
+(function (server, registry) {
     var log = new Log();
 
     var Resource = Packages.org.wso2.carbon.registry.core.Resource;
@@ -44,18 +44,20 @@ var registry = registry || {};
         return path.substring(path.lastIndexOf('/') + 1);
     };
 
-    var Registry = function (server, auth) {
-        var carbon = require('carbon');
-        var service = carbon.osgiService('org.wso2.carbon.registry.core.service.RegistryService'),
-            tenantId = carbon.tenantId();
-        //TODO : uncomment these lines
-        //if (auth instanceof carbon.user.User) {
-        this.registry = service.getRegistry(auth.username, auth.password, tenantId);
-        this.username = auth.username;
-        //} else {
-        //    throw new Error('Unsupported authentication mechanism : ' + auth);
-        //}
-        this.server = server;
+    var Registry = function (serv, auth) {
+        var tenantId,
+            registryService = server.osgiService('org.wso2.carbon.registry.core.service.RegistryService');
+        if (auth.username) {
+            tenantId = server.tenantId({
+                domain: auth.domain,
+                username: auth.username
+            });
+            this.registry = registryService.getRegistry(auth.username, auth.password, tenantId);
+            this.username = auth.username;
+        } else {
+            throw new Error('Unsupported authentication mechanism : ' + stringify(auth));
+        }
+        this.server = serv;
     };
 
     registry.Registry = Registry;
@@ -102,11 +104,6 @@ var registry = registry || {};
         this.registry.put(path, res);
     };
 
-    Registry.prototype.get = function (path, paging) {
-        var resource = this.registry.get(path);
-        return content(resource, paging);
-    };
-
     Registry.prototype.remove = function (path) {
         this.registry.delete(path);
     };
@@ -127,7 +124,7 @@ var registry = registry || {};
         this.registry.restoreVersion(path);
     };
 
-    Registry.prototype.meta = function (path) {
+    Registry.prototype.get = function (path) {
         var resource = this.registry.get(path);
         return {
             name: resource.name || resolveName(path),
@@ -152,6 +149,11 @@ var registry = registry || {};
 
     Registry.prototype.exists = function (path) {
         return this.registry.resourceExists(path);
+    };
+
+    Registry.prototype.content = function (path, paging) {
+        var resource = this.registry.get(path);
+        return content(resource, paging);
     };
 
     Registry.prototype.tags = function (path) {
@@ -345,4 +347,4 @@ var registry = registry || {};
         return res;
     };
 
-}(registry));
+}(server, registry));

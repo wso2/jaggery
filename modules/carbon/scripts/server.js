@@ -1,4 +1,3 @@
-var server = {};
 
 (function (server) {
     var log = new Log();
@@ -70,15 +69,19 @@ var server = {};
     var Server = function (url) {
         this.url = url;
     };
-
     server.Server = Server;
 
-    Server.prototype.login = function (user, password) {
-        if (!password) {
-            password = user.password;
-            user = user.username;
-        }
-        var cookie = login(this.url, user, password);
+    Server.prototype.authenticate = function (username, password) {
+        var realmService = server.osgiService('org.wso2.carbon.user.core.service.RealmService'),
+            tenantId = server.tenantId({
+                username: username
+            }),
+            realm = realmService.getTenantUserRealm(tenantId);
+        return realm.getUserStoreManager().authenticate(username, password);
+    };
+
+    Server.prototype.login = function (username, password) {
+        var cookie = login(this.url, username, password);
         return new Cookie(cookie);
     };
 
