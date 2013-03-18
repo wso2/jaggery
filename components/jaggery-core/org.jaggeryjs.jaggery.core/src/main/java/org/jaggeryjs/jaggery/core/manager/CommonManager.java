@@ -226,7 +226,7 @@ public class CommonManager {
         //ScriptableObject scope = context.getScope();
         CommonManager manager = (CommonManager) context.getProperty(JAGGERY_CORE_MANAGER);
         ModuleManager moduleManager = manager.getModuleManager();
-        JavaScriptModule module = moduleManager.getModules().get(moduleName);
+        JavaScriptModule module = moduleManager.getModule(moduleName);
 
         if (module == null) {
             String msg = "A module cannot be found with the specified name : " + moduleName;
