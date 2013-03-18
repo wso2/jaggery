@@ -9,16 +9,57 @@ var registry = registry || {};
 
     var Comment = Packages.org.wso2.carbon.registry.core.Comment;
 
+    var StaticConfiguration = Packages.org.wso2.carbon.registry.core.config.StaticConfiguration;
+
     var content = function (resource, paging) {
-        paging = paging || { start: 0, count: 10 };
+        paging = merge({
+            start: 0,
+            count: 10,
+            sort: 'recent'
+        }, paging);
         if (resource instanceof Collection) {
+            // #1 : this always sort children by name, so sorting cannot be done for the chunk
             return resource.getChildren(paging.start, paging.count);
+        }
+        if (resource instanceof Comment) {
+            return resource.getText();
         }
         var stream = resource.getContentStream();
         if (stream) {
             return new Stream(stream);
         }
         return resource.content;
+    };
+
+    var resource = function (resource) {
+        var path = String(resource.path),
+            o = {
+                created: {
+                    author: resource.authorUserName,
+                    time: resource.createdTime.time
+                },
+                content: content(resource),
+                id: resource.id,
+                version: resource.versionNumber
+            };
+        if (resource instanceof Comment) {
+            return o;
+        }
+        if (resource instanceof Collection) {
+            o.collection = (resource instanceof Collection);
+        }
+        o.uuid = resource.UUID;
+        o.path = path;
+        o.name = resource.name || resolveName(path);
+        o.description = resource.description;
+        o.updated = {
+            author: resource.lastUpdaterUserName,
+            time: resource.lastModified.time
+        };
+        o.mediaType = resource.mediaType;
+        o.properties = properties(resource);
+        o.aspects = aspects(resource);
+        return o;
     };
 
     var properties = function (resource) {
@@ -44,16 +85,29 @@ var registry = registry || {};
         return path.substring(path.lastIndexOf('/') + 1);
     };
 
+    var merge = function (def, options) {
+        if (options) {
+            for (var op in def) {
+                if (def.hasOwnProperty(op)) {
+                    def[op] = options[op] || def[op];
+                }
+            }
+        }
+        return def;
+    };
+
     var Registry = function (serv, auth) {
-        var tenantId,
-            registryService = server.osgiService('org.wso2.carbon.registry.core.service.RegistryService');
+        var registryService = server.osgiService('org.wso2.carbon.registry.core.service.RegistryService');
         if (auth.username) {
-            tenantId = server.tenantId({
+            this.tenant = server.tenantId({
                 domain: auth.domain,
                 username: auth.username
             });
-            this.registry = registryService.getRegistry(auth.username, auth.password, tenantId);
+            this.registry = registryService.getRegistry(auth.username, auth.password, this.tenant);
             this.username = auth.username;
+            this.versioning = {
+                comments: StaticConfiguration.isVersioningComments()
+            }
         } else {
             throw new Error('Unsupported authentication mechanism : ' + stringify(auth));
         }
@@ -125,26 +179,8 @@ var registry = registry || {};
     };
 
     Registry.prototype.get = function (path) {
-        var resource = this.registry.get(path);
-        return {
-            name: resource.name || resolveName(path),
-            description: resource.description,
-            created: {
-                author: resource.authorUserName,
-                time: resource.createdTime.time
-            },
-            updated: {
-                author: resource.lastUpdaterUserName,
-                time: resource.lastModified.time
-            },
-            content: content(resource),
-            collection: (resource instanceof Collection),
-            mediaType: resource.mediaType,
-            uuid: resource.UUID,
-            path: resource.path,
-            properties: properties(resource),
-            aspects: aspects(resource)
-        };
+        var res = this.registry.get(path);
+        return resource(res);
     };
 
     Registry.prototype.exists = function (path) {
@@ -269,25 +305,74 @@ var registry = registry || {};
         this.registry.addComment(path, new Comment(comment));
     };
 
+    /*    Registry.prototype.comments = function (path, paging) {
+     var i, comment, length,
+     comments = this.registry.getComments(path),
+     commentz = [];
+     paging = paging || { start: 0, count: 10 };
+     length = paging.start + paging.count;
+     length = length > comments.length ? comments.length : length;
+     for (i = paging.start; i < length; i++) {
+     comment = comments[i];
+     commentz.push({
+     content: comment.getText(),
+     created: {
+     author: comment.getUser(),
+     time: comment.getCreatedTime().getTime()
+     },
+     path: comment.getCommentPath()
+     });
+     }
+     return commentz;
+     };*/
+
     Registry.prototype.comments = function (path, paging) {
-        var i, comment, length,
-            comments = this.registry.getComments(path),
-            commentz = [];
-        paging = paging || { start: 0, count: 10 };
-        length = paging.start + paging.count;
-        length = length > comments.length ? comments.length : length;
-        for (i = paging.start; i < length; i++) {
-            comment = comments[i];
-            commentz.push({
-                content: comment.getText(),
-                created: {
-                    author: comment.getUser(),
-                    time: comment.getCreatedTime().getTime()
-                },
-                path: comment.getCommentPath()
-            });
+        var query, ids, i, length, limit, sort, sorter,
+            comments = [],
+            resource = this.get(path);
+        if (this.versioning.comments) {
+            query = 'SELECT REG_COMMENT_ID FROM REG_COMMENT C, REG_RESOURCE_COMMENT RC ' +
+                'WHERE C.REG_ID=RC.REG_COMMENT_ID AND RC.REG_VERSION=' + resource.version + ' ' +
+                'AND C.REG_TENANT_ID=' + this.tenant + ' AND RC.REG_TENANT_ID=' + this.tenant;
+        } else {
+            if (resource.collection) {
+                query = 'SELECT REG_COMMENT_ID FROM REG_COMMENT C, REG_RESOURCE_COMMENT RC ' +
+                    'WHERE C.REG_ID=RC.REG_COMMENT_ID AND RC.REG_PATH_ID=' + resource.id + ' ' +
+                    'AND RC.REG_RESOURCE_NAME IS NULL AND C.REG_TENANT_ID=' + this.tenant + ' ' +
+                    'AND RC.REG_TENANT_ID=' + this.tenant;
+            } else {
+                query = 'SELECT REG_COMMENT_ID FROM REG_COMMENT C, REG_RESOURCE_COMMENT RC ' +
+                    'WHERE C.REG_ID=RC.REG_COMMENT_ID AND RC.REG_PATH_ID=' + resource.id + ' ' +
+                    'AND RC.REG_RESOURCE_NAME = ' + resource.name + ' AND C.REG_TENANT_ID=' + this.tenant + ' ' +
+                    'AND RC.REG_TENANT_ID=' + this.tenant;
+            }
         }
-        return commentz;
+        paging = merge({
+            start: 0,
+            count: 25,
+            sort: 'recent'
+        }, paging);
+        switch (paging.sort) {
+            case 'recent' :
+            default:
+                sort = ' ORDER BY C.REG_COMMENTED_TIME DESC';
+                sorter = function (l, r) {
+                    return l.created.time < r.created.time;
+                };
+        }
+        limit = ' LIMIT ' + paging.start + ', ' + (paging.start + paging.count);
+        query += sort + limit;
+        ids = this.query({
+            query: query,
+            resultType: 'Comments'
+        }, paging);
+        length = ids.length;
+        for (i = 0; i < length; i++) {
+            comments.push(this.get(ids[i]));
+        }
+        //we have to manually sort this due to the bug in registry.getChildren() (#1 above)
+        comments.sort(sorter);
+        return comments;
     };
 
     Registry.prototype.uncomment = function (path) {
