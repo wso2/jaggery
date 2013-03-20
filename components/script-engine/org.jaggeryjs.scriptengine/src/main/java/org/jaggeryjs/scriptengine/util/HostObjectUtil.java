@@ -119,6 +119,9 @@ public class HostObjectUtil {
         if (obj instanceof String) {
             return serializeString((String) obj);
         }
+        if (obj instanceof ConsString) {
+            return serializeString(obj.toString());
+        }
         if (obj instanceof Integer ||
                 obj instanceof Long ||
                 obj instanceof Float ||
