@@ -407,6 +407,18 @@ public class WSRequestHostObject extends ScriptableObject {
         return responseText;
     }
 
+    public int jsGet_status() throws ScriptException {
+        try {
+            MessageContext context = this.sender.getLastOperationContext().getMessageContext("In");
+            if (context == null) {
+                return 0;
+            }
+            return (Integer) context.getProperty(HTTPConstants.MC_HTTP_STATUS_CODE);
+        } catch (AxisFault axisFault) {
+            throw new ScriptException(axisFault);
+        }
+    }
+
     protected void updateResponse(OMElement response) {
         if (response instanceof OMSourcedElementImpl) {
             OMSourcedElementImpl sourcedElement = (OMSourcedElementImpl) response;
