@@ -11,7 +11,7 @@ var registry = registry || {};
 
     var StaticConfiguration = Packages.org.wso2.carbon.registry.core.config.StaticConfiguration;
 
-    var content = function (resource, paging) {
+    var content = function (registry, resource, paging) {
         paging = merge({
             start: 0,
             count: 10,
@@ -19,7 +19,7 @@ var registry = registry || {};
         }, paging);
         if (resource instanceof Collection) {
             // #1 : this always sort children by name, so sorting cannot be done for the chunk
-            return resource.getChildren(paging.start, paging.count);
+            return children(registry, resource, paging);
         }
         if (resource instanceof Comment) {
             return resource.getText();
@@ -31,14 +31,143 @@ var registry = registry || {};
         return resource.content;
     };
 
-    var resource = function (resource) {
+    var commentsQuery = function (registry, resource, paging) {
+        var query, sort, limit, sorter,
+            paged = true,
+            database = registry.database;
+        if (registry.versioning.comments) {
+            query = 'SELECT REG_COMMENT_ID FROM REG_COMMENT C, REG_RESOURCE_COMMENT RC ' +
+                'WHERE C.REG_ID=RC.REG_COMMENT_ID AND RC.REG_VERSION=' + resource.versionNumber + ' ' +
+                'AND C.REG_TENANT_ID=' + registry.tenant + ' AND RC.REG_TENANT_ID=' + registry.tenant;
+        } else {
+            if (resource instanceof Collection) {
+                query = 'SELECT REG_COMMENT_ID FROM REG_COMMENT C, REG_RESOURCE_COMMENT RC ' +
+                    'WHERE C.REG_ID=RC.REG_COMMENT_ID AND RC.REG_PATH_ID=' + resource.id + ' ' +
+                    'AND RC.REG_RESOURCE_NAME IS NULL AND C.REG_TENANT_ID=' + registry.tenant + ' ' +
+                    'AND RC.REG_TENANT_ID=' + registry.tenant;
+            } else {
+                query = 'SELECT REG_COMMENT_ID FROM REG_COMMENT C, REG_RESOURCE_COMMENT RC ' +
+                    'WHERE C.REG_ID=RC.REG_COMMENT_ID AND RC.REG_PATH_ID=' + resource.id + ' ' +
+                    'AND RC.REG_RESOURCE_NAME = ' + resource.name + ' AND C.REG_TENANT_ID=' + registry.tenant + ' ' +
+                    'AND RC.REG_TENANT_ID=' + registry.tenant;
+            }
+        }
+        paging = merge({
+            start: 0,
+            count: 25,
+            sort: 'recent'
+        }, paging);
+        switch (paging.sort) {
+            case 'recent' :
+            default:
+                sort = ' ORDER BY C.REG_COMMENTED_TIME DESC';
+                sorter = function (l, r) {
+                    return l.created.time < r.created.time;
+                };
+        }
+        switch (database.name) {
+            case 'MySQL':
+                limit = ' LIMIT ' + paging.count + ' OFFSET ' + paging.start;
+                break;
+            default :
+                paged = false;
+                limit = '';
+        }
+        query += sort + limit;
+        return {
+            query: query,
+            sorter: sorter,
+            paged: paged
+        };
+    };
+
+    var childrenQuery = function (registry, resource, paging) {
+        var query, sort, sorter, limit,
+            paged = true,
+            pathId = resource.pathID,
+            database = registry.database;
+        query = 'SELECT R.REG_PATH_ID, R.REG_NAME, R.REG_CREATED_TIME AS REG_CREATED_TIME ' +
+            'FROM REG_RESOURCE R WHERE ' +
+            'R.REG_PATH_ID=' + pathId + ' AND ' +
+            'R.REG_TENANT_ID=' + registry.tenant + ' ' +
+            'UNION ' +
+            'SELECT P.REG_PATH_ID, R.REG_NAME, R.REG_CREATED_TIME AS REG_CREATED_TIME ' +
+            'FROM REG_PATH P, REG_RESOURCE R WHERE ' +
+            'P.REG_PATH_PARENT_ID=' + pathId + ' AND ' +
+            'P.REG_TENANT_ID=' + registry.tenant + ' AND ' +
+            'R.REG_PATH_ID=P.REG_PATH_ID AND ' +
+            'R.REG_NAME IS NULL AND ' +
+            'R.REG_TENANT_ID=' + registry.tenant;
+
+        paging = merge({
+            start: 0,
+            count: 25,
+            sort: 'recent'
+        }, paging);
+        switch (paging.sort) {
+            case 'recent' :
+            default:
+                sort = ' ORDER BY REG_CREATED_TIME DESC';
+                sorter = function (l, r) {
+                    return l.created.time < r.created.time;
+                };
+        }
+        switch (database.name) {
+            case 'MySQL':
+                limit = ' LIMIT ' + paging.count + ' OFFSET ' + paging.start;
+                break;
+            default :
+                paged = false;
+                limit = '';
+        }
+        query += sort + limit;
+        return {
+            query: query,
+            sorter: sorter,
+            paged: paged
+        };
+    };
+
+    var children = function (registry, resource, paging) {
+        var o, pathz, length, i, res,
+            pathId = resource.pathID,
+            resources = [],
+            paths = [];
+        o = childrenQuery(registry, resource, paging);
+        pathz = registry.query({
+            query: o.query,
+            resultType: 'Resource'
+        });
+        length = pathz.length;
+        for (i = 0; i < length; i++) {
+            res = registry.registry.get(pathz[i]);
+            if (pathId == res.pathID && !res.name) {
+                continue;
+            }
+            resources.push({
+                path: res.path,
+                created: {
+                    time: res.createdTime.time
+                }
+            });
+        }
+        //we have to manually sort this due to the bug in registry.getChildren() (#1 above)
+        resources.sort(o.sorter);
+        length = resources.length;
+        for (i = 0; i < length; i++) {
+            paths.push(resources[i].path);
+        }
+        return o.paged ? paths : paths.slice(paging.start, paging.start + paging.count);
+    };
+
+    var resource = function (registry, resource) {
         var path = String(resource.path),
             o = {
                 created: {
                     author: resource.authorUserName,
                     time: resource.createdTime.time
                 },
-                content: content(resource),
+                content: content(registry, resource),
                 id: resource.id,
                 version: resource.versionNumber
             };
@@ -107,7 +236,16 @@ var registry = registry || {};
             this.username = auth.username;
             this.versioning = {
                 comments: StaticConfiguration.isVersioningComments()
-            }
+            };
+            var db = this.registry.getRegistryContext().getDataAccessManager().getDataSource()
+                .getConnection().getMetaData();
+            this.database = {
+                name: String(db.getDatabaseProductName()),
+                version: {
+                    major: db.getDatabaseMajorVersion(),
+                    minor: db.getDatabaseMinorVersion()
+                }
+            };
         } else {
             throw new Error('Unsupported authentication mechanism : ' + stringify(auth));
         }
@@ -180,7 +318,7 @@ var registry = registry || {};
 
     Registry.prototype.get = function (path) {
         var res = this.registry.get(path);
-        return resource(res);
+        return resource(this, res);
     };
 
     Registry.prototype.exists = function (path) {
@@ -189,7 +327,7 @@ var registry = registry || {};
 
     Registry.prototype.content = function (path, paging) {
         var resource = this.registry.get(path);
-        return content(resource, paging);
+        return content(this, resource, paging);
     };
 
     Registry.prototype.tags = function (path) {
@@ -327,52 +465,21 @@ var registry = registry || {};
      };*/
 
     Registry.prototype.comments = function (path, paging) {
-        var query, ids, i, length, limit, sort, sorter,
+        var o, ids, i, length,
             comments = [],
-            resource = this.get(path);
-        if (this.versioning.comments) {
-            query = 'SELECT REG_COMMENT_ID FROM REG_COMMENT C, REG_RESOURCE_COMMENT RC ' +
-                'WHERE C.REG_ID=RC.REG_COMMENT_ID AND RC.REG_VERSION=' + resource.version + ' ' +
-                'AND C.REG_TENANT_ID=' + this.tenant + ' AND RC.REG_TENANT_ID=' + this.tenant;
-        } else {
-            if (resource.collection) {
-                query = 'SELECT REG_COMMENT_ID FROM REG_COMMENT C, REG_RESOURCE_COMMENT RC ' +
-                    'WHERE C.REG_ID=RC.REG_COMMENT_ID AND RC.REG_PATH_ID=' + resource.id + ' ' +
-                    'AND RC.REG_RESOURCE_NAME IS NULL AND C.REG_TENANT_ID=' + this.tenant + ' ' +
-                    'AND RC.REG_TENANT_ID=' + this.tenant;
-            } else {
-                query = 'SELECT REG_COMMENT_ID FROM REG_COMMENT C, REG_RESOURCE_COMMENT RC ' +
-                    'WHERE C.REG_ID=RC.REG_COMMENT_ID AND RC.REG_PATH_ID=' + resource.id + ' ' +
-                    'AND RC.REG_RESOURCE_NAME = ' + resource.name + ' AND C.REG_TENANT_ID=' + this.tenant + ' ' +
-                    'AND RC.REG_TENANT_ID=' + this.tenant;
-            }
-        }
-        paging = merge({
-            start: 0,
-            count: 25,
-            sort: 'recent'
-        }, paging);
-        switch (paging.sort) {
-            case 'recent' :
-            default:
-                sort = ' ORDER BY C.REG_COMMENTED_TIME DESC';
-                sorter = function (l, r) {
-                    return l.created.time < r.created.time;
-                };
-        }
-        limit = ' LIMIT ' + paging.start + ', ' + (paging.start + paging.count);
-        query += sort + limit;
+            resource = this.registry.get(path);
+        o = commentsQuery(this, resource, paging);
         ids = this.query({
-            query: query,
+            query: o.query,
             resultType: 'Comments'
-        }, paging);
+        });
         length = ids.length;
         for (i = 0; i < length; i++) {
             comments.push(this.get(ids[i]));
         }
         //we have to manually sort this due to the bug in registry.getChildren() (#1 above)
-        comments.sort(sorter);
-        return comments;
+        comments.sort(o.sorter);
+        return o.paged ? comments : comments.slice(paging.start, paging.start + paging.count);
     };
 
     Registry.prototype.uncomment = function (path) {
@@ -405,10 +512,10 @@ var registry = registry || {};
 
     Registry.prototype.search = function (query, paging) {
         var res = this.registry.searchContent(query);
-        return res ? content(res, paging) : [];
+        return res ? content(this, res, paging) : [];
     };
 
-    Registry.prototype.query = function (options, paging) {
+    Registry.prototype.query = function (options) {
         var res,
             query = options.query,
             uuid = require('uuid'),
@@ -425,11 +532,11 @@ var registry = registry || {};
                 }
             });
         }
-        res = content(this.registry.executeQuery(path, Collections.emptyMap()), paging);
+        res = this.registry.executeQuery(path, Collections.emptyMap());
         if (!cache) {
             this.remove(path);
         }
-        return res;
+        return res.getChildren();
     };
 
 }(server, registry));
