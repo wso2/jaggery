@@ -303,6 +303,34 @@ include('/includes/topnavi.jag');
 
                     </tr>
 
+					<tr>
+
+                        <td><code>getLocale() </code>
+                        </td>
+                           <td>String</td>
+                        <td>
+                            <pre class="prettyprint">request.getLocale()</pre>
+                            Returns the preferred Locale that the client will accept 
+                            content in, based on the Accept-Language header. 
+                            <br/>
+                        </td>
+
+                    </tr>
+                    
+                    <tr>
+
+                        <td><code>getAllLocales() </code>
+                        </td>
+                           <td>Object</td>
+                        <td>
+                            <pre class="prettyprint">request.getAllLocales()</pre> Returns an Enumeration of Locale objects indicating, in decreasing order 
+                            starting with the preferred locale,If the client request doesn't 
+                            provide an Accept-Language header, this method returns an Enumeration 
+                            containing one Locale, the default locale for the server.
+                            <br/>
+                        </td>
+
+                    </tr>
                     <tr>
 
                         <td><code>getFile(formFeildName)</code>
