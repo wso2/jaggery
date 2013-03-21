@@ -9,7 +9,11 @@ if(param == "member") {
 	response.sendError(200);
 	} else if(param == "Redirect") {
 	response.sendRedirect('http://localhost:9763/tmp/response.jag');
-} else {
+} else if(param == "cookie") {
+	var cookie= {'name':'test','value':'Cookie testing'};
+	response.addCookie(cookie);
+	print('added a test cookie');
+}else {
 	print(response.status);
 }
 %>

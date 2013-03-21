@@ -1,7 +1,12 @@
 <%
 var param = request.getParameter('param');
 if(param != null) {
+	if(param == "test") {
 	print("Param : " + request.getParameter('param'));
+}if(param == "getAllLocales"){
+	print("Local : " + request.getAllLocales());
+}
+
 } else {
 	print("Method : " + request.getMethod() );
 	print(", Protocol : " + request.getProtocol());

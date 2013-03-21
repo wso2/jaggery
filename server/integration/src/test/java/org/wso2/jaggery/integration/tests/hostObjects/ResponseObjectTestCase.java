@@ -142,5 +142,32 @@ public class ResponseObjectTestCase {
 		}
         
     }
+    
+    @Test(groups = {"jaggery"},
+            description = "Test response object addcookie operation")
+    public void testResponseAddCookie() {
+        ClientConnectionUtil.waitForPort(9763);
+        
+        String finalOutput = null;
+        
+        try {
+        	URL jaggeryURL = new URL("http://localhost:9763/testapp/response.jag?action=cookie");
+        	URLConnection jaggeryServerConnection = jaggeryURL.openConnection();
+        	BufferedReader in = new BufferedReader(new InputStreamReader(
+        			jaggeryServerConnection.getInputStream()));
+        
+          	String inputLine;
+  			while ((inputLine = in.readLine()) != null) {
+  				finalOutput = inputLine;
+  			}
+			    
+			in.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			assertEquals(finalOutput, "added a test cookie");
+		}
+        
+    }
 
 }

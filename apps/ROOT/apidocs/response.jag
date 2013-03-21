@@ -196,6 +196,18 @@ include('/includes/topnavi.jag');
                         </td>
 
                     </tr>
+                    <tr>
+
+                        <td><code>addCookie(cookie) </code>
+                        </td>
+                       <td>None</td>
+                        <td><pre class="prettyprint">var cookie= {'name':'test','value':'Cookie testing'};
+response.addCookie(cookie)</pre>
+                            Adds the specified cookie to the response.
+                                                        
+                        </td>
+
+                    </tr>
                      </tbody>
                  </table>
 
