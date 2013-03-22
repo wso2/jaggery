@@ -60,6 +60,10 @@
         return buildArtifact(this, this.manager.getGenericArtifact(id));
     };
 
+    ArtifactManager.prototype.count = function () {
+        return this.manager.getAllGenericArtifactIds().length;
+    };
+
     ArtifactManager.prototype.list = function (paging) {
         var i,
             artifactz = [],

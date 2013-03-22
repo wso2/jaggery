@@ -12,14 +12,12 @@ var registry = registry || {};
     var StaticConfiguration = Packages.org.wso2.carbon.registry.core.config.StaticConfiguration;
 
     var content = function (registry, resource, paging) {
-        paging = merge({
-            start: 0,
-            count: 10,
-            sort: 'recent'
-        }, paging);
         if (resource instanceof Collection) {
             // #1 : this always sort children by name, so sorting cannot be done for the chunk
-            return children(registry, resource, paging);
+            return function (pagination) {
+                pagination = pagination || paging;
+                return children(registry, resource, pagination);
+            };
         }
         if (resource instanceof Comment) {
             return String(resource.getText());
@@ -52,11 +50,6 @@ var registry = registry || {};
                     'AND RC.REG_TENANT_ID=' + registry.tenant;
             }
         }
-        paging = merge({
-            start: 0,
-            count: 25,
-            sort: 'recent'
-        }, paging);
         switch (paging.sort) {
             case 'recent' :
             default:
@@ -167,7 +160,10 @@ var registry = registry || {};
                     author: String(resource.authorUserName),
                     time: resource.createdTime.time
                 },
-                content: content(registry, resource),
+                content: content(registry, resource, {
+                    start: 0,
+                    count: 10
+                }),
                 id: String(resource.id),
                 version: resource.versionNumber
             };
@@ -186,8 +182,12 @@ var registry = registry || {};
             time: resource.lastModified.time
         };
         o.mediaType = String(resource.mediaType);
-        o.properties = properties(resource);
-        o.aspects = aspects(resource);
+        o.properties = function () {
+            return properties(resource);
+        };
+        o.aspects = function () {
+            return aspects(resource);
+        };
         return o;
     };
 
@@ -327,6 +327,11 @@ var registry = registry || {};
 
     Registry.prototype.content = function (path, paging) {
         var resource = this.registry.get(path);
+        paging = merge({
+            start: 0,
+            count: 10,
+            sort: 'recent'
+        }, paging);
         return content(this, resource, paging);
     };
 
@@ -464,6 +469,11 @@ var registry = registry || {};
         var o, ids, i, length,
             comments = [],
             resource = this.registry.get(path);
+        paging = merge({
+            start: 0,
+            count: 25,
+            sort: 'recent'
+        }, paging);
         o = commentsQuery(this, resource, paging);
         ids = this.query({
             query: o.query,
@@ -500,10 +510,6 @@ var registry = registry || {};
         return rating;
     };
 
-    Registry.prototype.avgRating = function (path) {
-        return this.registry.getAverageRating(path);
-    };
-
     Registry.prototype.link = function (path, target) {
         return this.registry.createLink(path, target);
     };
@@ -514,6 +520,11 @@ var registry = registry || {};
 
     Registry.prototype.search = function (query, paging) {
         var res = this.registry.searchContent(query);
+        paging = merge({
+            start: 0,
+            count: 10,
+            sort: 'recent'
+        }, paging);
         return res ? content(this, res, paging) : [];
     };
 
