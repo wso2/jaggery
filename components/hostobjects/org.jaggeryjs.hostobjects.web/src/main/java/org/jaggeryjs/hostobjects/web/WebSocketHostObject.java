@@ -3,13 +3,15 @@ package org.jaggeryjs.hostobjects.web;
 import org.apache.catalina.websocket.MessageInbound;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jaggeryjs.hostobjects.file.FileHostObject;
+import org.jaggeryjs.hostobjects.log.LogHostObject;
 import org.jaggeryjs.hostobjects.stream.StreamHostObject;
+import org.jaggeryjs.scriptengine.EngineConstants;
+import org.jaggeryjs.scriptengine.engine.JaggeryContext;
+import org.jaggeryjs.scriptengine.engine.RhinoEngine;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Function;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
+import org.mozilla.javascript.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -23,10 +25,11 @@ public class WebSocketHostObject extends ScriptableObject {
 
     private static final String hostObjectName = "WebSocket";
 
-    private Context context;
+    private ContextFactory contextFactory;
     private MessageInbound inbound;
     private Function textCallback = null;
     private Function binaryCallback = null;
+    private JaggeryContext asyncContext;
 
     public WebSocketHostObject() {
 
@@ -44,7 +47,17 @@ public class WebSocketHostObject extends ScriptableObject {
             HostObjectUtil.invalidNumberOfArgs(hostObjectName, hostObjectName, argsCount, true);
         }
         WebSocketHostObject who = new WebSocketHostObject();
-        who.context = cx;
+        who.contextFactory = cx.getFactory();
+        JaggeryContext currentContext = (JaggeryContext) RhinoEngine.getContextProperty(
+                EngineConstants.JAGGERY_CONTEXT);
+        JaggeryContext asyncContext = new JaggeryContext();
+        asyncContext.setEngine(currentContext.getEngine());
+        asyncContext.setScope(currentContext.getScope());
+        asyncContext.setTenantId(currentContext.getTenantId());
+        asyncContext.addProperty(LogHostObject.LOG_LEVEL, currentContext.getProperty(LogHostObject.LOG_LEVEL));
+        asyncContext.addProperty(FileHostObject.JAVASCRIPT_FILE_MANAGER, currentContext.getProperty(
+                FileHostObject.JAVASCRIPT_FILE_MANAGER));
+        who.asyncContext = asyncContext;
         return who;
     }
 
@@ -110,19 +123,25 @@ public class WebSocketHostObject extends ScriptableObject {
     }
 
     public void processText(CharBuffer charBuffer) {
-        if(textCallback == null) {
+        if (textCallback == null) {
             return;
         }
-        textCallback.call(this.context, this, this, new Object[]{charBuffer.toString()});
+        Context cx = RhinoEngine.enterContext(this.contextFactory);
+        RhinoEngine.putContextProperty(EngineConstants.JAGGERY_CONTEXT, this.asyncContext);
+        textCallback.call(cx, this, this, new Object[]{charBuffer.toString()});
+        RhinoEngine.exitContext();
     }
 
     public void processBinary(ByteBuffer byteBuffer) {
-        if(binaryCallback == null) {
+        if (binaryCallback == null) {
             return;
         }
+        Context cx = RhinoEngine.enterContext(this.contextFactory);
+        RhinoEngine.putContextProperty(EngineConstants.JAGGERY_CONTEXT, this.asyncContext);
         ByteArrayInputStream bis = new ByteArrayInputStream(byteBuffer.array());
-        StreamHostObject sho = (StreamHostObject) context.newObject(this, "Stream", new Object[]{bis});
-        binaryCallback.call(this.context, this, this, new Object[]{sho});
+        StreamHostObject sho = (StreamHostObject) cx.newObject(this, "Stream", new Object[]{bis});
+        binaryCallback.call(cx, this, this, new Object[]{sho});
+        RhinoEngine.exitContext();
     }
 }
 
