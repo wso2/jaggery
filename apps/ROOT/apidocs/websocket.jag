@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Jaggery - Delicious Javascript</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+        }
+    </style>
+    <link href="../css/prettify.css" rel="stylesheet">
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="../images/favicon.ico">
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72"
+          href="../images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114"
+          href="../images/apple-touch-icon-114x114.png">
+</head>
+
+<body>
+
+<%
+    include('/includes/topnavi.jag');
+%>
+
+<div class="container-fluid" style="width: 960px; margin: auto;">
+<div class="row">
+    <div class="span16">
+        <div class="page-header">
+            <h1>
+                Documentation
+                <small>API documentation for Jaggery.js</small>
+            </h1>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+<div class="span4">
+    <div class="well">
+        <%
+        include('/includes/navi.jag');
+%>
+
+    </div>
+
+</div>
+<div class="span12">
+<div class="content" id="email" name="email">
+<h3>Web Socket</h3>
+
+            <pre class="prettyprint linenums">
+&lt%
+
+var log = new Log();
+websocket.ontext = function (data) {
+    log.info('Client Sent : ' + data);
+    var ws = this;
+    setTimeout(function () {
+        ws.send(data);
+    }, 5000);
+};
+
+websocket.onbinary = function (stream) {
+    log.info('Client Streamed : ' + stream.toString());
+};
+
+%&gt
+</pre>
+<%
+var wsCode = '&lt%'
++ '\n var log = new Log();'
++ '\n	websocket.ontext = function (data) {'
++ '\n 	}'
++ '\n %&gt';
+
+var codeSnip = encodeURIComponent(wsCode)
+var urlString = '../tryitframe.jag?code='+codeSnip;
+
+include('/includes/tryit_but.jag');
+%>
+<div id="pageLinks">
+                <a class="navilink" href="#overview">Overview</a>
+                <a class="navilink" href="#members">Members</a>
+                <a class="navilink" href="#operations">Operations</a>
+                </div>
+                 <section id="overview">
+
+
+                <h4>Overview</h4>
+                <p class="description">The Web Socket... </p>
+
+                </section>
+
+                <section id="members">
+                <h4>Members</h4>
+
+
+<table class="clsStd member-table">
+
+<tbody>
+
+<tr>
+
+    <th>Member</th>
+    <th>Type</th>
+    <th>Description</th>
+
+</tr>
+
+<tr>
+
+    <td><code>Scriptable ontext </code>
+    </td>
+     <td>Scriptable</td>
+    <td>This property can be set to a function Scriptable, 
+    </td>
+
+</tr>
+
+
+</tbody>
+</table>
+                </section>
+<section id="operations">
+    <h4>Operations</h4>
+
+    <table class="clsStd operations-table">
+    <tbody>
+    <tr>
+        <th>Operation</th>
+        <th>Returns</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+
+        <td><code>open (String text | StreamHostObject stream)</code></td>
+		<td>None</td>
+        <td>
+        </td>
+
+    </tr>
+    
+    </tbody>
+
+    </table>
+
+</section>
+
+</div>
+<!-- /email div -->
+<br>
+<br>
+</div>
+
+</div>
+<%
+include('/includes/footer.jag');
+%>
+
+</div>
+
+<!-- /container -->
+<%
+include('/includes/scripts.jag')
+%>
+	<script>	
+		
+		$(document).ready(function(){
+        $('#ws').toggleClass('active')
+		$('#docs').addClass('active')
+        })
+	</script>
+</body>
+</html>
