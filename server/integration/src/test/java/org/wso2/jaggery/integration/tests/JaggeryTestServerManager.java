@@ -247,7 +247,18 @@ public class JaggeryTestServerManager extends TestServerManager {
         sourcePath = computeSourcePath(fileName);
         destinationPath = computeDestPath(carbonHome, fileName);
         copySampleFile(sourcePath, destinationPath);
-
+        
+        //oauth object with twitter api
+        fileName = "oauth.jag";
+        sourcePath = computeSourcePath(fileName);
+        destinationPath = computeDestPath(carbonHome, fileName);
+        copySampleFile(sourcePath, destinationPath);
+        
+        fileName = "oauth-linkedin.jag";
+        sourcePath = computeSourcePath(fileName);
+        destinationPath = computeDestPath(carbonHome, fileName);
+        copySampleFile(sourcePath, destinationPath);
+        
 	}
 
 	private void copySampleFile(String sourcePath, String destPath) {
