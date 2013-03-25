@@ -45,4 +45,8 @@ public class JaggeryContext {
         return properties.get(name);
     }
 
+    public Map<String, Object> getProperties() {
+        return properties;
+    }
+
 }

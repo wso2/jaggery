@@ -28,4 +28,8 @@
         <name>registry-osgi</name>
         <path>scripts/registry-osgi.js</path>
     </script>
+    <script>
+        <name>artifacts</name>
+        <path>scripts/artifacts.js</path>
+    </script>
 </module>

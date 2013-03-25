@@ -12,23 +12,21 @@ var registry = registry || {};
     var StaticConfiguration = Packages.org.wso2.carbon.registry.core.config.StaticConfiguration;
 
     var content = function (registry, resource, paging) {
-        paging = merge({
-            start: 0,
-            count: 10,
-            sort: 'recent'
-        }, paging);
         if (resource instanceof Collection) {
             // #1 : this always sort children by name, so sorting cannot be done for the chunk
-            return children(registry, resource, paging);
+            return function (pagination) {
+                pagination = pagination || paging;
+                return children(registry, resource, pagination);
+            };
         }
         if (resource instanceof Comment) {
-            return resource.getText();
+            return String(resource.getText());
         }
         var stream = resource.getContentStream();
         if (stream) {
             return new Stream(stream);
         }
-        return resource.content;
+        return String(resource.content);
     };
 
     var commentsQuery = function (registry, resource, paging) {
@@ -52,11 +50,6 @@ var registry = registry || {};
                     'AND RC.REG_TENANT_ID=' + registry.tenant;
             }
         }
-        paging = merge({
-            start: 0,
-            count: 25,
-            sort: 'recent'
-        }, paging);
         switch (paging.sort) {
             case 'recent' :
             default:
@@ -145,7 +138,7 @@ var registry = registry || {};
                 continue;
             }
             resources.push({
-                path: res.path,
+                path: String(res.path),
                 created: {
                     time: res.createdTime.time
                 }
@@ -164,11 +157,14 @@ var registry = registry || {};
         var path = String(resource.path),
             o = {
                 created: {
-                    author: resource.authorUserName,
+                    author: String(resource.authorUserName),
                     time: resource.createdTime.time
                 },
-                content: content(registry, resource),
-                id: resource.id,
+                content: content(registry, resource, {
+                    start: 0,
+                    count: 10
+                }),
+                id: String(resource.id),
                 version: resource.versionNumber
             };
         if (resource instanceof Comment) {
@@ -177,17 +173,21 @@ var registry = registry || {};
         if (resource instanceof Collection) {
             o.collection = (resource instanceof Collection);
         }
-        o.uuid = resource.UUID;
-        o.path = path;
-        o.name = resource.name || resolveName(path);
-        o.description = resource.description;
+        o.uuid = String(resource.UUID);
+        o.path = String(path);
+        o.name = String(resource.name) || resolveName(path);
+        o.description = String(resource.description);
         o.updated = {
-            author: resource.lastUpdaterUserName,
+            author: String(resource.lastUpdaterUserName),
             time: resource.lastModified.time
         };
-        o.mediaType = resource.mediaType;
-        o.properties = properties(resource);
-        o.aspects = aspects(resource);
+        o.mediaType = String(resource.mediaType);
+        o.properties = function () {
+            return properties(resource);
+        };
+        o.aspects = function () {
+            return aspects(resource);
+        };
         return o;
     };
 
@@ -260,12 +260,12 @@ var registry = registry || {};
             res = this.registry.newCollection();
         } else {
             res = this.registry.newResource();
-            res.content = resource.content;
-            res.mediaType = resource.mediaType;
+            res.content = resource.content || null;
+            res.mediaType = resource.mediaType || null;
         }
         res.name = resource.name;
-        res.description = resource.description;
-        res.UUID = resource.uuid;
+        res.description = resource.description || null;
+        res.UUID = resource.uuid || null;
 
         var values, length, i, ArrayList,
             properties = resource.properties;
@@ -327,6 +327,11 @@ var registry = registry || {};
 
     Registry.prototype.content = function (path, paging) {
         var resource = this.registry.get(path);
+        paging = merge({
+            start: 0,
+            count: 10,
+            sort: 'recent'
+        }, paging);
         return content(this, resource, paging);
     };
 
@@ -337,11 +342,7 @@ var registry = registry || {};
             tags = this.registry.getTags(path);
             length = tags.length;
             for (i = 0; i < length; i++) {
-                tag = tags[i];
-                tagz.push({
-                    name: tag.tagName,
-                    count: tag.tagCount
-                });
+                tagz.push(String(tags[i].tagName));
             }
             return tagz;
         }
@@ -362,7 +363,7 @@ var registry = registry || {};
         for (tag in tz) {
             if (tz.hasOwnProperty(tag)) {
                 tagz.push({
-                    name: tag,
+                    name: String(tag),
                     count: tz[tag]
                 });
             }
@@ -404,9 +405,9 @@ var registry = registry || {};
         for (i = 0; i < length; i++) {
             asso = assos[i];
             associations.push({
-                type: asso.associationType,
-                src: asso.sourcePath,
-                dest: asso.destinationPath
+                type: String(asso.associationType),
+                src: String(asso.sourcePath),
+                dest: String(asso.destinationPath)
             });
         }
         return associations;
@@ -468,6 +469,11 @@ var registry = registry || {};
         var o, ids, i, length,
             comments = [],
             resource = this.registry.get(path);
+        paging = merge({
+            start: 0,
+            count: 25,
+            sort: 'recent'
+        }, paging);
         o = commentsQuery(this, resource, paging);
         ids = this.query({
             query: o.query,
@@ -495,11 +501,13 @@ var registry = registry || {};
     };
 
     Registry.prototype.rating = function (path, username) {
-        return this.registry.getRating(path, username || this.username);
-    };
-
-    Registry.prototype.avgRating = function (path) {
-        return this.registry.getAverageRating(path);
+        var rating = {
+            average: this.registry.getAverageRating(path)
+        };
+        if (username) {
+            rating.user = this.registry.getRating(path, username);
+        }
+        return rating;
     };
 
     Registry.prototype.link = function (path, target) {
@@ -512,6 +520,11 @@ var registry = registry || {};
 
     Registry.prototype.search = function (query, paging) {
         var res = this.registry.searchContent(query);
+        paging = merge({
+            start: 0,
+            count: 10,
+            sort: 'recent'
+        }, paging);
         return res ? content(this, res, paging) : [];
     };
 

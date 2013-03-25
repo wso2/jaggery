@@ -59,6 +59,11 @@
             </dependency>
             <dependency>
                 <groupId>org.jaggeryjs</groupId>
+                <artifactId>org.jaggeryjs.hostobjects.web</artifactId>
+                <version>${jaggery.component.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jaggeryjs</groupId>
                 <artifactId>org.jaggeryjs.hostobjects.jaggeryparser</artifactId>
                 <version>${jaggery.component.version}</version>
             </dependency>

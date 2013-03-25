@@ -19,11 +19,6 @@
             <artifactId>org.jaggeryjs.scriptengine</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.jaggeryjs</groupId>
-            <artifactId>org.jaggeryjs.hostobjects.web</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
-        <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
         </dependency>
