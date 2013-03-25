@@ -62,14 +62,18 @@ include('/includes/topnavi.jag');
 
 <pre class="prettyprint linenums">
 &lt%
-var twitterJson = get("https://api.twitter.com/1/statuses/public_timeline.json", { count : "3", include_entities : "true" },"json");
+var url  = "https://api.twitter.com/1/statuses/user_timeline.json";
+var data = { include_entities:true,include_rts:true,screen_name:"wso2",count:1 };
+var twitterJson = get(url, data ,"json");
 print(twitterJson);
 %&gt
 </pre>
 <%
 
 var emailCode = '&lt%'
-+ '\n var twitterJson = get("https://api.twitter.com/1/statuses/public_timeline.json", { count : "3", include_entities : "true" },"json");'
++ '\n var url  = "https://api.twitter.com/1/statuses/user_timeline.json";'
++ '\n var data = { include_entities:true,include_rts:true,screen_name:"wso2",count:1 };'
++ '\n var twitterJson = get(url, data ,"json");'
 + '\n print(twitterJson);'
 + '\n %&gt';
 
