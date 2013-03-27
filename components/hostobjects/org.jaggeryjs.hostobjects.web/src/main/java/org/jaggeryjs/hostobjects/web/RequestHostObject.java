@@ -7,6 +7,10 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jaggeryjs.hostobjects.log.LogHostObject;
+import org.jaggeryjs.scriptengine.EngineConstants;
+import org.jaggeryjs.scriptengine.engine.JaggeryContext;
+import org.jaggeryjs.scriptengine.engine.RhinoEngine;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
 import org.mozilla.javascript.*;
@@ -42,6 +46,8 @@ public class RequestHostObject extends ScriptableObject {
     private Scriptable cookies = null;
 
     private Scriptable locales = null;
+
+    private String requestPath = null;
 
     private Object content = null;
 
@@ -484,6 +490,23 @@ public class RequestHostObject extends ScriptableObject {
             parseCookies(cx, thisObj, rho);
         }
         return rho.cookies;
+    }
+
+    public static String jsFunction_getRequestPath(Context cx, Scriptable thisObj, Object[] args, Function funObj)
+            throws ScriptException {
+        String functionName = "getRequestPath";
+        int argsCount = args.length;
+        if (argsCount != 0) {
+            HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
+        }
+        RequestHostObject rho = (RequestHostObject) thisObj;
+        if (rho.requestPath != null) {
+            return rho.requestPath;
+        }
+        JaggeryContext context = (JaggeryContext) RhinoEngine.getContextProperty(EngineConstants.JAGGERY_CONTEXT);
+        Stack stack = (Stack) context.getProperty(LogHostObject.JAGGERY_INCLUDES_CALLSTACK);
+        rho.requestPath = (String) stack.firstElement();
+        return rho.requestPath;
     }
 
     private static void parseCookies(Context cx, Scriptable thisObj, RequestHostObject rho) {
