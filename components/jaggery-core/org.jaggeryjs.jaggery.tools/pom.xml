@@ -68,7 +68,7 @@
                         <Bundle-Name>${project.artifactId}</Bundle-Name>
                         <Private-Package></Private-Package>
                         <Export-Package>
-                            org.wso2.carbon.jaggery.tools.*;
+                            org.jaggeryjs.jaggery.tools.*;
                         </Export-Package>
                         <Import-Package>
                             org.apache.commons.cli.*;"
