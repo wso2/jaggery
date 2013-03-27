@@ -1,15 +1,15 @@
 <%
 var param = request.getParameter('param');
 var oauth = require("oauth");
-var twitter = session.get('cnt');
+var linkedin = session.get('cnt');
 var accessToken = session.get('atoken');
 var authCode = request.getParameter('atoken');
 
 var log = new Log();
 
 if(param==5){
-	twitter  = null;
-	log.info("twitter Null");
+	linkedin  = null;
+	log.info("linkedin Null");
 }
 if(param==1){
 
@@ -23,31 +23,30 @@ var linkedProvider = {
 }
 
 
-if (twitter == null ) {
+if (linkedin == null ) {
 
-	//	var twitter = new oauth.OAuthProvider(oauth.twitterAPI("d0CTc4Zg9pufCnMkteDc7w","z4FMZhP87U5QEwycggDe5JN6TDDh7xEyhnAcEpdWk"));
-		var twitter = new oauth.OAuthProvider(linkedProvider);
-		session.put("cnt", twitter);
-		var authUrl = twitter.getAuthorizationUrl();
+		var linkedin = new oauth.OAuthProvider(linkedProvider);
+		session.put("cnt", linkedin);
+		var authUrl = linkedin.getAuthorizationUrl();
 
 		print(authUrl);
 	}
-	} else if (twitter != null && authCode != null && accessToken == null) {
+	} else if (linkedin != null && authCode != null && accessToken == null) {
 	log.info("twt not null");
-		var accessToken = twitter.getAccessToken(authCode);
+		var accessToken = linkedin.getAccessToken(authCode);
 		session.put('atoken', accessToken);
 		log.info(accessToken);
 		var requestParams = {
 		};
-		var resp = twitter.sendOAuthRequest(accessToken, "GET", "http://api.linkedin.com/v1/people/~?format=json", requestParams);
+		var resp = linkedin.sendOAuthRequest(accessToken, "GET", "http://api.linkedin.com/v1/people/~?format=json", requestParams);
 		log.info(resp);
 		print(resp.getBody());	
 	
-	} else if (twitter != null && accessToken != null) {
+	} else if (linkedin != null && accessToken != null) {
 			//if (loadback != null) {
 			var requestParams = {
 			};
-			var resp = twitter.sendOAuthRequest(accessToken, "GET", "http://api.linkedin.com/v1/people/~?format=json", requestParams);
+			var resp = linkedin.sendOAuthRequest(accessToken, "GET", "http://api.linkedin.com/v1/people/~?format=json", requestParams);
 			print(resp.getBody());
 		//}
 	}

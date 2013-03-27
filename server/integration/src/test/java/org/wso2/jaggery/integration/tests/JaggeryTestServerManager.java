@@ -259,6 +259,33 @@ public class JaggeryTestServerManager extends TestServerManager {
         destinationPath = computeDestPath(carbonHome, fileName);
         copySampleFile(sourcePath, destinationPath);
         
+        //Web Socket object test resources files 
+        fileName = "server.jag";
+        sourcePath = computeSourcePath(fileName);
+        destinationPath = computeDestPath(carbonHome, fileName);
+        copySampleFile(sourcePath, destinationPath);
+        
+        fileName = "client.jag";
+        sourcePath = computeSourcePath(fileName);
+        destinationPath = computeDestPath(carbonHome, fileName);
+        copySampleFile(sourcePath, destinationPath);
+        
+        fileName = "clientTester.jag";
+        sourcePath = computeSourcePath(fileName);
+        destinationPath = computeDestPath(carbonHome, fileName);
+        copySampleFile(sourcePath, destinationPath);
+        
+        //frontend js jquery file 
+        fileName = "jquery-1.8.3.min.js";
+        sourcePath = computeSourcePath(fileName);
+        destinationPath = computeDestPath(carbonHome, fileName);
+        copySampleFile(sourcePath, destinationPath);
+        
+        //front html
+        fileName = "client.html";
+        sourcePath = computeSourcePath(fileName);
+        destinationPath = computeDestPath(carbonHome, fileName);
+        copySampleFile(sourcePath, destinationPath);
 	}
 
 	private void copySampleFile(String sourcePath, String destPath) {

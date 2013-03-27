@@ -31,10 +31,14 @@ import org.testng.annotations.Test;
 import org.wso2.carbon.integration.framework.ClientConnectionUtil;
 
 /**
- * Test cases for inculde Object
+ * Test cases for OAuth Object
  */
 public class OauthObjectTestCase {
 
+	public boolean testIsOnline(){
+		boolean out=false;
+		return out;
+	}
     @Test(groups = {"jaggery"},
           description = "Test OAuth object with Linked")
     public void testOauth() {
