@@ -47,8 +47,6 @@ public class RequestHostObject extends ScriptableObject {
 
     private Scriptable locales = null;
 
-    private String requestPath = null;
-
     private Object content = null;
 
     private Context context;
@@ -492,21 +490,21 @@ public class RequestHostObject extends ScriptableObject {
         return rho.cookies;
     }
 
-    public static String jsFunction_getRequestPath(Context cx, Scriptable thisObj, Object[] args, Function funObj)
+    public static String jsFunction_getMappedPath(Context cx, Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException {
-        String functionName = "getRequestPath";
+        String functionName = "getMappedPath";
         int argsCount = args.length;
         if (argsCount != 0) {
             HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
         }
         RequestHostObject rho = (RequestHostObject) thisObj;
-        if (rho.requestPath != null) {
-            return rho.requestPath;
-        }
         JaggeryContext context = (JaggeryContext) RhinoEngine.getContextProperty(EngineConstants.JAGGERY_CONTEXT);
         Stack stack = (Stack) context.getProperty(LogHostObject.JAGGERY_INCLUDES_CALLSTACK);
-        rho.requestPath = (String) stack.firstElement();
-        return rho.requestPath;
+        String path = (String) stack.firstElement();
+        if (rho.request.getRequestURI().equals(path)) {
+            return null;
+        }
+        return path;
     }
 
     private static void parseCookies(Context cx, Scriptable thisObj, RequestHostObject rho) {
