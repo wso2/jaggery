@@ -2,34 +2,42 @@
     <!-- scripts -->
     <script>
         <name>osgi</name>
-        <path>scripts/osgi.js</path>
+        <path>scripts/server/osgi.js</path>
     </script>
     <script>
         <name>tenant</name>
-        <path>scripts/tenant.js</path>
+        <path>scripts/server/tenant.js</path>
     </script>
     <script>
         <name>server</name>
-        <path>scripts/server.js</path>
+        <path>scripts/server/server.js</path>
     </script>
     <script>
         <name>config</name>
-        <path>scripts/config.js</path>
+        <path>scripts/server/config.js</path>
     </script>
     <script>
         <name>user</name>
-        <path>scripts/user.js</path>
+        <path>scripts/user/user.js</path>
     </script>
     <script>
         <name>registry</name>
-        <path>scripts/registry.js</path>
+        <path>scripts/registry/registry.js</path>
     </script>
     <script>
         <name>registry-osgi</name>
-        <path>scripts/registry-osgi.js</path>
+        <path>scripts/registry/registry-osgi.js</path>
     </script>
     <script>
         <name>artifacts</name>
-        <path>scripts/artifacts.js</path>
+        <path>scripts/registry/artifacts.js</path>
+    </script>
+    <script>
+        <name>space</name>
+        <path>scripts/user/space.js</path>
+    </script>
+    <script>
+        <name>registry-space</name>
+        <path>scripts/user/registry-space.js</path>
     </script>
 </module>
