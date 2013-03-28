@@ -324,16 +324,22 @@ public class RequestHostObject extends ScriptableObject {
         return rho.request.getLocale().getLanguage();
     }
 
-    public static String jsFunction_getAllLocales(Context cx, Scriptable thisObj, Object[] args, Function funObj)
+    public static Scriptable jsFunction_getAllLocales(Context cx, Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException {
-        String functionName = "getLocale";
+        String functionName = "getAllLocales";
         int argsCount = args.length;
         if (argsCount != 0) {
             HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
         }
 
         RequestHostObject rho = (RequestHostObject) thisObj;
-        return rho.request.getLocale().getLanguage();
+        Enumeration<Locale> locales = rho.request.getLocales();
+        Scriptable localesOut = cx.newObject(thisObj);
+        while (locales.hasMoreElements()) {
+            Locale localname = locales.nextElement();
+            localesOut.put(localname.getLanguage(), localesOut, rho.request.getLocales());
+        }
+        return localesOut;
     }
 
     public static int jsFunction_getLocalPort(Context cx, Scriptable thisObj, Object[] args, Function funObj)
