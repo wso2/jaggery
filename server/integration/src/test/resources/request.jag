@@ -8,6 +8,8 @@ if(param != null) {
 	print(request.getAllLocales()!=null);
 }else if(param == "getLocale"){	
 	print(request.getLocale());
+}else if(param == "getMappedPath"){	
+	print("getMappedPath : " + request.getMappedPath());
 }
 
 } else {
