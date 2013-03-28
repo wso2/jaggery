@@ -4,7 +4,10 @@ if(param != null) {
 	if(param == "test") {
 	print("Param : " + request.getParameter('param'));
 }if(param == "getAllLocales"){
-	print("Local : " + request.getAllLocales());
+	print("getAllLocales ");
+	print(request.getAllLocales()!=null);
+}else if(param == "getLocale"){	
+	print(request.getLocale());
 }
 
 } else {

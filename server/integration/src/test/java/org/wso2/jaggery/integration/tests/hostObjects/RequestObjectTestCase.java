@@ -89,7 +89,7 @@ public class RequestObjectTestCase {
 	}
 	
 	@Test(groups = { "jaggery" }, description = "Test request object for Local")
-	public void testReadLocalRequestParams() {
+	public void testReadLocalAllRequestParams() {
 		ClientConnectionUtil.waitForPort(9763);
 
 		String finalOutput = null;
@@ -110,10 +110,37 @@ public class RequestObjectTestCase {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			assertEquals(finalOutput, "Local : en");
+			assertEquals(finalOutput, "getAllLocales true");
 		}
 
 	}
+		
+		@Test(groups = { "jaggery" }, description = "Test request object for Local")
+		public void testReadLocalRequestParams() {
+			ClientConnectionUtil.waitForPort(9763);
+
+			String finalOutput = null;
+
+			try {
+				URL jaggeryURL = new URL(
+						"http://localhost:9763/testapp/request.jag?param=getLocale");
+				URLConnection jaggeryServerConnection = jaggeryURL.openConnection();
+				BufferedReader in = new BufferedReader(new InputStreamReader(
+						jaggeryServerConnection.getInputStream()));
+
+				String inputLine;
+				while ((inputLine = in.readLine()) != null) {
+					finalOutput = inputLine;
+				}
+
+				in.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				assertEquals(finalOutput, "en");
+			}
+
+		}
 
 	@Test(groups = { "jaggery" }, description = "Test request object ")
 	public void testReadRequest() {
