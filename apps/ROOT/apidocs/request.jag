@@ -349,6 +349,18 @@ If the URL does not have any extra path information, this method returns null.<b
                     </tr>
                     <tr>
 
+                        <td><code>getMappedPath() </code>
+                        </td>
+                           <td>Object</td>
+                        <td>
+                            <pre class="prettyprint">getMappedPath()</pre> 
+                            If file is mapped and request came through mapping.<code>getMappedPathURL()</code> will return file. If file is not mapped It will return null.
+                            <br/>
+                        </td>
+
+                    </tr>
+                    <tr>
+
                         <td><code>getFile(formFeildName)</code>
                         </td>
                            <td>File</td>
