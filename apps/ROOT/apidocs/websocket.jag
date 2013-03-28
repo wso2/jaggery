@@ -139,7 +139,7 @@ function start() {
     <td><pre class="prettyprint">websocket.ontext = function (data) {
     log.info('Client sent : ' + data);
  };</pre>
-    This property can be set to a function Scriptable, and it will notified when ever get text from client
+    Create the instance that will process this inbound connection for text and allow to handle a GET request.
     </td>
 
 </tr>
@@ -151,7 +151,8 @@ function start() {
     <td><pre class="prettyprint">websocket.onbinary = function (stream) {    
     log.info('Client Streamed : ' + stream.toString());
  };</pre>
-    onbinary can be set to a function Scriptable, and it will notified when ever server getting a stream    </td>
+    Create the instance that will process this inbound connection for stream.
+      </td>
 
 </tr>
 
@@ -173,7 +174,7 @@ function start() {
 
         <td><code>send (String text | Stream stream)</code></td>
 		<td>None</td>
-        <td>Sends data on the socket.<pre class="prettyprint">websocket.ontext = function (data) {
+        <td>Sends data to the socket (inbound connection).<pre class="prettyprint">websocket.ontext = function (data) {
     var ws = this;
     setTimeout(function () {
         ws.send(data);
