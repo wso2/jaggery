@@ -336,6 +336,27 @@ print(file.del())</pre>
  					<pre class="prettyprint">file.listFiles()</pre>				
 					Returns the list of files in a directory</td>
                                 </tr>
+                                <tr>
+                                    <td>
+                                        <code>mkdir(String name)</code>
+                                    </td>
+                                    <td>Boolean</td>
+                                    <td>
+ 					<pre class="prettyprint">file.mkdir()</pre>				
+					Creates the directory named by this abstract pathname.</td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>
+                                        <code>getPath()</code>
+                                    </td>
+                                    <td>String</td>
+                                    <td>
+ 					<pre class="prettyprint">file.getPath()</pre>				
+					Converts this abstract pathname into a pathname string. 
+					The resulting string uses the default path-separator character to separate the names in the name sequence.</td>
+                                </tr>
+                                
                     </tbody>
                 </table>
             </section>
