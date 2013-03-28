@@ -58,11 +58,10 @@
 </div>
 <div class="span12">
 <div class="content" id="email" name="email">
-<h3>Web Socket</h3>
-
+<h3>WebSocket</h3>
+<h5>Server</h5>
             <pre class="prettyprint linenums">
 &lt%
-
 var log = new Log();
 websocket.ontext = function (data) {
     log.info('Client Sent : ' + data);
@@ -75,9 +74,30 @@ websocket.ontext = function (data) {
 websocket.onbinary = function (stream) {
     log.info('Client Streamed : ' + stream.toString());
 };
-
 %&gt
 </pre>
+
+<h5>Client</h5>
+<pre class="prettyprint linenums">
+&ltscript&gt
+var ws;
+var url = 'ws://localhost:9764/testapp/server.jag';
+function start() {
+	ws = new WebSocket(url);
+	ws.onopen = function() {
+		document.write("web Socket on open.");
+	};
+	ws.onmessage = function(event) {
+		document.write("web Socket On message from Server.");
+	};
+	ws.onclose = function() {
+		document.write("web Socket on close.");
+	};
+	ws.onopen();
+}
+&lt/script&gt
+</pre>
+
 
 <div id="pageLinks">
                 <a class="navilink" href="#overview">Overview</a>
