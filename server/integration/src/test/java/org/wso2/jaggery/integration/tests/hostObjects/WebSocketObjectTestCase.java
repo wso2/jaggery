@@ -112,7 +112,7 @@ public class WebSocketObjectTestCase {
     		} catch (IOException e) {
     			e.printStackTrace();
     		} finally {
-    			assertEquals(finalOutput, "Web Socket Client Tester : 693");
+    			assertEquals(finalOutput, "Web Socket Client Tester : truetruetrue");
     		}
             
         }
@@ -139,7 +139,7 @@ public class WebSocketObjectTestCase {
     		} catch (IOException e) {
     			e.printStackTrace();
     		} finally {
-    			assertEquals(finalOutput, "Web Socket Client Tester : 699");
+    			assertEquals(finalOutput, "Web Socket Client Tester : truetruetrue");
     		}
             
         }
@@ -166,7 +166,7 @@ public class WebSocketObjectTestCase {
     		} catch (IOException e) {
     			e.printStackTrace();
     		} finally {
-    			assertEquals(finalOutput, "Web Socket Client Tester : 701");
+    			assertEquals(finalOutput, "Web Socket Client Tester : truetruetrue");
     		}
             
         }
