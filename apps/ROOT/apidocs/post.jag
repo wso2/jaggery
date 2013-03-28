@@ -126,12 +126,16 @@ will be set automatically.</p>
             <tr>
                 <td><code>url</code></td>
                 <td>String</td>
-                <td>The URL which HTTP POST is performed </td>
+                <td>
+		<pre class="prettyprint">var url = 'http://jaggeryjs.org/apidocs/resources/data.jag';</pre>
+		The URL which HTTP POST is performed </td>
             </tr>
             <tr>
                 <td><code>data</code></td>
                 <td>Object|String</td>
-                <td>Request parameters</td>
+                <td>
+		<pre class="prettyprint">var param = {param1: "value1", param2:"value2"}</pre>
+		Request parameters</td>
             </tr>
             <tr>
                 <td><code>headers</code></td>
@@ -147,7 +151,9 @@ will be set automatically.</p>
             <tr>
                 <td><code>type</code></td>
                 <td>String</td>
-                <td>The type, which the response is expected. Allowed types are <code>json, xml</code> or <code>text</code>.
+                <td>
+		<pre class="prettyprint">var type = "json"</pre>
+		The type, which the response is expected. Allowed types are <code>json, xml</code> or <code>text</code>.
                 Returned response will be serialized either to an object, E4X XML or string depending on the value passed.
                 <code>text</code> is the default value.</td>
             </tr>

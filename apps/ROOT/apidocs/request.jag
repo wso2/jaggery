@@ -200,6 +200,22 @@ include('/includes/topnavi.jag');
                         </td>
 
                     </tr>
+
+
+		     <tr>
+
+                        <td><code>getPathTranslated()</code>
+                        </td>
+                           <td>Object</td>
+                        <td>
+                            <pre class="prettyprint">request.getPathTranslated()</pre>
+                            Returns any extra path information before the query string, and translates it to a real path.
+If the URL does not have any extra path information, this method returns null.<br/><br/>
+
+                        </td>
+
+                    </tr>
+
 					<tr>
 
                         <td><code>isSecure()</code>
@@ -411,6 +427,7 @@ for(var name in files) {
 
                     </tr>
 
+		         
 
                     </tbody>
                 </table>

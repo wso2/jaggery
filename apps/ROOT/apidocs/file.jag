@@ -250,7 +250,12 @@ file.close();</pre>
                             <code>move(string targetFileName)</code>
                         </td>
                         <td>Boolean</td>
-                        <td>Move the file to the given target file. Returns True if the file was successfully moved.
+                        <td>
+			<pre class="prettyprint">var path = "/foo.txt";
+var file = new File(path);
+file.move("/bar.txt");</pre>
+
+			Move the file to the given target file. Returns True if the file was successfully moved.
                         </td>
                     </tr>
                     <tr>
@@ -258,7 +263,11 @@ file.close();</pre>
                             <code>saveAs(string targetLocation)</code>
                         </td>
                         <td>Boolean</td>
-                        <td>Save the file to the given target file. Returns True if the file was successfully moved.
+                        <td>
+			<pre class="prettyprint">var path = "/foo.txt";
+var file = new File(path);
+file.saveAs("/newFile.txt");</pre>
+ 			Save the file to the given target file. Returns True if the file was successfully moved.
                         </td>
                     </tr>
                     <tr>
@@ -266,7 +275,11 @@ file.close();</pre>
                             <code>del()</code>
                         </td>
                         <td>Boolean</td>
-                        <td>Deletes this file from the file system. Returns true or false depending on the success.
+                        <td>
+			<pre class="prettyprint">var path = "/foo.txt";
+var file = new File(path);
+print(file.del())</pre>
+			Deletes this file from the file system. Returns true or false depending on the success.
                         </td>
                     </tr>
                                 <tr>
@@ -274,42 +287,54 @@ file.close();</pre>
                                         <code>getLength()</code>
                                     </td>
                                     <td>Long</td>
-                                    <td>Length of the file in bytes</td>
+                                    <td>
+				    <pre class="prettyprint">file.getLength()</pre>
+				     Length of the file in bytes</td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <code>getLastModified()</code>
                                     </td>
                                     <td>String</td>
-                                    <td>Last modified time of this file.</td>
+                                    <td>
+ 					<pre class="prettyprint">file.getLastModified()</pre>
+					Last modified time of this file.</td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <code>getName()</code>
                                     </td>
                                     <td>String</td>
-                                    <td>Name of the file without the path.</td>
+                                    <td>
+ 					<pre class="prettyprint">file.getName()</pre>
+					Name of the file without the path.</td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <code>isExists()</code>
                                     </td>
                                     <td>Boolean</td>
-                                    <td>Checks whether this file actually exists. Returns True if the file exists.</td>
+                                    <td>
+					<pre class="prettyprint">file.isExists()</pre>
+					Checks whether this file actually exists. Returns True if the file exists.</td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <code>isDirectory()</code>
                                     </td>
                                     <td>Boolean</td>
-                                    <td>Checks whether the given file path is a directory</td>
+                                    <td>
+ 					<pre class="prettyprint">file.isDirectory()</pre>
+					Checks whether the given file path is a directory</td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <code>listFiles()</code>
                                     </td>
                                     <td>File[]</td>
-                                    <td>Returns the list of files in a directory</td>
+                                    <td>
+ 					<pre class="prettyprint">file.listFiles()</pre>				
+					Returns the list of files in a directory</td>
                                 </tr>
                     </tbody>
                 </table>

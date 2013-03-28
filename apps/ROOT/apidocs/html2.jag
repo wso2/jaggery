@@ -65,7 +65,7 @@
 &lt%
     var total = 1 + 1;
 %&gt;
-&lt;h2&gtThis is a Jaggery print&lt;/h2&gt
+&lt;h2&gtBelow is a Jaggery print&lt;/h2&gt
 &lt%=total%&gt
 &lt/body&gt
 &lt/html&gt

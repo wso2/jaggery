@@ -66,6 +66,7 @@ var url  = "https://api.twitter.com/1/statuses/user_timeline.json";
 var data = { include_entities:true,include_rts:true,screen_name:"wso2",count:1 };
 var twitterJson = get(url, data ,"json");
 print(twitterJson);
+
 %&gt
 </pre>
 <%
@@ -120,22 +121,30 @@ using <code>get()</code> you can avoid the use of XHR and shorten the server-sid
             <tr>
                 <td><code>url</code></td>
                 <td>String</td>
-                <td>The URL which HTTP get is performed </td>
+                <td>
+		<pre class="prettyprint">var url = "http://www.webservicex.com/globalweather.asmx/GetWeather"</pre>
+		The URL which HTTP get is performed</td>
             </tr>
             <tr>
                 <td><code>data</code></td>
                 <td>Object</td>
-                <td>Request parameters</td>
+                <td>
+		<pre class="prettyprint">var param = {CityName: "Dalian", CountryName:"China"}</pre>
+		Request parameters</td>
             </tr>
             <tr>
                 <td><code>type</code></td>
                 <td>String</td>
-                <td>The type, which the response is expected</td>
+                <td>
+		<pre class="prettyprint">var type = "xml";</pre>
+		The type, which the response is expected</td>
             </tr>
             <tr>
                 <td><code>headers</code></td>
                 <td>Object</td>
-                <td>Optional HTTP headers</td>
+                <td>
+		<pre class="prettyprint">var headers = {"From": "user@example.com"};</pre>
+		Optional HTTP headers</td>
             </tr>
             <tr>
                 <td><code>success(data:Object,<br/> xhr:Object)</code></td>
