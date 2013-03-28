@@ -31,6 +31,9 @@
     <li id="app">
         <a href="<%=context%>/apidocs/application.jag">application</a>
     </li>
+    <li id="webs">
+        <a href="<%=context%>/apidocs/websocket.jag">websocket</a>
+    </li>
 </ul>
 
 <h6>Http Client</h6>

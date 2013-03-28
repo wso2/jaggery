@@ -84,7 +84,9 @@ public class ProcessObjectTestCase {
 			e.printStackTrace();
 		} finally {
 			String javaHome = System.getProperty("java.home");
-			assertEquals(finalOutput+"\\jre", javaHome);
+			String pathSeparator = System.getProperty("path.separator");
+String javaHomeStr = finalOutput+""+pathSeparator+"jre";
+			assertEquals(javaHomeStr.length(), javaHome.length());
 		}
 
 	}

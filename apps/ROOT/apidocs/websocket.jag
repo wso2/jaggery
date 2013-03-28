@@ -78,20 +78,7 @@ websocket.onbinary = function (stream) {
 
 %&gt
 </pre>
-<%
-var wsCode = '&lt%'
-+ '\n var log = new Log();'
-+ '\n	websocket.ontext = function (data) {'
-+ '\n	'
-+ '\n	'
-+ '\n 	}'
-+ '\n %&gt';
 
-var codeSnip = encodeURIComponent(wsCode)
-var urlString = '../tryitframe.jag?code='+codeSnip;
-
-include('/includes/tryit_but.jag');
-%>
 <div id="pageLinks">
                 <a class="navilink" href="#overview">Overview</a>
                 <a class="navilink" href="#members">Members</a>
@@ -130,10 +117,7 @@ include('/includes/tryit_but.jag');
     </td>
      <td>Scriptable</td>
     <td><pre class="prettyprint">websocket.ontext = function (data) {
-    var ws = this;
-    setTimeout(function () {
-        ws.send(data);
-    }, 5000);
+    log.info('Client sent : ' + data);
  };</pre>
     This property can be set to a function Scriptable, and it will notified when ever get text from client
     </td>
@@ -169,7 +153,12 @@ include('/includes/tryit_but.jag');
 
         <td><code>send (String text | Stream stream)</code></td>
 		<td>None</td>
-        <td>Sends data on the socket.
+        <td>Sends data on the socket.<pre class="prettyprint">websocket.ontext = function (data) {
+    var ws = this;
+    setTimeout(function () {
+        ws.send(data);
+    }, 5000);
+ };</pre>
         </td>
 
     </tr>
@@ -200,7 +189,7 @@ include('/includes/scripts.jag')
 	<script>	
 		
 		$(document).ready(function(){
-        $('#ws').toggleClass('active')
+        $('#webs').toggleClass('active')
 		$('#docs').addClass('active')
         })
 	</script>
