@@ -20,49 +20,8 @@ Jaggery has native JSON support and also E4X support for XML manipulation.
 
 Release Notes - Jaggery - ALPHA-3
 
-** Bug
-    * [JAGGERY-81] - Double lines appear in try-it
-    * [JAGGERY-89] - Twitter object is not included in API documentation yet
-    * [JAGGERY-107] - try-it editor - the word 'print' used within html tags also get .jss syntax highlighting
-    * [JAGGERY-148] - README.txt 'What's New In This Release' and 'Key Features' sections are empty
-    * [JAGGERY-168] - The documentation does not state how to call standalone jss scripts
-    * [JAGGERY-177] - There's a problem handling JSON objects, it is breaking when special characters are encountered within the object
-    * [JAGGERY-179] - Update the Jaggery Documentation about Database Hostobject
-    * [JAGGERY-193] - parse() need to use gson instead of eval
-    * [JAGGERY-194] - JSON stringify need to be fixed for booleans
-    * [JAGGERY-197] - Includes to handle local function variables
-    * [JAGGERY-203] - Jaggery command line execution hangs after first command execution in shell mode
-    * [JAGGERY-207] - RDB API sample does not correctly insert data as per the DB definition
-    * [JAGGERY-208] - Meta Data Store is shown as "Mata Data Store" on right hand side menu
-    * [JAGGERY-209] - Cannot connect to MySQL DB using Database API
-    * [JAGGERY-212] - App depoyer doesn't validate incorrect folder stuctures
-    * [JAGGERY-214] - Binary Distribution Directory Structure in the README need to be updated to reflect the new structure
-    * [JAGGERY-215] - Server startup instructions given in the INSTALL.txt need to be updated to reflect the changes
-    * [JAGGERY-216] - Gets "ClassNotFoundException: org.jaggeryjs.jaggery.tools.CommandLineClient" for jaggery.sh
-    * [JAGGERY-217] - Modules aren't loading when the server is started from $CARBON_HOME/bin/wso2server.sh
-    * [JAGGERY-218] - Warning "Could not create directory /apps" appears when starting from $CARBON_HOME/bin/wso2server.sh
-    * [JAGGERY-219] - Cannot add apps when started as a carbon server
-    * [JAGGERY-224] - jaggery.bat
-    * [JAGGERY-225] - Licence agreement is not available when installing jaggery as a feature
-    * [JAGGERY-229] - js error appear from TaskMeter sample when adding a task in FF browser
-    * [JAGGERY-231] - Command line client doesn't execute a given jag script correclty
-    * [JAGGERY-233] - Content is not appearing in try-it ui
-    * [JAGGERY-235] - A proper error when trying to deploy an app of same name
-    * [JAGGERY-236] - Docs link is broken (not /docs sample)
-
-
-** Improvement
-    * [JAGGERY-166] - Jaggery README.txt does not specify Jaggery Binary Distribution directory structure
-    * [JAGGERY-185] - Context sensitive help for 'Jaggery Application Dashboard '
-    * [JAGGERY-210] - Adding connection.close to DB api
-    * [JAGGERY-213] - Improve the request object to have all the required methods in HTTPServletRequest
-    * [JAGGERY-228] - Improvements for Jaggery DB Docs
-
-
-** New Feature
-    * [JAGGERY-51] - Documentation needs to have samples menu
-    * [JAGGERY-135] - To Do List App (REST sample)
-    * [JAGGERY-137] - XSLT Sample
+** Bugs, Improvements and New Features can be found in GitHub with below url
+https://github.com/wso2/jaggery/issues?milestone=2&page=1&sort=created&state=closed
 
 
 ------------
