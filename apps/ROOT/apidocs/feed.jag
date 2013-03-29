@@ -311,7 +311,7 @@ feed.updated = d1;</pre>
                     </td>
                     <td>String</td>
                     <td>  <pre class="prettyprint">feed.toString()</pre>
-			Returns the string representation of the feed
+			Returns the String representation of the feed
 		    </td>
                 </tr>
     <tbody>

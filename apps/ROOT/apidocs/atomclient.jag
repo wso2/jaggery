@@ -250,17 +250,17 @@ for(var i=0;i &lt entries.length; i++) {
                             APP specification, as an object with the following properties defined:
                             <br><br>
                             <ul>
-                                <li>string author|string authors (comma separated list)</li>
-                                <li>string category|string categories(comma separated list)</li>
-                                <li>XML content|string content</li>
-                                <li>string contributor|string contributors(comma separated list)</li>
-                                <li>string id</li>
-                                <li>string link|string links(comma separated list)</li>
-                                <li>string published : can put the value as'now' to specify the current time</li>
-                                <li>XML rights|string rights</li>
-                                <li>XML summary | string summary</li>
-                                <li>XML title | string title</li>
-                                <li>string updated : can put the value as'now' to specify the current time</li>
+                                <li>String author|String authors (comma separated list)</li>
+                                <li>String category|String categories(comma separated list)</li>
+                                <li>XML content|String content</li>
+                                <li>String contributor|String contributors(comma separated list)</li>
+                                <li>String id</li>
+                                <li>String link|String links(comma separated list)</li>
+                                <li>String published : can put the value as'now' to specify the current time</li>
+                                <li>XML rights|String rights</li>
+                                <li>XML summary | String summary</li>
+                                <li>XML title | String title</li>
+                                <li>String updated : can put the value as'now' to specify the current time</li>
                             </ul>
                         </td>
         </tr>
@@ -280,17 +280,17 @@ for(var i=0;i &lt entries.length; i++) {
                             APP specification, as an object with the following properties defined:
                             <br><br>
                             <ul>
-                                <li>string author|string authors (comma separated list)</li>
-                                <li>string category|string categories(comma separated list)</li>
-                                <li>XML content|string content</li>
-                                <li>string contributor|string contributors(comma separated list)</li>
-                                <li>string id</li>
-                                <li>string link|string links(comma separated list)</li>
-                                <li>string published : can put the value as'now' to specify the current time</li>
-                                <li>XML rights|string rights</li>
-                                <li>XML summary | string summary</li>
-                                <li>XML title | string title</li>
-                                <li>string updated : can put the value as'now' to specify the current time</li>
+                                <li>String author|String authors (comma separated list)</li>
+                                <li>String category|String categories(comma separated list)</li>
+                                <li>XML content|String content</li>
+                                <li>String contributor|String contributors(comma separated list)</li>
+                                <li>String id</li>
+                                <li>String link|String links(comma separated list)</li>
+                                <li>String published : can put the value as'now' to specify the current time</li>
+                                <li>XML rights|String rights</li>
+                                <li>XML summary | String summary</li>
+                                <li>XML title | String title</li>
+                                <li>String updated : can put the value as'now' to specify the current time</li>
                             </ul>
                         </td>
         </tr>

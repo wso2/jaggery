@@ -140,7 +140,7 @@ include('/includes/topnavi.jag');
                           <td>String</td>
                         <td>
                             <pre class="prettyprint">request.getQueryString()</pre>
-                            Returns the query string of the request
+                            Returns the query String of the request
                         </td>
 
                     </tr>
@@ -152,7 +152,7 @@ include('/includes/topnavi.jag');
                             <p>Returns the content of the request.</p><p>If the request content type is either
                             <code>application/json</code> or <code>application/json/badgerfish</code>,
                             then content is returned as an object. Otherwise, it is
-                            returned as a string.</p>
+                            returned as a String.</p>
                         </td>
 
                     </tr>
@@ -185,7 +185,7 @@ include('/includes/topnavi.jag');
                         <td>String</td>
                         <td>
                             <pre class="prettyprint">request.getRequestURI()</pre>
-                            Returns the part of this request's URL from the protocol name up to the query string in the first line of the HTTP request
+                            Returns the part of this request's URL from the protocol name up to the query String in the first line of the HTTP request
                         </td>
 
                     </tr>
@@ -209,7 +209,7 @@ include('/includes/topnavi.jag');
                            <td>Object</td>
                         <td>
                             <pre class="prettyprint">request.getPathTranslated()</pre>
-                            Returns any extra path information before the query string, and translates it to a real path.
+                            Returns any extra path information before the query String, and translates it to a real path.
 If the URL does not have any extra path information, this method returns null.<br/><br/>
 
                         </td>
@@ -223,7 +223,7 @@ If the URL does not have any extra path information, this method returns null.<b
                         <td>String</td>
                         <td>
                             <pre class="prettyprint">request.isSecure()</pre>
-                            Returns a boolean indicating whether this request was made using a secure channel, such as HTTPS.
+                            Returns a Boolean indicating whether this request was made using a secure channel, such as HTTPS.
                         </td>
 
                     </tr>

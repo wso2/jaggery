@@ -193,7 +193,7 @@ include('/includes/topnavi.jag');
                             <tr>
                                 <td><code>responseText</code></td>
                                 <td>String</td>
-                                <td>Retrieves the response body as a string.</td>
+                                <td>Retrieves the response body as a String.</td>
                             </tr>
                             <tr>
                                 <td><code>responseXML</code></td>
@@ -224,11 +224,11 @@ include('/includes/topnavi.jag');
                     </tr>
 
                     <tr>
-                        <td><code>send(string)</code></td>
+                        <td><code>send(String)</code></td>
                         <td>String</td>
-                        <td><pre class="prettyprint">xhr.send(string);</pre>
+                        <td><pre class="prettyprint">xhr.send(String);</pre>
                          Sends the request off to the server.
-                            string is only used for POSTing a requests
+                            String is only used for POSTing a requests
                         </td>
                     </tr>
                      <tr>

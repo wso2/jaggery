@@ -154,7 +154,7 @@ will be set automatically.</p>
                 <td>
 		<pre class="prettyprint">var type = "json"</pre>
 		The type, which the response is expected. Allowed types are <code>json, xml</code> or <code>text</code>.
-                Returned response will be serialized either to an object, E4X XML or string depending on the value passed.
+                Returned response will be serialized either to an object, E4X XML or String depending on the value passed.
                 <code>text</code> is the default value.</td>
             </tr>
             <tr>

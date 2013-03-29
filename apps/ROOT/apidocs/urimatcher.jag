@@ -159,7 +159,7 @@ if(uriMatcher.match('<%=matcher%>')) {
                             <tr>
 
                                 <td><code>match(pattern)</code></td>
-                                <td>boolean</td>
+                                <td>Boolean</td>
                                 <td>Returns the bolean for matched <br><br>
                                     <pre class="prettyprint">uriMatcher.match('/{context}/{dir}/{page}');</pre>
                                 </td>

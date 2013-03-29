@@ -151,7 +151,7 @@ Returns a new metadata store
                         <td>
 <pre class="prettyprint">
 var dataStore = new MetadataStore("username", "password");
-boolean existance = dataStore.resourceExists("middleware/wso2/products");
+Boolean existance = dataStore.resourceExists("middleware/wso2/products");
 </pre>
                             This method returns true or false depending on the existence of either a Resource or a
                             Collection in the specified path.<br><br>

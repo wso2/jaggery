@@ -185,7 +185,7 @@ var text = file.read(5);
 print(text);
 file.close();</pre>
                             Reads the given number of characters from the
-                            file and returns a string representation of those characters. Users are
+                            file and returns a String representation of those characters. Users are
                             required to open the file for reading before reading from the file.
                             <br><br>
                             If the file is not open for either reading or writing or appending,
@@ -218,7 +218,7 @@ print(file.readAll());
 file.close();</pre>
 
                             Reads all the content in the file and returns
-                            a string representation of the content. Users are required to open the
+                            a String representation of the content. Users are required to open the
                             file for reading before reading from the file.
                             <br><br>
                             If the file is not open for either reading or writing or appending,
@@ -247,7 +247,7 @@ file.close();</pre>
                     </tr>
                     <tr>
                         <td>
-                            <code>move(string targetFileName)</code>
+                            <code>move(String targetFileName)</code>
                         </td>
                         <td>Boolean</td>
                         <td>
@@ -260,7 +260,7 @@ file.move("/bar.txt");</pre>
                     </tr>
                     <tr>
                         <td>
-                            <code>saveAs(string targetLocation)</code>
+                            <code>saveAs(String targetLocation)</code>
                         </td>
                         <td>Boolean</td>
                         <td>
@@ -353,8 +353,8 @@ print(file.del())</pre>
                                     <td>String</td>
                                     <td>
  					<pre class="prettyprint">file.getPath()</pre>				
-					Converts this abstract pathname into a pathname string. 
-					The resulting string uses the default path-separator character to separate the names in the name sequence.</td>
+					Converts this abstract pathname into a pathname String. 
+					The resulting String uses the default path-separator character to separate the names in the name sequence.</td>
                                 </tr>
                                 
                     </tbody>
