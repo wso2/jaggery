@@ -1,14 +1,15 @@
 <%
 var log = new Log();
-webSocket.ontext = function (data) {
+websocket.ontext = function (data) {
     log.info('Client Sent : ' + data);
     var ws = this;
     setTimeout(function () {
-        ws.send(data);
+    	var currentdate = new Date();
+        ws.send("Server Receive message "+data+" on "+currentdate);
     }, 5000);
 };
 
-webSocket.onbinary = function (stream) {
+websocket.onbinary = function (stream) {
     log.info('Client Streamed : ' + stream.toString());
 };
 %>

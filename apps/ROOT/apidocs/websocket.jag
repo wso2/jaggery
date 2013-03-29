@@ -99,7 +99,7 @@ var currentDate = new Date();
   //send message to server
   setTimeout(function() {
 	 ws.send("Client Timestamp "+currentDate);
-  }, 3000);
+  }, 2000);
 
   //close socket from client
   setTimeout(function() {
