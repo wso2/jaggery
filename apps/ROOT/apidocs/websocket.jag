@@ -67,7 +67,8 @@ websocket.ontext = function (data) {
     log.info('Client Sent : ' + data);
     var ws = this;
     setTimeout(function () {
-        ws.send(data);
+       var currentdate = new Date();
+       ws.send("Server Receive message "+data+" on "+currentdate);
     }, 1000);
 };
 
@@ -94,10 +95,10 @@ ws.onclose = function() {
 	document.write("web Socket onclose. ");
 };
 ws.onopen();
-
-  //send message for server
+var currentdate = new Date();
+  //send message to server
   setTimeout(function() {
-	  ws.send("Hi Socket");
+	 ws.send("Client Timestamp "+currentdate);
   }, 3000);
 
   //close socket from client
