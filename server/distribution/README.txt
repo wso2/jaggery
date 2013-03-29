@@ -18,7 +18,7 @@ Jaggery has native JSON support and also E4X support for XML manipulation.
 
 
 
-Release Notes - Jaggery - Version M5
+Release Notes - Jaggery - ALPHA-3
 
 ** Bug
     * [JAGGERY-81] - Double lines appear in try-it
@@ -188,4 +188,4 @@ Apache Santuario : http://santuario.apache.org/
 Bouncycastle     : http://www.bouncycastle.org/
 
 ---------------------------------------------------------------------------
-(c) Copyright 2011-2012 WSO2 Inc.
+(c) Copyright 2011-2013 WSO2 Inc.
