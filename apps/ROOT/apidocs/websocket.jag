@@ -80,6 +80,7 @@ websocket.onbinary = function (stream) {
 <h5>Client</h5>
 <pre class="prettyprint linenums">
 &ltscript&gt
+var url = 'ws://localhost:9763/sample/ws/server.jag';
 function start() {
 ws = new WebSocket(url);
 ws.onopen = function() {
