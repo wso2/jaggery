@@ -16,7 +16,7 @@ var context = request.getContextPath();
                 <li id="samples"><a href="<%=context%>/samples.jag">Samples</a></li>
                 <li id="tryit"><a href="<%=context%>/tryitview.jag">Try It !</a></li>
             </ul>
-	    <a class="forkme" href="https://github.com/wso2/jaggery/fork">Fork me!</a>
+	    <a class="forkme" href="https://github.com/wso2/jaggery">Fork me!</a>
         </div>
     </div>
 </div>
