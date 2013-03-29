@@ -43,12 +43,13 @@ var log = new Log();
 	
 		// post by shouter
 		if (share != null) {
-			var requestParams1 = {
-				status : '' + share
+			
+			var requestParams1 = {				
+				status : share
 			};
-			var resp = twitter.sendOAuthRequest(accessToken, "POST", "https://api.twitter.com/1/statuses/update.json", requestParams1);
-			//log.info(resp.getBody());
-			//print(resp.getBody());
+			var resp = twitter.sendOAuthRequest(accessToken, "POST", "https://api.twitter.com/1/statuses/update.json?status=testing" );
+			log.info(resp.getBody());
+			print(resp.getBody());
 		}
 
 		// load back called again xml from twitter
