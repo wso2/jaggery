@@ -149,7 +149,16 @@ include('/includes/topnavi.jag');
 
         <%
         include('/includes/footer.jag');
-        %>
+        %><!-- /container -->
+<%
+include('/includes/scripts.jag')
+%>
+<script>
+   
+    $(document).ready(function () {
+        $('#tool').toggleClass('active')
+    })
+</script>
     </div>
 
 </body>
