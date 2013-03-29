@@ -58,7 +58,7 @@ include('/includes/topnavi.jag');
 
         </div>
         <div class="span12">
-            <p class="biggertext">So you want to write some code using Jaggery? Remember we are just at <code>0.9.0-SNAPSHOT</code>,
+            <p class="biggertext">So you want to write some code using Jaggery? Remember we are just at <code>0.9.0-ALPHA-3</code>,
                 We have provided all the basic useful APIs, so you can build cooler apps using this deliciously new
                 framework.
 
