@@ -145,7 +145,7 @@ print(feed.toString());
             </tr>
             <tr>
                 <td>categories</td>
-                <td>string [ ]</td>
+                <td>String [ ]</td>
                 <td>
 	         <pre class="prettyprint">entry.categories[i]</pre>
                     Returns the i th category of the entry.
@@ -279,7 +279,7 @@ entry.updated = d1;</pre>
                     <td>String</td>
                     <td>
 		    <pre class="prettyprint">entry.toString()</pre>
-		     Returns the string representation of the Entry</td>
+		     Returns the String representation of the Entry</td>
                 </tr>
 
     <tbody>

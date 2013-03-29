@@ -80,20 +80,31 @@ websocket.onbinary = function (stream) {
 <h5>Client</h5>
 <pre class="prettyprint linenums">
 &ltscript&gt
-var ws;
-var url = 'ws://localhost:9764/testapp/server.jag';
+var url = 'ws://localhost:9763/sample/ws/server.jag';
 function start() {
-	ws = new WebSocket(url);
-	ws.onopen = function() {
-		document.write("web Socket on open.");
-	};
-	ws.onmessage = function(event) {
-		document.write("web Socket On message from Server.");
-	};
-	ws.onclose = function() {
-		document.write("web Socket on close.");
-	};
-	ws.onopen();
+ws = new WebSocket(url);
+ws.onopen = function() {
+	document.write("web Socket onopen. ");
+};
+//event handler for the message event in the case of text frames
+ws.onmessage = function(event) {
+	document.write("web Socket Onmessage from Server. " + event.data);
+};
+ws.onclose = function() {
+	document.write("web Socket onclose. ");
+};
+ws.onopen();
+
+  //send message for server
+  setTimeout(function() {
+	  ws.send("Hi Socket");
+  }, 3000);
+
+  //close socket from client
+  setTimeout(function() {
+	  ws.close();
+  }, 5000);
+
 }
 &lt/script&gt
 </pre>

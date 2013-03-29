@@ -141,7 +141,7 @@ include('/includes/topnavi.jag');
         <pre class="prettyprint">
 print("hello");
 </pre>
-                                print a string to the response
+                                print a String to the response
                             </td>
                         </tr>
                         <tr>

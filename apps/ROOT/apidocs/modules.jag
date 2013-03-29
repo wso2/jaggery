@@ -133,6 +133,8 @@ include('/includes/navi.jag');
                         <p>Sample modules can also be found in {JAGGERY_HOME}/modules directory</p>
                     </li>
                     </ul>
+                    <p>Starting jaggery server with -DmodRefresh=true will load module update with out server restart. 
+                    <pre class="codettyprint linenums">jaggery.bat/sh -DmodRefresh=true</pre></p>
             </div>
 
             <!-- /print div -->

@@ -165,7 +165,7 @@ to[1] = "teague@wso2.com";
 sender.to = to; </pre>
             This is a required property that denotes the "to"
             address of the email to be sent. (Optionally an array of
-            strings denoting the "to" addresses can be passed as above.)
+            Strings denoting the "to" addresses can be passed as above.)
 
 
         </td>
@@ -185,7 +185,7 @@ sender.cc= cc; </pre>
 
             This is an optional property that denotes the "cc"
             address of the email to be sent. (Optionally an array of
-            strings denoting the "cc" addresses can be passed as above.)
+            Strings denoting the "cc" addresses can be passed as above.)
 
         </td>
 
@@ -202,7 +202,7 @@ sender.cc= cc; </pre>
     sender.bcc = bcc; </pre>
                This is an optional property that denotes the "bcc"
                address of the email to be sent. (Optionally an array of
-               strings denoting the "bcc" addresses can be passed as below.)
+               Strings denoting the "bcc" addresses can be passed as below.)
 
 
            </td>
@@ -295,7 +295,7 @@ sender.addAttachement(file, "temp.txt");
             </pre>
         An optional property to add attchments to the email
             been sent. This function has a variable number of arguments,
-            each argument can be a File hostObject or a string representing
+            each argument can be a File hostObject or a String representing
             a file.
 
         </td>

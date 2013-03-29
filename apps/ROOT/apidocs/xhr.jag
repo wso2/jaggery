@@ -61,20 +61,30 @@ include('/includes/topnavi.jag');
                 <h3>XMLHTTPRequest</h3>
 
                 <pre class="prettyprint linenums">
-&lt%
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://www.google.lk");
-    xhr.send();
-    print(xhr.responseText);
+&lt%  	
+ var url = 'http://10.100.2.250:9764/apidocs/resources/home.jag'; 
+ var xhr = new XMLHttpRequest();
+ xhr.open("GET", url);
+ xhr.setRequestHeader("user" , "madhuka");
+ xhr.send();
+
+ print("ReadyState : "+xhr.readyState);
+ print("&ltbr&gtResponseStatus : "+xhr.status);
+ print("&ltbr&gtResponseText : "+xhr.responseText);
 %&gt
 </pre>
                 <%
 
                 var xhrCode = '&lt%'
+                + '\n var url = "http://jaggeryjs.org/apidocs/resources/home.jag";'
                 + '\n var xhr = new XMLHttpRequest();'
-                + '\n xhr.open("GET", "http://www.google.lk");'
+                + '\n xhr.open("GET", url);'
+                + '\n xhr.setRequestHeader("user" , "madhuka");'
                 + '\n xhr.send();'
-                + '\n print(xhr.responseText);'
+                + '\n '
+                + '\n print("ReadyState : "+xhr.readyState);'
+                + '\n print("&ltbr&gtResponseStatus : "+xhr.status);'
+                + '\n print("&ltbr&gtResponseText : "+xhr.responseText);'
                 + '\n %&gt';
 
                 var codeSnip = encodeURIComponent(xhrCode);
@@ -193,7 +203,7 @@ include('/includes/topnavi.jag');
                             <tr>
                                 <td><code>responseText</code></td>
                                 <td>String</td>
-                                <td>Retrieves the response body as a string.</td>
+                                <td>Retrieves the response body as a String.</td>
                             </tr>
                             <tr>
                                 <td><code>responseXML</code></td>
@@ -224,11 +234,11 @@ include('/includes/topnavi.jag');
                     </tr>
 
                     <tr>
-                        <td><code>send(string)</code></td>
+                        <td><code>send(String)</code></td>
                         <td>String</td>
-                        <td><pre class="prettyprint">xhr.send(string);</pre>
+                        <td><pre class="prettyprint">xhr.send(String);</pre>
                          Sends the request off to the server.
-                            string is only used for POSTing a requests
+                            String is only used for POSTing a requests
                         </td>
                     </tr>
                      <tr>

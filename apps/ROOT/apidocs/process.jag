@@ -117,7 +117,7 @@ process.getEnv("JAVA_HOME")</pre>
     <td>
         <td><pre class="prettyprint">
 process.getEnvs()</pre>
-     <code>getEnvs()</code> Returns an unmodifiable string map view of the current system environment.
+     <code>getEnvs()</code> Returns an unmodifiable String map view of the current system environment.
     </tr>
     
      <tr>
