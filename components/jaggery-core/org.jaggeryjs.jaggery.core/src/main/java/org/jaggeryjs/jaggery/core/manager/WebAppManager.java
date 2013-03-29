@@ -389,7 +389,7 @@ public class WebAppManager {
         RhinoEngine.defineProperty(scope, application);
 
         if (isWebSocket(servletRequest)) {
-            JavaScriptProperty websocket = new JavaScriptProperty("websocket");
+            JavaScriptProperty websocket = new JavaScriptProperty("webSocket");
             websocket.setValue(cx.newObject(scope, "WebSocket", new Object[0]));
             websocket.setAttribute(ScriptableObject.READONLY);
             RhinoEngine.defineProperty(scope, websocket);

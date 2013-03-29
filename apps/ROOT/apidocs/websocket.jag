@@ -58,12 +58,12 @@
 </div>
 <div class="span12">
 <div class="content" id="email" name="email">
-<h3>WebSocket</h3>
+<h3>webSocket</h3>
 <h5>Server</h5>
             <pre class="prettyprint linenums">
 &lt%
 var log = new Log();
-websocket.ontext = function (data) {
+webSocket.ontext = function (data) {
     log.info('Client Sent : ' + data);
     var ws = this;
     setTimeout(function () {
@@ -72,7 +72,7 @@ websocket.ontext = function (data) {
     }, 1000);
 };
 
-websocket.onbinary = function (stream) {
+webSocket.onbinary = function (stream) {
     log.info('Client Streamed : ' + stream.toString());
 };
 %&gt
@@ -120,7 +120,7 @@ var currentDate = new Date();
 
 
                 <h4>Overview</h4>
-                <p class="description">Jaggery Websocket enables full duplex transmission and 
+                <p class="description">Jaggery websocket enables full duplex transmission and 
                 it supports <a href="http://dev.w3.org/html5/websockets/"> WebSocket specification</a>. It defines an API establishing "socket" connections
                  between a web browser and a server. In Simple words, There is an persistent connection between
                   the client and the server and both parties can start sending data at any time.</p>
@@ -148,7 +148,7 @@ var currentDate = new Date();
     <td><code>ontext</code>
     </td>
      <td>Scriptable</td>
-    <td><pre class="prettyprint">websocket.ontext = function (data) {
+    <td><pre class="prettyprint">webSocket.ontext = function (data) {
     log.info('Client sent : ' + data);
  };</pre>
     Create the instance that will process this inbound connection for text and allow to handle a GET request.
@@ -160,7 +160,7 @@ var currentDate = new Date();
     <td><code>onbinary</code>
     </td>
      <td>Scriptable</td>
-    <td><pre class="prettyprint">websocket.onbinary = function (stream) {    
+    <td><pre class="prettyprint">webSocket.onbinary = function (stream) {    
     log.info('Client Streamed : ' + stream.toString());
  };</pre>
     Create the instance that will process this inbound connection for stream.
@@ -186,7 +186,7 @@ var currentDate = new Date();
 
         <td><code>send (String text | Stream stream)</code></td>
 		<td>None</td>
-        <td>Sends data to the socket (inbound connection).<pre class="prettyprint">websocket.ontext = function (data) {
+        <td>Sends data to the socket (inbound connection).<pre class="prettyprint">webSocket.ontext = function (data) {
     var ws = this;
     setTimeout(function () {
         ws.send(data);
