@@ -62,7 +62,7 @@ include('/includes/topnavi.jag');
 
                 <pre class="prettyprint linenums">
 &lt%  	
- var url = 'http://10.100.2.250:9764/apidocs/resources/home.jag'; 
+ var url = 'http://jaggeryjs.org/apidocs/resources/home.jag'; 
  var xhr = new XMLHttpRequest();
  xhr.open("GET", url);
  xhr.setRequestHeader("user" , "madhuka");
