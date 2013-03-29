@@ -317,6 +317,9 @@ var registry = registry || {};
     };
 
     Registry.prototype.get = function (path) {
+        if (!this.exists(path)) {
+            return null;
+        }
         var res = this.registry.get(path);
         return resource(this, res);
     };
@@ -326,6 +329,9 @@ var registry = registry || {};
     };
 
     Registry.prototype.content = function (path, paging) {
+        if (!this.exists(path)) {
+            return null;
+        }
         var resource = this.registry.get(path);
         paging = merge({
             start: 0,
