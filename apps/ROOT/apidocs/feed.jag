@@ -62,8 +62,7 @@ include('/includes/topnavi.jag');
 
                 <pre class="prettyprint linenums">
 &lt%
-var blogURL = "http://madhukaudantha.blogspot.com/feeds/posts/default";
- 
+var blogURL = "http://madhukaudantha.blogspot.com/feeds/posts/default"; 
 var feed= new Feed(blogURL);
  
 print("Feed Title : " + feed.title + "&ltbr/&gt");
@@ -79,8 +78,7 @@ for(var i=0;i &lt 5; i++) {
         &lttd&gt&lt%=entry.title%&gt&lt/br&gt&lt/td&gt
         &lt/tr&gt
 &lt%
-}
- 
+} 
 %&gt
 </pre>
                 <%

@@ -68,7 +68,7 @@ include('/includes/topnavi.jag');
     var subject = request.getParameter("sub");
 
     var email = require('email');
-    var sender = new msg.Sender("smtp.gmail.com", "25", "username", "password", "tls");
+    var sender = new email.Sender("smtp.gmail.com", "25", "username", "password", "tls");
 
     sender.from = "";
     sender.to = to;

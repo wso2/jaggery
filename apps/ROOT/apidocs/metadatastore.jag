@@ -79,7 +79,6 @@ include('/includes/topnavi.jag');
      resource.props.company = res.getProperty("company");
 
      print(resource);
-
 %&gt
 </pre>
                 <%

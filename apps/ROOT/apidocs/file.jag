@@ -65,12 +65,10 @@ include('/includes/topnavi.jag');
     var path = "/foo.txt";
     var file = new File(path);
     file.open("r");
-
     var message = "";
 
     message = file.readAll(); 
-    print(message);
-    
+    print(message);    
     file.close();
 %&gt
 </pre>
