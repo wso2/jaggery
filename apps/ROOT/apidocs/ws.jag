@@ -428,7 +428,7 @@ include('/includes/tryit_but.jag');
             </li>
             <li>
                 <em>async</em>
-                (Boolean): a Boolean flag
+                (boolean): a Boolean flag
                 representing whether the operation should be invoked asynchrounously or
                 not. Defaults to true.
             </li>
@@ -478,7 +478,7 @@ include('/includes/tryit_but.jag');
     </tr>
     <tr>
 
-        <td><code>openWSDL ( String wsdlURL, ?Boolean async, [Object options,[QName serviceName, [String
+        <td><code>openWSDL ( String wsdlURL, Boolean async, [Object options,[QName serviceName, [String
             endpointName]]]) </code>
         </td>
         <td>None</td>
@@ -506,7 +506,7 @@ include('/includes/tryit_but.jag');
                 </li>
                 <li>
                     <em>async</em>
-                    (Boolean): A Boolean flag
+                    (boolean): A Boolean flag
                     representing whether the operation should be invoked asynchrounously or
                     not.
                 </li>

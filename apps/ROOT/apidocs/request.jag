@@ -220,7 +220,7 @@ If the URL does not have any extra path information, this method returns null.<b
 
                         <td><code>isSecure()</code>
                         </td>
-                        <td>String</td>
+                        <td>Boolean</td>
                         <td>
                             <pre class="prettyprint">request.isSecure()</pre>
                             Returns a Boolean indicating whether this request was made using a secure channel, such as HTTPS.

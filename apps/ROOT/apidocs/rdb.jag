@@ -131,8 +131,8 @@ supports MySql and Oracle.</p>
                             <br> <br/>
                             <pre class="prettyprint">
 var config = {
-	defaultAutoCommit:Boolean,
-	defaultReadOnly:Boolean,
+	defaultAutoCommit:boolean,
+	defaultReadOnly:boolean,
 	defaultTransactionIsolation:"String",
 	defaultCatalog:"String",
 	maxActive:number,
@@ -140,12 +140,12 @@ var config = {
 	minIdle:number,
 	initialSize:number,
 	maxWait:number,
-	testOnBorrow:Boolean,
-	testOnReturn:Boolean,
-	testWhileIdle:Boolean,
+	testOnBorrow:boolean,
+	testOnReturn:boolean,
+	testWhileIdle:boolean,
 	validationQuery:"String",
-	accessToUnderlyingConnectionAllowed:Boolean,
-	logAbandoned:Boolean,
+	accessToUnderlyingConnectionAllowed:boolean,
+	logAbandoned:boolean,
 	connectionProperties:"String",
 	initSQL:"String",
 	validationInterval:number,
