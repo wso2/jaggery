@@ -1,7 +1,7 @@
 package org.jaggeryjs.hostobjects.uuid;
 
 /*
- * Copyright 2006,2007 WSO2, Inc. http://www.wso2.org
+ * Copyright 2006,2013 WSO2, Inc. http://www.wso2.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,54 +23,43 @@ import org.jaggeryjs.scriptengine.util.HostObjectUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
+
 
 import java.util.UUID;
 
 /**
- * var uuid = new UUID();
+ * var process = require('uuid');
  */
-public class UUIDHostObject extends ScriptableObject {
+public class UUIDHostObject {
 
     private static final Log log = LogFactory.getLog(UUIDHostObject.class);
+    private static UUID uuid;
+    private static final String MODULE_NAME = "uuid";
 
-    private static final String hostObjectName = "UUID";
-
-    private UUID uuid;
-
-    /**
-     * UUID()
-     * UUID(mostSignificant, leastSignificant)
-     */
-    public static Scriptable jsConstructor(final Context cx, Object[] args, final Function ctorObj,
-                                           boolean inNewExpr) throws ScriptException {
+    public static String generate(Context cx, Scriptable thisObj, Object[] args, Function funObj)
+            throws ScriptException {
+        String functionName = "generate";
+      
         int argsCount = args.length;
         if (argsCount != 0 && argsCount != 2) {
-            HostObjectUtil.invalidNumberOfArgs(hostObjectName, hostObjectName, argsCount, true);
+            HostObjectUtil.invalidNumberOfArgs(MODULE_NAME, functionName, argsCount, false);
         }
-
-        UUIDHostObject uho = new UUIDHostObject();
+        
         if (argsCount == 0) {
-            uho.uuid = UUID.randomUUID();
+            uuid = UUID.randomUUID();
         } else if (argsCount == 2) {
             if (!(args[0] instanceof Number)) {
-                HostObjectUtil.invalidArgsError(hostObjectName, hostObjectName, "1", "number", args[1], true);
+                HostObjectUtil.invalidArgsError(MODULE_NAME, functionName, "1", "number", args[1], true);
             }
 
             if (!(args[1] instanceof Number)) {
-                HostObjectUtil.invalidArgsError(hostObjectName, hostObjectName, "2", "number", args[1], true);
+                HostObjectUtil.invalidArgsError(MODULE_NAME, functionName, "2", "number", args[1], true);
             }
-            uho.uuid = new UUID(((Number) args[0]).longValue(), ((Number) args[1]).longValue());
+            uuid = new UUID(((Number) args[0]).longValue(), ((Number) args[1]).longValue());
         }
-        return uho;
+        return uuid.toString() ;
     }
-
-    public String getClassName() {
-        return hostObjectName;
-    }
-
-    public String jsFunction_toString()
-            throws ScriptException {
-        return this.uuid.toString();
-    }
+    
+    
+     
 }
