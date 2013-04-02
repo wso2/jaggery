@@ -9,7 +9,7 @@
     var buildArtifact = function (manager, artifact) {
         return {
             id: String(artifact.id),
-            type : String(manager.type),
+            type: String(manager.type),
             path: String(artifact.getPath()),
             lifecycle: artifact.getLifecycleName(),
             lifecycleState: artifact.getLifecycleState(),
@@ -74,6 +74,5 @@
         }
         return artifactz;
     };
-
 
 }(server, registry));

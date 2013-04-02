@@ -247,7 +247,7 @@ var registry = registry || {};
                 }
             };
         } else {
-            throw new Error('Unsupported authentication mechanism : ' + stringify(auth));
+            throw new Error('Unsupported authentication mechanism : ' + stringify(auth.username));
         }
         this.server = serv;
     };
