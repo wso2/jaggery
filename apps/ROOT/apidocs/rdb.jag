@@ -131,29 +131,36 @@ supports MySql and Oracle.</p>
                             <br> <br/>
                             <pre class="prettyprint">
 var config = {
-	defaultAutoCommit:boolean,
-	defaultReadOnly:boolean,
-	defaultTransactionIsolation:"String",
-	defaultCatalog:"String",
-	maxActive:number,
-	maxIdle:number,
-	minIdle:number,
-	initialSize:number,
-	maxWait:number,
-	testOnBorrow:boolean,
-	testOnReturn:boolean,
-	testWhileIdle:boolean,
-	validationQuery:"String",
-	accessToUnderlyingConnectionAllowed:boolean,
-	logAbandoned:boolean,
-	connectionProperties:"String",
-	initSQL:"String",
-	validationInterval:number,
-	maxAge:number,
-	suspectTimeout:number
+	driverClassName:"org.apache.derby.jdbc.ClientDriver",
+	defaultAutoCommit:true,
+	defaultReadOnly:true,
+	defaultTransactionIsolation:"",
+	defaultCatalog:"",
+	maxActive:34,
+	maxIdle:3,
+	minIdle:34,
+	initialSize:34,
+	maxWait:34,
+	testOnBorrow:true,
+	testOnReturn:true,
+	testWhileIdle:true,
+	validationQuery:"",
+	accessToUnderlyingConnectionAllowed:true,
+	logAbandoned:false,
+	connectionProperties:"",
+	initSQLS:"",
+	validationInterval:23,
+	maxAge:23,
+	suspectTimeout:45 
 }
 
-var db = new Database("jdbc:h2:demo", "admin", "admin", config);
+
+var db = new Database("jdbc:derby://localhost:1527/jag;", "admin", "admin", config);
+db.query("CREATE TABLE company (Name VARCHAR(20),City VARCHAR(20))");
+db.query("insert into company values ('WSO2','Colombo')");
+ 
+var result = db.query("SELECT * FROM company");
+print(result);
                             </pre>
                             Returns Database object for database communication with optional configurations
                             <br/>
