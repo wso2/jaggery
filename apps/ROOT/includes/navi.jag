@@ -164,6 +164,12 @@
         <a href="<%=context%>/apidocs/i18n.jag">i18n</a>
     </li>
 </ul>
+<h6>Utils</h6>
+<ul>
+    <li id="uuid">
+        <a href="<%=context%>/apidocs/uuid.jag">UUID</a>
+    </li>
+</ul>
 <h5>Configuration File</h5>
 <ul>
     <li id="conf"><a href="<%=context%>/apidocs/jagconf.jag">jaggery.conf</a></li>
