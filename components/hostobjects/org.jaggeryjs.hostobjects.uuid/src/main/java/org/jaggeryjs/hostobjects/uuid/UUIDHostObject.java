@@ -33,21 +33,16 @@ import java.util.UUID;
 public class UUIDHostObject {
 
     private static final Log log = LogFactory.getLog(UUIDHostObject.class);
-    private static UUID uuid;
     private static final String MODULE_NAME = "uuid";
 
     public static String generate(Context cx, Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException {
         String functionName = "generate";
-      
         int argsCount = args.length;
         if (argsCount != 0 && argsCount != 2) {
-            HostObjectUtil.invalidNumberOfArgs(MODULE_NAME, functionName, argsCount, false);
+            HostObjectUtil.invalidNumberOfArgs(MODULE_NAME, functionName, argsCount, true);
         }
-        
-        if (argsCount == 0) {
-            uuid = UUID.randomUUID();
-        } else if (argsCount == 2) {
+        if (argsCount == 2) {
             if (!(args[0] instanceof Number)) {
                 HostObjectUtil.invalidArgsError(MODULE_NAME, functionName, "1", "number", args[1], true);
             }
@@ -55,11 +50,8 @@ public class UUIDHostObject {
             if (!(args[1] instanceof Number)) {
                 HostObjectUtil.invalidArgsError(MODULE_NAME, functionName, "2", "number", args[1], true);
             }
-            uuid = new UUID(((Number) args[0]).longValue(), ((Number) args[1]).longValue());
+            return new UUID(((Number) args[0]).longValue(), ((Number) args[1]).longValue()).toString();
         }
-        return uuid.toString() ;
+        return UUID.randomUUID().toString();
     }
-    
-    
-     
 }
