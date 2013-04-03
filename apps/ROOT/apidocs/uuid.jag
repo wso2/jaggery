@@ -175,7 +175,7 @@ include('/includes/scripts.jag')
 
 <script>
 $(document).ready(function(){
-        $('#print').toggleClass('active')
+        $('#uuid').toggleClass('active')
         $('#docs').addClass('active')
         })
 </script>

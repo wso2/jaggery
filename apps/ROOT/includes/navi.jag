@@ -158,16 +158,16 @@
         <a href="<%=context%>/apidocs/process.jag">Process</a>
     </li>
 </ul>
-<h6>Internationalization</h6>
-<ul>
-    <li id="i18n">
-        <a href="<%=context%>/apidocs/i18n.jag">i18n</a>
-    </li>
-</ul>
 <h6>Utils</h6>
 <ul>
     <li id="uuid">
         <a href="<%=context%>/apidocs/uuid.jag">UUID</a>
+    </li>
+</ul>
+<h6>Internationalization</h6>
+<ul>
+    <li id="i18n">
+        <a href="<%=context%>/apidocs/i18n.jag">i18n</a>
     </li>
 </ul>
 <h5>Configuration File</h5>
