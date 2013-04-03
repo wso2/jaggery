@@ -15,10 +15,7 @@ import org.mozilla.javascript.*;
 import org.wso2.javascript.xmlimpl.XML;
 import org.wso2.javascript.xmlimpl.XMLList;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
-import java.io.StringWriter;
+import java.io.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URL;
@@ -132,26 +129,32 @@ public class HostObjectUtil {
             return obj.toString();
         }
         if (obj instanceof XML || obj instanceof XMLList) {
-            return serializeXML((ScriptableObject) obj);
+            return serializeString(serializeXML((ScriptableObject) obj));
         }
-
-        StringWriter json = new StringWriter();
 
         if (obj instanceof NativeObject) {
-            serializeNativeObject((NativeObject) obj, json);
-        } else if (obj instanceof NativeArray) {
-            serializeNativeArray((NativeArray) obj, json);
-        } else if (obj instanceof Object[]) {
-            serializeObjectArray((Object[]) obj, json);
-        } else {
-            String className = obj.getClass().getName();
-            if (className.equals("org.mozilla.javascript.NativeDate")) {
-                serializeNativeDate((ScriptableObject) obj, json);
-            } else {
-                json.append("{}");
+            return serializeNativeObject((NativeObject) obj);
+        }
+
+        if (obj instanceof NativeArray) {
+            return serializeNativeArray((NativeArray) obj);
+        }
+
+        if (obj instanceof Object[]) {
+            return serializeObjectArray((Object[]) obj);
+        }
+
+        if (obj instanceof Scriptable) {
+            Scriptable object = (Scriptable) obj;
+            String jsClass = object.getClassName();
+            if ("Date".equals(jsClass)) {
+                return serializeString(serializeNativeDate(object));
+            } else if ("Error".equals(jsClass)) {
+                return serializeString(serializeNativeError(object));
             }
         }
-        return json.toString();
+
+        return "{}";
     }
 
     public static String serializeObject(Object obj) {
@@ -160,6 +163,7 @@ public class HostObjectUtil {
         }
 
         if (obj instanceof String ||
+                obj instanceof ConsString ||
                 obj instanceof Integer ||
                 obj instanceof Long ||
                 obj instanceof Float ||
@@ -169,11 +173,23 @@ public class HostObjectUtil {
                 obj instanceof BigDecimal ||
                 obj instanceof Boolean) {
             return obj.toString();
-        } else if (obj instanceof XML || obj instanceof XMLList) {
-            return (String) ScriptableObject.callMethod((ScriptableObject) obj, "toXMLString", new Object[0]);
-        } else {
-            return serializeJSON(obj);
         }
+
+        if (obj instanceof XML || obj instanceof XMLList) {
+            return serializeXML((ScriptableObject) obj);
+        }
+
+        if (obj instanceof Scriptable) {
+            Scriptable object = (Scriptable) obj;
+            String jsClass = object.getClassName();
+            if ("Date".equals(jsClass)) {
+                return serializeNativeDate(object);
+            } else if ("Error".equals(jsClass)) {
+                return serializeNativeError(object);
+            }
+        }
+
+        return serializeJSON(obj);
     }
 
     public static String streamToString(InputStream is) throws ScriptException {
@@ -247,7 +263,8 @@ public class HostObjectUtil {
         return httpClient.executeMethod(method);
     }
 
-    private static void serializeObjectArray(Object[] obj, StringWriter json) {
+    private static String serializeObjectArray(Object[] obj) {
+        StringWriter json = new StringWriter();
         json.append("[");
         boolean first = true;
         for (Object value : obj) {
@@ -259,12 +276,33 @@ public class HostObjectUtil {
             json.append(serializeJSON(value));
         }
         json.append("]");
+        return json.toString();
     }
 
-    private static void serializeNativeDate(ScriptableObject obj, StringWriter json) {
+    private static String serializeNativeDate(Scriptable obj) {
         Double time = (Double) ScriptableObject.callMethod(obj, "getTime", new Object[0]);
         Date date = new Date(Math.round(time));
-        json.append("\"" + dateFormat.format(date) + "\"");
+        return dateFormat.format(date);
+    }
+
+    private static String serializeNativeError(Scriptable object) {
+        Object o = object.get("rhinoException", object);
+        if (o == null) {
+            o = object.get("javaException", object);
+        }
+
+        if (o instanceof Wrapper) {
+            o = ((Wrapper) o).unwrap();
+        }
+
+        if (o instanceof Throwable) {
+            Throwable throwable = (Throwable) o;
+            StringWriter errors = new StringWriter();
+            throwable.printStackTrace(new PrintWriter(errors));
+            return errors.toString();
+        }
+
+        return serializeJSON(o);
     }
 
     private static String serializeString(String obj) {
@@ -273,11 +311,11 @@ public class HostObjectUtil {
     }
 
     private static String serializeXML(ScriptableObject obj) {
-        String xml = (String) ScriptableObject.callMethod(obj, "toXMLString", new Object[0]);
-        return serializeString(xml);
+        return (String) ScriptableObject.callMethod(obj, "toXMLString", new Object[0]);
     }
 
-    private static void serializeNativeArray(NativeArray obj, StringWriter json) {
+    private static String serializeNativeArray(NativeArray obj) {
+        StringWriter json = new StringWriter();
         json.append("[");
         Object[] ids = obj.getIds();
         boolean first = true;
@@ -294,9 +332,11 @@ public class HostObjectUtil {
             json.append(serializeJSON(value));
         }
         json.append("]");
+        return json.toString();
     }
 
-    private static void serializeNativeObject(NativeObject obj, StringWriter json) {
+    private static String serializeNativeObject(NativeObject obj) {
+        StringWriter json = new StringWriter();
         json.append("{");
         Object[] ids = obj.getIds();
         boolean first = true;
@@ -311,5 +351,6 @@ public class HostObjectUtil {
             json.append("\"").append(key).append("\" : ").append(serializeJSON(value));
         }
         json.append("}");
+        return json.toString();
     }
 }
