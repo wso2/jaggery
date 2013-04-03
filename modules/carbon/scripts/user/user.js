@@ -20,6 +20,25 @@ var user = {};
         return this.um.manager.getRoleListOfUser(this.username);
     };
 
+    User.prototype.hasRoles = function (roles) {
+        var i, j, role,
+            rs = this.getRoles(),
+            length1 = roles.length,
+            length2 = rs.length;
+        L1:
+            for (i = 0; i < length1; i++) {
+                //Array.indexOf() fails due to Java String vs JS String difference
+                role = roles[i];
+                for (j = 0; j < length2; j++) {
+                    if (role == rs[j]) {
+                        continue L1;
+                    }
+                }
+                return false;
+            }
+        return true;
+    };
+
     User.prototype.addRoles = function (roles) {
         return this.um.manager.updateRoleListOfUser(this.username, [], roles);
     };

@@ -538,7 +538,7 @@ var registry = registry || {};
         var res,
             query = options.query,
             uuid = require('uuid'),
-            name = options.name || new uuid.UUID(),
+            name = options.name || uuid.generate(),
             cache = options.cache || true,
             Collections = java.util.Collections,
             path = '/_system/config/repository/components/org.wso2.carbon.registry/queries/' + name;

@@ -1,8 +1,21 @@
 (function (server, user) {
 
+    var processPerms = function (perms, fn) {
+        var perm, actions, i, length;
+        for (perm in perms) {
+            if (perms.hasOwnProperty(perm)) {
+                actions = perms[perm];
+                length = actions.length;
+                for (i = 0; i < length; i++) {
+                    fn(perm, actions[i]);
+                }
+            }
+        }
+    };
+
     var UserManager = function (serv, auth) {
         if (auth.username) {
-            this.server = new server.Server(serv.url);
+            this.server = serv;
             if (!serv.authenticate(auth.username, auth.password)) {
                 throw new Error('Unauthorized request for UserManager : ' + stringify(auth.username));
             }
@@ -35,6 +48,14 @@
         this.manager.deleteUser(username);
     };
 
+    UserManager.prototype.isUserExists = function (username) {
+        return this.manager.isExistingUser(username);
+    };
+
+    UserManager.prototype.isRoleExists = function (role) {
+        return this.manager.isExistingRole(role);
+    };
+
     UserManager.prototype.getClaims = function (username) {
         return this.manager.getUserClaimValues(username);
     };
@@ -43,13 +64,48 @@
         return this.manager.setUserClaimValues(username, claims, profile);
     };
 
+    UserManager.prototype.isAuthorized = function (role, permission, action) {
+        return this.authorizer.isRoleAuthorized(role, permission, action);
+    };
+
     UserManager.prototype.addRole = function (role, users, permissions) {
+        var perms = [],
+            Permission = Packages.org.wso2.carbon.user.api.Permission;
+        processPerms(permissions, function (id, action) {
+            perms.push(new Permission(id, action));
+        });
         this.manager['addRole(java.lang.String,java.lang.String[],org.wso2.carbon.user.api.Permission[])']
-            (role, users, permissions);
+            (role, users, perms);
     };
 
     UserManager.prototype.removeRole = function (role) {
         this.manager.deleteRole(role);
+    };
+
+    UserManager.prototype.authorizeRole = function (role, permission, action) {
+        var that = this;
+        if (permission instanceof String || typeof permission === 'string') {
+            if (!that.isAuthorized(role, permission, action)) {
+                that.authorizer.authorizeRole(role, permission, action);
+            }
+        } else {
+            processPerms(permission, function (id, action) {
+                if (!that.isAuthorized(role, id, action)) {
+                    that.authorizer.authorizeRole(role, id, action);
+                }
+            });
+        }
+    };
+
+    UserManager.prototype.denyRole = function (role, permission, action) {
+        var deny = this.authorizer.denyRole;
+        if (permission instanceof String || typeof permission === 'string') {
+            deny(role, permission, action);
+        } else {
+            processPerms(permission, function (id, action) {
+                deny(role, id, action);
+            });
+        }
     };
 
 }(server, user));
