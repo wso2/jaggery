@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Jaggery - Delicious Javascript</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+        }
+    </style>
+    <link href="../css/prettify.css" rel="stylesheet">
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="../images/favicon.ico">
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72"
+          href="../images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114"
+          href="../images/apple-touch-icon-114x114.png">
+</head>
+
+<body>
+
+<%
+include('/includes/topnavi.jag');
+%>
+
+<div class="container-fluid" style="width: 960px; margin: auto;">
+    <div class="row">
+        <div class="span16">
+            <div class="page-header">
+                <h1>
+                    Documentation
+                    <small>API documentation for Jaggery.js</small>
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="span4">
+            <div class="well">
+                <%
+                include('/includes/navi.jag');
+                %>
+
+            </div>
+
+        </div>
+        <div class="span12">
+            <div class="content" id="server" name="server">
+                <h3>Server</h3>
+
+<pre class="prettyprint linenums">
+&lt;%
+ var carbon = require("carbon");
+ var server = new carbon.server.Server("https://localhost:9443/admin");
+ 
+ var username = "admin";
+ var password = "admin";
+ server.authenticate(username, password)
+
+ carbon.server.osgiService("org.wso2.carbon.user.core.service.RealmService")
+
+ print(carbon.server.loadConfig("carbon.xml"));
+%&gt;
+</pre>
+                <%
+		
+		var serverCode = '\n &lt%'
+                + '\n  var carbon = require("carbon");'
+		+ '\n  var server = new carbon.server.Server("https://localhost:9443/admin");'
+		+ '\n '
+		+ '\n  var username = "admin";'
+		+ '\n  var password = "admin";'
+		+ '\n  server.authenticate(username, password)'
+		+ '\n '
+		+ '\n  carbon.server.osgiService("org.wso2.carbon.user.core.service.RealmService")'
+		+ '\n '
+		+ '\n  print(carbon.server.loadConfig("carbon.xml"));'
+		+ '\n %&gt';
+
+                var codeSnip = encodeURIComponent(serverCode);
+
+                var urlString = '../tryitframe.jag?code='+codeSnip;
+
+
+                %>
+                <div id="tryitwindow" class="modal hide fade">
+                    <div class="modal-header">
+                        <a href="#" class="close">&times;</a>
+
+                        <h3>Try it now</h3>
+                    </div>
+                    <div class="modal-body">
+                        <iframe src="<%=urlString%>" style="border: none;" width="98%"
+                                height="520px" scrolling="no"></iframe>
+                    </div>
+
+                </div>
+
+                <p align="right">
+                    <button class="btn primary" data-keyboard="true" data-backdrop="true"
+                            data-controls-modal="tryitwindow">Try it now
+                    </button>
+                </p>
+                <br>
+
+                <% hasRets = false; %>
+                <div id="pageLinks">
+                    <a class="navilink" href="#overview">Overview</a>
+                    <%if(hasParams) {%>
+                    <a class="navilink" href="#operations">Operations</a>
+                    <%}%>
+                    <%if(hasRets) {%>
+                    <a class="navilink" href="#returnVals">Return values</a>
+                    <%}%>
+                </div>
+                
+<section id="overview">
+    <h4>Overview</h4>
+          <p class="description">Provides the functionality to access services located at Carbon level.</p>
+
+   </section>
+
+                <section id="operations">
+
+                    <h4>Operations</h4>
+                    <table class="clsStd operations-table">
+                        <tbody>
+                        <tr>
+                            <th>Operation</th>
+                            <th>Returns</th>
+                            <th>Description</th>
+                        </tr>
+                        <tr>
+                            <td><code>authenticate(username,password)</code></td>
+                            <td>true|false</td>
+                            <td>
+        <pre class="prettyprint">server.authenticate("admin", "admin")</pre>
+                                authenticate the users against the provided username and password.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><code>osgiService(clazz)</code></td>
+                            <td>service instance</td>
+                            <td>
+<pre class="prettyprint">carbon.server.osgiService("org.wso2.carbon.user.core.service.RealmService")</pre>
+                                returns the osgi service instance.
+
+                            </td>
+                        </tr>
+			 <tr>
+                            <td><code>loadConfig(path)</code></td>
+                            <td>server</td>
+                            <td>
+<pre class="prettyprint">carbon.server.loadConfig("carbon.xml")</pre>
+                                load the config file.
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </section>
+
+            </div>
+            <!-- /server div -->
+            <br>
+            <br>
+        </div>
+
+    </div>
+    <%
+    include('/includes/footerfunc.jag');
+    %>
+
+</div>
+
+<!-- /container -->
+<%
+include('/includes/scripts.jag')
+%>
+
+<script>
+$(document).ready(function(){
+        $('#server').toggleClass('active')
+        $('#docs').addClass('active')
+        })
+</script>
+
+
+</body>
+</html>
