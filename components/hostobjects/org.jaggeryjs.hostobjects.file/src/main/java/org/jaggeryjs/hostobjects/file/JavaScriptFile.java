@@ -46,5 +46,7 @@ public interface JavaScriptFile {
 
     public String getPath() throws ScriptException;
 
+    public String getURI() throws ScriptException;
+
     public ArrayList<String> listFiles() throws ScriptException;
 }

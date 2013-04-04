@@ -276,6 +276,10 @@ public class JavaScriptFileImpl implements JavaScriptFile {
     }
 
     public String getPath() throws ScriptException {
+        return path;
+    }
+
+    public String getURI() throws ScriptException {
         return uri;
     }
 

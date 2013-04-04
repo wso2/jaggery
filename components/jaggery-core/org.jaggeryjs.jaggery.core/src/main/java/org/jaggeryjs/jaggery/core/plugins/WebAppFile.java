@@ -299,6 +299,11 @@ public class WebAppFile implements JavaScriptFile {
     }
 
     @Override
+    public String getURI() throws ScriptException {
+        return this.path;
+    }
+
+    @Override
     public ArrayList<String> listFiles() throws ScriptException {
         File[] fileList = f.listFiles();
         ArrayList<String> jsfl = new ArrayList<String>();

@@ -130,7 +130,8 @@ public class FileHostObject extends ScriptableObject {
         }
 
         FileHostObject fho = (FileHostObject) thisObj;
-        return fho.file.move((String) args[0]);
+        String dest = fho.manager.getJavaScriptFile(args[0]).getPath();
+        return fho.file.move(dest);
     }
 
     public static boolean jsFunction_saveAs(Context cx, Scriptable thisObj, Object[] args, Function funObj)
@@ -145,7 +146,8 @@ public class FileHostObject extends ScriptableObject {
         }
 
         FileHostObject fho = (FileHostObject) thisObj;
-        return fho.file.saveAs((String) args[0]);
+        String dest = fho.manager.getJavaScriptFile(args[0]).getPath();
+        return fho.file.saveAs(dest);
     }
 
     public static boolean jsFunction_del(Context cx, Scriptable thisObj, Object[] args, Function funObj)
@@ -259,7 +261,7 @@ public class FileHostObject extends ScriptableObject {
             HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
         }
         FileHostObject fho = (FileHostObject) thisObj;
-        return fho.file.getPath();
+        return fho.file.getURI();
     }
 
     public static boolean jsFunction_mkdir(Context cx, Scriptable thisObj, Object[] args, Function funObj) throws ScriptException {

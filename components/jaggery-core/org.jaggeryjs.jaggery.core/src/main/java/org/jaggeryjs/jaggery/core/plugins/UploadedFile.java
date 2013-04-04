@@ -206,6 +206,11 @@ public class UploadedFile implements JavaScriptFile {
     }
 
     @Override
+    public String getURI() throws ScriptException {
+        return null;
+    }
+
+    @Override
     public boolean mkdir() throws ScriptException {
         return false;
     }
