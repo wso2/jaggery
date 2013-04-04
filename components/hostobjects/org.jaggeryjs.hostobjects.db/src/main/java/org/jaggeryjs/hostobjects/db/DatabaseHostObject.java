@@ -573,7 +573,7 @@ public class DatabaseHostObject extends ScriptableObject {
             if (keyed) {
                 row = new NativeObject();
                 for (int i = 0; i < rsmd.getColumnCount(); i++) {
-                    String columnName = rsmd.getColumnName(i + 1);
+                    String columnName = rsmd.getColumnLabel(i + 1);
                     Object columnValue = getValue(db, results, i + 1, rsmd.getColumnType(i + 1));
                     row.put(columnName, row, columnValue);
                 }
