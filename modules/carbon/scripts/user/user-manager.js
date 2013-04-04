@@ -48,11 +48,11 @@
         this.manager.deleteUser(username);
     };
 
-    UserManager.prototype.isUserExists = function (username) {
+    UserManager.prototype.userExists = function (username) {
         return this.manager.isExistingUser(username);
     };
 
-    UserManager.prototype.isRoleExists = function (role) {
+    UserManager.prototype.roleExists = function (role) {
         return this.manager.isExistingRole(role);
     };
 
