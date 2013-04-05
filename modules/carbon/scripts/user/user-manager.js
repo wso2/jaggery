@@ -82,6 +82,10 @@
         this.manager.deleteRole(role);
     };
 
+    UserManager.prototype.allRoles = function () {
+        return this.manager.getRoleNames();
+    };
+
     UserManager.prototype.authorizeRole = function (role, permission, action) {
         var that = this;
         if (permission instanceof String || typeof permission === 'string') {
