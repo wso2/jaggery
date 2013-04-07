@@ -480,6 +480,9 @@ var registry = registry || {};
             count: 25,
             sort: 'recent'
         }, paging);
+
+        comments = this.registry.getComments(path);
+
         o = commentsQuery(this, resource, paging);
         ids = this.query({
             query: o.query,
@@ -492,6 +495,14 @@ var registry = registry || {};
         //we have to manually sort this due to the bug in registry.getChildren() (#1 above)
         comments.sort(o.sorter);
         return o.paged ? comments : comments.slice(paging.start, paging.start + paging.count);
+    };
+
+    var sort = function(resources) {
+        var i = 0,
+            length = resources.length;
+        for(i = 0; i < length; i++) {
+
+        }
     };
 
     Registry.prototype.uncomment = function (path) {

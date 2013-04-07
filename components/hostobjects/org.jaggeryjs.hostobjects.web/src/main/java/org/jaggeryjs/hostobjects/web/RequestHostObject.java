@@ -354,7 +354,7 @@ public class RequestHostObject extends ScriptableObject {
         return rho.request.getLocalPort();
     }
 
-    public static String jsFunction_getParameter(Context cx, Scriptable thisObj, Object[] args, Function funObj)
+    public static Object jsFunction_getParameter(Context cx, Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException {
         String functionName = "getParameter";
         int argsCount = args.length;
@@ -371,7 +371,7 @@ public class RequestHostObject extends ScriptableObject {
         String parameter = (String) args[0];
         RequestHostObject rho = (RequestHostObject) thisObj;
         if (!rho.isMultipart) {
-            return rho.request.getParameter(parameter);
+            return getParameter(parameter, rho.request, rho);
         }
         parseMultipart(rho);
         FileItem item = rho.parameterMap.get(parameter);
@@ -461,7 +461,7 @@ public class RequestHostObject extends ScriptableObject {
         Enumeration params = rho.request.getParameterNames();
         while (params.hasMoreElements()) {
             String name = (String) params.nextElement();
-            rho.parameters.put(name, rho.parameters, rho.request.getParameter(name));
+            rho.parameters.put(name, rho.parameters, getParameter(name, rho.request, rho));
         }
     }
 
@@ -526,5 +526,16 @@ public class RequestHostObject extends ScriptableObject {
             o.put("version", o, cookie.getVersion());
             rho.cookies.put(cookie.getName(), rho.cookies, o);
         }
+    }
+
+    private static Object getParameter(String name, HttpServletRequest request, Scriptable scope) {
+        String[] values = request.getParameterValues(name);
+        if (values == null) {
+            return null;
+        }
+        if (values.length == 1) {
+            return values[0];
+        }
+        return Context.javaToJS(values, scope);
     }
 }
