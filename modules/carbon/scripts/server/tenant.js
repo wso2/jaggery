@@ -20,7 +20,7 @@
     };
 
     server.tenantId = function (options) {
-        var domain = options.domain ? options.domain : server.tenantDomain(options);
+        var domain = (options && options.domain) ? options.domain : server.tenantDomain(options);
         return tenantManager.getTenantId(domain);
     };
 
