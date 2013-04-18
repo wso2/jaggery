@@ -4,22 +4,26 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.hostobjects.file.FileHostObject;
+import org.jaggeryjs.hostobjects.log.LogHostObject;
+import org.jaggeryjs.jaggery.core.ScriptReader;
+import org.jaggeryjs.jaggery.core.plugins.WebAppFileManager;
+import org.jaggeryjs.scriptengine.cache.ScriptCachingContext;
+import org.jaggeryjs.scriptengine.engine.JaggeryContext;
+import org.jaggeryjs.scriptengine.engine.JavaScriptProperty;
+import org.jaggeryjs.scriptengine.engine.RhinoEngine;
+import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.security.RhinoSecurityController;
 import org.jaggeryjs.scriptengine.security.RhinoSecurityDomain;
+import org.jaggeryjs.scriptengine.util.HostObjectUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
-import org.jaggeryjs.jaggery.core.ScriptReader;
-import org.jaggeryjs.jaggery.core.plugins.WebAppFileManager;
-import org.jaggeryjs.scriptengine.cache.ScriptCachingContext;
-import org.jaggeryjs.scriptengine.engine.JavaScriptProperty;
-import org.jaggeryjs.scriptengine.engine.RhinoEngine;
-import org.jaggeryjs.scriptengine.exceptions.ScriptException;
-import org.jaggeryjs.scriptengine.util.HostObjectUtil;
 import org.wso2.carbon.context.CarbonContext;
 
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -35,11 +39,23 @@ public class WebAppManager {
 
     public static final String CORE_MODULE_NAME = "core";
 
+    public static final String SERVLET_RESPONSE = "webappmanager.servlet.response";
+
+    public static final String SERVLET_REQUEST = "webappmanager.servlet.request";
+
+    public static final String SERVLET_CONTEXT = "webappmanager.servlet.context";
+
     private static final String DEFAULT_CONTENT_TYPE = "text/html";
 
     private static final String DEFAULT_CHAR_ENCODING = "UTF-8";
 
     public static final String JAGGERY_MODULES_DIR = "modules";
+
+    public static final String WS_REQUEST_PATH = "requestURI";
+
+    public static final String WS_SERVLET_CONTEXT = "/websocket";
+
+    private static boolean isWebSocket = false;
 
     static {
         try {
@@ -93,7 +109,7 @@ public class WebAppManager {
         }
 
         JaggeryContext jaggeryContext = CommonManager.getJaggeryContext();
-        Stack<String> includesCallstack = jaggeryContext.getIncludesCallstack();
+        Stack<String> includesCallstack = CommonManager.getCallstack(jaggeryContext);
         String parent = includesCallstack.lastElement();
         String fileURL = (String) args[0];
 
@@ -116,7 +132,7 @@ public class WebAppManager {
         }
 
         JaggeryContext jaggeryContext = CommonManager.getJaggeryContext();
-        Stack<String> includesCallstack = jaggeryContext.getIncludesCallstack();
+        Stack<String> includesCallstack = CommonManager.getCallstack(jaggeryContext);
         String parent = includesCallstack.lastElement();
         String fileURL = (String) args[0];
 
@@ -132,29 +148,29 @@ public class WebAppManager {
      */
     public static void print(Context cx, Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException {
-        JaggeryContext jaggeryContext = CommonManager.getJaggeryContext();
+        if (!isWebSocket) {
+            JaggeryContext jaggeryContext = CommonManager.getJaggeryContext();
 
-        //If the script itself havent set the content type we set the default content type to be text/html
-        if (((WebAppContext) jaggeryContext).getServletResponse().getContentType() == null) {
-            ((WebAppContext) CommonManager.getJaggeryContext()).getServletResponse()
-                    .setContentType(DEFAULT_CONTENT_TYPE);
+            //If the script itself havent set the content type we set the default content type to be text/html
+            HttpServletResponse servletResponse = (HttpServletResponse) jaggeryContext.getProperty(SERVLET_RESPONSE);
+            if (servletResponse.getContentType() == null) {
+                servletResponse.setContentType(DEFAULT_CONTENT_TYPE);
+            }
+
+            if (servletResponse.getCharacterEncoding() == null) {
+                servletResponse.setCharacterEncoding(DEFAULT_CHAR_ENCODING);
+            }
+
+            CommonManager.print(cx, thisObj, args, funObj);
         }
-
-        if (((WebAppContext) jaggeryContext).getServletResponse().getCharacterEncoding() == null) {
-            ((WebAppContext) CommonManager.getJaggeryContext()).getServletResponse()
-                    .setCharacterEncoding(DEFAULT_CHAR_ENCODING);
-        }
-
-        CommonManager.print(cx, thisObj, args, funObj);
     }
 
     private static ScriptableObject executeScript(JaggeryContext jaggeryContext, ScriptableObject scope,
                                                   String fileURL, final boolean isJSON, boolean isBuilt,
                                                   boolean isIncludeOnce) throws ScriptException {
-        WebAppContext webAppContext = (WebAppContext) jaggeryContext;
-        Stack<String> includesCallstack = jaggeryContext.getIncludesCallstack();
-        Map<String, Boolean> includedScripts = jaggeryContext.getIncludedScripts();
-        ServletContext context = webAppContext.getServletConext();
+        Stack<String> includesCallstack = CommonManager.getCallstack(jaggeryContext);
+        Map<String, Boolean> includedScripts = CommonManager.getIncludes(jaggeryContext);
+        ServletContext context = (ServletContext) jaggeryContext.getProperty(SERVLET_CONTEXT);
         String parent = includesCallstack.lastElement();
 
         String keys[] = WebAppManager.getKeys(context.getContextPath(), parent, fileURL);
@@ -187,7 +203,7 @@ public class WebAppManager {
             source = new ScriptReader(context.getResourceAsStream(fileURL));
         }
 
-        ScriptCachingContext sctx = new ScriptCachingContext(webAppContext.getTenantId(), keys[0], keys[1], keys[2]);
+        ScriptCachingContext sctx = new ScriptCachingContext(jaggeryContext.getTenantId(), keys[0], keys[1], keys[2]);
         sctx.setSecurityDomain(new JaggerySecurityDomain(fileURL, context));
         long lastModified = WebAppManager.getScriptLastModified(context, fileURL);
         sctx.setSourceModifiedTime(lastModified);
@@ -261,7 +277,8 @@ public class WebAppManager {
         }
     }
 
-    public static void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public static void execute(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
         String scriptPath = getScriptPath(request);
         InputStream sourceIn = request.getServletContext().getResourceAsStream(scriptPath);
         if (sourceIn == null) {
@@ -274,13 +291,13 @@ public class WebAppManager {
             Context cx = engine.enterContext();
             //Creating an OutputStreamWritter to write content to the servletResponse
             OutputStream out = response.getOutputStream();
-            JaggeryContext webAppContext = createJaggeryContext(out, scriptPath, request, response);
-            initContext(cx, webAppContext);
-            RhinoEngine.putContextProperty(FileHostObject.JAVASCRIPT_FILE_MANAGER,
+            JaggeryContext context = createJaggeryContext(out, scriptPath, request, response);
+            initContext(cx, context);
+            context.addProperty(FileHostObject.JAVASCRIPT_FILE_MANAGER,
                     new WebAppFileManager(request.getServletContext()));
-            CommonManager.getInstance().getEngine().exec(new ScriptReader(sourceIn), webAppContext.getScope(),
+            CommonManager.getInstance().getEngine().exec(new ScriptReader(sourceIn), context.getScope(),
                     getScriptCachingContext(request, scriptPath));
-            out.flush();
+            //out.flush();
         } catch (ScriptException e) {
             String msg = e.getMessage();
             log.error(msg, e);
@@ -288,85 +305,114 @@ public class WebAppManager {
         } finally {
             //Exiting from the context
             if (engine != null) {
-                engine.exitContext();
+                RhinoEngine.exitContext();
             }
         }
     }
 
     public static String getScriptPath(HttpServletRequest request) {
         String url = request.getServletPath();
-        if (request.getPathInfo() != null) {
-            // if there are more path info it should be sent to a wild card
-            url += "/*";
-        }
         Map<String, Object> urlMappings = (Map<String, Object>) request.getServletContext()
                 .getAttribute(CommonManager.JAGGERY_URLS_MAP);
         if (urlMappings == null) {
             return url;
         }
+        String path;
         if (url.equals("/")) {
-            Object obj = urlMappings.get("/");
-            return obj != null ? (String) obj : url;
+            path = getPath(urlMappings, url);
+        } else {
+            path = resolveScriptPath(new ArrayList<String>(Arrays.asList(url.substring(1).split("/"))), urlMappings);
         }
-        String tmpUrl = url.startsWith("/") ? url.substring(1) : url;
-        String path = resolveScriptPath(new ArrayList<String>(Arrays.asList(tmpUrl.split("/"))), urlMappings);
         return path == null ? url : path;
     }
 
     private static String resolveScriptPath(List<String> parts, Map<String, Object> map) {
         String part = parts.remove(0);
         if (parts.isEmpty()) {
-            Object obj = map.get(part);
-            if (obj instanceof Map) {
-                return (String) ((Map) obj).get("/");
-            } else {
-                return (String) obj;
-            }
+            return getPath(map, part);
         }
         Object obj = map.get(part);
+        if (obj == null) {
+            return getPath(map, "/");
+        }
         if (obj instanceof Map) {
             return resolveScriptPath(parts, (Map<String, Object>) obj);
-        } else {
-            return (String) map.get("*");
         }
+        return null;
+    }
+
+    private static String getPath(Map<String, Object> map, String part) {
+        Object obj = "/".equals(part) ? null : map.get(part);
+        if (obj == null) {
+            obj = map.get("/");
+            if (obj != null) {
+                return (String) obj;
+            }
+            obj = map.get("*");
+            return (String) obj;
+        }
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        map = (Map<String, Object>) obj;
+        obj = map.get("/");
+        if (obj != null) {
+            return (String) obj;
+        }
+        obj = map.get("*");
+        return (String) obj;
     }
 
     private static void defineProperties(Context cx, JaggeryContext context, ScriptableObject scope) {
-        WebAppContext ctx = (WebAppContext) context;
 
         JavaScriptProperty request = new JavaScriptProperty("request");
-        request.setValue(cx.newObject(scope, "Request", new Object[]{ctx.getServletRequest()}));
+        HttpServletRequest servletRequest = (HttpServletRequest) context.getProperty(SERVLET_REQUEST);
+        request.setValue(cx.newObject(scope, "Request", new Object[]{servletRequest}));
         request.setAttribute(ScriptableObject.READONLY);
         RhinoEngine.defineProperty(scope, request);
 
         JavaScriptProperty response = new JavaScriptProperty("response");
-        response.setValue(cx.newObject(scope, "Response", new Object[]{ctx.getServletResponse()}));
+        HttpServletResponse servletResponse = (HttpServletResponse) context.getProperty(SERVLET_RESPONSE);
+        response.setValue(cx.newObject(scope, "Response", new Object[]{servletResponse}));
         response.setAttribute(ScriptableObject.READONLY);
         RhinoEngine.defineProperty(scope, response);
 
         JavaScriptProperty session = new JavaScriptProperty("session");
-        session.setValue(cx.newObject(scope, "Session", new Object[]{ctx.getServletRequest().getSession()}));
+        session.setValue(cx.newObject(scope, "Session", new Object[]{servletRequest.getSession()}));
         session.setAttribute(ScriptableObject.READONLY);
         RhinoEngine.defineProperty(scope, session);
 
         JavaScriptProperty application = new JavaScriptProperty("application");
-        application.setValue(cx.newObject(scope, "Application", new Object[]{ctx.getServletConext()}));
+        ServletContext servletConext = (ServletContext) context.getProperty(SERVLET_CONTEXT);
+        application.setValue(cx.newObject(scope, "Application", new Object[]{servletConext}));
         application.setAttribute(ScriptableObject.READONLY);
         RhinoEngine.defineProperty(scope, application);
+
+        if (isWebSocket(servletRequest)) {
+            JavaScriptProperty websocket = new JavaScriptProperty("webSocket");
+            websocket.setValue(cx.newObject(scope, "WebSocket", new Object[0]));
+            websocket.setAttribute(ScriptableObject.READONLY);
+            RhinoEngine.defineProperty(scope, websocket);
+        }
 
     }
 
     private static JaggeryContext createJaggeryContext(OutputStream out, String scriptPath,
                                                        HttpServletRequest request, HttpServletResponse response) {
-        WebAppContext context = new WebAppContext();
+        JaggeryContext context = new JaggeryContext();
         context.setTenantId(Integer.toString(CarbonContext.getCurrentContext().getTenantId()));
-        context.setOutputStream(out);
-        context.setServletRequest(request);
-        context.setServletResponse(response);
-        context.setServletConext(request.getServletContext());
-        context.setScriptPath(scriptPath);
-        context.getIncludesCallstack().push(scriptPath);
-        context.getIncludedScripts().put(scriptPath, true);
+        context.addProperty(SERVLET_REQUEST, request);
+        context.addProperty(SERVLET_RESPONSE, response);
+        context.addProperty(SERVLET_CONTEXT, request.getServletContext());
+        CommonManager.getCallstack(context).push(scriptPath);
+        CommonManager.getIncludes(context).put(scriptPath, true);
+        context.addProperty(CommonManager.JAGGERY_OUTPUT_STREAM, out);
+
+        String logLevel = (String) request.getServletContext().getAttribute(LogHostObject.LOG_LEVEL);
+        if (logLevel != null) {
+            context.addProperty(LogHostObject.LOG_LEVEL, logLevel);
+        }
+
         return context;
     }
 
@@ -510,5 +556,10 @@ public class WebAppManager {
 
     private static boolean isPathSeparator(char c) {
         return (c == '/' || c == '\\');
+    }
+
+    public static boolean isWebSocket(ServletRequest request) {
+        isWebSocket = "websocket".equals(((HttpServletRequest) request).getHeader("Upgrade"));
+        return "websocket".equals(((HttpServletRequest) request).getHeader("Upgrade"));
     }
 }

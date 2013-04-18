@@ -181,12 +181,12 @@ include('/includes/topnavi.jag');
                                         return urlContent;
                                     });</pre>
                                 <ul>
-                                    <li><code>xslt</code> : XSLT source as a string or an E4X xml.</li>
+                                    <li><code>xslt</code> : XSLT source as a String or an E4X xml.</li>
                                     <li><code>uriCallback(base, href)</code> : A callback function to resolve any
-                                        imported/included resources of the XML being transformed. Content can be provided as a string or an E4X XML.</li>
+                                        imported/included resources of the XML being transformed. Content can be provided as a String or an E4X XML.</li>
                                 </ul>
                                 Returns an instance of the XSLT hostobject. XSLT source can be provided either as an
-                                E4X XML or a string. Optionally a uri resolver callback
+                                E4X XML or a String. Optionally a uri resolver callback
                             </td>
                         </tr>
                         <tr>

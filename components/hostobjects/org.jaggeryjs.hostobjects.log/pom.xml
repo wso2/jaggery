@@ -31,11 +31,6 @@
             <groupId>rhino.wso2</groupId>
             <artifactId>js</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.jaggeryjs</groupId>
-            <artifactId>org.jaggeryjs.jaggery.core</artifactId>
-            <version>${jaggery.component.version}</version>
-        </dependency>
     </dependencies>
 
     <build>

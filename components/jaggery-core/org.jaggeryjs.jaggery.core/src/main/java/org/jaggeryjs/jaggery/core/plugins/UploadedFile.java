@@ -172,6 +172,7 @@ public class UploadedFile implements JavaScriptFile {
     @Override
     public InputStream getInputStream() throws ScriptException {
         try {
+            open("r");
             return fileItem.getInputStream();
         } catch (IOException e) {
             log.error(e.getMessage(), e);
@@ -196,12 +197,27 @@ public class UploadedFile implements JavaScriptFile {
 
     @Override
     public boolean isDirectory() throws ScriptException {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return false;
+    }
+
+    @Override
+    public String getPath() throws ScriptException {
+        return null;
+    }
+
+    @Override
+    public String getURI() throws ScriptException {
+        return null;
+    }
+
+    @Override
+    public boolean mkdir() throws ScriptException {
+        return false;
     }
 
     @Override
     public ArrayList<String> listFiles() throws ScriptException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null;
     }
 
     public void setFileManager(JavaScriptFileManager fileManager) {

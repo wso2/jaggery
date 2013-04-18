@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="../js/jquery-1.8.3.min.js"></script>
+		<script>
+			var ws;
+			var url = 'ws://localhost:9763/sample/ws/server.jag';
+
+			function start() {
+				ws = new WebSocket(url);
+				ws.onopen = function() {
+					document.write("web Socket onopen. ");
+				};
+				//event handler for the message event in the case of text frames
+				ws.onmessage = function(event) {
+					document.write("web Socket Onmessage from Server. " + event.data);
+				};
+				ws.onclose = function() {
+					document.write("web Socket onclose. ");
+				};
+				
+				ws.onopen();
+				var currentdate = new Date();
+				
+				setTimeout(function() {
+					ws.send("client timestamp "+currentdate);
+				}, 3000);
+				setTimeout(function() {
+					ws.close();
+				}, 5000);
+			}
+		</script>
+	</head>
+	<body onload='start()'></body>
+</html>

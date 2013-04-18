@@ -27,10 +27,7 @@ import org.wso2.carbon.registry.core.Resource;
 import org.wso2.carbon.registry.api.RegistryException;
 import org.wso2.javascript.xmlimpl.XML;
 
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * <p/>
@@ -266,7 +263,8 @@ public class ResourceHostObject extends ScriptableObject {
                 }
                 return new String((byte[]) result);
             } else if (result instanceof String[]) {
-                return context.newArray(this, (String[]) result);
+                String[] content = (String[]) result;
+                return context.newArray(this, Arrays.copyOf(content, content.length, Object[].class));
             } else {
                 return Context.toObject(result, this);
             }

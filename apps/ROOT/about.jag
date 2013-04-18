@@ -79,7 +79,7 @@ include('/includes/topnavi.jag');
              <br/> <br/>
                 Every step in that process has significant impedance mismatches: HTML Forms to XML, XML/JSON to Java,
                 Java to XML, and Java to SQL (ORM). Every time such a mismatched conversion takes place there is potential
-                for significant loss of information – which means we end up encoding that information in complex ways.
+                for significant loss of information - which means we end up encoding that information in complex ways.
                 Developers have to switch between different approaches, abstractions, syntaxes and idioms.
                 <br/><br/>
                 If you want to do the right thing and write both a service that offers an API and then an application
@@ -106,7 +106,7 @@ include('/includes/topnavi.jag');
             <li> Close the gap between Web apps from Web services by allowing one to create both applications and APIs at the same time.
             </li> </ul>
 
-            Jaggery is an evolving story – as it reaches 1.0 we are by no means hallucinating that we have got everything
+            Jaggery is an evolving story - as it reaches 1.0 we are by no means hallucinating that we have got everything
             right or that we are done.
 
             We encourage you to come join the party and help evolve Jaggery to really solve the problems it strives to solve.</P>

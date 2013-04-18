@@ -1,4 +1,7 @@
 <html>
+<head>
+    <meta charset="utf-8">
+</head>
 <body>
 <h2>This is the Jaggery Multipart sample page</h2>
 <p>Please browse a file and upload it. You can find the saved file in "<strong>multipart</strong>" app directory of your Jaggery installation.<p> 

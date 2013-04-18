@@ -2,11 +2,16 @@ package org.jaggeryjs.hostobjects.file;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.mozilla.javascript.*;
+import org.jaggeryjs.scriptengine.EngineConstants;
+import org.jaggeryjs.scriptengine.engine.JaggeryContext;
+import org.jaggeryjs.scriptengine.engine.RhinoEngine;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Function;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
 
-import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -21,10 +26,9 @@ public class FileHostObject extends ScriptableObject {
 
     private JavaScriptFile file = null;
 
-    private File f = null;
-
     private JavaScriptFileManager manager = null;
     private Context context = null;
+    private String path;
 
     public static Scriptable jsConstructor(Context cx, Object[] args, Function ctorObj,
                                            boolean inNewExpr) throws ScriptException {
@@ -34,7 +38,8 @@ public class FileHostObject extends ScriptableObject {
         }
 
         FileHostObject fho = new FileHostObject();
-        Object obj = cx.getThreadLocal(JAVASCRIPT_FILE_MANAGER);
+        JaggeryContext context = (JaggeryContext) RhinoEngine.getContextProperty(EngineConstants.JAGGERY_CONTEXT);
+        Object obj = context.getProperty(JAVASCRIPT_FILE_MANAGER);
         if (obj instanceof JavaScriptFileManager) {
             fho.manager = (JavaScriptFileManager) obj;
         } else {
@@ -125,7 +130,8 @@ public class FileHostObject extends ScriptableObject {
         }
 
         FileHostObject fho = (FileHostObject) thisObj;
-        return fho.file.move((String) args[0]);
+        String dest = fho.manager.getJavaScriptFile(args[0]).getPath();
+        return fho.file.move(dest);
     }
 
     public static boolean jsFunction_saveAs(Context cx, Scriptable thisObj, Object[] args, Function funObj)
@@ -140,7 +146,8 @@ public class FileHostObject extends ScriptableObject {
         }
 
         FileHostObject fho = (FileHostObject) thisObj;
-        return fho.file.saveAs((String) args[0]);
+        String dest = fho.manager.getJavaScriptFile(args[0]).getPath();
+        return fho.file.saveAs(dest);
     }
 
     public static boolean jsFunction_del(Context cx, Scriptable thisObj, Object[] args, Function funObj)
@@ -245,6 +252,26 @@ public class FileHostObject extends ScriptableObject {
         }
         FileHostObject fho = (FileHostObject) thisObj;
         return fho.file.isDirectory();
+    }
+
+    public static String jsFunction_getPath(Context cx, Scriptable thisObj, Object[] args, Function funObj) throws ScriptException {
+        String functionName = "getPath";
+        int argsCount = args.length;
+        if (argsCount != 0) {
+            HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
+        }
+        FileHostObject fho = (FileHostObject) thisObj;
+        return fho.file.getURI();
+    }
+
+    public static boolean jsFunction_mkdir(Context cx, Scriptable thisObj, Object[] args, Function funObj) throws ScriptException {
+        String functionName = "mkdir";
+        int argsCount = args.length;
+        if (argsCount != 0) {
+            HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
+        }
+        FileHostObject fho = (FileHostObject) thisObj;
+        return fho.file.mkdir();
     }
 
     public static Object jsFunction_listFiles(Context cx, Scriptable thisObj, Object[] args, Function funObj) throws ScriptException {

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="jquery-1.8.3.min.js"></script>
+    <script>
+        var ws;
+        $(function () {
+
+            var log = function (data) {
+                $('#console').val($('#console').val() + data + '\n');
+            };
+
+            $('#connect').click(function () {
+                var url = 'ws://localhost:9763/testapp/server.jag';
+
+                if ('WebSocket' in window) {
+                    ws = new WebSocket(url);
+                } else if ('MozWebSocket' in window) {
+                    ws = new MozWebSocket(url);
+                } else {
+                    alert('WebSocket is not supported by this browser.');
+                    return;
+                }
+
+                ws.onopen = function () {
+                    log('Connected to the server.');
+                };
+                ws.onmessage = function (event) {
+                    log('Server sent : ' + event.data);
+                };
+                ws.onclose = function () {
+                    log('Disconnect from the server.');
+                };
+            });
+
+            $('#disconnect').click(function () {
+                ws.close();
+            });
+
+            $('#send').click(function () {
+                if (!ws) {
+                    alert('Please connect to the server fist');
+                    return;
+                }
+                ws.send($('#content').val());
+                $('#content').val('');
+            });
+        });
+    </script>
+    <style type="text/css">
+        #console {
+            width: 600px;
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div>
+        <button id="connect">Connect</button>
+        <button id="disconnect">Disconnect</button>
+    </div>
+    <div>
+        <textarea id="content"></textarea>
+    </div>
+    <div>
+        <button id="send">Send</button>
+    </div>
+    <div>
+        <textarea id="console"></textarea>
+    </div>
+</div>
+</body>
+</html>
+

@@ -24,6 +24,8 @@ import org.wso2.carbon.registry.api.RegistryException;
 import org.wso2.carbon.registry.core.Collection;
 import org.wso2.carbon.registry.core.Resource;
 
+import java.util.Arrays;
+
 /**
  * <p/>
  * This is a JavaScript Rhino host object aimed to provide a javascript mapping
@@ -111,16 +113,18 @@ public class CollectionHostObject extends ResourceHostObject {
         CollectionHostObject collectionHostObject = (CollectionHostObject) thisObj;
         if (arguments.length == 0) {
             try {
-                return cx.newArray(thisObj, ((Collection) collectionHostObject.getResource()).getChildren());
+                String[] children = ((Collection)collectionHostObject.getResource()).getChildren();
+                return cx.newArray(thisObj, Arrays.copyOf(children, children.length, Object[].class));
             } catch (RegistryException e) {
                 throw new ScriptException("Error occurred while creating a new Resource.", e);
             }
         } else if (arguments.length == 2) {
             if (arguments[0] instanceof Number && arguments[1] instanceof Number) {
                 try {
-                    return cx.newArray(thisObj, ((Collection) collectionHostObject.getResource()).getChildren(
-                            ((Number) arguments[0]).intValue(),
-                            ((Number) arguments[1]).intValue()));
+                    String[] children = ((Collection) collectionHostObject.getResource()).getChildren(
+                                                ((Number) arguments[0]).intValue(),
+                                                ((Number) arguments[1]).intValue());
+                    return cx.newArray(thisObj, Arrays.copyOf(children, children.length, Object[].class));
                 } catch (RegistryException e) {
                     throw new ScriptException("Error occurred while creating a new Resource.", e);
                 }

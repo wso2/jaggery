@@ -90,7 +90,7 @@
         <eclipse-transport.version>1.0.100.v201109150330</eclipse-transport.version>
 
         <!-- osgi bundle versions -->
-        <rhino.osgi.version>1.7.0.R1-wso2v3</rhino.osgi.version>
+        <rhino.osgi.version>1.7.0.R4.wso2v1-SNAPSHOT</rhino.osgi.version>
         <commons-httpclient.osgi.version>3.1.0.wso2v2</commons-httpclient.osgi.version>
         <wss4j.osgi.version>1.5.11.wso2v3</wss4j.osgi.version>
         <axis2.osgi.version>1.6.1.wso2v5</axis2.osgi.version>
@@ -534,16 +534,6 @@
                 <groupId>commons-cli.wso2</groupId>
                 <artifactId>commons-cli</artifactId>
                 <version>${commons-cli.osgi.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.wso2.carbon</groupId>
-                <artifactId>org.wso2.carbon.ntask.core</artifactId>
-                <version>${patch.version.402}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.wso2.carbon</groupId>
-                <artifactId>org.wso2.carbon.ntask.solutions</artifactId>
-                <version>${patch.version.402}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

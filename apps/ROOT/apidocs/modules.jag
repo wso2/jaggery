@@ -133,6 +133,12 @@ include('/includes/navi.jag');
                         <p>Sample modules can also be found in {JAGGERY_HOME}/modules directory</p>
                     </li>
                     </ul>
+                    <p>also Starting jaggery server with <code>-DmodRefresh=true</code> will
+                     load modules on change; This should be enabled during module development
+                      phase only. Enabling modRefresh will prevent jaggery runtime from caching
+                       the modules, which is not recommended for production.
+                    
+                    <pre class="codettyprint linenums">jaggery.bat/sh -DmodRefresh=true</pre></p>
             </div>
 
             <!-- /print div -->

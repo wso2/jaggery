@@ -39,9 +39,17 @@ public class ModuleManager {
 
     private static final String MODULE_FILE = "module.xml";
 
+    private static final String MODULE_REFRESH = "modRefresh";
+
     private final Map<String, JavaScriptModule> modules = new HashMap<String, JavaScriptModule>();
 
     private String modulesDir = null;
+
+    private static boolean isModuleRefreshEnabled;
+
+    static {
+        isModuleRefreshEnabled = "true".equalsIgnoreCase(System.getProperty(MODULE_REFRESH));
+    }
 
     public ModuleManager(String modulesDir) throws ScriptException {
         this.modulesDir = modulesDir;
@@ -61,23 +69,36 @@ public class ModuleManager {
         File[] modules = modulesDir.listFiles();
         if (modules != null) {
             for (File module : modules) {
-                if (module.isDirectory()) {
-                    File moduleConfig = new File(module, MODULE_FILE);
-                    if (moduleConfig.exists()) {
-                        try {
-                            initModule(new FileInputStream(moduleConfig), true);
-                        } catch (FileNotFoundException e) {
-                            log.error(e.getMessage(), e);
-                        }
-                    }
-                }
+                loadModule(module);
             }
         }
         RhinoEngine.exitContext();
     }
 
+    private void loadModule(File module) throws ScriptException {
+        if (module.isDirectory()) {
+            File moduleConfig = new File(module, MODULE_FILE);
+            if (moduleConfig.exists()) {
+                try {
+                    initModule(new FileInputStream(moduleConfig), true);
+                } catch (FileNotFoundException e) {
+                    log.error(e.getMessage(), e);
+                }
+            }
+        }
+    }
+
     public Map<String, JavaScriptModule> getModules() {
         return this.modules;
+    }
+
+    public JavaScriptModule getModule(String name) throws ScriptException {
+        if (isModuleRefreshEnabled) {
+            this.modules.remove(name);
+            File module = new File(this.modulesDir + File.separator + name);
+            loadModule(module);
+        }
+        return this.modules.get(name);
     }
 
     private void initModule(InputStream modulesXML, boolean isCustom) throws ScriptException {
@@ -143,7 +164,7 @@ public class ModuleManager {
                     reader = new InputStreamReader(ModuleManager.class.getClassLoader().getResourceAsStream(path));
                 }
                 final Script scriptObj = cx.compileReader(reader, name, 1, null);
-                if(RhinoSecurityController.isSecurityEnabled()) {
+                if (RhinoSecurityController.isSecurityEnabled()) {
                     script.setScript(new Script() {
                         @Override
                         public Object exec(final Context cx, final Scriptable scope) {

@@ -1,0 +1,8 @@
+<%
+    print({
+        method : request.getMethod(),
+        url : request.getRequestURL(),
+        content : request.getContent(),
+        headers : request.getAllHeaders()
+    });
+%>

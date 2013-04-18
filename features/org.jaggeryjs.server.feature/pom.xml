@@ -111,6 +111,10 @@
         </dependency>
         <dependency>
             <groupId>org.jaggeryjs</groupId>
+            <artifactId>org.jaggeryjs.hostobjects.process</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jaggeryjs</groupId>
             <artifactId>org.jaggeryjs.hostobjects.uri</artifactId>
         </dependency>
         <dependency>
@@ -346,6 +350,7 @@
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.email</bundleDef>
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.xslt</bundleDef>
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.uuid</bundleDef>
+                                <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.process</bundleDef>
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.uri</bundleDef>
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.jaggeryparser</bundleDef>
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.log</bundleDef>
@@ -393,10 +398,6 @@
                                 <importBundleDef>com.googlecode.json-simple.wso2:json-simple</importBundleDef>
                                 <importBundleDef>com.google.code.gson:gson</importBundleDef>
                             </importBundles>
-                            <importFeatures>
-                                <importFeatureDef>org.wso2.carbon.ntask.core:${patch.version.405}</importFeatureDef>
-                                <importFeatureDef>org.wso2.carbon.coordination:${patch.version.405}</importFeatureDef>
-                            </importFeatures>
                         </configuration>
                     </execution>
                 </executions>

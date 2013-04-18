@@ -11,24 +11,26 @@ var addition = request.getParameter('addition');
 var data = request.getContent();
 var log = new Log();
 
-var uri = request.getPathInfo();
+var uri = request.getRequestURI();
+uri = uri.substring(request.getContextPath().length);
 if(uri != null) {
 var uriMatcher = new URIMatcher(uri);
 
-	if(uriMatcher.match("/{orderid}/{page}")) {		
+	if(uriMatcher.match("/orders/{orderid}/{page}")) {
 		orderid = uriMatcher.elements().orderid;
 	}
-	if(uriMatcher.match("/{orderid}/")) {		
+	if(uriMatcher.match("/orders/{orderid}/")) {
 		orderid = uriMatcher.elements().orderid;
 	}
 }
 
 if(data != "") {
-	if(data.addition != "undefined") {
-		addition = parse(data).addition;
+    data = parse(data);
+	if(data.addition) {
+		addition = data.addition;
 	}
-	if(data.status != "undefined") {
-		status = parse(data).status;
+	if(data.status) {
+		status = data.status;
 	}
 }
 

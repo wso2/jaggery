@@ -11,7 +11,6 @@ import org.mozilla.javascript.SecurityController;
 import org.mozilla.javascript.optimizer.ClassCompiler;
 import org.mozilla.javascript.tools.ToolErrorReporter;
 
-import java.io.File;
 import java.io.Reader;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -129,45 +128,17 @@ public class CacheManager {
         PackageWrapper packageWrapper = context.getPackage(sctx.getPath());
         if (packageWrapper == null) {
             packageWrapper = new PackageWrapper();
-            context.setPackage(sctx.getPath(), packageWrapper);
+            context.addPackage(sctx.getPath(), packageWrapper);
         }
         return tenant;
     }
 
     private static String getClassName(TenantWrapper tenant, ScriptCachingContext sctx) throws ScriptException {
-        String filteredPath = getPackage(sctx.getContext(), sctx.getPath());
+        String filteredPath = ContextWrapper.getPackage(sctx.getContext(), sctx.getPath());
         PackageWrapper packageWrapper = tenant.getPath(sctx);
         long classIndex = packageWrapper.getClassIndex();
         packageWrapper.setClassIndex(classIndex + 1);
         return PACKAGE_NAME + filteredPath + ".c" + classIndex;
-    }
-
-    public static String getPackage(String context, String path) {
-        path = normalizeForPackage(normalizePath(path));
-        String pack = normalizeForPackage(normalizePath(context));
-        if (!path.equals("")) {
-            pack += path;
-        }
-        return pack;
-    }
-
-    private static String normalizeForPackage(String path) {
-        path = path.replaceAll("[-\\(\\)\\s]", "_")
-                .replace("/", ".")
-                .replaceAll("(.)([0-9])", "$1_$2");
-        return path;
-    }
-
-    public static String filterNameForDir(String path) {
-        path = normalizePath(path);
-        return path.replace("/", File.separator);
-    }
-
-    public static String normalizePath(String path) {
-        if (path.equals("") || path.equals("/")) {
-            return "";
-        }
-        return path.startsWith("/") ? path : "/" + path;
     }
 
     private CachingContext getCachingContext(ScriptCachingContext sctx) {

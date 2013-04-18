@@ -5,11 +5,7 @@
        print("dir0 element is : " + uriMatcher.elements().dir0);
 	   print(" ,page element is : " + uriMatcher.elements().page);
  }
- 
-  if(uriMatcher.match("/{dir0}/{dir1}/{page}")) {
-		print("request getPathInfo : "+request.getPathInfo());
- }
- 
+
    if(uriMatcher.match("/{dir0}/{dir1}/{dir2}/{dir3}/")) {
        print("dir0 element is : " + uriMatcher.elements().dir0);
 	   print(" ,dir1 element is : " + uriMatcher.elements().dir1);

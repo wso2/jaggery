@@ -18,8 +18,12 @@
 
 package org.wso2.jaggery.integration.tests.hostObjects;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.json.JSONException;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.testng.annotations.Test;
+import org.wso2.carbon.integration.framework.ClientConnectionUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,10 +31,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.testng.annotations.Test;
-import org.wso2.carbon.integration.framework.ClientConnectionUtil;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
 /**
  * Test cases for MetaData Object
@@ -69,7 +71,7 @@ public class MetaDataHostObjectTestCase {
     
     @Test(groups = {"jaggery"},
             description = "Test MetaData operations")
-    public void metaDataOperations() {
+    public void metaDataOperations() throws JSONException {
         ClientConnectionUtil.waitForPort(9763);
         
         String finalOutput = null;
@@ -89,8 +91,8 @@ public class MetaDataHostObjectTestCase {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			assertEquals(finalOutput, "{\"content\" : \"<a>Hello Jaggery</a>\", \""
-					+"props\" : {\"company\" : \"WSO2 Inc.\", \"url\" : \"http://wso2.com\"}}");
+			JSONAssert.assertEquals("{\"content\" : \"<a>Hello Jaggery</a>\", \""
+                    + "props\" : {\"company\" : \"WSO2 Inc.\", \"url\" : \"http://wso2.com\"}}", finalOutput, true);
 		}
         
     }

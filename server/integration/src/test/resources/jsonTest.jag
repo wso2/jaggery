@@ -7,7 +7,7 @@ if(param == "stringify"){
 	myJson.type = reqType;
     print(stringify(myJson));
 	}else{
-   var jsonString = '[{"name":"Test", "type":"'+reqType+'"}]';
+   var jsonString = '[{"type":"'+reqType+'", "name":"Test"}]';
    print(parse(jsonString));
    }
    

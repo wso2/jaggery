@@ -1,17 +1,5 @@
 package org.jaggeryjs.hostobjects.xhr;
 
-import org.apache.axiom.om.util.AXIOMUtil;
-import org.apache.commons.httpclient.*;
-import org.apache.commons.httpclient.auth.AuthScope;
-import org.apache.commons.httpclient.methods.*;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.jaggeryjs.scriptengine.engine.RhinoEngine;
-import org.jaggeryjs.scriptengine.exceptions.ScriptException;
-import org.jaggeryjs.scriptengine.util.HostObjectUtil;
-import org.mozilla.javascript.*;
-
-import javax.xml.stream.XMLStreamException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,6 +7,37 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import javax.xml.stream.XMLStreamException;
+
+import org.apache.axiom.om.util.AXIOMUtil;
+import org.apache.commons.httpclient.Header;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpMethodBase;
+import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
+import org.apache.commons.httpclient.ProxyHost;
+import org.apache.commons.httpclient.StatusLine;
+import org.apache.commons.httpclient.UsernamePasswordCredentials;
+import org.apache.commons.httpclient.auth.AuthScope;
+import org.apache.commons.httpclient.methods.DeleteMethod;
+import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.HeadMethod;
+import org.apache.commons.httpclient.methods.InputStreamRequestEntity;
+import org.apache.commons.httpclient.methods.OptionsMethod;
+import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.methods.PutMethod;
+import org.apache.commons.httpclient.methods.TraceMethod;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.jaggeryjs.scriptengine.engine.RhinoEngine;
+import org.jaggeryjs.scriptengine.exceptions.ScriptException;
+import org.jaggeryjs.scriptengine.util.HostObjectUtil;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.ContextFactory;
+import org.mozilla.javascript.Function;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
+import org.mozilla.javascript.Undefined;
 
 //TODO : need to add basic auth
 public class XMLHttpRequestHostObject extends ScriptableObject {
@@ -69,6 +88,11 @@ public class XMLHttpRequestHostObject extends ScriptableObject {
 
     public XMLHttpRequestHostObject() {
         httpClient = new HttpClient(new MultiThreadedHttpConnectionManager());
+        ProxyHost proxyConfig = getProxyConfig();
+    	if ( proxyConfig != null){
+    		httpClient.getHostConfiguration().setProxyHost(proxyConfig);
+
+    	}
     }
 
     @Override
@@ -528,8 +552,11 @@ public class XMLHttpRequestHostObject extends ScriptableObject {
 
             byte[] response = xhr.method.getResponseBody();
             if (response.length > 0) {
-                xhr.responseType = xhr.method.getResponseHeader("Content-Type").getValue();
                 xhr.responseText = new String(response);
+            }
+            Header contentType = xhr.method.getResponseHeader("Content-Type");
+            if (contentType != null) {
+                xhr.responseType = contentType.getValue();
             }
             updateReadyState(xhr, DONE);
         } catch (IOException e) {
@@ -556,6 +583,33 @@ public class XMLHttpRequestHostObject extends ScriptableObject {
             return true;
         }
         return false;
+    }
+    
+ private ProxyHost getProxyConfig(){
+    	
+    	ProxyHost proxyConfig = null;
+    	
+    	String proxyHost = System.getProperty("http.proxyHost");
+    	String proxyPortStr = System.getProperty("http.proxyPort");
+        
+        int proxyPort = -1;
+    	if ( proxyHost != null){
+        	proxyHost = proxyHost.trim();
+        }
+        
+        if ( proxyPortStr != null){
+        	try{
+        		proxyPort = Integer.parseInt(proxyPortStr);
+        		
+        		if ( !proxyHost.isEmpty()){
+        			proxyConfig = new ProxyHost(proxyHost, proxyPort);
+        		}
+        	}catch(NumberFormatException e){
+        		log.error(e.getMessage(), e);
+        	}
+        }
+        
+        return proxyConfig;
     }
 
 }

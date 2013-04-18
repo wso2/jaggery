@@ -17,7 +17,8 @@ public class JavaScriptFileManagerImpl implements JavaScriptFileManager {
     @Override
     public JavaScriptFile getJavaScriptFile(Object object) throws ScriptException {
         if (object instanceof String) {
-            return new JavaScriptFileImpl(getFile((String) object).getAbsolutePath());
+            String uri = (String) object;
+            return new JavaScriptFileImpl(uri, getFile(uri).getAbsolutePath());
         } else {
             String msg = "Unsupported parameter to the File constructor : " + object.getClass();
             log.error(msg);
@@ -26,24 +27,24 @@ public class JavaScriptFileManagerImpl implements JavaScriptFileManager {
     }
 
     @Override
-    public File getFile(String path) throws ScriptException {
+    public File getFile(String uri) throws ScriptException {
         File file;
-        if (path.startsWith("file://")) {
+        if (uri.startsWith("file://")) {
             try {
-                file = FileUtils.toFile(new URL(path));
+                file = FileUtils.toFile(new URL(uri));
             } catch (MalformedURLException e) {
                 log.error(e.getMessage(), e);
                 throw new ScriptException(e);
             }
         } else {
-            String oldPath = path;
-            path = FilenameUtils.normalizeNoEndSeparator(path);
-            if (path == null) {
-                String msg = "Invalid file path : " + oldPath;
+            String oldPath = uri;
+            uri = FilenameUtils.normalizeNoEndSeparator(uri);
+            if (uri == null) {
+                String msg = "Invalid file URI : " + oldPath;
                 log.error(msg);
                 throw new ScriptException(msg);
             }
-            file = new File(path);
+            file = new File(uri);
         }
 
         return file;

@@ -19,34 +19,34 @@
     <link href="../css/bootstrap.css" rel="stylesheet">
     <style type="text/css">
         body {
-            padding-top: 60px;
+        padding-top: 60px;
 
         }
 
 
         .about li {
-            font-family: Georgia, serif;
-            font-size: 16px;
-            font-style: italic;
-            font-weight: normal;
-            text-transform: normal;
-            letter-spacing: normal;
-            line-height: 1.4em;
-            list-style: none;
-            margin-bottom: 20px;
-            color: #666;
+        font-family: Georgia, serif;
+        font-size: 16px;
+        font-style: italic;
+        font-weight: normal;
+        text-transform: normal;
+        letter-spacing: normal;
+        line-height: 1.4em;
+        list-style: none;
+        margin-bottom: 20px;
+        color: #666;
         }
 
         .about {
-            margin-top: 20px;
-            margin-left: 0px;
-            padding: 10px;
-            background: #efefef;
-            border: 1px solid #ccc;
+        margin-top: 20px;
+        margin-left: 0px;
+        padding: 10px;
+        background: #efefef;
+        border: 1px solid #ccc;
         }
 
         .center-align {
-            text-align: center;
+        text-align: center;
         }
 
 
@@ -73,7 +73,7 @@ include('/includes/topnavi.jag');
 
 %>
 
-<div class="container-fluid" style="width: 960px; margin: auto;">
+<div class="container">
     <div class="row">
         <div class="span16">
             <div class="page-header">
@@ -81,15 +81,14 @@ include('/includes/topnavi.jag');
                     <span class="parent">Tools</span> / IDE support(IntelliJ IDEA- Ultimate)
                 </h1>
             </div>
-        </div>
-    </div>
+       
 
-    <div class="container">
+  
 
 
         <!-- Example row of columns -->
-        <div class="row">
-            <div class="span16">
+     
+          
 
                 <h3>Introduction</h3>
 
@@ -158,31 +157,41 @@ include('/includes/topnavi.jag');
                     </br>
                     </br>
                     </br>
-                     <li> Create object and access its operations.</li>
-                     </br>
-                     <img src="/images/ide_doc_images/createobject.png" alt="" class="config_thumb" align="middle"/>
-                     </br>
-                     </br>
-                     </br>
-                     <li> Show parameter types when creating an operation.</li>
-                     </br>
-                     <img src="/images/ide_doc_images/methodparam.png" alt="" class="config_thumb" align="middle"/>
-                     </br>
-                     </br>
-                     </br>
-                   
+                    <li> Create object and access its operations.</li>
+                    </br>
+                    <img src="/images/ide_doc_images/createobject.png" alt="" class="config_thumb" align="middle"/>
+                    </br>
+                    </br>
+                    </br>
+                    <li> Show parameter types when creating an operation.</li>
+                    </br>
+                    <img src="/images/ide_doc_images/methodparam.png" alt="" class="config_thumb" align="middle"/>
+                    </br>
+                    </br>
+                    </br>
+
 
 
                 </ol>
 
 
-            </div>
         </div>
+    </div>
 
         <%
         include('/includes/footer.jag');
         %>
+   <!-- /container -->
+<%
+include('/includes/scripts.jag')
+%>
+<script>
+   
+    $(document).ready(function () {
+        $('#tool').toggleClass('active')
+    })
+</script>
+
     </div>
-</div>
 </body>
 </html>

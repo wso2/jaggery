@@ -161,7 +161,7 @@ log.fatal("this is a fatal message")
                     <tr>
 
                         <td><code>isDebugEnabeld()</code></td>
-                        <td>boolean</td>
+                        <td>Boolean</td>
                         <td>
                            <pre class="prettyprint">log.isDebugEnabled()</pre>
                             Returns true if Debug level is enabled. Default is true
@@ -172,7 +172,7 @@ log.fatal("this is a fatal message")
                                         <tr>
 
                         <td><code>isTraceEnabled()</code></td>
-                        <td>boolean</td>
+                        <td>Boolean</td>
                         <td>
                            <pre class="prettyprint">log.isTraceEnabled()</pre>
                             Returns true if Trace level is enabled. Default is false

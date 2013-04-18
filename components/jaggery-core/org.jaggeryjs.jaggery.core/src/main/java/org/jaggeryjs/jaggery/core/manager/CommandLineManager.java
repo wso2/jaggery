@@ -7,11 +7,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.jaggery.core.ScriptReader;
 import org.jaggeryjs.scriptengine.cache.CacheManager;
+import org.jaggeryjs.scriptengine.engine.JaggeryContext;
 import org.jaggeryjs.scriptengine.engine.JavaScriptHostObject;
 import org.jaggeryjs.scriptengine.engine.JavaScriptMethod;
 import org.jaggeryjs.scriptengine.engine.RhinoEngine;
-import org.jaggeryjs.scriptengine.security.RhinoSecurityController;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
+import org.jaggeryjs.scriptengine.security.RhinoSecurityController;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
@@ -20,10 +21,7 @@ import org.mozilla.javascript.ScriptableObject;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Stack;
@@ -97,7 +95,8 @@ public final class CommandLineManager {
         if (argsCount != 1) {
             HostObjectUtil.invalidNumberOfArgs("RhinoTopLevel", functionName, argsCount, false);
         }
-        PrintWriter writer = new PrintWriter(jaggeryContext.getOutputStream());
+        PrintWriter writer = new PrintWriter((OutputStream) jaggeryContext.getProperty(
+                CommonManager.JAGGERY_OUTPUT_STREAM));
         writer.write(HostObjectUtil.serializeObject(args[0]));
         writer.flush();
     }
@@ -122,8 +121,8 @@ public final class CommandLineManager {
         }
 
         JaggeryContext jaggeryContext = CommonManager.getJaggeryContext();
-        Stack<String> includesCallstack = jaggeryContext.getIncludesCallstack();
-        Map<String, Boolean> includedScripts = jaggeryContext.getIncludedScripts();
+        Stack<String> includesCallstack = CommonManager.getCallstack(jaggeryContext);
+        Map<String, Boolean> includedScripts = CommonManager.getIncludes(jaggeryContext);
         String parent = includesCallstack.lastElement();
         String fileURL = (String) args[0];
 
@@ -169,8 +168,8 @@ public final class CommandLineManager {
         }
 
         JaggeryContext jaggeryContext = CommonManager.getJaggeryContext();
-        Stack<String> includesCallstack = jaggeryContext.getIncludesCallstack();
-        Map<String, Boolean> includedScripts = jaggeryContext.getIncludedScripts();
+        Stack<String> includesCallstack = CommonManager.getCallstack(jaggeryContext);
+        Map<String, Boolean> includedScripts = CommonManager.getIncludes(jaggeryContext);
         String parent = includesCallstack.lastElement();
         String fileURL = (String) args[0];
 

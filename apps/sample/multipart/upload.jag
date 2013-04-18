@@ -5,7 +5,9 @@ file.move(file.getName());
 %>
 
 <html>
-<head/>
+<head>
+    <meta charset="utf-8">
+</head>
 <body>
 <table>
     <thead>
@@ -14,16 +16,24 @@ file.move(file.getName());
     </thead>
     <tbody>
     <tr>
-        <td>request.getParameterMap()</td>
-        <td><%=request.getParameterMap()%></td>
+        <td>request.getAllParameters</td>
+        <td><%=request.getAllParameters('UTF-8')%></td>
     </tr>
     <tr>
-        <td>request.getFileMap()</td>
-        <td><%=request.getFileMap()%></td>
+        <td>request.getAllFiles</td>
+        <td><%=request.getAllFiles()%></td>
     </tr>
     <tr>
         <td>request.getParameter("username")</td>
         <td><%=request.getParameter("username")%></td>
+    </tr>
+    <tr>
+        <td>request.getParameter("username", "iso-8859-1")</td>
+        <td><%=request.getParameter("username", "iso-8859-1")%></td>
+    </tr>
+    <tr>
+        <td>request.getParameter("username", "UTF-8")</td>
+        <td><%=request.getParameter("username", "UTF-8")%></td>
     </tr>
     <tr>
         <td>file instanceof File</td>
