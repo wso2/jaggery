@@ -1,7 +1,17 @@
 <%
 var param = request.getParameter('param');
 if(param != null) {
+	if(param == "test") {
 	print("Param : " + request.getParameter('param'));
+}if(param == "getAllLocales"){
+	print("getAllLocales ");
+	print(request.getAllLocales()!=null);
+}else if(param == "getLocale"){	
+	print(request.getLocale());
+}else if(param == "getMappedPath"){	
+	print("getMappedPath : " + request.getMappedPath());
+}
+
 } else {
 	print("Method : " + request.getMethod() );
 	print(", Protocol : " + request.getProtocol());
@@ -11,7 +21,6 @@ if(param != null) {
 	print(", URL : " + request.getRequestURL());
 	print(", LocalPort : " + request.getLocalPort());
 	print(", ContentLength : " + request.getContentLength());
-	print(", PathInfo : " + request.getPathInfo());
 	print(", ContextPath : " + request.getContextPath());
 
 }

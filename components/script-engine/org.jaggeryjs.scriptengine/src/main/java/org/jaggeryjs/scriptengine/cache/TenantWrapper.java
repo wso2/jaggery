@@ -93,7 +93,7 @@ public class TenantWrapper {
         if (ctxWrapper == null) {
             ctxWrapper = createContext(context);
         }
-        ctxWrapper.setPackage(path, packageWrapper);
+        ctxWrapper.addPackage(path, packageWrapper);
     }
 
     public void setPath(ScriptCachingContext sctx, PackageWrapper packageWrapper) {
@@ -105,7 +105,7 @@ public class TenantWrapper {
         if (ctxWrapper == null) {
             ctxWrapper = createContext(context);
         }
-        ctxWrapper.setCachingContext(path, cacheKey, ctx);
+        ctxWrapper.addCachingContext(path, cacheKey, ctx);
     }
 
     public void setCachingContext(CachingContext ctx) {

@@ -17,7 +17,8 @@ package org.jaggeryjs.jaggery.tools;
 
 import org.jaggeryjs.jaggery.core.ScriptReader;
 import org.jaggeryjs.jaggery.core.manager.CommandLineManager;
-import org.jaggeryjs.jaggery.core.manager.JaggeryContext;
+import org.jaggeryjs.jaggery.core.manager.CommonManager;
+import org.jaggeryjs.scriptengine.engine.JaggeryContext;
 import org.jaggeryjs.scriptengine.engine.RhinoEngine;
 import org.mozilla.javascript.ScriptableObject;
 
@@ -54,9 +55,9 @@ public final class CommandLineExecutor {
         	//initialize JaggeryContext
 			final JaggeryContext jaggeryContext = new JaggeryContext();
         	jaggeryContext.setTenantId("0");
-        	jaggeryContext.setOutputStream(System.out);
         	jaggeryContext.setEngine(engine);
         	jaggeryContext.setScope(scope);
+            jaggeryContext.addProperty(CommonManager.JAGGERY_OUTPUT_STREAM, System.out);
         	
         	RhinoEngine.putContextProperty("jaggeryContext", jaggeryContext);
 
@@ -94,9 +95,9 @@ public final class CommandLineExecutor {
         	//initialize JaggeryContext
             final JaggeryContext jaggeryContext = new JaggeryContext();
         	jaggeryContext.setTenantId("0");
-        	jaggeryContext.setOutputStream(out);
         	jaggeryContext.setEngine(engine);
         	jaggeryContext.setScope(scope);
+            jaggeryContext.addProperty(CommonManager.JAGGERY_OUTPUT_STREAM, out);
         	
         	RhinoEngine.putContextProperty("jaggeryContext", jaggeryContext);
 

@@ -61,7 +61,6 @@ include('/includes/topnavi.jag');
                 <h3>Collection</h3>
         <pre class="prettyprint linenums">
 &lt%
-
 var dataStore = new MetadataStore("admin", "admin");
 var collection = dataStore.newCollection();
 dataStore.put("wso2products", collection);
@@ -73,9 +72,6 @@ dataStore.put("wso2products/jaggery.xml", resource);
 //now we reading from collection
 var res = dataStore.get("wso2products");
 print(res.getChildren());
-
-
-
 %&gt
 </pre>
                 <%

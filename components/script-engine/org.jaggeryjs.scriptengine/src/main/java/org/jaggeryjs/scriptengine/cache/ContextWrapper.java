@@ -22,34 +22,57 @@ public class ContextWrapper {
     }
 
     public PackageWrapper getPackage(String path) {
-        return packages.get(CacheManager.getPackage(context, path));
+        return packages.get(getPackage(context, path));
     }
 
     public void removePackage(String path) {
-        packages.remove(CacheManager.getPackage(context, path));
+        packages.remove(getPackage(context, path));
     }
 
     public void removeCachingContext(String path, String cacheKey) {
         PackageWrapper packageWrapper = getPackage(path);
-        if(packageWrapper == null) {
+        if (packageWrapper == null) {
             return;
         }
         packageWrapper.removeCachingContext(cacheKey);
-        if(packageWrapper.getCachingContextCount() == 0) {
+        if (packageWrapper.getCachingContextCount() == 0) {
             removePackage(path);
         }
     }
 
-    public void setPackage(String path, PackageWrapper packageWrapper) {
-        packages.put(CacheManager.getPackage(context, path), packageWrapper);
+    public void addPackage(String path, PackageWrapper packageWrapper) {
+        packages.put(getPackage(context, path), packageWrapper);
     }
 
-    public void setCachingContext(String path, String cacheKey, CachingContext ctx) {
+    public void addCachingContext(String path, String cacheKey, CachingContext ctx) {
         PackageWrapper packageWrapper = getPackage(path);
-        if(packageWrapper == null) {
+        if (packageWrapper == null) {
             packageWrapper = new PackageWrapper();
-            setPackage(path, packageWrapper);
+            addPackage(path, packageWrapper);
         }
-        packageWrapper.setCachingContexts(cacheKey, ctx);
+        packageWrapper.addCachingContext(cacheKey, ctx);
+    }
+
+    public static String getPackage(String context, String path) {
+        path = normalizeForPackage(normalizePath(path));
+        String pack = normalizeForPackage(normalizePath(context));
+        if (!path.equals("")) {
+            pack += path;
+        }
+        return pack;
+    }
+
+    private static String normalizeForPackage(String path) {
+        path = path.replaceAll("[-\\(\\)\\s]", "_")
+                .replace("/", ".")
+                .replaceAll("(.)([0-9])", "$1_$2");
+        return path;
+    }
+
+    private static String normalizePath(String path) {
+        if (path.equals("") || path.equals("/")) {
+            return "";
+        }
+        return path.startsWith("/") ? path : "/" + path;
     }
 }

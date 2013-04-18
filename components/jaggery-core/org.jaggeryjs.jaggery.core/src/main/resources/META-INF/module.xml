@@ -56,7 +56,7 @@
     <hostObject>
         <className>org.jaggeryjs.hostobjects.web.ApplicationHostObject</className>
         <name>Application</name>
-    </hostObject>
+    </hostObject>    
     <hostObject>
         <className>org.jaggeryjs.hostobjects.stream.StreamHostObject</className>
         <name>Stream</name>
@@ -68,6 +68,10 @@
     <hostObject>
         <className>org.jaggeryjs.hostobjects.jaggeryparser.JaggeryParserHostObject</className>
         <name>JaggeryParser</name>
+    </hostObject>
+    <hostObject>
+        <className>org.jaggeryjs.hostobjects.web.WebSocketHostObject</className>
+        <name>WebSocket</name>
     </hostObject>
 
     <!-- methods -->
@@ -100,24 +104,20 @@
         <name>stringify</name>
     </method>
 	<method>
-        <className>org.jaggeryjs.jaggery.core.task.JaggeryTaskManager</className>
+        <className>org.jaggeryjs.scriptengine.engine.RhinoTopLevel</className>
         <name>setTimeout</name>
     </method>    
     <method>
-        <className>org.jaggeryjs.jaggery.core.task.JaggeryTaskManager</className>
+        <className>org.jaggeryjs.scriptengine.engine.RhinoTopLevel</className>
         <name>setInterval</name>
     </method>
     <method>
-        <className>org.jaggeryjs.jaggery.core.task.JaggeryTaskManager</className>
+        <className>org.jaggeryjs.scriptengine.engine.RhinoTopLevel</className>
         <name>clearTimeout</name>
     </method>    
     <method>
-        <className>org.jaggeryjs.jaggery.core.task.JaggeryTaskManager</className>
+        <className>org.jaggeryjs.scriptengine.engine.RhinoTopLevel</className>
         <name>clearInterval</name>
-    </method>
-    <method>
-        <className>org.jaggeryjs.jaggery.core.task.JaggeryTaskManager</className>
-        <name>isTaskScheduled</name>
     </method>
     
     <!-- scripts -->

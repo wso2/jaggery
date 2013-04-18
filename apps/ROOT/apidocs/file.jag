@@ -65,12 +65,10 @@ include('/includes/topnavi.jag');
     var path = "/foo.txt";
     var file = new File(path);
     file.open("r");
-
     var message = "";
 
     message = file.readAll(); 
-    print(message);
-    
+    print(message);    
     file.close();
 %&gt
 </pre>
@@ -185,7 +183,7 @@ var text = file.read(5);
 print(text);
 file.close();</pre>
                             Reads the given number of characters from the
-                            file and returns a string representation of those characters. Users are
+                            file and returns a String representation of those characters. Users are
                             required to open the file for reading before reading from the file.
                             <br><br>
                             If the file is not open for either reading or writing or appending,
@@ -218,7 +216,7 @@ print(file.readAll());
 file.close();</pre>
 
                             Reads all the content in the file and returns
-                            a string representation of the content. Users are required to open the
+                            a String representation of the content. Users are required to open the
                             file for reading before reading from the file.
                             <br><br>
                             If the file is not open for either reading or writing or appending,
@@ -247,18 +245,27 @@ file.close();</pre>
                     </tr>
                     <tr>
                         <td>
-                            <code>move(string targetFileName)</code>
+                            <code>move(String targetFileName)</code>
                         </td>
                         <td>Boolean</td>
-                        <td>Move the file to the given target file. Returns True if the file was successfully moved.
+                        <td>
+			<pre class="prettyprint">var path = "/foo.txt";
+var file = new File(path);
+file.move("/bar.txt");</pre>
+
+			Move the file to the given target file. Returns True if the file was successfully moved.
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <code>saveAs(string targetLocation)</code>
+                            <code>saveAs(String targetLocation)</code>
                         </td>
                         <td>Boolean</td>
-                        <td>Save the file to the given target file. Returns True if the file was successfully moved.
+                        <td>
+			<pre class="prettyprint">var path = "/foo.txt";
+var file = new File(path);
+file.saveAs("/newFile.txt");</pre>
+ 			Save the file to the given target file. Returns True if the file was successfully moved.
                         </td>
                     </tr>
                     <tr>
@@ -266,7 +273,11 @@ file.close();</pre>
                             <code>del()</code>
                         </td>
                         <td>Boolean</td>
-                        <td>Deletes this file from the file system. Returns true or false depending on the success.
+                        <td>
+			<pre class="prettyprint">var path = "/foo.txt";
+var file = new File(path);
+print(file.del())</pre>
+			Deletes this file from the file system. Returns true or false depending on the success.
                         </td>
                     </tr>
                                 <tr>
@@ -274,43 +285,76 @@ file.close();</pre>
                                         <code>getLength()</code>
                                     </td>
                                     <td>Long</td>
-                                    <td>Length of the file in bytes</td>
+                                    <td>
+				    <pre class="prettyprint">file.getLength()</pre>
+				     Length of the file in bytes</td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <code>getLastModified()</code>
                                     </td>
                                     <td>String</td>
-                                    <td>Last modified time of this file.</td>
+                                    <td>
+ 					<pre class="prettyprint">file.getLastModified()</pre>
+					Last modified time of this file.</td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <code>getName()</code>
                                     </td>
                                     <td>String</td>
-                                    <td>Name of the file without the path.</td>
+                                    <td>
+ 					<pre class="prettyprint">file.getName()</pre>
+					Name of the file without the path.</td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <code>isExists()</code>
                                     </td>
                                     <td>Boolean</td>
-                                    <td>Checks whether this file actually exists. Returns True if the file exists.</td>
+                                    <td>
+					<pre class="prettyprint">file.isExists()</pre>
+					Checks whether this file actually exists. Returns True if the file exists.</td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <code>isDirectory()</code>
                                     </td>
                                     <td>Boolean</td>
-                                    <td>Checks whether the given file path is a directory</td>
+                                    <td>
+ 					<pre class="prettyprint">file.isDirectory()</pre>
+					Checks whether the given file path is a directory</td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <code>listFiles()</code>
                                     </td>
                                     <td>File[]</td>
-                                    <td>Returns the list of files in a directory</td>
+                                    <td>
+ 					<pre class="prettyprint">file.listFiles()</pre>				
+					Returns the list of files in a directory</td>
                                 </tr>
+                                <tr>
+                                    <td>
+                                        <code>mkdir(String name)</code>
+                                    </td>
+                                    <td>Boolean</td>
+                                    <td>
+ 					<pre class="prettyprint">file.mkdir()</pre>				
+					Creates the directory named by this abstract pathname.</td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>
+                                        <code>getPath()</code>
+                                    </td>
+                                    <td>String</td>
+                                    <td>
+ 					<pre class="prettyprint">file.getPath()</pre>				
+					Converts this abstract pathname into a pathname String. 
+					The resulting String uses the default path-separator character to separate the names in the name sequence.</td>
+                                </tr>
+                                
                     </tbody>
                 </table>
             </section>

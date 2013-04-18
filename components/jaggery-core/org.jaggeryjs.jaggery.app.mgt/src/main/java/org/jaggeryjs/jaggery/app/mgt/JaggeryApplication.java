@@ -22,7 +22,6 @@ import org.wso2.carbon.webapp.mgt.TomcatGenericWebappsDeployer;
 import org.wso2.carbon.webapp.mgt.WebApplication;
 
 import java.io.File;
-import java.util.List;
 
 /**
  * Represents a Tomcat Web Application
@@ -32,8 +31,6 @@ public class JaggeryApplication extends WebApplication {
     private static final Log log = LogFactory.getLog(JaggeryApplication.class);
 
     private long configDirLastModifiedTime;
-    private List<ServletParameter> servletParameters;
-    private List<ServletMappingParameter> servletMappingParameters;
 
     public JaggeryApplication(TomcatGenericWebappsDeployer tomcatGenericWebappsDeployer, Context context,
                               File webappFile) {
@@ -51,22 +48,5 @@ public class JaggeryApplication extends WebApplication {
 
     public void setConfigDirLastModifiedTime(long configDirLastModifiedTime) {
         this.configDirLastModifiedTime = configDirLastModifiedTime;
-    }
-
-    public List<ServletParameter> getServletParameters() {
-        return servletParameters;
-    }
-
-    public void setServletParameters(List<ServletParameter> servletParameters) {
-        this.servletParameters = servletParameters;
-    }
-
-    public List<ServletMappingParameter> getServletMappingParameters() {
-        return servletMappingParameters;
-    }
-
-    public void setServletMappingParameters(
-            List<ServletMappingParameter> servletMappingParameters) {
-        this.servletMappingParameters = servletMappingParameters;
     }
 }

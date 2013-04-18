@@ -1,5 +1,6 @@
 package org.jaggeryjs.hostobjects.file;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
@@ -21,12 +22,14 @@ public class JavaScriptFileImpl implements JavaScriptFile {
     private RandomAccessFile file = null;
     private File f = null;
     private String path = null;
+    private String uri = null;
     private boolean opened = false;
 
     private boolean readable = false;
     private boolean writable = false;
 
-    public JavaScriptFileImpl(String path) {
+    public JavaScriptFileImpl(String uri, String path) {
+        this.uri = uri;
         this.path = path;
     }
 
@@ -199,7 +202,7 @@ public class JavaScriptFileImpl implements JavaScriptFile {
             log.warn("Please close the file before moving");
             return false;
         }
-        return new File(path).renameTo(new File(path));
+        return f.renameTo(new File(dest));
     }
 
     @Override
@@ -208,37 +211,33 @@ public class JavaScriptFileImpl implements JavaScriptFile {
             log.warn("Please close the file before deleting");
             return false;
         }
-        return new File(path).delete();
+        return FileUtils.deleteQuietly(f);
     }
 
     @Override
     public long getLength() throws ScriptException {
-        try {
-            return file.length();
-        } catch (IOException e) {
-            log.error(e.getMessage(), e);
-            throw new ScriptException(e);
-        }
+        return f.length();
     }
 
     @Override
     public long getLastModified() throws ScriptException {
-        return new File(path).lastModified();
+        return f.lastModified();
     }
 
     @Override
     public String getName() throws ScriptException {
-        return new File(path).getName();
+        return f.getName();
     }
 
     @Override
     public boolean isExist() throws ScriptException {
-        return new File(path).exists();
+        return f.exists();
     }
 
     @Override
     public InputStream getInputStream() throws ScriptException {
         try {
+            open("r");
             return new FileInputStream(file.getFD());
         } catch (IOException e) {
             log.error(e.getMessage(), e);
@@ -249,6 +248,7 @@ public class JavaScriptFileImpl implements JavaScriptFile {
     @Override
     public OutputStream getOutputStream() throws ScriptException {
         try {
+            open("w");
             return new FileOutputStream(file.getFD());
         } catch (IOException e) {
             log.error(e.getMessage(), e);
@@ -266,15 +266,30 @@ public class JavaScriptFileImpl implements JavaScriptFile {
         return move(dest);
     }
 
+    @Override
+    public boolean mkdir() throws ScriptException {
+        return f.mkdir();
+    }
+
     public boolean isDirectory() throws ScriptException {
         return f.isDirectory();
+    }
+
+    public String getPath() throws ScriptException {
+        return path;
+    }
+
+    public String getURI() throws ScriptException {
+        return uri;
     }
 
     public ArrayList<String> listFiles() throws ScriptException {
         File[] fileList = f.listFiles();
         ArrayList<String> jsfl = new ArrayList<String>();
-        for (File fi : fileList) {
-            jsfl.add(fi.getPath());
+        if (fileList != null) {
+            for (File fi : fileList) {
+                jsfl.add(fi.getPath());
+            }
         }
         return jsfl;
     }

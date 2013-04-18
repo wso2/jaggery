@@ -128,9 +128,9 @@ public class WSRequestHostObject extends ScriptableObject {
 
     private String mep = IN_OUT;
 
-    private NativeArray soapHeaders = null;
+    private Scriptable soapHeaders = null;
 
-    private NativeArray httpHeaders = null;
+    private Scriptable httpHeaders = null;
 
     private NativeObject rampartConfig = null;
 
@@ -407,6 +407,18 @@ public class WSRequestHostObject extends ScriptableObject {
         return responseText;
     }
 
+    public int jsGet_status() throws ScriptException {
+        try {
+            MessageContext context = this.sender.getLastOperationContext().getMessageContext("In");
+            if (context == null) {
+                return 0;
+            }
+            return (Integer) context.getProperty(HTTPConstants.MC_HTTP_STATUS_CODE);
+        } catch (AxisFault axisFault) {
+            throw new ScriptException(axisFault);
+        }
+    }
+
     protected void updateResponse(OMElement response) {
         if (response instanceof OMSourcedElementImpl) {
             OMSourcedElementImpl sourcedElement = (OMSourcedElementImpl) response;
@@ -529,7 +541,7 @@ public class WSRequestHostObject extends ScriptableObject {
     }
 
     private static void setCommonProperties(Context cx, WSRequestHostObject wsRequest,
-                                            Object[] args, NativeArray optionsArray)
+                                            Object[] args, Scriptable optionsObj)
             throws ScriptException {
         wsRequest.responseText = null;
         wsRequest.responseXML = null;
@@ -546,8 +558,8 @@ public class WSRequestHostObject extends ScriptableObject {
         }
         int timeout = 60000;
 
-        if (optionsArray != null) {
-            Object mepObject = optionsArray.get("mep", optionsArray);
+        if (optionsObj != null) {
+            Object mepObject = optionsObj.get("mep", optionsObj);
             if (mepObject != null && !(mepObject instanceof Undefined) &&
                     !(mepObject instanceof UniqueTag)) {
                 String mepValue = mepObject.toString();
@@ -558,33 +570,33 @@ public class WSRequestHostObject extends ScriptableObject {
                 }
             }
 
-            Object timeoutObject = optionsArray.get("timeout", optionsArray);
+            Object timeoutObject = optionsObj.get("timeout", optionsObj);
             if (timeoutObject != null && !(timeoutObject instanceof Undefined) &&
                     !(timeoutObject instanceof UniqueTag)) {
                 timeout = Integer.parseInt(timeoutObject.toString());
             }
 
-            Object soapHeadersObject = optionsArray.get("SOAPHeaders", optionsArray);
+            Object soapHeadersObject = optionsObj.get("SOAPHeaders", optionsObj);
             if (soapHeadersObject != null && !(soapHeadersObject instanceof Undefined) &&
                     !(soapHeadersObject instanceof UniqueTag) &&
-                    soapHeadersObject instanceof NativeArray) {
-                wsRequest.soapHeaders = (NativeArray) soapHeadersObject;
+                    soapHeadersObject instanceof Scriptable) {
+                wsRequest.soapHeaders = (Scriptable) soapHeadersObject;
             }
 
-            Object httpHeadersObject = optionsArray.get("HTTPHeaders", optionsArray);
+            Object httpHeadersObject = optionsObj.get("HTTPHeaders", optionsObj);
             if (httpHeadersObject != null && !(httpHeadersObject instanceof Undefined) &&
                     !(httpHeadersObject instanceof UniqueTag) &&
-                    httpHeadersObject instanceof NativeArray) {
-                wsRequest.httpHeaders = (NativeArray) httpHeadersObject;
+                    httpHeadersObject instanceof Scriptable) {
+                wsRequest.httpHeaders = (Scriptable) httpHeadersObject;
             }
 
-            Object rampartConfigObject = optionsArray.get("rampart", optionsArray);
+            Object rampartConfigObject = optionsObj.get("rampart", optionsObj);
             if (rampartConfigObject != null && !(rampartConfigObject instanceof Undefined) &&
                     !(rampartConfigObject instanceof UniqueTag) && rampartConfigObject instanceof NativeObject) {
                 wsRequest.rampartConfig = (NativeObject) rampartConfigObject;
             }
 
-            Object policyObject = optionsArray.get("policy", optionsArray);
+            Object policyObject = optionsObj.get("policy", optionsObj);
             if (policyObject != null && !(policyObject instanceof Undefined) &&
                     !(policyObject instanceof UniqueTag) && policyObject instanceof XML) {
                 wsRequest.policy = (XML) policyObject;
@@ -599,10 +611,10 @@ public class WSRequestHostObject extends ScriptableObject {
             List<Header> httpHeaders = new ArrayList<Header>();
             String msg = "Invalid declaration for HTTPHeaders property";
 
-            for (int i = 0; i < wsRequest.httpHeaders.getLength(); i++) {
-                if (wsRequest.httpHeaders.get(i, wsRequest.httpHeaders) instanceof NativeObject) {
+            for (Object id : wsRequest.httpHeaders.getIds()) {
+                if (wsRequest.httpHeaders.get((Integer) id, wsRequest.httpHeaders) instanceof NativeObject) {
                     NativeObject headerObject =
-                            (NativeObject) wsRequest.httpHeaders.get(i, wsRequest.httpHeaders);
+                            (NativeObject) wsRequest.httpHeaders.get((Integer) id, wsRequest.httpHeaders);
                     if (headerObject.get("name", headerObject) instanceof String &&
                             headerObject.get("value", headerObject) instanceof String) {
                         httpHeaders.add(new Header((String) headerObject.get("name", headerObject),
@@ -622,8 +634,8 @@ public class WSRequestHostObject extends ScriptableObject {
         if (wsRequest.soapHeaders != null) {
             //Sets SOAPHeaders speficed in options object an array of name-value json objects
             Object soapHeaderObject;
-            for (int i = 0; i < wsRequest.soapHeaders.getLength(); i++) {
-                soapHeaderObject = wsRequest.soapHeaders.get(i, wsRequest.soapHeaders);
+            for (Object id : wsRequest.soapHeaders.getIds()) {
+                soapHeaderObject = wsRequest.soapHeaders.get((Integer) id, wsRequest.soapHeaders);
                 if (soapHeaderObject instanceof String) {
                     String header = (String) soapHeaderObject;
                     try {
@@ -672,8 +684,8 @@ public class WSRequestHostObject extends ScriptableObject {
         }
     }
 
-    private static NativeArray setOptionsOpen(WSRequestHostObject wsRequest, Object[] args) throws ScriptException {
-        NativeArray optionsArray = null;
+    private static Scriptable setOptionsOpen(WSRequestHostObject wsRequest, Object[] args) throws ScriptException {
+        Scriptable optionsObj = null;
         Options options = wsRequest.sender.getOptions();
         String httpMethod = "post";
         // set true by default to use SOAP 1.2
@@ -753,41 +765,41 @@ public class WSRequestHostObject extends ScriptableObject {
         if (args[0] instanceof String) {
             httpMethod = (String) args[0];
             useSOAP = "false";
-        } else if (args[0] instanceof NativeArray) {
-            optionsArray = (NativeArray) args[0];
+        } else if (args[0] instanceof Scriptable) {
+            optionsObj = (Scriptable) args[0];
 
-            Object useSOAPObject = optionsArray.get("useSOAP", optionsArray);
+            Object useSOAPObject = optionsObj.get("useSOAP", optionsObj);
             if (useSOAPObject != null && !(useSOAPObject instanceof Undefined) &&
                     !(useSOAPObject instanceof UniqueTag)) {
                 useSOAP = useSOAPObject.toString();
             }
 
-            Object useWSAObject = optionsArray.get("useWSA", optionsArray);
+            Object useWSAObject = optionsObj.get("useWSA", optionsObj);
             if (useWSAObject != null && !(useWSAObject instanceof Undefined) &&
                     !(useWSAObject instanceof UniqueTag)) {
                 useWSA = useWSAObject.toString();
             }
 
-            Object hTTPMethodObject = optionsArray.get("HTTPMethod", optionsArray);
+            Object hTTPMethodObject = optionsObj.get("HTTPMethod", optionsObj);
             if (hTTPMethodObject != null && !(hTTPMethodObject instanceof Undefined) &&
                     !(hTTPMethodObject instanceof UniqueTag)) {
                 httpMethod = hTTPMethodObject.toString();
             }
 
-            Object actionObject = optionsArray.get("action", optionsArray);
+            Object actionObject = optionsObj.get("action", optionsObj);
             if (actionObject != null && !(actionObject instanceof Undefined) &&
                     !(actionObject instanceof UniqueTag)) {
                 action = actionObject.toString();
             }
 
-            Object httpLocationObject = optionsArray.get("HTTPLocation", optionsArray);
+            Object httpLocationObject = optionsObj.get("HTTPLocation", optionsObj);
             if (httpLocationObject != null && !(httpLocationObject instanceof Undefined) &&
                     !(httpLocationObject instanceof UniqueTag)) {
                 httpLocation = httpLocationObject.toString();
             }
 
             Object httpLocationIgnoreUncitedObject =
-                    optionsArray.get("HTTPLocationIgnoreUncited", optionsArray);
+                    optionsObj.get("HTTPLocationIgnoreUncited", optionsObj);
             if (httpLocationIgnoreUncitedObject != null &&
                     !(httpLocationIgnoreUncitedObject instanceof Undefined) &&
                     !(httpLocationIgnoreUncitedObject instanceof UniqueTag)) {
@@ -795,7 +807,7 @@ public class WSRequestHostObject extends ScriptableObject {
             }
 
             Object httpQueryParameterSeparatorObject =
-                    optionsArray.get("HTTPQueryParameterSeparator", optionsArray);
+                    optionsObj.get("HTTPQueryParameterSeparator", optionsObj);
             if (httpQueryParameterSeparatorObject != null &&
                     !(httpQueryParameterSeparatorObject instanceof Undefined) &&
                     !(httpQueryParameterSeparatorObject instanceof UniqueTag)) {
@@ -803,7 +815,7 @@ public class WSRequestHostObject extends ScriptableObject {
             }
 
             Object httpInputSerializationObject =
-                    optionsArray.get("HTTPInputSerialization", optionsArray);
+                    optionsObj.get("HTTPInputSerialization", optionsObj);
             if (httpInputSerializationObject != null &&
                     !(httpInputSerializationObject instanceof Undefined) &&
                     !(httpInputSerializationObject instanceof UniqueTag)) {
@@ -811,7 +823,7 @@ public class WSRequestHostObject extends ScriptableObject {
             }
 
             Object HTTPContentEncodingObject =
-                    optionsArray.get("HTTPContentEncoding", optionsArray);
+                    optionsObj.get("HTTPContentEncoding", optionsObj);
             if (HTTPContentEncodingObject != null &&
                     !(HTTPContentEncodingObject instanceof Undefined) &&
                     !(HTTPContentEncodingObject instanceof UniqueTag)) {
@@ -934,18 +946,18 @@ public class WSRequestHostObject extends ScriptableObject {
                 throw Context.reportRuntimeError(
                         "INVALID_SYNTAX_EXCEPTION. Action is NULL when useWSA is true.");
             }
-            if (optionsArray != null) {
-                Object fromObject = optionsArray.get("from", optionsArray);
+            if (optionsObj != null) {
+                Object fromObject = optionsObj.get("from", optionsObj);
                 if (fromObject != null && !(fromObject instanceof Undefined) &&
                         !(fromObject instanceof UniqueTag)) {
                     options.setFrom(new EndpointReference(fromObject.toString()));
                 }
-                Object replyToObject = optionsArray.get("replyTo", optionsArray);
+                Object replyToObject = optionsObj.get("replyTo", optionsObj);
                 if (replyToObject != null && !(replyToObject instanceof Undefined) &&
                         !(replyToObject instanceof UniqueTag)) {
                     options.setReplyTo(new EndpointReference(replyToObject.toString()));
                 }
-                Object faultToObject = optionsArray.get("faultTo", optionsArray);
+                Object faultToObject = optionsObj.get("faultTo", optionsObj);
                 if (faultToObject != null && !(faultToObject instanceof Undefined) &&
                         !(faultToObject instanceof UniqueTag)) {
                     options.setFaultTo(new EndpointReference(faultToObject.toString()));
@@ -958,11 +970,11 @@ public class WSRequestHostObject extends ScriptableObject {
                 options.setAction(action);
             }
         }
-        return optionsArray;
+        return optionsObj;
     }
 
-    private static NativeArray setOptionsOpenWSDL(WSRequestHostObject wsRequest, Object[] args) throws ScriptException {
-        NativeArray optionsArray = null;
+    private static Scriptable setOptionsOpenWSDL(WSRequestHostObject wsRequest, Object[] args) throws ScriptException {
+        Scriptable object = null;
         String wsdlURL;
         QName serviceQName = null;
         String endpointName = null;
@@ -994,8 +1006,8 @@ public class WSRequestHostObject extends ScriptableObject {
                 } else {
                     throw Context.reportRuntimeError("INVALID_SYNTAX_EXCEPTION");
                 }
-                if (args[2] instanceof NativeArray) {
-                    optionsArray = (NativeArray) args[2];
+                if (args[2] instanceof Scriptable) {
+                    object = (Scriptable) args[2];
                 } else {
                     throw Context.reportRuntimeError("INVALID_SYNTAX_EXCEPTION");
                 }
@@ -1011,8 +1023,8 @@ public class WSRequestHostObject extends ScriptableObject {
                 } else {
                     throw Context.reportRuntimeError("INVALID_SYNTAX_EXCEPTION");
                 }
-                if (args[2] instanceof NativeArray) {
-                    optionsArray = (NativeArray) args[2];
+                if (args[2] instanceof Scriptable) {
+                    object = (Scriptable) args[2];
                 } else {
                     throw Context.reportRuntimeError("INVALID_SYNTAX_EXCEPTION");
                 }
@@ -1145,7 +1157,7 @@ public class WSRequestHostObject extends ScriptableObject {
             // Release the connection.
             method.releaseConnection();
         }
-        return optionsArray;
+        return object;
     }
 
     private static String getObjectProperty(NativeObject object, String property) {

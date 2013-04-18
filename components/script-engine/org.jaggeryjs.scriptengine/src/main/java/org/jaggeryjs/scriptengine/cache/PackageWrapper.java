@@ -35,7 +35,7 @@ public class PackageWrapper {
         cachingContexts.remove(cacheKey);
     }
 
-    public void setCachingContexts(String cacheKey, CachingContext cachingContext) {
+    public void addCachingContext(String cacheKey, CachingContext cachingContext) {
         cachingContexts.put(cacheKey, cachingContext);
     }
 }

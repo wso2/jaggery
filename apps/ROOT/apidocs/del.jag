@@ -62,9 +62,12 @@
 
 <pre class="prettyprint linenums">
 &lt%
-del(url, { param1 : "value1", param2 : "value2" }, "text", { header1 : "value1", header2 : "value2" }, function(data, xhr) {
-	log("Response received");
-});
+var data = {'key':'value'}; 
+var headers = {'key', 'value'};
+del(url, data, "text", headers, function (data, xhr) {
+       log("Response received");
+   }
+);
 %&gt
 </pre>
 

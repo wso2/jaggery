@@ -143,7 +143,7 @@ include('/includes/topnavi.jag');
                             <pre class="prettyprint">response.content = { products : ["Jaggery", "ESB"] };</pre>
                             <pre class="prettyprint">response.content = "My response content";</pre>
                             <p>Sets response content</p>
-                            <p>If any thing other that strings are assigned, then they will be automatically serialized.</p>
+                            <p>If any thing other than Strings are assigned, then they will be automatically serialized.</p>
                         </td>
 
                     </tr>
@@ -192,6 +192,18 @@ include('/includes/topnavi.jag');
                        <td>None</td>
                         <td><pre class="prettyprint">response.sendError(errCode)</pre>
                             Send an error code
+                                                        
+                        </td>
+
+                    </tr>
+                    <tr>
+
+                        <td><code>addCookie(cookie) </code>
+                        </td>
+                       <td>None</td>
+                        <td><pre class="prettyprint">var cookie= {'name':'test','value':'Cookie testing'};
+response.addCookie(cookie)</pre>
+                            Adds the specified cookie to the response.
                                                         
                         </td>
 

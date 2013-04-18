@@ -42,9 +42,9 @@ include('/includes/topnavi.jag');
 			<p align="center">The delicious Javascript framework</p>
             </span>
 			<span class="main-right">
-				<a class="btn success large" href="http://dist.wso2.org/products/jaggery/dl/jaggery-1.0.0-SNAPSHOT_M5.zip">Download Jaggery (ALPHA) </a> <a class="btn primary large"
+				<a class="btn success large" href="http://dist.wso2.org/products/jaggery/dl/jaggery-0.9.0-SNAPSHOT_ALPHA3.zip">Download Jaggery</a> <a class="btn primary large"
                                                                            href="documentation.jag">Documentation</a>
-			<span class="help-block" style="margin-top:10px;">0.9.0-SNAPSHOT of Jaggery released !</span>
+			<span class="help-block" style="margin-top:10px;">0.9.0-ALPHA-3 of Jaggery released !</span>
             </span>
     </div>
 
@@ -56,7 +56,6 @@ include('/includes/topnavi.jag');
                     Introducing Jaggery
                 </h1>
             </div>
-
             <p>Jaggery is a framework to write webapps and HTTP-focused web services for all aspects of the application: 
 			front-end, communication, Server-side logic and persistence in pure Javascript. One of the intents of this 
 			framework is to reduce the gap between writing web apps and web services. 

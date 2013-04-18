@@ -89,12 +89,6 @@
                                 <featureArtifactDef>
                                     org.jaggeryjs:org.jaggeryjs.admin.styles.feature:${jaggery.feature.version}
                                 </featureArtifactDef>
-                                <featureArtifactDef>
-                                    org.wso2.carbon:org.wso2.carbon.ntask.feature:${patch.version.405}
-                                </featureArtifactDef>
-                                <featureArtifactDef>
-                                    org.wso2.carbon:org.wso2.carbon.coordination.feature:${patch.version.405}
-                                </featureArtifactDef>
                             </featureArtifacts>
 
                         </configuration>
@@ -125,14 +119,6 @@
                                 <feature>
                                     <id>org.wso2.jaggery.styles.feature.group</id>
                                     <version>${pom.version}</version>
-                                </feature>
-                                <feature>
-                                    <id>org.wso2.carbon.ntask.feature.group</id>
-                                    <version>${patch.version.405}</version>
-                                </feature>
-                                <feature>
-                                    <id>org.wso2.carbon.coordination.feature.group</id>
-                                    <version>${patch.version.405}</version>
                                 </feature>
                             </features>
 

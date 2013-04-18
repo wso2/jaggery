@@ -31,6 +31,9 @@
     <li id="app">
         <a href="<%=context%>/apidocs/application.jag">application</a>
     </li>
+    <li id="webs">
+        <a href="<%=context%>/apidocs/websocket.jag">webSocket</a>
+    </li>
 </ul>
 
 <h6>Http Client</h6>
@@ -66,7 +69,7 @@
     </li>
     <li id="includeonce">
         <a href="<%=context%>/apidocs/includeonce.jag">include_once()</a>
-    </li>
+    </li>    
 	    
 </ul>
 
@@ -147,6 +150,18 @@
 <ul>
     <li id="oauth">
         <a href="<%=context%>/apidocs/oauth.jag">OAuth</a>
+    </li>
+</ul>
+<h6>Server</h6>
+<ul>
+    <li id="proc">
+        <a href="<%=context%>/apidocs/process.jag">Process</a>
+    </li>
+</ul>
+<h6>Utils</h6>
+<ul>
+    <li id="uuid">
+        <a href="<%=context%>/apidocs/uuid.jag">UUID</a>
     </li>
 </ul>
 <h6>Internationalization</h6>

@@ -1,0 +1,57 @@
+<%
+var param = request.getParameter('param');
+var oauth = require("oauth");
+var twitter = session.get('cnt');
+var accessToken = session.get('atoken');
+var authCode = request.getParameter('atoken');
+
+var twitterProvider = {
+	"oauth_version" : "1",
+	"authorization_url" : "https://api.twitter.com/oauth/authorize",
+	"access_token_url" : "https://api.twitter.com/oauth/access_token",
+	"request_token_url" : "https://api.twitter.com/oauth/request_token",
+	"api_key" : "d0CTc4Zg9pufCnMkteDc7w",
+	"api_secret" : "z4FMZhP87U5QEwycggDe5JN6TDDh7xEyhnAcEpdWk"
+}
+var log = new Log();
+if(param == null) {
+	print("Oauth Test");
+} else if(param == 1) {
+	if(twitter == null) {
+
+		var twitter = new oauth.OAuthProvider(twitterProvider);
+		session.put("cnt", twitter);
+		print(twitterProvider.request_token_url);
+	} else {print(twitterProvider.request_token_url);
+	}
+} else if(param == 2) {
+	var twitter = new oauth.OAuthProvider(twitterProvider);
+	session.put("cnt", twitter);
+	var authUrl = "" + twitter.getAuthorizationUrl();
+	var basicUrl = "" + twitterProvider.authorization_url;
+	if(authUrl.length > basicUrl.length) {
+		print("Got Authorization Url");
+	}
+} else if(twitter != null && authCode != null && accessToken == null) {
+	log.info("twt not null");
+	var accessToken = twitter.getAccessToken(authCode);
+	session.put('atoken', accessToken);
+	log.info(accessToken);
+	var requestParams = {
+		count : '20'
+	};
+	var resp = twitter.sendOAuthRequest(accessToken, "GET", "https://api.twitter.com/1/statuses/home_timeline.xml?include_entities=true", requestParams);
+	log.info(resp);
+	print(resp.getBody());
+
+} else if(twitter != null && accessToken != null) {
+	//if (loadback != null) {
+	var requestParams = {
+		count : '5'
+	};
+	var resp = twitter.sendOAuthRequest(accessToken, "GET", "https://api.twitter.com/1/statuses/home_timeline.xml?include_entities=true", requestParams);
+	print(resp.getBody());
+	//}
+}
+
+%>

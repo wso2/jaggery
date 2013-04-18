@@ -63,6 +63,7 @@
 {
     "displayName":"Minimal Sample",
     "welcomeFiles":["index.jag", "index.html"],
+    "logLevel" : "debug",
     "errorPages":[
         {
             "errorCode":"500",
@@ -130,6 +131,15 @@ The display name of the application
 specifys an array of welcome files
                             </td>
                         </tr>
+                        <tr>
+                            <td><code>logLevel</code></td>
+                            <td>
+<pre class="prettyprint">
+"logLevel" : "info"
+</pre>
+specifys log level [info|debug|error|warn|fatal] for application
+                            </td>
+                        </tr>                        
                         <tr>
                             <td><code>errorPages</code></td>
                             <td>

@@ -29,11 +29,7 @@ import java.sql.SQLException;
 import java.sql.Savepoint;
 import java.sql.Statement;
 import java.sql.Types;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -577,7 +573,7 @@ public class DatabaseHostObject extends ScriptableObject {
             if (keyed) {
                 row = new NativeObject();
                 for (int i = 0; i < rsmd.getColumnCount(); i++) {
-                    String columnName = rsmd.getColumnName(i + 1);
+                    String columnName = rsmd.getColumnLabel(i + 1);
                     Object columnValue = getValue(db, results, i + 1, rsmd.getColumnType(i + 1));
                     row.put(columnName, row, columnValue);
                 }
@@ -602,7 +598,12 @@ public class DatabaseHostObject extends ScriptableObject {
             case Types.BIGINT:
                 return results.getBigDecimal(index).toPlainString();
             case Types.BINARY:
-                return HostObjectUtil.streamToString(results.getBinaryStream(index));
+            case Types.LONGVARBINARY:
+                return cx.newObject(db, "Stream", new Object[]{results.getBinaryStream(index)});
+            case Types.CLOB:
+                return cx.newObject(db, "Stream", new Object[]{results.getClob(index).getAsciiStream()});
+            case Types.BLOB:
+                return cx.newObject(db, "Stream", new Object[]{results.getBlob(index).getBinaryStream()});
             default:
                 return Context.javaToJS(results.getObject(index), db);
         }

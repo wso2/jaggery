@@ -18,8 +18,12 @@
 
 package org.wso2.jaggery.integration.tests.hostObjects;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.custommonkey.xmlunit.XMLAssert;
+import org.testng.annotations.Test;
+import org.wso2.carbon.integration.framework.ClientConnectionUtil;
+import org.xml.sax.SAXException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,10 +31,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.testng.annotations.Test;
-import org.wso2.carbon.integration.framework.ClientConnectionUtil;
+import static org.testng.Assert.assertNotNull;
 
 /**
  * Test cases for Entry Host Object
@@ -72,7 +73,7 @@ public class EntryHostObjectTestCase {
   
     @Test(groups = {"jaggery"},
             description = "Test Entry hostobject toString")
-      public void testFeedString() {
+      public void testFeedString() throws IOException, SAXException {
           ClientConnectionUtil.waitForPort(9763);
           
           String finalOutput = null;
@@ -92,10 +93,10 @@ public class EntryHostObjectTestCase {
   		} catch (IOException e) {
   			e.printStackTrace();
   		} finally {
-  			assertEquals(finalOutput, "String : <feed xmlns=\"http://www.w3.org/2005/Atom\"><entry><id>1</id><title type=\"text\">Jaggery Sample Entry</title><content type=\"text\">This is content for a sample atom entry"
-  					+"</content><author><name>madhuka</name></author><author><name>nuwan</name></author><category term=\"js\"/><category term=\"jaggery\"/><link href=\"http://jaggeryjs.org/\"/>"
-  					+"<link href=\"madhukaudantha.blogspot.com\"/><summary type=\"text\">summary test</summary><rights type=\"text\">rights list test</rights><contributor><name>madhuka</name></contributor><contributor>"
-  					+"<name>nuwan</name></contributor><contributor><name>ruchira</name></contributor></entry></feed>");
+              XMLAssert.assertXMLEqual(finalOutput, "<feed xmlns=\"http://www.w3.org/2005/Atom\"><entry><id>1</id><title type=\"text\">Jaggery Sample Entry</title><content type=\"text\">This is content for a sample atom entry"
+                      + "</content><author><name>madhuka</name></author><author><name>nuwan</name></author><category term=\"js\"/><category term=\"jaggery\"/><link href=\"http://jaggeryjs.org/\"/>"
+                      + "<link href=\"madhukaudantha.blogspot.com\"/><summary type=\"text\">summary test</summary><rights type=\"text\">rights list test</rights><contributor><name>madhuka</name></contributor><contributor>"
+                      + "<name>nuwan</name></contributor><contributor><name>ruchira</name></contributor></entry></feed>");
           
       }
     
@@ -104,7 +105,7 @@ public class EntryHostObjectTestCase {
     
     @Test(groups = {"jaggery"},
             description = "Test Entry hostobject toXML")
-      public void testFeedXML() {
+      public void testFeedXML() throws IOException, SAXException {
           ClientConnectionUtil.waitForPort(9763);
           
           String finalOutput = null;
@@ -124,10 +125,10 @@ public class EntryHostObjectTestCase {
   		} catch (IOException e) {
   			e.printStackTrace();
   		} finally {
-  			assertEquals(finalOutput, "XML : <feed xmlns=\"http://www.w3.org/2005/Atom\"><entry><id>1</id><title type=\"text\">Jaggery Sample Entry</title><content type=\"text\">This is content for a sample atom entry"
-  					+"</content><author><name>madhuka</name></author><author><name>nuwan</name></author><category term=\"js\"/><category term=\"jaggery\"/><link href=\"http://jaggeryjs.org/\"/>"
-  					+"<link href=\"madhukaudantha.blogspot.com\"/><summary type=\"text\">summary test</summary><rights type=\"text\">rights list test</rights><contributor><name>madhuka</name></contributor><contributor>"
-  					+"<name>nuwan</name></contributor><contributor><name>ruchira</name></contributor></entry></feed>");
+  			XMLAssert.assertXMLEqual(finalOutput, "<feed xmlns=\"http://www.w3.org/2005/Atom\"><entry><id>1</id><title type=\"text\">Jaggery Sample Entry</title><content type=\"text\">This is content for a sample atom entry"
+                      + "</content><author><name>madhuka</name></author><author><name>nuwan</name></author><category term=\"js\"/><category term=\"jaggery\"/><link href=\"http://jaggeryjs.org/\"/>"
+                      + "<link href=\"madhukaudantha.blogspot.com\"/><summary type=\"text\">summary test</summary><rights type=\"text\">rights list test</rights><contributor><name>madhuka</name></contributor><contributor>"
+                      + "<name>nuwan</name></contributor><contributor><name>ruchira</name></contributor></entry></feed>");
           
       }
     

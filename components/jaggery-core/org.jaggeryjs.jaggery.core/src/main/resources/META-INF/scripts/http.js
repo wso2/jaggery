@@ -20,6 +20,10 @@ var get, post, put, del, head, options, trace, connect;
 		}
     };
 
+    var string = function(o) {
+        return typeof o === 'string' || o instanceof String;
+    };
+
     var getError = function(method, type) {
         return "Invalid argument for " + method.toLowerCase() + "() method : " + type;
     };
@@ -40,14 +44,14 @@ var get, post, put, del, head, options, trace, connect;
             throw "Invalid number of arguments for " + method + "() method : " + count;
         }
 
-        if (type !== "string") {
+        if (!string(url)) {
             throw getError(method, type);
         }
 
         if (count === 2) {
             if (args[1] !== null) {
                 type = typeof args[1];
-                if (type === "object" || type === "string") {
+                if (type === "object" || string(args[1])) {
                     data = args[1];
                 } else if (type === "function") {
                     callback = args[1];
@@ -58,7 +62,7 @@ var get, post, put, del, head, options, trace, connect;
         } else if (count === 3) {
             if (args[1] != null) {
                 type = typeof args[1];
-                if (type === "object" || type === "string") {
+                if (type === "object" || string(args[1])) {
                     data = args[1];
                 } else {
                     throw getError(method, type);
@@ -69,7 +73,7 @@ var get, post, put, del, head, options, trace, connect;
                 type = typeof args[2];
                 if (type === "function") {
                     callback = args[2];
-                } else if (type === "string") {
+                } else if (string(args[2])) {
                     dataType = args[2];
                 } else if (type === "object") {
                     headers = args[2];
@@ -80,7 +84,7 @@ var get, post, put, del, head, options, trace, connect;
         } else if (count === 4) {
             if (args[1] != null) {
                 type = typeof args[1];
-                if (type === "object" || type === "string") {
+                if (type === "object" || string(args[1])) {
                     data = args[1];
                 } else {
                     throw getError(method, type);
@@ -89,10 +93,10 @@ var get, post, put, del, head, options, trace, connect;
 
             if (args[2] != null) {
                 type = typeof args[2];
-                if (type === "object") {
-                    headers = args[2];
-                } else if (type === "string") {
+                if (string(args[2])) {
                     dataType = args[2];
+                } else if (type === "object") {
+                    headers = args[2];
                 } else {
                     throw getError(method, type);
                 }
@@ -102,8 +106,8 @@ var get, post, put, del, head, options, trace, connect;
                 type = typeof args[3];
                 if (type === "function") {
                     callback = args[3];
-                } else if (type === "string") {
-                    if (args[2] !== "string") {
+                } else if (string(args[3])) {
+                    if (!string(args[2])) {
                         dataType = args[3];
                     } else {
                         throw getError(method, type);
@@ -115,7 +119,7 @@ var get, post, put, del, head, options, trace, connect;
         } else if (count === 5) {
             if (args[1] != null) {
                 type = typeof args[1];
-                if (type === "object" || type === "string") {
+                if (type === "object" || string(args[1])) {
                     data = args[1];
                 } else {
                     throw getError(method, type);
@@ -133,7 +137,7 @@ var get, post, put, del, head, options, trace, connect;
 
             if (args[3] != null) {
                 type = typeof args[3];
-                if (type === "string") {
+                if (string(args[3])) {
                     dataType = args[3];
                 } else {
                     throw getError(method, type);
@@ -152,7 +156,7 @@ var get, post, put, del, head, options, trace, connect;
 
         var query;
         var first = true;
-        if (typeof data === "string") {
+        if (string(data)) {
             query = data;
         } else {
             query = "";
@@ -169,7 +173,9 @@ var get, post, put, del, head, options, trace, connect;
             url = query ? url + "?" + query : url;
             query = null;
         } else if (method === "POST") {
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+            if(headers && headers["Content-Type"]) {
+                headers["Content-Type"] = "application/x-www-form-urlencoded; charset=UTF-8";
+            }
         }
         for (name in headers) {
             if (headers.hasOwnProperty(name)) {

@@ -62,16 +62,23 @@
 
 <pre class="prettyprint linenums">
 &lt%
-var version = post("http://stratoslive.wso2.com/services/Version");
-print(version);
+var url = 'http://jaggeryjs.org/apidocs/resources/data.jag';
+var result = post(url, 'Jaggery HTTP POST', {
+    "User-Agent" : "Jaggery-XHR",
+    "Country" : "LK"
+}, 'json');
+print(result.data);
 %&gt
 </pre>
 <%
-
 var emailCode = '&lt%'
-+ '\n var version = post("http://stratoslive.wso2.com/services/Version");'
-+ '\n print(version);'
-+ '\n %&gt';
++ "\n var url = 'http://jaggeryjs.org/apidocs/resources/data.jag';"
++ "\n var result = post(url, 'Jaggery HTTP POST', {"
++ '\n   "User-Agent" : "Jaggery-XHR",'
++ '\n   "Country" : "LK"'
++ "\n }, 'json');"
++ "\n print(result.data);"
++ "\n %&gt";
 
 var codeSnip = encodeURIComponent(emailCode);
 var urlString = '../tryitframe.jag?code='+codeSnip;
@@ -92,10 +99,16 @@ include('/includes/tryit_but.jag');
 <section id="overview">
 
 <h4>Overview</h4>
-<p class="description"><code>post()</code> is a wrapper for XMLHTTPRequest's POST method.
-using <code>post()</code> you can avoid the use of XHR and shorten the serverside POST requests</p>
-    <pre class="prettyprint">post(url[, data][, type][, headers][, success(data, xhr)])</pre>
-    <pre class="prettyprint">var res = post(url[, data][, type][, headers])</pre>
+<p class="description"><code>post()</code> is a wrapper for XMLHTTPRequest's POST method. Using
+<code>post()</code> you can avoid the use of XHR and shorten the serverside POST requests. If the
+<code>Content-Type</code> header is not specified, <code>application/x-www-form-urlencoded; charset=UTF-8</code>
+will be set automatically.</p>
+    <p><strong>Asynchronous Invocation</strong></p>
+    <pre class="prettyprint">post(url[, data][, headers][, type][, success(data, xhr)])</pre>
+    <p><strong>Synchronous Invocation</strong></p>
+    <pre class="prettyprint">var res = post(url[, data][, headers][, type])</pre>
+    <p class="description">Returned result contains the data and the XMLHttpRequest instance.
+    <code>{ data: {}, xhr: {} }</code></p>
 </section>
 
     <section id="parameters">
@@ -105,37 +118,50 @@ using <code>post()</code> you can avoid the use of XHR and shorten the serversid
             <tbody>
 
             <tr>
-
                 <th>Parameter</th>
                 <th>Type</th>
                 <th>Description</th>
-
             </tr>
 
             <tr>
                 <td><code>url</code></td>
                 <td>String</td>
-                <td>The URL which HTTP POST is performed </td>
+                <td>
+		<pre class="prettyprint">var url = 'http://jaggeryjs.org/apidocs/resources/data.jag';</pre>
+		The URL which HTTP POST is performed </td>
             </tr>
             <tr>
                 <td><code>data</code></td>
+                <td>Object|String</td>
+                <td>
+		<pre class="prettyprint">var param = {param1: "value1", param2:"value2"}</pre>
+		Request parameters</td>
+            </tr>
+            <tr>
+                <td><code>headers</code></td>
                 <td>Object</td>
-                <td>Request parameters</td>
+                <td>Optional HTTP headers.
+<pre class="prettyprint">{
+    "Content-Type": "application/json",
+    "User-Agent": "Mozilla/5.0",
+    "Cookie": "JSESSIONID=4DA02FE19BA086964227"
+}</pre>
+                </td>
             </tr>
             <tr>
                 <td><code>type</code></td>
                 <td>String</td>
-                <td>The type, which the response is expected</td>
-            </tr>
-            <tr>
-                <td><code>headers</code></td>
-                <td>String</td>
-                <td>Optional HTTP headers</td>
+                <td>
+		<pre class="prettyprint">var type = "json"</pre>
+		The type, which the response is expected. Allowed types are <code>json, xml</code> or <code>text</code>.
+                Returned response will be serialized either to an object, E4X XML or String depending on the value passed.
+                <code>text</code> is the default value.</td>
             </tr>
             <tr>
                 <td><code>success(data:Object,<br/> xhr:Object)</code></td>
                 <td>function</td>
-                <td>On success callback</td>
+                <td>On success callback. <code>data</code> will be passed according to the above mentioned
+                <code>type</code> parameter passed during the invocation.</td>
             </tr>
             </tbody>
         </table>

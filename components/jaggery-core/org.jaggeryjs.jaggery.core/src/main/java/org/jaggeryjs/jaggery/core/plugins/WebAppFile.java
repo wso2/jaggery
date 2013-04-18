@@ -1,11 +1,12 @@
 package org.jaggeryjs.jaggery.core.plugins;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.hostobjects.file.JavaScriptFile;
 import org.jaggeryjs.hostobjects.file.JavaScriptFileManager;
 import org.jaggeryjs.jaggery.core.manager.CommonManager;
-import org.jaggeryjs.jaggery.core.manager.WebAppContext;
+import org.jaggeryjs.scriptengine.engine.JaggeryContext;
 import org.jaggeryjs.jaggery.core.manager.WebAppManager;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 
@@ -19,10 +20,9 @@ public class WebAppFile implements JavaScriptFile {
 
     private static final Log log = LogFactory.getLog(WebAppFile.class);
 
-    private ServletContext context = null;
-
     private RandomAccessFile file = null;
     private File f = null;
+    private String realPath = null;
     private String path = null;
     private boolean opened = false;
 
@@ -32,19 +32,19 @@ public class WebAppFile implements JavaScriptFile {
     private boolean writable = false;
 
     public WebAppFile(String path, ServletContext context) throws ScriptException {
-        this.path = context.getRealPath(getFilePath(path));
-        this.context = context;
+        this.path = path;
+        this.realPath = context.getRealPath(getFilePath(path));
     }
 
     @Override
     public void construct() throws ScriptException {
-        f = new File(path);
+        f = new File(realPath);
     }
 
     private String getFilePath(String fileURL) throws ScriptException {
-        WebAppContext webAppContext = (WebAppContext) CommonManager.getJaggeryContext();
-        Stack<String> includesCallstack = CommonManager.getJaggeryContext().getIncludesCallstack();
-        ServletContext context = webAppContext.getServletConext();
+        JaggeryContext jaggeryContext = CommonManager.getJaggeryContext();
+        Stack<String> includesCallstack = CommonManager.getCallstack(jaggeryContext);
+        ServletContext context = (ServletContext) jaggeryContext.getProperty(WebAppManager.SERVLET_CONTEXT);
         String parent = includesCallstack.lastElement();
         try {
             String keys[] = WebAppManager.getKeys(context.getContextPath(), parent, fileURL);
@@ -59,7 +59,7 @@ public class WebAppFile implements JavaScriptFile {
     public void open(String mode) throws ScriptException {
         if ("r".equals(mode)) {
             try {
-                file = new RandomAccessFile(path, "r");
+                file = new RandomAccessFile(realPath, "r");
             } catch (FileNotFoundException e) {
                 log.error(e.getMessage(), e);
                 throw new ScriptException(e);
@@ -67,7 +67,7 @@ public class WebAppFile implements JavaScriptFile {
             readable = true;
         } else if ("r+".equals(mode)) {
             try {
-                file = new RandomAccessFile(path, "rw");
+                file = new RandomAccessFile(realPath, "rw");
                 file.seek(0);
             } catch (FileNotFoundException e) {
                 log.error(e.getMessage(), e);
@@ -80,7 +80,7 @@ public class WebAppFile implements JavaScriptFile {
             writable = true;
         } else if ("w".equals(mode)) {
             try {
-                file = new RandomAccessFile(path, "rw");
+                file = new RandomAccessFile(realPath, "rw");
                 file.setLength(0);
             } catch (FileNotFoundException e) {
                 log.error(e.getMessage(), e);
@@ -92,7 +92,7 @@ public class WebAppFile implements JavaScriptFile {
             writable = true;
         } else if ("w+".equals(mode)) {
             try {
-                file = new RandomAccessFile(path, "rw");
+                file = new RandomAccessFile(realPath, "rw");
                 file.setLength(0);
             } catch (FileNotFoundException e) {
                 log.error(e.getMessage(), e);
@@ -105,7 +105,7 @@ public class WebAppFile implements JavaScriptFile {
             writable = true;
         } else if ("a".equals(mode)) {
             try {
-                file = new RandomAccessFile(path, "rw");
+                file = new RandomAccessFile(realPath, "rw");
                 file.seek(file.length());
             } catch (FileNotFoundException e) {
                 log.error(e.getMessage(), e);
@@ -117,7 +117,7 @@ public class WebAppFile implements JavaScriptFile {
             writable = true;
         } else if ("a+".equals(mode)) {
             try {
-                file = new RandomAccessFile(path, "rw");
+                file = new RandomAccessFile(realPath, "rw");
                 file.seek(file.length());
             } catch (FileNotFoundException e) {
                 log.error(e.getMessage(), e);
@@ -129,7 +129,7 @@ public class WebAppFile implements JavaScriptFile {
             readable = true;
             writable = true;
         } else {
-            String msg = "Invalid or unsupported file mode, path : " + path + ", mode : " + mode;
+            String msg = "Invalid or unsupported file mode, path : " + realPath + ", mode : " + mode;
             log.error(msg);
             throw new ScriptException(msg);
         }
@@ -219,7 +219,7 @@ public class WebAppFile implements JavaScriptFile {
             log.warn("Please close the file before moving");
             return false;
         }
-        return new File(path).renameTo(fileManager.getFile(path));
+        return f.renameTo(fileManager.getFile(dest));
     }
 
     @Override
@@ -228,37 +228,33 @@ public class WebAppFile implements JavaScriptFile {
             log.warn("Please close the file before deleting");
             return false;
         }
-        return new File(path).delete();
+        return FileUtils.deleteQuietly(f);
     }
 
     @Override
     public long getLength() throws ScriptException {
-        try {
-            return file.length();
-        } catch (IOException e) {
-            log.error(e.getMessage(), e);
-            throw new ScriptException(e);
-        }
+        return f.length();
     }
 
     @Override
     public long getLastModified() throws ScriptException {
-        return new File(path).lastModified();
+        return f.lastModified();
     }
 
     @Override
     public String getName() throws ScriptException {
-        return new File(path).getName();
+        return f.getName();
     }
 
     @Override
     public boolean isExist() throws ScriptException {
-        return new File(path).exists();
+        return f.exists();
     }
 
     @Override
     public InputStream getInputStream() throws ScriptException {
         try {
+            open("r");
             return new FileInputStream(file.getFD());
         } catch (IOException e) {
             log.error(e.getMessage(), e);
@@ -269,6 +265,7 @@ public class WebAppFile implements JavaScriptFile {
     @Override
     public OutputStream getOutputStream() throws ScriptException {
         try {
+            open("w");
             return new FileOutputStream(file.getFD());
         } catch (IOException e) {
             log.error(e.getMessage(), e);
@@ -287,16 +284,33 @@ public class WebAppFile implements JavaScriptFile {
     }
 
     @Override
+    public boolean mkdir() throws ScriptException {
+        return f.mkdir();
+    }
+
+    @Override
     public boolean isDirectory() throws ScriptException {
         return f.isDirectory();
+    }
+
+    @Override
+    public String getPath() throws ScriptException {
+        return this.path;
+    }
+
+    @Override
+    public String getURI() throws ScriptException {
+        return this.path;
     }
 
     @Override
     public ArrayList<String> listFiles() throws ScriptException {
         File[] fileList = f.listFiles();
         ArrayList<String> jsfl = new ArrayList<String>();
-        for (File fi : fileList) {
-            jsfl.add(fi.getPath());
+        if (fileList != null) {
+            for (File fi : fileList) {
+                jsfl.add(fi.getPath());
+            }
         }
         return jsfl;
     }

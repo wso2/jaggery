@@ -117,7 +117,7 @@ var urlString = '../tryitframe.jag?code='+codeSnip;
     <section id="overview">
 
 <h4>Overview</h4>
-<p class="description"><code>stringify()</code> takes a JSON object and converts it to a string</p>
+<p class="description"><code>stringify()</code> takes a JSON object and converts it to a String</p>
 
         <pre class="prettyprint">var jsonString = stringify(jsonObj)</pre>
 
@@ -137,7 +137,10 @@ var urlString = '../tryitframe.jag?code='+codeSnip;
                 <td><code>jsonObj</code></td>
                 <td>Object</td>
                 <td>
-                    A JSON Object
+                    <pre class="prettyprint">var jsonObj = {};
+jsonObj.name = "nuwan";
+jsonObj.company = "wso2";</pre>
+		    A JSON Object
                 </td>
             </tr>
 
@@ -155,7 +158,9 @@ var urlString = '../tryitframe.jag?code='+codeSnip;
                 <th>Description</th>
             </tr>
             <tr>
-                <td><code>jsonString</code></td><td>String</td><td>Stringified JSON object</td>
+                <td><code>jsonString</code></td><td>String</td><td>
+		  <pre class="prettyprint">var jsonStr = stringify(jsonObj)</pre>
+	          Stringified JSON object</td>
             </tr>
             </tbody>
         </table>

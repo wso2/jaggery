@@ -8,22 +8,23 @@ var orderid = request.getParameter('orderid');
 var data = request.getContent();
 
 var log = new Log();
-var uriMatcher = new URIMatcher(request.getPathInfo());
-
-if(uriMatcher.match("/{orderid}/")) {	
+var uri = request.getRequestURI();
+uri = uri.substring(request.getContextPath().length);
+var uriMatcher = new URIMatcher(uri);
+if(uriMatcher.match("/payments/{orderid}/")) {
 	orderid = uriMatcher.elements().orderid;
 }
 if(data != "") {
-	
-	if(data.id != "undefined") {
-		orderid = parse(data).id;
+	data = parse(data);
+	if(data.id) {
+		orderid = data.id;
 	}
 }
 if(verb == "GET" && orderid != null){
 	//is paid for order	
 	isPaid(orderid);
 	
-}else if (verb == "PUT" && orderid != null){	
+}else if (verb == "PUT" && orderid != null){
 	pay(orderid);
 }
 

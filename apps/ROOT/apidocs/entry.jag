@@ -126,57 +126,114 @@ print(feed.toString());
             <tr>
                 <td>id</td>
                 <td>String</td>
-                <td>get/set the id attribute</td>
+                <td>
+		 <pre class="prettyprint">entry.id</pre>
+                    Returns the id.
+					<pre class="prettyprint">entry.id = "id1";</pre>
+                   Setting the id attribute.
+		</td>
             </tr>
             <tr>
                 <td>authors</td>
                 <td>String [ ] </td>
-                <td>get/set the authors attribute</td>
+                <td>
+		 <pre class="prettyprint">entry.authors[i]</pre>
+                    Returns the i th author of the entry.
+					<pre class="prettyprint">entry.authors = ["author1","author2"];</pre>
+                    Setting an array of authors to the entry.
+		</td>
             </tr>
             <tr>
                 <td>categories</td>
-                <td>string [ ]</td>
-                <td>get/set an array of categories</td>
+                <td>String [ ]</td>
+                <td>
+	         <pre class="prettyprint">entry.categories[i]</pre>
+                    Returns the i th category of the entry.
+					<pre class="prettyprint">entry.categories = ["cat1","cat2"];</pre>
+                    Setting an array of categories to the entry.
+		</td>
             </tr>
             <tr>
                 <td>content</td>
                 <td>String </td>
-                <td>get/set the content attribute</td>
+                <td>
+		 <pre class="prettyprint">entry.content</pre>
+                    Returns the content.
+					<pre class="prettyprint">entry.content = "content1";</pre>
+                   Setting the content attribute.
+		</td>
             </tr>
             <tr>
                 <td>contributors</td>
                 <td>String [ ] </td>
-                <td>get/set the contributors attribute</td>
+                <td>
+		<pre class="prettyprint">entry.contributors[i]</pre>
+                    Returns the i th contributor of the entry.
+					<pre class="prettyprint">entry.contributors = ["cont1","cont2"];</pre>
+                    Setting an array of contributors to the entry.
+		</td>
             </tr>
             <tr>
                 <td>links</td>
                 <td>String [ ] </td>
-                <td>get/set the links set</td>
+                <td>
+		<pre class="prettyprint">entry.links[i]</pre>
+                    Returns the i th location of the entry.
+					<pre class="prettyprint">entry.links = ["link1","link2"];</pre>
+                    Setting locations of the entry.
+		</td>
             </tr>
             <tr>
                 <td>published</td>
                 <td>Date </td>
-                <td>get/set the date attribute</td>
+                <td>
+		<pre class="prettyprint">entry.published</pre>
+                    Returns the published date of the entry.
+					<pre class="prettyprint">var d1 = new Date("March 13, 2013 11:13:00")
+entry.published = d1;</pre>
+                    Setting published date of the entry.
+		</td>
             </tr>
             <tr>
                 <td>rights</td>
                 <td>String </td>
-                <td>get/set rights associated with this entry</td>
+                <td>
+		 <pre class="prettyprint">entry.rights</pre>
+                    Returns the rights associated with this entry.
+					<pre class="prettyprint">entry.rights = "right1";</pre>
+                    Setting rights associated with this entry.
+		</td>
             </tr>
             <tr>
                 <td>summary</td>
                 <td>String </td>
-                <td>get/set the summary attribute</td>
+                <td>
+		 <pre class="prettyprint">entry.summary</pre>
+                    Returns the summary of this entry.
+					<pre class="prettyprint">entry.summary = "summary1";</pre>
+                    Setting the summary attribute.
+		</td>
             </tr>
             <tr>
                 <td>title</td>
                 <td>String </td>
-                <td>get/set the title attribute</td>
+                <td>
+		 <pre class="prettyprint">entry.title</pre>
+                    Returns the title of this entry.
+					<pre class="prettyprint">entry.title = "title1";</pre>
+                    Setting the title attribute.
+		</td>
             </tr>
             <tr>
                 <td>updated</td>
                 <td>Date</td>
-                <td>get/set updated date</td>
+                <td>
+		<pre class="prettyprint">entry.updated</pre>
+                    Returns the last updated date of the entry.
+					<pre class="prettyprint">var d1 = new Date("March 13, 2013 11:13:00")
+entry.updated = d1;</pre>
+                    Setting the last updated date of the entry.
+		</td>
             </tr>
 
             </tbody>
@@ -200,21 +257,29 @@ print(feed.toString());
                     <code>Entry()</code>
                     </td>
                     <td>Entry</td>
-                    <td>Returns an Entry object</td>
+                    <td>
+		    <pre class="prettyprint">var entry = new Entry();</pre>
+                   Returns an Entry object
+		   </td>
                 </tr>
 				<tr>
                     <td>
                     <code>toXML()</code>
                     </td>
                     <td>XML</td>
-                    <td>Returns the E4X XML contents of this Entry object.</td>
+                    <td> 
+		    <pre class="prettyprint">entry.toXML()</pre>
+		     Returns the E4X XML contents of this Entry object.
+		    </td>
                 </tr>
                 <tr>
                     <td>
                     <code>toString()</code>
                     </td>
                     <td>String</td>
-                    <td>Returns the string representation of the Entry</td>
+                    <td>
+		    <pre class="prettyprint">entry.toString()</pre>
+		     Returns the String representation of the Entry</td>
                 </tr>
 
     <tbody>
