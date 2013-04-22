@@ -6,7 +6,8 @@ public class ProviderConfig {
     private String authorization_url;
     private String access_token_url;
     private String request_token_url;
-    private String api_key;
+    private String callback_url;
+	private String api_key;
     private String api_secret;
 
     public ProviderConfig() {
@@ -44,7 +45,15 @@ public class ProviderConfig {
         this.request_token_url = request_token_url;
     }
 
-    public String getApi_key() {
+    public String getCallback_url() {
+		return callback_url;
+	}
+
+	public void setCallback_url(String callback_url) {
+		this.callback_url = callback_url;
+	}
+
+	public String getApi_key() {
         return api_key;
     }
 
