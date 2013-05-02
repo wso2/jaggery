@@ -407,6 +407,10 @@ var registry = registry || {};
         return commentz;
     };
 
+    Registry.prototype.commentCount = function(path) {
+        return this.registry.getComments(path).length;
+    };
+
     Registry.prototype.uncomment = function (path) {
         this.registry.removeComment(path);
     };

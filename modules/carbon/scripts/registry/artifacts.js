@@ -14,10 +14,7 @@
             lifecycle: artifact.getLifecycleName(),
             lifecycleState: artifact.getLifecycleState(),
             mediaType: String(artifact.getMediaType()),
-            attribute: function (name) {
-                return String(artifact.getAttribute(name));
-            },
-            attributes: function () {
+            attributes: (function () {
                 var i, name,
                     names = artifact.getAttributeKeys(),
                     length = names.length,
@@ -27,7 +24,7 @@
                     attributes[name] = String(artifact.getAttribute(name));
                 }
                 return attributes;
-            },
+            }()),
             content: function () {
                 return new Stream(new ByteArrayInputStream(artifact.getContent()));
             }
