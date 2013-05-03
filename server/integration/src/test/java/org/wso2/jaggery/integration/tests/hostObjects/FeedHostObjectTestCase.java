@@ -91,7 +91,7 @@ public class FeedHostObjectTestCase {
   		} catch (IOException e) {
   			e.printStackTrace();
   		} finally {
-  			assertEquals(finalOutput, "Feed author : Madhuka, Testing feed members success");
+  			assertEquals(finalOutput, "Feed author : madhuka udantha, Testing feed members success");
   		}
           
       }
