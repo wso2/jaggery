@@ -477,10 +477,14 @@ public class RequestHostObject extends ScriptableObject {
         }
         RequestHostObject rho = (RequestHostObject) thisObj;
         if (rho.cookies == null) {
-            rho.cookies = new NativeObject();
+            rho.cookies = rho.context.newObject(rho);
             parseCookies(cx, thisObj, rho);
         }
-        return (Scriptable) rho.cookies.get((String) args[0], rho.cookies);
+        if (rho.cookies.get((String) args[0], rho.cookies) != NOT_FOUND) {
+            return (Scriptable) rho.cookies.get((String) args[0], rho.cookies);
+        } else {
+            return null;
+        }
     }
 
     public static Scriptable jsFunction_getAllCookies(Context cx, Scriptable thisObj, Object[] args, Function funObj)
@@ -492,7 +496,7 @@ public class RequestHostObject extends ScriptableObject {
         }
         RequestHostObject rho = (RequestHostObject) thisObj;
         if (rho.cookies == null) {
-            rho.cookies = new NativeObject();
+            rho.cookies = cx.newObject(rho);
             parseCookies(cx, thisObj, rho);
         }
         return rho.cookies;
