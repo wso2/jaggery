@@ -477,6 +477,7 @@ public class RequestHostObject extends ScriptableObject {
         }
         RequestHostObject rho = (RequestHostObject) thisObj;
         if (rho.cookies == null) {
+            rho.cookies = new NativeObject();
             parseCookies(cx, thisObj, rho);
         }
         return (Scriptable) rho.cookies.get((String) args[0], rho.cookies);
@@ -491,6 +492,7 @@ public class RequestHostObject extends ScriptableObject {
         }
         RequestHostObject rho = (RequestHostObject) thisObj;
         if (rho.cookies == null) {
+            rho.cookies = new NativeObject();
             parseCookies(cx, thisObj, rho);
         }
         return rho.cookies;
