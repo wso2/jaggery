@@ -46,7 +46,8 @@ public class JaggeryWebSocketServlet extends WebSocketServlet {
     }
 
     @Override
-    protected StreamInbound createWebSocketInbound(String s) {
+    protected StreamInbound createWebSocketInbound(String s, HttpServletRequest request) {
         return wsMessageInBound;
     }
+
 }

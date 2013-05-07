@@ -76,8 +76,8 @@
         <jaggery.feature.version>0.9.0-SNAPSHOT</jaggery.feature.version>
 
         <!-- carbon versions -->
-        <carbon.kernal.version>4.0.5</carbon.kernal.version>
-        <carbon.platform.version>4.0.0</carbon.platform.version>
+        <carbon.kernal.version>4.1.0</carbon.kernal.version>
+        <carbon.platform.version>4.1.0</carbon.platform.version>
 
         <!-- patch versions -->
         <patch.version.401>4.0.1</patch.version.401>
@@ -390,7 +390,7 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.ndatasource.core</artifactId>
-                <version>${patch.version.405}</version>
+                <version>${carbon.platform.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.geronimo.specs</groupId>
@@ -450,22 +450,22 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.registry.core</artifactId>
-                <version>${patch.version.405}</version>
+                <version>${carbon.kernal.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.registry.search</artifactId>
-                <version>${patch.version.401}</version>
+                <version>${carbon.kernal.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.registry.ws.client</artifactId>
-                <version>${patch.version.402}</version>
+                <version>${carbon.kernal.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.registry.indexing</artifactId>
-                <version>${patch.version.405}</version>
+                <version>${carbon.kernal.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.scribe</groupId>
@@ -481,12 +481,12 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.webapp.mgt</artifactId>
-                <version>${patch.version.405}</version>
+                <version>${carbon.kernal.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.ui</artifactId>
-                <version>${patch.version.405}</version>
+                <version>${carbon.kernal.version}</version>
             </dependency>
 
             <!-- jaggery-core dep -->
@@ -503,7 +503,7 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.server</artifactId>
-                <version>${patch.version.402}</version>
+                <version>${carbon.kernal.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.googlecode.json-simple.wso2</groupId>
