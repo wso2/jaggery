@@ -13,23 +13,16 @@
         }
     };
 
-    var UserManager = function (serv, auth) {
-        if (auth.username) {
-            this.server = serv;
-            if (!serv.authenticate(auth.username, auth.password)) {
-                throw new Error('Unauthorized request for UserManager : ' + stringify(auth.username));
-            }
-            this.tenant = server.tenantId({
-                domain: auth.domain,
-                username: auth.username
-            });
-            var realmService = server.osgiService('org.wso2.carbon.user.core.service.RealmService'),
-                realm = realmService.getTenantUserRealm(this.tenant);
-            this.manager = realm.getUserStoreManager();
-            this.authorizer = realm.getAuthorizationManager();
-        } else {
-            throw new Error('Unsupported authentication mechanism : ' + stringify(auth.username));
-        }
+    var UserManager = function (serv, tenant) {
+        tenant = tenant || Packages.org.wso2.carbon.utils.multitenancy.MultitenantConstants.SUPER_TENANT_DOMAIN_NAME;
+        this.server = serv;
+        this.tenantId = server.tenantId({
+            domain: tenant
+        });
+        var realmService = server.osgiService('org.wso2.carbon.user.core.service.RealmService'),
+            realm = realmService.getTenantUserRealm(this.tenantId);
+        this.manager = realm.getUserStoreManager();
+        this.authorizer = realm.getAuthorizationManager();
     };
     user.UserManager = UserManager;
 
