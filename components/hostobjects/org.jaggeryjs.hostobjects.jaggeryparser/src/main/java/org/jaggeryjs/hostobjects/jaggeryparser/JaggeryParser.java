@@ -9,10 +9,10 @@ public class JaggeryParser {
     /**
      * Main Parser to process the .jss script
      *
-     * @param is script as the input stream
+     * @param stream script as the input stream
      * @throws ScriptException If an error occurred during the script parsing
      */
-    public static InputStream parse(InputStream is) throws ScriptException {
+    public static InputStream parse(InputStream stream) throws ScriptException {
         try {
             boolean opened = false;
             boolean isExpression = false;
@@ -21,10 +21,11 @@ public class JaggeryParser {
             PrintStream source = new PrintStream(output);
             StringBuilder html = new StringBuilder();
             StringBuilder jsExp = new StringBuilder();
-            int ch = is.read();
-            while (ch != -1) {
+            Reader inputReader = new InputStreamReader(stream,"utf-8");
+            int ch =  inputReader.read();
+           while (ch != -1) {
                 if (ch == '<') {
-                    ch = is.read();
+                    ch = inputReader.read();
                     if (ch == '%') {
                         opened = true;
                         str = html.toString();
@@ -33,7 +34,7 @@ public class JaggeryParser {
                             source.append("print(\"").append(str).append("\");");
                             html = new StringBuilder();
                         }
-                        ch = is.read();
+                        ch = inputReader.read();
                         if (ch == '=') {
                             isExpression = true;
                         } else {
@@ -51,9 +52,9 @@ public class JaggeryParser {
                         }
                         continue;
                     }
-                    ch = is.read();
+                    ch = inputReader.read();
                 } else if (ch == '%') {
-                    ch = is.read();
+                    ch = inputReader.read();
                     if (ch == '>') {
                         opened = false;
                         if (isExpression) {
@@ -70,7 +71,7 @@ public class JaggeryParser {
                         }
                         continue;
                     }
-                    ch = is.read();
+                    ch = inputReader.read();
                 } else {
                     if (opened) {
                         if (isExpression) {
@@ -78,9 +79,9 @@ public class JaggeryParser {
                         } else {
                             source.append((char) ch);
                         }
-                        ch = is.read();
+                        ch = inputReader.read();
                     } else {
-                        int next = is.read();
+                        int next = inputReader.read();
                         if (ch == '"') {
                             html.append('\\').append('\"');
                         } else if (ch == '\\') {
