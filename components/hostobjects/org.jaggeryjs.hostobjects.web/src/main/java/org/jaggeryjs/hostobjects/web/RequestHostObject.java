@@ -520,17 +520,19 @@ public class RequestHostObject extends ScriptableObject {
     }
 
     private static void parseCookies(Context cx, Scriptable thisObj, RequestHostObject rho) {
-        for (Cookie cookie : rho.request.getCookies()) {
-            Scriptable o = cx.newObject(thisObj);
-            o.put("name", o, cookie.getName());
-            o.put("value", o, cookie.getValue());
-            o.put("comment", o, cookie.getComment());
-            o.put("domain", o, cookie.getDomain());
-            o.put("maxAge", o, cookie.getMaxAge());
-            o.put("path", o, cookie.getPath());
-            o.put("secure", o, cookie.getSecure());
-            o.put("version", o, cookie.getVersion());
-            rho.cookies.put(cookie.getName(), rho.cookies, o);
+        if (rho.request.getCookies() != null) {
+            for (Cookie cookie : rho.request.getCookies()) {
+                Scriptable o = cx.newObject(thisObj);
+                o.put("name", o, cookie.getName());
+                o.put("value", o, cookie.getValue());
+                o.put("comment", o, cookie.getComment());
+                o.put("domain", o, cookie.getDomain());
+                o.put("maxAge", o, cookie.getMaxAge());
+                o.put("path", o, cookie.getPath());
+                o.put("secure", o, cookie.getSecure());
+                o.put("version", o, cookie.getVersion());
+                rho.cookies.put(cookie.getName(), rho.cookies, o);
+            }
         }
     }
 
