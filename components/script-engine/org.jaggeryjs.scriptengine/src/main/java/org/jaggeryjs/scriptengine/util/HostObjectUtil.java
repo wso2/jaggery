@@ -8,6 +8,7 @@ import org.apache.commons.httpclient.*;
 import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.cookie.CookiePolicy;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
@@ -194,13 +195,7 @@ public class HostObjectUtil {
 
     public static String streamToString(InputStream is) throws ScriptException {
         try {
-            StringBuilder sb = new StringBuilder();
-            int count;
-            while ((count = is.read()) != -1) {
-                sb.append((char) count);
-            }
-            is.close();
-            return sb.toString();
+            return IOUtils.toString(is, "UTF-8");
         } catch (IOException e) {
             log.error(e);
             throw new ScriptException(e);

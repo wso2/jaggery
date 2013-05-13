@@ -1,6 +1,8 @@
 package org.jaggeryjs.jaggery.core.plugins;
 
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.input.BoundedInputStream;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.hostobjects.file.JavaScriptFile;
@@ -20,6 +22,7 @@ public class UploadedFile implements JavaScriptFile {
     private ServletContext context = null;
 
     private FileItem fileItem = null;
+    private InputStream stream = null;
     private String path = null;
     private boolean opened = false;
 
@@ -42,6 +45,12 @@ public class UploadedFile implements JavaScriptFile {
     public void open(String mode) throws ScriptException {
         if ("r".equals(mode)) {
             readable = true;
+            try {
+                stream = fileItem.getInputStream();
+            } catch (IOException e) {
+                log.error(e.getMessage(), e);
+                throw new ScriptException(e);
+            }
         } else {
             String msg = "Invalid or unsupported file mode, path : " + path + ", mode : " + mode;
             log.error(msg);
@@ -56,7 +65,7 @@ public class UploadedFile implements JavaScriptFile {
             return;
         }
         try {
-            fileItem.getInputStream().close();
+            stream.close();
             opened = false;
         } catch (IOException e) {
             log.error(e.getMessage(), e);
@@ -75,20 +84,8 @@ public class UploadedFile implements JavaScriptFile {
             return null;
         }
         try {
-            InputStream inputStream = fileItem.getInputStream();
-            StringBuilder buffer = new StringBuilder();
-            int size = 1024;
-            byte[] bytes = new byte[size];
-            while ((inputStream.read(bytes)) != -1) {
-                buffer.append(new String(bytes));
-                count -= size;
-                if (count < size) {
-                    bytes = new byte[(int) count];
-                    buffer.append(new String(bytes));
-                    break;
-                }
-            }
-            return buffer.toString();
+            BoundedInputStream boundedInputStream = new BoundedInputStream(stream, count);
+            return IOUtils.toString(boundedInputStream, "UTF-8");
         } catch (IOException e) {
             log.error(e.getMessage(), e);
             throw new ScriptException(e);
@@ -112,7 +109,8 @@ public class UploadedFile implements JavaScriptFile {
             return null;
         }
         try {
-            return HostObjectUtil.streamToString(fileItem.getInputStream());
+            InputStream inputStream = fileItem.getInputStream();
+            return IOUtils.toString(inputStream, "UTF-8");
         } catch (IOException e) {
             log.error(e.getMessage(), e);
             throw new ScriptException(e);
@@ -171,13 +169,8 @@ public class UploadedFile implements JavaScriptFile {
 
     @Override
     public InputStream getInputStream() throws ScriptException {
-        try {
-            open("r");
-            return fileItem.getInputStream();
-        } catch (IOException e) {
-            log.error(e.getMessage(), e);
-            throw new ScriptException(e);
-        }
+        open("r");
+        return stream;
     }
 
     @Override
