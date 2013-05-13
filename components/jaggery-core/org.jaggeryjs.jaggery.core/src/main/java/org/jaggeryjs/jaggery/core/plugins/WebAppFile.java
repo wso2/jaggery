@@ -16,6 +16,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Stack;
 
+import static java.lang.Math.min;
+
 public class WebAppFile implements JavaScriptFile {
 
     private static final Log log = LogFactory.getLog(WebAppFile.class);
@@ -161,12 +163,9 @@ public class WebAppFile implements JavaScriptFile {
             return null;
         }
         try {
-            StringBuffer buffer = new StringBuffer();
-            long length = file.length();
-            for (long i = 0; (i < count) && (i < length); i++) {
-                buffer.append((char) file.readByte());
-            }
-            return buffer.toString();
+            byte[] arr = new byte[(int) min(count, file.length())];
+            file.readFully(arr);
+            return new String(arr,"UTF-8");
         } catch (IOException e) {
             log.error(e.getMessage(), e);
             throw new ScriptException(e);
