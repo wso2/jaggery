@@ -11,6 +11,7 @@ import org.jaggeryjs.scriptengine.cache.ScriptCachingContext;
 import org.jaggeryjs.scriptengine.engine.JaggeryContext;
 import org.jaggeryjs.scriptengine.engine.JavaScriptProperty;
 import org.jaggeryjs.scriptengine.engine.RhinoEngine;
+import org.jaggeryjs.scriptengine.engine.RhinoTopLevel;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.security.RhinoSecurityController;
 import org.jaggeryjs.scriptengine.security.RhinoSecurityDomain;
@@ -54,6 +55,10 @@ public class WebAppManager {
     public static final String WS_REQUEST_PATH = "requestURI";
 
     public static final String WS_SERVLET_CONTEXT = "/websocket";
+
+    private static final Map<String, List<String>> timeouts = new HashMap<String, List<String>>();
+
+    private static final Map<String, List<String>> intervals = new HashMap<String, List<String>>();
 
     private static boolean isWebSocket = false;
 
@@ -165,6 +170,56 @@ public class WebAppManager {
         }
     }
 
+    public static String setTimeout(final Context cx, final Scriptable thisObj, Object[] args, Function funObj)
+            throws ScriptException {
+        JaggeryContext context = CommonManager.getJaggeryContext();
+        ServletContext servletContext = (ServletContext) context.getProperty(SERVLET_CONTEXT);
+        String contextPath = servletContext.getContextPath();
+        String taskId = RhinoTopLevel.setTimeout(cx, thisObj, args, funObj);
+        List<String> taskIds = timeouts.get(contextPath);
+        if (taskIds == null) {
+            taskIds = new ArrayList<String>();
+            timeouts.put(contextPath, taskIds);
+        }
+        taskIds.add(taskId);
+        return taskId;
+    }
+
+    public static String setInterval(final Context cx, final Scriptable thisObj, Object[] args, Function funObj)
+            throws ScriptException {
+        JaggeryContext context = CommonManager.getJaggeryContext();
+        ServletContext servletContext = (ServletContext) context.getProperty(SERVLET_CONTEXT);
+        String contextPath = servletContext.getContextPath();
+        String taskId = RhinoTopLevel.setInterval(cx, thisObj, args, funObj);
+        List<String> taskIds = intervals.get(contextPath);
+        if (taskIds == null) {
+            taskIds = new ArrayList<String>();
+            intervals.put(contextPath, taskIds);
+        }
+        taskIds.add(taskId);
+        return taskId;
+    }
+
+    public static void clearTimeout(final Context cx, final Scriptable thisObj, Object[] args, Function funObj)
+            throws ScriptException {
+        JaggeryContext context = CommonManager.getJaggeryContext();
+        ServletContext servletContext = (ServletContext) context.getProperty(SERVLET_CONTEXT);
+        String contextPath = servletContext.getContextPath();
+        RhinoTopLevel.clearTimeout(cx, thisObj, args, funObj);
+        List<String> taskIds = timeouts.get(contextPath);
+        taskIds.remove(String.valueOf(args[0]));
+    }
+
+    public static void clearInterval(final Context cx, final Scriptable thisObj, Object[] args, Function funObj)
+            throws ScriptException {
+        JaggeryContext context = CommonManager.getJaggeryContext();
+        ServletContext servletContext = (ServletContext) context.getProperty(SERVLET_CONTEXT);
+        String contextPath = servletContext.getContextPath();
+        RhinoTopLevel.clearTimeout(cx, thisObj, args, funObj);
+        List<String> taskIds = intervals.get(contextPath);
+        taskIds.remove(String.valueOf(args[0]));
+    }
+
     private static ScriptableObject executeScript(JaggeryContext jaggeryContext, ScriptableObject scope,
                                                   String fileURL, final boolean isJSON, boolean isBuilt,
                                                   boolean isIncludeOnce) throws ScriptException {
@@ -274,6 +329,30 @@ public class WebAppManager {
     public static void initModule(Context cx, JaggeryContext context, String module, ScriptableObject object) {
         if (CORE_MODULE_NAME.equals(module)) {
             defineProperties(cx, context, object);
+        }
+    }
+
+    public static void undeploy(org.apache.catalina.Context context) {
+        String contextPath = context.getServletContext().getContextPath();
+        List<String> taskIds = timeouts.get(contextPath);
+        if (taskIds != null) {
+            for (String taskId : taskIds) {
+                try {
+                    RhinoTopLevel.clearTimeout(taskId);
+                } catch (ScriptException e) {
+                    log.error(e.getMessage(), e);
+                }
+            }
+        }
+        taskIds = intervals.get(contextPath);
+        if (taskIds != null) {
+            for (String taskId : taskIds) {
+                try {
+                    RhinoTopLevel.clearInterval(taskId);
+                } catch (ScriptException e) {
+                    log.error(e.getMessage(), e);
+                }
+            }
         }
     }
 

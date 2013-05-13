@@ -279,6 +279,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                 return;
             }
             if (Lifecycle.STOP_EVENT.equals(event.getType())) {
+                WebAppManager.undeploy((Context) event.getLifecycle());
                 if (jaggeryConfig != null) {
                     executeScripts((Context) event.getLifecycle(),
                             (JSONArray) jaggeryConfig.get(JaggeryConstants.JaggeryConfigParams.DESTROY_SCRIPTS));
