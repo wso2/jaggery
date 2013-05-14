@@ -594,18 +594,18 @@ public class DatabaseHostObject extends ScriptableObject {
         //TODO : implement for other sql types
         switch (type) {
             case Types.ARRAY:
-                return cx.newArray(db, new Object[]{results.getArray(index)});
+                return (results.getArray(index) == null) ? null : cx.newArray(db, new Object[]{results.getArray(index)});
             case Types.BIGINT:
-                return results.getBigDecimal(index).toPlainString();
+                return (results.getBigDecimal(index) == null) ? null : results.getBigDecimal(index).toPlainString();
             case Types.BINARY:
             case Types.LONGVARBINARY:
-                return cx.newObject(db, "Stream", new Object[]{results.getBinaryStream(index)});
+                return results.getBinaryStream(index) == null ? null : cx.newObject(db, "Stream", new Object[]{results.getBinaryStream(index)});
             case Types.CLOB:
-                return cx.newObject(db, "Stream", new Object[]{results.getClob(index).getAsciiStream()});
+                return results.getClob(index) == null ? null : cx.newObject(db, "Stream", new Object[]{results.getClob(index).getAsciiStream()});
             case Types.BLOB:
-                return cx.newObject(db, "Stream", new Object[]{results.getBlob(index).getBinaryStream()});
+                return results.getBlob(index) == null ? null : cx.newObject(db, "Stream", new Object[]{results.getBlob(index).getBinaryStream()});
             default:
-                return Context.javaToJS(results.getObject(index), db);
+                return results.getObject(index) == null ? null : Context.javaToJS(results.getObject(index), db);
         }
     }
 
