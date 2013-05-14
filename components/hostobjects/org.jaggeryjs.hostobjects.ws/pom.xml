@@ -62,10 +62,6 @@
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.addressing</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.wso2.wsf.javascript</groupId>
-            <artifactId>axiom-e4x</artifactId>
-        </dependency>
     </dependencies>
 
     <build>

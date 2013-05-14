@@ -29,11 +29,6 @@
             <artifactId>org.jaggeryjs.hostobjects.file</artifactId>
             <version>${pom.version}</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.wso2.wsf.javascript</groupId>
-            <artifactId>axiom-e4x</artifactId>
-        </dependency>
         <dependency>
             <groupId>javax.activation</groupId>
             <artifactId>activation</artifactId>
@@ -80,7 +75,7 @@
                             org.mozilla.javascript,
                             org.jaggeryjs.hostobjects.file,
                             org.jaggeryjs.scriptengine.exceptions,
-                            org.wso2.javascript.xmlimpl
+                            *;resolution:=optional
                         </Import-Package>
                         <Embed-Dependency>
                             mail;scope=compile|runtime;inline=false;,

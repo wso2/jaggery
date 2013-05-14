@@ -190,10 +190,6 @@
             <artifactId>axiom</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.wso2.wsf.javascript</groupId>
-            <artifactId>axiom-e4x</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
@@ -364,7 +360,6 @@
                                 <importBundleDef>org.wso2.carbon:org.wso2.carbon.registry.indexing</importBundleDef>
                                 <importBundleDef>solr.wso2:solr</importBundleDef>
                                 <importBundleDef>org.codehaus.jettison.wso2:jettison</importBundleDef>
-                                <importBundleDef>org.wso2.wsf.javascript:axiom-e4x</importBundleDef>
                                 <importBundleDef>org.apache.rampart.wso2:rampart-core</importBundleDef>
                                 <importBundleDef>org.apache.rampart.wso2:rampart-trust</importBundleDef>
                                 <importBundleDef>org.apache.rampart.wso2:rampart-policy</importBundleDef>

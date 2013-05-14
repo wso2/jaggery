@@ -13,8 +13,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.mozilla.javascript.*;
-import org.wso2.javascript.xmlimpl.XML;
-import org.wso2.javascript.xmlimpl.XMLList;
+import org.mozilla.javascript.xml.XMLObject;
 
 import java.io.*;
 import java.math.BigDecimal;
@@ -129,7 +128,7 @@ public class HostObjectUtil {
                 obj instanceof BigDecimal) {
             return obj.toString();
         }
-        if (obj instanceof XML || obj instanceof XMLList) {
+        if (obj instanceof XMLObject) {
             return serializeString(serializeXML((ScriptableObject) obj));
         }
 
@@ -176,7 +175,7 @@ public class HostObjectUtil {
             return obj.toString();
         }
 
-        if (obj instanceof XML || obj instanceof XMLList) {
+        if (obj instanceof XMLObject) {
             return serializeXML((ScriptableObject) obj);
         }
 

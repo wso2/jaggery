@@ -50,10 +50,6 @@
             <groupId>rhino.wso2</groupId>
             <artifactId>js</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.wso2.wsf.javascript</groupId>
-            <artifactId>axiom-e4x</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
@@ -74,7 +70,6 @@
                             org.jaggeryjs.hostobjects.registry.*;
                         </Export-Package>
                         <Import-Package>
-                            org.wso2.javascript.xmlimpl; version="0.0.0",
                             *;resolution:=optional
                         </Import-Package>
                         <DynamicImport-Package>*</DynamicImport-Package>

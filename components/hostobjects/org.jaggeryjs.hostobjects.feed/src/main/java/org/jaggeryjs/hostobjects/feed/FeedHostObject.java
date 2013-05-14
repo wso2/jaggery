@@ -16,7 +16,7 @@ import org.jaggeryjs.hostobjects.file.FileHostObject;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
 import org.mozilla.javascript.*;
-import org.wso2.javascript.xmlimpl.XML;
+import org.mozilla.javascript.xml.XMLObject;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -251,7 +251,7 @@ public class FeedHostObject extends ScriptableObject {
     }
 
     public void jsSet_title(Object title) {
-        if (title instanceof XML) {
+        if (title instanceof XMLObject) {
             feed.setTitleAsXhtml(title.toString());
         } else {
             feed.setTitle(String.valueOf(title));
@@ -259,7 +259,7 @@ public class FeedHostObject extends ScriptableObject {
     }
 
     public void jsSet_rights(Object rights) {
-        if (rights instanceof XML) {
+        if (rights instanceof XMLObject) {
             feed.setRightsAsXhtml(rights.toString());
         } else {
             feed.setRights(String.valueOf(rights));
@@ -524,7 +524,7 @@ public class FeedHostObject extends ScriptableObject {
                 // process content
                 Object content = ScriptableObject.getProperty(nativeObject,
                         "content");
-                if (content instanceof XML) {
+                if (content instanceof XMLObject) {
                     entry.setContentAsXhtml(content.toString());
                 } else if (content instanceof String) {
                     entry.setContent(content.toString());
@@ -597,7 +597,7 @@ public class FeedHostObject extends ScriptableObject {
                 // process rights
                 Object rights = ScriptableObject.getProperty(nativeObject,
                         "rights");
-                if (rights instanceof XML) {
+                if (rights instanceof XMLObject) {
                     entry.setRightsAsXhtml(rights.toString());
                 } else if (rights instanceof String) {
                     entry.setRights(rights.toString());
@@ -606,7 +606,7 @@ public class FeedHostObject extends ScriptableObject {
                 // process summary
                 Object summary = ScriptableObject.getProperty(nativeObject,
                         "summary");
-                if (summary instanceof XML) {
+                if (summary instanceof XMLObject) {
                     entry.setSummaryAsXhtml(summary.toString());
                 } else if (summary instanceof String) {
                     entry.setSummary(summary.toString());
@@ -615,7 +615,7 @@ public class FeedHostObject extends ScriptableObject {
                 // process title
                 Object title = ScriptableObject.getProperty(nativeObject,
                         "title");
-                if (title instanceof XML) {
+                if (title instanceof XMLObject) {
                     entry.setTitleAsXhtml(title.toString());
                 } else if (title instanceof String) {
                     entry.setTitle(title.toString());

@@ -154,28 +154,20 @@ var registry = registry || {};
 
     var Registry = function (serv, auth) {
         var registryService = server.osgiService('org.wso2.carbon.registry.core.service.RegistryService');
-        if (auth.username) {
+        if (auth) {
+            this.username = auth.username;
             this.tenant = server.tenantId({
                 domain: auth.domain,
                 username: auth.username
             });
-            this.registry = registryService.getRegistry(auth.username, auth.password, this.tenant);
-            this.username = auth.username;
-            this.versioning = {
-                comments: StaticConfiguration.isVersioningComments()
-            };
-            var db = this.registry.getRegistryContext().getDataAccessManager().getDataSource()
-                .getConnection().getMetaData();
-            this.database = {
-                name: String(db.getDatabaseProductName()),
-                version: {
-                    major: db.getDatabaseMajorVersion(),
-                    minor: db.getDatabaseMinorVersion()
-                }
-            };
+            this.registry = registryService.getRegistry(auth.username, this.tenant);
         } else {
-            throw new Error('Unsupported authentication mechanism : ' + stringify(auth.username));
+            this.tenant = server.tenantId();
+            this.registry = registryService.getRegistry();
         }
+        this.versioning = {
+            comments: StaticConfiguration.isVersioningComments()
+        };
         this.server = serv;
     };
 
@@ -407,7 +399,7 @@ var registry = registry || {};
         return commentz;
     };
 
-    Registry.prototype.commentCount = function(path) {
+    Registry.prototype.commentCount = function (path) {
         return this.registry.getComments(path).length;
     };
 

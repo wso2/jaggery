@@ -38,100 +38,100 @@ import static org.testng.Assert.assertNotNull;
  */
 public class EntryHostObjectTestCase {
 
-	
-	 private static final Log log = LogFactory.getLog(EntryHostObjectTestCase.class);
-	 
-	 
+
+    private static final Log log = LogFactory.getLog(EntryHostObjectTestCase.class);
+
+
     @Test(groups = {"jaggery"},
-          description = "Test entry hostobject")
+            description = "Test entry hostobject")
     public void testFeed() {
-    	  log.info("*****Inside Entry object test in jaggery Test*****");
+        log.info("*****Inside Entry object test in jaggery Test*****");
         ClientConnectionUtil.waitForPort(9763);
-        
+
         String finalOutput = null;
-        
+
         try {
-        	URL jaggeryURL = new URL("http://localhost:9763/testapp/entry.jag");
-        	URLConnection jaggeryServerConnection = jaggeryURL.openConnection();
-        	BufferedReader in = new BufferedReader(new InputStreamReader(
-        			jaggeryServerConnection.getInputStream()));
-        
-          	String inputLine;
-  			while ((inputLine = in.readLine()) != null) {
-  				finalOutput = inputLine;
-  			}
-			    
-			in.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-	        assertNotNull(finalOutput, "Result cannot be null");
-		}
-        
+            URL jaggeryURL = new URL("http://localhost:9763/testapp/entry.jag");
+            URLConnection jaggeryServerConnection = jaggeryURL.openConnection();
+            BufferedReader in = new BufferedReader(new InputStreamReader(
+                    jaggeryServerConnection.getInputStream()));
+
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                finalOutput = inputLine;
+            }
+
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            assertNotNull(finalOutput, "Result cannot be null");
+        }
+
     }
-    
-  
+
+
     @Test(groups = {"jaggery"},
             description = "Test Entry hostobject toString")
-      public void testFeedString() throws IOException, SAXException {
-          ClientConnectionUtil.waitForPort(9763);
-          
-          String finalOutput = null;
-          
-          try {
-          	URL jaggeryURL = new URL("http://localhost:9763/testapp/entry.jag");
-          	URLConnection jaggeryServerConnection = jaggeryURL.openConnection();
-          	BufferedReader in = new BufferedReader(new InputStreamReader(
-          			jaggeryServerConnection.getInputStream()));
-          
-            	String inputLine;
-    			while ((inputLine = in.readLine()) != null) {
-    				finalOutput = inputLine;
-    			}
-  			    
-  			in.close();
-  		} catch (IOException e) {
-  			e.printStackTrace();
-  		} finally {
-              XMLAssert.assertXMLEqual(finalOutput, "<feed xmlns=\"http://www.w3.org/2005/Atom\"><entry><id>1</id><title type=\"text\">Jaggery Sample Entry</title><content type=\"text\">This is content for a sample atom entry"
-                      + "</content><author><name>madhuka</name></author><author><name>nuwan</name></author><category term=\"js\"/><category term=\"jaggery\"/><link href=\"http://jaggeryjs.org/\"/>"
-                      + "<link href=\"madhukaudantha.blogspot.com\"/><summary type=\"text\">summary test</summary><rights type=\"text\">rights list test</rights><contributor><name>madhuka</name></contributor><contributor>"
-                      + "<name>nuwan</name></contributor><contributor><name>ruchira</name></contributor></entry></feed>");
-          
-      }
-    
+    public void testFeedString() throws IOException, SAXException {
+        ClientConnectionUtil.waitForPort(9763);
+
+        String finalOutput = "";
+
+        try {
+            URL jaggeryURL = new URL("http://localhost:9763/testapp/entry.jag");
+            URLConnection jaggeryServerConnection = jaggeryURL.openConnection();
+            BufferedReader in = new BufferedReader(new InputStreamReader(
+                    jaggeryServerConnection.getInputStream()));
+
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                finalOutput += inputLine;
+            }
+
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            XMLAssert.assertXMLEqual(finalOutput, "<feed xmlns=\"http://www.w3.org/2005/Atom\"><entry><id>1</id><title type=\"text\">Jaggery Sample Entry</title><content type=\"text\">This is content for a sample atom entry"
+                    + "</content><author><name>madhuka</name></author><author><name>nuwan</name></author><category term=\"js\"/><category term=\"jaggery\"/><link href=\"http://jaggeryjs.org/\"/>"
+                    + "<link href=\"madhukaudantha.blogspot.com\"/><summary type=\"text\">summary test</summary><rights type=\"text\">rights list test</rights><contributor><name>madhuka</name></contributor><contributor>"
+                    + "<name>nuwan</name></contributor><contributor><name>ruchira</name></contributor></entry></feed>");
+
+        }
+
     }
-    
-    
+
+
     @Test(groups = {"jaggery"},
             description = "Test Entry hostobject toXML")
-      public void testFeedXML() throws IOException, SAXException {
-          ClientConnectionUtil.waitForPort(9763);
-          
-          String finalOutput = null;
-          
-          try {
-          	URL jaggeryURL = new URL("http://localhost:9763/testapp/entry.jag?action=xml");
-          	URLConnection jaggeryServerConnection = jaggeryURL.openConnection();
-          	BufferedReader in = new BufferedReader(new InputStreamReader(
-          			jaggeryServerConnection.getInputStream()));
-          
-            	String inputLine;
-    			while ((inputLine = in.readLine()) != null) {
-    				finalOutput = inputLine;
-    			}
-  			    
-  			in.close();
-  		} catch (IOException e) {
-  			e.printStackTrace();
-  		} finally {
-  			XMLAssert.assertXMLEqual(finalOutput, "<feed xmlns=\"http://www.w3.org/2005/Atom\"><entry><id>1</id><title type=\"text\">Jaggery Sample Entry</title><content type=\"text\">This is content for a sample atom entry"
-                      + "</content><author><name>madhuka</name></author><author><name>nuwan</name></author><category term=\"js\"/><category term=\"jaggery\"/><link href=\"http://jaggeryjs.org/\"/>"
-                      + "<link href=\"madhukaudantha.blogspot.com\"/><summary type=\"text\">summary test</summary><rights type=\"text\">rights list test</rights><contributor><name>madhuka</name></contributor><contributor>"
-                      + "<name>nuwan</name></contributor><contributor><name>ruchira</name></contributor></entry></feed>");
-          
-      }
-    
+    public void testFeedXML() throws IOException, SAXException {
+        ClientConnectionUtil.waitForPort(9763);
+
+        String finalOutput = "";
+
+        try {
+            URL jaggeryURL = new URL("http://localhost:9763/testapp/entry.jag?action=xml");
+            URLConnection jaggeryServerConnection = jaggeryURL.openConnection();
+            BufferedReader in = new BufferedReader(new InputStreamReader(
+                    jaggeryServerConnection.getInputStream()));
+
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                finalOutput += inputLine;
+            }
+
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            XMLAssert.assertXMLEqual(finalOutput, "<feed xmlns=\"http://www.w3.org/2005/Atom\"><entry><id>1</id><title type=\"text\">Jaggery Sample Entry</title><content type=\"text\">This is content for a sample atom entry"
+                    + "</content><author><name>madhuka</name></author><author><name>nuwan</name></author><category term=\"js\"/><category term=\"jaggery\"/><link href=\"http://jaggeryjs.org/\"/>"
+                    + "<link href=\"madhukaudantha.blogspot.com\"/><summary type=\"text\">summary test</summary><rights type=\"text\">rights list test</rights><contributor><name>madhuka</name></contributor><contributor>"
+                    + "<name>nuwan</name></contributor><contributor><name>ruchira</name></contributor></entry></feed>");
+
+        }
+
     }
 
 }

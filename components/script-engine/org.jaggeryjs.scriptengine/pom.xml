@@ -24,10 +24,6 @@
             <artifactId>commons-logging</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.wso2.wsf.javascript</groupId>
-            <artifactId>axiom-e4x</artifactId>
-        </dependency>
-        <dependency>
             <groupId>commons-httpclient.wso2</groupId>
             <artifactId>commons-httpclient</artifactId>
         </dependency>

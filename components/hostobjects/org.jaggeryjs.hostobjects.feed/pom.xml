@@ -47,10 +47,6 @@
             <version>${pom.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.wso2.wsf.javascript</groupId>
-            <artifactId>axiom-e4x</artifactId>
-        </dependency>
-        <dependency>
             <groupId>rome.wso2</groupId>
             <artifactId>rome</artifactId>
         </dependency>

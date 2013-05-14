@@ -21,20 +21,10 @@ import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.scriptengine.engine.RhinoEngine;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.ContextFactory;
-import org.mozilla.javascript.Function;
-import org.mozilla.javascript.NativeObject;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
-import org.wso2.javascript.xmlimpl.XML;
+import org.mozilla.javascript.*;
+import org.mozilla.javascript.xml.XMLObject;
 
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.URIResolver;
+import javax.xml.transform.*;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.StringReader;
@@ -75,8 +65,8 @@ public class XSLTHostObject extends ScriptableObject {
         XSLTHostObject xho = new XSLTHostObject();
         if (args[0] instanceof String) {
             xho.xslt = new StringReader((String) args[0]);
-        } else if (args[0] instanceof XML) {
-            xho.xslt = new StringReader(((XML) args[0]).getAxiomFromXML().toString());
+        } else if (args[0] instanceof XMLObject) {
+            xho.xslt = new StringReader(args[0].toString());
         } else {
             HostObjectUtil.invalidArgsError(hostObjectName, hostObjectName, "1", "string | xml", args[0], true);
         }
@@ -115,8 +105,8 @@ public class XSLTHostObject extends ScriptableObject {
             @Override
             public Source resolve(String href, String base) throws TransformerException {
                 Object obj = uriResolver.call(cx, scope, scope, new Object[]{base, href});
-                if (obj instanceof XML) {
-                    return new StreamSource(new StringReader(((XML) obj).getAxiomFromXML().toString()));
+                if (obj instanceof XMLObject) {
+                    return new StreamSource(new StringReader(obj.toString()));
                 } else if (obj instanceof String) {
                     return new StreamSource(new StringReader((String) obj));
                 } else {
@@ -168,8 +158,8 @@ public class XSLTHostObject extends ScriptableObject {
         Function callback = null;
         if (args[0] instanceof String) {
             xml = new StringReader((String) args[0]);
-        } else if (args[0] instanceof XML) {
-            xml = new StringReader(((XML) args[0]).getAxiomFromXML().toString());
+        } else if (args[0] instanceof XMLObject) {
+            xml = new StringReader(args[0].toString());
         } else {
             HostObjectUtil.invalidArgsError(hostObjectName, hostObjectName, "1", "string | xml", args[0], true);
         }

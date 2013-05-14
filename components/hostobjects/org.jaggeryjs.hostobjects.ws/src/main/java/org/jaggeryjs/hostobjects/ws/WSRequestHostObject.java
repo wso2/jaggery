@@ -63,8 +63,8 @@ import org.jaggeryjs.hostobjects.ws.internal.WSRequestServiceComponent;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
 import org.mozilla.javascript.*;
+import org.mozilla.javascript.xml.XMLObject;
 import org.w3c.dom.Document;
-import org.wso2.javascript.xmlimpl.XML;
 
 import javax.wsdl.Definition;
 import javax.wsdl.Port;
@@ -134,7 +134,7 @@ public class WSRequestHostObject extends ScriptableObject {
 
     private NativeObject rampartConfig = null;
 
-    private XML policy = null;
+    private XMLObject policy = null;
 
     private CommonsTransportHeaders transportHeaders = null;
 
@@ -253,11 +253,11 @@ public class WSRequestHostObject extends ScriptableObject {
         if (arguments.length == 1) {
             payload = arguments[0];
         } else if (arguments.length == 2) {
-            if (arguments[0] instanceof org.wso2.javascript.xmlimpl.QName) {
-                org.wso2.javascript.xmlimpl.QName qName =
-                        (org.wso2.javascript.xmlimpl.QName) arguments[0];
-                String uri = (String) qName.get("uri", qName);
-                String localName = (String) qName.get("localName", qName);
+            if (arguments[0] instanceof QName) {
+                QName qName =
+                        (QName) arguments[0];
+                String uri = qName.getNamespaceURI();
+                String localName = qName.getLocalPart();
                 operationName = new QName(uri, localName);
             } else if (arguments[0] instanceof String) {
                 if (wsRequest.targetNamespace == null) {
@@ -289,9 +289,9 @@ public class WSRequestHostObject extends ScriptableObject {
                 log.error(message, e);
                 throw new ScriptException(message, e);
             }
-        } else if (payload instanceof XML) {
+        } else if (payload instanceof XMLObject) {
             try {
-                OMNode node = ((XML) payload).getAxiomFromXML();
+                OMNode node = AXIOMUtil.stringToOM(payload.toString());
                 if (node instanceof OMElement) {
                     payloadElement = (OMElement) node;
                 } else {
@@ -598,8 +598,8 @@ public class WSRequestHostObject extends ScriptableObject {
 
             Object policyObject = optionsObj.get("policy", optionsObj);
             if (policyObject != null && !(policyObject instanceof Undefined) &&
-                    !(policyObject instanceof UniqueTag) && policyObject instanceof XML) {
-                wsRequest.policy = (XML) policyObject;
+                    !(policyObject instanceof UniqueTag) && policyObject instanceof XMLObject) {
+                wsRequest.policy = (XMLObject) policyObject;
             }
         }
 
@@ -646,19 +646,23 @@ public class WSRequestHostObject extends ScriptableObject {
                         log.error(message, e);
                         throw new ScriptException(message, e);
                     }
-                } else if (soapHeaderObject instanceof XML) {
-                    wsRequest.sender.addHeader(((OMElement) ((XML) soapHeaderObject).getAxiomFromXML()));
+                } else if (soapHeaderObject instanceof XMLObject) {
+                    try {
+                        wsRequest.sender.addHeader(AXIOMUtil.stringToOM(soapHeaderObject.toString()));
+                    } catch (XMLStreamException e) {
+                        throw new ScriptException(e);
+                    }
                 } else if (soapHeaderObject instanceof NativeObject) {
                     NativeObject soapHeader = (NativeObject) soapHeaderObject;
                     String uri;
                     String localName;
                     if (soapHeader.get("qName",
-                            soapHeader) instanceof org.wso2.javascript.xmlimpl.QName) {
-                        org.wso2.javascript.xmlimpl.QName qName =
-                                (org.wso2.javascript.xmlimpl.QName) soapHeader
+                            soapHeader) instanceof QName) {
+                        QName qName =
+                                (QName) soapHeader
                                         .get("qName", soapHeader);
-                        uri = (String) qName.get("uri", qName);
-                        localName = (String) qName.get("localName", qName);
+                        uri = (String) qName.getNamespaceURI();
+                        localName = (String) qName.getLocalPart();
                     } else {
                         throw new ScriptException("No qName property found for the soap headers");
                     }
@@ -670,11 +674,15 @@ public class WSRequestHostObject extends ScriptableObject {
                             log.error(e.getMessage(), e);
                             throw new ScriptException(e);
                         }
-                    } else if (soapHeader.get("value", soapHeader) instanceof XML) {
+                    } else if (soapHeader.get("value", soapHeader) instanceof XMLObject) {
                         OMNamespace omNamespace = OMAbstractFactory.getOMFactory().createOMNamespace(uri, null);
                         SOAPHeaderBlock headerBlock = OMAbstractFactory.getSOAP12Factory().
                                 createSOAPHeaderBlock(localName, omNamespace);
-                        headerBlock.addChild(((XML) soapHeader.get("value", soapHeader)).getAxiomFromXML());
+                        try {
+                            headerBlock.addChild(AXIOMUtil.stringToOM(soapHeader.get("value", soapHeader).toString()));
+                        } catch (XMLStreamException e) {
+                            throw new ScriptException(e);
+                        }
                         wsRequest.sender.addHeader(headerBlock);
                     } else {
                         throw new ScriptException("Invalid property found for the soap headers");
@@ -1028,11 +1036,11 @@ public class WSRequestHostObject extends ScriptableObject {
                 } else {
                     throw Context.reportRuntimeError("INVALID_SYNTAX_EXCEPTION");
                 }
-                if (args[3] instanceof org.wso2.javascript.xmlimpl.QName) {
-                    org.wso2.javascript.xmlimpl.QName qName =
-                            (org.wso2.javascript.xmlimpl.QName) args[3];
-                    String uri = (String) qName.get("uri", qName);
-                    String localName = (String) qName.get("localName", qName);
+                if (args[3] instanceof QName) {
+                    QName qName =
+                            (QName) args[3];
+                    String uri = qName.getNamespaceURI();
+                    String localName = qName.getLocalPart();
                     serviceQName = new QName(uri, localName);
                 } else {
                     throw Context.reportRuntimeError("INVALID_SYNTAX_EXCEPTION");
@@ -1227,14 +1235,14 @@ public class WSRequestHostObject extends ScriptableObject {
     }
 
     private static void setRampartConfigs(WSRequestHostObject wsRequest, QName operationName)
-            throws AxisFault, ScriptException {
+            throws AxisFault, ScriptException, XMLStreamException {
         RampartConfig rampartConfig = null;
         boolean useUT = false;
         Policy policy = null;
         if (wsRequest.policy != null) {
             //user has specified a policy, use that one
             OMElement policyElement;
-            OMNode node = wsRequest.policy.getAxiomFromXML();
+            OMNode node = AXIOMUtil.stringToOM(wsRequest.policy.toString());
             if (node instanceof OMElement) {
                 policyElement = (OMElement) node;
             } else {
