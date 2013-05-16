@@ -424,7 +424,7 @@ public class WSRequestHostObject extends ScriptableObject {
             OMSourcedElementImpl sourcedElement = (OMSourcedElementImpl) response;
             setJSONAsXML(sourcedElement);
         } else if (response != null) {
-            Object[] objects = {response};
+            Object[] objects = {response.toString()};
             responseXML = context.newObject(this, "XML", objects);
             responseText = response.toString();
         }
