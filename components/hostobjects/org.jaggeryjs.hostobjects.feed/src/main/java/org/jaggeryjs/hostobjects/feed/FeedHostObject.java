@@ -657,7 +657,7 @@ public class FeedHostObject extends ScriptableObject {
     public Scriptable jsFunction_toXML() {
         Context cx = Context.getCurrentContext();
         if (feed != null) {
-            Object[] objects = {feed};
+            Object[] objects = {feed.toString()};
             Scriptable xmlHostObject = cx.newObject(this, "XML", objects);
             return xmlHostObject;
         }
