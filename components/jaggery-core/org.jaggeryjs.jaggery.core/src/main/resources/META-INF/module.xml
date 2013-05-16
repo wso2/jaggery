@@ -125,4 +125,8 @@
         <name>http</name>
         <path>META-INF/scripts/http.js</path>
     </script>
+    <script>
+        <name>xml</name>
+        <path>META-INF/scripts/xml.js</path>
+    </script>
 </module>
