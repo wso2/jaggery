@@ -2,7 +2,7 @@
     var XMLObj = XML,
         filter = function(data) {
             return (data instanceof String || typeof data === 'string') ?
-                data.replace(/<\?xml.*?\?>/, "").replace(/<!--[\s\S]*?-->/g, "") : data;
+                data.replace(/<\?xml.*?\?>\s*/, "").replace(/<!--[\s\S]*?-->/g, "") : data;
         };
     this.XML = function (data) {
         return new XMLObj(filter(data));
