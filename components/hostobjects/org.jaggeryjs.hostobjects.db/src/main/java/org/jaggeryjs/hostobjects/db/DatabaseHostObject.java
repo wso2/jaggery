@@ -484,7 +484,7 @@ public class DatabaseHostObject extends ScriptableObject {
                         } else {
                             result = stmt.executeUpdate();
                         }
-                        callback.call(db.context, db, db, new Object[]{result});
+                        callback.call(cx, db, db, new Object[]{result});
                     } catch (SQLException e) {
                         log.warn(e);
                     } finally {
@@ -545,10 +545,10 @@ public class DatabaseHostObject extends ScriptableObject {
             final ExecutorService es = Executors.newSingleThreadExecutor();
             es.submit(new Callable() {
                 public Object call() throws Exception {
-                    RhinoEngine.enterContext(factory);
+                    Context ctx = RhinoEngine.enterContext(factory);
                     try {
                         int[] result = stmt.executeBatch();
-                        callback.call(db.context, db, db, new Object[]{result});
+                        callback.call(ctx, db, db, new Object[]{result});
                     } catch (SQLException e) {
                         log.warn(e);
                     } finally {

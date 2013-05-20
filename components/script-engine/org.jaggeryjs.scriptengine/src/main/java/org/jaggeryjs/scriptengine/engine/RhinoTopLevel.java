@@ -61,7 +61,7 @@ public class RhinoTopLevel extends ImporterTopLevel {
         return HostObjectUtil.serializeJSON(args[0]);
     }
 
-    public static String setTimeout(final Context cx, final Scriptable thisObj, Object[] args, Function funObj)
+    public static String setTimeout(Context cx, final Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException {
         String functionName = "setTimeout";
         int argsCount = args.length;
@@ -91,14 +91,15 @@ public class RhinoTopLevel extends ImporterTopLevel {
         final JaggeryContext context = getJaggeryContext();
         final Object[] params = Arrays.copyOfRange(args, 2, args.length);
         final Function callback = function;
+        final ContextFactory factory = cx.getFactory();
         timeout = ((Number) args[1]).longValue();
         String uuid = UUID.randomUUID().toString();
         ScheduledFuture future = timerExecutor.schedule(new Callable<Void>() {
             public Void call() throws Exception {
                 try {
-                    RhinoEngine.enterContext(cx.getFactory());
+                    Context ctx = RhinoEngine.enterContext(factory);
                     RhinoEngine.putContextProperty(EngineConstants.JAGGERY_CONTEXT, context);
-                    callback.call(cx, thisObj, thisObj, params);
+                    callback.call(ctx, thisObj, thisObj, params);
                 } catch (Exception e) {
                     log.error(e.getMessage(), e);
                 } finally {

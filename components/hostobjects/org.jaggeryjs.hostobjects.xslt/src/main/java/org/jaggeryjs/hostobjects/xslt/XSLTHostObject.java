@@ -235,11 +235,11 @@ public class XSLTHostObject extends ScriptableObject {
             final ExecutorService es = Executors.newCachedThreadPool();
             es.submit(new Callable() {
                 public Object call() throws Exception {
-                    RhinoEngine.enterContext(factory);
+                    Context ctx = RhinoEngine.enterContext(factory);
                     try {
-                        getTransformer(cx, thisObj, xho, finalParamMap, finalUriResolver).transform(
+                        getTransformer(ctx, thisObj, xho, finalParamMap, finalUriResolver).transform(
                                 new StreamSource(finalXml), new StreamResult(result));
-                        finalCallback.call(cx, xho, xho, new Object[]{result.toString()});
+                        finalCallback.call(ctx, xho, xho, new Object[]{result.toString()});
                     } catch (TransformerException e) {
                         log.warn(e);
                     } finally {

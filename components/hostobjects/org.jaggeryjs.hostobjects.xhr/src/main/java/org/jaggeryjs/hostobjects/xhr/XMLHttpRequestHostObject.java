@@ -217,7 +217,7 @@ public class XMLHttpRequestHostObject extends ScriptableObject {
             setUsername(functionName, xhr, args[3], "4");
             setPassword(functionName, xhr, args[4], "5");
         }
-        updateReadyState(xhr, OPENED);
+        updateReadyState(cx, xhr, OPENED);
     }
 
     /**
@@ -446,11 +446,11 @@ public class XMLHttpRequestHostObject extends ScriptableObject {
         }
     }
 
-    private static void updateReadyState(XMLHttpRequestHostObject xhr, short readyState) {
+    private static void updateReadyState(Context cx, XMLHttpRequestHostObject xhr, short readyState) {
         xhr.readyState = readyState;
         if (xhr.async && xhr.onreadystatechange != null) {
             try {
-                xhr.onreadystatechange.call(xhr.context, xhr, xhr, new Object[0]);
+                xhr.onreadystatechange.call(cx, xhr, xhr, new Object[0]);
             } catch (Exception e) {
                 log.warn("Error executing XHR callback for " + xhr.url, e);
                 e.printStackTrace();
@@ -496,14 +496,14 @@ public class XMLHttpRequestHostObject extends ScriptableObject {
         this.method = method;
         final XMLHttpRequestHostObject xhr = this;
         if (async) {
-            updateReadyState(xhr, LOADING);
+            updateReadyState(cx, xhr, LOADING);
             final ContextFactory factory = cx.getFactory();
             final ExecutorService es = Executors.newSingleThreadExecutor();
             es.submit(new Callable() {
                 public Object call() throws Exception {
-                    RhinoEngine.enterContext(factory);
+                    Context ctx = RhinoEngine.enterContext(factory);
                     try {
-                        executeRequest(xhr);
+                        executeRequest(ctx, xhr);
                     } catch (ScriptException e) {
                         log.error(e.getMessage(), e);
                     } finally {
@@ -514,16 +514,16 @@ public class XMLHttpRequestHostObject extends ScriptableObject {
                 }
             });
         } else {
-            executeRequest(xhr);
+            executeRequest(cx, xhr);
         }
     }
 
-    private static void executeRequest(XMLHttpRequestHostObject xhr) throws ScriptException {
+    private static void executeRequest(Context cx, XMLHttpRequestHostObject xhr) throws ScriptException {
         try {
             xhr.httpClient.executeMethod(xhr.method);
             xhr.statusLine = xhr.method.getStatusLine();
             xhr.responseHeaders = xhr.method.getResponseHeaders();
-            updateReadyState(xhr, HEADERS_RECEIVED);
+            updateReadyState(cx, xhr, HEADERS_RECEIVED);
 
             byte[] response = xhr.method.getResponseBody();
             if (response.length > 0) {
@@ -533,7 +533,7 @@ public class XMLHttpRequestHostObject extends ScriptableObject {
             if (contentType != null) {
                 xhr.responseType = contentType.getValue();
             }
-            updateReadyState(xhr, DONE);
+            updateReadyState(cx, xhr, DONE);
         } catch (IOException e) {
             log.error(e.getMessage(), e);
             throw new ScriptException(e);
