@@ -23,7 +23,6 @@ import org.mozilla.javascript.xml.XMLObject;
 import org.wso2.carbon.registry.api.RegistryException;
 import org.wso2.carbon.registry.core.Resource;
 
-import javax.xml.stream.XMLStreamException;
 import java.util.*;
 
 /**
@@ -116,11 +115,11 @@ public class ResourceHostObject extends ScriptableObject {
                                                       Function funObj) throws ScriptException {
         ResourceHostObject resourceHostObject = (ResourceHostObject) thisObj;
         if (arguments.length == 0) {
-            List<NativeObject> props = new ArrayList<NativeObject>();
+            List<ScriptableObject> props = new ArrayList<ScriptableObject>();
             Properties properties = resourceHostObject.resource.getProperties();
             Enumeration<?> propertyNames = properties.propertyNames();
             while (propertyNames.hasMoreElements()) {
-                NativeObject property = new NativeObject();
+                ScriptableObject property = (ScriptableObject) cx.newObject(thisObj);
                 String key = (String) propertyNames.nextElement();
                 property.put("name", property, key);
                 property.put("value", property, properties.get(key));

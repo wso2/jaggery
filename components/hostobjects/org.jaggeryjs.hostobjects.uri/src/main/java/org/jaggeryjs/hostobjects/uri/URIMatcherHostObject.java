@@ -27,7 +27,7 @@ public class URIMatcherHostObject extends ScriptableObject {
 
     private String uriToBeMatched;
 
-    private NativeObject uriParts;
+    private ScriptableObject uriParts;
 
     private Context cx;
 
@@ -69,7 +69,7 @@ public class URIMatcherHostObject extends ScriptableObject {
      * @return
      * @throws ScriptException
      */
-    public static NativeObject jsFunction_match(Context cx, Scriptable thisObj, Object[] args, Function funObj) throws ScriptException {
+    public static ScriptableObject jsFunction_match(Context cx, Scriptable thisObj, Object[] args, Function funObj) throws ScriptException {
         String functionName = "match";
         int argsCount = args.length;
         if (argsCount != 1) {
@@ -90,9 +90,9 @@ public class URIMatcherHostObject extends ScriptableObject {
             throw new ScriptException(e);
         }
 
-        NativeObject nobj = new NativeObject();
+        ScriptableObject nobj = (ScriptableObject) cx.newObject(thisObj);
         for (Map.Entry<String, String> entry : urlParts.entrySet()) {
-            nobj.defineProperty(entry.getKey(), entry.getValue(), NativeObject.READONLY);
+            nobj.put(entry.getKey(), nobj, entry.getValue());
         }
 
         uriho.uriParts = nobj;
@@ -100,7 +100,7 @@ public class URIMatcherHostObject extends ScriptableObject {
         return nobj;
     }
 
-    public static NativeObject jsFunction_elements(Context cx, Scriptable thisObj, Object[] args, Function funObj) throws ScriptException {
+    public static ScriptableObject jsFunction_elements(Context cx, Scriptable thisObj, Object[] args, Function funObj) throws ScriptException {
         String functionName = "elements";
         int argsCount = args.length;
         if (argsCount != 0) {

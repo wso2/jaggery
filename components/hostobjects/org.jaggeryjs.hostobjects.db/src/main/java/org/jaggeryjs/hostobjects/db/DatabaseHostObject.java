@@ -571,7 +571,7 @@ public class DatabaseHostObject extends ScriptableObject {
             ScriptableObject row;
             ResultSetMetaData rsmd = results.getMetaData();
             if (keyed) {
-                row = new NativeObject();
+                row = (ScriptableObject) db.context.newObject(db);
                 for (int i = 0; i < rsmd.getColumnCount(); i++) {
                     String columnName = rsmd.getColumnLabel(i + 1);
                     Object columnValue = getValue(db, results, i + 1, rsmd.getColumnType(i + 1));
