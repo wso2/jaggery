@@ -114,7 +114,7 @@
         <commons-io.osgi.version>2.0.0.wso2v1</commons-io.osgi.version>
         <commons-fileupload.osgi.version>1.2.2.wso2v1</commons-fileupload.osgi.version>
         <commons-codec.osgi.version>1.4.0.wso2v1</commons-codec.osgi.version>
-        <geronimo-stax-api_1.0_spec.osgi.version>1.0.1.wso2v1</geronimo-stax-api_1.0_spec.osgi.version>
+        <geronimo-stax-api_1.0_spec.osgi.version>1.0.1.wso2v2</geronimo-stax-api_1.0_spec.osgi.version>
         <saxon.bps.osgi.version>9.0.0.x-wso2v1</saxon.bps.osgi.version>
         <abdera-extensions.osgi.version>0.4.0.wso2v2</abdera-extensions.osgi.version>
         <xmlschema.osgi.version>1.4.7.wso2v1</xmlschema.osgi.version>
