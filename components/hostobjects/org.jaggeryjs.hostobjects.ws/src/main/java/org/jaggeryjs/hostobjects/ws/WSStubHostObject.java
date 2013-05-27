@@ -5,10 +5,6 @@ import org.apache.axiom.om.OMNamespace;
 import org.apache.axis2.description.WSDL2Constants;
 import org.apache.axis2.namespace.Constants;
 import org.apache.axis2.util.XMLUtils;
-import org.apache.commons.httpclient.*;
-import org.apache.commons.httpclient.auth.AuthScope;
-import org.apache.commons.httpclient.cookie.CookiePolicy;
-import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mozilla.javascript.Context;
@@ -99,26 +95,13 @@ public class WSStubHostObject extends ScriptableObject {
      * @throws CarbonException - Thrown in case an exception occurs
      */
     public String genarateStubFromURL(String type, String url) throws ScriptException {
-
-        HttpMethod httpMethod = new GetMethod(url);
-
         InputStream inputStream;
         try {
             URL wsdlURL = new URL(url);
-            int statusCode = WSStubHostObject.executeHTTPMethod(httpMethod, wsdlURL, null, null);
-            if (statusCode != HttpStatus.SC_OK) {
-                throw new ScriptException(
-                        "An error occured while getting the WSDL at " + wsdlURL +
-                                ". Reason :" +
-                                httpMethod.getStatusLine());
-            }
-            inputStream = httpMethod.getResponseBodyAsStream();
-
+            inputStream = wsdlURL.openStream();
             return getStub(type, readStream(inputStream), url);
         } catch (IOException e) {
             throw new ScriptException(e);
-        } finally {
-            httpMethod.releaseConnection();
         }
     }
 
@@ -176,31 +159,5 @@ public class WSStubHostObject extends ScriptableObject {
             throw new ScriptException(e);
         }
         return stubOutStream.toString();
-    }
-
-
-    public static int executeHTTPMethod(HttpMethod method, URL targetURL, String username,
-                                        String password) throws IOException {
-
-        MultiThreadedHttpConnectionManager connectionManager =
-                new MultiThreadedHttpConnectionManager();
-        HttpClient httpClient = new HttpClient(connectionManager);
-        // We should not use method.setURI and set the complete URI here.
-        // If we do so commons-httpclient will not use our custom socket factory.
-        // Hence we set the path and query separatly
-        method.setPath(targetURL.getPath());
-        method.setQueryString(targetURL.getQuery());
-        method.setRequestHeader("Host", targetURL.getHost());
-        method.getParams().setCookiePolicy(CookiePolicy.IGNORE_COOKIES);
-
-        // If a username and a password is provided we support basic auth
-        if ((username != null) && (password != null)) {
-            Credentials creds = new UsernamePasswordCredentials(username, password);
-            int port = targetURL.getPort();
-            httpClient.getState()
-                    .setCredentials(new AuthScope(targetURL.getHost(), port), creds);
-        }
-
-        return httpClient.executeMethod(method);
     }
 }
