@@ -419,14 +419,14 @@ public class WSRequestHostObject extends ScriptableObject {
         }
     }
 
-    protected void updateResponse(OMElement response) {
+    protected void updateResponse(OMElement response) throws XMLStreamException {
         if (response instanceof OMSourcedElementImpl) {
             OMSourcedElementImpl sourcedElement = (OMSourcedElementImpl) response;
             setJSONAsXML(sourcedElement);
         } else if (response != null) {
-            Object[] objects = {response};
+            responseText = response.toStringWithConsume();
+            Object[] objects = {responseText};
             responseXML = context.newObject(this, "XML", objects);
-            responseText = response.toString();
         }
     }
 

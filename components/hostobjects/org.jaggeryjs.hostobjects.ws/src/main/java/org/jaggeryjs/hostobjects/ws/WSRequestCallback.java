@@ -26,6 +26,7 @@ import org.mozilla.javascript.Context;
 import org.jaggeryjs.scriptengine.engine.RhinoEngine;
 
 import javax.xml.namespace.QName;
+import javax.xml.stream.XMLStreamException;
 
 public class WSRequestCallback implements AxisCallback {
 
@@ -81,12 +82,16 @@ public class WSRequestCallback implements AxisCallback {
     }
 
     public void onMessage(MessageContext messageContext) {
-        this.wsrequest.updateResponse(messageContext.getEnvelope().getBody().getFirstElement());
-        this.wsrequest.readyState = 4;
-        if (this.wsrequest.onReadyStateChangeFunction != null) {
-            Context cx = RhinoEngine.enterContext(this.wsrequest.context.getFactory());
-            this.wsrequest.onReadyStateChangeFunction.call(cx, wsrequest, wsrequest, new Object[0]);
-            RhinoEngine.exitContext();
+        try {
+            this.wsrequest.updateResponse(messageContext.getEnvelope().getBody().getFirstElement());
+            this.wsrequest.readyState = 4;
+            if (this.wsrequest.onReadyStateChangeFunction != null) {
+                Context cx = RhinoEngine.enterContext(this.wsrequest.context.getFactory());
+                this.wsrequest.onReadyStateChangeFunction.call(cx, wsrequest, wsrequest, new Object[0]);
+                RhinoEngine.exitContext();
+            }
+        } catch (XMLStreamException e) {
+            log.error(e.getMessage(), e);
         }
     }
 }

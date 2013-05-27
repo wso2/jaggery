@@ -429,7 +429,7 @@ public class EntryHostObject extends ScriptableObject {
     public Scriptable jsFunction_toXML() {
 
         if (entry != null) {
-            Object[] objects = {entry};
+            Object[] objects = {entry.toString()};
             Scriptable xmlHostObject = context.newObject(this, "XML", objects);
             return xmlHostObject;
         }
