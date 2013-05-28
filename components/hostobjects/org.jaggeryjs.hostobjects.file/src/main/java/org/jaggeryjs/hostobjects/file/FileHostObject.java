@@ -3,6 +3,7 @@ package org.jaggeryjs.hostobjects.file;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jaggeryjs.hostobjects.stream.StreamHostObject;
 import org.jaggeryjs.scriptengine.EngineConstants;
 import org.jaggeryjs.scriptengine.engine.JaggeryContext;
 import org.jaggeryjs.scriptengine.engine.RhinoEngine;
@@ -13,10 +14,12 @@ import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.wso2.carbon.utils.CarbonUtils;
-import org.wso2.carbon.utils.FileUtil;
 
 import javax.activation.FileTypeMap;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -84,9 +87,15 @@ public class FileHostObject extends ScriptableObject {
         if (argsCount != 1) {
             HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
         }
-        String data = HostObjectUtil.serializeObject(args[0]);
+        Object data = args[0];
         FileHostObject fho = (FileHostObject) thisObj;
-        fho.file.write(data);
+        if (data instanceof InputStream) {
+            fho.file.write((InputStream) data);
+        } else if (data instanceof StreamHostObject) {
+            fho.file.write(((StreamHostObject) data).getStream());
+        } else {
+            fho.file.write(HostObjectUtil.serializeObject(args[0]));
+        }
     }
 
     public static String jsFunction_read(Context cx, Scriptable thisObj, Object[] args, Function funObj)
@@ -241,7 +250,7 @@ public class FileHostObject extends ScriptableObject {
         }
 
 
-        final Map<String ,String > mimeMappings = new HashMap<String, String>();
+        final Map<String, String> mimeMappings = new HashMap<String, String>();
 
         final String mappings;
         try {
@@ -253,10 +262,10 @@ public class FileHostObject extends ScriptableObject {
         }
         String[] lines = mappings.split("[\\r\\n]+");
         for (String line : lines) {
-            if(!line.startsWith("#")){
+            if (!line.startsWith("#")) {
                 String[] parts = line.split("\\s+");
                 for (int i = 1; i < parts.length; i++) {
-                    mimeMappings.put(parts[i],parts[0]);
+                    mimeMappings.put(parts[i], parts[0]);
                 }
             }
         }
@@ -264,7 +273,7 @@ public class FileHostObject extends ScriptableObject {
         return new FileTypeMap() {
             @Override
             public String getContentType(File file) {
-               return getContentType(file.getName());
+                return getContentType(file.getName());
             }
 
             @Override

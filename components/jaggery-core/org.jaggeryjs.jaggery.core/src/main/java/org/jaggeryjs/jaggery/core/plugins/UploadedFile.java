@@ -8,7 +8,6 @@ import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.hostobjects.file.JavaScriptFile;
 import org.jaggeryjs.hostobjects.file.JavaScriptFileManager;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
-import org.jaggeryjs.scriptengine.util.HostObjectUtil;
 
 import javax.activation.FileTypeMap;
 import javax.servlet.ServletContext;
@@ -94,6 +93,12 @@ public class UploadedFile implements JavaScriptFile {
 
     @Override
     public void write(String data) throws ScriptException {
+        log.warn("write() method is not available for uploaded files. " +
+                "Field name : " + fileItem.getFieldName() + ", File name : " + getName());
+    }
+
+    @Override
+    public void write(InputStream data) throws ScriptException {
         log.warn("write() method is not available for uploaded files. " +
                 "Field name : " + fileItem.getFieldName() + ", File name : " + getName());
     }

@@ -179,7 +179,11 @@ var registry = registry || {};
             res = this.registry.newCollection();
         } else {
             res = this.registry.newResource();
-            res.content = resource.content || null;
+            if (resource.content instanceof Stream) {
+                res.contentStream = resource.content.getStream();
+            } else {
+                res.content = resource.content || null;
+            }
             res.mediaType = resource.mediaType || null;
         }
         res.name = resource.name;

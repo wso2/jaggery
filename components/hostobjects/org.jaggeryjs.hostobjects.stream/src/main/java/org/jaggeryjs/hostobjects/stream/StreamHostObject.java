@@ -60,6 +60,17 @@ public class StreamHostObject extends ScriptableObject {
         return HostObjectUtil.streamToString(fho.stream);
     }
 
+    public static Object jsFunction_getStream(Context cx, Scriptable thisObj, Object[] args, Function funObj)
+            throws ScriptException {
+        String functionName = "getStream";
+        int argsCount = args.length;
+        if (argsCount != 0) {
+            HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
+        }
+        StreamHostObject sho = (StreamHostObject) thisObj;
+        return sho.getStream();
+    }
+
     public InputStream getStream() {
         return stream;
     }

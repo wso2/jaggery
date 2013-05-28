@@ -1,61 +1,25 @@
 <%
-var log = new Log();
-var file = request.getFile("userfile");
-file.move(file.getName());
-%>
 
-<html>
-<head>
-    <meta charset="utf-8">
-</head>
-<body>
-<table>
-    <thead>
-    <th>method</th>
-    <th>value</th>
-    </thead>
-    <tbody>
-    <tr>
-        <td>request.getAllParameters</td>
-        <td><%=request.getAllParameters('UTF-8')%></td>
-    </tr>
-    <tr>
-        <td>request.getAllFiles</td>
-        <td><%=request.getAllFiles()%></td>
-    </tr>
-    <tr>
-        <td>request.getParameter("username")</td>
-        <td><%=request.getParameter("username")%></td>
-    </tr>
-    <tr>
-        <td>request.getParameter("username", "iso-8859-1")</td>
-        <td><%=request.getParameter("username", "iso-8859-1")%></td>
-    </tr>
-    <tr>
-        <td>request.getParameter("username", "UTF-8")</td>
-        <td><%=request.getParameter("username", "UTF-8")%></td>
-    </tr>
-    <tr>
-        <td>file instanceof File</td>
-        <td><%=(file instanceof File)%></td>
-    </tr>
-    <tr>
-        <td>file.getName()</td>
-        <td><%=file.getName()%></td>
-    </tr>
-    <tr>
-        <td>file.getLength()</td>
-        <td><%=file.getLength()%></td>
-    </tr>
-    <tr>
-        <td>file.getContentType()</td>
-        <td><%=file.getContentType()%></td>
-    </tr>
-    <tr>
-        <td>file.move(file.getName())</td>
-        <td><a href="<%=file.getName()%>">Download</a></td>
-    </tr>
-    </tbody>
-</table>
-</body>
-</html>
+var file = request.getFile("userfile");
+
+var carbon = require('carbon');
+var registry = new carbon.registry.Registry(null, {
+    username: 'admin',
+    password: 'admin'
+});
+
+var path = '/_system/governance/image.jpg';
+registry.put(path, {
+    mediaType: 'image/jpg',
+    content: file.getStream()
+});
+
+var res = registry.get(path);
+file = new File('ruchira.jpg');
+file.open('w');
+file.write(res.content);
+file.close();
+
+response.addHeader('Content-Type', 'image/jpg');
+print(res.content);
+%>
