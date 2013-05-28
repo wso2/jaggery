@@ -25,6 +25,7 @@ import org.jaggeryjs.scriptengine.util.HostObjectUtil;
 import org.mozilla.javascript.*;
 import org.wso2.carbon.CarbonException;
 import org.wso2.carbon.context.CarbonContext;
+import org.wso2.carbon.context.PrivilegedCarbonContext;
 import org.wso2.carbon.registry.api.RegistryException;
 import org.wso2.carbon.registry.common.ResourceData;
 import org.wso2.carbon.registry.common.TagCount;
@@ -662,13 +663,7 @@ public class RegistryHostObject extends ScriptableObject {
         UserRegistry registry;
         RegistryService registryService = RegistryHostObjectContext.getRegistryService();
 
-        String tDomain;
-        try {
-            tDomain = username.split("@")[1];
-        } catch (ArrayIndexOutOfBoundsException e) {
-            //if tenant domain is not present in the username we treat is as a super user
-            tDomain = "carbon.super";
-        }
+        String tDomain = PrivilegedCarbonContext.getCurrentContext().getTenantDomain(false);
 
         try {
             int tId = RegistryHostObjectContext.getRealmService().getTenantManager().getTenantId(tDomain);
@@ -688,13 +683,7 @@ public class RegistryHostObject extends ScriptableObject {
         UserRegistry registry;
         RegistryService registryService = RegistryHostObjectContext.getRegistryService();
 
-        String tDomain;
-        try {
-            tDomain = username.split("@")[1];
-        } catch (ArrayIndexOutOfBoundsException e) {
-            //if tenant domain is not present in the username we treat is as a super user
-            tDomain = "carbon.super";
-        }
+        String tDomain = PrivilegedCarbonContext.getCurrentContext().getTenantDomain(false);
 
         try {
             int tId = RegistryHostObjectContext.getRealmService().getTenantManager().getTenantId(tDomain);
