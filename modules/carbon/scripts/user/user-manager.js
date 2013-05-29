@@ -49,8 +49,8 @@
         return this.manager.isExistingRole(role);
     };
 
-    UserManager.prototype.getClaims = function (username) {
-        return this.manager.getUserClaimValues(username);
+    UserManager.prototype.getClaims = function (username, profile) {
+        return this.manager.getUserClaimValues(username, profile);
     };
 
     UserManager.prototype.setClaims = function (username, claims, profile) {

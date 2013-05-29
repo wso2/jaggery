@@ -8,8 +8,8 @@ var user = {};
     };
     user.User = User;
 
-    User.prototype.getClaims = function () {
-        return this.um.manager.getClaims(this.username);
+    User.prototype.getClaims = function (profile) {
+        return this.um.manager.getClaims(this.username, profile);
     };
 
     User.prototype.setClaims = function (claims, profile) {
