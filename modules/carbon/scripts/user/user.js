@@ -2,6 +2,14 @@ var user = {};
 
 (function (user) {
 
+    var CarbonConstants = Packages.org.wso2.carbon.CarbonConstants;
+
+    user.systemUser = CarbonConstants.REGISTRY_SYSTEM_USERNAME;
+
+    user.anonUser = CarbonConstants.REGISTRY_ANONNYMOUS_USERNAME;
+
+    user.anonRole = CarbonConstants.REGISTRY_ANONNYMOUS_ROLE_NAME;
+
     var User = function (manager, username) {
         this.um = manager;
         this.username = username;

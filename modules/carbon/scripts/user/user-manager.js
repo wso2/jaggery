@@ -14,7 +14,7 @@
     };
 
     var UserManager = function (serv, tenant) {
-        tenant = tenant || Packages.org.wso2.carbon.utils.multitenancy.MultitenantConstants.SUPER_TENANT_DOMAIN_NAME;
+        tenant = tenant || server.superTenant.domain;
         this.server = serv;
         this.tenantId = server.tenantId({
             domain: tenant
@@ -79,6 +79,18 @@
         return this.manager.getRoleNames();
     };
 
+    /**
+     * um.authorizeRole('store-admin', '/permissions/mypermission', 'ui-execute');
+     *
+     * um.authorizeRole('store-admin', {
+     *      '/permissions/myperm1' : ['read', 'write'],
+     *      '/permissions/myperm2' : ['read', 'write']
+     * });
+     *
+     * @param role
+     * @param permission
+     * @param action
+     */
     UserManager.prototype.authorizeRole = function (role, permission, action) {
         var that = this;
         if (permission instanceof String || typeof permission === 'string') {
@@ -94,6 +106,18 @@
         }
     };
 
+    /**
+     * um.denyRole('store-admin', '/permissions/mypermission', 'ui-execute');
+     *
+     * um.denyRole('store-admin', {
+     *      '/permissions/myperm1' : ['read', 'write'],
+     *      '/permissions/myperm2' : ['read', 'write']
+     * });
+     *
+     * @param role
+     * @param permission
+     * @param action
+     */
     UserManager.prototype.denyRole = function (role, permission, action) {
         var deny = this.authorizer.denyRole;
         if (permission instanceof String || typeof permission === 'string') {

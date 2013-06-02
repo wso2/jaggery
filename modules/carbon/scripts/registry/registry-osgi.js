@@ -11,6 +11,8 @@ var registry = registry || {};
 
     var StaticConfiguration = Packages.org.wso2.carbon.registry.core.config.StaticConfiguration;
 
+    var queryPath = '/_system/config/repository/components/org.wso2.carbon.registry/queries/';
+
     var content = function (registry, resource, paging) {
         if (resource instanceof Collection) {
             // #1 : this always sort children by name, so sorting cannot be done for the chunk
@@ -152,23 +154,39 @@ var registry = registry || {};
         return def;
     };
 
-    var Registry = function (serv, auth) {
-        var registryService = server.osgiService('org.wso2.carbon.registry.core.service.RegistryService');
-        if (auth) {
-            this.username = auth.username;
-            this.tenant = server.tenantId({
-                domain: auth.domain,
-                username: auth.username
-            });
-            this.registry = registryService.getRegistry(auth.username, this.tenant);
+    var Registry = function (serv, options) {
+        var registryService = server.osgiService('org.wso2.carbon.registry.core.service.RegistryService'),
+            carbon = require('carbon');
+        if (options) {
+            this.server = serv;
         } else {
-            this.tenant = server.tenantId();
-            this.registry = registryService.getRegistry();
+            this.server = new server.Server();
+            options = serv || {};
         }
+
+        if (options.tenantId) {
+            this.tenantId = options.tenantId;
+        } else if (options.username || options.domain) {
+            this.tenantId = server.tenantId({
+                domain: options.domain,
+                username: this.username
+            });
+        } else {
+            this.tenantId = server.tenantId();
+        }
+
+        if (options.username) {
+            this.username = options.username;
+        } else if (options.system) {
+            this.username = carbon.user.systemUser;
+        } else {
+            this.username = carbon.user.anonUser;
+        }
+
+        this.registry = registryService.getRegistry(this.username, this.tenantId);
         this.versioning = {
             comments: StaticConfiguration.isVersioningComments()
         };
-        this.server = serv;
     };
 
     registry.Registry = Registry;
@@ -265,37 +283,12 @@ var registry = registry || {};
     };
 
     Registry.prototype.tags = function (path) {
-        var tag, tags, i, length, count, tz,
+        var tags, i, length,
             tagz = [];
-        if (path) {
-            tags = this.registry.getTags(path);
-            length = tags.length;
-            for (i = 0; i < length; i++) {
-                tagz.push(String(tags[i].tagName));
-            }
-            return tagz;
-        }
-
-        tz = {};
-        tags = this.query({
-            name: 'tags',
-            query: 'SELECT RT.REG_TAG_ID FROM REG_RESOURCE_TAG RT ORDER BY RT.REG_TAG_ID',
-            resultType: 'Tags'
-        });
+        tags = this.registry.getTags(path);
         length = tags.length;
         for (i = 0; i < length; i++) {
-            tag = tags[i].split(';')[1].split(':')[1];
-            count = tz[tag];
-            count = count ? count + 1 : 1;
-            tz[tag] = count;
-        }
-        for (tag in tz) {
-            if (tz.hasOwnProperty(tag)) {
-                tagz.push({
-                    name: String(tag),
-                    count: tz[tag]
-                });
-            }
+            tagz.push(String(tags[i].tagName));
         }
         return tagz;
     };
@@ -447,27 +440,15 @@ var registry = registry || {};
         return res ? content(this, res, paging) : [];
     };
 
-    Registry.prototype.query = function (options) {
-        var res,
-            query = options.query,
-            uuid = require('uuid'),
-            name = options.name || uuid.generate(),
-            cache = options.cache || true,
-            Collections = java.util.Collections,
-            path = '/_system/config/repository/components/org.wso2.carbon.registry/queries/' + name;
-        if (!this.exists(path) || !cache) {
-            this.put(path, {
-                content: query,
-                mediaType: 'application/vnd.sql.query',
-                properties: {
-                    resultType: options.resultType
-                }
-            });
+    Registry.prototype.query = function (path, params) {
+        var res, name,
+            map = new java.util.HashMap();
+        for (name in params) {
+            if (params.hasOwnProperty(name)) {
+                map.put(name, params[name]);
+            }
         }
-        res = this.registry.executeQuery(path, Collections.emptyMap());
-        if (!cache) {
-            this.remove(path);
-        }
+        res = this.registry.executeQuery(path, map);
         return res.getChildren();
     };
 

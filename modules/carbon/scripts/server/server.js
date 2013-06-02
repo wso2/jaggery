@@ -67,7 +67,7 @@
     server.Cookie = Cookie;
 
     var Server = function (url) {
-        this.url = url;
+        this.url = url || 'local:/';
     };
     server.Server = Server;
 

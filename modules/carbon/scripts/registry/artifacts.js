@@ -5,6 +5,8 @@
     var GenericArtifactManager = Packages.org.wso2.carbon.governance.api.generic.GenericArtifactManager;
     var GenericArtifactFilter = Packages.org.wso2.carbon.governance.api.generic.GenericArtifactFilter;
     var ByteArrayInputStream = Packages.java.io.ByteArrayInputStream;
+    var QName = Packages.javax.xml.namespace.QName;
+    var IOUtils = Packages.org.apache.commons.io.IOUtils;
 
     var buildArtifact = function (manager, artifact) {
         return {
@@ -29,6 +31,39 @@
                 return new Stream(new ByteArrayInputStream(artifact.getContent()));
             }
         };
+    };
+
+    var createArtifact = function (options) {
+        var name, attribute, i, length, lc,
+            artifact = this.manager.newGovernanceArtifact(new QName(options.name)),
+            attributes = options.attributes;
+        for (name in attributes) {
+            if (attributes.hasOwnProperty(name)) {
+                attribute = attributes[name];
+                if (attribute instanceof Array) {
+                    /*length = attribute.length;
+                     for (i = 0; i < length; i++) {
+                     artifact.addAttribute(name, attribute[i]);
+                     }*/
+                    artifact.setAttributes(name, attribute);
+                } else {
+                    artifact.setAttribute(name, attribute);
+                }
+            }
+        }
+        if (options.content) {
+            if (options.content instanceof Stream) {
+                artifact.setContent(IOUtils.toByteArray(options.content.getStream()));
+            } else {
+                artifact.setContent(new java.lang.String(options.content).getBytes());
+            }
+        }
+        lc = options.lifecycles;
+        length = lc.length;
+        for (i = 0; i < length; i++) {
+            artifact.attachLifeCycle(lc[i]);
+        }
+        return artifact;
     };
 
     var ArtifactManager = function (registry, type) {
@@ -70,6 +105,33 @@
             artifactz.push(buildArtifact(this, artifacts[i]));
         }
         return artifactz;
+    };
+
+    /**
+     * {
+     *      name : 'My Gadget',
+     *      lifecycles : ["development"],
+     *      options : {
+     *          "overview_name" : "My Gadget"
+     *          "overview_urls" : ["http://example1.com", "http://example2.com"]
+     *      },
+     *      content : "<?xml...>"
+     * }
+     *
+     * {
+     *      name : string,
+     *      lifecycles : [string],
+     *      options : [string, [string]],
+     *      content : string | Stream
+     * }
+     * @param options
+     */
+    ArtifactManager.prototype.add = function (options) {
+        this.manager.addGenericArtifact(createArtifact(options));
+    };
+
+    ArtifactManager.prototype.update = function (options) {
+        this.manager.updateGenericArtifact(createArtifact(options));
     };
 
 }(server, registry));
