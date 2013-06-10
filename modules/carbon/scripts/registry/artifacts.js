@@ -33,9 +33,9 @@
         };
     };
 
-    var createArtifact = function (options) {
+    var createArtifact = function (manager, options) {
         var name, attribute, i, length, lc,
-            artifact = this.manager.newGovernanceArtifact(new QName(options.name)),
+            artifact = manager.newGovernanceArtifact(new QName(options.name)),
             attributes = options.attributes;
         for (name in attributes) {
             if (attributes.hasOwnProperty(name)) {
@@ -59,9 +59,11 @@
             }
         }
         lc = options.lifecycles;
-        length = lc.length;
-        for (i = 0; i < length; i++) {
-            artifact.attachLifeCycle(lc[i]);
+        if (lc) {
+            length = lc.length;
+            for (i = 0; i < length; i++) {
+                artifact.attachLifeCycle(lc[i]);
+            }
         }
         return artifact;
     };
@@ -127,11 +129,11 @@
      * @param options
      */
     ArtifactManager.prototype.add = function (options) {
-        this.manager.addGenericArtifact(createArtifact(options));
+        this.manager.addGenericArtifact(createArtifact(this.manager, options));
     };
 
     ArtifactManager.prototype.update = function (options) {
-        this.manager.updateGenericArtifact(createArtifact(options));
+        this.manager.updateGenericArtifact(createArtifact(this.manager, options));
     };
 
 }(server, registry));
