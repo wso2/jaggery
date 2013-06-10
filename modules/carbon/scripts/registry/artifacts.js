@@ -113,7 +113,7 @@
      * {
      *      name : 'My Gadget',
      *      lifecycles : ["development"],
-     *      options : {
+     *      attributes : {
      *          "overview_name" : "My Gadget"
      *          "overview_urls" : ["http://example1.com", "http://example2.com"]
      *      },
@@ -123,7 +123,7 @@
      * {
      *      name : string,
      *      lifecycles : [string],
-     *      options : [string, [string]],
+     *      attributes : [string, [string]],
      *      content : string | Stream
      * }
      * @param options
