@@ -18,32 +18,27 @@ package org.jaggeryjs.jaggery.app.mgt;
 
 import org.apache.axis2.context.ConfigurationContext;
 import org.apache.catalina.*;
-import org.apache.catalina.Context;
 import org.apache.catalina.core.StandardContext;
 import org.apache.catalina.deploy.*;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jaggeryjs.hostobjects.file.FileHostObject;
 import org.jaggeryjs.hostobjects.log.LogHostObject;
 import org.jaggeryjs.jaggery.core.JaggeryCoreConstants;
 import org.jaggeryjs.jaggery.core.ScriptReader;
 import org.jaggeryjs.jaggery.core.manager.CommonManager;
 import org.jaggeryjs.jaggery.core.manager.WebAppManager;
-import org.jaggeryjs.jaggery.core.plugins.WebAppFileManager;
 import org.jaggeryjs.scriptengine.engine.JaggeryContext;
-import org.jaggeryjs.scriptengine.engine.JavaScriptProperty;
 import org.jaggeryjs.scriptengine.engine.RhinoEngine;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
-import org.mozilla.javascript.*;
+import org.mozilla.javascript.ScriptableObject;
 import org.wso2.carbon.CarbonConstants;
 import org.wso2.carbon.CarbonException;
-import org.wso2.carbon.context.CarbonContext;
 import org.wso2.carbon.context.PrivilegedCarbonContext;
 import org.wso2.carbon.core.session.CarbonTomcatClusterableSessionManager;
 import org.wso2.carbon.webapp.mgt.*;
@@ -271,18 +266,40 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                 return;
             }
             if (Lifecycle.START_EVENT.equals(event.getType())) {
-                setDisplayName(((Context) event.getLifecycle()), jaggeryConfig);
-                if (jaggeryConfig != null) {
-                    executeScripts((Context) event.getLifecycle(),
-                            (JSONArray) jaggeryConfig.get(JaggeryConstants.JaggeryConfigParams.INIT_SCRIPTS));
+                Context context = (Context) event.getLifecycle();
+                try {
+                    WebAppManager.getEngine().enterContext();
+                    WebAppManager.deploy(context);
+                    setDisplayName(context, jaggeryConfig);
+                    if (jaggeryConfig != null) {
+                        executeScripts(context,
+                                (JSONArray) jaggeryConfig.get(JaggeryConstants.JaggeryConfigParams.INIT_SCRIPTS));
+                    }
+                } catch (ScriptException e) {
+                    log.error(e.getMessage(), e);
+                    try {
+                        context.destroy();
+                    } catch (LifecycleException e1) {
+                        log.error(e1.getMessage(), e1);
+                    }
+                } finally {
+                    RhinoEngine.exitContext();
                 }
                 return;
             }
             if (Lifecycle.STOP_EVENT.equals(event.getType())) {
-                WebAppManager.undeploy((Context) event.getLifecycle());
-                if (jaggeryConfig != null) {
-                    executeScripts((Context) event.getLifecycle(),
-                            (JSONArray) jaggeryConfig.get(JaggeryConstants.JaggeryConfigParams.DESTROY_SCRIPTS));
+                Context context = (Context) event.getLifecycle();
+                try {
+                    WebAppManager.getEngine().enterContext();
+                    WebAppManager.undeploy(context);
+                    if (jaggeryConfig != null) {
+                        executeScripts(context,
+                                (JSONArray) jaggeryConfig.get(JaggeryConstants.JaggeryConfigParams.DESTROY_SCRIPTS));
+                    }
+                } catch (ScriptException e) {
+                    log.error(e.getMessage(), e);
+                } finally {
+                    RhinoEngine.exitContext();
                 }
                 return;
             }
@@ -341,25 +358,13 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
     private static void executeScripts(Context context, JSONArray arr) {
         if (arr != null) {
             try {
-                RhinoEngine engine = WebAppManager.getEngine();
+                JaggeryContext sharedContext = WebAppManager.sharedJaggeryContext(context.getServletContext());
+                CommonManager.setJaggeryContext(sharedContext);
+                RhinoEngine engine = sharedContext.getEngine();
                 org.mozilla.javascript.Context cx = engine.enterContext();
-                JaggeryContext jaggeryContext = new JaggeryContext();
-                CommonManager.initContext(jaggeryContext);
-                jaggeryContext.setTenantId(Integer.toString(CarbonContext.getCurrentContext().getTenantId()));
-                final ServletContext servletContext = context.getServletContext();
-                ScriptableObject scope = jaggeryContext.getScope();
+                ServletContext servletContext = (ServletContext) sharedContext.getProperty(WebAppManager.SERVLET_CONTEXT);
+                ScriptableObject sharedScope = sharedContext.getScope();
 
-                JavaScriptProperty application = new JavaScriptProperty("application");
-                application.setValue(cx.newObject(scope, "Application", new Object[]{servletContext}));
-                application.setAttribute(ScriptableObject.READONLY);
-                RhinoEngine.defineProperty(scope, application);
-
-                jaggeryContext.addProperty(WebAppManager.SERVLET_CONTEXT, servletContext);
-                jaggeryContext.addProperty(FileHostObject.JAVASCRIPT_FILE_MANAGER, new WebAppFileManager(servletContext));
-                String logLevel = (String) servletContext.getAttribute(LogHostObject.LOG_LEVEL);
-                if (logLevel != null) {
-                    jaggeryContext.addProperty(LogHostObject.LOG_LEVEL, logLevel);
-                }
                 Object[] scripts = arr.toArray();
                 for (Object script : scripts) {
                     if (!(script instanceof String)) {
@@ -368,7 +373,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                     }
                     String path = (String) script;
                     path = path.startsWith("/") ? path : "/" + path;
-                    Stack<String> callstack = CommonManager.getCallstack(jaggeryContext);
+                    Stack<String> callstack = CommonManager.getCallstack(sharedContext);
                     callstack.push(path);
                     engine.exec(new ScriptReader(servletContext.getResourceAsStream(path)) {
                         @Override
@@ -379,7 +384,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                                 throw new IOException(e);
                             }
                         }
-                    }, scope, null);
+                    }, sharedScope, null);
                 }
             } catch (ScriptException e) {
                 log.error(e.getMessage(), e);

@@ -14,6 +14,7 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
+import org.wso2.carbon.context.CarbonContext;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -73,10 +74,13 @@ public class CommonManager {
     }
 
     public static void initContext(JaggeryContext context) throws ScriptException {
-        context.addProperty(JAGGERY_CORE_MANAGER, manager);
         context.setEngine(manager.engine);
         context.setScope(manager.engine.getRuntimeScope());
-        setJaggeryContext(context);
+        context.setTenantId(Integer.toString(CarbonContext.getCurrentContext().getTenantId()));
+
+        context.addProperty(JAGGERY_CORE_MANAGER, manager);
+        context.addProperty(CommonManager.JAGGERY_INCLUDED_SCRIPTS, new HashMap<String, Boolean>());
+        context.addProperty(CommonManager.JAGGERY_INCLUDES_CALLSTACK, new Stack<String>());
     }
 
     private static void exposeDefaultModules(RhinoEngine engine, Map<String, JavaScriptModule> modules)
@@ -322,21 +326,10 @@ public class CommonManager {
     }
 
     public static Map<String, Boolean> getIncludes(JaggeryContext jaggeryContext) {
-        Map<String, Boolean> includedScripts = (Map<String, Boolean>) jaggeryContext.getProperty(
-                CommonManager.JAGGERY_INCLUDED_SCRIPTS);
-        if (includedScripts == null) {
-            includedScripts = new HashMap<String, Boolean>();
-            jaggeryContext.addProperty(CommonManager.JAGGERY_INCLUDED_SCRIPTS, includedScripts);
-        }
-        return includedScripts;
+        return (Map<String, Boolean>) jaggeryContext.getProperty(CommonManager.JAGGERY_INCLUDED_SCRIPTS);
     }
 
     public static Stack<String> getCallstack(JaggeryContext jaggeryContext) {
-        Stack<String> includesCallstack = (Stack<String>) jaggeryContext.getProperty(JAGGERY_INCLUDES_CALLSTACK);
-        if (includesCallstack == null) {
-            includesCallstack = new Stack<String>();
-            jaggeryContext.addProperty(JAGGERY_INCLUDES_CALLSTACK, includesCallstack);
-        }
-        return includesCallstack;
+        return (Stack<String>) jaggeryContext.getProperty(JAGGERY_INCLUDES_CALLSTACK);
     }
 }

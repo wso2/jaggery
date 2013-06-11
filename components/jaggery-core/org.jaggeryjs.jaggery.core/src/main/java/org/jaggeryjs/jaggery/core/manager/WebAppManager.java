@@ -16,11 +16,7 @@ import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.security.RhinoSecurityController;
 import org.jaggeryjs.scriptengine.security.RhinoSecurityDomain;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Function;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
-import org.wso2.carbon.context.CarbonContext;
+import org.mozilla.javascript.*;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -55,6 +51,8 @@ public class WebAppManager {
     public static final String WS_REQUEST_PATH = "requestURI";
 
     public static final String WS_SERVLET_CONTEXT = "/websocket";
+
+    private static final String SHARED_JAGGERY_CONTEXT = "shared.jaggery.context";
 
     private static final Map<String, List<String>> timeouts = new HashMap<String, List<String>>();
 
@@ -321,15 +319,61 @@ public class WebAppManager {
         }
     }
 
-    public static void initContext(Context cx, JaggeryContext context) throws ScriptException {
-        CommonManager.initContext(context);
-        defineProperties(cx, context, context.getScope());
-    }
-
     public static void initModule(Context cx, JaggeryContext context, String module, ScriptableObject object) {
         if (CORE_MODULE_NAME.equals(module)) {
             defineProperties(cx, context, object);
         }
+    }
+
+    public static JaggeryContext sharedJaggeryContext(ServletContext ctx) {
+        return (JaggeryContext) ctx.getAttribute(SHARED_JAGGERY_CONTEXT);
+    }
+
+    public static JaggeryContext clonedJaggeryContext(ServletContext context) {
+        JaggeryContext shared = sharedJaggeryContext(context);
+        RhinoEngine engine = shared.getEngine();
+        Scriptable sharedScope = shared.getScope();
+        Context cx = Context.getCurrentContext();
+        ScriptableObject instanceScope = (ScriptableObject) cx.newObject(sharedScope);
+        instanceScope.setPrototype(sharedScope);
+        instanceScope.setParentScope(null);
+
+        JaggeryContext clone = new JaggeryContext();
+        clone.setEngine(engine);
+        clone.setTenantId(shared.getTenantId());
+        clone.setScope(instanceScope);
+
+        clone.addProperty(SERVLET_CONTEXT, shared.getProperty(SERVLET_CONTEXT));
+        clone.addProperty(LogHostObject.LOG_LEVEL, shared.getProperty(LogHostObject.LOG_LEVEL));
+        clone.addProperty(FileHostObject.JAVASCRIPT_FILE_MANAGER,
+                shared.getProperty(FileHostObject.JAVASCRIPT_FILE_MANAGER));
+        clone.addProperty(CommonManager.JAGGERY_CORE_MANAGER, shared.getProperty(CommonManager.JAGGERY_CORE_MANAGER));
+        clone.addProperty(CommonManager.JAGGERY_INCLUDED_SCRIPTS, new HashMap<String, Boolean>());
+        clone.addProperty(CommonManager.JAGGERY_INCLUDES_CALLSTACK, new Stack<String>());
+
+        CommonManager.setJaggeryContext(clone);
+
+        return clone;
+    }
+
+    public static void deploy(org.apache.catalina.Context context) throws ScriptException {
+        ServletContext ctx = context.getServletContext();
+        JaggeryContext sharedContext = new JaggeryContext();
+        Context cx = Context.getCurrentContext();
+        CommonManager.initContext(sharedContext);
+
+        sharedContext.addProperty(SERVLET_CONTEXT, ctx);
+        sharedContext.addProperty(FileHostObject.JAVASCRIPT_FILE_MANAGER, new WebAppFileManager(ctx));
+        String logLevel = (String) ctx.getAttribute(LogHostObject.LOG_LEVEL);
+        if (logLevel != null) {
+            sharedContext.addProperty(LogHostObject.LOG_LEVEL, logLevel);
+        }
+        ScriptableObject sharedScope = sharedContext.getScope();
+        JavaScriptProperty application = new JavaScriptProperty("application");
+        application.setValue(cx.newObject(sharedScope, "Application", new Object[]{ctx}));
+        application.setAttribute(ScriptableObject.READONLY);
+        RhinoEngine.defineProperty(sharedScope, application);
+        ctx.setAttribute(SHARED_JAGGERY_CONTEXT, sharedContext);
     }
 
     public static void undeploy(org.apache.catalina.Context context) {
@@ -370,8 +414,7 @@ public class WebAppManager {
             Context cx = engine.enterContext();
             //Creating an OutputStreamWritter to write content to the servletResponse
             OutputStream out = response.getOutputStream();
-            JaggeryContext context = createJaggeryContext(out, scriptPath, request, response);
-            initContext(cx, context);
+            JaggeryContext context = createJaggeryContext(cx, out, scriptPath, request, response);
             context.addProperty(FileHostObject.JAVASCRIPT_FILE_MANAGER,
                     new WebAppFileManager(request.getServletContext()));
             CommonManager.getInstance().getEngine().exec(new ScriptReader(sourceIn), context.getScope(),
@@ -476,22 +519,16 @@ public class WebAppManager {
 
     }
 
-    private static JaggeryContext createJaggeryContext(OutputStream out, String scriptPath,
+    private static JaggeryContext createJaggeryContext(Context cx, OutputStream out, String scriptPath,
                                                        HttpServletRequest request, HttpServletResponse response) {
-        JaggeryContext context = new JaggeryContext();
-        context.setTenantId(Integer.toString(CarbonContext.getCurrentContext().getTenantId()));
+        ServletContext servletContext = request.getServletContext();
+        JaggeryContext context = clonedJaggeryContext(servletContext);
         context.addProperty(SERVLET_REQUEST, request);
         context.addProperty(SERVLET_RESPONSE, response);
-        context.addProperty(SERVLET_CONTEXT, request.getServletContext());
         CommonManager.getCallstack(context).push(scriptPath);
         CommonManager.getIncludes(context).put(scriptPath, true);
         context.addProperty(CommonManager.JAGGERY_OUTPUT_STREAM, out);
-
-        String logLevel = (String) request.getServletContext().getAttribute(LogHostObject.LOG_LEVEL);
-        if (logLevel != null) {
-            context.addProperty(LogHostObject.LOG_LEVEL, logLevel);
-        }
-
+        defineProperties(cx, context, context.getScope());
         return context;
     }
 
