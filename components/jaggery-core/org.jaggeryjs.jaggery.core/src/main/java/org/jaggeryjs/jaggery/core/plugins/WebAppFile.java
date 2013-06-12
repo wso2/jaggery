@@ -6,6 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.hostobjects.file.JavaScriptFile;
 import org.jaggeryjs.hostobjects.file.JavaScriptFileManager;
+import org.jaggeryjs.hostobjects.web.Constants;
 import org.jaggeryjs.jaggery.core.manager.CommonManager;
 import org.jaggeryjs.scriptengine.engine.JaggeryContext;
 import org.jaggeryjs.jaggery.core.manager.WebAppManager;
@@ -47,7 +48,7 @@ public class WebAppFile implements JavaScriptFile {
     private String getFilePath(String fileURL) throws ScriptException {
         JaggeryContext jaggeryContext = CommonManager.getJaggeryContext();
         Stack<String> includesCallstack = CommonManager.getCallstack(jaggeryContext);
-        ServletContext context = (ServletContext) jaggeryContext.getProperty(WebAppManager.SERVLET_CONTEXT);
+        ServletContext context = (ServletContext) jaggeryContext.getProperty(Constants.SERVLET_CONTEXT);
         String parent = includesCallstack.lastElement();
         try {
             String keys[] = WebAppManager.getKeys(context.getContextPath(), parent, fileURL);

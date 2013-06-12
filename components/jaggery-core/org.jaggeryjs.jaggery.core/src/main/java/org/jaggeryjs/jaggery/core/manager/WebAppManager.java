@@ -5,6 +5,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.hostobjects.file.FileHostObject;
 import org.jaggeryjs.hostobjects.log.LogHostObject;
+import org.jaggeryjs.hostobjects.web.Constants;
 import org.jaggeryjs.jaggery.core.ScriptReader;
 import org.jaggeryjs.jaggery.core.plugins.WebAppFileManager;
 import org.jaggeryjs.scriptengine.cache.ScriptCachingContext;
@@ -39,8 +40,6 @@ public class WebAppManager {
     public static final String SERVLET_RESPONSE = "webappmanager.servlet.response";
 
     public static final String SERVLET_REQUEST = "webappmanager.servlet.request";
-
-    public static final String SERVLET_CONTEXT = "webappmanager.servlet.context";
 
     private static final String DEFAULT_CONTENT_TYPE = "text/html";
 
@@ -171,7 +170,7 @@ public class WebAppManager {
     public static String setTimeout(final Context cx, final Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException {
         JaggeryContext context = CommonManager.getJaggeryContext();
-        ServletContext servletContext = (ServletContext) context.getProperty(SERVLET_CONTEXT);
+        ServletContext servletContext = (ServletContext) context.getProperty(Constants.SERVLET_CONTEXT);
         String contextPath = servletContext.getContextPath();
         String taskId = RhinoTopLevel.setTimeout(cx, thisObj, args, funObj);
         List<String> taskIds = timeouts.get(contextPath);
@@ -186,7 +185,7 @@ public class WebAppManager {
     public static String setInterval(final Context cx, final Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException {
         JaggeryContext context = CommonManager.getJaggeryContext();
-        ServletContext servletContext = (ServletContext) context.getProperty(SERVLET_CONTEXT);
+        ServletContext servletContext = (ServletContext) context.getProperty(Constants.SERVLET_CONTEXT);
         String contextPath = servletContext.getContextPath();
         String taskId = RhinoTopLevel.setInterval(cx, thisObj, args, funObj);
         List<String> taskIds = intervals.get(contextPath);
@@ -201,7 +200,7 @@ public class WebAppManager {
     public static void clearTimeout(final Context cx, final Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException {
         JaggeryContext context = CommonManager.getJaggeryContext();
-        ServletContext servletContext = (ServletContext) context.getProperty(SERVLET_CONTEXT);
+        ServletContext servletContext = (ServletContext) context.getProperty(Constants.SERVLET_CONTEXT);
         String contextPath = servletContext.getContextPath();
         RhinoTopLevel.clearTimeout(cx, thisObj, args, funObj);
         List<String> taskIds = timeouts.get(contextPath);
@@ -211,7 +210,7 @@ public class WebAppManager {
     public static void clearInterval(final Context cx, final Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException {
         JaggeryContext context = CommonManager.getJaggeryContext();
-        ServletContext servletContext = (ServletContext) context.getProperty(SERVLET_CONTEXT);
+        ServletContext servletContext = (ServletContext) context.getProperty(Constants.SERVLET_CONTEXT);
         String contextPath = servletContext.getContextPath();
         RhinoTopLevel.clearTimeout(cx, thisObj, args, funObj);
         List<String> taskIds = intervals.get(contextPath);
@@ -223,7 +222,7 @@ public class WebAppManager {
                                                   boolean isIncludeOnce) throws ScriptException {
         Stack<String> includesCallstack = CommonManager.getCallstack(jaggeryContext);
         Map<String, Boolean> includedScripts = CommonManager.getIncludes(jaggeryContext);
-        ServletContext context = (ServletContext) jaggeryContext.getProperty(SERVLET_CONTEXT);
+        ServletContext context = (ServletContext) jaggeryContext.getProperty(Constants.SERVLET_CONTEXT);
         String parent = includesCallstack.lastElement();
 
         String keys[] = WebAppManager.getKeys(context.getContextPath(), parent, fileURL);
@@ -287,36 +286,44 @@ public class WebAppManager {
             HostObjectUtil.invalidArgsError(CommonManager.HOST_OBJECT_NAME, functionName, "1", "string", args[0], false);
         }
 
-        String param = (String) args[0];
-        int dotIndex = param.lastIndexOf(".");
-        if (param.length() == dotIndex + 1) {
-            String msg = "Invalid file path for require method : " + param;
+        String moduleId = (String) args[0];
+        int dotIndex = moduleId.lastIndexOf(".");
+        if (moduleId.length() == dotIndex + 1) {
+            String msg = "Invalid file path for require method : " + moduleId;
             log.error(msg);
             throw new ScriptException(msg);
-        }
-
-        if (dotIndex == -1) {
-            ScriptableObject object = CommonManager.require(cx, thisObj, args, funObj);
-            initModule(cx, CommonManager.getJaggeryContext(), param, object);
-            return object;
         }
 
         JaggeryContext jaggeryContext = CommonManager.getJaggeryContext();
-        ScriptableObject object = (ScriptableObject) cx.newObject(thisObj);
-        object.setPrototype(thisObj);
-        object.setParentScope(null);
-        String ext = param.substring(dotIndex + 1);
-        if (ext.equalsIgnoreCase("json")) {
-            return executeScript(jaggeryContext, object, param, true, true, false);
-        } else if (ext.equalsIgnoreCase("js")) {
-            return executeScript(jaggeryContext, object, param, false, true, false);
-        } else if (ext.equalsIgnoreCase("jag")) {
-            return executeScript(jaggeryContext, object, param, false, false, false);
-        } else {
-            String msg = "Unsupported file type for require() method : ." + ext;
-            log.error(msg);
-            throw new ScriptException(msg);
+        Map<String, ScriptableObject> requiredModules = (Map<String, ScriptableObject>) jaggeryContext.getProperty(
+                Constants.JAGGERY_REQUIRED_MODULES);
+        ScriptableObject object = requiredModules.get(moduleId);
+        if (object != null) {
+            return object;
         }
+
+        if (dotIndex == -1) {
+            object = CommonManager.require(cx, thisObj, args, funObj);
+            initModule(cx, jaggeryContext, moduleId, object);
+        } else {
+            object = (ScriptableObject) cx.newObject(thisObj);
+            object.setPrototype(thisObj);
+            object.setParentScope(null);
+            String ext = moduleId.substring(dotIndex + 1);
+            if (ext.equalsIgnoreCase("json")) {
+                object = executeScript(jaggeryContext, object, moduleId, true, true, false);
+            } else if (ext.equalsIgnoreCase("js")) {
+                object = executeScript(jaggeryContext, object, moduleId, false, true, false);
+            } else if (ext.equalsIgnoreCase("jag")) {
+                object = executeScript(jaggeryContext, object, moduleId, false, false, false);
+            } else {
+                String msg = "Unsupported file type for require() method : ." + ext;
+                log.error(msg);
+                throw new ScriptException(msg);
+            }
+        }
+        requiredModules.put(moduleId, object);
+        return object;
     }
 
     public static void initModule(Context cx, JaggeryContext context, String module, ScriptableObject object) {
@@ -343,13 +350,14 @@ public class WebAppManager {
         clone.setTenantId(shared.getTenantId());
         clone.setScope(instanceScope);
 
-        clone.addProperty(SERVLET_CONTEXT, shared.getProperty(SERVLET_CONTEXT));
+        clone.addProperty(Constants.SERVLET_CONTEXT, shared.getProperty(Constants.SERVLET_CONTEXT));
         clone.addProperty(LogHostObject.LOG_LEVEL, shared.getProperty(LogHostObject.LOG_LEVEL));
         clone.addProperty(FileHostObject.JAVASCRIPT_FILE_MANAGER,
                 shared.getProperty(FileHostObject.JAVASCRIPT_FILE_MANAGER));
-        clone.addProperty(CommonManager.JAGGERY_CORE_MANAGER, shared.getProperty(CommonManager.JAGGERY_CORE_MANAGER));
-        clone.addProperty(CommonManager.JAGGERY_INCLUDED_SCRIPTS, new HashMap<String, Boolean>());
-        clone.addProperty(CommonManager.JAGGERY_INCLUDES_CALLSTACK, new Stack<String>());
+        clone.addProperty(Constants.JAGGERY_CORE_MANAGER, shared.getProperty(Constants.JAGGERY_CORE_MANAGER));
+        clone.addProperty(Constants.JAGGERY_INCLUDED_SCRIPTS, new HashMap<String, Boolean>());
+        clone.addProperty(Constants.JAGGERY_INCLUDES_CALLSTACK, new Stack<String>());
+        clone.addProperty(Constants.JAGGERY_REQUIRED_MODULES, new HashMap<String, ScriptableObject>());
 
         CommonManager.setJaggeryContext(clone);
 
@@ -362,8 +370,9 @@ public class WebAppManager {
         Context cx = Context.getCurrentContext();
         CommonManager.initContext(sharedContext);
 
-        sharedContext.addProperty(SERVLET_CONTEXT, ctx);
+        sharedContext.addProperty(Constants.SERVLET_CONTEXT, ctx);
         sharedContext.addProperty(FileHostObject.JAVASCRIPT_FILE_MANAGER, new WebAppFileManager(ctx));
+        sharedContext.addProperty(Constants.JAGGERY_REQUIRED_MODULES, new HashMap<String, ScriptableObject>());
         String logLevel = (String) ctx.getAttribute(LogHostObject.LOG_LEVEL);
         if (logLevel != null) {
             sharedContext.addProperty(LogHostObject.LOG_LEVEL, logLevel);
@@ -505,7 +514,7 @@ public class WebAppManager {
         RhinoEngine.defineProperty(scope, session);
 
         JavaScriptProperty application = new JavaScriptProperty("application");
-        ServletContext servletConext = (ServletContext) context.getProperty(SERVLET_CONTEXT);
+        ServletContext servletConext = (ServletContext) context.getProperty(Constants.SERVLET_CONTEXT);
         application.setValue(cx.newObject(scope, "Application", new Object[]{servletConext}));
         application.setAttribute(ScriptableObject.READONLY);
         RhinoEngine.defineProperty(scope, application);

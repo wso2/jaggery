@@ -362,7 +362,8 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                 CommonManager.setJaggeryContext(sharedContext);
                 RhinoEngine engine = sharedContext.getEngine();
                 org.mozilla.javascript.Context cx = engine.enterContext();
-                ServletContext servletContext = (ServletContext) sharedContext.getProperty(WebAppManager.SERVLET_CONTEXT);
+                ServletContext servletContext = (ServletContext) sharedContext.getProperty(
+                        org.jaggeryjs.hostobjects.web.Constants.SERVLET_CONTEXT);
                 ScriptableObject sharedScope = sharedContext.getScope();
 
                 Object[] scripts = arr.toArray();
