@@ -28,9 +28,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.fail;
 
 /**
  * Test cases for Database Host Object
@@ -118,4 +121,57 @@ public class WSRequestHostObjectTestCase {
 
     }
 
+    @Test(groups = {"jaggery"}, description = "Test WSRequest Parallel Invocations")
+    public void testWSRequestParallel() throws InterruptedException {
+        ClientConnectionUtil.waitForPort(9763);
+
+        final Map<String, String> results = new HashMap<String, String>();
+        int threads = 10;
+        for (int i = 0; i < threads; i++) {
+            final int finalI = i;
+            results.put("status" + finalI, "active");
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    String finalOutput = "";
+                    try {
+                        URL jaggeryURL = new URL("http://localhost:9763/testapp/wsrequest.jag?action=state");
+                        URLConnection jaggeryServerConnection = jaggeryURL.openConnection();
+                        BufferedReader in = new BufferedReader(new InputStreamReader(
+                                jaggeryServerConnection.getInputStream()));
+
+                        String inputLine;
+                        while ((inputLine = in.readLine()) != null) {
+                            finalOutput += inputLine;
+                        }
+
+                        in.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        results.put("status" + finalI, "error");
+                    } finally {
+                        results.put("status" + finalI, finalOutput.contains("014 success") ? "success" : "error");
+                    }
+                }
+            }).start();
+        }
+        int sleepInterval = 1000;
+        int totalTime = 30 * sleepInterval;
+        int time = 0;
+        L1:
+        while (true) {
+            Thread.sleep(sleepInterval);
+            time += sleepInterval;
+            for (String value : results.values()) {
+                if ("active".equals(value)) {
+                    continue L1;
+                }
+                if ("error".equals(value) || time > totalTime) {
+                    fail("Error while parallel service invocation via WSRequest()");
+                    break L1;
+                }
+            }
+            break;
+        }
+    }
 }
