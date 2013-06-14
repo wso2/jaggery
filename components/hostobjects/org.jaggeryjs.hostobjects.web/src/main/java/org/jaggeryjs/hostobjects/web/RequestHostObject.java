@@ -106,6 +106,24 @@ public class RequestHostObject extends ScriptableObject {
         }
     }
 
+    public static Object jsFunction_getStream(Context cx, Scriptable thisObj, Object[] args, Function funObj)
+            throws ScriptException {
+        String functionName = "getStream";
+        int argsCount = args.length;
+        if (argsCount != 0) {
+            HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
+        }
+
+        RequestHostObject rho = (RequestHostObject) thisObj;
+        try {
+            return cx.newObject(thisObj, "Stream", new Object[]{rho.request.getInputStream()});
+        } catch (IOException e) {
+            String msg = "Error occurred while reading Servlet InputStream";
+            log.warn(msg, e);
+            throw new ScriptException(msg, e);
+        }
+    }
+
     public static String jsFunction_getMethod(Context cx, Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException {
         String functionName = "getMethod";
