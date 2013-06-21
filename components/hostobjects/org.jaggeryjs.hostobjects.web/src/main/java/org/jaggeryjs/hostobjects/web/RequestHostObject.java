@@ -13,12 +13,16 @@ import org.jaggeryjs.scriptengine.engine.JaggeryContext;
 import org.jaggeryjs.scriptengine.engine.RhinoEngine;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
-import org.mozilla.javascript.*;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Function;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.security.Principal;
 import java.util.*;
 
 /**
@@ -134,6 +138,22 @@ public class RequestHostObject extends ScriptableObject {
 
         RequestHostObject rho = (RequestHostObject) thisObj;
         return rho.request.getMethod();
+    }
+
+    public static String jsFunction_getUser(Context cx, Scriptable thisObj, Object[] args, Function funObj)
+            throws ScriptException {
+        String functionName = "getUser";
+        int argsCount = args.length;
+        if (argsCount != 0) {
+            HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
+        }
+
+        RequestHostObject rho = (RequestHostObject) thisObj;
+        Principal principle = rho.request.getUserPrincipal();
+        if (principle == null) {
+            return null;
+        }
+        return principle.getName();
     }
 
     public static String jsFunction_getContextPath(Context cx, Scriptable thisObj, Object[] args, Function funObj)
