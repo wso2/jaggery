@@ -12,7 +12,7 @@
         return {
             id: String(artifact.id),
             type: String(manager.type),
-            path: String(artifact.getPath()),
+            path: "/_system/governance" + String(artifact.getPath()),
             lifecycle: artifact.getLifecycleName(),
             lifecycleState: artifact.getLifecycleState(),
             mediaType: String(artifact.getMediaType()),
@@ -51,6 +51,9 @@
                 }
             }
         }
+        if (options.id) {
+            artifact.id = options.id;
+        }
         if (options.content) {
             if (options.content instanceof Stream) {
                 artifact.setContent(IOUtils.toByteArray(options.content.getStream()));
@@ -70,7 +73,7 @@
 
     var ArtifactManager = function (registry, type) {
         this.registry = registry;
-        this.manager = new GenericArtifactManager(registry.registry, type);
+        this.manager = new GenericArtifactManager(registry.registry.getChrootedRegistry("/_system/governance"), type);
         this.type = type;
     };
     registry.ArtifactManager = ArtifactManager;
@@ -109,24 +112,21 @@
         return artifactz;
     };
 
-    /**
-     * {
-     *      name : 'My Gadget',
-     *      lifecycles : ["development"],
-     *      attributes : {
-     *          "overview_name" : "My Gadget"
-     *          "overview_urls" : ["http://example1.com", "http://example2.com"]
-     *      },
-     *      content : "<?xml...>"
-     * }
-     *
-     * {
-     *      name : string,
-     *      lifecycles : [string],
-     *      attributes : [string, [string]],
-     *      content : string | Stream
-     * }
-     * @param options
+    /*
+     {
+     name: 'AndroidApp1',
+     attributes: {
+     overview_status: "CREATED",
+     overview_name: 'AndroidApp1',
+     overview_version: '1.0.0',
+     overview_url: 'http://overview.com',
+     overview_provider: 'admin',
+     images_thumbnail: 'http://localhost:9763/portal/gadgets/co2-emission/thumbnail.jpg',
+     images_banner: 'http://localhost:9763/portal/gadgets/electric-power/banner.jpg'
+     },
+     lifecycles : ['lc1', 'lc2'],
+     content : '<?xml ....>'
+     }
      */
     ArtifactManager.prototype.add = function (options) {
         this.manager.addGenericArtifact(createArtifact(this.manager, options));
@@ -134,6 +134,10 @@
 
     ArtifactManager.prototype.update = function (options) {
         this.manager.updateGenericArtifact(createArtifact(this.manager, options));
+    };
+
+    ArtifactManager.prototype.remove = function (id) {
+        this.manager.removeGenericArtifact(id);
     };
 
 }(server, registry));

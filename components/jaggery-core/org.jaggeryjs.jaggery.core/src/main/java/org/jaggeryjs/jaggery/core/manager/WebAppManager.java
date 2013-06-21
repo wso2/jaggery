@@ -391,6 +391,7 @@ public class WebAppManager {
         if (taskIds != null) {
             for (String taskId : taskIds) {
                 try {
+                    log.debug("clearTimeout : " + taskId);
                     RhinoTopLevel.clearTimeout(taskId);
                 } catch (ScriptException e) {
                     log.error(e.getMessage(), e);
@@ -401,12 +402,14 @@ public class WebAppManager {
         if (taskIds != null) {
             for (String taskId : taskIds) {
                 try {
+                    log.debug("clearInterval : " + taskId);
                     RhinoTopLevel.clearInterval(taskId);
                 } catch (ScriptException e) {
                     log.error(e.getMessage(), e);
                 }
             }
         }
+        log.debug("Releasing resources of : " + context.getServletContext().getContextPath());
     }
 
     public static void execute(HttpServletRequest request, HttpServletResponse response)

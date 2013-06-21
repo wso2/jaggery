@@ -169,7 +169,7 @@ var registry = registry || {};
         } else if (options.username || options.domain) {
             this.tenantId = server.tenantId({
                 domain: options.domain,
-                username: this.username
+                username: options.username
             });
         } else {
             this.tenantId = server.tenantId();

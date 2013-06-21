@@ -1,5 +1,6 @@
-<html>
-<body>
-<h1>This is a sample page</h1
-</body>
-</html>
+<%
+	var log = new Log();
+	log.info(request.getContent());
+	response.contentType = 'application/json';
+	print('{ "data" : { "row" : "val" } }');
+%>
