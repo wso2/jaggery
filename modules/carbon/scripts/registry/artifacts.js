@@ -5,6 +5,8 @@
     var GenericArtifactManager = Packages.org.wso2.carbon.governance.api.generic.GenericArtifactManager;
     var GenericArtifactFilter = Packages.org.wso2.carbon.governance.api.generic.GenericArtifactFilter;
     var ByteArrayInputStream = Packages.java.io.ByteArrayInputStream;
+    var QName = Packages.javax.xml.namespace.QName;
+    var IOUtils = Packages.org.apache.commons.io.IOUtils;
 
     var buildArtifact = function (manager, artifact) {
         return {
@@ -14,10 +16,7 @@
             lifecycle: artifact.getLifecycleName(),
             lifecycleState: artifact.getLifecycleState(),
             mediaType: String(artifact.getMediaType()),
-            attribute: function (name) {
-                return String(artifact.getAttribute(name));
-            },
-            attributes: function () {
+            attributes: (function () {
                 var i, name,
                     names = artifact.getAttributeKeys(),
                     length = names.length,
@@ -27,16 +26,54 @@
                     attributes[name] = String(artifact.getAttribute(name));
                 }
                 return attributes;
-            },
+            }()),
             content: function () {
                 return new Stream(new ByteArrayInputStream(artifact.getContent()));
             }
         };
     };
 
+    var createArtifact = function (manager, options) {
+        var name, attribute, i, length, lc,
+            artifact = manager.newGovernanceArtifact(new QName(options.name)),
+            attributes = options.attributes;
+        for (name in attributes) {
+            if (attributes.hasOwnProperty(name)) {
+                attribute = attributes[name];
+                if (attribute instanceof Array) {
+                    /*length = attribute.length;
+for (i = 0; i < length; i++) {
+artifact.addAttribute(name, attribute[i]);
+}*/
+                    artifact.setAttributes(name, attribute);
+                } else {
+                    artifact.setAttribute(name, attribute);
+                }
+            }
+        }
+        if (options.content) {
+            if (options.content instanceof Stream) {
+                artifact.setContent(IOUtils.toByteArray(options.content.getStream()));
+            } else {
+                artifact.setContent(new java.lang.String(options.content).getBytes());
+            }
+        }
+        lc = options.lifecycles;
+        if (lc) {
+            length = lc.length;
+            for (i = 0; i < length; i++) {
+				new Log().info("Check");
+				new Log().info(lc);
+                artifact.attachLifecycle(lc[i]);
+            }
+        }
+        return artifact;
+    };
+
     var ArtifactManager = function (registry, type) {
         this.registry = registry;
-        this.manager = new GenericArtifactManager(registry.registry, type);
+		var governanceRegistry = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.getGovernanceUserRegistry(registry.registry, user);
+        this.manager = new GenericArtifactManager(governanceRegistry, type);
         this.type = type;
     };
     registry.ArtifactManager = ArtifactManager;
@@ -73,6 +110,33 @@
             artifactz.push(buildArtifact(this, artifacts[i]));
         }
         return artifactz;
+    };
+
+    /**
+* {
+* name : 'My Gadget',
+* lifecycles : ["development"],
+* attributes : {
+* "overview_name" : "My Gadget"
+* "overview_urls" : ["http://example1.com", "http://example2.com"]
+* },
+* content : "<?xml...>"
+* }
+*
+* {
+* name : string,
+* lifecycles : [string],
+* attributes : [string, [string]],
+* content : string | Stream
+* }
+* @param options
+*/
+    ArtifactManager.prototype.add = function (options) {
+        this.manager.addGenericArtifact(createArtifact(this.manager, options));
+    };
+
+    ArtifactManager.prototype.update = function (options) {
+        this.manager.updateGenericArtifact(createArtifact(this.manager, options));
     };
 
 }(server, registry));
