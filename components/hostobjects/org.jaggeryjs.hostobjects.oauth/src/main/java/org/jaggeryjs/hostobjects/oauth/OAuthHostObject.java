@@ -145,7 +145,7 @@ public class OAuthHostObject extends ScriptableObject {
                 Scriptable queryJsonString = (Scriptable) args[3];
                 String[] ids = Arrays.copyOf(queryJsonString.getIds(), queryJsonString.getIds().length, String[].class);
                 for (String id : ids) {
-                    String value = (String) ((Scriptable) args[3]).get(id, cx.initStandardObjects());
+                    String value = ((Scriptable) args[3]).get(id, cx.initStandardObjects()).toString();
                     oauthho.oauthRequest.addQuerystringParameter(id, value);
                 }
             }

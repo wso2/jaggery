@@ -16,16 +16,12 @@
 
 package org.jaggeryjs.hostobjects.registry;
 
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Function;
-import org.mozilla.javascript.NativeArray;
-import org.mozilla.javascript.NativeObject;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
+import org.apache.axiom.om.impl.llom.util.AXIOMUtil;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
-import org.wso2.carbon.registry.core.Resource;
+import org.mozilla.javascript.*;
+import org.mozilla.javascript.xml.XMLObject;
 import org.wso2.carbon.registry.api.RegistryException;
-import org.wso2.javascript.xmlimpl.XML;
+import org.wso2.carbon.registry.core.Resource;
 
 import java.util.*;
 
@@ -119,11 +115,11 @@ public class ResourceHostObject extends ScriptableObject {
                                                       Function funObj) throws ScriptException {
         ResourceHostObject resourceHostObject = (ResourceHostObject) thisObj;
         if (arguments.length == 0) {
-            List<NativeObject> props = new ArrayList<NativeObject>();
+            List<ScriptableObject> props = new ArrayList<ScriptableObject>();
             Properties properties = resourceHostObject.resource.getProperties();
             Enumeration<?> propertyNames = properties.propertyNames();
             while (propertyNames.hasMoreElements()) {
-                NativeObject property = new NativeObject();
+                ScriptableObject property = (ScriptableObject) cx.newObject(thisObj);
                 String key = (String) propertyNames.nextElement();
                 property.put("name", property, key);
                 property.put("value", property, properties.get(key));
@@ -280,11 +276,11 @@ public class ResourceHostObject extends ScriptableObject {
             } catch (RegistryException e) {
                 throw new ScriptException("Registry Exception while setting content property", e);
             }
-        } else if (content instanceof XML) {
+        } else if (content instanceof XMLObject) {
             try {
-                this.resource.setContent(((XML) content).getAxiomFromXML());
-            } catch (RegistryException e) {
-                throw new ScriptException("Registry Exception while setting content property", e);
+                this.resource.setContent(AXIOMUtil.stringToOM(content.toString()));
+            } catch (Exception e) {
+                throw new ScriptException(e);
             }
         } else {
             throw new ScriptException("Invalid property type for content");

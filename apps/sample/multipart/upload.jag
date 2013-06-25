@@ -2,6 +2,12 @@
 var log = new Log();
 var file = request.getFile("userfile");
 file.move(file.getName());
+
+if(request.getHeader('X-Requested-With')) {
+    print({
+        url : '/sample/' + file.getName()
+    });
+} else {
 %>
 
 <html>
@@ -53,9 +59,10 @@ file.move(file.getName());
     </tr>
     <tr>
         <td>file.move(file.getName())</td>
-        <td><a href="<%=file.getName()%>">Download</a></td>
+        <td><a href="../<%=file.getName()%>">Download</a></td>
     </tr>
     </tbody>
 </table>
 </body>
 </html>
+<% } %>

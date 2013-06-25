@@ -18,8 +18,10 @@
 
 package org.wso2.jaggery.integration.tests.hostObjects;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
+import org.custommonkey.xmlunit.XMLAssert;
+import org.testng.annotations.Test;
+import org.wso2.carbon.integration.framework.ClientConnectionUtil;
+import org.xml.sax.SAXException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,8 +29,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.testng.annotations.Test;
-import org.wso2.carbon.integration.framework.ClientConnectionUtil;
+import static org.testng.Assert.assertNotNull;
 
 /**
  * Test cases for WSstub Host Object
@@ -36,63 +37,58 @@ import org.wso2.carbon.integration.framework.ClientConnectionUtil;
 public class WSStubHostObjectTestCase {
 
     @Test(groups = {"jaggery"},
-          description = "Test for WSRequest host object existing")
+            description = "Test for WSRequest host object existing")
     public void testWSStubExist() {
         ClientConnectionUtil.waitForPort(9763);
-        
-        String finalOutput = null;
-        
+
+        String finalOutput = "";
+
         try {
-        	URL jaggeryURL = new URL("http://localhost:9763/testapp/wsstub.jag");
-        	URLConnection jaggeryServerConnection = jaggeryURL.openConnection();
-        	BufferedReader in = new BufferedReader(new InputStreamReader(
-        			jaggeryServerConnection.getInputStream()));
-        
-          	String inputLine;
-  			while ((inputLine = in.readLine()) != null) {
-  				finalOutput = inputLine;
-  			}
-			    
-			in.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-	        assertNotNull(finalOutput, "Result cannot be null");
-		}
-        
+            URL jaggeryURL = new URL("http://localhost:9763/testapp/wsstub.jag");
+            URLConnection jaggeryServerConnection = jaggeryURL.openConnection();
+            BufferedReader in = new BufferedReader(new InputStreamReader(
+                    jaggeryServerConnection.getInputStream()));
+
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                finalOutput += inputLine;
+            }
+
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            assertNotNull(finalOutput, "Result cannot be null");
+        }
+
     }
-    
+
     @Test(groups = {"jaggery"},
             description = "Test for WSstub host object")
-      public void testWSStub() {
-          ClientConnectionUtil.waitForPort(9763);
-          
-          String finalOutput = null;
-          
-          try {
-          	URL jaggeryURL = new URL("http://localhost:9763/testapp/wsstub.jag");
-          	URLConnection jaggeryServerConnection = jaggeryURL.openConnection();
-          	BufferedReader in = new BufferedReader(new InputStreamReader(
-          			jaggeryServerConnection.getInputStream()));
-          
-          	String inputLine;
-  			while ((inputLine = in.readLine()) != null) {
-  				finalOutput = inputLine;
-  			}
-  
-  			in.close();
-  		} catch (IOException e) {
-  			e.printStackTrace();
-  		} finally {
-  			boolean textContains = false;
-  			if(finalOutput != null && finalOutput.contains(
-  					"<ns:getVersionResponse xmlns:ns=\"http://version.services.core.carbon.wso2.org\"><return>")) {
-  				textContains = true;
-  			}
-  	        assertEquals(textContains, true);
-  		}
-          
-      }
+    public void testWSStub() throws IOException, SAXException {
+        ClientConnectionUtil.waitForPort(9763);
+
+        String finalOutput = "";
+
+        try {
+            URL jaggeryURL = new URL("http://localhost:9763/testapp/wsstub.jag");
+            URLConnection jaggeryServerConnection = jaggeryURL.openConnection();
+            BufferedReader in = new BufferedReader(new InputStreamReader(
+                    jaggeryServerConnection.getInputStream()));
+
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                finalOutput += inputLine;
+            }
+
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            XMLAssert.assertXMLEqual(finalOutput, "<ns:getVersionResponse xmlns:ns=\"http://version.services.core.carbon.wso2.org\">  <return>WSO2 Stratos Manager-2.0.2</return></ns:getVersionResponse>");
+        }
+
+    }
 
 
 }

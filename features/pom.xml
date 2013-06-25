@@ -65,8 +65,8 @@
         <jaggery.feature.version>0.9.0-SNAPSHOT</jaggery.feature.version>
 
         <!-- carbon versions -->
-        <carbon.kernal.version>4.0.5</carbon.kernal.version>
-        <carbon.platform.version>4.0.0</carbon.platform.version>
+        <carbon.kernal.version>4.1.0</carbon.kernal.version>
+        <carbon.platform.version>4.1.0</carbon.platform.version>
 
         <!-- patch versions -->
         <patch.version.401>4.0.1</patch.version.401>
@@ -108,7 +108,6 @@
         <abdera-extensions.osgi.version>0.4.0.wso2v2</abdera-extensions.osgi.version>
         <xmlschema.osgi.version>1.4.7.wso2v1</xmlschema.osgi.version>
         <neethi.osgi.version>2.0.4.wso2v3</neethi.osgi.version>
-        <axiom-e4x.osgi.version>2.0.1.wso2v1</axiom-e4x.osgi.version>
         <rampart.osgi.version>1.6.1.wso2v3</rampart.osgi.version>
         <javax.servlet.osgi.version>3.0.0.wso2v1</javax.servlet.osgi.version>
         <javax.servlet.jsp.osgi.version>2.0.0.v200806031607</javax.servlet.jsp.osgi.version>
@@ -333,11 +332,6 @@
                 <version>${jettison.osgi.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.wso2.wsf.javascript</groupId>
-                <artifactId>axiom-e4x</artifactId>
-                <version>${axiom-e4x.osgi.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>rhino.wso2</groupId>
                 <artifactId>js</artifactId>
                 <version>${rhino.osgi.version}</version>
@@ -451,27 +445,27 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.webapp.mgt</artifactId>
-                <version>${patch.version.405}</version>
+                <version>${carbon.platform.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.registry.search</artifactId>
-                <version>${patch.version.401}</version>
+                <version>${carbon.platform.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.registry.admin.api</artifactId>
-                <version>${patch.version.405}</version>
+                <version>${carbon.platform.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.registry.common</artifactId>
-                <version>${patch.version.405}</version>
+                <version>${carbon.platform.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.registry.indexing</artifactId>
-                <version>${patch.version.405}</version>
+                <version>${carbon.platform.version}</version>
             </dependency>
             <dependency>
                 <groupId>solr.wso2</groupId>
@@ -481,12 +475,12 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.webapp.mgt.stub</artifactId>
-                <version>${patch.version.401}</version>
+                <version>${carbon.platform.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.webapp.list.ui</artifactId>
-                <version>${patch.version.405}</version>
+                <version>${carbon.platform.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
@@ -506,7 +500,7 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.server</artifactId>
-                <version>${patch.version.402}</version>
+                <version>${carbon.platform.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.googlecode.json-simple.wso2</groupId>

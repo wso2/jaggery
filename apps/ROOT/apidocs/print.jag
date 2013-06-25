@@ -61,13 +61,13 @@ include('/includes/topnavi.jag');
                 <h3>print()</h3>
 
 <pre class="prettyprint linenums">
-    &lt;html&gt;
-    &lt;body&gt;
-    &lt;%
-        print('Hi, &lt;h3&gt; Jaggery &lt;/h3&gt;');
-    %&gt;
-    &lt;/body&gt;
-    &lt;/html&gt;
+&lt;html&gt;
+&lt;body&gt;
+&lt;%
+   print('Hi, &lt;h3&gt; Jaggery &lt;/h3&gt;');
+%&gt;
+&lt;/body&gt;
+&lt;/html&gt;
 </pre>
                 <%
 
@@ -141,7 +141,7 @@ include('/includes/topnavi.jag');
         <pre class="prettyprint">
 print("hello");
 </pre>
-                                print a string to the response
+                                print a String to the response
                             </td>
                         </tr>
                         <tr>

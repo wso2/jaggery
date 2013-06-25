@@ -59,6 +59,46 @@ public class StreamHostObject extends ScriptableObject {
         StreamHostObject fho = (StreamHostObject) thisObj;
         return HostObjectUtil.streamToString(fho.stream);
     }
+/*
+    public static void jsFunction_pipe(Context cx, Scriptable thisObj, Object[] args, Function funObj)
+            throws ScriptException {
+        String functionName = "pipe";
+        int argsCount = args.length;
+        if (argsCount != 1) {
+            HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
+        }
+        Object obj = args[0];
+        StreamHostObject fho = (StreamHostObject) thisObj;
+        OutputStream out = null;
+        if (obj instanceof Wrapper) {
+            obj = ((Wrapper) obj).unwrap();
+        }
+        if (obj instanceof OutputStream) {
+            out = (OutputStream) obj;
+        } else if (obj instanceof FileHostObject) {
+            FileHostObject file = (FileHostObject) obj;
+            out = file.getOutputStream();
+        }
+        if (out == null) {
+            throw new ScriptException("Unable to pipe the stream. Please specify an out stream.");
+        }
+        try {
+            IOUtils.copyLarge(fho.getStream(), out);
+        } catch (IOException e) {
+            throw new ScriptException(e);
+        }
+    }*/
+
+    public static Object jsFunction_getStream(Context cx, Scriptable thisObj, Object[] args, Function funObj)
+            throws ScriptException {
+        String functionName = "getStream";
+        int argsCount = args.length;
+        if (argsCount != 0) {
+            HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
+        }
+        StreamHostObject sho = (StreamHostObject) thisObj;
+        return sho.getStream();
+    }
 
     public InputStream getStream() {
         return stream;

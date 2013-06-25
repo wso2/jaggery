@@ -3,6 +3,7 @@ package org.jaggeryjs.jaggery.core.manager;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.hostobjects.stream.StreamHostObject;
+import org.jaggeryjs.hostobjects.web.Constants;
 import org.jaggeryjs.jaggery.core.ScriptReader;
 import org.jaggeryjs.scriptengine.EngineConstants;
 import org.jaggeryjs.scriptengine.cache.CacheManager;
@@ -14,6 +15,7 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
+import org.wso2.carbon.context.CarbonContext;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,12 +35,8 @@ public class CommonManager {
 
     private static final Log log = LogFactory.getLog(CommonManager.class);
 
-    //public static final String JAGGERY_CONTEXT = "jaggeryContext";
     public static final String JAGGERY_URLS_MAP = "jaggery.urls.map";
     public static final String JAGGERY_OUTPUT_STREAM = "jaggery.output.stream";
-    public static final String JAGGERY_INCLUDED_SCRIPTS = "jaggery.included.scripts";
-    public static final String JAGGERY_INCLUDES_CALLSTACK = "jaggery.includes.callstack";
-    public static final String JAGGERY_CORE_MANAGER = "jaggery.core.manager";
 
     public static final String HOST_OBJECT_NAME = "RhinoTopLevel";
 
@@ -73,10 +71,13 @@ public class CommonManager {
     }
 
     public static void initContext(JaggeryContext context) throws ScriptException {
-        context.addProperty(JAGGERY_CORE_MANAGER, manager);
         context.setEngine(manager.engine);
         context.setScope(manager.engine.getRuntimeScope());
-        setJaggeryContext(context);
+        context.setTenantId(Integer.toString(CarbonContext.getCurrentContext().getTenantId()));
+
+        context.addProperty(Constants.JAGGERY_CORE_MANAGER, manager);
+        context.addProperty(Constants.JAGGERY_INCLUDED_SCRIPTS, new HashMap<String, Boolean>());
+        context.addProperty(Constants.JAGGERY_INCLUDES_CALLSTACK, new Stack<String>());
     }
 
     private static void exposeDefaultModules(RhinoEngine engine, Map<String, JavaScriptModule> modules)
@@ -224,7 +225,7 @@ public class CommonManager {
         JaggeryContext context = getJaggeryContext();
         //RhinoEngine engine = context.getEngine();
         //ScriptableObject scope = context.getScope();
-        CommonManager manager = (CommonManager) context.getProperty(JAGGERY_CORE_MANAGER);
+        CommonManager manager = (CommonManager) context.getProperty(Constants.JAGGERY_CORE_MANAGER);
         ModuleManager moduleManager = manager.getModuleManager();
         JavaScriptModule module = moduleManager.getModule(moduleName);
 
@@ -322,21 +323,10 @@ public class CommonManager {
     }
 
     public static Map<String, Boolean> getIncludes(JaggeryContext jaggeryContext) {
-        Map<String, Boolean> includedScripts = (Map<String, Boolean>) jaggeryContext.getProperty(
-                CommonManager.JAGGERY_INCLUDED_SCRIPTS);
-        if (includedScripts == null) {
-            includedScripts = new HashMap<String, Boolean>();
-            jaggeryContext.addProperty(CommonManager.JAGGERY_INCLUDED_SCRIPTS, includedScripts);
-        }
-        return includedScripts;
+        return (Map<String, Boolean>) jaggeryContext.getProperty(Constants.JAGGERY_INCLUDED_SCRIPTS);
     }
 
     public static Stack<String> getCallstack(JaggeryContext jaggeryContext) {
-        Stack<String> includesCallstack = (Stack<String>) jaggeryContext.getProperty(JAGGERY_INCLUDES_CALLSTACK);
-        if (includesCallstack == null) {
-            includesCallstack = new Stack<String>();
-            jaggeryContext.addProperty(JAGGERY_INCLUDES_CALLSTACK, includesCallstack);
-        }
-        return includesCallstack;
+        return (Stack<String>) jaggeryContext.getProperty(Constants.JAGGERY_INCLUDES_CALLSTACK);
     }
 }

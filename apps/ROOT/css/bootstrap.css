@@ -1800,8 +1800,7 @@ footer {
 	padding-bottom: 20px;
 }
 .page-header {
-    margin-bottom: 30px;
-    margin-top:30px;
+    margin-bottom: 10px;
     border-bottom: 1px solid #ddd;
     -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
     -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
@@ -2868,6 +2867,7 @@ background: none repeat scroll 0 0 #FFFFFF;
     padding: 25px;
     text-align: left;
     width: 400px;
+    height: 230px;
 }
 .tool-links li.even{
 margin-right:20px;

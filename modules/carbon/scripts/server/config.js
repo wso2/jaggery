@@ -27,4 +27,8 @@
         }
     };
 
+    server.home = function() {
+        return 'file:///' + require('process').getProperty('carbon.home').replace(/[\\]/g, '/').replace(/^[\/]/g, '');
+    };
+
 }(server));

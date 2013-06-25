@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Jaggery - Delicious Javascript</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+        }
+    </style>
+    <link href="../css/prettify.css" rel="stylesheet">
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="../images/favicon.ico">
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72"
+          href="../images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114"
+          href="../images/apple-touch-icon-114x114.png">
+</head>
+
+<body>
+
+<%
+include('/includes/topnavi.jag');
+%>
+
+<div class="container-fluid" style="width: 960px; margin: auto;">
+    <div class="row">
+        <div class="span16">
+            <div class="page-header">
+                <h1>
+                    Documentation
+                    <small>API documentation for Jaggery.js</small>
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="span4">
+            <div class="well">
+                <%
+                include('/includes/navi.jag');
+                %>
+
+            </div>
+
+        </div>
+        <div class="span12">
+            <div class="content" id="uuid" name="uuid">
+                <h3>UUID</h3>
+
+<pre class="prettyprint linenums">
+&lt;%
+ var uuid = require("uuid");
+ print("uuid generated using random number generator : "+uuid.generate());
+ print("&ltbr&gtuuid generated based on specified data : "+uuid.generate(1432,14353452));
+%&gt;
+</pre>
+                <%
+		
+		var printCode = '\n &lt%'
+                + '\n  var uuid = require("uuid");'
+		+ '\n  print("uuid generated using random number generator : "+uuid.generate());'
+		+ '\n  print("&ltbr&gtuuid generated based on specified data : "+uuid.generate(1432,14353452));'
+                + '\n %&gt';
+
+                var codeSnip = encodeURIComponent(printCode);
+
+                var urlString = '../tryitframe.jag?code='+codeSnip;
+
+
+                %>
+
+                <div id="tryitwindow" class="modal hide fade">
+                    <div class="modal-header">
+                        <a href="#" class="close">&times;</a>
+
+                        <h3>Try it now</h3>
+                    </div>
+                    <div class="modal-body">
+                        <iframe src="<%=urlString%>" style="border: none;" width="98%"
+                                height="520px" scrolling="no"></iframe>
+                    </div>
+
+                </div>
+
+                <p align="right">
+                    <button class="btn primary" data-keyboard="true" data-backdrop="true"
+                            data-controls-modal="tryitwindow">Try it now
+                    </button>
+                </p>
+                <br>
+
+                <% hasRets = false; %>
+                <div id="pageLinks">
+                    <a class="navilink" href="#overview">Overview</a>
+                    <%if(hasParams) {%>
+                    <a class="navilink" href="#operations">Operations</a>
+                    <%}%>
+                    <%if(hasRets) {%>
+                    <a class="navilink" href="#returnVals">Return values</a>
+                    <%}%>
+                </div>
+                
+<section id="overview">
+    <h4>Overview</h4>
+          <p class="description">UUID is 128 bit number that enables distributed systems to uniquely identify information without any significant central coordination.UUID provides the capability to either generate a new uuid using random number generator or using the specified data for mostSigBits and leastSigBits.</p>
+
+   </section>
+
+                <section id="operations">
+
+                    <h4>Operations</h4>
+                    <table class="clsStd operations-table">
+                        <tbody>
+                        <tr>
+                            <th>Operation</th>
+                            <th>Returns</th>
+                            <th>Description</th>
+                        </tr>
+                        <tr>
+                            <td><code>generate()</code></td>
+                            <td>String</td>
+                            <td>
+        <pre class="prettyprint">
+uuid.generate()
+</pre>
+                                return a new UUID that is generated using a cryptographically strong pseudo random number generator.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><code>generate(mostSigBits,leastSigBits)</code></td>
+                            <td>String</td>
+                            <td>
+<pre class="prettyprint">
+uuid.generate(1432,14353452)
+        </pre>
+                                generate a uuid based on the specified data of <code>mostSigBits</code> and <code>leastSigBits</code>.mostSigBits is used for the most significant 64 bits of the UUID and leastSigBits becomes the least significant 64 bits of the UUID.
+
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </section>
+
+            </div>
+            <!-- /print div -->
+            <br>
+            <br>
+        </div>
+
+    </div>
+    <%
+    include('/includes/footerfunc.jag');
+    %>
+
+</div>
+
+<!-- /container -->
+<%
+include('/includes/scripts.jag')
+%>
+
+<script>
+$(document).ready(function(){
+        $('#uuid').toggleClass('active')
+        $('#docs').addClass('active')
+        })
+</script>
+
+
+</body>
+</html>

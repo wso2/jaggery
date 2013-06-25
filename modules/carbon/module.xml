@@ -40,4 +40,8 @@
         <name>registry-space</name>
         <path>scripts/user/registry-space.js</path>
     </script>
+    <script>
+        <name>user-manager</name>
+        <path>scripts/user/user-manager.js</path>
+    </script>
 </module>

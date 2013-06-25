@@ -4,9 +4,16 @@
         var serv = new server.Server(options.serverUrl);
         this.registry = new registry.Registry(serv, {
             username: options.username || user,
-            password: options.password
+            domain: server.tenantDomain({
+                username: options.username
+            }) || server.tenantDomain()
         });
         this.prefix = options.path + '/' + user + '/' + space;
+        if (!this.registry.exists(this.prefix)) {
+            this.registry.put(this.prefix, {
+                collection: true
+            });
+        }
     };
     user.Space = Space;
 
@@ -18,7 +25,8 @@
     };
 
     Space.prototype.get = function (key) {
-        return this.registry.content(this.prefix + '/' + key);
+        var o = this.registry.content(this.prefix + '/' + key);
+        return o ? o.toString() : null;
     };
 
     Space.prototype.remove = function (key) {

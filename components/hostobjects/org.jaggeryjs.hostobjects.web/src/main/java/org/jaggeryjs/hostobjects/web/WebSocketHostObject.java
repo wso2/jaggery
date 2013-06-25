@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
+import java.util.HashMap;
+import java.util.Stack;
 
 public class WebSocketHostObject extends ScriptableObject {
 
@@ -54,9 +56,15 @@ public class WebSocketHostObject extends ScriptableObject {
         asyncContext.setEngine(currentContext.getEngine());
         asyncContext.setScope(currentContext.getScope());
         asyncContext.setTenantId(currentContext.getTenantId());
+
+        asyncContext.addProperty(Constants.SERVLET_CONTEXT, currentContext.getProperty(Constants.SERVLET_CONTEXT));
         asyncContext.addProperty(LogHostObject.LOG_LEVEL, currentContext.getProperty(LogHostObject.LOG_LEVEL));
         asyncContext.addProperty(FileHostObject.JAVASCRIPT_FILE_MANAGER, currentContext.getProperty(
                 FileHostObject.JAVASCRIPT_FILE_MANAGER));
+        asyncContext.addProperty(Constants.JAGGERY_CORE_MANAGER, currentContext.getProperty(Constants.JAGGERY_CORE_MANAGER));
+        asyncContext.addProperty(Constants.JAGGERY_INCLUDED_SCRIPTS, new HashMap<String, Boolean>());
+        asyncContext.addProperty(Constants.JAGGERY_INCLUDES_CALLSTACK, new Stack<String>());
+        asyncContext.addProperty(Constants.JAGGERY_REQUIRED_MODULES, new HashMap<String, ScriptableObject>());
         who.asyncContext = asyncContext;
         return who;
     }

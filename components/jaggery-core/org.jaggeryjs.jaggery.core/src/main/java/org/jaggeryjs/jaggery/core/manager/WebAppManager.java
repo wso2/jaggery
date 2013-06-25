@@ -5,21 +5,19 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.hostobjects.file.FileHostObject;
 import org.jaggeryjs.hostobjects.log.LogHostObject;
+import org.jaggeryjs.hostobjects.web.Constants;
 import org.jaggeryjs.jaggery.core.ScriptReader;
 import org.jaggeryjs.jaggery.core.plugins.WebAppFileManager;
 import org.jaggeryjs.scriptengine.cache.ScriptCachingContext;
 import org.jaggeryjs.scriptengine.engine.JaggeryContext;
 import org.jaggeryjs.scriptengine.engine.JavaScriptProperty;
 import org.jaggeryjs.scriptengine.engine.RhinoEngine;
+import org.jaggeryjs.scriptengine.engine.RhinoTopLevel;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.security.RhinoSecurityController;
 import org.jaggeryjs.scriptengine.security.RhinoSecurityDomain;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Function;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
-import org.wso2.carbon.context.CarbonContext;
+import org.mozilla.javascript.*;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -43,8 +41,6 @@ public class WebAppManager {
 
     public static final String SERVLET_REQUEST = "webappmanager.servlet.request";
 
-    public static final String SERVLET_CONTEXT = "webappmanager.servlet.context";
-
     private static final String DEFAULT_CONTENT_TYPE = "text/html";
 
     private static final String DEFAULT_CHAR_ENCODING = "UTF-8";
@@ -54,6 +50,12 @@ public class WebAppManager {
     public static final String WS_REQUEST_PATH = "requestURI";
 
     public static final String WS_SERVLET_CONTEXT = "/websocket";
+
+    private static final String SHARED_JAGGERY_CONTEXT = "shared.jaggery.context";
+
+    private static final Map<String, List<String>> timeouts = new HashMap<String, List<String>>();
+
+    private static final Map<String, List<String>> intervals = new HashMap<String, List<String>>();
 
     private static boolean isWebSocket = false;
 
@@ -165,12 +167,62 @@ public class WebAppManager {
         }
     }
 
+    public static String setTimeout(final Context cx, final Scriptable thisObj, Object[] args, Function funObj)
+            throws ScriptException {
+        JaggeryContext context = CommonManager.getJaggeryContext();
+        ServletContext servletContext = (ServletContext) context.getProperty(Constants.SERVLET_CONTEXT);
+        String contextPath = servletContext.getContextPath();
+        String taskId = RhinoTopLevel.setTimeout(cx, thisObj, args, funObj);
+        List<String> taskIds = timeouts.get(contextPath);
+        if (taskIds == null) {
+            taskIds = new ArrayList<String>();
+            timeouts.put(contextPath, taskIds);
+        }
+        taskIds.add(taskId);
+        return taskId;
+    }
+
+    public static String setInterval(final Context cx, final Scriptable thisObj, Object[] args, Function funObj)
+            throws ScriptException {
+        JaggeryContext context = CommonManager.getJaggeryContext();
+        ServletContext servletContext = (ServletContext) context.getProperty(Constants.SERVLET_CONTEXT);
+        String contextPath = servletContext.getContextPath();
+        String taskId = RhinoTopLevel.setInterval(cx, thisObj, args, funObj);
+        List<String> taskIds = intervals.get(contextPath);
+        if (taskIds == null) {
+            taskIds = new ArrayList<String>();
+            intervals.put(contextPath, taskIds);
+        }
+        taskIds.add(taskId);
+        return taskId;
+    }
+
+    public static void clearTimeout(final Context cx, final Scriptable thisObj, Object[] args, Function funObj)
+            throws ScriptException {
+        JaggeryContext context = CommonManager.getJaggeryContext();
+        ServletContext servletContext = (ServletContext) context.getProperty(Constants.SERVLET_CONTEXT);
+        String contextPath = servletContext.getContextPath();
+        RhinoTopLevel.clearTimeout(cx, thisObj, args, funObj);
+        List<String> taskIds = timeouts.get(contextPath);
+        taskIds.remove(String.valueOf(args[0]));
+    }
+
+    public static void clearInterval(final Context cx, final Scriptable thisObj, Object[] args, Function funObj)
+            throws ScriptException {
+        JaggeryContext context = CommonManager.getJaggeryContext();
+        ServletContext servletContext = (ServletContext) context.getProperty(Constants.SERVLET_CONTEXT);
+        String contextPath = servletContext.getContextPath();
+        RhinoTopLevel.clearTimeout(cx, thisObj, args, funObj);
+        List<String> taskIds = intervals.get(contextPath);
+        taskIds.remove(String.valueOf(args[0]));
+    }
+
     private static ScriptableObject executeScript(JaggeryContext jaggeryContext, ScriptableObject scope,
                                                   String fileURL, final boolean isJSON, boolean isBuilt,
                                                   boolean isIncludeOnce) throws ScriptException {
         Stack<String> includesCallstack = CommonManager.getCallstack(jaggeryContext);
         Map<String, Boolean> includedScripts = CommonManager.getIncludes(jaggeryContext);
-        ServletContext context = (ServletContext) jaggeryContext.getProperty(SERVLET_CONTEXT);
+        ServletContext context = (ServletContext) jaggeryContext.getProperty(Constants.SERVLET_CONTEXT);
         String parent = includesCallstack.lastElement();
 
         String keys[] = WebAppManager.getKeys(context.getContextPath(), parent, fileURL);
@@ -234,47 +286,130 @@ public class WebAppManager {
             HostObjectUtil.invalidArgsError(CommonManager.HOST_OBJECT_NAME, functionName, "1", "string", args[0], false);
         }
 
-        String param = (String) args[0];
-        int dotIndex = param.lastIndexOf(".");
-        if (param.length() == dotIndex + 1) {
-            String msg = "Invalid file path for require method : " + param;
+        String moduleId = (String) args[0];
+        int dotIndex = moduleId.lastIndexOf(".");
+        if (moduleId.length() == dotIndex + 1) {
+            String msg = "Invalid file path for require method : " + moduleId;
             log.error(msg);
             throw new ScriptException(msg);
-        }
-
-        if (dotIndex == -1) {
-            ScriptableObject object = CommonManager.require(cx, thisObj, args, funObj);
-            initModule(cx, CommonManager.getJaggeryContext(), param, object);
-            return object;
         }
 
         JaggeryContext jaggeryContext = CommonManager.getJaggeryContext();
-        ScriptableObject object = (ScriptableObject) cx.newObject(thisObj);
-        object.setPrototype(thisObj);
-        object.setParentScope(null);
-        String ext = param.substring(dotIndex + 1);
-        if (ext.equalsIgnoreCase("json")) {
-            return executeScript(jaggeryContext, object, param, true, true, false);
-        } else if (ext.equalsIgnoreCase("js")) {
-            return executeScript(jaggeryContext, object, param, false, true, false);
-        } else if (ext.equalsIgnoreCase("jag")) {
-            return executeScript(jaggeryContext, object, param, false, false, false);
-        } else {
-            String msg = "Unsupported file type for require() method : ." + ext;
-            log.error(msg);
-            throw new ScriptException(msg);
+        Map<String, ScriptableObject> requiredModules = (Map<String, ScriptableObject>) jaggeryContext.getProperty(
+                Constants.JAGGERY_REQUIRED_MODULES);
+        ScriptableObject object = requiredModules.get(moduleId);
+        if (object != null) {
+            return object;
         }
-    }
 
-    public static void initContext(Context cx, JaggeryContext context) throws ScriptException {
-        CommonManager.initContext(context);
-        defineProperties(cx, context, context.getScope());
+        if (dotIndex == -1) {
+            object = CommonManager.require(cx, thisObj, args, funObj);
+            initModule(cx, jaggeryContext, moduleId, object);
+        } else {
+            object = (ScriptableObject) cx.newObject(thisObj);
+            object.setPrototype(thisObj);
+            object.setParentScope(null);
+            String ext = moduleId.substring(dotIndex + 1);
+            if (ext.equalsIgnoreCase("json")) {
+                object = executeScript(jaggeryContext, object, moduleId, true, true, false);
+            } else if (ext.equalsIgnoreCase("js")) {
+                object = executeScript(jaggeryContext, object, moduleId, false, true, false);
+            } else if (ext.equalsIgnoreCase("jag")) {
+                object = executeScript(jaggeryContext, object, moduleId, false, false, false);
+            } else {
+                String msg = "Unsupported file type for require() method : ." + ext;
+                log.error(msg);
+                throw new ScriptException(msg);
+            }
+        }
+        requiredModules.put(moduleId, object);
+        return object;
     }
 
     public static void initModule(Context cx, JaggeryContext context, String module, ScriptableObject object) {
         if (CORE_MODULE_NAME.equals(module)) {
             defineProperties(cx, context, object);
         }
+    }
+
+    public static JaggeryContext sharedJaggeryContext(ServletContext ctx) {
+        return (JaggeryContext) ctx.getAttribute(SHARED_JAGGERY_CONTEXT);
+    }
+
+    public static JaggeryContext clonedJaggeryContext(ServletContext context) {
+        JaggeryContext shared = sharedJaggeryContext(context);
+        RhinoEngine engine = shared.getEngine();
+        Scriptable sharedScope = shared.getScope();
+        Context cx = Context.getCurrentContext();
+        ScriptableObject instanceScope = (ScriptableObject) cx.newObject(sharedScope);
+        instanceScope.setPrototype(sharedScope);
+        instanceScope.setParentScope(null);
+
+        JaggeryContext clone = new JaggeryContext();
+        clone.setEngine(engine);
+        clone.setTenantId(shared.getTenantId());
+        clone.setScope(instanceScope);
+
+        clone.addProperty(Constants.SERVLET_CONTEXT, shared.getProperty(Constants.SERVLET_CONTEXT));
+        clone.addProperty(LogHostObject.LOG_LEVEL, shared.getProperty(LogHostObject.LOG_LEVEL));
+        clone.addProperty(FileHostObject.JAVASCRIPT_FILE_MANAGER,
+                shared.getProperty(FileHostObject.JAVASCRIPT_FILE_MANAGER));
+        clone.addProperty(Constants.JAGGERY_CORE_MANAGER, shared.getProperty(Constants.JAGGERY_CORE_MANAGER));
+        clone.addProperty(Constants.JAGGERY_INCLUDED_SCRIPTS, new HashMap<String, Boolean>());
+        clone.addProperty(Constants.JAGGERY_INCLUDES_CALLSTACK, new Stack<String>());
+        clone.addProperty(Constants.JAGGERY_REQUIRED_MODULES, new HashMap<String, ScriptableObject>());
+
+        CommonManager.setJaggeryContext(clone);
+
+        return clone;
+    }
+
+    public static void deploy(org.apache.catalina.Context context) throws ScriptException {
+        ServletContext ctx = context.getServletContext();
+        JaggeryContext sharedContext = new JaggeryContext();
+        Context cx = Context.getCurrentContext();
+        CommonManager.initContext(sharedContext);
+
+        sharedContext.addProperty(Constants.SERVLET_CONTEXT, ctx);
+        sharedContext.addProperty(FileHostObject.JAVASCRIPT_FILE_MANAGER, new WebAppFileManager(ctx));
+        sharedContext.addProperty(Constants.JAGGERY_REQUIRED_MODULES, new HashMap<String, ScriptableObject>());
+        String logLevel = (String) ctx.getAttribute(LogHostObject.LOG_LEVEL);
+        if (logLevel != null) {
+            sharedContext.addProperty(LogHostObject.LOG_LEVEL, logLevel);
+        }
+        ScriptableObject sharedScope = sharedContext.getScope();
+        JavaScriptProperty application = new JavaScriptProperty("application");
+        application.setValue(cx.newObject(sharedScope, "Application", new Object[]{ctx}));
+        application.setAttribute(ScriptableObject.READONLY);
+        RhinoEngine.defineProperty(sharedScope, application);
+        ctx.setAttribute(SHARED_JAGGERY_CONTEXT, sharedContext);
+    }
+
+    public static void undeploy(org.apache.catalina.Context context) {
+        String contextPath = context.getServletContext().getContextPath();
+        List<String> taskIds = timeouts.get(contextPath);
+        if (taskIds != null) {
+            for (String taskId : taskIds) {
+                try {
+                    log.debug("clearTimeout : " + taskId);
+                    RhinoTopLevel.clearTimeout(taskId);
+                } catch (ScriptException e) {
+                    log.error(e.getMessage(), e);
+                }
+            }
+        }
+        taskIds = intervals.get(contextPath);
+        if (taskIds != null) {
+            for (String taskId : taskIds) {
+                try {
+                    log.debug("clearInterval : " + taskId);
+                    RhinoTopLevel.clearInterval(taskId);
+                } catch (ScriptException e) {
+                    log.error(e.getMessage(), e);
+                }
+            }
+        }
+        log.debug("Releasing resources of : " + context.getServletContext().getContextPath());
     }
 
     public static void execute(HttpServletRequest request, HttpServletResponse response)
@@ -291,8 +426,7 @@ public class WebAppManager {
             Context cx = engine.enterContext();
             //Creating an OutputStreamWritter to write content to the servletResponse
             OutputStream out = response.getOutputStream();
-            JaggeryContext context = createJaggeryContext(out, scriptPath, request, response);
-            initContext(cx, context);
+            JaggeryContext context = createJaggeryContext(cx, out, scriptPath, request, response);
             context.addProperty(FileHostObject.JAVASCRIPT_FILE_MANAGER,
                     new WebAppFileManager(request.getServletContext()));
             CommonManager.getInstance().getEngine().exec(new ScriptReader(sourceIn), context.getScope(),
@@ -383,13 +517,13 @@ public class WebAppManager {
         RhinoEngine.defineProperty(scope, session);
 
         JavaScriptProperty application = new JavaScriptProperty("application");
-        ServletContext servletConext = (ServletContext) context.getProperty(SERVLET_CONTEXT);
+        ServletContext servletConext = (ServletContext) context.getProperty(Constants.SERVLET_CONTEXT);
         application.setValue(cx.newObject(scope, "Application", new Object[]{servletConext}));
         application.setAttribute(ScriptableObject.READONLY);
         RhinoEngine.defineProperty(scope, application);
 
         if (isWebSocket(servletRequest)) {
-            JavaScriptProperty websocket = new JavaScriptProperty("websocket");
+            JavaScriptProperty websocket = new JavaScriptProperty("webSocket");
             websocket.setValue(cx.newObject(scope, "WebSocket", new Object[0]));
             websocket.setAttribute(ScriptableObject.READONLY);
             RhinoEngine.defineProperty(scope, websocket);
@@ -397,22 +531,16 @@ public class WebAppManager {
 
     }
 
-    private static JaggeryContext createJaggeryContext(OutputStream out, String scriptPath,
+    private static JaggeryContext createJaggeryContext(Context cx, OutputStream out, String scriptPath,
                                                        HttpServletRequest request, HttpServletResponse response) {
-        JaggeryContext context = new JaggeryContext();
-        context.setTenantId(Integer.toString(CarbonContext.getCurrentContext().getTenantId()));
+        ServletContext servletContext = request.getServletContext();
+        JaggeryContext context = clonedJaggeryContext(servletContext);
         context.addProperty(SERVLET_REQUEST, request);
         context.addProperty(SERVLET_RESPONSE, response);
-        context.addProperty(SERVLET_CONTEXT, request.getServletContext());
         CommonManager.getCallstack(context).push(scriptPath);
         CommonManager.getIncludes(context).put(scriptPath, true);
         context.addProperty(CommonManager.JAGGERY_OUTPUT_STREAM, out);
-
-        String logLevel = (String) request.getServletContext().getAttribute(LogHostObject.LOG_LEVEL);
-        if (logLevel != null) {
-            context.addProperty(LogHostObject.LOG_LEVEL, logLevel);
-        }
-
+        defineProperties(cx, context, context.getScope());
         return context;
     }
 

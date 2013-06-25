@@ -159,7 +159,7 @@ i18n.init(request);
 
                             <td><code>localize(key, fallback)</code></td>
                             <td>String</td>
-                            <td>Returns the localized string, if not provided the fallback text<br><br>
+                            <td>Returns the localized String, if not provided the fallback text<br><br>
                             <pre class="prettyprint">
 print(i18n.localize("greetings.local", "Greetings from Jaggery"));
 </pre>

@@ -11,6 +11,8 @@ var registry = registry || {};
 
     var StaticConfiguration = Packages.org.wso2.carbon.registry.core.config.StaticConfiguration;
 
+    var queryPath = '/_system/config/repository/components/org.wso2.carbon.registry/queries/';
+
     var content = function (registry, resource, paging) {
         if (resource instanceof Collection) {
             // #1 : this always sort children by name, so sorting cannot be done for the chunk
@@ -29,128 +31,55 @@ var registry = registry || {};
         return String(resource.content);
     };
 
-    var commentsQuery = function (registry, resource, paging) {
-        var query, sort, limit, sorter,
-            paged = true,
-            database = registry.database;
-        if (registry.versioning.comments) {
-            query = 'SELECT REG_COMMENT_ID FROM REG_COMMENT C, REG_RESOURCE_COMMENT RC ' +
-                'WHERE C.REG_ID=RC.REG_COMMENT_ID AND RC.REG_VERSION=' + resource.versionNumber + ' ' +
-                'AND C.REG_TENANT_ID=' + registry.tenant + ' AND RC.REG_TENANT_ID=' + registry.tenant;
-        } else {
-            if (resource instanceof Collection) {
-                query = 'SELECT REG_COMMENT_ID FROM REG_COMMENT C, REG_RESOURCE_COMMENT RC ' +
-                    'WHERE C.REG_ID=RC.REG_COMMENT_ID AND RC.REG_PATH_ID=' + resource.id + ' ' +
-                    'AND RC.REG_RESOURCE_NAME IS NULL AND C.REG_TENANT_ID=' + registry.tenant + ' ' +
-                    'AND RC.REG_TENANT_ID=' + registry.tenant;
+    var resourceSorter = function (key) {
+        var nameAsc = function (l, r) {
+            var lname, rname;
+            if (l instanceof Collection) {
+                lname = l.getName();
+                lname = lname.substring(lname.lastIndexOf('/') + 1);
             } else {
-                query = 'SELECT REG_COMMENT_ID FROM REG_COMMENT C, REG_RESOURCE_COMMENT RC ' +
-                    'WHERE C.REG_ID=RC.REG_COMMENT_ID AND RC.REG_PATH_ID=' + resource.id + ' ' +
-                    'AND RC.REG_RESOURCE_NAME = ' + resource.name + ' AND C.REG_TENANT_ID=' + registry.tenant + ' ' +
-                    'AND RC.REG_TENANT_ID=' + registry.tenant;
+                lname = l.name;
             }
-        }
-        switch (paging.sort) {
-            case 'recent' :
-            default:
-                sort = ' ORDER BY C.REG_COMMENTED_TIME DESC';
-                sorter = function (l, r) {
-                    return l.created.time < r.created.time;
-                };
-        }
-        switch (database.name) {
-            case 'MySQL':
-                limit = ' LIMIT ' + paging.count + ' OFFSET ' + paging.start;
-                break;
-            default :
-                paged = false;
-                limit = '';
-        }
-        query += sort + limit;
-        return {
-            query: query,
-            sorter: sorter,
-            paged: paged
+            if (r instanceof Collection) {
+                rname = r.getName();
+                rname = rname.substring(rname.lastIndexOf('/') + 1);
+            } else {
+                rname = r.name;
+            }
+            return lname === rname ? 0 : (lname > rname ? 1 : -1);
         };
-    };
-
-    var childrenQuery = function (registry, resource, paging) {
-        var query, sort, sorter, limit,
-            paged = true,
-            pathId = resource.pathID,
-            database = registry.database;
-        query = 'SELECT R.REG_PATH_ID, R.REG_NAME, R.REG_CREATED_TIME AS REG_CREATED_TIME ' +
-            'FROM REG_RESOURCE R WHERE ' +
-            'R.REG_PATH_ID=' + pathId + ' AND ' +
-            'R.REG_TENANT_ID=' + registry.tenant + ' ' +
-            'UNION ' +
-            'SELECT P.REG_PATH_ID, R.REG_NAME, R.REG_CREATED_TIME AS REG_CREATED_TIME ' +
-            'FROM REG_PATH P, REG_RESOURCE R WHERE ' +
-            'P.REG_PATH_PARENT_ID=' + pathId + ' AND ' +
-            'P.REG_TENANT_ID=' + registry.tenant + ' AND ' +
-            'R.REG_PATH_ID=P.REG_PATH_ID AND ' +
-            'R.REG_NAME IS NULL AND ' +
-            'R.REG_TENANT_ID=' + registry.tenant;
-
-        paging = merge({
-            start: 0,
-            count: 25,
-            sort: 'recent'
-        }, paging);
-        switch (paging.sort) {
-            case 'recent' :
-            default:
-                sort = ' ORDER BY REG_CREATED_TIME DESC';
-                sorter = function (l, r) {
-                    return l.created.time < r.created.time;
+        switch (key) {
+            case 'time-created-asc' :
+                return function (l, r) {
+                    return l.getCreatedTime().getTime() - r.getCreatedTime().getTime();
                 };
+            case 'time-created-des' :
+                return function (l, r) {
+                    return r.getCreatedTime().getTime() - l.getCreatedTime().getTime();
+                };
+            case 'name-asc' :
+                return nameAsc;
+            case 'name-des' :
+                return function (l, r) {
+                    return -nameAsc(l, r);
+                };
+            default:
+                return resourceSorter('time-created-des');
         }
-        switch (database.name) {
-            case 'MySQL':
-                limit = ' LIMIT ' + paging.count + ' OFFSET ' + paging.start;
-                break;
-            default :
-                paged = false;
-                limit = '';
-        }
-        query += sort + limit;
-        return {
-            query: query,
-            sorter: sorter,
-            paged: paged
-        };
     };
 
     var children = function (registry, resource, paging) {
-        var o, pathz, length, i, res,
-            pathId = resource.pathID,
-            resources = [],
+        var length, i, resources,
             paths = [];
-        o = childrenQuery(registry, resource, paging);
-        pathz = registry.query({
-            query: o.query,
-            resultType: 'Resource'
-        });
-        length = pathz.length;
-        for (i = 0; i < length; i++) {
-            res = registry.registry.get(pathz[i]);
-            if (pathId == res.pathID && !res.name) {
-                continue;
-            }
-            resources.push({
-                path: String(res.path),
-                created: {
-                    time: res.createdTime.time
-                }
-            });
-        }
+        resources = registry.content(resource.path);
         //we have to manually sort this due to the bug in registry.getChildren() (#1 above)
-        resources.sort(o.sorter);
-        length = resources.length;
+        resources.sort(resourceSorter(paging.sort));
+        resources = resources.slice(paging.start, paging.start + paging.count);
+        length = resource.length;
         for (i = 0; i < length; i++) {
             paths.push(resources[i].path);
         }
-        return o.paged ? paths : paths.slice(paging.start, paging.start + paging.count);
+        return paths;
     };
 
     var resource = function (registry, resource) {
@@ -225,31 +154,39 @@ var registry = registry || {};
         return def;
     };
 
-    var Registry = function (serv, auth) {
-        var registryService = server.osgiService('org.wso2.carbon.registry.core.service.RegistryService');
-        if (auth.username) {
-            this.tenant = server.tenantId({
-                domain: auth.domain,
-                username: auth.username
-            });
-            this.registry = registryService.getRegistry(auth.username, auth.password, this.tenant);
-            this.username = auth.username;
-            this.versioning = {
-                comments: StaticConfiguration.isVersioningComments()
-            };
-            var db = this.registry.getRegistryContext().getDataAccessManager().getDataSource()
-                .getConnection().getMetaData();
-            this.database = {
-                name: String(db.getDatabaseProductName()),
-                version: {
-                    major: db.getDatabaseMajorVersion(),
-                    minor: db.getDatabaseMinorVersion()
-                }
-            };
+    var Registry = function (serv, options) {
+        var registryService = server.osgiService('org.wso2.carbon.registry.core.service.RegistryService'),
+            carbon = require('carbon');
+        if (options) {
+            this.server = serv;
         } else {
-            throw new Error('Unsupported authentication mechanism : ' + stringify(auth));
+            this.server = new server.Server();
+            options = serv || {};
         }
-        this.server = serv;
+
+        if (options.tenantId) {
+            this.tenantId = options.tenantId;
+        } else if (options.username || options.domain) {
+            this.tenantId = server.tenantId({
+                domain: options.domain,
+                username: options.username
+            });
+        } else {
+            this.tenantId = server.tenantId();
+        }
+
+        if (options.username) {
+            this.username = options.username;
+        } else if (options.system) {
+            this.username = carbon.user.systemUser;
+        } else {
+            this.username = carbon.user.anonUser;
+        }
+
+        this.registry = registryService.getRegistry(this.username, this.tenantId);
+        this.versioning = {
+            comments: StaticConfiguration.isVersioningComments()
+        };
     };
 
     registry.Registry = Registry;
@@ -260,7 +197,11 @@ var registry = registry || {};
             res = this.registry.newCollection();
         } else {
             res = this.registry.newResource();
-            res.content = resource.content || null;
+            if (resource.content instanceof Stream) {
+                res.contentStream = resource.content.getStream();
+            } else {
+                res.content = resource.content || null;
+            }
             res.mediaType = resource.mediaType || null;
         }
         res.name = resource.name;
@@ -317,6 +258,9 @@ var registry = registry || {};
     };
 
     Registry.prototype.get = function (path) {
+        if (!this.exists(path)) {
+            return null;
+        }
         var res = this.registry.get(path);
         return resource(this, res);
     };
@@ -326,6 +270,9 @@ var registry = registry || {};
     };
 
     Registry.prototype.content = function (path, paging) {
+        if (!this.exists(path)) {
+            return null;
+        }
         var resource = this.registry.get(path);
         paging = merge({
             start: 0,
@@ -336,37 +283,12 @@ var registry = registry || {};
     };
 
     Registry.prototype.tags = function (path) {
-        var tag, tags, i, length, count, tz,
+        var tags, i, length,
             tagz = [];
-        if (path) {
-            tags = this.registry.getTags(path);
-            length = tags.length;
-            for (i = 0; i < length; i++) {
-                tagz.push(String(tags[i].tagName));
-            }
-            return tagz;
-        }
-
-        tz = {};
-        tags = this.query({
-            name: 'tags',
-            query: 'SELECT RT.REG_TAG_ID FROM REG_RESOURCE_TAG RT ORDER BY RT.REG_TAG_ID',
-            resultType: 'Tags'
-        });
+        tags = this.registry.getTags(path);
         length = tags.length;
         for (i = 0; i < length; i++) {
-            tag = tags[i].split(';')[1].split(':')[1];
-            count = tz[tag];
-            count = count ? count + 1 : 1;
-            tz[tag] = count;
-        }
-        for (tag in tz) {
-            if (tz.hasOwnProperty(tag)) {
-                tagz.push({
-                    name: String(tag),
-                    count: tz[tag]
-                });
-            }
+            tagz.push(String(tags[i].tagName));
         }
         return tagz;
     };
@@ -444,48 +366,38 @@ var registry = registry || {};
         this.registry.addComment(path, new Comment(comment));
     };
 
-    /*    Registry.prototype.comments = function (path, paging) {
-     var i, comment, length,
-     comments = this.registry.getComments(path),
-     commentz = [];
-     paging = paging || { start: 0, count: 10 };
-     length = paging.start + paging.count;
-     length = length > comments.length ? comments.length : length;
-     for (i = paging.start; i < length; i++) {
-     comment = comments[i];
-     commentz.push({
-     content: comment.getText(),
-     created: {
-     author: comment.getUser(),
-     time: comment.getCreatedTime().getTime()
-     },
-     path: comment.getCommentPath()
-     });
-     }
-     return commentz;
-     };*/
-
     Registry.prototype.comments = function (path, paging) {
-        var o, ids, i, length,
-            comments = [],
-            resource = this.registry.get(path);
+        var i, length, comments, comment, key,
+            commentz = [];
         paging = merge({
             start: 0,
             count: 25,
             sort: 'recent'
         }, paging);
-        o = commentsQuery(this, resource, paging);
-        ids = this.query({
-            query: o.query,
-            resultType: 'Comments'
-        });
-        length = ids.length;
-        for (i = 0; i < length; i++) {
-            comments.push(this.get(ids[i]));
-        }
+
+        comments = this.registry.getComments(path);
         //we have to manually sort this due to the bug in registry.getChildren() (#1 above)
-        comments.sort(o.sorter);
-        return o.paged ? comments : comments.slice(paging.start, paging.start + paging.count);
+        key = paging.sort;
+        key = (key === 'time-created-des' || key === 'time-created-asc') ? key : 'time-created-des';
+        comments = comments.sort(resourceSorter(key));
+        comments = comments.slice(paging.start, paging.start + paging.count);
+        length = comments.length;
+        for (i = 0; i < length; i++) {
+            comment = comments[i];
+            commentz.push({
+                content: comment.getText(),
+                created: {
+                    author: comment.getUser(),
+                    time: comment.getCreatedTime().getTime()
+                },
+                path: comment.getCommentPath()
+            });
+        }
+        return commentz;
+    };
+
+    Registry.prototype.commentCount = function (path) {
+        return this.registry.getComments(path).length;
     };
 
     Registry.prototype.uncomment = function (path) {
@@ -528,27 +440,15 @@ var registry = registry || {};
         return res ? content(this, res, paging) : [];
     };
 
-    Registry.prototype.query = function (options) {
-        var res,
-            query = options.query,
-            uuid = require('uuid'),
-            name = options.name || new uuid.UUID(),
-            cache = options.cache || true,
-            Collections = java.util.Collections,
-            path = '/_system/config/repository/components/org.wso2.carbon.registry/queries/' + name;
-        if (!this.exists(path) || !cache) {
-            this.put(path, {
-                content: query,
-                mediaType: 'application/vnd.sql.query',
-                properties: {
-                    resultType: options.resultType
-                }
-            });
+    Registry.prototype.query = function (path, params) {
+        var res, name,
+            map = new java.util.HashMap();
+        for (name in params) {
+            if (params.hasOwnProperty(name)) {
+                map.put(name, params[name]);
+            }
         }
-        res = this.registry.executeQuery(path, Collections.emptyMap());
-        if (!cache) {
-            this.remove(path);
-        }
+        res = this.registry.executeQuery(path, map);
         return res.getChildren();
     };
 

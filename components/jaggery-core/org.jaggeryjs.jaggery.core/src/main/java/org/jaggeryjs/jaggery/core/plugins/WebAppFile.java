@@ -1,10 +1,12 @@
 package org.jaggeryjs.jaggery.core.plugins;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.hostobjects.file.JavaScriptFile;
 import org.jaggeryjs.hostobjects.file.JavaScriptFileManager;
+import org.jaggeryjs.hostobjects.web.Constants;
 import org.jaggeryjs.jaggery.core.manager.CommonManager;
 import org.jaggeryjs.scriptengine.engine.JaggeryContext;
 import org.jaggeryjs.jaggery.core.manager.WebAppManager;
@@ -15,6 +17,8 @@ import javax.servlet.ServletContext;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Stack;
+
+import static java.lang.Math.min;
 
 public class WebAppFile implements JavaScriptFile {
 
@@ -44,7 +48,7 @@ public class WebAppFile implements JavaScriptFile {
     private String getFilePath(String fileURL) throws ScriptException {
         JaggeryContext jaggeryContext = CommonManager.getJaggeryContext();
         Stack<String> includesCallstack = CommonManager.getCallstack(jaggeryContext);
-        ServletContext context = (ServletContext) jaggeryContext.getProperty(WebAppManager.SERVLET_CONTEXT);
+        ServletContext context = (ServletContext) jaggeryContext.getProperty(Constants.SERVLET_CONTEXT);
         String parent = includesCallstack.lastElement();
         try {
             String keys[] = WebAppManager.getKeys(context.getContextPath(), parent, fileURL);
@@ -161,12 +165,9 @@ public class WebAppFile implements JavaScriptFile {
             return null;
         }
         try {
-            StringBuffer buffer = new StringBuffer();
-            long length = file.length();
-            for (long i = 0; (i < count) && (i < length); i++) {
-                buffer.append((char) file.readByte());
-            }
-            return buffer.toString();
+            byte[] arr = new byte[(int) min(count, file.length())];
+            file.readFully(arr);
+            return new String(arr, "UTF-8");
         } catch (IOException e) {
             log.error(e.getMessage(), e);
             throw new ScriptException(e);
@@ -185,6 +186,24 @@ public class WebAppFile implements JavaScriptFile {
         }
         try {
             file.writeBytes(data);
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+            throw new ScriptException(e);
+        }
+    }
+
+    @Override
+    public void write(InputStream data) throws ScriptException {
+        if (!opened) {
+            log.warn("You need to open the file for writing");
+            return;
+        }
+        if (!writable) {
+            log.warn("File has not opened in a writable mode.");
+            return;
+        }
+        try {
+            IOUtils.copy(data, new FileOutputStream(file.getFD()));
         } catch (IOException e) {
             log.error(e.getMessage(), e);
             throw new ScriptException(e);
@@ -295,6 +314,11 @@ public class WebAppFile implements JavaScriptFile {
 
     @Override
     public String getPath() throws ScriptException {
+        return this.path;
+    }
+
+    @Override
+    public String getURI() throws ScriptException {
         return this.path;
     }
 

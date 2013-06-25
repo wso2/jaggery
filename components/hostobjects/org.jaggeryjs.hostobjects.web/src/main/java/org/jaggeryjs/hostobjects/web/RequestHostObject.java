@@ -13,12 +13,16 @@ import org.jaggeryjs.scriptengine.engine.JaggeryContext;
 import org.jaggeryjs.scriptengine.engine.RhinoEngine;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
-import org.mozilla.javascript.*;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Function;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.security.Principal;
 import java.util.*;
 
 /**
@@ -106,6 +110,24 @@ public class RequestHostObject extends ScriptableObject {
         }
     }
 
+    public static Object jsFunction_getStream(Context cx, Scriptable thisObj, Object[] args, Function funObj)
+            throws ScriptException {
+        String functionName = "getStream";
+        int argsCount = args.length;
+        if (argsCount != 0) {
+            HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
+        }
+
+        RequestHostObject rho = (RequestHostObject) thisObj;
+        try {
+            return cx.newObject(thisObj, "Stream", new Object[]{rho.request.getInputStream()});
+        } catch (IOException e) {
+            String msg = "Error occurred while reading Servlet InputStream";
+            log.warn(msg, e);
+            throw new ScriptException(msg, e);
+        }
+    }
+
     public static String jsFunction_getMethod(Context cx, Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException {
         String functionName = "getMethod";
@@ -116,6 +138,22 @@ public class RequestHostObject extends ScriptableObject {
 
         RequestHostObject rho = (RequestHostObject) thisObj;
         return rho.request.getMethod();
+    }
+
+    public static String jsFunction_getUser(Context cx, Scriptable thisObj, Object[] args, Function funObj)
+            throws ScriptException {
+        String functionName = "getUser";
+        int argsCount = args.length;
+        if (argsCount != 0) {
+            HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
+        }
+
+        RequestHostObject rho = (RequestHostObject) thisObj;
+        Principal principle = rho.request.getUserPrincipal();
+        if (principle == null) {
+            return null;
+        }
+        return principle.getName();
     }
 
     public static String jsFunction_getContextPath(Context cx, Scriptable thisObj, Object[] args, Function funObj)
@@ -324,16 +362,22 @@ public class RequestHostObject extends ScriptableObject {
         return rho.request.getLocale().getLanguage();
     }
 
-    public static String jsFunction_getAllLocales(Context cx, Scriptable thisObj, Object[] args, Function funObj)
+    public static Scriptable jsFunction_getAllLocales(Context cx, Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException {
-        String functionName = "getLocale";
+        String functionName = "getAllLocales";
         int argsCount = args.length;
         if (argsCount != 0) {
             HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
         }
 
         RequestHostObject rho = (RequestHostObject) thisObj;
-        return rho.request.getLocale().getLanguage();
+        Enumeration<Locale> locales = rho.request.getLocales();
+        Scriptable localesOut = cx.newObject(thisObj);
+        while (locales.hasMoreElements()) {
+            Locale localname = locales.nextElement();
+            localesOut.put(localname.getLanguage(), localesOut, rho.request.getLocales());
+        }
+        return localesOut;
     }
 
     public static int jsFunction_getLocalPort(Context cx, Scriptable thisObj, Object[] args, Function funObj)
@@ -348,7 +392,7 @@ public class RequestHostObject extends ScriptableObject {
         return rho.request.getLocalPort();
     }
 
-    public static String jsFunction_getParameter(Context cx, Scriptable thisObj, Object[] args, Function funObj)
+    public static Object jsFunction_getParameter(Context cx, Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException {
         String functionName = "getParameter";
         int argsCount = args.length;
@@ -365,7 +409,7 @@ public class RequestHostObject extends ScriptableObject {
         String parameter = (String) args[0];
         RequestHostObject rho = (RequestHostObject) thisObj;
         if (!rho.isMultipart) {
-            return rho.request.getParameter(parameter);
+            return getParameter(parameter, rho.request, rho);
         }
         parseMultipart(rho);
         FileItem item = rho.parameterMap.get(parameter);
@@ -455,7 +499,7 @@ public class RequestHostObject extends ScriptableObject {
         Enumeration params = rho.request.getParameterNames();
         while (params.hasMoreElements()) {
             String name = (String) params.nextElement();
-            rho.parameters.put(name, rho.parameters, rho.request.getParameter(name));
+            rho.parameters.put(name, rho.parameters, getParameter(name, rho.request, rho));
         }
     }
 
@@ -471,9 +515,14 @@ public class RequestHostObject extends ScriptableObject {
         }
         RequestHostObject rho = (RequestHostObject) thisObj;
         if (rho.cookies == null) {
+            rho.cookies = rho.context.newObject(rho);
             parseCookies(cx, thisObj, rho);
         }
-        return (Scriptable) rho.cookies.get((String) args[0], rho.cookies);
+        if (rho.cookies.get((String) args[0], rho.cookies) != NOT_FOUND) {
+            return (Scriptable) rho.cookies.get((String) args[0], rho.cookies);
+        } else {
+            return null;
+        }
     }
 
     public static Scriptable jsFunction_getAllCookies(Context cx, Scriptable thisObj, Object[] args, Function funObj)
@@ -485,6 +534,7 @@ public class RequestHostObject extends ScriptableObject {
         }
         RequestHostObject rho = (RequestHostObject) thisObj;
         if (rho.cookies == null) {
+            rho.cookies = cx.newObject(rho);
             parseCookies(cx, thisObj, rho);
         }
         return rho.cookies;
@@ -508,17 +558,30 @@ public class RequestHostObject extends ScriptableObject {
     }
 
     private static void parseCookies(Context cx, Scriptable thisObj, RequestHostObject rho) {
-        for (Cookie cookie : rho.request.getCookies()) {
-            Scriptable o = cx.newObject(thisObj);
-            o.put("name", o, cookie.getName());
-            o.put("value", o, cookie.getValue());
-            o.put("comment", o, cookie.getComment());
-            o.put("domain", o, cookie.getDomain());
-            o.put("maxAge", o, cookie.getMaxAge());
-            o.put("path", o, cookie.getPath());
-            o.put("secure", o, cookie.getSecure());
-            o.put("version", o, cookie.getVersion());
-            rho.cookies.put(cookie.getName(), rho.cookies, o);
+        if (rho.request.getCookies() != null) {
+            for (Cookie cookie : rho.request.getCookies()) {
+                Scriptable o = cx.newObject(thisObj);
+                o.put("name", o, cookie.getName());
+                o.put("value", o, cookie.getValue());
+                o.put("comment", o, cookie.getComment());
+                o.put("domain", o, cookie.getDomain());
+                o.put("maxAge", o, cookie.getMaxAge());
+                o.put("path", o, cookie.getPath());
+                o.put("secure", o, cookie.getSecure());
+                o.put("version", o, cookie.getVersion());
+                rho.cookies.put(cookie.getName(), rho.cookies, o);
+            }
         }
+    }
+
+    private static Object getParameter(String name, HttpServletRequest request, Scriptable scope) {
+        String[] values = request.getParameterValues(name);
+        if (values == null) {
+            return null;
+        }
+        if (values.length == 1) {
+            return values[0];
+        }
+        return Context.javaToJS(values, scope);
     }
 }

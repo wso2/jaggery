@@ -18,6 +18,8 @@ public interface JavaScriptFile {
 
     public void write(String data) throws ScriptException;
 
+    public void write(InputStream data) throws ScriptException;
+
     public String readAll() throws ScriptException;
 
     public boolean move(String dest) throws ScriptException;
@@ -45,6 +47,8 @@ public interface JavaScriptFile {
     public boolean isDirectory() throws ScriptException;
 
     public String getPath() throws ScriptException;
+
+    public String getURI() throws ScriptException;
 
     public ArrayList<String> listFiles() throws ScriptException;
 }

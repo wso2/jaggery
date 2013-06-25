@@ -62,25 +62,23 @@ include('/includes/topnavi.jag');
 
                 <pre class="prettyprint linenums">
 &lt%
-var blogURL = "http://madhukaudantha.blogspot.com/feeds/posts/default";
-
+var blogURL = "http://madhukaudantha.blogspot.com/feeds/posts/default"; 
 var feed= new Feed(blogURL);
-
-print("Feed Title : " + feed.title + "&lt;br/&gt");
-print("Feed author is : " + feed.authors[0] + "&lt;br/&gt");
-
-print("First five entries are :");
+ 
+print("Feed Title : " + feed.title + "&ltbr/&gt");
+print("Feed author is : " + feed.authors[0] + "&ltbr/&gt");
+ 
+print("First five entries are :&lt/br&gt");
 var entries = feed.entries;
-
+ 
 for(var i=0;i &lt 5; i++) {
 	var entry = entries[i];
 %&gt
 	&lttr&gt
-        &lttd&gt&lt%=entry.title%&gt&lt/td&gt
+        &lttd&gt&lt%=entry.title%&gt&lt/br&gt&lt/td&gt
         &lt/tr&gt
 &lt%
-}
-
+} 
 %&gt
 </pre>
                 <%
@@ -144,64 +142,128 @@ for(var i=0;i &lt 5; i++) {
                     <pre class="prettyprint">feed.entries;</pre>
                     Returns the complete set of entries contained in this feed.
 					<pre class="prettyprint">feed.entries = entryList;</pre>
-                    setting a entry list for to feed.
+                    setting an entry list for to feed.
                     </td>
+                </tr>
+ 		<tr>
+                    <td>
+                    <code>author</code>
+                    </td>
+                    <td>String</td>
+                    <td>
+		    <pre class="prettyprint">feed.author</pre>
+                    Returns the author of the feed.
+					<pre class="prettyprint">feed.author = "author1";</pre>
+                    Setting an author to the feed.
+		    </td>
                 </tr>
                 <tr>
                     <td>
                     <code>authors</code>
                     </td>
                     <td>String [ ]</td>
-                    <td>get/set authors</td>
+                    <td>
+		    <pre class="prettyprint">feed.authors[i]</pre>
+                    Returns the i th author of the feed.
+					<pre class="prettyprint">feed.authors = ["author1","author2"];</pre>
+                    Setting an array of authors to the feed.
+		    </td>
                 </tr>
                 <tr>
                     <td>
-                    <code>categoryies</code>
+                    <code>category</code>
                     </td>
                     <td>String [ ]</td>
-                    <td>get/set categories</td>
+                    <td>
+		     <pre class="prettyprint">feed.category[i]</pre>
+                    Returns the i th category of the feed.
+					<pre class="prettyprint">feed.category = ["cat1","cat2"];</pre>
+                    Setting an array of categories to the feed.
+		    </td>
                 </tr>
                 <tr>
                     <td>
                     <code>contributors</code>
                     </td>
                     <td>String [ ]</td>
-                    <td>get/set contributors</td>
+                    <td>
+		     <pre class="prettyprint">feed.contributors[i]</pre>
+                    Returns the i th contributor of the feed.
+					<pre class="prettyprint">feed.contributors = ["cont1","cont2"];</pre>
+                    Setting an array of contributor to the feed.
+		    </td>
                 </tr>
                 <tr>
                     <td>
                     <code>logo</code>
                     </td>
                     <td>String</td>
-                    <td>The logo of this feed.</td>
+                    <td>
+		     <pre class="prettyprint">feed.logo</pre>
+                    Returns the logo of this feed.
+					<pre class="prettyprint">feed.logo = "http://abc.blogspot.com/Blogger-logo.png";
+		    </td>
                 </tr>
                 <tr>
                     <td>
                     <code>icon</code>
                     </td>
                     <td>String</td>
-                    <td>get/set the icon URL of this feed</td>
+                    <td>
+		    <pre class="prettyprint">feed.icon</pre>
+                    Returns the icon URL of this feed.
+					<pre class="prettyprint">feed.icon = "http://abc.blogspot.com/RSS_Feed_Button.jpg";</pre>
+                    Setting icon URL of this feed.
+		    </td>
                 </tr>
                 <tr>
                     <td>
                     <code>links</code>
                     </td>
                     <td>String [ ]</td>
-                    <td>The location of the feed.</td>
+                    <td>
+		    <pre class="prettyprint">feed.links[i]</pre>
+                    Returns the i th location of the feed.
+					<pre class="prettyprint">feed.links = ["link1","link2"];</pre>
+                    Setting locations of the feed.
+		    </td>
                 </tr>
                 <tr>
                     <td>
                     <code>title</code>
                     </td>
                     <td>String</td>
-                    <td>The title of the feed.</td>
+                    <td>
+		     <pre class="prettyprint">feed.title</pre>
+                    Returns the title of the feed.
+					<pre class="prettyprint">feed.title = "title";</pre>
+                    Setting the title of the feed.
+		    </td>
+                </tr>
+		 <tr>
+                    <td>
+                    <code>rights</code>
+                    </td>
+                    <td>String</td>
+                    <td>
+		     <pre class="prettyprint">feed.rights</pre>
+                    Returns the rights of the feed.
+					<pre class="prettyprint">feed.rights = "rights";</pre>
+                    Setting the rights for the feed.
+		    </td>
                 </tr>
                 <tr>
                     <td>
                     <code>updated</code>
                     </td>
                     <td>Date</td>
-                    <td>The date when last updated</td>
+                    <td>
+		     <pre class="prettyprint">feed.updated</pre>
+                    Returns the last updated date of the feed.
+					<pre class="prettyprint">var d1 = new Date("March 13, 2013 11:13:00")
+feed.updated = d1;</pre>
+                    Setting the last updated date of the feed.
+		    </td>
                 </tr>
 
                      </tbody>
@@ -226,21 +288,29 @@ for(var i=0;i &lt 5; i++) {
                     <code>Feed([url])</code>
                     </td>
                     <td>Feed</td>
-                    <td>Returns a Feed object</td>
+                    <td>
+		     <pre class="prettyprint">var feed= new Feed(blogURL);</pre>
+			Returns a Feed object
+		    </td>
                 </tr>
                 <tr>
                     <td>
                     <code>toXML()</code>
                     </td>
                     <td>XML</td>
-                    <td>Returns the E4X XML contents of this Feed object.</td>
+                    <td>
+ 		     <pre class="prettyprint">feed.toXML()</pre>
+			Returns the E4X XML contents of this Feed object.
+		    </td>
                 </tr>
                 <tr>
                     <td>
                     <code>toString()</code>
                     </td>
                     <td>String</td>
-                    <td>Returns the string representation of the feed</td>
+                    <td>  <pre class="prettyprint">feed.toString()</pre>
+			Returns the String representation of the feed
+		    </td>
                 </tr>
     <tbody>
     </table>

@@ -11,12 +11,12 @@ var context = request.getContextPath();
                 <li id="howto"><a href="<%=context%>/howto.jag">Quick Start</a></li>
                 <li id="docs"><a href="<%=context%>/documentation.jag">Documentation</a></li>
 
-                <li id="docs"><a href="<%=context%>/tools.jag">Tools</a></li>
+                <li id="tool"><a href="<%=context%>/tools.jag">Tools</a></li>
 
                 <li id="samples"><a href="<%=context%>/samples.jag">Samples</a></li>
                 <li id="tryit"><a href="<%=context%>/tryitview.jag">Try It !</a></li>
             </ul>
-	    <a class="forkme" href="https://github.com/wso2/jaggery/fork">Fork me!</a>
+	    <a class="forkme" href="https://github.com/wso2/jaggery">Fork me!</a>
         </div>
     </div>
 </div>

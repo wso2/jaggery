@@ -1,7 +1,9 @@
 package org.jaggeryjs.hostobjects.file;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jaggeryjs.hostobjects.stream.StreamHostObject;
 import org.jaggeryjs.scriptengine.EngineConstants;
 import org.jaggeryjs.scriptengine.engine.JaggeryContext;
 import org.jaggeryjs.scriptengine.engine.RhinoEngine;
@@ -11,10 +13,16 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
+import org.wso2.carbon.utils.CarbonUtils;
 
+import javax.activation.FileTypeMap;
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FileHostObject extends ScriptableObject {
 
@@ -23,6 +31,9 @@ public class FileHostObject extends ScriptableObject {
     private static final String hostObjectName = "File";
 
     public static final String JAVASCRIPT_FILE_MANAGER = "hostobjects.file.filemanager";
+
+    private static final String RESOURCE_MEDIA_TYPE_MAPPINGS_FILE = "mime.types";
+    private static boolean mimeMapLoaded = false;
 
     private JavaScriptFile file = null;
 
@@ -76,9 +87,15 @@ public class FileHostObject extends ScriptableObject {
         if (argsCount != 1) {
             HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
         }
-        String data = HostObjectUtil.serializeObject(args[0]);
+        Object data = args[0];
         FileHostObject fho = (FileHostObject) thisObj;
-        fho.file.write(data);
+        if (data instanceof InputStream) {
+            fho.file.write((InputStream) data);
+        } else if (data instanceof StreamHostObject) {
+            fho.file.write(((StreamHostObject) data).getStream());
+        } else {
+            fho.file.write(HostObjectUtil.serializeObject(args[0]));
+        }
     }
 
     public static String jsFunction_read(Context cx, Scriptable thisObj, Object[] args, Function funObj)
@@ -130,7 +147,8 @@ public class FileHostObject extends ScriptableObject {
         }
 
         FileHostObject fho = (FileHostObject) thisObj;
-        return fho.file.move((String) args[0]);
+        String dest = fho.manager.getJavaScriptFile(args[0]).getPath();
+        return fho.file.move(dest);
     }
 
     public static boolean jsFunction_saveAs(Context cx, Scriptable thisObj, Object[] args, Function funObj)
@@ -145,7 +163,8 @@ public class FileHostObject extends ScriptableObject {
         }
 
         FileHostObject fho = (FileHostObject) thisObj;
-        return fho.file.saveAs((String) args[0]);
+        String dest = fho.manager.getJavaScriptFile(args[0]).getPath();
+        return fho.file.saveAs(dest);
     }
 
     public static boolean jsFunction_del(Context cx, Scriptable thisObj, Object[] args, Function funObj)
@@ -211,7 +230,64 @@ public class FileHostObject extends ScriptableObject {
             HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
         }
         FileHostObject fho = (FileHostObject) thisObj;
+
+        if (!mimeMapLoaded) {
+            FileTypeMap.setDefaultFileTypeMap(loadMimeMap());
+            mimeMapLoaded = true;
+        }
+
         return fho.file.getContentType();
+    }
+
+    private static FileTypeMap loadMimeMap() throws ScriptException {
+        String configDirPath = CarbonUtils.getEtcCarbonConfigDirPath();
+        File configFile = new File(configDirPath, RESOURCE_MEDIA_TYPE_MAPPINGS_FILE);
+        if (!configFile.exists()) {
+            String msg = "Resource media type definitions file (mime.types) file does " +
+                    "not exist in the path " + configDirPath;
+            log.error(msg);
+            throw new ScriptException(msg);
+        }
+
+
+        final Map<String, String> mimeMappings = new HashMap<String, String>();
+
+        final String mappings;
+        try {
+            mappings = FileUtils.readFileToString(configFile, "UTF-8");
+        } catch (IOException e) {
+            String msg = "Error opening resource media type definitions file " +
+                    "(mime.types) : " + e.getMessage();
+            throw new ScriptException(msg, e);
+        }
+        String[] lines = mappings.split("[\\r\\n]+");
+        for (String line : lines) {
+            if (!line.startsWith("#")) {
+                String[] parts = line.split("\\s+");
+                for (int i = 1; i < parts.length; i++) {
+                    mimeMappings.put(parts[i], parts[0]);
+                }
+            }
+        }
+
+        return new FileTypeMap() {
+            @Override
+            public String getContentType(File file) {
+                return getContentType(file.getName());
+            }
+
+            @Override
+            public String getContentType(String fileName) {
+                int i = fileName.lastIndexOf('.');
+                if (i > 0) {
+                    String mimeType = mimeMappings.get(fileName.substring(i + 1));
+                    if (mimeType != null) {
+                        return mimeType;
+                    }
+                }
+                return "application/octet-stream";
+            }
+        };
     }
 
     public static Scriptable jsFunction_getStream(Context cx, Scriptable thisObj, Object[] args, Function funObj)
@@ -259,7 +335,7 @@ public class FileHostObject extends ScriptableObject {
             HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
         }
         FileHostObject fho = (FileHostObject) thisObj;
-        return fho.file.getPath();
+        return fho.file.getURI();
     }
 
     public static boolean jsFunction_mkdir(Context cx, Scriptable thisObj, Object[] args, Function funObj) throws ScriptException {

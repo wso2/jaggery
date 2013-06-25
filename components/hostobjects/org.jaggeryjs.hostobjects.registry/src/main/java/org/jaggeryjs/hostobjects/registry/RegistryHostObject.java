@@ -25,6 +25,7 @@ import org.jaggeryjs.scriptengine.util.HostObjectUtil;
 import org.mozilla.javascript.*;
 import org.wso2.carbon.CarbonException;
 import org.wso2.carbon.context.CarbonContext;
+import org.wso2.carbon.context.PrivilegedCarbonContext;
 import org.wso2.carbon.registry.api.RegistryException;
 import org.wso2.carbon.registry.common.ResourceData;
 import org.wso2.carbon.registry.common.TagCount;
@@ -346,11 +347,11 @@ public class RegistryHostObject extends ScriptableObject {
             HostObjectUtil.invalidArgsError(hostObjectName, functionName, "1", "string", args[0], false);
         }
         try {
-            List<NativeObject> commentsArray = new ArrayList<NativeObject>();
+            List<ScriptableObject> commentsArray = new ArrayList<ScriptableObject>();
             RegistryHostObject registryHostObject = (RegistryHostObject) thisObj;
             Comment[] comments = registryHostObject.registry.getComments((String) args[0]);
             for (Comment comment : comments) {
-                NativeObject commentObj = new NativeObject();
+                ScriptableObject commentObj = (ScriptableObject) cx.newObject(thisObj);
                 commentObj.put("cid", commentObj, comment.getCommentID());
                 commentObj.put("author", commentObj, comment.getUser());
                 commentObj.put("content", commentObj, comment.getText());
@@ -413,28 +414,28 @@ public class RegistryHostObject extends ScriptableObject {
             Registry configRegistry = RegistryHostObjectContext.getRegistryService().getConfigSystemRegistry(tenantId);
             AdvancedSearchResultsBean resultsBean = registryHostObject.search(configRegistry, userRegistry, parameters);
             if (resultsBean.getResourceDataList() == null) {
-                NativeObject error = new NativeObject();
+                ScriptableObject error = (ScriptableObject) cx.newObject(thisObj);
                 error.put("error", error, true);
                 error.put("description", error, resultsBean.getErrorMessage());
                 return error;
             }
-            List<NativeObject> results = new ArrayList<NativeObject>();
+            List<ScriptableObject> results = new ArrayList<ScriptableObject>();
             for (ResourceData resourceData : resultsBean.getResourceDataList()) {
                 String resourcePath = resourceData.getResourcePath();
                 if (path != null && !resourcePath.startsWith(path)) {
                     continue;
                 }
-                NativeObject result = new NativeObject();
+                ScriptableObject result = (ScriptableObject) cx.newObject(thisObj);
                 result.put("author", result, resourceData.getAuthorUserName());
                 result.put("rating", result, resourceData.getAverageRating());
                 result.put("created", result, resourceData.getCreatedOn().getTime().getTime());
                 result.put("description", result, resourceData.getDescription());
                 result.put("name", result, resourceData.getName());
                 result.put("path", result, resourceData.getResourcePath());
-                List<NativeObject> tags = new ArrayList<NativeObject>();
+                List<ScriptableObject> tags = new ArrayList<ScriptableObject>();
                 if (resourceData.getTagCounts() != null) {
                     for (TagCount tagCount : resourceData.getTagCounts()) {
-                        NativeObject tag = new NativeObject();
+                        ScriptableObject tag = (ScriptableObject) cx.newObject(thisObj);
                         tag.put("name", tag, tagCount.getKey());
                         tag.put("count", tag, tagCount.getValue());
                         tags.add(tag);
@@ -662,13 +663,7 @@ public class RegistryHostObject extends ScriptableObject {
         UserRegistry registry;
         RegistryService registryService = RegistryHostObjectContext.getRegistryService();
 
-        String tDomain;
-        try {
-            tDomain = username.split("@")[1];
-        } catch (ArrayIndexOutOfBoundsException e) {
-            //if tenant domain is not present in the username we treat is as a super user
-            tDomain = "carbon.super";
-        }
+        String tDomain = PrivilegedCarbonContext.getCurrentContext().getTenantDomain(false);
 
         try {
             int tId = RegistryHostObjectContext.getRealmService().getTenantManager().getTenantId(tDomain);
@@ -688,13 +683,7 @@ public class RegistryHostObject extends ScriptableObject {
         UserRegistry registry;
         RegistryService registryService = RegistryHostObjectContext.getRegistryService();
 
-        String tDomain;
-        try {
-            tDomain = username.split("@")[1];
-        } catch (ArrayIndexOutOfBoundsException e) {
-            //if tenant domain is not present in the username we treat is as a super user
-            tDomain = "carbon.super";
-        }
+        String tDomain = PrivilegedCarbonContext.getCurrentContext().getTenantDomain(false);
 
         try {
             int tId = RegistryHostObjectContext.getRealmService().getTenantManager().getTenantId(tDomain);

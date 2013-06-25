@@ -58,7 +58,6 @@ include('/includes/navi.jag');
         <div class="span12">
             <div class="content" id="print" name="print">
                 <h3>require()</h3>
-                <br/>
 <pre class="prettyprint linenums">
 &lt;%
 var core = require("core");

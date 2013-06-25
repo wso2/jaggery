@@ -143,7 +143,7 @@ include('/includes/topnavi.jag');
                             <pre class="prettyprint">response.content = { products : ["Jaggery", "ESB"] };</pre>
                             <pre class="prettyprint">response.content = "My response content";</pre>
                             <p>Sets response content</p>
-                            <p>If any thing other that strings are assigned, then they will be automatically serialized.</p>
+                            <p>If any thing other than Strings are assigned, then they will be automatically serialized.</p>
                         </td>
 
                     </tr>

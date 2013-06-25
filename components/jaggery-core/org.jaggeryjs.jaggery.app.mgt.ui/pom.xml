@@ -79,7 +79,6 @@
                             !org.jaggeryjs.jaggery.app.mgt.ui.*,
                             org.jaggeryjs.jaggery.app.mgt.stub.*;version="${pom.version}",
                             org.apache.axis2.*; version="${axis2.osgi.version}",
-                            org.apache.axiom.*; version="${axiom-e4x.osgi.version}",
                             *;resolution:=optional
                         </Import-Package>
                     </instructions>

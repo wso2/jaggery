@@ -253,7 +253,7 @@ include('/includes/tryit_but.jag');
     </tr>
     <tr>
 
-    <td><code>open ( object options | String httpMethod, String url [, boolean async [, String
+    <td><code>open ( object options | String httpMethod, String url [, Boolean async [, String
         username [, String password]]])</code></td>
     <td>None</td>
     <td>This method prepares the WSRequest object to invoke a
@@ -402,14 +402,14 @@ include('/includes/tryit_but.jag');
             </li>
             <li>HTTPHeaders - Used to specify custom HTTP headers to be send with the request. This should be an array
                 of elements. The value for this property should be in the following format. Both name and value
-                properties should be strings.
+                properties should be Strings.
                 <pre class="prettyprint">options["HTTPHeaders"] = [ { name : "HEADER1", value : "VALUE1"}, { name : "HEADER2", value : "VALUE2"}, .....]; </pre>
 
             </li>
             <li>
                 SOAPHeaders - Used to specify custom SOAP headers to be send along with the SOAP message. This should be
                 an array of elements. You can specify a header as an XML object or just as an object in the following
-                structure. valueObject could be either a string or an XML object
+                structure. valueObject could be either a String or an XML object
                     <pre class="prettyprint">options["HTTPHeaders"] = [
         &lt;MyHeader1 xmlns="http://example.com"&gt;headerValue&lt;/MyHeader1&gt;,
         ...................................
@@ -419,16 +419,16 @@ include('/includes/tryit_but.jag');
             </li>
         </ul>
         <ul>
-            <li><em>httpMethod</em>(string): the
+            <li><em>httpMethod</em>(String): the
                 httpMethod to be used when the operation is invoked.
             </li>
-            <li><em>url</em>(string): a URL
+            <li><em>url</em>(String): a URL
                 representing where to send the message.
                 <br><br>
             </li>
             <li>
                 <em>async</em>
-                (boolean): a boolean flag
+                (boolean): a Boolean flag
                 representing whether the operation should be invoked asynchrounously or
                 not. Defaults to true.
             </li>
@@ -469,7 +469,7 @@ include('/includes/tryit_but.jag');
             <br><br>
             <ul>
                 <li><em>payload</em>: an XML object or a
-                    string containing the XML source for the request.
+                    String containing the XML source for the request.
                 </li>
             </ul>
 
@@ -478,7 +478,7 @@ include('/includes/tryit_but.jag');
     </tr>
     <tr>
 
-        <td><code>openWSDL ( String wsdlURL, ?boolean async, [Object options,[QName serviceName, [String
+        <td><code>openWSDL ( String wsdlURL, Boolean async, [Object options,[QName serviceName, [String
             endpointName]]]) </code>
         </td>
         <td>None</td>
@@ -501,12 +501,12 @@ include('/includes/tryit_but.jag');
             <ul>
                 <li>
                     <span style="font-style: italic;">wsdlURL</span>
-                    (string) - The url at which the WSDL is available at. Currently
+                    (String) - The url at which the WSDL is available at. Currently
                     supports WSDL 1.1
                 </li>
                 <li>
                     <em>async</em>
-                    (boolean): A boolean flag
+                    (boolean): A Boolean flag
                     representing whether the operation should be invoked asynchrounously or
                     not.
                 </li>
@@ -579,7 +579,7 @@ include('/includes/tryit_but.jag');
                 <li>
                     <em>payload</em>
                     : an XML object or a
-                    string containing the XML source for the request.
+                    String containing the XML source for the request.
                 </li>
             </ul>
         </td>

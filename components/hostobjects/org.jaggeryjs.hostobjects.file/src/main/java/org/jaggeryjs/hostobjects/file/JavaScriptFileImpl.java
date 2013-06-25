@@ -1,20 +1,16 @@
 package org.jaggeryjs.hostobjects.file;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 
 import javax.activation.FileTypeMap;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.RandomAccessFile;
+import java.io.*;
 import java.util.ArrayList;
+
+import static java.lang.Math.min;
 
 public class JavaScriptFileImpl implements JavaScriptFile {
 
@@ -144,12 +140,9 @@ public class JavaScriptFileImpl implements JavaScriptFile {
             return null;
         }
         try {
-            StringBuffer buffer = new StringBuffer();
-            long length = file.length();
-            for (long i = 0; (i < count) && (i < length); i++) {
-                buffer.append((char) file.readByte());
-            }
-            return buffer.toString();
+            byte[] arr = new byte[(int) min(count, file.length())];
+            file.readFully(arr);
+            return new String(arr, "UTF-8");
         } catch (IOException e) {
             log.error(e.getMessage(), e);
             throw new ScriptException(e);
@@ -168,6 +161,24 @@ public class JavaScriptFileImpl implements JavaScriptFile {
         }
         try {
             file.writeBytes(data);
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+            throw new ScriptException(e);
+        }
+    }
+
+    @Override
+    public void write(InputStream data) throws ScriptException {
+        if (!opened) {
+            log.warn("You need to open the file for writing");
+            return;
+        }
+        if (!writable) {
+            log.warn("File has not opened in a writable mode.");
+            return;
+        }
+        try {
+            IOUtils.copy(data, new FileOutputStream(file.getFD()));
         } catch (IOException e) {
             log.error(e.getMessage(), e);
             throw new ScriptException(e);
@@ -276,6 +287,10 @@ public class JavaScriptFileImpl implements JavaScriptFile {
     }
 
     public String getPath() throws ScriptException {
+        return path;
+    }
+
+    public String getURI() throws ScriptException {
         return uri;
     }
 

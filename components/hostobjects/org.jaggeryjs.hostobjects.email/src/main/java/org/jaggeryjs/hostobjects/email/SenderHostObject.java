@@ -1,33 +1,24 @@
 package org.jaggeryjs.hostobjects.email;
 
+import org.apache.axiom.om.OMElement;
+import org.apache.axiom.om.OMNode;
+import org.apache.axiom.om.impl.llom.util.AXIOMUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.hostobjects.file.FileHostObject;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Function;
-import org.mozilla.javascript.NativeArray;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
-import org.apache.axiom.om.OMNode;
-import org.apache.axiom.om.OMElement;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
-import org.wso2.javascript.xmlimpl.XML;
+import org.mozilla.javascript.*;
+import org.mozilla.javascript.xml.XMLObject;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
-import javax.mail.Address;
-import javax.mail.BodyPart;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
+import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -361,8 +352,13 @@ public class SenderHostObject extends ScriptableObject {
     public void jsSet_html(Object html) throws ScriptException {
         if (html instanceof String) {
             this.html = (String) html;
-        } else if (html instanceof XML) {
-            OMNode node = ((XML) html).getAxiomFromXML();
+        } else if (html instanceof XMLObject) {
+            OMNode node = null;
+            try {
+                node = AXIOMUtil.stringToOM(html.toString());
+            } catch (XMLStreamException e) {
+                throw new ScriptException(e);
+            }
             if (node instanceof OMElement) {
                 OMElement htmlElement = (OMElement) node;
                 this.html = htmlElement.toString();

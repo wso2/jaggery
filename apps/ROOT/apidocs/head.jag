@@ -183,7 +183,7 @@ var email = new Email("smtp.gmail.com", "25",
 
     <tr>
 
-        <td><code>void from(string from)</code>*</td>
+        <td><code>void from(String from)</code>*</td>
         <td>Sometype</td>
         <td>An optional property to set the "from" address of the
             email to be sent. If not set the user account used to
@@ -201,7 +201,7 @@ var email = new Email("smtp.gmail.com", "25",
         <td>sometype</td>
         <td>This is a required property that denotes the "to"
             address of the email to be sent. (Optionally an array of
-            strings denoting the "to" addresses can be passed as below.) <br><br>
+            Strings denoting the "to" addresses can be passed as below.) <br><br>
             <pre class="prettyprint">email.to = "nuwan@wso2.com"; </pre>
         </td>
 
@@ -213,7 +213,7 @@ var email = new Email("smtp.gmail.com", "25",
         </td>
          <td>Sometype</td>
         <td>This is a required property that denotes the "to"
-            addresses of the email to be sent. (Optionally a string
+            addresses of the email to be sent. (Optionally a String
             denoting a single "to" address can be passed as above.) <br>
             <br>
 <pre class="prettyprint">

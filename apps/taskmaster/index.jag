@@ -55,8 +55,10 @@
 <!-- here comes the javascript -->
 
 <!-- Grab Google CDN's jQuery. fall back to local if necessary -->
-<script src="jquery.min.js"></script>
-
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type='text/javascript'>
+  window.jQuery || document.write('<script src="js/jquery.min.js">\x3C/script>')
+</script>
 <script type="text/javascript">
 
 function getTime() {

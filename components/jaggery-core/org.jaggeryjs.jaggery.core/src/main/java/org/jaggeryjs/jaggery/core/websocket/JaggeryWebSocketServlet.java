@@ -40,13 +40,14 @@ public class JaggeryWebSocketServlet extends WebSocketServlet {
         WebAppManager.execute(request, response);
         JaggeryContext context = CommonManager.getJaggeryContext();
         Scriptable scope = context.getScope();
-        wsMessageInBound = new WSMessageInBound((WebSocketHostObject) scope.get("websocket", scope));
+        wsMessageInBound = new WSMessageInBound((WebSocketHostObject) scope.get("webSocket", scope));
         RhinoEngine.exitContext();
         super.doGet(request, response);
     }
 
     @Override
-    protected StreamInbound createWebSocketInbound(String s) {
+    protected StreamInbound createWebSocketInbound(String s, HttpServletRequest request) {
         return wsMessageInBound;
     }
+
 }

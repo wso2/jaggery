@@ -58,38 +58,59 @@
 </div>
 <div class="span12">
 <div class="content" id="email" name="email">
-<h3>Web Socket</h3>
-
+<h3>webSocket</h3>
+<h5>Server</h5>
             <pre class="prettyprint linenums">
 &lt%
-
 var log = new Log();
-websocket.ontext = function (data) {
+webSocket.ontext = function (data) {
     log.info('Client Sent : ' + data);
     var ws = this;
     setTimeout(function () {
-        ws.send(data);
-    }, 5000);
+       var currentDate = new Date();
+       ws.send("Server Receive message "+data+" on "+currentDate);
+    }, 1000);
 };
 
-websocket.onbinary = function (stream) {
+webSocket.onbinary = function (stream) {
     log.info('Client Streamed : ' + stream.toString());
 };
-
 %&gt
 </pre>
-<%
-var wsCode = '&lt%'
-+ '\n var log = new Log();'
-+ '\n	websocket.ontext = function (data) {'
-+ '\n 	}'
-+ '\n %&gt';
 
-var codeSnip = encodeURIComponent(wsCode)
-var urlString = '../tryitframe.jag?code='+codeSnip;
+<h5>Client</h5>
+<pre class="prettyprint linenums">
+&ltscript&gt
+var url = 'ws://localhost:9763/sample/ws/server.jag';
+function start() {
+ws = new WebSocket(url);
+ws.onopen = function() {
+	document.write("web Socket onopen. ");
+};
+//event handler for the message event in the case of text frames
+ws.onmessage = function(event) {
+	document.write("web Socket Onmessage from Server. " + event.data);
+};
+ws.onclose = function() {
+	document.write("web Socket onclose. ");
+};
+ws.onopen();
+var currentDate = new Date();
+  //send message to server
+  setTimeout(function() {
+	 ws.send("Client Timestamp "+currentDate);
+  }, 2000);
 
-include('/includes/tryit_but.jag');
-%>
+  //close socket from client
+  setTimeout(function() {
+	  ws.close();
+  }, 5000);
+
+}
+&lt/script&gt
+</pre>
+
+
 <div id="pageLinks">
                 <a class="navilink" href="#overview">Overview</a>
                 <a class="navilink" href="#members">Members</a>
@@ -99,7 +120,10 @@ include('/includes/tryit_but.jag');
 
 
                 <h4>Overview</h4>
-                <p class="description">The Web Socket... </p>
+                <p class="description">Jaggery websocket enables full duplex transmission and 
+                it supports <a href="http://dev.w3.org/html5/websockets/"> WebSocket specification</a>. It defines an API establishing "socket" connections
+                 between a web browser and a server. In Simple words, There is an persistent connection between
+                  the client and the server and both parties can start sending data at any time.</p>
 
                 </section>
 
@@ -121,11 +145,26 @@ include('/includes/tryit_but.jag');
 
 <tr>
 
-    <td><code>Scriptable ontext </code>
+    <td><code>ontext</code>
     </td>
      <td>Scriptable</td>
-    <td>This property can be set to a function Scriptable, 
+    <td><pre class="prettyprint">webSocket.ontext = function (data) {
+    log.info('Client sent : ' + data);
+ };</pre>
+    Create the instance that will process this inbound connection for text and allow to handle a GET request.
     </td>
+
+</tr>
+<tr>
+
+    <td><code>onbinary</code>
+    </td>
+     <td>Scriptable</td>
+    <td><pre class="prettyprint">webSocket.onbinary = function (stream) {    
+    log.info('Client Streamed : ' + stream.toString());
+ };</pre>
+    Create the instance that will process this inbound connection for stream.
+      </td>
 
 </tr>
 
@@ -145,9 +184,14 @@ include('/includes/tryit_but.jag');
     </tr>
     <tr>
 
-        <td><code>open (String text | StreamHostObject stream)</code></td>
+        <td><code>send (String text | Stream stream)</code></td>
 		<td>None</td>
-        <td>
+        <td>Sends data to the socket (inbound connection).<pre class="prettyprint">webSocket.ontext = function (data) {
+    var ws = this;
+    setTimeout(function () {
+        ws.send(data);
+    }, 5000);
+ };</pre>
         </td>
 
     </tr>
@@ -178,7 +222,7 @@ include('/includes/scripts.jag')
 	<script>	
 		
 		$(document).ready(function(){
-        $('#ws').toggleClass('active')
+        $('#webs').toggleClass('active')
 		$('#docs').addClass('active')
         })
 	</script>

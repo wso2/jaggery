@@ -64,7 +64,7 @@
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.admin.styles</bundleDef>
                             </bundles>
                             <importFeatures>
-                                <importFeatureDef>org.wso2.carbon.core.ui:4.0.0</importFeatureDef>
+                                <importFeatureDef>org.wso2.carbon.core.ui:${carbon.kernal.version}</importFeatureDef>
                             </importFeatures>
                         </configuration>
                     </execution>

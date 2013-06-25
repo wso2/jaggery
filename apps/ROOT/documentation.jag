@@ -58,7 +58,7 @@ include('/includes/topnavi.jag');
 
         </div>
         <div class="span12">
-            <p class="biggertext">So you want to write some code using Jaggery? Remember we are just at <code>0.9.0-SNAPSHOT</code>,
+            <p class="biggertext">So you want to write some code using Jaggery? Remember we are just at <code>0.9.0-ALPHA-3</code>,
                 We have provided all the basic useful APIs, so you can build cooler apps using this deliciously new
                 framework.
 
@@ -68,8 +68,8 @@ include('/includes/topnavi.jag');
                     href="mailto:contact@wso2.com">here</a></p>
 
             <ul class="quick-doc-links">
-                <li><img src="images/bugtrack_ico.png" alt=""/> <a href="https://wso2.org/jira/browse/JAGGERY">Report A Bug</a></li>
-                <li><img src="images/source_code_ico.png" alt=""/> <a href="https://svn.wso2.org/repos/wso2/trunk/graphite/products/jaggery/" parent="_blank">Download Source Code</a></li>
+                <li><img src="images/bugtrack_ico.png" alt=""/> <a href="https://github.com/wso2/jaggery/issues/new">Report A Bug</a></li>
+                <li><img src="images/source_code_ico.png" alt=""/> <a href="https://github.com/wso2/jaggery/" parent="_blank">Download Source Code</a></li>
 				<li><img src="images/mail-list.png" alt=""/> <a href="http://mail.jaggeryjs.org/cgi-bin/mailman/listinfo/dev" target="_blank">Join Our Mailing List</a></li>
                 
             </ul>

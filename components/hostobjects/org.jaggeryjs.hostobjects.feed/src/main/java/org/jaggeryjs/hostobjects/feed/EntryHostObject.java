@@ -24,9 +24,9 @@ import org.apache.abdera.model.Person;
 import org.apache.abdera.parser.stax.util.FOMHelper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.mozilla.javascript.*;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
-import org.wso2.javascript.xmlimpl.XML;
+import org.mozilla.javascript.*;
+import org.mozilla.javascript.xml.XMLObject;
 
 import java.util.Date;
 import java.util.List;
@@ -213,7 +213,7 @@ public class EntryHostObject extends ScriptableObject {
 
     //process content
     public void jsSet_content(Object content) {
-        if (content instanceof XML) {
+        if (content instanceof XMLObject) {
             entry.setContentAsXhtml(content.toString());
         } else {
             entry.setContent(String.valueOf(content));
@@ -338,7 +338,7 @@ public class EntryHostObject extends ScriptableObject {
 
     //process rights
     public void jsSet_rights(Object rights) {
-        if (rights instanceof XML) {
+        if (rights instanceof XMLObject) {
             entry.setRightsAsXhtml(rights.toString());
         } else {
             entry.setRights(String.valueOf(rights));
@@ -354,7 +354,7 @@ public class EntryHostObject extends ScriptableObject {
 
     //process summary
     public void jsSet_summary(Object summary) {
-        if (summary instanceof XML) {
+        if (summary instanceof XMLObject) {
             entry.setSummaryAsXhtml(summary.toString());
         } else {
             entry.setSummary(String.valueOf(summary));
@@ -370,7 +370,7 @@ public class EntryHostObject extends ScriptableObject {
 
     //process title
     public void jsSet_title(Object title) {
-        if (title instanceof XML) {
+        if (title instanceof XMLObject) {
             entry.setTitleAsXhtml(title.toString());
         } else {
             entry.setTitle(String.valueOf(title));
@@ -429,7 +429,7 @@ public class EntryHostObject extends ScriptableObject {
     public Scriptable jsFunction_toXML() {
 
         if (entry != null) {
-            Object[] objects = {entry};
+            Object[] objects = {entry.toString()};
             Scriptable xmlHostObject = context.newObject(this, "XML", objects);
             return xmlHostObject;
         }

@@ -114,7 +114,7 @@ var urlString = '../tryitframe.jag?code='+codeSnip;
     <section id="overview">
 
 <h4>Overview</h4>
-<p class="description"><code>JaggeryParser</code> provides the functionality of taking a well-formed jaggery string or stream and returns the resulting script stream.</p>
+<p class="description"><code>JaggeryParser</code> provides the functionality of taking a well-formed jaggery String or stream and returns the resulting script stream.</p>
 
 
 </section>

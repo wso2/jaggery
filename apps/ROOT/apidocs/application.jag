@@ -69,7 +69,6 @@ include('/includes/topnavi.jag');
 
     //Removing a property from application context
     application.remove('bar');
-
 %&gt
 </pre>
 
