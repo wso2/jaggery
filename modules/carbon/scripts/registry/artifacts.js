@@ -9,10 +9,11 @@
     var IOUtils = Packages.org.apache.commons.io.IOUtils;
 
     var buildArtifact = function (manager, artifact) {
-        return {
+		var data = {
             id: String(artifact.id),
             type: String(manager.type),
-            path: String(artifact.getPath()),
+			name: String(artifact.getAttribute('overview_name')),
+            path: "/_system/governance" + String(artifact.getPath()),
             lifecycle: artifact.getLifecycleName(),
             lifecycleState: artifact.getLifecycleState(),
             mediaType: String(artifact.getMediaType()),
@@ -26,11 +27,13 @@
                     attributes[name] = String(artifact.getAttribute(name));
                 }
                 return attributes;
-            }()),
-            content: function () {
-                return new Stream(new ByteArrayInputStream(artifact.getContent()));
-            }
-        };
+            }())};
+		if(artifact.getContent()!=null){
+			data.content = function () {
+				return new Stream(new ByteArrayInputStream(artifact.getContent()));
+            };
+		}
+        return data;
     };
 
     var createArtifact = function (manager, options) {
@@ -42,28 +45,29 @@
                 attribute = attributes[name];
                 if (attribute instanceof Array) {
                     /*length = attribute.length;
-for (i = 0; i < length; i++) {
-artifact.addAttribute(name, attribute[i]);
-}*/
+                     for (i = 0; i < length; i++) {
+                     artifact.addAttribute(name, attribute[i]);
+                     }*/
                     artifact.setAttributes(name, attribute);
                 } else {
                     artifact.setAttribute(name, attribute);
                 }
             }
         }
-        if (options.content) {
-            if (options.content instanceof Stream) {
-                artifact.setContent(IOUtils.toByteArray(options.content.getStream()));
-            } else {
-                artifact.setContent(new java.lang.String(options.content).getBytes());
-            }
+        if (options.id) {
+            artifact.id = options.id;
         }
+        if (options.content) {
+                          if (options.content instanceof Stream) {
+                              artifact.setContent(IOUtils.toByteArray(options.content.getStream()));
+                          } else {
+                              artifact.setContent(new java.lang.String(options.content).getBytes());
+                          }
+                      }
         lc = options.lifecycles;
         if (lc) {
             length = lc.length;
             for (i = 0; i < length; i++) {
-				new Log().info("Check");
-				new Log().info(lc);
                 artifact.attachLifecycle(lc[i]);
             }
         }
@@ -72,7 +76,7 @@ artifact.addAttribute(name, attribute[i]);
 
     var ArtifactManager = function (registry, type) {
         this.registry = registry;
-		var governanceRegistry = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.getGovernanceUserRegistry(registry.registry, user);
+        var governanceRegistry = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.getGovernanceUserRegistry(registry.registry, user);
         this.manager = new GenericArtifactManager(governanceRegistry, type);
         this.type = type;
     };
@@ -112,31 +116,33 @@ artifact.addAttribute(name, attribute[i]);
         return artifactz;
     };
 
-    /**
-* {
-* name : 'My Gadget',
-* lifecycles : ["development"],
-* attributes : {
-* "overview_name" : "My Gadget"
-* "overview_urls" : ["http://example1.com", "http://example2.com"]
-* },
-* content : "<?xml...>"
-* }
-*
-* {
-* name : string,
-* lifecycles : [string],
-* attributes : [string, [string]],
-* content : string | Stream
-* }
-* @param options
-*/
+    /*
+     {
+     name: 'AndroidApp1',
+     attributes: {
+     overview_status: "CREATED",
+     overview_name: 'AndroidApp1',
+     overview_version: '1.0.0',
+     overview_url: 'http://overview.com',
+     overview_provider: 'admin',
+     images_thumbnail: 'http://localhost:9763/portal/gadgets/co2-emission/thumbnail.jpg',
+     images_banner: 'http://localhost:9763/portal/gadgets/electric-power/banner.jpg'
+     },
+     lifecycles : ['lc1', 'lc2'],
+     content : '<?xml ....>'
+     }
+     */
     ArtifactManager.prototype.add = function (options) {
         this.manager.addGenericArtifact(createArtifact(this.manager, options));
     };
 
     ArtifactManager.prototype.update = function (options) {
-        this.manager.updateGenericArtifact(createArtifact(this.manager, options));
+		var obj = createArtifact(this.manager, options);
+        this.manager.updateGenericArtifact(obj);
+    };
+
+    ArtifactManager.prototype.remove = function (id) {
+        this.manager.removeGenericArtifact(id);
     };
 
 }(server, registry));
