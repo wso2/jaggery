@@ -553,7 +553,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                         continue;
                     }
                     url = url.startsWith("/") ? url.substring(1) : url;
-                    List<String> parts = new ArrayList<String>(Arrays.asList(url.split("/")));
+                    List<String> parts = new ArrayList<String>(Arrays.asList(url.split("/", -1)));
                     addMappings(urlMappings, parts, path);
                 } else {
                     log.error("Invalid url mapping in jaggery.conf url : " + url + ", path : " + path);
