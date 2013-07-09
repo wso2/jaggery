@@ -455,7 +455,7 @@ public class WebAppManager {
         if (url.equals("/")) {
             path = getPath(urlMappings, url);
         } else {
-            path = resolveScriptPath(new ArrayList<String>(Arrays.asList(url.substring(1).split("/"))), urlMappings);
+            path = resolveScriptPath(new ArrayList<String>(Arrays.asList(url.substring(1).split("/", -1))), urlMappings);
         }
         return path == null ? url : path;
     }
