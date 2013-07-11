@@ -95,10 +95,12 @@ public class RequestHostObject extends ScriptableObject {
             }
             String data = HostObjectUtil.streamToString(rho.request.getInputStream());
             String contentType = rho.request.getContentType();
-            if (contentType != null && (
-                    contentType.equals("application/json") ||
-                            contentType.equals("application/json/badgerfish"))) {
-                rho.content = HostObjectUtil.parseJSON(thisObj, data);
+            if (contentType != null) {
+                contentType = contentType.trim().toLowerCase();
+                if (contentType.startsWith("application/json") ||
+                        contentType.startsWith("application/json/badgerfish")) {
+                    rho.content = HostObjectUtil.parseJSON(thisObj, data);
+                }
             } else {
                 rho.content = data;
             }
