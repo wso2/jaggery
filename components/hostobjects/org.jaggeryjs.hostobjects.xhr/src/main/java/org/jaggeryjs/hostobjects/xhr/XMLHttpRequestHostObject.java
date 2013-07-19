@@ -536,7 +536,14 @@ public class XMLHttpRequestHostObject extends ScriptableObject {
             updateReadyState(cx, xhr, DONE);
         } catch (IOException e) {
             log.error(e.getMessage(), e);
-            throw new ScriptException(e);
+            if (xhr.async) {
+            	xhr.readyState = UNSENT;
+            	xhr.responseText = new String("Error: NETWORK_ERR: XMLHttpRequest Exception 101");
+                updateReadyState(cx, xhr, DONE);
+            }else{
+            	throw new ScriptException(e);
+            }
+            
         } finally {
             xhr.method.releaseConnection();
         }
