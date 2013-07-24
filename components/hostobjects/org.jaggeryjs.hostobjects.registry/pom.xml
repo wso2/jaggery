@@ -29,14 +29,17 @@
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.registry.search</artifactId>
+			<version>${patch.version.410}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.registry.indexing</artifactId>
+			<version>${patch.version.410}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.registry.ws.client</artifactId>
+			<version>${patch.version.410}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>

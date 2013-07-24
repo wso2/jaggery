@@ -65,14 +65,15 @@
         <jaggery.feature.version>0.9.0-SNAPSHOT</jaggery.feature.version>
 
         <!-- carbon versions -->
-        <carbon.kernal.version>4.1.0</carbon.kernal.version>
-        <carbon.platform.version>4.1.0</carbon.platform.version>
+        <carbon.kernal.version>4.2.0-SNAPSHOT</carbon.kernal.version>
+        <carbon.platform.version>4.2.0-SNAPSHOT</carbon.platform.version>
 
         <!-- patch versions -->
         <patch.version.401>4.0.1</patch.version.401>
         <patch.version.402>4.0.2</patch.version.402>
         <patch.version.404>4.0.4</patch.version.404>
         <patch.version.405>4.0.5</patch.version.405>
+		<patch.version.410>4.1.0</patch.version.410>
 
         <!--rhino debugger versions-->
         <eclipse-debugger.version>1.0.300.v201109150503</eclipse-debugger.version>
