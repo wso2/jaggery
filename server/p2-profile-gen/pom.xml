@@ -65,7 +65,7 @@
             <plugin>
                 <groupId>org.wso2.maven</groupId>
                 <artifactId>carbon-p2-plugin</artifactId>
-                <version>${carbon.p2.plugin.version}</version>
+                <version>1.5.2-SNAPSHOT</version>
 
                 <executions>
                     <execution>
@@ -104,6 +104,7 @@
 
                         <configuration>
                             <profile>default</profile>
+							<!--profile>WSO2CarbonProfile</profile-->
                             <metadataRepository>file:${basedir}/target/p2-repo</metadataRepository>
                             <artifactRepository>file:${basedir}/target/p2-repo</artifactRepository>
                             <destination>
@@ -114,11 +115,11 @@
                             <features>
                                 <feature>
                                     <id>org.jaggeryjs.feature.group</id>
-                                    <version>${pom.version}</version>
+                                    <version>${jaggery.feature.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.jaggery.styles.feature.group</id>
-                                    <version>${pom.version}</version>
+                                    <version>${jaggery.feature.version}</version>
                                 </feature>
                             </features>
 
