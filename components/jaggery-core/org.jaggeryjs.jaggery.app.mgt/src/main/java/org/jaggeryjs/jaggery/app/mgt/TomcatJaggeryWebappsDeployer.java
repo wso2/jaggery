@@ -205,19 +205,19 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                     DataHolder.getCarbonTomcatService().addWebApp(contextStr, webappFile.getAbsolutePath(),
                             new JaggeryConfListener(jaggeryConfigObj, securityConstraint));
             //deploying web app for url mapping inside virtual host
-            	 if (DataHolder.getHotUpdateService() != null) {
+       /*     	 if (DataHolder.getHotUpdateService() != null) {
                 List<String> hostNames = DataHolder.getHotUpdateService().getMappigsPerWebapp(contextStr);
                 for (String hostName : hostNames) {
                     Host host = DataHolder.getHotUpdateService().addHost(hostName);
-/*                    ApplicationContext.getCurrentApplicationContext().putUrlMappingForApplication(hostName, contextStr);
-  */
+/                    ApplicationContext.getCurrentApplicationContext().putUrlMappingForApplication(hostName, contextStr);
+  /
                     Context contextForHost =
                             DataHolder.getCarbonTomcatService().addWebApp(host, "/", webappFile.getAbsolutePath(),
                                     new JaggeryConfListener(jaggeryConfigObj, securityConstraint));
                     log.info("Deployed JaggeryApp on host: " + contextForHost);
                 }
             }
-
+*/
             if (isDistributable(context, jaggeryConfigObj)) {
                 //Clusterable manager implementation as DeltaManager
                 context.setDistributable(true);

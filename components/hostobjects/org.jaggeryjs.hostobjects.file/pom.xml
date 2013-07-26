@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.jaggeryjs</groupId>
         <artifactId>hostobjects</artifactId>
-        <version>0.9.0-SNAPSHOT</version>
+        <version>0.9.0-07262013</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
