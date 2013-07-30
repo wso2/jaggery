@@ -483,7 +483,12 @@ public class WebAppManager {
                 return (String) obj;
             }
             obj = map.get("*");
-            return (String) obj;
+            String path = (String) obj;
+            if (path != null && path.endsWith("*")) {
+                return path.substring(0, path.length() - 1) + part;
+            } else {
+                return path;
+            }
         }
         if (obj instanceof String) {
             return (String) obj;
