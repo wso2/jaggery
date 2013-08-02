@@ -49,34 +49,6 @@
             <artifactId>org.jaggeryjs.jaggery.app.mgt</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.wso2.carbon</groupId>
-            <artifactId>org.wso2.carbon.webapp.mgt</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.wso2.carbon</groupId>
-            <artifactId>org.wso2.carbon.registry.admin.api</artifactId>
-			<version>${patch.version.410}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.wso2.carbon</groupId>
-            <artifactId>org.wso2.carbon.registry.common</artifactId>
-			<version>${patch.version.410}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.wso2.carbon</groupId>
-            <artifactId>org.wso2.carbon.registry.search</artifactId>
-			<version>${patch.version.410}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.wso2.carbon</groupId>
-            <artifactId>org.wso2.carbon.registry.indexing</artifactId>
-			<version>${patch.version.410}</version>
-        </dependency>
-        <dependency>
-            <groupId>solr.wso2</groupId>
-            <artifactId>solr</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.jaggeryjs</groupId>
             <artifactId>org.jaggeryjs.jaggery.tools</artifactId>
         </dependency>
@@ -357,39 +329,22 @@
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.oauth</bundleDef>
                             </bundles>
                             <importBundles>
-                                <importBundleDef>org.wso2.carbon:org.wso2.carbon.webapp.mgt</importBundleDef>
-                                <importBundleDef>org.wso2.carbon:org.wso2.carbon.registry.search</importBundleDef>
-                                <importBundleDef>org.wso2.carbon:org.wso2.carbon.registry.admin.api</importBundleDef>
-                                <importBundleDef>org.wso2.carbon:org.wso2.carbon.registry.common</importBundleDef>
-                                <importBundleDef>org.wso2.carbon:org.wso2.carbon.registry.indexing</importBundleDef>
-                                <importBundleDef>solr.wso2:solr</importBundleDef>
                                 <importBundleDef>org.codehaus.jettison.wso2:jettison</importBundleDef>
                                 <importBundleDef>org.apache.rampart.wso2:rampart-core</importBundleDef>
                                 <importBundleDef>org.apache.rampart.wso2:rampart-trust</importBundleDef>
                                 <importBundleDef>org.apache.rampart.wso2:rampart-policy</importBundleDef>
                                 <importBundleDef>org.apache.geronimo.specs.wso2:geronimo-stax-api_1.0_spec
                                 </importBundleDef>
-                                <importBundleDef>org.apache.ws.security.wso2:wss4j</importBundleDef>
 
-                                <importBundleDef>org.apache.ws.commons.axiom.wso2:axiom</importBundleDef>
 
-                                <importBundleDef>commons-io.wso2:commons-io</importBundleDef>
                                 <!--<importBundleDef>org.hectorclient:hector-core</importBundleDef>-->
-                                <importBundleDef>org.eclipse.equinox:javax.servlet.jsp</importBundleDef>
 
-                                <importBundleDef>org.apache.axis2.wso2:axis2</importBundleDef>
-                                <importBundleDef>org.wso2.carbon:org.wso2.carbon.addressing</importBundleDef>
-                                <importBundleDef>commons-dbcp.wso2:commons-dbcp</importBundleDef>
-                                <importBundleDef>org.wso2.carbon:org.wso2.carbon.utils</importBundleDef>
-
-                                <importBundleDef>commons-fileupload.wso2:commons-fileupload</importBundleDef>
                                 <importBundleDef>rhino.wso2:js</importBundleDef>
                                 <importBundleDef>org.eclipse.wst.jsdt:org.eclipse.wst.jsdt.debug.rhino.debugger
                                 </importBundleDef>
                                 <importBundleDef>org.eclipse.wst.jsdt:org.eclipse.wst.jsdt.debug.transport
                                 </importBundleDef>
                                 <importBundleDef>rome.wso2:rome</importBundleDef>
-                                <importBundleDef>org.wso2.carbon:javax.servlet</importBundleDef>
                                 <importBundleDef>org.wso2.uri.template:wso2-uri-templates</importBundleDef>
                                 <importBundleDef>net.sf.saxon.wso2:saxon.bps</importBundleDef>
                                 <importBundleDef>jdom.wso2:jdom</importBundleDef>
