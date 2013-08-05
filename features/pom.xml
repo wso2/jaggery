@@ -73,7 +73,7 @@
         <patch.version.402>4.0.2</patch.version.402>
         <patch.version.404>4.0.4</patch.version.404>
         <patch.version.405>4.0.5</patch.version.405>
-		<patch.version.410>4.2.0-SNAPSHOT</patch.version.410>
+		<patch.version.410>4.1.0</patch.version.410>
 
         <!--rhino debugger versions-->
         <eclipse-debugger.version>1.0.300.v201109150503</eclipse-debugger.version>
@@ -82,14 +82,14 @@
         <!-- osgi bundle versions -->
         <rhino.osgi.version>1.7.0.R4.wso2v1-SNAPSHOT</rhino.osgi.version>
         <commons-httpclient.osgi.version>3.1.0.wso2v2</commons-httpclient.osgi.version>
-        <wss4j.osgi.version>1.5.11.wso2v6</wss4j.osgi.version>
-        <axis2.osgi.version>1.6.1.wso2v10</axis2.osgi.version>
+        <wss4j.osgi.version>1.5.11.wso2v3</wss4j.osgi.version>
+        <axis2.osgi.version>1.6.1.wso2v5</axis2.osgi.version>
         <abdera.osgi.version>1.0.0.wso2v3</abdera.osgi.version>
-        <axiom.osgi.version>1.2.11.wso2v4</axiom.osgi.version>
-        <tomcat.osgi.version>7.0.34.wso2v1</tomcat.osgi.version>
+        <axiom.osgi.version>1.2.11.wso2v1</axiom.osgi.version>
+        <tomcat.osgi.version>7.0.28.wso2v1</tomcat.osgi.version>
         <h2-engine.osgi.version>1.2.140.wso2v3</h2-engine.osgi.version>
         <wsdl4j.osgi.version>1.6.2.wso2v3</wsdl4j.osgi.version>
-        <axis2-json.osgi.version>1.6.1.wso2v10</axis2-json.osgi.version>
+        <axis2-json.osgi.version>1.6.1.wso2v5</axis2-json.osgi.version>
         <commons-collections.osgi.version>3.2.0.wso2v1</commons-collections.osgi.version>
         <commons-dbcp.osgi.version>1.4.0.wso2v1</commons-dbcp.osgi.version>
         <xmlbeans.osgi.version>2.3.0.wso2v1</xmlbeans.osgi.version>
