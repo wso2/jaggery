@@ -243,6 +243,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
             //catching a Throwable here to avoid web-apps crashing the server during startup
             StandardContext context = new StandardContext();
             context.setName(webappFile.getName());
+            context.addParameter(WebappsConstants.FAULTY_WEBAPP, "true");
             JaggeryApplication webapp = new JaggeryApplication(this, context, webappFile);
             webapp.setProperty(WebappsConstants.WEBAPP_FILTER, JaggeryConstants.JAGGERY_WEBAPP_FILTER_PROP);
             String msg = "Error while deploying webapp: " + webapp;
