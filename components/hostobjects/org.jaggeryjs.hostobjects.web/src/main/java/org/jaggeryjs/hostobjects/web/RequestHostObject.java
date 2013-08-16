@@ -250,7 +250,8 @@ public class RequestHostObject extends ScriptableObject {
             encoding = (String) args[0];
         }
         parseMultipart(rho);
-        parseMultipartParams(rho, encoding);
+        // if no encoding is specified, UTF-8 is assumed.
+        parseMultipartParams(rho, encoding == null ? "UTF-8" : encoding);
         return rho.parameters;
     }
 
@@ -444,7 +445,11 @@ public class RequestHostObject extends ScriptableObject {
             return null;
         }
         parseMultipart(rho);
-        return (Scriptable) rho.files.get((String) args[0], thisObj);
+        Object obj = rho.files.get((String) args[0], thisObj);
+        if (obj instanceof Scriptable) {
+            return (Scriptable) obj;
+        }
+        return null;
     }
 
     public HttpServletRequest getHttpServletRequest() {
