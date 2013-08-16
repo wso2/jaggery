@@ -63,7 +63,7 @@ include('/includes/topnavi.jag');
 		<img src="images/jaglogo.png" style="margin-top:20px; margin-bottom:10px;" align="right" />
 		<p align="right">The Delicious Javascript Framework. - How to set it up and how to get started.</p>
             <p align="right" style="margin-top:20px;">
-                <a class="btn success large" href="http://dist.wso2.org/products/jaggery/dl/jaggery-0.9.0-07262013_ALPHA3.zip">Download Jaggery </a>
+                <a class="btn success large" href="http://dist.wso2.org/products/jaggery/dl/jaggery-0.9.0.ALPHA4.wso2v1_ALPHA3.zip">Download Jaggery </a>
             </p>
         </div>
 </div>
@@ -77,7 +77,7 @@ include('/includes/topnavi.jag');
 
             <span id="helloworld"></span>
             <ol>
-                <li>Extract <code>jaggery-0.9.0-07262013_ALPHA3.zip</code> to a directory you prefer. lets call it <code>JAGGERY_HOME</code></li>
+                <li>Extract <code>jaggery-0.9.0.ALPHA4.wso2v1_ALPHA3.zip</code> to a directory you prefer. lets call it <code>JAGGERY_HOME</code></li>
                 <li>Navigate to <code>JAGGERY_HOME/bin</code> directory which contains all the Jaggery execution scripts.</li>
                 <li>Run <code>sh JAGGERY_HOME/bin/server.sh</code> &nbsp; (<code>JAGGERY_HOME/bin/server.bat</code>in windows) command to start the server</li>
                 <li>Point the browser URL to <code><a href="http://localhost:9763/taskmaster" target="_blank">http://localhost:9763/taskmaster</a></code></li>
