@@ -250,7 +250,8 @@ public class RequestHostObject extends ScriptableObject {
             encoding = (String) args[0];
         }
         parseMultipart(rho);
-        parseMultipartParams(rho, encoding);
+        // if no encoding is specified, UTF-8 is assumed.
+        parseMultipartParams(rho, encoding == null ? "UTF-8" : encoding);
         return rho.parameters;
     }
 

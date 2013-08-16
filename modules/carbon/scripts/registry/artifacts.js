@@ -7,6 +7,9 @@
     var ByteArrayInputStream = Packages.java.io.ByteArrayInputStream;
     var QName = Packages.javax.xml.namespace.QName;
     var IOUtils = Packages.org.apache.commons.io.IOUtils;
+	
+    var GovernanceUtils=Packages.org.wso2.carbon.governance.api.util.GovernanceUtils;//Used to obtain Asset Types
+    var DEFAULT_MEDIA_TYPE='application/vnd.wso2.registry-ext-type+xml';//Used to obtain Asset types
 
     var buildArtifact = function (manager, artifact) {
         return {
@@ -113,6 +116,26 @@
     };
 
     /*
+	The function returns an array of asset types 
+	@mediaType - The media type of the assets
+	@return An array of strings containing the asset paths
+    */
+    ArtifactManager.prototype.getAssetTypePaths=function(mediaType){
+	
+	//Use the default media type if one is not provided
+	if(!mediaType){
+	   mediaType=DEFAULT_MEDIA_TYPE;
+	}
+
+	//var assetArray=GovernanceUtils.findGovernanceArtifacts(mediaType,this.registry);
+	var result=Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.findGovernanceArtifacts(mediaType,registry.registry);
+	
+	return result;
+	//Create an empty array if no asset types are found
+	//return (!assetArray)?[]:assetArray;
+    };
+
+    /*
      {
      name: 'AndroidApp1',
      attributes: {
@@ -139,5 +162,66 @@
     ArtifactManager.prototype.remove = function (id) {
         this.manager.removeGenericArtifact(id);
     };
+
+   /*
+   Attaches the provided lifecycle name to the artifact
+   @lifecycleName: The name of a valid lifecycle.The lifecycle should be visible to the 
+	registry.
+   @options: The artifact to which the life cycle must be attached.
+   */
+   ArtifactManager.prototype.attachLifecycle=function(lifecycleName,options){
+
+	var artifact=this.getArtifactFromImage(options);
+
+	artifact.attachLifecycle(lifecycleName);
+	//this.manager.updateGenericArtifact(artifact);
+   };
+
+   /*
+   Removes the attached lifecycle from the artifact
+   @options: The artifact from which the life cycle must be removed
+   */
+   ArtifactManager.prototype.detachLifecycle=function(options){
+	
+	var artifact=this.getArtifactFromImage(options);
+   };
+
+   /*
+   Promotes the artifact to the next stage in its life cycle
+   @options: An artifact image (Not a real artifact)
+   */
+   ArtifactManager.prototype.promoteLifecycleState=function(state,options){
+	//var artifact=this.getArtifactFromImage(options);
+
+	var artifact=createArtifact(this.manager,{
+		id:options.id,
+		attributes:options.attributes
+	});
+
+	artifact.invokeAction(state);
+   };
+
+   /*
+   Gets the current lifecycle state
+   @options: An artifact image
+   @returns: The life cycle state
+   */
+   ArtifactManager.prototype.getLifecycleState=function(options){
+	var artifact=this.getArtifactFromImage(options);
+
+	//return artifact.getLcState();
+   };
+
+   /*
+   Helper function to create an artifact instance from a set of options (an image).
+   */
+   ArtifactManager.prototype.getArtifactFromImage=function(options){
+	var artifact=createArtifact(this.manager,{
+		id:options.id,
+		attributes:options.attributes
+	});
+
+	return artifact;
+   };
 
 }(server, registry));
