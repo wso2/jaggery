@@ -174,6 +174,7 @@
 	var artifact=this.getArtifactFromImage(options);
 
 	artifact.attachLifecycle(lifecycleName);
+
 	//this.manager.updateGenericArtifact(artifact);
    };
 
@@ -184,6 +185,8 @@
    ArtifactManager.prototype.detachLifecycle=function(options){
 	
 	var artifact=this.getArtifactFromImage(options);
+
+	artifact.detachLifecycle();
    };
 
    /*
@@ -191,13 +194,7 @@
    @options: An artifact image (Not a real artifact)
    */
    ArtifactManager.prototype.promoteLifecycleState=function(state,options){
-	//var artifact=this.getArtifactFromImage(options);
-
-	var artifact=createArtifact(this.manager,{
-		id:options.id,
-		attributes:options.attributes
-	});
-
+	var artifact=this.getArtifactFromImage(options);
 	artifact.invokeAction(state);
    };
 
@@ -209,6 +206,8 @@
    ArtifactManager.prototype.getLifecycleState=function(options){
 	var artifact=this.getArtifactFromImage(options);
 
+	var state=artifact.getLifecycleState();
+	return state;
 	//return artifact.getLcState();
    };
 
@@ -220,6 +219,8 @@
 		id:options.id,
 		attributes:options.attributes
 	});
+
+	artifact.setArtifactPath(options.path);
 
 	return artifact;
    };
