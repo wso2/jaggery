@@ -9,14 +9,7 @@ import org.jaggeryjs.scriptengine.cache.ScriptCachingContext;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.security.RhinoSecurityController;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.ContextFactory;
-import org.mozilla.javascript.Function;
-import org.mozilla.javascript.FunctionObject;
-import org.mozilla.javascript.Script;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
-import org.mozilla.javascript.SecurityController;
+import org.mozilla.javascript.*;
 
 import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
@@ -70,10 +63,10 @@ public class RhinoEngine {
      *
      * @param cacheManager A {@code CacheManager} instance to be used as the cache manager of the engine
      */
-    public RhinoEngine(CacheManager cacheManager, SecurityController securityController) {
+    public RhinoEngine(CacheManager cacheManager, RhinoContextFactory contextFactory) {
         this.cacheManager = cacheManager;
-        if (securityController != null) {
-            this.contextFactory = new RhinoContextFactory(securityController);
+        if (contextFactory != null) {
+            this.contextFactory = contextFactory;
         } else {
             this.contextFactory = globalContextFactory;
         }
