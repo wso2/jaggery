@@ -65,8 +65,8 @@
         <jaggery.feature.version>0.9.0.ALPHA4.wso2v1-SNAPSHOT</jaggery.feature.version>
 
         <!-- carbon versions -->
-        <carbon.kernal.version>4.2.0</carbon.kernal.version>
-        <carbon.platform.version>4.2.0</carbon.platform.version>
+        <carbon.kernal.version>4.2.0-SNAPSHOT</carbon.kernal.version>
+        <carbon.platform.version>4.2.0-SNAPSHOT</carbon.platform.version>
 
         <!-- patch versions -->
         <patch.version.401>4.0.1</patch.version.401>
@@ -80,7 +80,7 @@
         <eclipse-transport.version>1.0.100.v201109150330</eclipse-transport.version>
 
         <!-- osgi bundle versions -->
-        <rhino.osgi.version>1.7.0.R4.wso2v1</rhino.osgi.version>
+        <rhino.osgi.version>1.7.0.R4.wso2v1-SNAPSHOT</rhino.osgi.version>
         <commons-httpclient.osgi.version>3.1.0.wso2v2</commons-httpclient.osgi.version>
         <wss4j.osgi.version>1.5.11.wso2v3</wss4j.osgi.version>
         <axis2.osgi.version>1.6.1.wso2v10</axis2.osgi.version>
