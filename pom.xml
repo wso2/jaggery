@@ -285,7 +285,7 @@
         <!-- jaggery versions -->
         <jaggery.component.version>0.9.0.ALPHA4.wso2v1-SNAPSHOT</jaggery.component.version>
         <jaggery.feature.version>0.9.0.ALPHA4.wso2v1-SNAPSHOT</jaggery.feature.version>
-        <jaggery.deployer.osgi.version>0.9.0.07262013</jaggery.deployer.osgi.version>
+        <jaggery.deployer.osgi.version>0.9.0.ALPHA4_wso2v1-SNAPSHOT</jaggery.deployer.osgi.version>
 
         <!-- carbon versions -->
         <carbon.kernal.version>4.2.0-SNAPSHOT</carbon.kernal.version>
