@@ -22,7 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jaggeryjs</groupId>
     <artifactId>jaggery-parent</artifactId>
-    <version>0.9.0-07262013</version>
+    <version>0.9.0.ALPHA4.wso2v1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>jaggeryjs - Parent</name>
     <url>http://jaggeryjs.org</url>
@@ -283,13 +283,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- jaggery versions -->
-        <jaggery.component.version>0.9.0-07262013</jaggery.component.version>
-        <jaggery.feature.version>0.9.0-07262013</jaggery.feature.version>
+        <jaggery.component.version>0.9.0.ALPHA4.wso2v1-SNAPSHOT</jaggery.component.version>
+        <jaggery.feature.version>0.9.0.ALPHA4.wso2v1-SNAPSHOT</jaggery.feature.version>
         <jaggery.deployer.osgi.version>0.9.0.07262013</jaggery.deployer.osgi.version>
 
         <!-- carbon versions -->
-        <carbon.kernal.version>4.2.0</carbon.kernal.version>
-        <carbon.platform.version>4.2.0</carbon.platform.version>
+        <carbon.kernal.version>4.2.0-SNAPSHOT</carbon.kernal.version>
+        <carbon.platform.version>4.2.0-SNAPSHOT</carbon.platform.version>
 
         <!-- patch versions -->
         <patch.version.401>4.0.1</patch.version.401>
