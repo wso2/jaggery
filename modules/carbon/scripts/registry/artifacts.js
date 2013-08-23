@@ -11,6 +11,8 @@
     var GovernanceUtils=Packages.org.wso2.carbon.governance.api.util.GovernanceUtils;//Used to obtain Asset Types
     var DEFAULT_MEDIA_TYPE='application/vnd.wso2.registry-ext-type+xml';//Used to obtain Asset types
 
+    var REGISTRY_ABSOLUTE_PATH="/_system/governance";
+
     var buildArtifact = function (manager, artifact) {
         return {
             id: String(artifact.id),
@@ -170,10 +172,11 @@
    @options: The artifact to which the life cycle must be attached.
    */
    ArtifactManager.prototype.attachLifecycle=function(lifecycleName,options){
-
-	var artifact=this.getArtifactFromImage(options);
+	
+	var artifact=getArtifactFromImage(this.manager,options);
 
 	artifact.attachLifecycle(lifecycleName);
+
 	//this.manager.updateGenericArtifact(artifact);
    };
 
@@ -183,7 +186,9 @@
    */
    ArtifactManager.prototype.detachLifecycle=function(options){
 	
-	var artifact=this.getArtifactFromImage(options);
+	var artifact=getArtifactFromImage(this.manager,options);
+
+	artifact.detachLifecycle();
    };
 
    /*
@@ -191,35 +196,89 @@
    @options: An artifact image (Not a real artifact)
    */
    ArtifactManager.prototype.promoteLifecycleState=function(state,options){
-	//var artifact=this.getArtifactFromImage(options);
+	var artifact=getArtifactFromImage(this.manager,options);
 
-	var artifact=createArtifact(this.manager,{
-		id:options.id,
-		attributes:options.attributes
-	});
+	var checkListItems=[];
+	//We enable all checklists
+	try{
+	    checkListItems=artifact.getAllCheckListItemNames();
+	}
+	catch(e){
+            log.debug('No checklist defined');
+	    checkListItems=[];
+	}
 
+	for(var index in checkListItems){
+		artifact.checkLCItem(index);
+	}
+	
 	artifact.invokeAction(state);
    };
 
    /*
    Gets the current lifecycle state
-   @options: An artifact image
+   @options: An artifact object
    @returns: The life cycle state
    */
    ArtifactManager.prototype.getLifecycleState=function(options){
-	var artifact=this.getArtifactFromImage(options);
+	var artifact=getArtifactFromImage(this.manager,options);
 
+	var state=artifact.getLifecycleState();
+	return state;
 	//return artifact.getLcState();
+   };
+
+   /*
+   The function returns the list of check list items for a given state
+   @options: The artifact
+   @returns: A String array containing the check list items.(Can be empty if no check list items are present)
+   */
+   ArtifactManager.prototype.getCheckListItemNames=function(options){
+	var artifact=getArtifactFromImage(this.manager,options);
+
+	var checkListItems=artifact.getAllCheckListItemNames()||[];
+
+	return checkListItems;
+   };
+
+   /*
+   The method enables the check list item and the given index
+   @index: The index of the check list item.This must be a value between 0 and the maximum check list item
+		that appears in the lifecycle definition.
+   @options: An artifact object
+   @throws Exception: If the index is not within 0 and max check list item or if there is an issue ticking the item.
+   */
+   ArtifactManager.prototype.checkItem=function(index,options){
+
+ 	var artifact=getArtifactFromImage(this.manager,options);
+
+	var checkListItems=artifact.getAllCheckListItemNames();
+
+	var checkListLength=checkListItems.length;
+
+	if((index<0)||(index>checkListLength)){
+		throw "The index value: "+index+" must be between 0 and "+checkListLength+".Please refer to the lifecycle definition in the registry.xml for the number of check list items.";
+	}
+	
+	artifact.checkLCItem(index);
    };
 
    /*
    Helper function to create an artifact instance from a set of options (an image).
    */
-   ArtifactManager.prototype.getArtifactFromImage=function(options){
-	var artifact=createArtifact(this.manager,{
+   var getArtifactFromImage=function(manager,options){
+	
+	var path=options.path||'';
+	var lcName=options.lifecycle||'';
+	var artifact=createArtifact(manager,{
 		id:options.id,
 		attributes:options.attributes
 	});
+
+	path=path.replace(REGISTRY_ABSOLUTE_PATH,'');
+	
+	artifact.setArtifactPath(path);
+	artifact.setLcName(lcName);
 
 	return artifact;
    };
