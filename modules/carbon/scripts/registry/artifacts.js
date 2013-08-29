@@ -208,9 +208,15 @@
 	    checkListItems=[];
 	}
 
-	for(var index in checkListItems){
+	//Check if all of the check list items have been enabled
+
+	//If any of the items is not defined, throw an exception
+
+	//Invoke the action
+
+	/*for(var index in checkListItems){
 		artifact.checkLCItem(index);
-	}
+	}*/
 	
 	artifact.invokeAction(state);
    };
@@ -238,8 +244,41 @@
 
 	var checkListItems=artifact.getAllCheckListItemNames()||[];
 
-	return checkListItems;
+	var checkListItemArray=[];
+
+	//Go through each check list item
+	for(var index in checkListItems){
+		//Get whether the check list item is checked
+		var state=artifact.isLCItemChecked(index);
+		checkListItemArray.push({ 'name':checkListItems[index], 'checked':state });
+	}
+
+	return checkListItemArray;
    };
+
+   /*
+   The function checks whether a given check list item at the provided index is checked for the current state
+   @index: The index of the check list item.This must be a value between 0 and the maximum check list item
+	   	that appears in the lifecycle definition
+   @options: An artifact object
+   @throws Exception: If the index is not within 0 and the max check list item or if there is an issue ticking the item
+   */
+   ArtifactManager.prototype.isItemChecked=function(index,options){
+	var artifact=getArtifactFromImage(this.manager,options);
+
+	var checkListItems=artifact.getAllCheckListItemNames();
+
+	var checkListLength=checkListItems.length;
+
+	if((index<0)||(index>checkListLength)){
+		throw "The index value: "+index+" must be between 0 and "+checkListLength+".Please refer to the lifecycle definition in the registry.xml for the number of check list items.";
+	}
+	
+	var result=artifact.isLCItemChecked(index);
+
+	return result;
+   };
+
 
    /*
    The method enables the check list item and the given index
@@ -263,6 +302,39 @@
 	artifact.checkLCItem(index);
    };
 
+  /*
+  The method disables the check list item at the given index
+  @index: The index of the check list item.This must be a value between 0 and the maximum check list item
+	  that appears in the lifecycle definition
+  @options: An artifact object
+  @throws Exception: If the index is not within 0 and max check list item or if there is an issue ticking the item
+  */
+   ArtifactManager.prototype.uncheckItem=function(index,options){
+	var artifact=getArtifactFromImage(this.manager,options);
+
+	var checkListItems=artifact.getAllCheckListItemNames();
+
+	var checkListLength=checkListItems.length;
+
+	if((index<0)||(index>checkListLength)){
+		throw "The index value: "+index+" must be between 0 and "+checkListLength+".Please refer to the lifecycle definition in the registry.xml for the number of check list items.";
+	}
+	
+	artifact.uncheckLCItem(index);
+   };
+
+   /*
+   The method obtains the list of all available actions for the current state of the asset
+   @options: An artifact object
+   @returns: The list of available actions for the current state,else false
+   */
+   ArtifactManager.prototype.availableActions=function(options){
+	var artifact=getArtifactFromImage(this.manager,options);
+	var availableActions=artifact.getAllLifecycleActions()||[];
+	return availableActions;
+   };
+
+   
    /*
    Helper function to create an artifact instance from a set of options (an image).
    */
