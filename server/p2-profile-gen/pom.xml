@@ -137,7 +137,7 @@
                         <configuration>
                             <tasks>
                                 <replace token="false" value="true"
-                                         dir="target/wso2carbon-core-${carbon.kernal.version}/repository/components/default/configuration/org.eclipse.equinox.simpleconfigurator">
+                                         dir="target/wso2carbon-core-${carbon.kernal.version}/repository/components/">
                                     <include name="**/bundles.info"/>
                                 </replace>
                             </tasks>
