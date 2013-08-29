@@ -214,9 +214,9 @@
 
 	//Invoke the action
 
-	for(var index in checkListItems){
+	/*for(var index in checkListItems){
 		artifact.checkLCItem(index);
-	}
+	}*/
 	
 	artifact.invokeAction(state);
    };
