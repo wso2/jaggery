@@ -1,7 +1,7 @@
 (function (server) {
     var PrivilegedCarbonContext = Packages.org.wso2.carbon.context.PrivilegedCarbonContext,
         MultitenantConstants = Packages.org.wso2.carbon.utils.multitenancy.MultitenantConstants,
-        TenantUtils = Packages.org.wso2.carbon.utils.TenantUtils,
+        MultitenantUtils = Packages.org.wso2.carbon.utils.multitenancy.MultitenantUtils,
         context = PrivilegedCarbonContext.getCurrentContext(),
         realmService = server.osgiService('org.wso2.carbon.user.core.service.RealmService'),
         tenantManager = realmService.getTenantManager();
@@ -11,10 +11,10 @@
             return context.getTenantDomain();
         }
         if (options.username) {
-            return TenantUtils.getTenantDomain(options.username);
+            return MultitenantUtils.getTenantDomain(options.username);
         }
         if (options.url) {
-            return TenantUtils.getTenantDomainFromRequestURL(options.url);
+            return MultitenantUtils.getTenantDomainFromRequestURL(options.url);
         }
         return null;
     };
@@ -22,6 +22,21 @@
     server.tenantId = function (options) {
         var domain = options ? (options.domain || server.tenantDomain(options)) : server.tenantDomain();
         return domain ? tenantManager.getTenantId(domain) : null;
+    };
+
+    server.tenantUser = function (username) {
+        var domain = server.tenantDomain({
+                username: username
+            }),
+            id = server.tenantId({
+                domain: domain
+            });
+        username = MultitenantUtils.getTenantAwareUsername(username);
+        return {
+            domain: domain,
+            username: username,
+            tenantId: id
+        };
     };
 
     server.superTenant = {

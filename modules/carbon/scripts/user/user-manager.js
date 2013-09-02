@@ -13,12 +13,9 @@
         }
     };
 
-    var UserManager = function (serv, tenant) {
-        tenant = tenant || server.superTenant.domain;
+    var UserManager = function (serv, tenantId) {
         this.server = serv;
-        this.tenantId = server.tenantId({
-            domain: tenant
-        });
+        this.tenantId = tenantId || server.superTenant.tenantId;
         var realmService = server.osgiService('org.wso2.carbon.user.core.service.RealmService'),
             realm = realmService.getTenantUserRealm(this.tenantId);
         this.manager = realm.getUserStoreManager();

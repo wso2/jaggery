@@ -12,6 +12,7 @@ var user = {};
 
     var User = function (manager, username) {
         this.um = manager;
+        this.tenantId = manager.tenantId;
         this.username = username;
     };
     user.User = User;

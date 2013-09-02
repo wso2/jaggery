@@ -4,9 +4,7 @@
         var serv = new server.Server(options.serverUrl);
         this.registry = new registry.Registry(serv, {
             username: options.username || user,
-            domain: server.tenantDomain({
-                username: options.username
-            }) || server.tenantDomain()
+            domain: options.domain || server.tenantDomain()
         });
         this.prefix = options.path + '/' + user + '/' + space;
         if (!this.registry.exists(this.prefix)) {
