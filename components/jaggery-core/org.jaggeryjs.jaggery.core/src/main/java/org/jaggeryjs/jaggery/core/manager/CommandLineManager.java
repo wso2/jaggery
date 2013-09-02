@@ -7,10 +7,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.jaggery.core.ScriptReader;
 import org.jaggeryjs.scriptengine.cache.CacheManager;
-import org.jaggeryjs.scriptengine.engine.JaggeryContext;
-import org.jaggeryjs.scriptengine.engine.JavaScriptHostObject;
-import org.jaggeryjs.scriptengine.engine.JavaScriptMethod;
-import org.jaggeryjs.scriptengine.engine.RhinoEngine;
+import org.jaggeryjs.scriptengine.engine.*;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.security.RhinoSecurityController;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
@@ -42,7 +39,7 @@ public final class CommandLineManager {
     }
 
     static {
-        RHINO_ENGINE = new RhinoEngine(new CacheManager(null), new RhinoSecurityController());
+        RHINO_ENGINE = new RhinoEngine(new CacheManager(null), new RhinoContextFactory(new RhinoSecurityController()));
         initEngine();
     }
 

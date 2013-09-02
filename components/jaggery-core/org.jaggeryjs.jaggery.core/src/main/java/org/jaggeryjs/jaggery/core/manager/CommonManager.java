@@ -65,7 +65,7 @@ public class CommonManager {
 
     public void initialize(String modulesDir, RhinoSecurityController securityController)
             throws ScriptException {
-        this.engine = new RhinoEngine(new CacheManager(null), securityController);
+        this.engine = new RhinoEngine(new CacheManager(null), new RhinoContextFactory(securityController));
         this.moduleManager = new ModuleManager(modulesDir);
         exposeDefaultModules(this.engine, this.moduleManager.getModules());
     }
@@ -236,7 +236,7 @@ public class CommonManager {
         }
         ScriptableObject object = (ScriptableObject) cx.newObject(thisObj);
         object.setPrototype(thisObj);
-        object.setParentScope(null);
+        object.setParentScope(thisObj);
         exposeModule(cx, object, module);
         return object;
     }

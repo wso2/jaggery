@@ -17,7 +17,10 @@ import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.security.RhinoSecurityController;
 import org.jaggeryjs.scriptengine.security.RhinoSecurityDomain;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
-import org.mozilla.javascript.*;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Function;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -308,7 +311,9 @@ public class WebAppManager {
         } else {
             object = (ScriptableObject) cx.newObject(thisObj);
             object.setPrototype(thisObj);
-            object.setParentScope(null);
+            object.setParentScope(thisObj);
+            //sharedJaggeryContext((ServletContext) jaggeryContext.getProperty(Constants.SERVLET_CONTEXT)).getScope()
+            //object.setParentScope(sharedJaggeryContext((ServletContext) jaggeryContext.getProperty(Constants.SERVLET_CONTEXT)).getScope());
             String ext = moduleId.substring(dotIndex + 1);
             if (ext.equalsIgnoreCase("json")) {
                 object = executeScript(jaggeryContext, object, moduleId, true, true, false);
