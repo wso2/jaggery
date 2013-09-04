@@ -16,10 +16,7 @@ var registry = registry || {};
     var content = function (registry, resource, paging) {
         if (resource instanceof Collection) {
             // #1 : this always sort children by name, so sorting cannot be done for the chunk
-            return function (pagination) {
-                pagination = pagination || paging;
-                return children(registry, resource, pagination);
-            };
+            return children(registry, resource, paging);
         }
         if (resource instanceof Comment) {
             return String(resource.getText());
@@ -69,17 +66,10 @@ var registry = registry || {};
     };
 
     var children = function (registry, resource, paging) {
-        var length, i, resources,
-            paths = [];
-        resources = registry.content(resource.path);
+        var resources = resource.getChildren();
         //we have to manually sort this due to the bug in registry.getChildren() (#1 above)
-        resources.sort(resourceSorter(paging.sort));
-        resources = resources.slice(paging.start, paging.start + paging.count);
-        length = resource.length;
-        for (i = 0; i < length; i++) {
-            paths.push(resources[i].path);
-        }
-        return paths;
+        //resources.sort(resourceSorter(paging.sort));
+        return resources.slice(paging.start, paging.start + paging.count);
     };
 
     var resource = function (registry, resource) {
