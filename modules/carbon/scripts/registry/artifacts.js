@@ -13,6 +13,12 @@
 
     var REGISTRY_ABSOLUTE_PATH="/_system/governance";
 
+    var HISTORY_PATH_SEPERATOR='_';
+    var ASSET_PATH_SEPERATOR='/';
+    var lcHistoryRegExpression=new RegExp(ASSET_PATH_SEPERATOR,'g');
+    var HISTORY_PATH='/_system/governance/repository/components/org.wso2.carbon.governance/lifecycles/history/';
+
+
     var buildArtifact = function (manager, artifact) {
         return {
             id: String(artifact.id),
@@ -334,10 +340,38 @@
 	return availableActions;
    };
 
-   
    /*
-   Helper function to create an artifact instance from a set of options (an image).
-   */
+   The function returns the life-cycle history path using
+   the provided asset.
+   @options: An asset.
+   @return: A string path of the life-cycle history.
+    */
+   ArtifactManager.prototype.getLifecycleHistoryPath=function(options){
+       return getHistoryPath(options.path);
+   };
+
+    /*
+     The function generates the history path of a given asset
+     using its path
+     @assetPath:The path of the asset to be retrieved.
+     @return: The path of lifecycle history information
+     */
+   var getHistoryPath= function (assetPath){
+
+        //Replace the / in the assetPath
+        var partialHistoryPath=assetPath.replace(lcHistoryRegExpression,HISTORY_PATH_SEPERATOR);
+
+        var fullPath=HISTORY_PATH+partialHistoryPath;
+
+        return fullPath;
+    };
+
+
+
+
+    /*
+    Helper function to create an artifact instance from a set of options (an image).
+    */
    var getArtifactFromImage=function(manager,options){
 	
 	var path=options.path||'';
