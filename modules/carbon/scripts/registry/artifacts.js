@@ -7,16 +7,16 @@
     var ByteArrayInputStream = Packages.java.io.ByteArrayInputStream;
     var QName = Packages.javax.xml.namespace.QName;
     var IOUtils = Packages.org.apache.commons.io.IOUtils;
-	
-    var GovernanceUtils=Packages.org.wso2.carbon.governance.api.util.GovernanceUtils;//Used to obtain Asset Types
-    var DEFAULT_MEDIA_TYPE='application/vnd.wso2.registry-ext-type+xml';//Used to obtain Asset types
 
-    var REGISTRY_ABSOLUTE_PATH="/_system/governance";
+    var GovernanceUtils = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils;//Used to obtain Asset Types
+    var DEFAULT_MEDIA_TYPE = 'application/vnd.wso2.registry-ext-type+xml';//Used to obtain Asset types
 
-    var HISTORY_PATH_SEPERATOR='_';
-    var ASSET_PATH_SEPERATOR='/';
-    var lcHistoryRegExpression=new RegExp(ASSET_PATH_SEPERATOR,'g');
-    var HISTORY_PATH='/_system/governance/repository/components/org.wso2.carbon.governance/lifecycles/history/';
+    var REGISTRY_ABSOLUTE_PATH = "/_system/governance";
+
+    var HISTORY_PATH_SEPERATOR = '_';
+    var ASSET_PATH_SEPERATOR = '/';
+    var lcHistoryRegExpression = new RegExp(ASSET_PATH_SEPERATOR, 'g');
+    var HISTORY_PATH = '/_system/governance/repository/components/org.wso2.carbon.governance/lifecycles/history/';
 
 
     var buildArtifact = function (manager, artifact) {
@@ -124,23 +124,23 @@
     };
 
     /*
-	The function returns an array of asset types 
-	@mediaType - The media type of the assets
-	@return An array of strings containing the asset paths
-    */
-    ArtifactManager.prototype.getAssetTypePaths=function(mediaType){
-	
-	//Use the default media type if one is not provided
-	if(!mediaType){
-	   mediaType=DEFAULT_MEDIA_TYPE;
-	}
+     The function returns an array of asset types
+     @mediaType - The media type of the assets
+     @return An array of strings containing the asset paths
+     */
+    ArtifactManager.prototype.getAssetTypePaths = function (mediaType) {
 
-	//var assetArray=GovernanceUtils.findGovernanceArtifacts(mediaType,this.registry);
-	var result=Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.findGovernanceArtifacts(mediaType,registry.registry);
-	
-	return result;
-	//Create an empty array if no asset types are found
-	//return (!assetArray)?[]:assetArray;
+        //Use the default media type if one is not provided
+        if (!mediaType) {
+            mediaType = DEFAULT_MEDIA_TYPE;
+        }
+
+        //var assetArray=GovernanceUtils.findGovernanceArtifacts(mediaType,this.registry);
+        var result = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.findGovernanceArtifacts(mediaType, registry.registry);
+
+        return result;
+        //Create an empty array if no asset types are found
+        //return (!assetArray)?[]:assetArray;
     };
 
     /*
@@ -171,202 +171,202 @@
         this.manager.removeGenericArtifact(id);
     };
 
-   /*
-   Attaches the provided lifecycle name to the artifact
-   @lifecycleName: The name of a valid lifecycle.The lifecycle should be visible to the 
-	registry.
-   @options: The artifact to which the life cycle must be attached.
-   */
-   ArtifactManager.prototype.attachLifecycle=function(lifecycleName,options){
-	
-	var artifact=getArtifactFromImage(this.manager,options);
+    /*
+     Attaches the provided lifecycle name to the artifact
+     @lifecycleName: The name of a valid lifecycle.The lifecycle should be visible to the
+     registry.
+     @options: The artifact to which the life cycle must be attached.
+     */
+    ArtifactManager.prototype.attachLifecycle = function (lifecycleName, options) {
 
-	artifact.attachLifecycle(lifecycleName);
+        var artifact = getArtifactFromImage(this.manager, options);
 
-	//this.manager.updateGenericArtifact(artifact);
-   };
+        artifact.attachLifecycle(lifecycleName);
 
-   /*
-   Removes the attached lifecycle from the artifact
-   @options: The artifact from which the life cycle must be removed
-   */
-   ArtifactManager.prototype.detachLifecycle=function(options){
-	
-	var artifact=getArtifactFromImage(this.manager,options);
+        //this.manager.updateGenericArtifact(artifact);
+    };
 
-	artifact.detachLifecycle();
-   };
+    /*
+     Removes the attached lifecycle from the artifact
+     @options: The artifact from which the life cycle must be removed
+     */
+    ArtifactManager.prototype.detachLifecycle = function (options) {
 
-   /*
-   Promotes the artifact to the next stage in its life cycle
-   @options: An artifact image (Not a real artifact)
-   */
-   ArtifactManager.prototype.promoteLifecycleState=function(state,options){
-	var artifact=getArtifactFromImage(this.manager,options);
+        var artifact = getArtifactFromImage(this.manager, options);
 
-	var checkListItems=[];
-	//We enable all checklists
-	try{
-	    checkListItems=artifact.getAllCheckListItemNames();
-	}
-	catch(e){
+        artifact.detachLifecycle();
+    };
+
+    /*
+     Promotes the artifact to the next stage in its life cycle
+     @options: An artifact image (Not a real artifact)
+     */
+    ArtifactManager.prototype.promoteLifecycleState = function (state, options) {
+        var artifact = getArtifactFromImage(this.manager, options);
+
+        var checkListItems = [];
+        //We enable all checklists
+        try {
+            checkListItems = artifact.getAllCheckListItemNames();
+        }
+        catch (e) {
             log.debug('No checklist defined');
-	    checkListItems=[];
-	}
+            checkListItems = [];
+        }
 
-	//Check if all of the check list items have been enabled
+        //Check if all of the check list items have been enabled
 
-	//If any of the items is not defined, throw an exception
+        //If any of the items is not defined, throw an exception
 
-	//Invoke the action
+        //Invoke the action
 
-	/*for(var index in checkListItems){
-		artifact.checkLCItem(index);
-	}*/
-	
-	artifact.invokeAction(state);
-   };
+        /*for(var index in checkListItems){
+         artifact.checkLCItem(index);
+         }*/
 
-   /*
-   Gets the current lifecycle state
-   @options: An artifact object
-   @returns: The life cycle state
-   */
-   ArtifactManager.prototype.getLifecycleState=function(options){
-	var artifact=getArtifactFromImage(this.manager,options);
+        artifact.invokeAction(state);
+    };
 
-	var state=artifact.getLifecycleState();
-	return state;
-	//return artifact.getLcState();
-   };
+    /*
+     Gets the current lifecycle state
+     @options: An artifact object
+     @returns: The life cycle state
+     */
+    ArtifactManager.prototype.getLifecycleState = function (options) {
+        var artifact = getArtifactFromImage(this.manager, options);
 
-   /*
-   The function returns the list of check list items for a given state
-   @options: The artifact
-   @returns: A String array containing the check list items.(Can be empty if no check list items are present)
-   */
-   ArtifactManager.prototype.getCheckListItemNames=function(options){
-	var artifact=getArtifactFromImage(this.manager,options);
+        var state = artifact.getLifecycleState();
+        return state;
+        //return artifact.getLcState();
+    };
 
-	var checkListItems=artifact.getAllCheckListItemNames()||[];
+    /*
+     The function returns the list of check list items for a given state
+     @options: The artifact
+     @returns: A String array containing the check list items.(Can be empty if no check list items are present)
+     */
+    ArtifactManager.prototype.getCheckListItemNames = function (options) {
+        var artifact = getArtifactFromImage(this.manager, options);
 
-	var checkListItemArray=[];
+        var checkListItems = artifact.getAllCheckListItemNames() || [];
 
-	//Go through each check list item
-	for(var index in checkListItems){
-		//Get whether the check list item is checked
-		var state=artifact.isLCItemChecked(index);
-		checkListItemArray.push({ 'name':checkListItems[index], 'checked':state });
-	}
+        var checkListItemArray = [];
 
-	return checkListItemArray;
-   };
+        //Go through each check list item
+        for (var index in checkListItems) {
+            //Get whether the check list item is checked
+            var state = artifact.isLCItemChecked(index);
+            checkListItemArray.push({ 'name': checkListItems[index], 'checked': state });
+        }
 
-   /*
-   The function checks whether a given check list item at the provided index is checked for the current state
-   @index: The index of the check list item.This must be a value between 0 and the maximum check list item
-	   	that appears in the lifecycle definition
-   @options: An artifact object
-   @throws Exception: If the index is not within 0 and the max check list item or if there is an issue ticking the item
-   */
-   ArtifactManager.prototype.isItemChecked=function(index,options){
-	var artifact=getArtifactFromImage(this.manager,options);
+        return checkListItemArray;
+    };
 
-	var checkListItems=artifact.getAllCheckListItemNames();
+    /*
+     The function checks whether a given check list item at the provided index is checked for the current state
+     @index: The index of the check list item.This must be a value between 0 and the maximum check list item
+     that appears in the lifecycle definition
+     @options: An artifact object
+     @throws Exception: If the index is not within 0 and the max check list item or if there is an issue ticking the item
+     */
+    ArtifactManager.prototype.isItemChecked = function (index, options) {
+        var artifact = getArtifactFromImage(this.manager, options);
 
-	var checkListLength=checkListItems.length;
+        var checkListItems = artifact.getAllCheckListItemNames();
 
-	if((index<0)||(index>checkListLength)){
-		throw "The index value: "+index+" must be between 0 and "+checkListLength+".Please refer to the lifecycle definition in the registry.xml for the number of check list items.";
-	}
-	
-	var result=artifact.isLCItemChecked(index);
+        var checkListLength = checkListItems.length;
 
-	return result;
-   };
+        if ((index < 0) || (index > checkListLength)) {
+            throw "The index value: " + index + " must be between 0 and " + checkListLength + ".Please refer to the lifecycle definition in the registry.xml for the number of check list items.";
+        }
+
+        var result = artifact.isLCItemChecked(index);
+
+        return result;
+    };
 
 
-   /*
-   The method enables the check list item and the given index
-   @index: The index of the check list item.This must be a value between 0 and the maximum check list item
-		that appears in the lifecycle definition.
-   @options: An artifact object
-   @throws Exception: If the index is not within 0 and max check list item or if there is an issue ticking the item.
-   */
-   ArtifactManager.prototype.checkItem=function(index,options){
+    /*
+     The method enables the check list item and the given index
+     @index: The index of the check list item.This must be a value between 0 and the maximum check list item
+     that appears in the lifecycle definition.
+     @options: An artifact object
+     @throws Exception: If the index is not within 0 and max check list item or if there is an issue ticking the item.
+     */
+    ArtifactManager.prototype.checkItem = function (index, options) {
 
- 	var artifact=getArtifactFromImage(this.manager,options);
+        var artifact = getArtifactFromImage(this.manager, options);
 
-	var checkListItems=artifact.getAllCheckListItemNames();
+        var checkListItems = artifact.getAllCheckListItemNames();
 
-	var checkListLength=checkListItems.length;
+        var checkListLength = checkListItems.length;
 
-	if((index<0)||(index>checkListLength)){
-		throw "The index value: "+index+" must be between 0 and "+checkListLength+".Please refer to the lifecycle definition in the registry.xml for the number of check list items.";
-	}
-	
-	artifact.checkLCItem(index);
-   };
+        if ((index < 0) || (index > checkListLength)) {
+            throw "The index value: " + index + " must be between 0 and " + checkListLength + ".Please refer to the lifecycle definition in the registry.xml for the number of check list items.";
+        }
 
-  /*
-  The method disables the check list item at the given index
-  @index: The index of the check list item.This must be a value between 0 and the maximum check list item
-	  that appears in the lifecycle definition
-  @options: An artifact object
-  @throws Exception: If the index is not within 0 and max check list item or if there is an issue ticking the item
-  */
-   ArtifactManager.prototype.uncheckItem=function(index,options){
-	var artifact=getArtifactFromImage(this.manager,options);
+        artifact.checkLCItem(index);
+    };
 
-	var checkListItems=artifact.getAllCheckListItemNames();
+    /*
+     The method disables the check list item at the given index
+     @index: The index of the check list item.This must be a value between 0 and the maximum check list item
+     that appears in the lifecycle definition
+     @options: An artifact object
+     @throws Exception: If the index is not within 0 and max check list item or if there is an issue ticking the item
+     */
+    ArtifactManager.prototype.uncheckItem = function (index, options) {
+        var artifact = getArtifactFromImage(this.manager, options);
 
-	var checkListLength=checkListItems.length;
+        var checkListItems = artifact.getAllCheckListItemNames();
 
-	if((index<0)||(index>checkListLength)){
-		throw "The index value: "+index+" must be between 0 and "+checkListLength+".Please refer to the lifecycle definition in the registry.xml for the number of check list items.";
-	}
-	
-	artifact.uncheckLCItem(index);
-   };
+        var checkListLength = checkListItems.length;
 
-   /*
-   The method obtains the list of all available actions for the current state of the asset
-   @options: An artifact object
-   @returns: The list of available actions for the current state,else false
-   */
-   ArtifactManager.prototype.availableActions=function(options){
-	var artifact=getArtifactFromImage(this.manager,options);
-	var availableActions=artifact.getAllLifecycleActions()||[];
-	return availableActions;
-   };
+        if ((index < 0) || (index > checkListLength)) {
+            throw "The index value: " + index + " must be between 0 and " + checkListLength + ".Please refer to the lifecycle definition in the registry.xml for the number of check list items.";
+        }
 
-   /*
-   The function returns the life-cycle history path using
-   the provided asset.
-   @options: An asset.
-   @return: A string path of the life-cycle history.
-    */
-   ArtifactManager.prototype.getLifecycleHistoryPath=function(options){
-       return getHistoryPath(options.path);
-   };
+        artifact.uncheckLCItem(index);
+    };
 
-   /*
-   The function returns the life-cycle attached to the provided artifact
-   @options: An asset as returned by the ArtifactManager get method
-   @return: A string indicating the lifecycle name.If the artifact does not
-	have a life-cycle then an empty string is returned.
-   */
-   ArtifactManager.prototype.getLifeCycleName=function(options){
-	var artifact=getArtifactFromImage(this.manager,options);
-	
-	var lifecycleName='';
-	
-	if(artifact!=null){
-	   lifecycleName=artifact.getLifecycleName();
-	}
-	
-	return lifecycleName;
-   };
+    /*
+     The method obtains the list of all available actions for the current state of the asset
+     @options: An artifact object
+     @returns: The list of available actions for the current state,else false
+     */
+    ArtifactManager.prototype.availableActions = function (options) {
+        var artifact = getArtifactFromImage(this.manager, options);
+        var availableActions = artifact.getAllLifecycleActions() || [];
+        return availableActions;
+    };
+
+    /*
+     The function returns the life-cycle history path using
+     the provided asset.
+     @options: An asset.
+     @return: A string path of the life-cycle history.
+     */
+    ArtifactManager.prototype.getLifecycleHistoryPath = function (options) {
+        return getHistoryPath(options.path);
+    };
+
+    /*
+     The function returns the life-cycle attached to the provided artifact
+     @options: An asset as returned by the ArtifactManager get method
+     @return: A string indicating the lifecycle name.If the artifact does not
+     have a life-cycle then an empty string is returned.
+     */
+    ArtifactManager.prototype.getLifeCycleName = function (options) {
+        var artifact = getArtifactFromImage(this.manager, options);
+
+        var lifecycleName = '';
+
+        if (artifact != null) {
+            lifecycleName = artifact.getLifecycleName();
+        }
+
+        return lifecycleName;
+    };
 
     /*
      The function generates the history path of a given asset
@@ -374,37 +374,35 @@
      @assetPath:The path of the asset to be retrieved.
      @return: The path of lifecycle history information
      */
-   var getHistoryPath= function (assetPath){
+    var getHistoryPath = function (assetPath) {
 
         //Replace the / in the assetPath
-        var partialHistoryPath=assetPath.replace(lcHistoryRegExpression,HISTORY_PATH_SEPERATOR);
+        var partialHistoryPath = assetPath.replace(lcHistoryRegExpression, HISTORY_PATH_SEPERATOR);
 
-        var fullPath=HISTORY_PATH+partialHistoryPath;
+        var fullPath = HISTORY_PATH + partialHistoryPath;
 
         return fullPath;
     };
 
 
-
-
     /*
-    Helper function to create an artifact instance from a set of options (an image).
-    */
-   var getArtifactFromImage=function(manager,options){
-	
-	var path=options.path||'';
-	var lcName=options.lifecycle||'';
-	var artifact=createArtifact(manager,{
-		id:options.id,
-		attributes:options.attributes
-	});
+     Helper function to create an artifact instance from a set of options (an image).
+     */
+    var getArtifactFromImage = function (manager, options) {
 
-	path=path.replace(REGISTRY_ABSOLUTE_PATH,'');
-	
-	artifact.setArtifactPath(path);
-	artifact.setLcName(lcName);
+        var path = options.path || '';
+        var lcName = options.lifecycle || '';
+        var artifact = createArtifact(manager, {
+            id: options.id,
+            attributes: options.attributes
+        });
 
-	return artifact;
-   };
+        path = path.replace(REGISTRY_ABSOLUTE_PATH, '');
+
+        artifact.setArtifactPath(path);
+        artifact.setLcName(lcName);
+
+        return artifact;
+    };
 
 }(server, registry));
