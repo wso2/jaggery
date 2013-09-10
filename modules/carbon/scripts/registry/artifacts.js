@@ -350,6 +350,24 @@
        return getHistoryPath(options.path);
    };
 
+   /*
+   The function returns the life-cycle attached to the provided artifact
+   @options: An asset as returned by the ArtifactManager get method
+   @return: A string indicating the lifecycle name.If the artifact does not
+	have a life-cycle then an empty string is returned.
+   */
+   ArtifactManager.prototype.getLifeCycleName=function(options){
+	var artifact=getArtifactFromImage(this.manager,options);
+	
+	var lifecycleName='';
+	
+	if(artifact!=null){
+	   lifecycleName=artifact.getLifecycleName();
+	}
+	
+	return lifecycleName;
+   };
+
     /*
      The function generates the history path of a given asset
      using its path
