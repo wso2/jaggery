@@ -1,5 +1,7 @@
 (function (server, user) {
 
+    var log = new Log();
+
     var processPerms = function (perms, fn) {
         var perm, actions, i, length;
         for (perm in perms) {
@@ -98,6 +100,9 @@
             processPerms(permission, function (id, action) {
                 if (!that.isAuthorized(role, id, action)) {
                     that.authorizer.authorizeRole(role, id, action);
+                    if(log.isDebugEnabled()) {
+                        log.debug('permission added(role:permission:action) - ' + role + ':' + id + ':' + action);
+                    }
                 }
             });
         }

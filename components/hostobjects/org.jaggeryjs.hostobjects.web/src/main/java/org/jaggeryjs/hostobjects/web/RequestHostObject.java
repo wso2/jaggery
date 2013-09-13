@@ -99,7 +99,7 @@ public class RequestHostObject extends ScriptableObject {
                 contentType = contentType.trim().toLowerCase();
                 if (contentType.startsWith("application/json") ||
                         contentType.startsWith("application/json/badgerfish")) {
-                    rho.content = HostObjectUtil.parseJSON(thisObj, data);
+                    rho.content = (data != null && !"".equals(data)) ? HostObjectUtil.parseJSON(thisObj, data) : null;
                 }
             } else {
                 rho.content = data;
