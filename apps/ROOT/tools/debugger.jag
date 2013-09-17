@@ -85,7 +85,7 @@ include('/includes/topnavi.jag');
                         <li><code>org.eclipse.wst.jsdt.debug.transport-1.0.100.v201109150330.jar</code></li>
                         <li><code>org.eclipse.wst.jsdt.debug.rhino.debugger-1.0.300.v201109150503.jar</code></li>
                     </ul>
-                    <li>Extract <code>jaggery-0.9.0.ALPHA4.wso2v1_ALPHA3.zip</code> to a directory you prefer. Let's call it
+                    <li>Extract <code>jaggery-0.9.0-SNAPSHOT.zip</code> to a directory you prefer. Let's call it
                         <code>JAGGERY_HOME</code></li>
                     <li>Copy the above mentioned jars into <code>JAGGERY_HOME/carbon/repository/components/dropins</code>
                         directory.</li>
