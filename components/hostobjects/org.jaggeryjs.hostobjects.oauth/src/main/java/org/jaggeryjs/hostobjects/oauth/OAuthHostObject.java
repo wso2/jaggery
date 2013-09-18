@@ -14,7 +14,7 @@ import java.util.Arrays;
 public class OAuthHostObject extends ScriptableObject {
 
     private static final String hostObjectName = "OAuthProvider";
-
+    private static final Token EMPTY_TOKEN = null;
     private String apiKey;
     private String apiSecret;
     private String protectedResource;
@@ -24,6 +24,11 @@ public class OAuthHostObject extends ScriptableObject {
     private OAuthRequest oauthRequest;
     private Verifier verifier;
     private Response response;
+    private OAuthVersion oAuthVersion;
+    
+    enum OAuthVersion {
+    	OAUTH1, OAUTH2
+    }
 
 
     @Override
@@ -57,8 +62,7 @@ public class OAuthHostObject extends ScriptableObject {
                         || providerConfig.getApi_secret() == null
                         || providerConfig.getAccess_token_url() == null
                         || providerConfig.getAuthorization_url() == null
-                        || providerConfig.getOAuth_version() == null
-                        || providerConfig.getRequest_token_url() == null) {
+                        || providerConfig.getOAuth_version() == null) {
                     throw new ScriptException("API configuration not specified");
                 }
 
@@ -66,6 +70,12 @@ public class OAuthHostObject extends ScriptableObject {
                 oauthho.apiSecret = providerConfig.getApi_secret();
 
                 if (providerConfig.getOAuth_version() == 1.0) {
+                	
+                    if (providerConfig.getRequest_token_url() == null) {
+                        throw new ScriptException("API configuration not specified");
+                    }
+                    
+                	oauthho.oAuthVersion = OAuthVersion.OAUTH1;
                     GenericOAuth10aApi oauth10aApi = new GenericOAuth10aApi();
                     oauth10aApi.setAccessTokenEndpoint(providerConfig.getAccess_token_url());
                     oauth10aApi.setAuthorizationUrl(providerConfig.getAuthorization_url());
@@ -77,6 +87,12 @@ public class OAuthHostObject extends ScriptableObject {
                             .build();
 
                 } else if (providerConfig.getOAuth_version() == 2.0) {
+                	
+                    if (providerConfig.getCallback_url() == null) {
+                        throw new ScriptException("API configuration not specified");
+                    }
+                    
+                	oauthho.oAuthVersion = OAuthVersion.OAUTH2;
                     GenericOAuth20Api oauth20Api = new GenericOAuth20Api();
                     oauth20Api.setAccessTokenEP(providerConfig.getAccess_token_url());
                     oauth20Api.setAuthorizeUrl(providerConfig.getAuthorization_url());
@@ -98,9 +114,15 @@ public class OAuthHostObject extends ScriptableObject {
      * creates an authorization Token
      */
     public static String jsFunction_getAuthorizationUrl(Context cx, Scriptable thisObj, Object[] args, Function funObj) throws ScriptException {
-        OAuthHostObject oauthho = (OAuthHostObject) thisObj;
-        oauthho.requestToken = oauthho.oauthService.getRequestToken();
-        return oauthho.oauthService.getAuthorizationUrl(oauthho.requestToken);
+    	OAuthHostObject oauthho = (OAuthHostObject) thisObj;
+    	if (oauthho.oAuthVersion == OAuthVersion.OAUTH1) {
+    		oauthho.requestToken = oauthho.oauthService.getRequestToken();
+    		return oauthho.oauthService.getAuthorizationUrl(oauthho.requestToken);
+    	}else if(oauthho.oAuthVersion == OAuthVersion.OAUTH2) {
+    		return oauthho.oauthService.getAuthorizationUrl(EMPTY_TOKEN);
+    	}
+    	
+    	return null;
     }
 
     /**
