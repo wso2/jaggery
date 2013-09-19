@@ -369,6 +369,62 @@
     };
 
     /*
+    The function returns all versions of the provided artifact 
+    @options: The artifact to be checked
+    @return: A list of all the different versions of the provided asset
+    */
+    ArtifactManager.prototype.getAllAssetVersions=function(assetName){
+
+	var matchingArtifacts=[];
+
+	var pred={
+		overview_name:assetName||''
+	};
+
+	this.find(function(artifact){
+		
+		//Add to the matches if the artifact exists
+		if(assert(artifact.attributes,pred)){
+
+			//We only need the id and version
+			matchingArtifacts.push({id:artifact.id,version:artifact.attributes.overview_version});
+		}
+        });
+
+	return matchingArtifacts;
+    };
+
+    /*
+    The function checks if the two objects a and b are equal.If a property in b is not
+    in a, then both objects are assumed to be different.
+    @a: The object to be compared
+    @b: The object containing properties that must match in a
+    @return: True if the objects are equal,else false.
+    */
+    var assert=function(a,b){
+	
+	//Assume the objects will be same
+	var equal=true;
+
+	for(var key in b){
+	
+		
+		if(a.hasOwnProperty(key)){
+
+		   //If the two keys are not equal
+		   if(a[key]!=b[key]){
+			return false;
+		   }
+		}
+		else{
+			return false;
+		}	
+	}
+
+	return equal;
+    };
+
+    /*
      The function generates the history path of a given asset
      using its path
      @assetPath:The path of the asset to be retrieved.
