@@ -10,6 +10,9 @@
         if (!options) {
             return context.getTenantDomain();
         }
+        if(options.tenantId) {
+            return tenantManager.getDomain(options.tenantId);
+        }
         if (options.username) {
             return MultitenantUtils.getTenantDomain(options.username);
         }

@@ -27,7 +27,7 @@
         <dependency>
             <groupId>org.jaggeryjs</groupId>
             <artifactId>org.jaggeryjs.hostobjects.file</artifactId>
-            <version>${pom.version}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.activation</groupId>

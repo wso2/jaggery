@@ -43,7 +43,7 @@ CoffeeShop.loadOrders(html);
 
 this.addAddittion = function(orderid, addition) {
 var content = '{"addition":\''+addition+'\'}';
-CoffeShopAppUtil.makeRequest("PUT","/coffeeshop/orders/"+orderid, content , function(html) {
+CoffeShopAppUtil.makeJsonARequest("PUT","/coffeeshop/orders/"+orderid, content , function(html) {
 $("#response-textarea").val(JSON.stringify(html)); 
 CoffeeShopClient.viewOrders();
 if(html.Infor != null){
@@ -55,7 +55,7 @@ alert(html.Infor);
 
 this.updateStatus = function(orderid,status) {
 var content = '{"status":'+status+'}';
-CoffeShopAppUtil.makeRequest("PUT","/coffeeshop/orders/"+orderid, content , function(html) {
+CoffeShopAppUtil.makeJsonARequest("PUT","/coffeeshop/orders/"+orderid, content , function(html) {
 $("#response-textarea").val(JSON.stringify(html)); 
 CoffeeShopClient.viewOrders();	
 });
