@@ -3,6 +3,7 @@ package org.jaggeryjs.hostobjects.db;
 import com.google.gson.Gson;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jaggeryjs.hostobjects.stream.StreamHostObject;
 import org.jaggeryjs.scriptengine.engine.RhinoEngine;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
@@ -461,7 +462,14 @@ public class DatabaseHostObject extends ScriptableObject {
             stmt.setInt(index, (Integer) obj);
         } else if (obj instanceof Double) {
             stmt.setDouble(index, (Double) obj);
-        } else {
+        }
+        //Support for streams in queries
+        //Added 25/9/2013
+        else if (obj instanceof StreamHostObject) {
+            StreamHostObject stream=(StreamHostObject)obj;
+            stmt.setBinaryStream(index,stream.getStream());
+        }
+        else {
             stmt.setString(index, HostObjectUtil.serializeObject(obj));
         }
     }
