@@ -10,6 +10,7 @@
 
     var GovernanceUtils = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils;//Used to obtain Asset Types
     var DEFAULT_MEDIA_TYPE = 'application/vnd.wso2.registry-ext-type+xml';//Used to obtain Asset types
+	var PaginationContext = Packages.org.wso2.carbon.registry.core.pagination.PaginationContext;//Used for pagination on register
 
     var REGISTRY_ABSOLUTE_PATH = "/_system/governance";
 
@@ -19,7 +20,7 @@
     var HISTORY_PATH = '/_system/governance/repository/components/org.wso2.carbon.governance/lifecycles/history/';
 
 
-    var buildArtifact = function (manager, artifact) {
+    var buildArtifact = function (manager, artifact) {    	
         return {
             id: String(artifact.id),
             type: String(manager.type),
@@ -90,17 +91,37 @@
     registry.ArtifactManager = ArtifactManager;
 
     ArtifactManager.prototype.find = function (fn, paging) {
-        var i, length, artifacts,
-            artifactz = [];
-        artifacts = this.manager.findGenericArtifacts(new GenericArtifactFilter({
-            matches: function (artifact) {
-                return fn(buildArtifact(this, artifact));
-            }
-        }));
-        length = artifacts.length;
-        for (i = 0; i < length; i++) {
-            artifactz.push(buildArtifact(this, artifacts[i]));
-        }
+        var i, length, artifacts,pagi = paging;
+            
+		var artifactz = [];
+		
+		try {
+			if(paging != null) {
+				//genratePaginationForm(paging);
+				PaginationContext.init(paging.start, paging.count, 'ASC', 'overview_name', 100);
+
+			}
+		} catch(err) {
+			//Handle errors here
+			log.info('pagination error');
+		} finally {
+			// Final-block
+			artifacts = this.manager.findGenericArtifacts(new GenericArtifactFilter({
+				matches : function(artifact) {
+					return fn(buildArtifact(this, artifact));
+				}
+			}));
+			length = artifacts.length;
+			
+			for( i = 0 ; i < length; i++) {				
+				artifactz.push(buildArtifact(this, artifacts[i]));
+				}
+
+			if(paging != null) {
+				PaginationContext.destroy();
+			}
+		}
+
         return artifactz;
     };
 
@@ -440,7 +461,25 @@
         return fullPath;
     };
 
-
+    /*
+     generatePaginationForm will genrate json for registry pagination context
+     @pagin:The pagination details from UI
+     @
+     */
+    var generatePaginationForm = function (pagin) {
+    
+		//pagination context for default
+		var paginationLimit = 100;
+		var paginationForm = {
+			'start' : 0,
+			'count' : 12,
+			'sortOrder' : 'ASC',
+			'sortBy' : 'overview_name',
+			'paginationLimit' : 100
+		};
+		//Todo switch sortOrder and sortBy from ES to pagination Context
+		
+    };
     /*
      Helper function to create an artifact instance from a set of options (an image).
      */
