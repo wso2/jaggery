@@ -94,16 +94,20 @@
         var i, length, artifacts,pagi = paging;
             
 		var artifactz = [];
-		
+		if(paging != null) {
+		var pagination = generatePaginationForm(paging);
+		}
 		try {
+			
 			if(paging != null) {
-				//genratePaginationForm(paging);
-				PaginationContext.init(paging.start, paging.count, 'ASC', 'overview_name', 100);
+				
+				PaginationContext.init(pagination.start, pagination.count, pagination.sortOrder, pagination.sortBy, pagination.paginationLimit);
 
 			}
-		} catch(err) {
+
+		} catch(error) {
 			//Handle errors here
-			log.info('pagination error');
+			log.info('Pagination problem occurs '+error);
 		} finally {
 			// Final-block
 			artifacts = this.manager.findGenericArtifacts(new GenericArtifactFilter({
@@ -467,7 +471,7 @@
      @
      */
     var generatePaginationForm = function (pagin) {
-    
+
 		//pagination context for default
 		var paginationLimit = 100;
 		var paginationForm = {
@@ -477,8 +481,37 @@
 			'sortBy' : 'overview_name',
 			'paginationLimit' : 100
 		};
-		//Todo switch sortOrder and sortBy from ES to pagination Context
-		
+		// switch sortOrder from ES to pagination Context
+
+		switch (pagin.sort) {
+			case 'recent':
+				paginationForm.sortOrder = 'ASC'
+				break;
+			case 'older':
+				paginationForm.sortOrder = 'DES'
+				break;
+			case 'popular':
+				// no regsiter pagination support, socail feature need to check
+				break;
+			case 'unpopular':
+				// no regsiter pagination support, socail feature need to check
+				break;
+			case 'az':
+				paginationForm.sortOrder = 'ASC'
+				break;
+			case 'za':
+				paginationForm.sortOrder = 'DES'
+				break;
+			default:
+				paginationForm.sortOrder = 'ASC'
+		}
+		//sortBy only have overview_name name still for assert type attributes
+		if(pagin.paginationLimit != null) {
+			paginationForm.paginationLimit = pagin.paginationLimit;
+		}
+		return paginationForm;
+
+
     };
     /*
      Helper function to create an artifact instance from a set of options (an image).
