@@ -506,10 +506,17 @@
 				paginationForm.sortOrder = 'ASC'
 		}
 		//sortBy only have overview_name name still for assert type attributes
+		if(pagin.count != null) {
+			paginationForm.count = pagin.count;
+		}
+		if(pagin.start != null) {
+			paginationForm.paginationLimit = pagin.start;
+		}
 		if(pagin.paginationLimit != null) {
 			paginationForm.paginationLimit = pagin.paginationLimit;
 		}
 		return paginationForm;
+
 
 
     };
