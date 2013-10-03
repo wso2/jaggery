@@ -52,7 +52,7 @@
         <dependency>
             <groupId>org.jaggeryjs</groupId>
             <artifactId>org.jaggeryjs.jaggery.app.mgt.stub</artifactId>
-            <version>${pom.version}</version>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 
@@ -77,7 +77,7 @@
                         <Carbon-Component>UIBundle</Carbon-Component>
                         <Import-Package>
                             !org.jaggeryjs.jaggery.app.mgt.ui.*,
-                            org.jaggeryjs.jaggery.app.mgt.stub.*;version="${pom.version}",
+                            org.jaggeryjs.jaggery.app.mgt.stub.*;version="${project.version}",
                             org.apache.axis2.*; version="${axis2.osgi.version}",
                             *;resolution:=optional
                         </Import-Package>

@@ -196,7 +196,7 @@
                                 <delete dir="target/dependency-maven-plugin-markers"/>
                                 <delete dir="target/maven-archiver"/>
                                 <delete dir="target/wso2carbon-core-${carbon.kernal.version}"/>
-                                <delete file="target/jaggery-${pom.version}.jar"/>
+                                <delete file="target/jaggery-${project.version}.jar"/>
                                 <delete dir="target/sources"/>
                                 <delete dir="target/site"/>
                                 <delete dir="target/antrun"/>

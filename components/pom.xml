@@ -76,8 +76,9 @@
         <jaggery.feature.version>0.9.0-SNAPSHOT</jaggery.feature.version>
 
         <!-- carbon versions -->
-        <carbon.kernal.version>4.1.0</carbon.kernal.version>
-        <carbon.platform.version>4.1.0</carbon.platform.version>
+        <carbon.kernal.version>4.2.0</carbon.kernal.version>
+        <carbon.platform.version>4.2.0</carbon.platform.version>
+		<patch.version.410>4.1.0</patch.version.410>
 
         <!-- patch versions -->
         <patch.version.401>4.0.1</patch.version.401>
@@ -90,21 +91,21 @@
         <eclipse-transport.version>1.0.100.v201109150330</eclipse-transport.version>
 
         <!-- osgi bundle versions -->
-        <rhino.osgi.version>1.7.0.R4.wso2v1-SNAPSHOT</rhino.osgi.version>
+        <rhino.osgi.version>1.7.0.R4.wso2v1</rhino.osgi.version>
         <commons-httpclient.osgi.version>3.1.0.wso2v2</commons-httpclient.osgi.version>
         <wss4j.osgi.version>1.5.11.wso2v3</wss4j.osgi.version>
-        <axis2.osgi.version>1.6.1.wso2v5</axis2.osgi.version>
+        <axis2.osgi.version>1.6.1.wso2v10</axis2.osgi.version>
         <abdera.osgi.version>1.0.0.wso2v3</abdera.osgi.version>
-        <axiom.osgi.version>1.2.11.wso2v2</axiom.osgi.version>
-        <tomcat.osgi.version>7.0.28.wso2v1</tomcat.osgi.version>
+        <axiom.osgi.version>1.2.11.wso2v4</axiom.osgi.version>
+        <tomcat.osgi.version>7.0.34.wso2v1</tomcat.osgi.version>
         <h2-engine.osgi.version>1.2.140.wso2v3</h2-engine.osgi.version>
         <wsdl4j.osgi.version>1.6.2.wso2v3</wsdl4j.osgi.version>
-        <axis2-json.osgi.version>1.6.1.wso2v5</axis2-json.osgi.version>
+        <axis2-json.osgi.version>1.6.1.wso2v10</axis2-json.osgi.version>
         <commons-collections.osgi.version>3.2.0.wso2v1</commons-collections.osgi.version>
         <commons-dbcp.osgi.version>1.4.0.wso2v1</commons-dbcp.osgi.version>
         <xmlbeans.osgi.version>2.3.0.wso2v1</xmlbeans.osgi.version>
         <jsr107cache.osgi.version>1.1.wso2v1</jsr107cache.osgi.version>
-        <jettison.osgi.version>1.1.wso2v1</jettison.osgi.version>
+        <jettison.osgi.version>1.3.4.wso2v1</jettison.osgi.version>
         <jdom.osgi.version>1.0.0.wso2v1</jdom.osgi.version>
         <rome.osgi.version>0.9.0.wso2v1</rome.osgi.version>
         <json-simple.osgi.version>1.1.wso2v1</json-simple.osgi.version>
@@ -119,7 +120,7 @@
         <abdera-extensions.osgi.version>0.4.0.wso2v2</abdera-extensions.osgi.version>
         <xmlschema.osgi.version>1.4.7.wso2v1</xmlschema.osgi.version>
         <neethi.osgi.version>2.0.4.wso2v3</neethi.osgi.version>
-        <rampart.osgi.version>1.6.1.wso2v3</rampart.osgi.version>
+        <rampart.osgi.version>1.6.1.wso2v10</rampart.osgi.version>
         <javax.servlet.osgi.version>3.0.0.wso2v1</javax.servlet.osgi.version>
         <javax.servlet.jsp.osgi.version>2.0.0.v200806031607</javax.servlet.jsp.osgi.version>
         <gson.osgi.version>2.1</gson.osgi.version>

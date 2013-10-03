@@ -42,6 +42,9 @@ import org.wso2.carbon.CarbonException;
 import org.wso2.carbon.context.PrivilegedCarbonContext;
 import org.wso2.carbon.core.session.CarbonTomcatClusterableSessionManager;
 import org.wso2.carbon.webapp.mgt.*;
+import org.wso2.carbon.utils.FileManipulator;
+import org.wso2.carbon.utils.deployment.GhostDeployerUtils;
+
 
 import javax.servlet.ServletContext;
 import java.io.*;
@@ -202,7 +205,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                     DataHolder.getCarbonTomcatService().addWebApp(contextStr, webappFile.getAbsolutePath(),
                             new JaggeryConfListener(jaggeryConfigObj, securityConstraint));
             //deploying web app for url mapping inside virtual host
-            if (DataHolder.getHotUpdateService() != null) {
+            	 if (DataHolder.getHotUpdateService() != null) {
                 List<String> hostNames = DataHolder.getHotUpdateService().getMappigsPerWebapp(contextStr);
                 for (String hostName : hostNames) {
                     Host host = DataHolder.getHotUpdateService().addHost(hostName);
@@ -240,6 +243,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
             //catching a Throwable here to avoid web-apps crashing the server during startup
             StandardContext context = new StandardContext();
             context.setName(webappFile.getName());
+            context.addParameter(WebappsConstants.FAULTY_WEBAPP, "true");
             JaggeryApplication webapp = new JaggeryApplication(this, context, webappFile);
             webapp.setProperty(WebappsConstants.WEBAPP_FILTER, JaggeryConstants.JAGGERY_WEBAPP_FILTER_PROP);
             String msg = "Error while deploying webapp: " + webapp;
