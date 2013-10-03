@@ -364,8 +364,6 @@ public class WebAppManager {
         clone.addProperty(Constants.JAGGERY_INCLUDES_CALLSTACK, new Stack<String>());
         clone.addProperty(Constants.JAGGERY_REQUIRED_MODULES, new HashMap<String, ScriptableObject>());
 
-        CommonManager.setJaggeryContext(clone);
-
         return clone;
     }
 
@@ -545,6 +543,7 @@ public class WebAppManager {
                                                        HttpServletRequest request, HttpServletResponse response) {
         ServletContext servletContext = request.getServletContext();
         JaggeryContext context = clonedJaggeryContext(servletContext);
+        CommonManager.setJaggeryContext(context);
         context.addProperty(SERVLET_REQUEST, request);
         context.addProperty(SERVLET_RESPONSE, response);
         CommonManager.getCallstack(context).push(scriptPath);

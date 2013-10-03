@@ -89,6 +89,11 @@ public class ApplicationHostObject extends ScriptableObject {
         sho.servletContext.removeAttribute(filterAttributeName((String) args[0]));
     }
 
+    public static Object jsFunction_getContext(Context cx, Scriptable thisObj, Object[] args, Function funObj) {
+        ApplicationHostObject sho = (ApplicationHostObject) thisObj;
+        return sho.servletContext;
+    }
+
     private static String filterAttributeName(String name) {
         return ATTRIBUTE_PREFIX + name;
     }

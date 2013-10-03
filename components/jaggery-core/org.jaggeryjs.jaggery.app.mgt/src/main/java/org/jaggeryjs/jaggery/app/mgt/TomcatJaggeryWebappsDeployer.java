@@ -272,6 +272,10 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                     WebAppManager.deploy(context);
                     setDisplayName(context, jaggeryConfig);
                     if (jaggeryConfig != null) {
+                        addSessionCreatedListners(context,
+                                (JSONArray) jaggeryConfig.get(JaggeryConstants.JaggeryConfigParams.SESSION_CREATED_LISTENER_SCRIPTS));
+                        addSessionDestroyedListners(context,
+                                (JSONArray) jaggeryConfig.get(JaggeryConstants.JaggeryConfigParams.SESSION_DESTROYED_LISTENER_SCRIPTS));
                         executeScripts(context,
                                 (JSONArray) jaggeryConfig.get(JaggeryConstants.JaggeryConfigParams.INIT_SCRIPTS));
                     }
@@ -321,6 +325,8 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
         filter1mapping.addURLPattern(JaggeryCoreConstants.JAGGERY_URL_PATTERN);
         ctx.addFilterMap(filter1mapping);
 
+        ctx.addApplicationListener(JaggeryCoreConstants.JAGGERY_APPLICATION_SESSION_LISTENER);
+
         ctx.addConstraint(securityConstraint);
         addWelcomeFiles(ctx, jaggeryConfig);
         //jaggery conf params if null conf is not available
@@ -353,6 +359,80 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
         }
 
         return (JSONObject) JSONValue.parse(jsonString);
+    }
+
+    private static void addSessionCreatedListners(Context context, JSONArray arr) {
+        if (arr != null) {
+            try {
+                JaggeryContext sharedContext = WebAppManager.sharedJaggeryContext(context.getServletContext());
+                CommonManager.setJaggeryContext(sharedContext);
+                RhinoEngine engine = sharedContext.getEngine();
+                org.mozilla.javascript.Context cx = engine.enterContext();
+                ServletContext servletContext = (ServletContext) sharedContext.getProperty(
+                        org.jaggeryjs.hostobjects.web.Constants.SERVLET_CONTEXT);
+
+                List<String> jsListeners = new ArrayList<String>();
+
+                Object[] scripts = arr.toArray();
+                for (Object script : scripts) {
+
+                    if (!(script instanceof String)) {
+                        log.error("Invalid value for initScripts/destroyScripts in jaggery.conf : " + script);
+                        continue;
+                    }
+                    String path = (String) script;
+                    path = path.startsWith("/") ? path : "/" + path;
+                    Stack<String> callstack = CommonManager.getCallstack(sharedContext);
+                    callstack.push(path);
+
+                    jsListeners.add(path);
+                }
+
+                servletContext.setAttribute(JaggeryCoreConstants.JS_CREATED_LISTENERS, jsListeners);
+
+            } finally {
+                if (org.mozilla.javascript.Context.getCurrentContext() != null) {
+                    RhinoEngine.exitContext();
+                }
+            }
+        }
+    }
+
+    private static void addSessionDestroyedListners(Context context, JSONArray arr) {
+        if (arr != null) {
+            try {
+                JaggeryContext sharedContext = WebAppManager.sharedJaggeryContext(context.getServletContext());
+                CommonManager.setJaggeryContext(sharedContext);
+                RhinoEngine engine = sharedContext.getEngine();
+                org.mozilla.javascript.Context cx = engine.enterContext();
+                ServletContext servletContext = (ServletContext) sharedContext.getProperty(
+                        org.jaggeryjs.hostobjects.web.Constants.SERVLET_CONTEXT);
+
+                List<String> jsListeners = new ArrayList<String>();
+
+                Object[] scripts = arr.toArray();
+                for (Object script : scripts) {
+
+                    if (!(script instanceof String)) {
+                        log.error("Invalid value for initScripts/destroyScripts in jaggery.conf : " + script);
+                        continue;
+                    }
+                    String path = (String) script;
+                    path = path.startsWith("/") ? path : "/" + path;
+                    Stack<String> callstack = CommonManager.getCallstack(sharedContext);
+                    callstack.push(path);
+
+                    jsListeners.add(path);
+                }
+
+                servletContext.setAttribute(JaggeryCoreConstants.JS_DESTROYED_LISTENERS, jsListeners);
+
+            } finally {
+                if (org.mozilla.javascript.Context.getCurrentContext() != null) {
+                    RhinoEngine.exitContext();
+                }
+            }
+        }
     }
 
     private static void executeScripts(Context context, JSONArray arr) {

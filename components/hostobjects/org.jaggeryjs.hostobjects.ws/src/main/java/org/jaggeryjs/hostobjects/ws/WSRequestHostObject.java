@@ -656,6 +656,10 @@ public class WSRequestHostObject extends ScriptableObject {
                     NativeObject soapHeader = (NativeObject) soapHeaderObject;
                     String uri;
                     String localName;
+
+                   Object o = ((Wrapper) soapHeader).unwrap();
+
+
                     if (soapHeader.get("qName",
                             soapHeader) instanceof QName) {
                         QName qName =
