@@ -473,13 +473,13 @@
     var generatePaginationForm = function (pagin) {
 
 		//pagination context for default
-		var paginationLimit = 100;
+		var paginationLimit = 300;
 		var paginationForm = {
 			'start' : 0,
 			'count' : 12,
 			'sortOrder' : 'ASC',
 			'sortBy' : 'overview_name',
-			'paginationLimit' : 100
+			'paginationLimit' : 500
 		};
 		// switch sortOrder from ES to pagination Context
 
@@ -510,7 +510,7 @@
 			paginationForm.count = pagin.count;
 		}
 		if(pagin.start != null) {
-			paginationForm.paginationLimit = pagin.start;
+			paginationForm.start = pagin.start;
 		}
 		if(pagin.paginationLimit != null) {
 			paginationForm.paginationLimit = pagin.paginationLimit;
