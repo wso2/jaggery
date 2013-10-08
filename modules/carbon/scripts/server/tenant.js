@@ -2,7 +2,7 @@
     var PrivilegedCarbonContext = Packages.org.wso2.carbon.context.PrivilegedCarbonContext,
         MultitenantConstants = Packages.org.wso2.carbon.utils.multitenancy.MultitenantConstants,
         MultitenantUtils = Packages.org.wso2.carbon.utils.multitenancy.MultitenantUtils,
-        context = PrivilegedCarbonContext.getCurrentContext(),
+        context = PrivilegedCarbonContext.getThreadLocalCarbonContext(),
         realmService = server.osgiService('org.wso2.carbon.user.core.service.RealmService'),
         tenantManager = realmService.getTenantManager();
 
