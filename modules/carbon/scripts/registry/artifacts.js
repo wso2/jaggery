@@ -7,7 +7,12 @@
     var ByteArrayInputStream = Packages.java.io.ByteArrayInputStream;
     var QName = Packages.javax.xml.namespace.QName;
     var IOUtils = Packages.org.apache.commons.io.IOUtils;
-
+    var PrivilegedCarbonContext = Packages.org.wso2.carbon.context.PrivilegedCarbonContext;
+    var List = java.util.List;
+	var Map = java.util.Map;
+	var ArrayList = java.util.ArrayList;
+	var HashMap = java.util.HashMap;
+	
     var GovernanceUtils = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils;//Used to obtain Asset Types
     var DEFAULT_MEDIA_TYPE = 'application/vnd.wso2.registry-ext-type+xml';//Used to obtain Asset types
 	var PaginationContext = Packages.org.wso2.carbon.registry.core.pagination.PaginationContext;//Used for pagination on register
@@ -90,7 +95,7 @@
     };
     registry.ArtifactManager = ArtifactManager;
 
-    ArtifactManager.prototype.find = function (fn, paging) {
+ArtifactManager.prototype.find = function (fn, paging) {
         var i, length, artifacts,pagi = paging;
             
 		var artifactz = [];
@@ -129,6 +134,48 @@
         return artifactz;
     };
 
+ArtifactManager.prototype.search = function (query, paging) {
+        var i, length, artifacts,pagi = paging;            
+		var artifactz = [];
+		if(paging != null) {
+		var pagination = generatePaginationForm(paging);
+		}
+		try {
+			
+			if(paging != null) {
+				
+				PaginationContext.init(pagination.start, pagination.count, pagination.sortOrder, pagination.sortBy, pagination.paginationLimit);
+
+			}
+
+		} catch(error) {
+			//Handle errors here
+			log.info('Pagination problem occurs '+error);
+		} finally {
+			
+			var us = PrivilegedCarbonContext.getThreadLocalCarbonContext().getUsername();
+			//To-Do meeting for idea
+			PrivilegedCarbonContext.getThreadLocalCarbonContext().setUsername(this.registry.username);
+			
+			var map = HashMap();
+			var list  = new ArrayList();
+			//case senstive search
+			//To-Do for all attribute 
+			list.add(query+'*');
+			map.put('overview_name',list);			
+			artifacts = this.manager.findGenericArtifacts(map);
+			length = artifacts.length;			
+			for( i = 0 ; i < length; i++) {				
+				artifactz.push(buildArtifact(this, artifacts[i]));
+				}
+
+			if(paging != null) {
+				PaginationContext.destroy();
+			}
+		}
+
+        return artifactz;
+    };
     ArtifactManager.prototype.get = function (id) {
         return buildArtifact(this, this.manager.getGenericArtifact(id));
     };
