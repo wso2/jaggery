@@ -663,7 +663,7 @@ public class RegistryHostObject extends ScriptableObject {
         UserRegistry registry;
         RegistryService registryService = RegistryHostObjectContext.getRegistryService();
 
-        String tDomain = PrivilegedCarbonContext.getCurrentContext().getTenantDomain(false);
+        String tDomain = PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantDomain(false);
 
         try {
             int tId = RegistryHostObjectContext.getRealmService().getTenantManager().getTenantId(tDomain);
@@ -683,7 +683,7 @@ public class RegistryHostObject extends ScriptableObject {
         UserRegistry registry;
         RegistryService registryService = RegistryHostObjectContext.getRegistryService();
 
-        String tDomain = PrivilegedCarbonContext.getCurrentContext().getTenantDomain(false);
+        String tDomain = PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantDomain(false);
 
         try {
             int tId = RegistryHostObjectContext.getRealmService().getTenantManager().getTenantId(tDomain);

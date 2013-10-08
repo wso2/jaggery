@@ -240,7 +240,7 @@ var registry = registry || {};
     };
 
     Registry.prototype.copy = function (src, dest) {
-        this.registry.rename(src, dest);
+        this.registry.copy(src, dest);
     };
 
     Registry.prototype.restore = function (path) {
