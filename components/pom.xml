@@ -78,13 +78,9 @@
         <!-- carbon versions -->
         <carbon.kernal.version>4.2.0</carbon.kernal.version>
         <carbon.platform.version>4.2.0</carbon.platform.version>
-		<patch.version.410>4.1.0</patch.version.410>
 
         <!-- patch versions -->
-        <patch.version.401>4.0.1</patch.version.401>
-        <patch.version.402>4.0.2</patch.version.402>
-        <patch.version.404>4.0.4</patch.version.404>
-        <patch.version.405>4.0.5</patch.version.405>
+        <patch.version.421>4.2.1</patch.version.421>
 
         <!--rhino debugger versions-->
         <eclipse-debugger.version>1.0.300.v201109150503</eclipse-debugger.version>
@@ -372,11 +368,11 @@
                 <artifactId>rome</artifactId>
                 <version>${rome.osgi.version}</version>
             </dependency>
-            <dependency>
+            <!--<dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.context</artifactId>
-                <version>${patch.version.401}</version>
-            </dependency>
+                <version>${carbon.kernal.version}</version>
+            </dependency>-->
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.ndatasource.rdbms</artifactId>
@@ -476,7 +472,7 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.webapp.mgt</artifactId>
-                <version>${carbon.kernal.version}</version>
+                <version>${patch.version.421}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
