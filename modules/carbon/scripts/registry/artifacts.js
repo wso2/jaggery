@@ -95,24 +95,24 @@
     };
     registry.ArtifactManager = ArtifactManager;
 
-ArtifactManager.prototype.find = function (fn, paging) {
-        var i, length, artifacts,pagi = paging;
-            
+	ArtifactManager.prototype.find = function(fn, paging) {
+		var i, length, artifacts, pagi = paging;
+
 		var artifactz = [];
 		if(paging != null) {
-		var pagination = generatePaginationForm(paging);
+			var pagination = generatePaginationForm(paging);
 		}
 		try {
-			
+
 			if(paging != null) {
-				
+
 				PaginationContext.init(pagination.start, pagination.count, pagination.sortOrder, pagination.sortBy, pagination.paginationLimit);
 
 			}
 
 		} catch(error) {
 			//Handle errors here
-			log.info('Pagination problem occurs '+error);
+			log.info('Pagination problem occurs ' + error);
 		} finally {
 			// Final-block
 			artifacts = this.manager.findGenericArtifacts(new GenericArtifactFilter({
@@ -121,61 +121,71 @@ ArtifactManager.prototype.find = function (fn, paging) {
 				}
 			}));
 			length = artifacts.length;
-			
-			for( i = 0 ; i < length; i++) {				
+
+			for( i = 0; i < length; i++) {
 				artifactz.push(buildArtifact(this, artifacts[i]));
-				}
+			}
 
 			if(paging != null) {
 				PaginationContext.destroy();
 			}
 		}
 
-        return artifactz;
-    };
+		return artifactz;
+	};
 
-ArtifactManager.prototype.search = function (query, paging) {
-        var i, length, artifacts,pagi = paging;            
+
+	/*
+	 * this funtion is used ArtifactManager find with map for query for solr basicly
+	 * query - for maping attribute of resource
+	 * pagin - pagination details 
+	 * return - list of artifacts under the seach request 
+	 * 
+	 */
+	ArtifactManager.prototype.search = function(query, paging) {
+		var i, length, artifacts, pagi = paging;
 		var artifactz = [];
 		if(paging != null) {
-		var pagination = generatePaginationForm(paging);
+			var pagination = generatePaginationForm(paging);
 		}
 		try {
-			
+
 			if(paging != null) {
-				
+
 				PaginationContext.init(pagination.start, pagination.count, pagination.sortOrder, pagination.sortBy, pagination.paginationLimit);
 
 			}
 
 		} catch(error) {
 			//Handle errors here
-			log.info('Pagination problem occurs '+error);
+			log.info('Pagination problem occurs ' + error);
 		} finally {
-			
-			var us = PrivilegedCarbonContext.getThreadLocalCarbonContext().getUsername();
+
 			//To-Do meeting for idea
 			PrivilegedCarbonContext.getThreadLocalCarbonContext().setUsername(this.registry.username);
-			
+
 			var map = HashMap();
-			var list  = new ArrayList();
+			var list = new ArrayList();
 			//case senstive search
-			//To-Do for all attribute 
-			list.add(query+'*');
-			map.put('overview_name',list);			
+			//To-Do for all attribute
+			list.add(query + '*');
+			//list.add(query+'?');
+			map.put('overview_name', list);
 			artifacts = this.manager.findGenericArtifacts(map);
-			length = artifacts.length;			
-			for( i = 0 ; i < length; i++) {				
+			length = artifacts.length;
+			for( i = 0; i < length; i++) {
 				artifactz.push(buildArtifact(this, artifacts[i]));
-				}
+			}
 
 			if(paging != null) {
 				PaginationContext.destroy();
 			}
 		}
 
-        return artifactz;
-    };
+		return artifactz;
+	};
+
+
     ArtifactManager.prototype.get = function (id) {
         return buildArtifact(this, this.manager.getGenericArtifact(id));
     };
@@ -184,16 +194,35 @@ ArtifactManager.prototype.search = function (query, paging) {
         return this.manager.getAllGenericArtifactIds().length;
     };
 
-    ArtifactManager.prototype.list = function (paging) {
-        var i,
-            artifactz = [],
-            artifacts = this.manager.getAllGenericArtifacts(),
-            length = artifacts.length;
-        for (i = 0; i < length; i++) {
-            artifactz.push(buildArtifact(this, artifacts[i]));
-        }
-        return artifactz;
-    };
+        
+	ArtifactManager.prototype.list = function(paging) {
+		try {
+
+			if(paging != null) {
+				//to remove below line as it have pagination from FE from publisher  request
+				if(paging.start != null) {
+					var pagination = generatePaginationForm(paging);
+					PrivilegedCarbonContext.getThreadLocalCarbonContext().setUsername(this.registry.username);
+					PaginationContext.init(pagination.start, pagination.count, pagination.sortOrder, pagination.sortBy, pagination.paginationLimit);
+				}
+			}
+
+		} catch(error) {
+			//Handle errors here
+			log.info('Pagination problem occurs ' + error);
+		} finally {
+			var i, artifactz = [], artifacts = this.manager.getAllGenericArtifacts(), length = artifacts.length;
+			if(paging != null) {
+				PaginationContext.destroy();
+			}
+
+		}
+		for( i = 0; i < length; i++) {
+			artifactz.push(buildArtifact(this, artifacts[i]));
+		}
+		return artifactz;
+	};
+
 
     /*
      The function returns an array of asset types
@@ -526,11 +555,11 @@ ArtifactManager.prototype.search = function (query, paging) {
 			'count' : 12,
 			'sortOrder' : 'ASC',
 			'sortBy' : 'overview_name',
-			'paginationLimit' : 500
+			'paginationLimit' : 50000
 		};
 		// switch sortOrder from ES to pagination Context
 
-		switch (pagin.sort) {
+		switch (pagin.sortOrder) {
 			case 'recent':
 				paginationForm.sortOrder = 'ASC'
 				break;
@@ -559,9 +588,12 @@ ArtifactManager.prototype.search = function (query, paging) {
 		if(pagin.start != null) {
 			paginationForm.start = pagin.start;
 		}
-		if(pagin.paginationLimit != null) {
-			paginationForm.paginationLimit = pagin.paginationLimit;
+		if(pagin.start != null) {
+			paginationForm.start = pagin.start;
 		}
+		if(pagin.sortBy != null) {
+			paginationForm.sortBy = pagin.sortBy;
+		}		
 		return paginationForm;
 
 
