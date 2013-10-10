@@ -167,7 +167,7 @@
 			var map = HashMap();
 
 			//case senstive search as it using greg with solr 1.4.1
-			if( query instanceof String) {
+			if( typeof query == 'string') {
 				var list = new ArrayList();
 				list.add(query + '*');
 				map.put('overview_name', list);
