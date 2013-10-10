@@ -312,7 +312,7 @@ var registry = registry || {};
     Registry.prototype.associations = function (path, type) {
         var i, asso,
             assos = type ? this.registry.getAssociations(path, type) : this.registry.getAllAssociations(path),
-            length = assos.length(),
+            length = assos.length,
             associations = [];
         for (i = 0; i < length; i++) {
             asso = assos[i];
