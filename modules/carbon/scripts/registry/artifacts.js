@@ -143,6 +143,7 @@
 	 * 
 	 */
 	
+
 	ArtifactManager.prototype.search = function(query, paging) {
 		var i, length, artifacts, pagi = paging;
 		var artifactz = [];
@@ -171,6 +172,9 @@
 				var list = new ArrayList();
 				list.add(query + '*');
 				map.put('overview_name', list);
+			} else if(query == null) {
+				//listing for sorting
+				var map = java.util.Collections.emptyMap();
 			} else {
 				//support for only on name of attribut -
 				for(var searchKey in query) {
@@ -181,6 +185,13 @@
 				}
 
 			}
+			/*
+			 * Basic lc state sercher test  - to Do
+			 */
+			/*
+			 var listx = new ArrayList();
+			 listx.add('published');
+			 map.put('lcState', listx);*/
 			artifacts = this.manager.findGenericArtifacts(map);
 			length = artifacts.length;
 			for( i = 0; i < length; i++) {
@@ -194,6 +205,7 @@
 
 		return artifactz;
 	};
+
 
 
 
@@ -592,6 +604,7 @@
 			default:
 				paginationForm.sortOrder = 'ASC'
 		}
+
 		//sortBy only have overview_name name still for assert type attributes
 		if(pagin.count != null) {
 			paginationForm.count = pagin.count;
@@ -599,17 +612,16 @@
 		if(pagin.start != null) {
 			paginationForm.start = pagin.start;
 		}
-		if(pagin.start != null) {
-			paginationForm.start = pagin.start;
+		if(pagin.paginationLimit != null) {
+			paginationForm.paginationLimit = pagin.paginationLimit;
 		}
 		if(pagin.sortBy != null) {
 			paginationForm.sortBy = pagin.sortBy;
-		}		
+		}
 		return paginationForm;
 
+		};
 
-
-    };
     /*
      Helper function to create an artifact instance from a set of options (an image).
      */
