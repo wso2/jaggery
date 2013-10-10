@@ -142,6 +142,7 @@
 	 * return - list of artifacts under the seach request 
 	 * 
 	 */
+	
 	ArtifactManager.prototype.search = function(query, paging) {
 		var i, length, artifacts, pagi = paging;
 		var artifactz = [];
@@ -163,14 +164,23 @@
 
 			//To-Do meeting for idea
 			PrivilegedCarbonContext.getThreadLocalCarbonContext().setUsername(this.registry.username);
-
 			var map = HashMap();
-			var list = new ArrayList();
-			//case senstive search
-			//To-Do for all attribute
-			list.add(query + '*');
-			//list.add(query+'?');
-			map.put('overview_name', list);
+
+			//case senstive search as it using greg with solr 1.4.1
+			if( query instanceof String) {
+				var list = new ArrayList();
+				list.add(query + '*');
+				map.put('overview_name', list);
+			} else {
+				//support for only on name of attribut -
+				for(var searchKey in query) {
+					var list = new ArrayList();
+					list.add(query[searchKey] + '*');
+					map.put(searchKey, list);
+
+				}
+
+			}
 			artifacts = this.manager.findGenericArtifacts(map);
 			length = artifacts.length;
 			for( i = 0; i < length; i++) {
@@ -184,6 +194,7 @@
 
 		return artifactz;
 	};
+
 
 
     ArtifactManager.prototype.get = function (id) {
