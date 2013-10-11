@@ -1,7 +1,8 @@
 var registry = {};
 
 (function (registry) {
-    var ActionConstants = Packages.org.wso2.carbon.registry.core.ActionConstants;
+    var ActionConstants = Packages.org.wso2.carbon.registry.core.ActionConstants,
+        AccessControlConstants = Packages.org.wso2.carbon.registry.core.utils.AccessControlConstants;
 
     registry.Registry = function (server, auth) {
         var osgi = require('registry-osgi.js').registry,
@@ -17,5 +18,7 @@ var registry = {};
     registry.actions.PUT = ActionConstants.PUT;
 
     registry.actions.DELETE = ActionConstants.DELETE;
+
+    registry.actions.AUTHORIZE = AccessControlConstants.AUTHORIZE;
 
 }(registry));
