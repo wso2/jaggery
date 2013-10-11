@@ -585,9 +585,11 @@
 		switch (pagin.sortOrder) {
 			case 'recent':
 				paginationForm.sortOrder = 'ASC'
+				pagin.sortBy = pagin.sort;
 				break;
 			case 'older':
 				paginationForm.sortOrder = 'DES'
+				pagin.sortBy = pagin.sort;
 				break;
 			case 'popular':
 				// no regsiter pagination support, socail feature need to check
