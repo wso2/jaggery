@@ -293,14 +293,14 @@ public class CommonManager {
                 }
                 in.close();
             } catch (IOException e) {
-                log.error(e.getMessage(), e);
+                log.debug(e.getMessage(), e);
                 throw new ScriptException(e);
             } finally {
                 if (in != null) {
                     try {
                         in.close();
                     } catch (IOException e) {
-                        log.error(e.getMessage(), e);
+                        log.debug(e.getMessage(), e);
                     }
                 }
             }
@@ -308,7 +308,7 @@ public class CommonManager {
             try {
                 out.write(HostObjectUtil.serializeObject(args[0]).getBytes());
             } catch (IOException e) {
-                log.error(e.getMessage(), e);
+                log.debug(e.getMessage(), e);
                 throw new ScriptException(e);
             }
         }
