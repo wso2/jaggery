@@ -172,10 +172,11 @@
 				var list = new ArrayList();
 				list.add(query + '*');
 				map.put('overview_name', list);
-			} else if(query == null) {
+			} else if(query == null) {				
 				//listing for sorting
 				var map = java.util.Collections.emptyMap();
 			} else {
+				
 				//support for only on name of attribut -
 				for(var searchKey in query) {
 					var list = new ArrayList();
@@ -565,7 +566,7 @@
     };
 
     /*
-     generatePaginationForm will genrate json for registry pagination context
+     generatePaginationForm will genrate json for registry pagination context, (pagination consistent handling)
      @pagin:The pagination details from UI
      @
      */
@@ -580,34 +581,7 @@
 			'sortBy' : 'overview_name',
 			'paginationLimit' : 50000
 		};
-		// switch pagination on request mode level
-
-		switch (pagin.sort) {
-			case 'recent':
-				paginationForm.sortOrder = 'ASC'
-				pagin.sortBy = pagin.sort;
-				break;
-			case 'older':
-				paginationForm.sortOrder = 'DES'
-				pagin.sortBy = pagin.sort;
-				break;
-			case 'popular':
-				// no regsiter pagination support, socail feature need to check
-				break;
-			case 'unpopular':
-				// no regsiter pagination support, socail feature need to check
-				break;
-			case 'az':
-				paginationForm.sortOrder = 'ASC'
-				break;
-			case 'za':
-				paginationForm.sortOrder = 'DES'
-				break;
-			default:
-				paginationForm.sortOrder = 'ASC'
-		}
-
-		//sortBy only have overview_name name still for assert type attributes
+		
 		if(pagin.count != null) {
 			paginationForm.count = pagin.count;
 		}
@@ -619,6 +593,9 @@
 		}
 		if(pagin.sortBy != null) {
 			paginationForm.sortBy = pagin.sortBy;
+		}
+		if(paginationForm.sortOrder != null) {
+			paginationForm.sortOrder = pagin.sortOrder;
 		}
 		return paginationForm;
 
