@@ -580,9 +580,9 @@
 			'sortBy' : 'overview_name',
 			'paginationLimit' : 50000
 		};
-		// switch sortOrder from ES to pagination Context
+		// switch pagination on request mode level
 
-		switch (pagin.sortOrder) {
+		switch (pagin.sort) {
 			case 'recent':
 				paginationForm.sortOrder = 'ASC'
 				pagin.sortBy = pagin.sort;
