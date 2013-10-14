@@ -7,7 +7,7 @@
     var ByteArrayInputStream = Packages.java.io.ByteArrayInputStream;
     var QName = Packages.javax.xml.namespace.QName;
     var IOUtils = Packages.org.apache.commons.io.IOUtils;
-    var PrivilegedCarbonContext = Packages.org.wso2.carbon.context.PrivilegedCarbonContext;
+    var PrivilegedCarbonContext = Packages.org.wso2.carbon.context.PrivilegedCarbonContext; //Used regard tenant details
     var List = java.util.List;
 	var Map = java.util.Map;
 	var ArrayList = java.util.ArrayList;
@@ -143,28 +143,30 @@
 	 * 
 	 */
 	
-
-	ArtifactManager.prototype.search = function(query, paging) {
+ArtifactManager.prototype.search = function(query, paging) {
 		var i, length, artifacts, pagi = paging;
 		var artifactz = [];
-		if(paging != null) {
-			var pagination = generatePaginationForm(paging);
-		}
 		try {
+
+			if(this.registry.tenantId != -1234) {
+				var options = {
+					'tenantId' : this.registry.tenantId
+				};
+				var domain = carbon.server.tenantDomain(options);
+				PrivilegedCarbonContext.startTenantFlow();
+				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(this.registry.tenantId);
+				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(domain);
+				//PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(domain, true);
+			}
+
+			PrivilegedCarbonContext.getThreadLocalCarbonContext().setUsername(this.registry.username);
+			var pagination = generatePaginationForm(paging);
 
 			if(paging != null) {
 
 				PaginationContext.init(pagination.start, pagination.count, pagination.sortOrder, pagination.sortBy, pagination.paginationLimit);
 
 			}
-
-		} catch(error) {
-			//Handle errors here
-			log.info('Pagination problem occurs ' + error);
-		} finally {
-
-			//To-Do meeting for idea
-			PrivilegedCarbonContext.getThreadLocalCarbonContext().setUsername(this.registry.username);
 			var map = HashMap();
 
 			//case senstive search as it using greg with solr 1.4.1
@@ -172,11 +174,11 @@
 				var list = new ArrayList();
 				list.add(query + '*');
 				map.put('overview_name', list);
-			} else if(query == null) {				
+			} else if(query == null) {
 				//listing for sorting
 				var map = java.util.Collections.emptyMap();
 			} else {
-				
+
 				//support for only on name of attribut -
 				for(var searchKey in query) {
 					var list = new ArrayList();
@@ -186,27 +188,34 @@
 				}
 
 			}
-			/*
-			 * Basic lc state sercher test  - to Do
-			 */
-			/*
-			 var listx = new ArrayList();
-			 listx.add('published');
-			 map.put('lcState', listx);*/
 			artifacts = this.manager.findGenericArtifacts(map);
 			length = artifacts.length;
 			for( i = 0; i < length; i++) {
+				/*
+				 * Failed authorization attempt to access service 'LifeCycleManagementService'
+				 * operation 'getLifecycleList' by tenat mode - tofix in osgi services need to check in here
+				 */
 				artifactz.push(buildArtifact(this, artifacts[i]));
+
 			}
+
+		} catch(error) {
+			//Handle errors here
+			log.info('Pagination problem occurs ' + error);
+		} finally {
 
 			if(paging != null) {
 				PaginationContext.destroy();
+			}
+
+			if(this.registry.tenantId != -1234) {
+				//ending tenant flow
+				PrivilegedCarbonContext.endTenantFlow();
 			}
 		}
 
 		return artifactz;
 	};
-
 
 
 
