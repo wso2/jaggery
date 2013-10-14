@@ -67,23 +67,16 @@
 
     var Server = function (options) {
         this.url = (options && options.url) ? options.url : 'local:/';
-        this.tenanted = (options && options.tenanted);
     };
     server.Server = Server;
 
     Server.prototype.authenticate = function (username, password) {
-        var tenantId, realm, user,
+        var realm, user,
             carbon = require('carbon'),
             realmService = server.osgiService('org.wso2.carbon.user.core.service.RealmService');
-        if (this.tenanted) {
-            user = carbon.server.tenantUser(username);
-            tenantId = user.tenantId;
-            username = user.username;
-        } else {
-            tenantId = carbon.server.superTenant.tenantId;
-        }
-        realm = realmService.getTenantUserRealm(tenantId);
-        return realm.getUserStoreManager().authenticate(username, password);
+        user = carbon.server.tenantUser(username);
+        realm = realmService.getTenantUserRealm(user.tenantId);
+        return realm.getUserStoreManager().authenticate(user.username, password);
     };
 
     Server.prototype.login = function (username, password) {
