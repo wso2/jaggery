@@ -365,6 +365,47 @@
         artifact.invokeAction(state);
     };
 
+	 /*
+     Promotes the promoteLifecycleStateForTenant next stage in its life cycle
+     @options: An artifact image (Not a real artifact) and status
+	 this is stilling in testing.
+     */
+	ArtifactManager.prototype.promoteLifecycleStateForTenant = function(state, options) {
+		var artifact = getArtifactFromImage(this.manager, options);
+
+		var checkListItems = [];
+		//We enable all checklists
+		try {
+
+			var isTenantFlowStarted = false;
+			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_DOMAIN_NAME) {
+				// tenant flow start
+				var options = {
+					'tenantId' : this.registry.tenantId
+				};
+				var domain = carbon.server.tenantDomain(options);
+				PrivilegedCarbonContext.startTenantFlow();
+				isTenantFlowStarted = true;
+				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(this.registry.tenantId);
+				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(domain);
+				CarbonContext.getThreadLocalCarbonContext().setTenantId(this.registry.tenantId);
+				CarbonContext.getThreadLocalCarbonContext().setTenantDomain(domain);
+			}
+			checkListItems = artifact.getAllCheckListItemNames();
+		} catch (e) {
+			log.debug('No checklist defined');
+			checkListItems = [];
+		} finally {
+			
+			artifact.invokeAction(state);
+			if(isTenantFlowStarted) {
+				//ending tenant flow
+				PrivilegedCarbonContext.endTenantFlow();
+				isTenantFlowStarted = false;
+			}
+		}
+	};
+
     /*
      Gets the current lifecycle state
      @options: An artifact object
