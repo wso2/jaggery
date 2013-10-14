@@ -8,6 +8,8 @@
     var QName = Packages.javax.xml.namespace.QName;
     var IOUtils = Packages.org.apache.commons.io.IOUtils;
     var PrivilegedCarbonContext = Packages.org.wso2.carbon.context.PrivilegedCarbonContext; //Used regard tenant details
+	var CarbonContext = Packages.org.wso2.carbon.context.CarbonContext;
+    var MultitenantConstants = Packages.org.wso2.carbon.utils.multitenancy.MultitenantConstants;
     var List = java.util.List;
 	var Map = java.util.Map;
 	var ArrayList = java.util.ArrayList;
@@ -143,17 +145,20 @@
 	 * 
 	 */
 	
-ArtifactManager.prototype.search = function(query, paging) {
+	
+	ArtifactManager.prototype.search = function(query, paging) {
 		var i, length, artifacts, pagi = paging;
 		var artifactz = [];
 		try {
-
-			if(this.registry.tenantId != -1234) {
+			var isTenantFlowStarted = false;
+			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_DOMAIN_NAME) {
+				// tenant flow start 
 				var options = {
 					'tenantId' : this.registry.tenantId
 				};
 				var domain = carbon.server.tenantDomain(options);
 				PrivilegedCarbonContext.startTenantFlow();
+				isTenantFlowStarted = true;
 				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(this.registry.tenantId);
 				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(domain);
 				//PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(domain, true);
@@ -191,10 +196,7 @@ ArtifactManager.prototype.search = function(query, paging) {
 			artifacts = this.manager.findGenericArtifacts(map);
 			length = artifacts.length;
 			for( i = 0; i < length; i++) {
-				/*
-				 * Failed authorization attempt to access service 'LifeCycleManagementService'
-				 * operation 'getLifecycleList' by tenat mode - tofix in osgi services need to check in here
-				 */
+				
 				artifactz.push(buildArtifact(this, artifacts[i]));
 
 			}
@@ -205,12 +207,14 @@ ArtifactManager.prototype.search = function(query, paging) {
 		} finally {
 
 			if(paging != null) {
+				//PaginationContext.getInstance().getLength();
 				PaginationContext.destroy();
 			}
 
-			if(this.registry.tenantId != -1234) {
+			if(isTenantFlowStarted) {
 				//ending tenant flow
-				PrivilegedCarbonContext.endTenantFlow();
+				PrivilegedCarbonContext.endTenantFlow();				
+				isTenantFlowStarted = false;
 			}
 		}
 
