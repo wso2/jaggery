@@ -146,13 +146,15 @@
 	 */
 	
 	
+
 	ArtifactManager.prototype.search = function(query, paging) {
+
 		var i, length, artifacts, pagi = paging;
 		var artifactz = [];
 		try {
 			var isTenantFlowStarted = false;
 			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_DOMAIN_NAME) {
-				// tenant flow start 
+				// tenant flow start
 				var options = {
 					'tenantId' : this.registry.tenantId
 				};
@@ -165,10 +167,9 @@
 			}
 
 			PrivilegedCarbonContext.getThreadLocalCarbonContext().setUsername(this.registry.username);
-			var pagination = generatePaginationForm(paging);
 
 			if(paging != null) {
-
+				var pagination = generatePaginationForm(paging);
 				PaginationContext.init(pagination.start, pagination.count, pagination.sortOrder, pagination.sortBy, pagination.paginationLimit);
 
 			}
@@ -182,21 +183,33 @@
 			} else if(query == null) {
 				//listing for sorting
 				var map = java.util.Collections.emptyMap();
+
 			} else {
 
 				//support for only on name of attribut -
 				for(var searchKey in query) {
-					var list = new ArrayList();
-					list.add(query[searchKey] + '*');
-					map.put(searchKey, list);
+					// if attribute is string values
+					if( typeof query[searchKey] == 'string') {
+						var list = new ArrayList();
+						//solr config update need have '*' as first char in below line
+						list.add(query[searchKey] + '*');
+						map.put(searchKey, list);
+					} else {
+						// if attribute is array of string or list
+						for(var i = 0; i < query[searchKey].length; i++) {
+							var list = new ArrayList();
+							//solr config update need have '*' as first char in below line
+							list.add(query[searchKey][i] + '*');
+							map.put(searchKey, list);
+						}//end of attribute value list 
 
-				}
-
+					}
+				}//end of attribut looping (all attributes)
 			}
 			artifacts = this.manager.findGenericArtifacts(map);
 			length = artifacts.length;
 			for( i = 0; i < length; i++) {
-				
+
 				artifactz.push(buildArtifact(this, artifacts[i]));
 
 			}
@@ -213,7 +226,7 @@
 
 			if(isTenantFlowStarted) {
 				//ending tenant flow
-				PrivilegedCarbonContext.endTenantFlow();				
+				PrivilegedCarbonContext.endTenantFlow();
 				isTenantFlowStarted = false;
 			}
 		}
