@@ -342,37 +342,6 @@
     ArtifactManager.prototype.promoteLifecycleState = function (state, options) {
         var artifact = getArtifactFromImage(this.manager, options);
 
-        var checkListItems = [];
-        //We enable all checklists
-        try {
-            checkListItems = artifact.getAllCheckListItemNames();
-        }
-        catch (e) {
-            log.debug('No checklist defined');
-            checkListItems = [];
-        }
-
-        //Check if all of the check list items have been enabled
-
-        //If any of the items is not defined, throw an exception
-
-        //Invoke the action
-
-        /*for(var index in checkListItems){
-         artifact.checkLCItem(index);
-         }*/
-
-        artifact.invokeAction(state);
-    };
-
-	 /*
-     Promotes the promoteLifecycleStateForTenant next stage in its life cycle
-     @options: An artifact image (Not a real artifact) and status
-	 this is stilling in testing.
-     */
-	ArtifactManager.prototype.promoteLifecycleStateForTenant = function(state, options) {
-		var artifact = getArtifactFromImage(this.manager, options);
-
 		var checkListItems = [];
 		//We enable all checklists
 		try {
@@ -404,8 +373,9 @@
 				isTenantFlowStarted = false;
 			}
 		}
-	};
+    };
 
+	
     /*
      Gets the current lifecycle state
      @options: An artifact object
