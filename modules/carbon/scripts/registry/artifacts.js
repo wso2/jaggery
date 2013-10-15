@@ -335,13 +335,14 @@
         artifact.detachLifecycle();
     };
 
-    /*
-     Promotes the artifact to the next stage in its life cycle
-     @options: An artifact image (Not a real artifact)
-     */
-    ArtifactManager.prototype.promoteLifecycleState = function (state, options) {
-        var artifact = getArtifactFromImage(this.manager, options);
 
+	/*
+	 Promotes the artifact to the next stage in its life cycle
+	 @options: An artifact image (Not a real artifact)
+	 */
+
+	ArtifactManager.prototype.promoteLifecycleState = function(state, options) {
+		var artifact = getArtifactFromImage(this.manager, options);
 		var checkListItems = [];
 		//We enable all checklists
 		try {
@@ -357,15 +358,13 @@
 				isTenantFlowStarted = true;
 				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(this.registry.tenantId);
 				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(domain);
-				CarbonContext.getThreadLocalCarbonContext().setTenantId(this.registry.tenantId);
-				CarbonContext.getThreadLocalCarbonContext().setTenantDomain(domain);
 			}
 			checkListItems = artifact.getAllCheckListItemNames();
 		} catch (e) {
 			log.debug('No checklist defined');
 			checkListItems = [];
 		} finally {
-			
+
 			artifact.invokeAction(state);
 			if(isTenantFlowStarted) {
 				//ending tenant flow
@@ -373,21 +372,45 @@
 				isTenantFlowStarted = false;
 			}
 		}
-    };
+	};
+	/*
+	 Gets the current lifecycle state
+	 @options: An artifact object
+	 @returns: The life cycle state
+	 */
+	ArtifactManager.prototype.getLifecycleState = function(options) {
+		var artifact = getArtifactFromImage(this.manager, options);
+		var isTenantFlowStarted = false;
+		//handling tenant mode
+		try {
+			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_DOMAIN_NAME) {
+				// tenant flow start
+				var options = {
+					'tenantId' : this.registry.tenantId
+				};
+				var domain = carbon.server.tenantDomain(options);
+				PrivilegedCarbonContext.startTenantFlow();
+				isTenantFlowStarted = true;
+				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(this.registry.tenantId);
+				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(domain);
+			}
 
-	
-    /*
-     Gets the current lifecycle state
-     @options: An artifact object
-     @returns: The life cycle state
-     */
-    ArtifactManager.prototype.getLifecycleState = function (options) {
-        var artifact = getArtifactFromImage(this.manager, options);
+			var state = artifact.getLifecycleState();
+		} catch(error) {
+			log.info("Error at getting getLifecycleState " + error);
+		} finally {
+			if(isTenantFlowStarted) {
+				//ending tenant flow
+				PrivilegedCarbonContext.endTenantFlow();
+				isTenantFlowStarted = false;
+			}
+		}
 
-        var state = artifact.getLifecycleState();
-        return state;
-        //return artifact.getLcState();
-    };
+		return state;
+		//return artifact.getLcState();
+	};
+
+
 
     /*
      The function returns the list of check list items for a given state
