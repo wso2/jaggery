@@ -178,7 +178,7 @@
 			//case senstive search as it using greg with solr 1.4.1
 			if( typeof query == 'string') {
 				var list = new ArrayList();
-				list.add(query + '*');
+				list.add('*'+query + '*');
 				map.put('overview_name', list);
 			} else if(query == null) {
 				//listing for sorting
@@ -192,14 +192,14 @@
 					if( typeof query[searchKey] == 'string') {
 						var list = new ArrayList();
 						//solr config update need have '*' as first char in below line
-						list.add(query[searchKey] + '*');
+						list.add('*'+query[searchKey] + '*');
 						map.put(searchKey, list);
 					} else {
 						// if attribute is array of string or list
 						for(var i = 0; i < query[searchKey].length; i++) {
 							var list = new ArrayList();
 							//solr config update need have '*' as first char in below line
-							list.add(query[searchKey][i] + '*');
+							list.add('*'+query[searchKey][i] + '*');
 							map.put(searchKey, list);
 						}//end of attribute value list 
 
