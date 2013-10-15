@@ -217,8 +217,8 @@ public class DatabaseHostObject extends ScriptableObject {
                 PreparedStatement stmt = db.conn.prepareStatement(query);
                 if (args[1] instanceof Function) {
                     callback = (Function) args[1];
-                } else if (args[1] instanceof String) {
-                    setQueryParams(stmt, args, 1, 1);
+                } else {
+                    setQueryParams(stmt, args, 1, argsCount);
                 }
                 return executeQuery(cx, db, stmt, query, callback, true);
             }
