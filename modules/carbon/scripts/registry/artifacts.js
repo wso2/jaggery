@@ -105,18 +105,24 @@
 			var pagination = generatePaginationForm(paging);
 		}
 		try {
-
+			var isTenantFlowStarted = false;
+			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_DOMAIN_NAME) {
+				// tenant flow start
+				var options = {
+					'tenantId' : this.registry.tenantId
+				};
+				var domain = carbon.server.tenantDomain(options);
+				PrivilegedCarbonContext.startTenantFlow();
+				isTenantFlowStarted = true;
+				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(this.registry.tenantId);
+				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(domain);
+			}
 			if(paging != null) {
 
 				PaginationContext.init(pagination.start, pagination.count, pagination.sortOrder, pagination.sortBy, pagination.paginationLimit);
 
 			}
-
-		} catch(error) {
-			//Handle errors here
-			log.info('Pagination problem occurs ' + error);
-		} finally {
-			// Final-block
+			
 			artifacts = this.manager.findGenericArtifacts(new GenericArtifactFilter({
 				matches : function(artifact) {
 					return fn(buildArtifact(this, artifact));
@@ -128,8 +134,20 @@
 				artifactz.push(buildArtifact(this, artifacts[i]));
 			}
 
+		} catch(error) {
+			//Handle errors here
+			log.info('Pagination problem occurs ' + error);
+		} finally {
+			// Final-block		
+			
 			if(paging != null) {
 				PaginationContext.destroy();
+			}
+			
+			if(isTenantFlowStarted) {
+				//ending tenant flow
+				PrivilegedCarbonContext.endTenantFlow();
+				isTenantFlowStarted = false;
 			}
 		}
 
