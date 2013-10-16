@@ -106,7 +106,7 @@
 		}
 		try {
 			var isTenantFlowStarted = false;
-			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_ID) {
+			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_DOMAIN_NAME) {
 				// tenant flow start
 				var options = {
 					'tenantId' : this.registry.tenantId
@@ -171,7 +171,7 @@
 		var artifactz = [];
 		try {
 			var isTenantFlowStarted = false;
-			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_ID) {
+			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_DOMAIN_NAME) {
 				// tenant flow start
 				var options = {
 					'tenantId' : this.registry.tenantId
@@ -265,7 +265,7 @@
     ArtifactManager.prototype.get = function (id) {
 	try {
 			var isTenantFlowStarted = false;
-			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_ID) {
+			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_DOMAIN_NAME) {
 				// tenant flow start
 				var options = {
 					'tenantId' : this.registry.tenantId
@@ -294,7 +294,7 @@
     ArtifactManager.prototype.count = function () {
 			try {
 			var isTenantFlowStarted = false;
-			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_ID) {
+			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_DOMAIN_NAME) {
 				// tenant flow start
 				var options = {
 					'tenantId' : this.registry.tenantId
@@ -331,21 +331,20 @@
 					PaginationContext.init(pagination.start, pagination.count, pagination.sortOrder, pagination.sortBy, pagination.paginationLimit);
 				}
 			}
-		var i, artifactz = [], artifacts = this.manager.getAllGenericArtifacts(), length = artifacts.length;
-		for( i = 0; i < length; i++) {
-			artifactz.push(buildArtifact(this, artifacts[i]));
-		}
+
 		} catch(error) {
 			//Handle errors here
 			log.info('Pagination problem occurs ' + error);
 		} finally {
-			
+			var i, artifactz = [], artifacts = this.manager.getAllGenericArtifacts(), length = artifacts.length;
 			if(paging != null) {
 				PaginationContext.destroy();
 			}
 
 		}
-		
+		for( i = 0; i < length; i++) {
+			artifactz.push(buildArtifact(this, artifacts[i]));
+		}
 		return artifactz;
 	};
 
@@ -408,7 +407,7 @@
 
 		try {
 			var isTenantFlowStarted = false;
-			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_ID) {
+			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_DOMAIN_NAME) {
 				// tenant flow start
 				var optionsTenant = {
 					'tenantId' : this.registry.tenantId
@@ -444,7 +443,7 @@
     ArtifactManager.prototype.detachLifecycle = function (options) {
 		try {
 			var isTenantFlowStarted = false;
-			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_DOMAIN_ID) {
+			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_DOMAIN_NAME) {
 				// tenant flow start
 				var optionsTenant = {
 					'tenantId' : this.registry.tenantId
@@ -485,7 +484,7 @@
 		try {
 
 			var isTenantFlowStarted = false;
-			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_ID) {
+			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_DOMAIN_NAME) {
 				// tenant flow start
 				var optionsTenant = {
 					'tenantId' : this.registry.tenantId
@@ -498,13 +497,12 @@
 			}
 			var artifact = getArtifactFromImage(this.manager, options);
 			checkListItems = artifact.getAllCheckListItemNames();
-			artifact.invokeAction(state);
 		} catch (e) {
 			log.debug('No checklist defined');
 			checkListItems = [];
 		} finally {
 
-			
+			artifact.invokeAction(state);
 			if(isTenantFlowStarted) {
 				//ending tenant flow
 				PrivilegedCarbonContext.endTenantFlow();
@@ -522,7 +520,7 @@
 		var isTenantFlowStarted = false;
 		//handling tenant mode
 		try {
-			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_ID) {
+			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_DOMAIN_NAME) {
 				// tenant flow start
 				var optionsTenant = {
 					'tenantId' : this.registry.tenantId
@@ -651,7 +649,7 @@
 
 			try {
 			var isTenantFlowStarted = false;
-			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_ID) {
+			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_DOMAIN_NAME) {
 				// tenant flow start
 				var optionsTenant = {
 					'tenantId' : this.registry.tenantId
