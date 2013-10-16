@@ -106,7 +106,7 @@
 		}
 		try {
 			var isTenantFlowStarted = false;
-			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_DOMAIN_NAME) {
+			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_ID) {
 				// tenant flow start
 				var options = {
 					'tenantId' : this.registry.tenantId
@@ -171,7 +171,7 @@
 		var artifactz = [];
 		try {
 			var isTenantFlowStarted = false;
-			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_DOMAIN_NAME) {
+			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_ID) {
 				// tenant flow start
 				var options = {
 					'tenantId' : this.registry.tenantId
@@ -265,7 +265,7 @@
     ArtifactManager.prototype.get = function (id) {
 	try {
 			var isTenantFlowStarted = false;
-			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_DOMAIN_NAME) {
+			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_ID) {
 				// tenant flow start
 				var options = {
 					'tenantId' : this.registry.tenantId
@@ -294,7 +294,7 @@
     ArtifactManager.prototype.count = function () {
 			try {
 			var isTenantFlowStarted = false;
-			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_DOMAIN_NAME) {
+			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_ID) {
 				// tenant flow start
 				var options = {
 					'tenantId' : this.registry.tenantId
@@ -407,7 +407,7 @@
 
 		try {
 			var isTenantFlowStarted = false;
-			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_DOMAIN_NAME) {
+			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_ID) {
 				// tenant flow start
 				var optionsTenant = {
 					'tenantId' : this.registry.tenantId
@@ -443,7 +443,7 @@
     ArtifactManager.prototype.detachLifecycle = function (options) {
 		try {
 			var isTenantFlowStarted = false;
-			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_DOMAIN_NAME) {
+			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_ID) {
 				// tenant flow start
 				var optionsTenant = {
 					'tenantId' : this.registry.tenantId
@@ -484,7 +484,7 @@
 		try {
 
 			var isTenantFlowStarted = false;
-			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_DOMAIN_NAME) {
+			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_ID) {
 				// tenant flow start
 				var optionsTenant = {
 					'tenantId' : this.registry.tenantId
@@ -520,7 +520,7 @@
 		var isTenantFlowStarted = false;
 		//handling tenant mode
 		try {
-			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_DOMAIN_NAME) {
+			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_ID) {
 				// tenant flow start
 				var optionsTenant = {
 					'tenantId' : this.registry.tenantId
@@ -649,7 +649,7 @@
 
 			try {
 			var isTenantFlowStarted = false;
-			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_DOMAIN_NAME) {
+			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_ID) {
 				// tenant flow start
 				var optionsTenant = {
 					'tenantId' : this.registry.tenantId
