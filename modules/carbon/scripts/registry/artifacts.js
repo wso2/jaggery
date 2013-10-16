@@ -255,7 +255,32 @@
 
 
     ArtifactManager.prototype.get = function (id) {
-        return buildArtifact(this, this.manager.getGenericArtifact(id));
+	try {
+			var isTenantFlowStarted = false;
+			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_DOMAIN_NAME) {
+				// tenant flow start
+				var options = {
+					'tenantId' : this.registry.tenantId
+				};
+				var domain = carbon.server.tenantDomain(options);
+				PrivilegedCarbonContext.startTenantFlow();
+				isTenantFlowStarted = true;
+				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(this.registry.tenantId);
+				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(domain);
+			}
+			var artifact = buildArtifact(this, this.manager.getGenericArtifact(id))
+			} catch(error) {
+			//Handle errors here
+			log.info('Pagination problem occurs ' + error);
+		} finally {
+
+			if(isTenantFlowStarted) {
+				//ending tenant flow
+				PrivilegedCarbonContext.endTenantFlow();
+				isTenantFlowStarted = false;
+			}
+		}
+        return artifact;
     };
 
     ArtifactManager.prototype.count = function () {
