@@ -292,7 +292,31 @@
     };
 
     ArtifactManager.prototype.count = function () {
-        return this.manager.getAllGenericArtifactIds().length;
+			try {
+			var isTenantFlowStarted = false;
+			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_DOMAIN_NAME) {
+				// tenant flow start
+				var options = {
+					'tenantId' : this.registry.tenantId
+				};
+				var domain = carbon.server.tenantDomain(options);
+				PrivilegedCarbonContext.startTenantFlow();
+				isTenantFlowStarted = true;
+				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(this.registry.tenantId);
+				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(domain);
+			}
+			var countNumber = this.manager.getAllGenericArtifactIds().length;
+		} catch(error) {
+			//Handle errors here
+			log.info('Pagination problem occurs ' + error);
+		} finally {			
+			
+			if(isTenantFlowStarted) {
+				PrivilegedCarbonContext.endTenantFlow();
+				isTenantFlowStarted = false;
+			}
+		}
+        return countNumber;
     };
 
         
@@ -381,11 +405,35 @@
      */
     ArtifactManager.prototype.attachLifecycle = function (lifecycleName, options) {
 
-        var artifact = getArtifactFromImage(this.manager, options);
+		try {
+			var isTenantFlowStarted = false;
+			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_DOMAIN_NAME) {
+				// tenant flow start
+				var optionsTenant = {
+					'tenantId' : this.registry.tenantId
+				};
+				var domain = carbon.server.tenantDomain(optionsTenant);
+				PrivilegedCarbonContext.startTenantFlow();
+				isTenantFlowStarted = true;
+				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(this.registry.tenantId);
+				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(domain);
+			}
+		var artifact = getArtifactFromImage(this.manager, options);
 
         artifact.attachLifecycle(lifecycleName);
 
         //this.manager.updateGenericArtifact(artifact);
+		} catch(error) {
+			//Handle errors here
+			log.info('Pagination problem occurs ' + error);
+		} finally {			
+			
+			if(isTenantFlowStarted) {
+				PrivilegedCarbonContext.endTenantFlow();
+				isTenantFlowStarted = false;
+			}
+		}
+
     };
 
     /*
@@ -393,10 +441,34 @@
      @options: The artifact from which the life cycle must be removed
      */
     ArtifactManager.prototype.detachLifecycle = function (options) {
-
-        var artifact = getArtifactFromImage(this.manager, options);
+		try {
+			var isTenantFlowStarted = false;
+			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_DOMAIN_NAME) {
+				// tenant flow start
+				var optionsTenant = {
+					'tenantId' : this.registry.tenantId
+				};
+				var domain = carbon.server.tenantDomain(optionsTenant);
+				PrivilegedCarbonContext.startTenantFlow();
+				isTenantFlowStarted = true;
+				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(this.registry.tenantId);
+				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(domain);
+			}
+		var artifact = getArtifactFromImage(this.manager, options);
 
         artifact.detachLifecycle();
+		} catch(error) {
+			//Handle errors here
+			log.info('Pagination problem occurs ' + error);
+		} finally {			
+			
+			if(isTenantFlowStarted) {
+				PrivilegedCarbonContext.endTenantFlow();
+				isTenantFlowStarted = false;
+			}
+		}
+
+       
     };
 
 
@@ -406,7 +478,7 @@
 	 */
 
 	ArtifactManager.prototype.promoteLifecycleState = function(state, options) {
-		var artifact = getArtifactFromImage(this.manager, options);
+
 		var checkListItems = [];
 		//We enable all checklists
 		try {
@@ -414,15 +486,16 @@
 			var isTenantFlowStarted = false;
 			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_DOMAIN_NAME) {
 				// tenant flow start
-				var options = {
+				var optionsTenant = {
 					'tenantId' : this.registry.tenantId
 				};
-				var domain = carbon.server.tenantDomain(options);
+				var domain = carbon.server.tenantDomain(optionsTenant);
 				PrivilegedCarbonContext.startTenantFlow();
 				isTenantFlowStarted = true;
 				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(this.registry.tenantId);
 				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(domain);
 			}
+			var artifact = getArtifactFromImage(this.manager, options);
 			checkListItems = artifact.getAllCheckListItemNames();
 		} catch (e) {
 			log.debug('No checklist defined');
@@ -443,22 +516,22 @@
 	 @returns: The life cycle state
 	 */
 	ArtifactManager.prototype.getLifecycleState = function(options) {
-		var artifact = getArtifactFromImage(this.manager, options);
+
 		var isTenantFlowStarted = false;
 		//handling tenant mode
 		try {
 			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_DOMAIN_NAME) {
 				// tenant flow start
-				var options = {
+				var optionsTenant = {
 					'tenantId' : this.registry.tenantId
 				};
-				var domain = carbon.server.tenantDomain(options);
+				var domain = carbon.server.tenantDomain(optionsTenant);
 				PrivilegedCarbonContext.startTenantFlow();
 				isTenantFlowStarted = true;
 				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(this.registry.tenantId);
 				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(domain);
 			}
-
+			var artifact = getArtifactFromImage(this.manager, options);
 			var state = artifact.getLifecycleState();
 		} catch(error) {
 			log.info("Error at getting getLifecycleState " + error);
@@ -506,6 +579,7 @@
      @throws Exception: If the index is not within 0 and the max check list item or if there is an issue ticking the item
      */
     ArtifactManager.prototype.isItemChecked = function (index, options) {
+
         var artifact = getArtifactFromImage(this.manager, options);
 
         var checkListItems = artifact.getAllCheckListItemNames();
@@ -552,6 +626,7 @@
      @throws Exception: If the index is not within 0 and max check list item or if there is an issue ticking the item
      */
     ArtifactManager.prototype.uncheckItem = function (index, options) {
+
         var artifact = getArtifactFromImage(this.manager, options);
 
         var checkListItems = artifact.getAllCheckListItemNames();
@@ -571,8 +646,33 @@
      @returns: The list of available actions for the current state,else false
      */
     ArtifactManager.prototype.availableActions = function (options) {
-        var artifact = getArtifactFromImage(this.manager, options);
-        var availableActions = artifact.getAllLifecycleActions() || [];
+
+			try {
+			var isTenantFlowStarted = false;
+			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_DOMAIN_NAME) {
+				// tenant flow start
+				var optionsTenant = {
+					'tenantId' : this.registry.tenantId
+				};
+				var domain = carbon.server.tenantDomain(optionsTenant);
+				PrivilegedCarbonContext.startTenantFlow();
+				isTenantFlowStarted = true;
+				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(this.registry.tenantId);
+				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(domain);
+			}
+			var artifact = getArtifactFromImage(this.manager, options);
+			var availableActions = artifact.getAllLifecycleActions() || [];
+		} catch(error) {
+			//Handle errors here
+			log.info('Pagination problem occurs ' + error);
+		} finally {			
+			
+			if(isTenantFlowStarted) {
+				PrivilegedCarbonContext.endTenantFlow();
+				isTenantFlowStarted = false;
+			}
+		}
+        
         return availableActions;
     };
 
@@ -583,6 +683,7 @@
      @return: A string path of the life-cycle history.
      */
     ArtifactManager.prototype.getLifecycleHistoryPath = function (options) {
+
         return getHistoryPath(options.path);
     };
 
@@ -593,6 +694,7 @@
      have a life-cycle then an empty string is returned.
      */
     ArtifactManager.prototype.getLifeCycleName = function (options) {
+
         var artifact = getArtifactFromImage(this.manager, options);
 
         var lifecycleName = '';
