@@ -217,9 +217,17 @@
 						for(var i = 0; i < query[searchKey].length; i++) {
 							var list = new ArrayList();
 							//solr config update need have '*' as first char in below line
-							list.add('*'+query[searchKey][i] + '*');
-							map.put(searchKey, list);
-						}//end of attribute value list 
+							//check life_cycle state 
+							if(searchKey == 'lcState')
+							{
+								list.add(query[searchKey][i]);
+								map.put(searchKey, list);
+							}else 
+							{
+								list.add(query[searchKey][i] + '*');
+								map.put(searchKey, list);
+							}
+						}//end of attribute value list  
 
 					}
 				}//end of attribut looping (all attributes)
