@@ -833,5 +833,25 @@
 
         return artifact;
     };
+	
+		//checking tenant flow is to start
+	var isTenantFlowStart = function(tenantId) {
+		var isTenanted = false;
+		log.info("this.registry.tenantId");
+		log.info(tenantId);
+		if(tenantId != MultitenantConstants.SUPER_TENANT_ID) {
+			// tenant flow start
+			var optionsTenant = {
+				'tenantId' : tenantId
+			};
+			var domain = carbon.server.tenantDomain(optionsTenant);
+			PrivilegedCarbonContext.startTenantFlow();
+			PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(tenantId);
+			PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(domain);
+			isTenanted = true;
+		}
+		return isTenanted;
+		
+	};
 
 }(server, registry));
