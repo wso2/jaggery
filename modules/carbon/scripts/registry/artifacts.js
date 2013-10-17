@@ -8,16 +8,16 @@
     var QName = Packages.javax.xml.namespace.QName;
     var IOUtils = Packages.org.apache.commons.io.IOUtils;
     var PrivilegedCarbonContext = Packages.org.wso2.carbon.context.PrivilegedCarbonContext; //Used regard tenant details
-	var CarbonContext = Packages.org.wso2.carbon.context.CarbonContext;
+    var CarbonContext = Packages.org.wso2.carbon.context.CarbonContext;
     var MultitenantConstants = Packages.org.wso2.carbon.utils.multitenancy.MultitenantConstants;
     var List = java.util.List;
-	var Map = java.util.Map;
-	var ArrayList = java.util.ArrayList;
-	var HashMap = java.util.HashMap;
-	
+    var Map = java.util.Map;
+    var ArrayList = java.util.ArrayList;
+    var HashMap = java.util.HashMap;
+
     var GovernanceUtils = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils;//Used to obtain Asset Types
     var DEFAULT_MEDIA_TYPE = 'application/vnd.wso2.registry-ext-type+xml';//Used to obtain Asset types
-	var PaginationContext = Packages.org.wso2.carbon.registry.core.pagination.PaginationContext;//Used for pagination on register
+    var PaginationContext = Packages.org.wso2.carbon.registry.core.pagination.PaginationContext;//Used for pagination on register
 
     var REGISTRY_ABSOLUTE_PATH = "/_system/governance";
 
@@ -27,7 +27,7 @@
     var HISTORY_PATH = '/_system/governance/_system/governance/repository/components/org.wso2.carbon.governance/lifecycles/history/';
 
 
-    var buildArtifact = function (manager, artifact) {    	
+    var buildArtifact = function (manager, artifact) {
         return {
             id: String(artifact.id),
             type: String(manager.type),
@@ -97,257 +97,101 @@
     };
     registry.ArtifactManager = ArtifactManager;
 
-	ArtifactManager.prototype.find = function(fn, paging) {
-		var i, length, artifacts, pagi = paging;
-
-		var artifactz = [];
-		if(paging != null) {
-			var pagination = generatePaginationForm(paging);
-		}
-		try {
-			var isTenantFlowStarted = false;
-			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_ID) {
-				// tenant flow start
-				var options = {
-					'tenantId' : this.registry.tenantId
-				};
-				var domain = carbon.server.tenantDomain(options);
-				PrivilegedCarbonContext.startTenantFlow();
-				isTenantFlowStarted = true;
-				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(this.registry.tenantId);
-				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(domain);
-			}
-			if(paging != null) {
-
-				PaginationContext.init(pagination.start, pagination.count, pagination.sortOrder, pagination.sortBy, pagination.paginationLimit);
-
-			}
-			
-			artifacts = this.manager.findGenericArtifacts(new GenericArtifactFilter({
-				matches : function(artifact) {
-					return fn(buildArtifact(this, artifact));
-				}
-			}));
-			length = artifacts.length;
-
-			for( i = 0; i < length; i++) {
-				artifactz.push(buildArtifact(this, artifacts[i]));
-			}
-
-		} catch(error) {
-			//Handle errors here
-			log.info('Pagination problem occurs ' + error);
-		} finally {
-			// Final-block		
-			
-			if(paging != null) {
-				PaginationContext.destroy();
-			}
-			
-			if(isTenantFlowStarted) {
-				//ending tenant flow
-				PrivilegedCarbonContext.endTenantFlow();
-				isTenantFlowStarted = false;
-			}
-		}
-
-		return artifactz;
-	};
+    ArtifactManager.prototype.find = function (fn, paging) {
+        var i, length, artifacts, pagination,
+            artifactz = [];
+        pagination = generatePaginationForm(paging);
+        try {
+            PaginationContext.init(pagination.start, pagination.count, pagination.sortOrder,
+                pagination.sortBy, pagination.paginationLimit);
+            artifacts = this.manager.findGenericArtifacts(new GenericArtifactFilter({
+                matches: function (artifact) {
+                    return fn(buildArtifact(this, artifact));
+                }
+            }));
+            length = artifacts.length;
+            for (i = 0; i < length; i++) {
+                artifactz.push(buildArtifact(this, artifacts[i]));
+            }
+        } finally {
+            PaginationContext.destroy();
+        }
+        return artifactz;
+    };
 
 
-	/*
-	 * this funtion is used ArtifactManager find with map for query for solr basicly
-	 * query - for maping attribute of resource
-	 * pagin - pagination details 
-	 * return - list of artifacts under the seach request 
-	 * 
-	 */
-	
-	
+    /*
+     * this funtion is used ArtifactManager find with map for query for solr basicly
+     * query - for maping attribute of resource
+     * pagin - pagination details
+     * return - list of artifacts under the seach request
+     *
+     */
+    ArtifactManager.prototype.search = function (query, paging) {
 
-	ArtifactManager.prototype.search = function(query, paging) {
-
-		var i, length, artifacts, pagi = paging;
-		var artifactz = [];
-		try {
-			var isTenantFlowStarted = false;
-			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_ID) {
-				// tenant flow start
-				var options = {
-					'tenantId' : this.registry.tenantId
-				};
-				var domain = carbon.server.tenantDomain(options);
-				PrivilegedCarbonContext.startTenantFlow();
-				isTenantFlowStarted = true;
-				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(this.registry.tenantId);
-				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(domain);
-				//PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(domain, true);
-			}
-
-			PrivilegedCarbonContext.getThreadLocalCarbonContext().setUsername(this.registry.username);
-
-			if(paging != null) {
-				var pagination = generatePaginationForm(paging);
-				PaginationContext.init(pagination.start, pagination.count, pagination.sortOrder, pagination.sortBy, pagination.paginationLimit);
-
-			}
-			var map = HashMap();
-
-			//case senstive search as it using greg with solr 1.4.1
-			if( typeof query == 'string') {
-				var list = new ArrayList();
-				list.add('*'+query + '*');
-				map.put('overview_name', list);
-			} else if(query == null) {
-				//listing for sorting
-				var map = java.util.Collections.emptyMap();
-
-			} else {
-
-				//support for only on name of attribut -
-				for(var searchKey in query) {
-					// if attribute is string values
-					if( typeof query[searchKey] == 'string') {
-						var list = new ArrayList();
-						//solr config update need have '*' as first char in below line
-						list.add('*'+query[searchKey] + '*');
-						map.put(searchKey, list);
-					} else {
-						// if attribute is array of string or list
-						for(var i = 0; i < query[searchKey].length; i++) {
-							var list = new ArrayList();
-							//solr config update need have '*' as first char in below line
-							//check life_cycle state 
-							if(searchKey == 'lcState')
-							{
-								list.add(query[searchKey][i]);
-								map.put(searchKey, list);
-							}else 
-							{
-								list.add(query[searchKey][i] + '*');
-								map.put(searchKey, list);
-							}
-						}//end of attribute value list  
-
-					}
-				}//end of attribut looping (all attributes)
-			}
-			artifacts = this.manager.findGenericArtifacts(map);
-			length = artifacts.length;
-			for( i = 0; i < length; i++) {
-
-				artifactz.push(buildArtifact(this, artifacts[i]));
-
-			}
-
-		} catch(error) {
-			//Handle errors here
-			log.info('Pagination problem occurs ' + error);
-		} finally {
-
-			if(paging != null) {
-				//PaginationContext.getInstance().getLength();
-				PaginationContext.destroy();
-			}
-
-			if(isTenantFlowStarted) {
-				//ending tenant flow
-				PrivilegedCarbonContext.endTenantFlow();
-				isTenantFlowStarted = false;
-			}
-		}
-
-		return artifactz;
-	};
-
-
+        var list, map, key, artifacts, pagination, value, that,
+            artifactz = [];
+        pagination = generatePaginationForm(paging);
+        try {
+            PaginationContext.init(pagination.start, pagination.count, pagination.sortOrder,
+                pagination.sortBy, pagination.paginationLimit);
+            map = HashMap();
+            //case senstive search as it using greg with solr 1.4.1
+            if (!query) {
+                //listing for sorting
+                map = java.util.Collections.emptyMap();
+            } else if (query instanceof String || typeof query === 'string') {
+                list = new ArrayList();
+                list.add('*' + query + '*');
+                map.put('overview_name', list);
+            } else {
+                //support for only on name of attribut -
+                for (key in query) {
+                    // if attribute is string values
+                    if (query.hasOwnProperty(key)) {
+                        value = query[key];
+                        list = new ArrayList();
+                        if (value instanceof Array) {
+                            value.forEach(function (val) {
+                                //solr config update need have '*' as first char in below line
+                                //check life_cycle state
+                                list.add(key == 'lcState' ? val : '*' + val + '*');
+                            });
+                        } else {
+                            //solr config update need have '*' as first char in below line
+                            list.add(key == 'lcState' ? value : '*' + value + '*');
+                        }
+                        map.put(key, list);
+                    }
+                }//end of attribut looping (all attributes)
+            }
+            artifacts = this.manager.findGenericArtifacts(map);
+            that = this;
+            artifacts.forEach(function (artifact) {
+                artifactz.push(buildArtifact(that, artifact));
+            });
+        } finally {
+            PaginationContext.destroy();
+        }
+        return artifactz;
+    };
 
     ArtifactManager.prototype.get = function (id) {
-	try {
-			var isTenantFlowStarted = false;
-			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_ID) {
-				// tenant flow start
-				var options = {
-					'tenantId' : this.registry.tenantId
-				};
-				var domain = carbon.server.tenantDomain(options);
-				PrivilegedCarbonContext.startTenantFlow();
-				isTenantFlowStarted = true;
-				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(this.registry.tenantId);
-				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(domain);
-			}
-			var artifact = buildArtifact(this, this.manager.getGenericArtifact(id))
-			} catch(error) {
-			//Handle errors here
-			log.info('Pagination problem occurs ' + error);
-		} finally {
-
-			if(isTenantFlowStarted) {
-				//ending tenant flow
-				PrivilegedCarbonContext.endTenantFlow();
-				isTenantFlowStarted = false;
-			}
-		}
-        return artifact;
+        return buildArtifact(this, this.manager.getGenericArtifact(id))
     };
 
     ArtifactManager.prototype.count = function () {
-			try {
-			var isTenantFlowStarted = false;
-			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_ID) {
-				// tenant flow start
-				var options = {
-					'tenantId' : this.registry.tenantId
-				};
-				var domain = carbon.server.tenantDomain(options);
-				PrivilegedCarbonContext.startTenantFlow();
-				isTenantFlowStarted = true;
-				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(this.registry.tenantId);
-				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(domain);
-			}
-			var countNumber = this.manager.getAllGenericArtifactIds().length;
-		} catch(error) {
-			//Handle errors here
-			log.info('Pagination problem occurs ' + error);
-		} finally {			
-			
-			if(isTenantFlowStarted) {
-				PrivilegedCarbonContext.endTenantFlow();
-				isTenantFlowStarted = false;
-			}
-		}
-        return countNumber;
+        return this.manager.getAllGenericArtifactIds().length;
     };
 
-        
-	ArtifactManager.prototype.list = function(paging) {
-		try {
-
-			if(paging != null) {
-				//to remove below line as it have pagination from FE from publisher  request
-				if(paging.start != null) {
-					var pagination = generatePaginationForm(paging);
-					PrivilegedCarbonContext.getThreadLocalCarbonContext().setUsername(this.registry.username);
-					PaginationContext.init(pagination.start, pagination.count, pagination.sortOrder, pagination.sortBy, pagination.paginationLimit);
-				}
-			}
-
-		} catch(error) {
-			//Handle errors here
-			log.info('Pagination problem occurs ' + error);
-		} finally {
-			var i, artifactz = [], artifacts = this.manager.getAllGenericArtifacts(), length = artifacts.length;
-			if(paging != null) {
-				PaginationContext.destroy();
-			}
-
-		}
-		for( i = 0; i < length; i++) {
-			artifactz.push(buildArtifact(this, artifacts[i]));
-		}
-		return artifactz;
-	};
-
+    /**
+     * @deprecated Please use search method instead
+     * @param paging
+     * @return {*}
+     */
+    ArtifactManager.prototype.list = function (paging) {
+        return this.search(null, paging);
+    };
 
     /*
      The function returns an array of asset types
@@ -404,36 +248,11 @@
      @options: The artifact to which the life cycle must be attached.
      */
     ArtifactManager.prototype.attachLifecycle = function (lifecycleName, options) {
-
-		try {
-			var isTenantFlowStarted = false;
-			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_ID) {
-				// tenant flow start
-				var optionsTenant = {
-					'tenantId' : this.registry.tenantId
-				};
-				var domain = carbon.server.tenantDomain(optionsTenant);
-				PrivilegedCarbonContext.startTenantFlow();
-				isTenantFlowStarted = true;
-				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(this.registry.tenantId);
-				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(domain);
-			}
-		var artifact = getArtifactFromImage(this.manager, options);
-
+        var artifact = getArtifactFromImage(this.manager, options);
+        if (!artifact) {
+            throw new Error('Specified artifact cannot be found : ' + JSON.stringify(options));
+        }
         artifact.attachLifecycle(lifecycleName);
-
-        //this.manager.updateGenericArtifact(artifact);
-		} catch(error) {
-			//Handle errors here
-			log.info('Pagination problem occurs ' + error);
-		} finally {			
-			
-			if(isTenantFlowStarted) {
-				PrivilegedCarbonContext.endTenantFlow();
-				isTenantFlowStarted = false;
-			}
-		}
-
     };
 
     /*
@@ -441,113 +260,39 @@
      @options: The artifact from which the life cycle must be removed
      */
     ArtifactManager.prototype.detachLifecycle = function (options) {
-		try {
-			var isTenantFlowStarted = false;
-			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_ID) {
-				// tenant flow start
-				var optionsTenant = {
-					'tenantId' : this.registry.tenantId
-				};
-				var domain = carbon.server.tenantDomain(optionsTenant);
-				PrivilegedCarbonContext.startTenantFlow();
-				isTenantFlowStarted = true;
-				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(this.registry.tenantId);
-				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(domain);
-			}
-		var artifact = getArtifactFromImage(this.manager, options);
-
+        var artifact = getArtifactFromImage(this.manager, options);
+        if (!artifact) {
+            throw new Error('Specified artifact cannot be found : ' + JSON.stringify(options));
+        }
         artifact.detachLifecycle();
-		} catch(error) {
-			//Handle errors here
-			log.info('Pagination problem occurs ' + error);
-		} finally {			
-			
-			if(isTenantFlowStarted) {
-				PrivilegedCarbonContext.endTenantFlow();
-				isTenantFlowStarted = false;
-			}
-		}
-
-       
     };
 
+    /*
+     Promotes the artifact to the next stage in its life cycle
+     @options: An artifact image (Not a real artifact)
+     */
+    ArtifactManager.prototype.promoteLifecycleState = function (state, options) {
+        var checkListItems,
+            artifact = getArtifactFromImage(this.manager, options);
+        if (!artifact) {
+            throw new Error('Specified artifact cannot be found : ' + JSON.stringify(options));
+        }
+        //checkListItems = artifact.getAllCheckListItemNames();
+        artifact.invokeAction(state);
+    };
 
-	/*
-	 Promotes the artifact to the next stage in its life cycle
-	 @options: An artifact image (Not a real artifact)
-	 */
-
-	ArtifactManager.prototype.promoteLifecycleState = function(state, options) {
-
-		var checkListItems = [];
-		//We enable all checklists
-		try {
-
-			var isTenantFlowStarted = false;
-			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_ID) {
-				// tenant flow start
-				var optionsTenant = {
-					'tenantId' : this.registry.tenantId
-				};
-				var domain = carbon.server.tenantDomain(optionsTenant);
-				PrivilegedCarbonContext.startTenantFlow();
-				isTenantFlowStarted = true;
-				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(this.registry.tenantId);
-				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(domain);
-			}
-			var artifact = getArtifactFromImage(this.manager, options);
-			checkListItems = artifact.getAllCheckListItemNames();
-		} catch (e) {
-			log.debug('No checklist defined');
-			checkListItems = [];
-		} finally {
-
-			artifact.invokeAction(state);
-			if(isTenantFlowStarted) {
-				//ending tenant flow
-				PrivilegedCarbonContext.endTenantFlow();
-				isTenantFlowStarted = false;
-			}
-		}
-	};
-	/*
-	 Gets the current lifecycle state
-	 @options: An artifact object
-	 @returns: The life cycle state
-	 */
-	ArtifactManager.prototype.getLifecycleState = function(options) {
-
-		var isTenantFlowStarted = false;
-		//handling tenant mode
-		try {
-			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_ID) {
-				// tenant flow start
-				var optionsTenant = {
-					'tenantId' : this.registry.tenantId
-				};
-				var domain = carbon.server.tenantDomain(optionsTenant);
-				PrivilegedCarbonContext.startTenantFlow();
-				isTenantFlowStarted = true;
-				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(this.registry.tenantId);
-				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(domain);
-			}
-			var artifact = getArtifactFromImage(this.manager, options);
-			var state = artifact.getLifecycleState();
-		} catch(error) {
-			log.info("Error at getting getLifecycleState " + error);
-		} finally {
-			if(isTenantFlowStarted) {
-				//ending tenant flow
-				PrivilegedCarbonContext.endTenantFlow();
-				isTenantFlowStarted = false;
-			}
-		}
-
-		return state;
-		//return artifact.getLcState();
-	};
-
-
+    /*
+     Gets the current lifecycle state
+     @options: An artifact object
+     @returns: The life cycle state
+     */
+    ArtifactManager.prototype.getLifecycleState = function (options) {
+        var artifact = getArtifactFromImage(this.manager, options);
+        if (!artifact) {
+            throw new Error('Specified artifact cannot be found : ' + JSON.stringify(options));
+        }
+        return artifact.getLifecycleState();
+    };
 
     /*
      The function returns the list of check list items for a given state
@@ -594,7 +339,6 @@
 
         return result;
     };
-
 
     /*
      The method enables the check list item and the given index
@@ -646,34 +390,11 @@
      @returns: The list of available actions for the current state,else false
      */
     ArtifactManager.prototype.availableActions = function (options) {
-
-			try {
-			var isTenantFlowStarted = false;
-			if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_ID) {
-				// tenant flow start
-				var optionsTenant = {
-					'tenantId' : this.registry.tenantId
-				};
-				var domain = carbon.server.tenantDomain(optionsTenant);
-				PrivilegedCarbonContext.startTenantFlow();
-				isTenantFlowStarted = true;
-				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(this.registry.tenantId);
-				PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(domain);
-			}
-			var artifact = getArtifactFromImage(this.manager, options);
-			var availableActions = artifact.getAllLifecycleActions() || [];
-		} catch(error) {
-			//Handle errors here
-			log.info('Pagination problem occurs ' + error);
-		} finally {			
-			
-			if(isTenantFlowStarted) {
-				PrivilegedCarbonContext.endTenantFlow();
-				isTenantFlowStarted = false;
-			}
-		}
-        
-        return availableActions;
+        var artifact = getArtifactFromImage(this.manager, options);
+        if (!artifact) {
+            throw new Error('Specified artifact cannot be found : ' + JSON.stringify(options));
+        }
+        return artifact.getAllLifecycleActions() || [];
     };
 
     /*
@@ -707,59 +428,59 @@
     };
 
     /*
-    The function returns all versions of the provided artifact 
-    @options: The artifact to be checked
-    @return: A list of all the different versions of the provided asset
-    */
-    ArtifactManager.prototype.getAllAssetVersions=function(assetName){
+     The function returns all versions of the provided artifact
+     @options: The artifact to be checked
+     @return: A list of all the different versions of the provided asset
+     */
+    ArtifactManager.prototype.getAllAssetVersions = function (assetName) {
 
-	var matchingArtifacts=[];
+        var matchingArtifacts = [];
 
-	var pred={
-		overview_name:assetName||''
-	};
+        var pred = {
+            overview_name: assetName || ''
+        };
 
-	this.find(function(artifact){
-		
-		//Add to the matches if the artifact exists
-		if(assert(artifact.attributes,pred)){
+        this.find(function (artifact) {
 
-			//We only need the id and version
-			matchingArtifacts.push({id:artifact.id,version:artifact.attributes.overview_version});
-		}
+            //Add to the matches if the artifact exists
+            if (assert(artifact.attributes, pred)) {
+
+                //We only need the id and version
+                matchingArtifacts.push({id: artifact.id, version: artifact.attributes.overview_version});
+            }
         });
 
-	return matchingArtifacts;
+        return matchingArtifacts;
     };
 
     /*
-    The function checks if the two objects a and b are equal.If a property in b is not
-    in a, then both objects are assumed to be different.
-    @a: The object to be compared
-    @b: The object containing properties that must match in a
-    @return: True if the objects are equal,else false.
-    */
-    var assert=function(a,b){
-	
-	//Assume the objects will be same
-	var equal=true;
+     The function checks if the two objects a and b are equal.If a property in b is not
+     in a, then both objects are assumed to be different.
+     @a: The object to be compared
+     @b: The object containing properties that must match in a
+     @return: True if the objects are equal,else false.
+     */
+    var assert = function (a, b) {
 
-	for(var key in b){
-	
-		
-		if(a.hasOwnProperty(key)){
+        //Assume the objects will be same
+        var equal = true;
 
-		   //If the two keys are not equal
-		   if(a[key]!=b[key]){
-			return false;
-		   }
-		}
-		else{
-			return false;
-		}	
-	}
+        for (var key in b) {
 
-	return equal;
+
+            if (a.hasOwnProperty(key)) {
+
+                //If the two keys are not equal
+                if (a[key] != b[key]) {
+                    return false;
+                }
+            }
+            else {
+                return false;
+            }
+        }
+
+        return equal;
     };
 
     /*
@@ -785,34 +506,38 @@
      */
     var generatePaginationForm = function (pagin) {
 
-		//pagination context for default
-		var paginationLimit = 300;
-		var paginationForm = {
-			'start' : 0,
-			'count' : 12,
-			'sortOrder' : 'ASC',
-			'sortBy' : 'overview_name',
-			'paginationLimit' : 50000
-		};
-		
-		if(pagin.count != null) {
-			paginationForm.count = pagin.count;
-		}
-		if(pagin.start != null) {
-			paginationForm.start = pagin.start;
-		}
-		if(pagin.paginationLimit != null) {
-			paginationForm.paginationLimit = pagin.paginationLimit;
-		}
-		if(pagin.sortBy != null) {
-			paginationForm.sortBy = pagin.sortBy;
-		}
-		if(paginationForm.sortOrder != null) {
-			paginationForm.sortOrder = pagin.sortOrder;
-		}
-		return paginationForm;
+        //pagination context for default
+        var paginationLimit = 300;
+        var paginationForm = {
+            'start': 0,
+            'count': 12,
+            'sortOrder': 'ASC',
+            'sortBy': 'overview_name',
+            'paginationLimit': 2147483647
+        };
 
-		};
+        if (!pagin) {
+            return paginationForm;
+        }
+
+        if (pagin.count != null) {
+            paginationForm.count = pagin.count;
+        }
+        if (pagin.start != null) {
+            paginationForm.start = pagin.start;
+        }
+        if (pagin.paginationLimit != null) {
+            paginationForm.paginationLimit = pagin.paginationLimit;
+        }
+        if (pagin.sortBy != null) {
+            paginationForm.sortBy = pagin.sortBy;
+        }
+        if (paginationForm.sortOrder != null) {
+            paginationForm.sortOrder = pagin.sortOrder;
+        }
+        return paginationForm;
+
+    };
 
     /*
      Helper function to create an artifact instance from a set of options (an image).
@@ -833,25 +558,5 @@
 
         return artifact;
     };
-	
-		//checking tenant flow is to start
-	var isTenantFlowStart = function(tenantId) {
-		var isTenanted = false;
-		log.info("this.registry.tenantId");
-		log.info(tenantId);
-		if(tenantId != MultitenantConstants.SUPER_TENANT_ID) {
-			// tenant flow start
-			var optionsTenant = {
-				'tenantId' : tenantId
-			};
-			var domain = carbon.server.tenantDomain(optionsTenant);
-			PrivilegedCarbonContext.startTenantFlow();
-			PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(tenantId);
-			PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(domain);
-			isTenanted = true;
-		}
-		return isTenanted;
-		
-	};
 
 }(server, registry));
