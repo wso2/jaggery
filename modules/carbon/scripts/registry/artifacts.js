@@ -386,7 +386,34 @@
      }
      */
     ArtifactManager.prototype.add = function (options) {
-        this.manager.addGenericArtifact(createArtifact(this.manager, options));
+
+        var isTenantFlowStarted
+
+        try {
+            isTenantFlowStarted = false;
+            if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_ID) {
+                // tenant flow start
+                var optionsTenant = {
+                    'tenantId' : this.registry.tenantId
+                };
+                var domain = carbon.server.tenantDomain(optionsTenant);
+                PrivilegedCarbonContext.startTenantFlow();
+                isTenantFlowStarted = true;
+                PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(this.registry.tenantId);
+                PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(domain);
+            }
+
+            this.manager.addGenericArtifact(createArtifact(this.manager, options));
+
+        } catch(error) {
+            log.info('unable to add the asset  due to : '+error);
+        } finally {
+
+            if(isTenantFlowStarted) {
+                PrivilegedCarbonContext.endTenantFlow();
+                isTenantFlowStarted = false;
+            }
+        }
     };
 
     ArtifactManager.prototype.update = function (options) {
