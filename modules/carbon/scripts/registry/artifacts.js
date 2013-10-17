@@ -688,6 +688,48 @@
     };
 
     /*
+    The function obtains the lifecycle history for the provided asset
+    @options: An asset with a valid path.(A path which exists in the registry
+    @return: A resource object containing the history as an xml
+     */
+    ArtifactManager.prototype.getLifecycleHistory=function(options){
+        var historyRes=null;
+        var historyPath;
+        var isTenantFlowStarted
+
+        try {
+            isTenantFlowStarted = false;
+            if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_ID) {
+                // tenant flow start
+                var optionsTenant = {
+                    'tenantId' : this.registry.tenantId
+                };
+                var domain = carbon.server.tenantDomain(optionsTenant);
+                PrivilegedCarbonContext.startTenantFlow();
+                isTenantFlowStarted = true;
+                PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(this.registry.tenantId);
+                PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(domain);
+            }
+
+            //Obtain the path in which the history is kept fot the provided asset
+            historyPath=getHistoryPath(options.path);
+
+            historyRes=this.registry.get(historyPath);
+
+        } catch(error) {
+
+        } finally {
+
+            if(isTenantFlowStarted) {
+                PrivilegedCarbonContext.endTenantFlow();
+                isTenantFlowStarted = false;
+            }
+        }
+
+        return historyRes;
+    };
+
+    /*
      The function returns the life-cycle attached to the provided artifact
      @options: An asset as returned by the ArtifactManager get method
      @return: A string indicating the lifecycle name.If the artifact does not
