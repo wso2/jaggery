@@ -230,11 +230,65 @@
      }
      */
     ArtifactManager.prototype.add = function (options) {
-        this.manager.addGenericArtifact(createArtifact(this.manager, options));
+
+        var isTenantFlowStarted
+
+        try {
+            isTenantFlowStarted = false;
+            if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_ID) {
+                // tenant flow start
+                var optionsTenant = {
+                    'tenantId' : this.registry.tenantId
+                };
+                var domain = carbon.server.tenantDomain(optionsTenant);
+                PrivilegedCarbonContext.startTenantFlow();
+                isTenantFlowStarted = true;
+                PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(this.registry.tenantId);
+                PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(domain);
+            }
+
+            this.manager.addGenericArtifact(createArtifact(this.manager, options));
+
+        } catch(error) {
+            log.info('unable to add the asset  due to : '+error);
+        } finally {
+
+            if(isTenantFlowStarted) {
+                PrivilegedCarbonContext.endTenantFlow();
+                isTenantFlowStarted = false;
+            }
+        }
     };
 
     ArtifactManager.prototype.update = function (options) {
-        this.manager.updateGenericArtifact(createArtifact(this.manager, options));
+        var isTenantFlowStarted
+
+        try {
+            isTenantFlowStarted = false;
+            if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_ID) {
+                // tenant flow start
+                var optionsTenant = {
+                    'tenantId' : this.registry.tenantId
+                };
+                var domain = carbon.server.tenantDomain(optionsTenant);
+                PrivilegedCarbonContext.startTenantFlow();
+                isTenantFlowStarted = true;
+                PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(this.registry.tenantId);
+                PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(domain);
+            }
+
+            this.manager.updateGenericArtifact(createArtifact(this.manager, options));
+
+        } catch(error) {
+            log.info('unable to update the asset  due to : '+error);
+        } finally {
+
+            if(isTenantFlowStarted) {
+                PrivilegedCarbonContext.endTenantFlow();
+                isTenantFlowStarted = false;
+            }
+        }
+
     };
 
     ArtifactManager.prototype.remove = function (id) {
@@ -406,6 +460,48 @@
     ArtifactManager.prototype.getLifecycleHistoryPath = function (options) {
 
         return getHistoryPath(options.path);
+    };
+
+    /*
+    The function obtains the lifecycle history for the provided asset
+    @options: An asset with a valid path.(A path which exists in the registry
+    @return: A resource object containing the history as an xml
+     */
+    ArtifactManager.prototype.getLifecycleHistory=function(options){
+        var historyRes=null;
+        var historyPath;
+        var isTenantFlowStarted
+
+        try {
+            isTenantFlowStarted = false;
+            if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_ID) {
+                // tenant flow start
+                var optionsTenant = {
+                    'tenantId' : this.registry.tenantId
+                };
+                var domain = carbon.server.tenantDomain(optionsTenant);
+                PrivilegedCarbonContext.startTenantFlow();
+                isTenantFlowStarted = true;
+                PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(this.registry.tenantId);
+                PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(domain);
+            }
+
+            //Obtain the path in which the history is kept fot the provided asset
+            historyPath=getHistoryPath(options.path);
+
+            historyRes=this.registry.get(historyPath);
+
+        } catch(error) {
+             log.info('unable to retrieve the lifecycle history for '+historyPath+' due to : '+error);
+        } finally {
+
+            if(isTenantFlowStarted) {
+                PrivilegedCarbonContext.endTenantFlow();
+                isTenantFlowStarted = false;
+            }
+        }
+
+        return historyRes;
     };
 
     /*
