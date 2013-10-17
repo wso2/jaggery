@@ -390,7 +390,34 @@
     };
 
     ArtifactManager.prototype.update = function (options) {
-        this.manager.updateGenericArtifact(createArtifact(this.manager, options));
+        var isTenantFlowStarted
+
+        try {
+            isTenantFlowStarted = false;
+            if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_ID) {
+                // tenant flow start
+                var optionsTenant = {
+                    'tenantId' : this.registry.tenantId
+                };
+                var domain = carbon.server.tenantDomain(optionsTenant);
+                PrivilegedCarbonContext.startTenantFlow();
+                isTenantFlowStarted = true;
+                PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(this.registry.tenantId);
+                PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(domain);
+            }
+
+            this.manager.updateGenericArtifact(createArtifact(this.manager, options));
+
+        } catch(error) {
+            log.info('unable to update the asset  due to : '+error);
+        } finally {
+
+            if(isTenantFlowStarted) {
+                PrivilegedCarbonContext.endTenantFlow();
+                isTenantFlowStarted = false;
+            }
+        }
+
     };
 
     ArtifactManager.prototype.remove = function (id) {
@@ -717,7 +744,7 @@
             historyRes=this.registry.get(historyPath);
 
         } catch(error) {
-
+             log.info('unable to retrieve the lifecycle history for '+historyPath+' due to : '+error);
         } finally {
 
             if(isTenantFlowStarted) {
