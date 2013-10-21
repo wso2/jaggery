@@ -414,40 +414,8 @@
     @return: A resource object containing the history as an xml
      */
     ArtifactManager.prototype.getLifecycleHistory=function(options){
-        var historyRes=null;
-        var historyPath;
-        var isTenantFlowStarted
-
-        try {
-            isTenantFlowStarted = false;
-            if(this.registry.tenantId != MultitenantConstants.SUPER_TENANT_ID) {
-                // tenant flow start
-                var optionsTenant = {
-                    'tenantId' : this.registry.tenantId
-                };
-                var domain = carbon.server.tenantDomain(optionsTenant);
-                PrivilegedCarbonContext.startTenantFlow();
-                isTenantFlowStarted = true;
-                PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(this.registry.tenantId);
-                PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(domain);
-            }
-
-            //Obtain the path in which the history is kept fot the provided asset
-            historyPath=getHistoryPath(options.path);
-
-            historyRes=this.registry.get(historyPath);
-
-        } catch(error) {
-             log.info('unable to retrieve the lifecycle history for '+historyPath+' due to : '+error);
-        } finally {
-
-            if(isTenantFlowStarted) {
-                PrivilegedCarbonContext.endTenantFlow();
-                isTenantFlowStarted = false;
-            }
-        }
-
-        return historyRes;
+        var historyPath=getHistoryPath(options.path);
+        return this.registry.get(historyPath);
     };
 
     /*
