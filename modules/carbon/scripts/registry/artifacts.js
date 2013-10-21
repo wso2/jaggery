@@ -42,7 +42,17 @@
                     attributes = {};
                 for (i = 0; i < length; i++) {
                     name = names[i];
-                    attributes[name] = String(artifact.getAttribute(name));
+
+		    var data=artifact.getAttributes(name);
+
+		    //Check if there is only one element 
+	            if(data.length==1){
+			attributes[name] = String(artifact.getAttribute(name));
+		    }
+		    else{
+			attributes[name]=data;
+		    }
+                    
                 }
                 return attributes;
             }()),
