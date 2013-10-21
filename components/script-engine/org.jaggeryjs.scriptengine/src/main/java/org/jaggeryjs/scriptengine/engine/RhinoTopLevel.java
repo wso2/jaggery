@@ -6,6 +6,7 @@ import org.jaggeryjs.scriptengine.EngineConstants;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
 import org.mozilla.javascript.*;
+import org.wso2.carbon.context.PrivilegedCarbonContext;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -94,8 +95,21 @@ public class RhinoTopLevel extends ImporterTopLevel {
         final ContextFactory factory = cx.getFactory();
         timeout = ((Number) args[1]).longValue();
         String uuid = UUID.randomUUID().toString();
+
+        PrivilegedCarbonContext carbonContext = PrivilegedCarbonContext.getThreadLocalCarbonContext();
+        final int tenantId = carbonContext.getTenantId();
+        final String tenantDomain = carbonContext.getTenantDomain();
+        final String applicationName = carbonContext.getApplicationName();
+
         ScheduledFuture future = timerExecutor.schedule(new Callable<Void>() {
             public Void call() throws Exception {
+                // child inherits context properties form the parent thread.
+                PrivilegedCarbonContext.startTenantFlow();
+                PrivilegedCarbonContext carbonContext = PrivilegedCarbonContext.getThreadLocalCarbonContext();
+                carbonContext.setTenantId(tenantId);
+                carbonContext.setTenantDomain(tenantDomain);
+                carbonContext.setApplicationName(applicationName);
+
                 try {
                     Context ctx = RhinoEngine.enterContext(factory);
                     RhinoEngine.putContextProperty(EngineConstants.JAGGERY_CONTEXT, context);
@@ -103,6 +117,7 @@ public class RhinoTopLevel extends ImporterTopLevel {
                 } catch (Exception e) {
                     log.error(e.getMessage(), e);
                 } finally {
+                    PrivilegedCarbonContext.endTenantFlow();
                     RhinoEngine.exitContext();
                 }
                 return null;
@@ -151,9 +166,25 @@ public class RhinoTopLevel extends ImporterTopLevel {
         final ContextFactory factory = cx.getFactory();
         interval = ((Number) args[1]).longValue();
         String uuid = UUID.randomUUID().toString();
+
+        PrivilegedCarbonContext carbonContext = PrivilegedCarbonContext.getThreadLocalCarbonContext();
+        final int tenantId = carbonContext.getTenantId();
+        final String tenantDomain = carbonContext.getTenantDomain();
+        final String applicationName = carbonContext.getApplicationName();
+
         ScheduledFuture future = timerExecutor.scheduleAtFixedRate(new Runnable() {
+
+            private boolean firstTime = true;
+
             @Override
             public void run() {
+                // child inherits context properties form the parent thread.
+                PrivilegedCarbonContext.startTenantFlow();
+                PrivilegedCarbonContext carbonContext = PrivilegedCarbonContext.getThreadLocalCarbonContext();
+                carbonContext.setTenantId(tenantId);
+                carbonContext.setTenantDomain(tenantDomain);
+                carbonContext.setApplicationName(applicationName);
+
                 try {
                     Context cx = RhinoEngine.enterContext(factory);
                     RhinoEngine.putContextProperty(EngineConstants.JAGGERY_CONTEXT, context);
@@ -161,6 +192,7 @@ public class RhinoTopLevel extends ImporterTopLevel {
                 } catch (Exception e) {
                     log.error(e.getMessage(), e);
                 } finally {
+                    PrivilegedCarbonContext.endTenantFlow();
                     RhinoEngine.exitContext();
                 }
             }
