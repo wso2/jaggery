@@ -98,23 +98,16 @@
     registry.ArtifactManager = ArtifactManager;
 
     ArtifactManager.prototype.find = function (fn, paging) {
-        var i, length, artifacts, pagination,
+        var i, length, artifacts,
             artifactz = [];
-        pagination = generatePaginationForm(paging);
-        try {
-            PaginationContext.init(pagination.start, pagination.count, pagination.sortOrder,
-                pagination.sortBy, pagination.paginationLimit);
-            artifacts = this.manager.findGenericArtifacts(new GenericArtifactFilter({
-                matches: function (artifact) {
-                    return fn(buildArtifact(this, artifact));
-                }
-            }));
-            length = artifacts.length;
-            for (i = 0; i < length; i++) {
-                artifactz.push(buildArtifact(this, artifacts[i]));
+        artifacts = this.manager.findGenericArtifacts(new GenericArtifactFilter({
+            matches: function (artifact) {
+                return fn(buildArtifact(this, artifact));
             }
-        } finally {
-            PaginationContext.destroy();
+        }));
+        length = artifacts.length;
+        for (i = 0; i < length; i++) {
+            artifactz.push(buildArtifact(this, artifacts[i]));
         }
         return artifactz;
     };
