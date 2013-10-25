@@ -22,7 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jaggeryjs</groupId>
     <artifactId>features</artifactId>
-    <version>0.9.0-SNAPSHOT</version>
+    <version>0.9.0-SNAPSHOT-10252013</version>
     <packaging>pom</packaging>
     <name>WSO2 Jaggery Server - Features Aggregator Module</name>
     <url>http://wso2.org</url>
@@ -61,8 +61,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- jaggery versions -->
-        <jaggery.component.version>0.9.0-SNAPSHOT</jaggery.component.version>
-        <jaggery.feature.version>0.9.0-SNAPSHOT</jaggery.feature.version>
+        <jaggery.component.version>0.9.0-SNAPSHOT-10252013</jaggery.component.version>
+        <jaggery.feature.version>0.9.0-SNAPSHOT-10252013</jaggery.feature.version>
 
         <!-- carbon versions -->
         <carbon.kernal.version>4.2.0</carbon.kernal.version>

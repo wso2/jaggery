@@ -42,9 +42,9 @@ include('/includes/topnavi.jag');
 			<p align="center">The delicious Javascript framework</p>
             </span>
 			<span class="main-right">
-				<a class="btn success large" href="http://dist.wso2.org/products/jaggery/dl/jaggery-0.9.0-SNAPSHOT.zip">Download Jaggery</a> <a class="btn primary large"
+				<a class="btn success large" href="http://dist.wso2.org/products/jaggery/dl/jaggery-0.9.0-SNAPSHOT-10252013.zip">Download Jaggery</a> <a class="btn primary large"
                                                                            href="documentation.jag">Documentation</a>
-			<span class="help-block" style="margin-top:10px;">0.9.0-SNAPSHOT of Jaggery released !</span>
+			<span class="help-block" style="margin-top:10px;">0.9.0-SNAPSHOT-10252013 of Jaggery released !</span>
             </span>
     </div>
 

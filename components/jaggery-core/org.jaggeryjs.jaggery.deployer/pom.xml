@@ -20,7 +20,7 @@
     <parent>
         <groupId>org.jaggeryjs</groupId>
         <artifactId>jaggery-core</artifactId>
-        <version>0.9.0-SNAPSHOT</version>
+        <version>0.9.0-SNAPSHOT-10252013</version>
 <relativePath>../pom.xml</relativePath>
     </parent>
 
