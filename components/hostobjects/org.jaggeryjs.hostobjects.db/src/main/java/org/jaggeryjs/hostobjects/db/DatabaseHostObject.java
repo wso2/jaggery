@@ -173,6 +173,7 @@ public class DatabaseHostObject extends ScriptableObject {
 
     public static Object jsFunction_query(Context cx, Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException, SQLException {
+
         String functionName = "query";
         int argsCount = args.length;
         if (argsCount == 0) {
@@ -218,7 +219,7 @@ public class DatabaseHostObject extends ScriptableObject {
                 if (args[1] instanceof Function) {
                     callback = (Function) args[1];
                 } else {
-                    setQueryParams(stmt, args, 1, argsCount);
+                    setQueryParams(stmt, args, 1, 1);
                 }
                 return executeQuery(cx, db, stmt, query, callback, true);
             }
@@ -462,6 +463,8 @@ public class DatabaseHostObject extends ScriptableObject {
             stmt.setInt(index, (Integer) obj);
         } else if (obj instanceof Double) {
             stmt.setDouble(index, (Double) obj);
+        }else if (obj instanceof ScriptableObject) {
+            stmt.setString(index,obj.toString());
         }
         //Support for streams in queries
         //Added 25/9/2013
@@ -613,7 +616,7 @@ public class DatabaseHostObject extends ScriptableObject {
             case Types.BLOB:
                 return results.getBlob(index) == null ? null : cx.newObject(db, "Stream", new Object[]{results.getBlob(index).getBinaryStream()});
             default:
-                return results.getObject(index) == null ? null : Context.javaToJS(results.getObject(index), db);
+                return results.getObject(index) == null ? null : results.getObject(index);
         }
     }
 
