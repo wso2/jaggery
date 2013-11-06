@@ -186,6 +186,8 @@ public class HostObjectUtil {
                 return serializeNativeDate(object);
             } else if ("Error".equals(jsClass)) {
                 return serializeNativeError(object);
+            } else if("String".equals(jsClass)) {
+                return obj.toString();
             }
         }
 

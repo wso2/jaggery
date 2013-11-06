@@ -463,8 +463,6 @@ public class DatabaseHostObject extends ScriptableObject {
             stmt.setInt(index, (Integer) obj);
         } else if (obj instanceof Double) {
             stmt.setDouble(index, (Double) obj);
-        }else if (obj instanceof ScriptableObject) {
-            stmt.setString(index,obj.toString());
         }
         //Support for streams in queries
         //Added 25/9/2013
