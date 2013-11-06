@@ -49,7 +49,9 @@
     UserManager.prototype.roleExists = function (role) {
         return this.manager.isExistingRole(role);
     };
-
+	UserManager.prototype.updateRole = function (previousRoleName, newRoleName) {
+        return this.manager.updateRoleName(previousRoleName, newRoleName);
+    };
     UserManager.prototype.getClaims = function (username, profile) {
         return this.manager.getUserClaimValues(username, profile);
     };
