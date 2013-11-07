@@ -75,35 +75,6 @@ public class HostObjectUtil {
         });
     }
 
-    private static Object buildObject(Context cx, Scriptable scope, JsonElement element) {
-        if (element.isJsonArray()) {
-            Scriptable o = cx.newArray(scope, 0);
-            int i = 0;
-            for (JsonElement el : element.getAsJsonArray()) {
-                o.put(i++, o, buildObject(cx, scope, el));
-            }
-            return o;
-        }
-        if (element.isJsonObject()) {
-            Scriptable o = cx.newObject(scope);
-            for (Entry<String, JsonElement> entry : element.getAsJsonObject().entrySet()) {
-                o.put(entry.getKey(), o, buildObject(cx, scope, entry.getValue()));
-            }
-            return o;
-        }
-        if (element.isJsonPrimitive()) {
-            JsonPrimitive primitive = element.getAsJsonPrimitive();
-            if (primitive.isBoolean()) {
-                return primitive.getAsBoolean();
-            }
-            if (primitive.isNumber()) {
-                return primitive.getAsNumber();
-            }
-            return primitive.getAsString();
-        }
-        return null;
-    }
-
     public static String serializeJSON(Object obj) {
         if (obj instanceof Wrapper) {
             obj = ((Wrapper) obj).unwrap();
