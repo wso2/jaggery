@@ -66,8 +66,13 @@ public class HostObjectUtil {
         throw new ScriptException(msg);
     }
 
-    public static Object parseJSON(Scriptable scope, String json) {
-        return buildObject(Context.getCurrentContext(), scope, new Gson().fromJson(json, JsonElement.class));
+    public static Object parseJSON(Context cx, Scriptable scope, String json) {
+        return NativeJSON.parse(cx,scope,json, new Callable() {
+            @Override
+            public Object call(Context cx, Scriptable scope, Scriptable thisObj, Object[] args) {
+                return args[1];
+            }
+        });
     }
 
     private static Object buildObject(Context cx, Scriptable scope, JsonElement element) {

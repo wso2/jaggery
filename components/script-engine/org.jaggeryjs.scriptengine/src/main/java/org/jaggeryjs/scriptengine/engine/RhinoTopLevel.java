@@ -48,7 +48,7 @@ public class RhinoTopLevel extends ImporterTopLevel {
             HostObjectUtil.invalidArgsError(EngineConstants.GLOBAL_OBJECT_NAME,
                     EngineConstants.GLOBAL_OBJECT_NAME, "1", "string", args[0], false);
         }
-        return HostObjectUtil.parseJSON(thisObj, (String) args[0]);
+        return HostObjectUtil.parseJSON(cx, thisObj, (String) args[0]);
     }
 
     public static String stringify(Context cx, Scriptable thisObj, Object[] args, Function funObj)
