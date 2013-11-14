@@ -608,7 +608,7 @@ public class DatabaseHostObject extends ScriptableObject {
             case Types.BLOB:
                 return results.getBlob(index) == null ? null : cx.newObject(db, "Stream", new Object[]{results.getBlob(index).getBinaryStream()});
             case Types.TIMESTAMP:
-                Date date = results.getDate(index);
+                Timestamp date = results.getTimestamp(index);
                 return date == null ? null : cx.newObject(db, "Date", new Object[] {date.getTime()});
             default:
                 return results.getObject(index) == null ? null : results.getObject(index);
