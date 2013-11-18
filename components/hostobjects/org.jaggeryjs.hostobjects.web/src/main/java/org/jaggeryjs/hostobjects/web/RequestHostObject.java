@@ -21,6 +21,7 @@ import org.mozilla.javascript.ScriptableObject;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 import java.util.*;
@@ -99,7 +100,7 @@ public class RequestHostObject extends ScriptableObject {
                 contentType = contentType.trim().toLowerCase();
                 if (contentType.startsWith("application/json") ||
                         contentType.startsWith("application/json/badgerfish")) {
-                    rho.content = (data != null && !"".equals(data)) ? HostObjectUtil.parseJSON(thisObj, data) : null;
+                    rho.content = (data != null && !"".equals(data)) ? HostObjectUtil.parseJSON(cx,thisObj, data) : null;
                 } else {
                     rho.content = data;
                 }
@@ -125,6 +126,24 @@ public class RequestHostObject extends ScriptableObject {
         RequestHostObject rho = (RequestHostObject) thisObj;
         try {
             return cx.newObject(thisObj, "Stream", new Object[]{rho.request.getInputStream()});
+        } catch (IOException e) {
+            String msg = "Error occurred while reading Servlet InputStream";
+            log.warn(msg, e);
+            throw new ScriptException(msg, e);
+        }
+    }
+	
+	public static InputStream jsFunction_getInputStream(Context cx, Scriptable thisObj, Object[] args, Function funObj)
+            throws ScriptException {
+        String functionName = "getInputStream";
+        int argsCount = args.length;
+        if (argsCount != 0) {
+            HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
+        }
+
+        RequestHostObject rho = (RequestHostObject) thisObj;
+        try {
+            return rho.request.getInputStream();
         } catch (IOException e) {
             String msg = "Error occurred while reading Servlet InputStream";
             log.warn(msg, e);
