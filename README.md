@@ -18,4 +18,3 @@ they need to get going.
 More information about jaggery can be found at 
 [jaggeryjs.org](http://jaggeryjs.org).
 
-
