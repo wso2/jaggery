@@ -2,13 +2,12 @@
     var PrivilegedCarbonContext = Packages.org.wso2.carbon.context.PrivilegedCarbonContext,
         MultitenantConstants = Packages.org.wso2.carbon.utils.multitenancy.MultitenantConstants,
         MultitenantUtils = Packages.org.wso2.carbon.utils.multitenancy.MultitenantUtils,
-        context = PrivilegedCarbonContext.getThreadLocalCarbonContext(),
         realmService = server.osgiService('org.wso2.carbon.user.core.service.RealmService'),
         tenantManager = realmService.getTenantManager();
 
     server.tenantDomain = function (options) {
         if (!options) {
-            return context.getTenantDomain();
+            return PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantDomain();
         }
         if(options.tenantId) {
             return tenantManager.getDomain(options.tenantId);

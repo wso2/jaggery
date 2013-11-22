@@ -85,6 +85,11 @@
     UserManager.prototype.allRoles = function () {
         return this.manager.getRoleNames();
     };
+    
+    UserManager.prototype.getUserListOfRole = function (role) {
+        return this.manager.getUserListOfRole(role);
+    };
+
 
     /**
      * um.authorizeRole('store-admin', '/permissions/mypermission', 'ui-execute');

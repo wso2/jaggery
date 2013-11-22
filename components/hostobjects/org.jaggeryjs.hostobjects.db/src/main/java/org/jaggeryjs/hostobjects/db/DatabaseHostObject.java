@@ -22,14 +22,8 @@ import org.wso2.carbon.ndatasource.core.CarbonDataSource;
 import org.wso2.carbon.ndatasource.core.DataSourceManager;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Savepoint;
-import java.sql.Statement;
-import java.sql.Types;
+import java.sql.*;
+import java.sql.Date;
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -613,6 +607,9 @@ public class DatabaseHostObject extends ScriptableObject {
                 return results.getClob(index) == null ? null : cx.newObject(db, "Stream", new Object[]{results.getClob(index).getAsciiStream()});
             case Types.BLOB:
                 return results.getBlob(index) == null ? null : cx.newObject(db, "Stream", new Object[]{results.getBlob(index).getBinaryStream()});
+            case Types.TIMESTAMP:
+                Timestamp date = results.getTimestamp(index);
+                return date == null ? null : cx.newObject(db, "Date", new Object[] {date.getTime()});
             default:
                 return results.getObject(index) == null ? null : results.getObject(index);
         }
