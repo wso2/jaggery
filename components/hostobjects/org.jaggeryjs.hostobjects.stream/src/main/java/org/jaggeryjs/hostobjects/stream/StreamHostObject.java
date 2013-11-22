@@ -7,6 +7,7 @@ import org.jaggeryjs.scriptengine.util.HostObjectUtil;
 import org.mozilla.javascript.*;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 public class StreamHostObject extends ScriptableObject {
@@ -14,7 +15,7 @@ public class StreamHostObject extends ScriptableObject {
     private static final Log log = LogFactory.getLog(StreamHostObject.class);
 
     private static final String hostObjectName = "Stream";
-
+    private static StreamHostObject sho;
     private InputStream stream = null;
 
     public StreamHostObject() {
@@ -41,6 +42,7 @@ public class StreamHostObject extends ScriptableObject {
 
         if (obj instanceof String) {
             sho.stream = new ByteArrayInputStream(((String) args[0]).getBytes());
+            
         } else if (obj instanceof InputStream) {
             sho.stream = (InputStream) obj;
         } else {
@@ -59,6 +61,18 @@ public class StreamHostObject extends ScriptableObject {
         StreamHostObject fho = (StreamHostObject) thisObj;
         return HostObjectUtil.streamToString(fho.stream);
     }
+    
+	public static Boolean jsFunction_close(Context cx, Scriptable thisObj,
+			Object[] args, Function funObj) throws ScriptException {
+		Boolean successClose = false;
+		try {
+			sho.stream.close();
+			successClose = true;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return successClose;
+	}
 /*
     public static void jsFunction_pipe(Context cx, Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException {
