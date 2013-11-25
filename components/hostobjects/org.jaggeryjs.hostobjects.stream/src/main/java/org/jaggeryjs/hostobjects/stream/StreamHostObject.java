@@ -15,7 +15,6 @@ public class StreamHostObject extends ScriptableObject {
     private static final Log log = LogFactory.getLog(StreamHostObject.class);
 
     private static final String hostObjectName = "Stream";
-    private static StreamHostObject sho;
     private InputStream stream = null;
 
     public StreamHostObject() {
@@ -62,17 +61,7 @@ public class StreamHostObject extends ScriptableObject {
         return HostObjectUtil.streamToString(fho.stream);
     }
     
-	public static Boolean jsFunction_close(Context cx, Scriptable thisObj,
-			Object[] args, Function funObj) throws ScriptException {
-		Boolean successClose = false;
-		try {
-			sho.stream.close();
-			successClose = true;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return successClose;
-	}
+
 /*
     public static void jsFunction_pipe(Context cx, Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException {
