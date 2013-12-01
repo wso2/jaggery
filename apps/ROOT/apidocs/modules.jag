@@ -114,7 +114,10 @@ include('/includes/navi.jag');
                 <p>A <code>&lt;method/&gt;</code> element should consist of two child elements named
                 <code>&lt;className/&gt;</code> and <code>&lt;name/&gt;</code> which corresponds to the fully qualified class name of the
                     Java class which contains the method implementation and the name of the method.</p>
-                 </li>
+                 </li>                
+				<li>
+                <p>To read a file inside module, module script have to give absolute path for the file. </p>
+                </li>
                 <li>
                 <p>A <code>&lt;script/&gt;</code> element should consist of two child elements named
                 <code>&lt;path/&gt;</code> and <code>&lt;name/&gt;</code> which corresponds to the script path relative to
