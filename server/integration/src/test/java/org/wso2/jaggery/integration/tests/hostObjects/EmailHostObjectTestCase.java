@@ -30,63 +30,103 @@ import java.net.URLConnection;
 import org.testng.annotations.Test;
 import org.wso2.carbon.integration.framework.ClientConnectionUtil;
 
+import com.icegreen.greenmail.util.GreenMail;
+import com.icegreen.greenmail.util.ServerSetupTest;
+
+import javax.mail.MessagingException;
+
 /**
  * Test cases for Email Host Object
  */
 public class EmailHostObjectTestCase {
 
     @Test(groups = {"jaggery"},
-          description = "Test a sample request and a response for E-mail host object")
+            description = "Test a sample request and a response for E-mail host object")
     public void testEmail() {
         ClientConnectionUtil.waitForPort(9763);
-        
+
+        GreenMail greenMail = new GreenMail(ServerSetupTest.SMTP);
+        greenMail.start();
+
         String finalOutput = null;
-        
+
         try {
-        	URL jaggeryURL = new URL("http://localhost:9763/testapp/email.jag");
-        	URLConnection jaggeryServerConnection = jaggeryURL.openConnection();
-        	BufferedReader in = new BufferedReader(new InputStreamReader(
-        			jaggeryServerConnection.getInputStream()));
-        
-          	String inputLine;
-  			while ((inputLine = in.readLine()) != null) {
-  				finalOutput = inputLine;
-  			}
-			    
-			in.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-	        assertNotNull(finalOutput, "Result cannot be null");
-		}
-        
+            URL jaggeryURL = new URL("http://localhost:9763/testapp/email.jag");
+            URLConnection jaggeryServerConnection = jaggeryURL.openConnection();
+            BufferedReader in = new BufferedReader(new InputStreamReader(
+                    jaggeryServerConnection.getInputStream()));
+
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                finalOutput = inputLine;
+            }
+
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            assertNotNull(finalOutput, "Result cannot be null");
+            greenMail.stop();
+        }
+
     }
-    
+
     @Test(groups = {"jaggery"},
             description = "Test a sample request and a response for E-mail host object")
-      public void testSendEmail() {
-          ClientConnectionUtil.waitForPort(9763);
-          
-          String finalOutput = null;
-          
-          try {
-          	URL jaggeryURL = new URL("http://localhost:9763/testapp/email.jag");
-          	URLConnection jaggeryServerConnection = jaggeryURL.openConnection();
-          	BufferedReader in = new BufferedReader(new InputStreamReader(
-          			jaggeryServerConnection.getInputStream()));
-          
-          	String inputLine;
-  			while ((inputLine = in.readLine()) != null) {
-  				finalOutput = inputLine;
-  			}
-  			    
-  			in.close();
-  		} catch (IOException e) {
-  			e.printStackTrace();
-  		} finally {
-  	        assertEquals(finalOutput, "email successfully sent");
-  		}
-          
-      }
+    public void testSendEmail() {
+        ClientConnectionUtil.waitForPort(9763);
+
+        GreenMail greenMail = new GreenMail(ServerSetupTest.SMTP);
+        greenMail.start();
+
+        String finalOutput = null;
+        try {
+            URL jaggeryURL = new URL("http://localhost:9763/testapp/email.jag");
+            URLConnection jaggeryServerConnection = jaggeryURL.openConnection();
+            BufferedReader in = new BufferedReader(new InputStreamReader(
+                    jaggeryServerConnection.getInputStream()));
+
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                finalOutput = inputLine;
+            }
+
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            assertEquals(finalOutput, "email successfully sent");
+            greenMail.stop();
+        }
+
+    }
+
+    @Test(groups = {"jaggery"},
+            description = "Test a sample request and a subject of the response for E-mail host object")
+    public void testSendEmailSubject() {
+        ClientConnectionUtil.waitForPort(9763);
+
+        GreenMail greenMail = new GreenMail(ServerSetupTest.SMTP);
+        greenMail.start();
+
+        String subject = null;
+        try {
+            URL jaggeryURL = new URL("http://localhost:9763/testapp/email.jag");
+            URLConnection jaggeryServerConnection = jaggeryURL.openConnection();
+            BufferedReader in = new BufferedReader(new InputStreamReader(
+                    jaggeryServerConnection.getInputStream()));
+            in.close();
+            subject = greenMail.getReceivedMessages()[0].getSubject();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        } finally {
+            assertEquals(subject, "Test Subject");
+            greenMail.stop();
+        }
+
+    }
 
 }
