@@ -60,9 +60,6 @@
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Bundle-Name>${project.artifactId}</Bundle-Name>
                         <Export-Package>
-                            com.sun.mail.imap;version="2.0.0.wso2v1",
-                            com.sun.mail.pop3;version="2.0.0.wso2v1",
-                            com.sun.mail.smtp;version="2.0.0.wso2v1",
                             org.jaggeryjs.hostobjects.email.*;
                         </Export-Package>
                         <Import-Package>
