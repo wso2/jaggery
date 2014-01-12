@@ -28,6 +28,7 @@ public class LogHostObject extends ScriptableObject {
     private static final String LOG_LEVEL_DEBUG = "debug";
     private static final String LOG_LEVEL_ERROR = "error";
     private static final String LOG_LEVEL_FATAL = "fatal";
+    private static final String LOG_LEVEL_TRACE = "trace";
 
     private Logger logger;
 
@@ -78,6 +79,8 @@ public class LogHostObject extends ScriptableObject {
             logObj.logger.setLevel(Level.DEBUG);
         } else if (LOG_LEVEL_ERROR.equalsIgnoreCase(logLevel)) {
             logObj.logger.setLevel(Level.ERROR);
+        } else if (LOG_LEVEL_TRACE.equalsIgnoreCase(logLevel)) {
+            logObj.logger.setLevel(Level.TRACE);
         } else {
             logObj.logger.setLevel(Level.INFO);
         }
@@ -94,6 +97,18 @@ public class LogHostObject extends ScriptableObject {
         }
         LogHostObject logObj = (LogHostObject) thisObj;
         logObj.logger.debug(HostObjectUtil.serializeObject(args[0]));
+    }
+
+    //prints a trace message
+    public static void jsFunction_trace(Context cx, Scriptable thisObj, Object[] args, Function funObj)
+            throws ScriptException {
+        String functionName = "trace";
+        int argsCount = args.length;
+        if (argsCount != 1) {
+            HostObjectUtil.invalidNumberOfArgs(HOSTOBJECT_NAME, functionName, argsCount, false);
+        }
+        LogHostObject logObj = (LogHostObject) thisObj;
+        logObj.logger.trace(HostObjectUtil.serializeObject(args[0]));
     }
 
     //prints an info message
