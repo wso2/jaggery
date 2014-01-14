@@ -396,11 +396,16 @@ public class SenderHostObject extends ScriptableObject {
      * </pre>
      */
     public void jsFunction_send() throws ScriptException {
+
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        Thread.currentThread().setContextClassLoader(javax.mail.Session.class.getClassLoader());
         try {
             message.setContent(multipart);
             Transport.send(message);
         } catch (MessagingException e) {
             throw new ScriptException(e);
+        } finally {
+            Thread.currentThread().setContextClassLoader(classLoader);
         }
     }
 
