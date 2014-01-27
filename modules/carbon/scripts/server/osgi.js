@@ -8,4 +8,8 @@ var server = {};
     server.osgiService = function (clazz) {
         return context.getOSGiService(Class.forName(clazz));
     };
+
+    server.osgiService =function(classes){
+	return context.getOSGiServices(classes);
+    };
 }(server));
