@@ -9,7 +9,7 @@ var server = {};
         return context.getOSGiService(Class.forName(clazz));
     };
 
-    server.osgiService =function(classes){
+    server.osgiServices =function(classes){
 	return context.getOSGiServices(classes);
     };
 }(server));
