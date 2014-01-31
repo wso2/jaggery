@@ -43,6 +43,7 @@
                 <exclude>**/registry.xml</exclude>
                 <exclude>**/axis2/axis2.xml</exclude>
                 <exclude>**/ciphertool.bat</exclude>
+                <exclude>**/client-truststore.jks</exclude>
             </excludes>
         </fileSet>
         <fileSet>
@@ -72,6 +73,11 @@
             <includes>
                 <include>*/**</include>
             </includes>
+        </fileSet>
+        <!-- Copying WSO2-CARBON-PATCH-4.1.0-0005 files to the patches directory-->
+        <fileSet>
+            <directory>target/WSO2-CARBON-PATCH-4.2.0-0005/repository/resources/security/</directory>
+            <outputDirectory>jaggery-${pom.version}/carbon/repository/resources/security/</outputDirectory>
         </fileSet>
     </fileSets>
     <dependencySets>

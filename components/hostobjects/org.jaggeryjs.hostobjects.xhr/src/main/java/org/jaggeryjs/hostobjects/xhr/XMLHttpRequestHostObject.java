@@ -526,9 +526,11 @@ public class XMLHttpRequestHostObject extends ScriptableObject {
             updateReadyState(cx, xhr, HEADERS_RECEIVED);
 
             byte[] response = xhr.method.getResponseBody();
-            if (response.length > 0) {
-                xhr.responseText = new String(response);
-            }
+			if (response != null) {
+				if (response.length > 0) {
+					xhr.responseText = new String(response);
+				}
+			}
             Header contentType = xhr.method.getResponseHeader("Content-Type");
             if (contentType != null) {
                 xhr.responseType = contentType.getValue();
