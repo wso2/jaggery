@@ -55,6 +55,8 @@ public class WebAppManager {
     public static final String WS_SERVLET_CONTEXT = "/websocket";
 
     private static final String SHARED_JAGGERY_CONTEXT = "shared.jaggery.context";
+    
+    private static final String SERVE_FUNCTION_JAGGERY = "org.jaggeryjs.serveFunction";
 
     private static final Map<String, List<String>> timeouts = new HashMap<String, List<String>>();
 
@@ -415,37 +417,49 @@ public class WebAppManager {
         log.debug("Releasing resources of : " + context.getServletContext().getContextPath());
     }
 
-    public static void execute(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException {
-        String scriptPath = getScriptPath(request);
-        InputStream sourceIn = request.getServletContext().getResourceAsStream(scriptPath);
-        if (sourceIn == null) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND, request.getRequestURI());
-            return;
-        }
-        RhinoEngine engine = null;
-        try {
-            engine = CommonManager.getInstance().getEngine();
-            Context cx = engine.enterContext();
-            //Creating an OutputStreamWritter to write content to the servletResponse
-            OutputStream out = response.getOutputStream();
-            JaggeryContext context = createJaggeryContext(cx, out, scriptPath, request, response);
-            context.addProperty(FileHostObject.JAVASCRIPT_FILE_MANAGER,
-                    new WebAppFileManager(request.getServletContext()));
-            CommonManager.getInstance().getEngine().exec(new ScriptReader(sourceIn), context.getScope(),
-                    getScriptCachingContext(request, scriptPath));
-            //out.flush();
-        } catch (ScriptException e) {
-            String msg = e.getMessage();
-            log.error(msg, e);
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, msg);
-        } finally {
-            //Exiting from the context
-            if (engine != null) {
-                RhinoEngine.exitContext();
-            }
-        }
-    }
+	public static void execute(HttpServletRequest request,
+			HttpServletResponse response) throws IOException, ServletException {
+		InputStream sourceIn = null;
+		RhinoEngine engine = null;
+		Function function = null;
+		Context cx = null;
+		JaggeryContext context = null;
+		Scriptable serveFunction = (Scriptable) request.getServletContext()
+				.getAttribute(SERVE_FUNCTION_JAGGERY);
+		try {
+			function = (Function) serveFunction;
+			engine = CommonManager.getInstance().getEngine();
+			cx = engine.enterContext();
+			String scriptPath = getScriptPath(request);
+			OutputStream out = response.getOutputStream();
+			context = createJaggeryContext(cx, out, scriptPath, request,response);
+			context.addProperty(FileHostObject.JAVASCRIPT_FILE_MANAGER,
+					new WebAppFileManager(request.getServletContext()));
+			if (serveFunction != null) {
+				function.call(cx, context.getScope(), function, null);
+			} else {
+				//resource rendering model proceeding
+				sourceIn = request.getServletContext().getResourceAsStream(scriptPath);
+				if (sourceIn == null) {
+					response.sendError(HttpServletResponse.SC_NOT_FOUND,request.getRequestURI());
+					return;
+				}
+					CommonManager.getInstance().getEngine()
+							.exec(new ScriptReader(sourceIn), context.getScope(),
+									getScriptCachingContext(request, scriptPath));
+					}
+		} catch (ScriptException e) {
+			String msg = e.getMessage();
+			log.error(msg, e);
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+					msg);
+		} finally {
+			// Exiting from the context
+			if (engine != null) {
+				RhinoEngine.exitContext();
+			}
+		}
+	}
 
     public static String getScriptPath(HttpServletRequest request) {
         String url = request.getServletPath();
