@@ -1,0 +1,138 @@
+<h1>Debugger</h1>
+<br>
+
+<h3>Introduction</h3>
+<p>
+	Jaggery debugging feature is enabled by the means of Rhino JavaScript Debugger. Eclipse IDE has plugin
+	support for Remote Javascript debugging with Rhino. Support is given for both client and server side
+	thus, we can setup Rhino debugging in our own server and we can connect to a server already running the
+	Rhino debugger. Jaggery server is embedded with an embedded Rhino Debugger and we can connect to it via
+	Eclipse IDE. Currently this feature is only compatible with <b>Eclipse Java EE IDE for Web Developers:
+	Juno Release</b>.
+</p>
+<h3>Configuring the debugger</h3>
+<p>
+	Both the client and server sides need to be configured before you can start the debugger.
+</p>
+<p>
+	<b>Server side</b>
+</p>
+<ol class="steps1">
+	<li>
+		Navigate to plugins directory of your Eclipse installation and locate following jars.
+	</li>
+	<ul class="jars">
+		<li>
+			<code>
+				org.eclipse.wst.jsdt.debug.transport-1.0.100.v201109150330.jar</code>
+		</li>
+		<li>
+			<code>
+				org.eclipse.wst.jsdt.debug.rhino.debugger-1.0.300.v201109150503.jar</code>
+		</li>
+	</ul>
+	<li>
+		Extract <code>
+			jaggery-0.9.0-SNAPSHOT.zip</code>
+		to a directory you prefer. Let's call it <code>
+			JAGGERY_HOME</code>
+	</li>
+	<li>
+		Copy the above mentioned jars into <code>
+			JAGGERY_HOME/carbon/repository/components/dropins</code>
+		directory.
+	</li>
+</ol>
+<p>
+	<b>Client side</b>
+</p>
+<ol class="steps2">
+	<li>
+		Import the project which contains the script you need to debug into your current Eclipse workspace.
+	</li>
+	<li>
+		Set the JavaScript editor as the default editor for .jag files
+	</li>
+	<ol class="sub-steps">
+		<li>
+			In Eclipse go to <b>Windows > Preferences</b>
+		</li>
+		<li>
+			Open <b>General > Content Types</b> preference dialog.
+		</li>
+		<li>
+			Under <b>Content types select Text > JavaScript Source File</b>. It will contain only <b>.js</b>
+			under <b>File associations</b>.
+			Add a new File association as <b>.jag</b>.
+		</li>
+	</ol>
+	</br>
+	<img src="/themes/ROOT/img/editor_config.png" alt="" class="config_thumb" align="middle"/>
+	</br>
+	</br>
+	</br>
+	<li>
+		Create a new <b>Remote Javascript launch configuration</b>. In order to do so,
+	</li>
+	<ol class="sub-steps">
+		<li>
+			Open <b>Debug Configurations</b> dialog and double-click <b>Remote Javascript</b> launch configuration to create
+			a new one and fill required fields
+		</li>
+		<li>
+			<b>Mozilla Rhino - Attaching Connector</b> should be selected as the connector.
+		</li>
+		<li>
+			Fill in the <b>hostname</b> and the <b>port number</b> of the host where the debugger is running.
+		</li>
+		</br>
+		<img src="/themes/ROOT/img/debug_config1.png" alt="" class="config_thumb" align="middle"/>
+		</br>
+		</br>
+		</br>
+		<li>
+			Switch to the <b>Source tab</b>, remove the <b>Default</b> project and add the project which you want to
+			debug.
+		</li>
+		</br>
+		<img src="/themes/ROOT/img/debug_config2.png" alt="" class="config_thumb" align="middle"/>
+		</br>
+		</br>
+		</br>
+	</ol>
+	<li>
+		Set breakpoints as required and change settings to <b>Suspend For All Script Loads</b>(optional).
+	</li>
+</ol>
+<h3>Starting the debugger</h3>
+<ol class=steps3>
+	<li>
+		Navigate to <code>
+			JAGGERY_HOME/bin</code>
+		.
+	</li>
+	<li>
+		Run <code>
+			sh ./server.sh -DjsDebug=&lt;port&gt;</code>
+		command to  start the server in debug mode.
+	</li>
+	<li>
+		Point the browser url to <code><a href="http://localhost:9763/apps/&lt;project_name&gt;/&lt;file_name&gt;.jag"
+			target="_blank">http://localhost:9763/apps/&lt;project_name&gt;/&lt;file_name&gt;.jag</a></code>
+		.Page will
+		wait without loading until the debugger client is connected.
+	</li>
+	<li>
+		Go to the <b>Eclipse IDE</b> and launch the newly created debug configuration.
+	</li>
+	</br>
+	<img src="/themes/ROOT/img/debugger.png" alt="" class="config_thumb" align="middle"/>
+	</br>
+	</br>
+	</br>
+</ol>
+<p>
+	<b>IMPORTANT</b>:As we don't have editor support for Jaggery yet, debugging can be used on scripts which have
+	only JavaScript content. Also as the JavaScript editor doesn't allow <b>&lt;%</b> and <b>%&gt;</b> characters
+	they need to be commented out. We are working on improving the debugger.
+</p>

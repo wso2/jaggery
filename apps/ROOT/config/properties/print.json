@@ -1,0 +1,27 @@
+{
+	"sections": [
+		{
+			"title": "Parameters",
+			"columns": [
+				{
+					"name": "Parameter"
+				}, {
+					"name": "Type"
+				}, {
+					"name": "Description"
+				}
+			],
+			"rows": [
+				{
+					"col1": 'str',
+					"col2": 'String',
+					"col3": '<pre>print("hello");</pre>print a String to the response'
+				}, {
+					"col1": 'obj',
+					"col2": 'Object',
+					"col3": '<pre>var obj = {"name": "jaggery"};print(obj);</pre>Passing a Javascript object to print() serialize the object to the response'
+				}
+			]
+		}
+	]
+}

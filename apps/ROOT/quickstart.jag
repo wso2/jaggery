@@ -1,0 +1,10 @@
+<%
+var caramel;
+	caramel = require('caramel');
+	caramel.render({
+		'title': {text :'Quickstart'},
+		'body' : {},
+		'nav'  : {currentPage:'quickstart'},
+		'sidebar' : {}
+	});
+%>

@@ -1,0 +1,7 @@
+{
+	"api": "print",
+	"label": "print()",
+	"category1": "Built-ins",
+	"category2" : "Output",
+	"overview": 'In-built function print() will write server-side output to the document.'
+}

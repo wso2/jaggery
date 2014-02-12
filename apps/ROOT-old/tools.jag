@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Jaggery - Delicious Javascript</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+        }
+
+		 .about li {
+           font-family: Georgia, serif;
+           font-size: 16px;
+           font-style: italic;
+           font-weight: normal;
+           text-transform: normal;
+           letter-spacing: normal;
+           line-height: 1.4em;
+           list-style:none;
+           margin-bottom:20px;
+           color:#666;
+    }
+
+        .about {
+            margin-top:20px;
+            margin-left:0px;
+           padding:10px;
+            background:#efefef;
+            border:1px solid #ccc;
+        }
+
+        .center-align {
+            text-align:center;
+        }
+    </style>
+    <link href="css/prettify.css" rel="stylesheet">
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72"
+          href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114"
+          href="images/apple-touch-icon-114x114.png">
+</head>
+
+<body>
+
+<%
+include('/includes/topnavi.jag');
+%>
+
+<div class="container">
+
+
+
+    <!-- Example row of columns -->
+    <div class="row">
+        <div class="span16">
+            <div class="page-header">
+                <h1>
+                    Tools <small>A list of tools you can use together with Jaggery</small>
+                </h1>
+            </div>
+
+            <ul class="tool-links">
+		    <li class="even">
+			<img src="images/icon-editor.png">
+							<a href="<%=context%>/tools/editor.jag"><h3>Editor</h3> </a>
+
+
+
+							<p> Currently IDE support for <b>IntelliJ IDEA</b> ultimate edition is implemented where you can create .jag file on your own with syntax highlighting and code completion support for Jaggery,HTML and Javascript. </p>
+
+
+							 <i><b>Eclipse</b> based IDE will also be available soon!</i>  </p>
+							<a class="link" href="<%=context%>/tools/editor.jag">Learn more</a>
+			
+
+		    </li>
+
+		    <li class="odd">
+			
+				<img src="images/icon-debugger.png">
+				<a href="<%=context%>/tools/debugger.jag"><h3>Debugger</h3> </a>
+
+
+				<p>Jaggery debugging feature is enabled by the means of Rhino JavaScript Debugger. Eclipse IDE has plugin support for Remote Javascript debugging with Rhino. Support is given for both client and server side.This feature is currently in the pre-alpha phase.</p>
+
+
+ 
+				<a class="link" href="<%=context%>/tools/debugger.jag">Learn more</a>
+			
+		    </li>
+            </ul>
+        </div>
+    </div>
+    <%
+    include('includes/footer.jag');
+    %>
+    <!-- /container -->
+<%
+include('/includes/scripts.jag')
+%>
+<script>
+   
+    $(document).ready(function () {
+        $('#tool').toggleClass('active')
+    })
+</script>
+</div>
+</body>
+</html>
