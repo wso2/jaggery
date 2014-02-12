@@ -18,11 +18,14 @@ var user = {};
     user.User = User;
 
     User.prototype.getClaims = function (profile) {
-        return this.um.manager.getClaims(this.username, profile);
+        return this.um.getClaims(this.username, profile);
+    };
+ 	User.prototype.getClaimsForSet = function (claims,profile) {
+        return this.um.getClaimsForSet(this.username, claims, profile);
     };
 
     User.prototype.setClaims = function (claims, profile) {
-        this.um.manager.setUserClaimValues(this.username, claims, profile);
+        this.um.setClaims(this.username, claims, profile);
     };
 
     User.prototype.getRoles = function () {

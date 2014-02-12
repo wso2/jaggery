@@ -103,6 +103,10 @@
         <className>org.jaggeryjs.scriptengine.engine.RhinoTopLevel</className>
         <name>stringify</name>
     </method>
+    <method>
+        <className>org.jaggeryjs.scriptengine.engine.RhinoTopLevel</className>
+        <name>sync</name>
+    </method>
 	<method>
         <className>org.jaggeryjs.scriptengine.engine.RhinoTopLevel</className>
         <name>setTimeout</name>

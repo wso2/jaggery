@@ -500,7 +500,6 @@ public class RhinoEngine {
             }
             return execFunc(funcName, args, thiz, scope, cx);
         } catch (Exception e) {
-            log.error(e);
             throw new ScriptException(e);
         } finally {
             exitContext();
@@ -518,7 +517,6 @@ public class RhinoEngine {
         try {
             return ((Function) object).call(cx, scope, thiz, args);
         } catch (Exception e) {
-            log.error(e);
             throw new ScriptException(e);
         }
     }
@@ -544,7 +542,6 @@ public class RhinoEngine {
             }
             return result;
         } catch (Exception e) {
-            log.error(e);
             throw new ScriptException(e);
         } finally {
             exitContext();
@@ -571,7 +568,6 @@ public class RhinoEngine {
             }
             return scope;
         } catch (Exception e) {
-            log.error(e);
             throw new ScriptException(e);
         } finally {
             exitContext();
