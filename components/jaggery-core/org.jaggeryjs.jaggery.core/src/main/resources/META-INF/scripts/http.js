@@ -209,7 +209,14 @@ var get, post, put, del, head, options, trace, connect;
                 }
             };
         }
-        xhr.open(method, url, callback !== null, username, password);
+
+        
+        if (password !== null && username !== null) {
+            xhr.open(method, url, callback !== null, username, password);
+        } else {
+            xhr.open(method, url, callback !== null);
+        }
+
         xhr.send(query);
         return callback !== null ? xhr : {
             data : formatData(xhr, dataType),
