@@ -1,5 +1,6 @@
 package org.jaggeryjs.jaggery.core.manager;
 
+import org.apache.axis2.jaxws.description.xml.handler.ResSharingScopeType;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -27,6 +28,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.*;
 import java.net.JarURLConnection;
 import java.net.URL;
@@ -424,8 +426,10 @@ public class WebAppManager {
 		Function function = null;
 		Context cx = null;
 		JaggeryContext context = null;
-		Scriptable serveFunction = (Scriptable) request.getServletContext()
-				.getAttribute(SERVE_FUNCTION_JAGGERY);
+		Scriptable serveFunction = null;
+		serveFunction = (Scriptable) request.getServletContext().getAttribute(
+				SERVE_FUNCTION_JAGGERY);
+
 		try {
 			function = (Function) serveFunction;
 			engine = CommonManager.getInstance().getEngine();
@@ -436,7 +440,9 @@ public class WebAppManager {
 			context.addProperty(FileHostObject.JAVASCRIPT_FILE_MANAGER,
 					new WebAppFileManager(request.getServletContext()));
 			if (serveFunction != null) {
-				function.call(cx, context.getScope(), function, null);
+				HttpServletRequest servletRequest = (HttpServletRequest) context.getProperty(SERVLET_REQUEST);				
+				function.call(cx, context.getScope(), function, new Object[]{request, response, servletRequest.getSession()});
+				
 			} else {
 				//resource rendering model proceeding
 				sourceIn = request.getServletContext().getResourceAsStream(scriptPath);
