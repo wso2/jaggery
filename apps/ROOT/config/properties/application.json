@@ -1,0 +1,35 @@
+{
+	"sections": [
+		{
+			"title": "Operations",
+			"columns": [
+				{
+					"name": "Operation"
+				}, {
+					"name": "Returns"
+				}, {
+					"name": "Description"
+				}
+			],
+			"rows": [
+				{
+					"col1": 'get(\'propName\')',
+					"col2": 'Object',
+					"col3": '<pre class="prettyprint">application.get(\'foo\')</pre>Returns the value (object) associated with the property '
+				},
+				{
+					"col1": 'put(\'propName\', value)',
+					"col2": 'None',
+					"col3": '<pre class="prettyprint">application.put(\'foo\', {\'name\':\'jaggery\'})</pre>Adding a value to the application context '
+				},
+				{
+					"col1": 'remove(\'propName\')',
+					"col2": 'None',
+					"col3": '<pre class="prettyprint">application.remove(\'foo\')</pre>Removes a property from application context '
+				}
+				
+			]
+		}
+		
+	]
+}

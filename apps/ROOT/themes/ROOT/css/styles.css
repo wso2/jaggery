@@ -2,7 +2,6 @@ body {
     font-family: 'Open Sans', sans-serif;
     color: #333333;
     padding-top: 83px;
-    padding-bottom: 40px;
     background-color: #fff;
 }
 ul {
@@ -32,6 +31,41 @@ h1, h2, h3, h4 {
     color: #732514;
     margin-bottom: 20px;
 }
+/* Side notes for calling out things
+-------------------------------------------------- */
+ 
+/* Base styles (regardless of theme) */
+.bs-callout {
+  margin: 20px 0;
+  padding: 15px 30px 15px 15px;
+  border-left: 5px solid #eee;
+}
+.bs-callout h4 {
+  margin-top: 0;
+}
+.bs-callout p:last-child {
+  margin-bottom: 0;
+}
+.bs-callout code,
+.bs-callout .highlight {
+  background-color: #fff;
+}
+ 
+/* Themes for different contexts */
+.bs-callout-danger {
+  background-color: #fcf2f2;
+  border-color: #dFb5b4;
+}
+.bs-callout-warning {
+  background-color: #fefbed;
+  border-color: #f1e7bc;
+}
+.bs-callout-info {
+  background-color: #f0f7fd;
+  border-color: #d0e3f0;
+}
+
+
 .btn {
     font-size: 14px;
     font-weight: 600;
@@ -57,7 +91,15 @@ h1, h2, h3, h4 {
     background: #732514;
     color: #fff;
 }
-
+#logo-wso2 {
+    background: url("../img/wso2-logo-small.png") no-repeat 0px 0px;
+    height: 17px;
+    width: 70px;
+    display: block;
+}
+#logo-wso2:hover{
+    background-position:0 -18px;
+}
 .sidebar {
     background: none repeat scroll 0 0 #313335;
     bottom: 0;
@@ -72,10 +114,10 @@ h1, h2, h3, h4 {
 .sidebar h4, .sidebar h5 {
     color: #fff;
 }
-.sidebar h4{
-   margin-top: 27px;  
+.sidebar h4 {
+    margin-top: 27px;
 }
-.sidebar h5{
+.sidebar h5 {
     border-bottom: 1px solid rgba(255, 255, 255, 0.09);
     padding-bottom: 6px;
 }
@@ -93,7 +135,7 @@ h1, h2, h3, h4 {
 }
 .sidebar li a i {
     color: #bc360a;
-     margin-right: 7px;
+    margin-right: 7px;
 }
 .main {
     padding-left: 107px;
@@ -170,9 +212,32 @@ h1, h2, h3, h4 {
     top: 59px;
     width: 96%;
 }
+
+a.close {
+    color: #000;
+}
+.prettyprint-cont {
+    position: relative;
+}
+#btn-tryit-small {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+#tryitwindow {
+    height: 572px;
+    margin-left: -42%;
+    margin-top: -285px;
+    overflow: hidden;
+    width: 85%;
+}
+#tryitwindow .modal-body {
+    max-height: 486px;
+    overflow: hidden;
+}
 .tryit-editor {
     width: 100%;
-    height: 500px;
+    height: 400px;
 }
 .tryit-editor td {
     padding: 0;
@@ -221,7 +286,7 @@ h1, h2, h3, h4 {
 .tryit-browser {
     position: relative;
     width: 100%;
-    height: 500px;
+    height: 457px;
 }
 
 .tryit-browser td {
@@ -281,12 +346,11 @@ h1, h2, h3, h4 {
     width: 325px;
     text-align: right;
 }
-#qString{
+#qString {
     margin-bottom: 0;
 }
 #queryremove {
-   color: #333333;
-   
+    color: #333333;
     position: absolute;
     right: 6px;
     top: 6px;
@@ -316,13 +380,13 @@ h1, h2, h3, h4 {
     top: 50%;
     width: 116px;
 }
-#btn-tryit:hover{
-     background-image: url("../img/tryit-run-hover.png");
+#btn-tryit:hover {
+    background-image: url("../img/tryit-run-hover.png");
 }
 .CodeMirror {
     background: transparent !important;
     border: none !important;
-    height: 444px !important;
+    height: 400px !important;
 }
 .CodeMirror-gutter {
     background: transparent !important;
@@ -334,23 +398,31 @@ h1, h2, h3, h4 {
     color: #fff;
 }
 
-.text-center{
-    text-align:center;
+.text-center {
+    text-align: center;
 }
 
-.feature-block{
-   
-   
+.feature-block {
+
 }
-.feature-block a{
-     color: #313335;
+.feature-block a {
+    color: #313335;
     display: block;
     overflow: hidden;
     padding: 20px;
-    transition:all .3s ease;
-     border:1px solid #732514;
+    transition: all .3s ease;
+    border: 1px solid #732514;
 }
-.feature-block a:hover{
-    background:#FAFAFA;
-    color:#888;
+.feature-block a:hover {
+    background: #FAFAFA;
+    color: #888;
+}
+
+.row-footer .span9{
+    margin-bottom: 15px;
+    margin-top: 5px;
+}
+
+.ul-tools li{
+    line-height:28px;
 }

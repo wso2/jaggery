@@ -1,0 +1,75 @@
+{
+	"sections": [
+		{
+			"title": "Members",
+			"columns": [
+				{
+					"name": "Member"
+				}, {
+					"name": "Type"
+				}, {
+					"name": "Description"
+				}
+			],
+			"rows": [
+				{
+					"col1": 'status',
+					"col2": 'String',
+					"col3": '<pre class="prettyprint">response.status</pre>Sets the Status code'
+				}, {
+					"col1": 'contentType',
+					"col2": 'String',
+					"col3": '<pre class="prettyprint">response.contentType = \'application/x-www-form-urlencoded\'</pre>Sets response content type'
+				},
+				{
+					"col1": 'characterEncoding',
+					"col2": 'String',
+					"col3": '<pre class="prettyprint">response.characterEncoding = \'UTF-8\'</pre>Sets response character encoding'
+				},
+				{
+					"col1": 'content',
+					"col2": 'String | Object | XML',
+					"col3": '<pre class="prettyprint">response.content = { products : ["Jaggery", "ESB"] };</pre> \
+					<pre class="prettyprint">response.content = "My response content";</pre> Sets response content. <br>If any thing other than Strings are assigned, then they will be automatically serialized.'
+				}
+				
+			]
+		},
+		{
+			"title": "Operations",
+			"columns": [
+				{
+					"name": "Operation"
+				}, {
+					"name": "Returns"
+				}, {
+					"name": "Description"
+				}
+			],
+			"rows": [
+				{
+					"col1": 'addHeader(key, value)',
+					"col2": 'String',
+					"col3": '<pre class="prettyprint">response.addHeader(\'custom-header\', \'jaggery_response\')</pre>Adding a header to the response'
+				}, {
+					"col1": 'sendRedirect(url)',
+					"col2": 'None',
+					"col3": '<pre class="prettyprint">response.sendRedirect(url)</pre>Redirect via response'
+				},
+				{
+					"col1": 'sendError(errCode)',
+					"col2": 'None',
+					"col3": '<pre class="prettyprint">response.sendError(errCode)</pre>Send an error code'
+				},
+				{
+					"col1": 'addCookie(cookie)',
+					"col2": 'None',
+					"col3": '<pre class="prettyprint">var cookie= {\'name\':\'test\',\'value\':\'Cookie testing\'}; \
+response.addCookie(cookie)</pre> \
+					Adds the specified cookie to the response.'
+				}
+				
+			]
+		}
+	]
+}

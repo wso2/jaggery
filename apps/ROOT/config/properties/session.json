@@ -1,0 +1,78 @@
+{
+	"sections": [
+		{
+			"title": "Members",
+			"columns": [
+				{
+					"name": "Member"
+				}, {
+					"name": "Type"
+				}, {
+					"name": "Description"
+				}
+			],
+			"rows": [
+				{
+					"col1": 'maxInactive',
+					"col2": 'Number',
+					"col3": '<pre class="prettyprint">session.maxInactive</pre>Returns the max inactive interval of the session '
+				}
+				
+			]
+		},
+		{
+			"title": "Operations",
+			"columns": [
+				{
+					"name": "Operation"
+				}, {
+					"name": "Returns"
+				}, {
+					"name": "Description"
+				}
+			],
+			"rows": [
+				{
+					"col1": 'getCreationTime()',
+					"col2": 'String',
+					"col3": '<pre class="prettyprint">session.getCreationTime()</pre>Returns the session created time'
+				}, {
+					"col1": 'getLastAccessedTime()',
+					"col2": 'None',
+					"col3": '<pre class="prettyprint">session.getLastAccessedTime()</pre>Returns the last accessed time of the session'
+				},
+				{
+					"col1": 'put(key, value)',
+					"col2": 'None',
+					"col3": '<pre class="prettyprint">session.put(\'name\', \'wso2\')</pre>Functions to put values to the session'
+				},
+				{
+					"col1": 'get(key)',
+					"col2": 'String',
+					"col3": '<pre class="prettyprint">session.get(\'name\')</pre>Returns values in the session'
+				},
+				{
+					"col1": 'getId()',
+					"col2": 'String',
+					"col3": '<pre class="prettyprint">session.getId()</pre>Returns Id of the session'
+				},
+				{
+					"col1": 'remove(key)',
+					"col2": 'None',
+					"col3": '<pre class="prettyprint">session.remove(key)</pre>Removes an attribute from the session. '
+				},
+				{
+					"col1": 'invalidate()',
+					"col2": 'None',
+					"col3": '<pre class="prettyprint">session.invalidate()</pre>invalidates the session '
+				},
+				{
+					"col1": 'isNew()',
+					"col2": 'Boolean',
+					"col3": '<pre class="prettyprint">session.isNew()</pre>Returns the true|false'
+				}
+				
+			]
+		}
+	]
+}

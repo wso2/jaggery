@@ -1,0 +1,73 @@
+{
+	"sections": [
+		{
+			"title": "Parameters",
+			"columns": [
+				{
+					"name": "Parameter"
+				}, {
+					"name": "Type"
+				}, {
+					"name": "Description"
+				}
+			],
+			"rows": [
+				{
+					"col1": 'url',
+					"col2": 'String',
+					"col3": '<pre class="prettyprint">var url = \'http://jaggeryjs.org/apidocs/resources/data.jag\';</pre>The URL which HTTP POST is performed '
+				},
+				{
+					"col1": 'data',
+					"col2": 'Object|String',
+					"col3": '<pre class="prettyprint">var param = {param1: "value1", param2:"value2"}</pre>Request parameters '
+				},
+				{
+					"col1": 'headers',
+					"col2": 'Object',
+					"col3": '<pre class="prettyprint">{ \
+    "Content-Type": "application/json", \
+    "User-Agent": "Mozilla/5.0", \
+    "Cookie": "JSESSIONID=4DA02FE19BA086964227" \
+}</pre>Optional HTTP headers. '
+				},
+				{
+					"col1": 'type',
+					"col2": 'String',
+					"col3": '<pre class="prettyprint">var type = "json"</pre>The type, which the response is expected. Allowed types are <code>json</code>, <code>xml</code> or <code>text</code>. Returned response will be serialized either to an object, E4X XML or String depending on the value passed. <code>text</code> is the default value. '
+				},
+				{
+					"col1": 'success(data:Object,xhr:Object)',
+					"col2": 'function',
+					"col3": 'On success callback. <code>data</code> will be passed according to the above mentioned type parameter passed during the invocation.'
+				}
+				
+			]
+		},
+		{
+			"title": "Return values",
+			"columns": [
+				{
+					"name": "Value"
+				}, {
+					"name": "Type"
+				}, {
+					"name": "Description"
+				}
+			],
+			"rows": [
+				{
+					"col1": 'data',
+					"col2": 'Object',
+					"col3": 'Contains the return data of the HTTP POST request'
+				},
+				{
+					"col1": 'xhr',
+					"col2": 'Object',
+					"col3": 'Contains an instance of XMLHTTPRequest '
+				}
+			]
+		}
+		
+	]
+}

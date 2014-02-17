@@ -3,5 +3,7 @@
 	"label": "get()",
 	"category1": "Built-ins",
 	"category2" : "Http Client",
-	"overview": 'get() is a wrapper for XMLHTTPRequest\'s GET method. using get() you can avoid the use of XHR and shorten the server-side get requests'
+	"overview": '<code>get()</code> is a wrapper for XMLHTTPRequest\'s GET method. using get() you can avoid the use of XHR and shorten the server-side get requests \
+	<pre class="prettyprint">get(url[, data][, headers][, type][, success(data, xhr)])</pre> \
+	<pre class="prettyprint">var res = get(url[, data][, headers][, type])</pre>'
 }

@@ -75,6 +75,8 @@ var loadSidebar = function() {
 var loadSections = function(api) {
 	var path = CONFIG_PROPS + api + '.json';
 	var file = new File(path);
+	
+	if(!file.isExists()) return {};
 	file.open("r");
 	
 	var json = parse(file.readAll());
@@ -85,13 +87,11 @@ var loadSections = function(api) {
 }
 
 var loadExamples = function(api) {
-	var path = CONFIG_EXAMPLES + api + '.html';
+	var path = CONFIG_EXAMPLES + api + '.jag';
 	var file = new File(path);
 	file.open("r");
 	
 	var html = file.readAll();
 	
-	
-	return html;
-	
+	return html;	
 }

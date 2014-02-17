@@ -1,0 +1,13 @@
+<%
+var caramel;
+	caramel = require('caramel');
+	
+	var api = request.getParameter('api');
+	var source = require('/modules/loader.js').loadExamples(api);
+	
+	caramel.render({
+		
+		'body' : {source:source}
+	
+	});
+%>

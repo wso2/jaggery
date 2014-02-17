@@ -1,0 +1,68 @@
+{
+	"sections": [
+		{
+			"title": "Parameters",
+			"columns": [
+				{
+					"name": "Parameter"
+				}, {
+					"name": "Type"
+				}, {
+					"name": "Description"
+				}
+			],
+			"rows": [
+				{
+					"col1": 'url',
+					"col2": 'String',
+					"col3": 'The URL which HTTP PUT is performed'
+				},
+				{
+					"col1": 'data',
+					"col2": 'Object',
+					"col3": 'Request parameters'
+				},
+				{
+					"col1": 'type',
+					"col2": 'String',
+					"col3": 'The type, which the response is expected '
+				},
+				{
+					"col1": 'headers',
+					"col2": 'String',
+					"col3": 'Optional HTTP headers '
+				},
+				{
+					"col1": 'success(data:Object,xhr:Object)',
+					"col2": 'function',
+					"col3": 'On success callback '
+				}
+			]
+		},
+		{
+			"title": "Return values",
+			"columns": [
+				{
+					"name": "Value"
+				}, {
+					"name": "Type"
+				}, {
+					"name": "Description"
+				}
+			],
+			"rows": [
+				{
+					"col1": 'data',
+					"col2": 'Object',
+					"col3": 'Contains the return data of the HTTP PUT request'
+				},
+				{
+					"col1": 'xhr',
+					"col2": 'Object',
+					"col3": 'Contains an instance of XMLHTTPRequest'
+				}
+			]
+		}
+		
+	]
+}

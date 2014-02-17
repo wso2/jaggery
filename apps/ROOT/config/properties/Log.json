@@ -1,0 +1,58 @@
+{
+	"sections": [
+		{
+			"title": "Operations",
+			"columns": [
+				{
+					"name": "Member"
+				}, {
+					"name": "Type"
+				}, {
+					"name": "Description"
+				}
+			],
+			"rows": [
+				{
+					"col1": 'Log([logger])',
+					"col2": 'Log',
+					"col3": '<pre class="prettyprint">var log = new Log("MYAPP");</pre>Returns a Log object with "MYAPP" named logger if empty, log will take script name as the default logger'
+				}, {
+					"col1": 'debug(String | Object)',
+					"col2": 'None',
+					"col3": '<pre class="prettyprint">log.debug("this is a debug message")</pre>prints a debug message to the console'
+				},
+				{
+					"col1": 'info(String | Object)',
+					"col2": 'None',
+					"col3": '<pre class="prettyprint">log.info("this is a info message")</pre>prints a info message to the console'
+				},
+				{
+					"col1": 'warn(String | Object)',
+					"col2": 'None',
+					"col3": '<pre class="prettyprint">log.warn("this is a warn message")</pre>prints a warn message to the console'
+				},
+				{
+					"col1": 'error(String | Object)',
+					"col2": 'None',
+					"col3": '<pre class="prettyprint">log.error("this is a error message")</pre>prints a error message to the console'
+				},
+				{
+					"col1": 'fatal(String | Object)',
+					"col2": 'None',
+					"col3": '<pre class="prettyprint">log.fatal("this is a fatal message")</pre>prints a fatal message to the console'
+				},
+				{
+					"col1": 'isDebugEnabeld()',
+					"col2": 'Boolean',
+					"col3": '<pre class="prettyprint">log.isDebugEnabled()</pre>Returns true if Debug level is enabled. Default is true'
+				},
+				{
+					"col1": 'isTraceEnabled()',
+					"col2": 'Boolean',
+					"col3": '<pre class="prettyprint">log.isTraceEnabled()</pre>Returns true if Trace level is enabled. Default is false'
+				}
+				
+			]
+		}
+	]
+}

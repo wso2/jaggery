@@ -1,0 +1,124 @@
+{
+	"sections": [
+		{
+			"title": "Members",
+			"columns": [
+				{
+					"name": "Member"
+				}, {
+					"name": "Type"
+				}, {
+					"name": "Description"
+				}
+			],
+			"rows": [
+				{
+					"col1": 'onreadystatechange',
+					"col2": 'Function',
+					"col3": 'Ready state change callback when async mode is used.'
+				}				
+			]
+		},
+		{
+			"title": "Operations",
+			"columns": [
+				{
+					"name": "Operation"
+				}, {
+					"name": "Returns"
+				}, {
+					"name": "Description"
+				}
+			],
+			"rows": [
+				{
+					"col1": 'XMLHttpRequest()',
+					"col2": 'None',
+					"col3": '<pre class="prettyprint">var xhr = new XMLHttpRequest();</pre> \
+					Returns a reference to the constructor of an object.'
+				},
+				{
+					"col1": 'status',
+					"col2": 'String',
+					"col3": 'Retrieves the HTTP status code of the request. '
+				},
+				{
+					"col1": 'readyState',
+					"col2": 'String',
+					"col3": 'Retrieves the friendly HTTP status of the request. Holds the status of the XMLHttprequest. Changes from 0 to 4 \
+					<ul> \
+                                            <li>0: xhr request not initialized \
+                                            </li> \
+                                            <li>1: server connection established \
+                                            </li> \
+                                            <li>2: request received \
+                                            </li> \
+                                            <li>3: processing request \
+                                            </li> \
+                                            <li>4:request finished and response is ready \
+                                            </li> \
+                                        </ul>'
+				},
+				{
+					"col1": 'statusText',
+					"col2": 'String',
+					"col3": 'Returns the status-text (e.g. "Not Found" or "OK")'
+				},
+				{
+					"col1": 'responseText',
+					"col2": 'String',
+					"col3": 'Retrieves the response body as a String. '
+				},
+				{
+					"col1": 'responseXML',
+					"col2": 'XML',
+					"col3": 'Retrieves the response body as an E4X XML Object '
+				},
+				{
+					"col1": 'open(method,url,async)',
+					"col2": 'String',
+					"col3": '<pre class="prettyprint">xhr.open(method,url,async);</pre> Specifies the type of request, the URL, whether the request should be handled asynchronously or not, and other optional attributes of a request. \
+					<ul> \
+                                <li>method: the type of request: GET or POST \
+                                    <br> \
+                                </li> \
+                                <li>url: the location of the file on the server \
+                                    <br> \
+                                </li> \
+                                <li>async: true (asynchronous) or false (synchronous) \
+                                    <br> \
+                                </li> \
+                            </ul>'
+				},
+				{
+					"col1": 'send(String)',
+					"col2": 'String',
+					"col3": '<pre class="prettyprint">xhr.send(String);</pre> Sends the request off to the server. String is only used for POSTing a requests'
+				},
+				{
+					"col1": 'getAllResponseHeaders()',
+					"col2": 'String',
+					"col3": '<pre class="prettyprint">xhr.getAllResponseHeaders();</pre> Returns header information.'
+				},
+				{
+					"col1": 'setRequestHeader(name, value)',
+					"col2": 'None',
+					"col3": '<pre class="prettyprint">xhr.setRequestHeader("Content-Type", "application/json");</pre> Adds an HTTP header to the request.'
+				},
+				{
+					"col1": 'getResponseHeader(name)',
+					"col2": 'String',
+					"col3": '<pre class="prettyprint">xhr.getResponseHeader("Content-Type");</pre> Gets the specified HTTP header from the response.'
+				},
+				{
+					"col1": 'abort()',
+					"col2": 'None',
+					"col3": '<pre class="prettyprint">xhr.abort();</pre> Abort the request if async mode is used.'
+				}
+				
+				
+			]
+		}
+		
+	]
+}

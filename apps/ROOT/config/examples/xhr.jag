@@ -1,0 +1,11 @@
+<%  	
+ var url = 'http://jaggeryjs.org/apidocs/resources/home.jag'; 
+ var xhr = new XMLHttpRequest();
+ xhr.open("GET", url);
+ xhr.setRequestHeader("user" , "madhuka");
+ xhr.send();
+ 
+ print("ReadyState : "+xhr.readyState);
+ print("<br>ResponseStatus : "+xhr.status);
+ print("<br>ResponseText : "+xhr.responseText);
+%>
