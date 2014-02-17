@@ -79,10 +79,10 @@ include('/includes/topnavi.jag');
 
 
 
-							<p> Currently IDE support for <b>IntelliJ IDEA</b> ultimate edition is implemented where you can create .jag file on your own with syntax highlighting and code completion support for Jaggery,HTML and Javascript. </p>
+							<p> Currently IDE support for <b>WSO2 Developer Studio</b> and <b>IntelliJ IDEA</b> ultimate edition are implemented where you can create .jag file on your own with syntax highlighting and code completion support for Jaggery,HTML and Javascript. </p>
 
-
-							 <i><b>Eclipse</b> based IDE will also be available soon!</i>  </p>
+							
+							<a class="link" href="http://wso2.com/more-downloads/developer-studio/">To download WSO2 Developer Studio</a>
 							<a class="link" href="<%=context%>/tools/editor.jag">Learn more</a>
 			
 
