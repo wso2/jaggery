@@ -319,6 +319,16 @@
         <maven-project-info-report-plugin.version>2.4</maven-project-info-report-plugin.version>
         <maven-buildnumber-plugin.version>1.1</maven-buildnumber-plugin.version>
         <maven-dependency-plugin.version>2.4</maven-dependency-plugin.version>
+
+        <!-- jaggery modules -->
+        <carbon.module.version>1.0.0-SNAPSHOT</carbon.module.version>
+        <email.module.version>1.0.0-SNAPSHOT</email.module.version>
+        <gadget.module.version>1.0.0-SNAPSHOT</gadget.module.version>
+        <i18n.module.version>1.0.0-SNAPSHOT</i18n.module.version>
+        <oauth.module.version>1.0.0-SNAPSHOT</oauth.module.version>
+        <process.module.version>1.0.0-SNAPSHOT</process.module.version>
+        <uuid.module.version>1.0.0-SNAPSHOT</uuid.module.version>
+        <ws.module.version>1.0.0-SNAPSHOT</ws.module.version>
     </properties>
 
     <distributionManagement>

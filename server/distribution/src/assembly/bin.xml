@@ -59,9 +59,8 @@
             <fileMode>755</fileMode>
         </fileSet>
         <fileSet>
-            <directory>../../modules/</directory>
-            <outputDirectory>jaggery-${pom.version}/modules/
-            </outputDirectory>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/modules</directory>
+            <outputDirectory>jaggery-${pom.version}/modules/</outputDirectory>
             <includes>
                 <include>*/**</include>
             </includes>
