@@ -3,6 +3,24 @@ var CONFIG_APIS = '/config/apis/';
 var CONFIG_PROPS = '/config/properties/';
 var CONFIG_EXAMPLES = '/config/examples/';
 
+//TODO: Sort APIs
+var CATEGORIES = [{
+	'Basic Syntax' : ['html', 'html2', 'require']
+}, {
+	'Built-ins' : [{
+		'Output' : ['print', 'Log']
+	}, {
+		'Variables' : ['request', 'response', 'session', 'application', 'webSocket']
+	}, {
+		'Http Client' : ['get', 'post', 'put', 'del', 'XMLHTTPRequest']
+	}]
+}];
+
+/*
+ var sortAPIs = function(a, b) {
+ return (a.categoryID - b.categoryID)
+ }*/
+
 var groupCategories = function(srcArr, destArr) {
 
 	for (var i in srcArr) {
@@ -75,23 +93,22 @@ var loadSidebar = function() {
 var loadSections = function(api) {
 	var path = CONFIG_PROPS + api + '.json';
 	var file = new File(path);
-	
-	if(!file.isExists()) return {};
-	file.open("r");
-	
-	var json = parse(file.readAll());
-	
-	
-	return json.sections;
-	
-}
 
+	if (!file.isExists())
+		return {};
+	file.open("r");
+
+	var json = parse(file.readAll());
+
+	return json.sections;
+
+}
 var loadExamples = function(api) {
 	var path = CONFIG_EXAMPLES + api + '.jag';
 	var file = new File(path);
 	file.open("r");
-	
+
 	var html = file.readAll();
-	
-	return html;	
+
+	return html;
 }
