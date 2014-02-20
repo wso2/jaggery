@@ -128,6 +128,9 @@ h1, h2, h3, h4 {
     overflow-y: auto;
     overflow-x: hidden;
 }
+.sidebar-deprecated-api, .sidebar-deprecated-api:hover{
+    text-decoration: line-through;
+}
 .sidebar h4, .sidebar h5 {
     color: #fff;
 }
@@ -502,7 +505,7 @@ a.close {
 .landing-intro .span4:last-child .btn:hover{
     border-color:#ccc;
 }
-.landing-intro .span4:last-child .btn:hover ~ pre.prettyprint, pre.prettyprint:hover{
+.landing-intro .span4:last-child .btn:hover ~ pre.prettyprint, .landing-intro pre.prettyprint:hover{
      -webkit-filter: blur(3px); 
      filter: blur(3px); 
 }

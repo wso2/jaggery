@@ -12,7 +12,7 @@
 				<ul>
 					{{#each apis}}
 					<li>
-						<a href="?api={{api}}"><i class="fa fa-cog"></i> {{label}}</a>
+						<a href="?api={{api}}" {{#if deprecated}}  data-toggle="tooltip" title="Deprecated API" class="sidebar-deprecated-api" {{/if}}><i class="fa fa-cog"></i> {{label}}</a>
 					</li>
 					{{/each}}
 				</ul>

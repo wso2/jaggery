@@ -8,5 +8,6 @@
 	<pre class=\"prettyprint\">post(url[, data][, headers][, type][, success(data, xhr)])</pre> \
 	<h4>Synchronous Invocation</h4> \
 	<pre class=\"prettyprint\">var res = post(url[, data][, headers][, type])</pre> \
-	Returned result contains the data and the XMLHttpRequest instance. { data: {}, xhr: {} }"
+	Returned result contains the data and the XMLHttpRequest instance. { data: {}, xhr: {} }",
+	"deprecated" : false
 }

@@ -23,7 +23,8 @@ var caramel, api, json, links, sections, examples, log, loader;
 					title:json && json.label , 
 					overview:json && json.overview, 
 					examples:examples, 
-					sections:sections
+					sections:sections,
+					deprecated:json.deprecated
 				 },
 		'nav'  : {currentPage:'documentation'},
 		'sidebar' : {links: links}

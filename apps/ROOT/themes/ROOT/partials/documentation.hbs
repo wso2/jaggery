@@ -1,6 +1,12 @@
 {{#if sections}}
 
 <h1>{{title}}</h1>
+{{#if deprecated}}
+<div class="alert alert-info">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  This API has been deprecated. 
+</div>
+{{/if}}
 <br>
 <div class="prettyprint-cont">
 	
