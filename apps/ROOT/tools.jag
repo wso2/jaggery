@@ -8,3 +8,68 @@ var caramel;
 		'sidebar' : {}
 	});
 %>
+<<<<<<< HEAD
+=======
+
+<div class="container">
+
+
+
+    <!-- Example row of columns -->
+    <div class="row">
+        <div class="span16">
+            <div class="page-header">
+                <h1>
+                    Tools <small>A list of tools you can use together with Jaggery</small>
+                </h1>
+            </div>
+
+            <ul class="tool-links">
+		    <li class="even">
+			<img src="images/icon-editor.png">
+							<a href="<%=context%>/tools/editor.jag"><h3>Editor</h3> </a>
+
+
+
+							<p> Currently IDE support for <b>WSO2 Developer Studio</b> and <b>IntelliJ IDEA</b> ultimate edition are implemented where you can create .jag file on your own with syntax highlighting and code completion support for Jaggery,HTML and Javascript. </p>
+
+							
+							<a class="link" href="http://wso2.com/more-downloads/developer-studio/">To download WSO2 Developer Studio</a>
+							<a class="link" href="<%=context%>/tools/editor.jag">Learn more</a>
+			
+
+		    </li>
+
+		    <li class="odd">
+			
+				<img src="images/icon-debugger.png">
+				<a href="<%=context%>/tools/debugger.jag"><h3>Debugger</h3> </a>
+
+
+				<p>Jaggery debugging feature is enabled by the means of Rhino JavaScript Debugger. Eclipse IDE has plugin support for Remote Javascript debugging with Rhino. Support is given for both client and server side.This feature is currently in the pre-alpha phase.</p>
+
+
+ 
+				<a class="link" href="<%=context%>/tools/debugger.jag">Learn more</a>
+			
+		    </li>
+            </ul>
+        </div>
+    </div>
+    <%
+    include('includes/footer.jag');
+    %>
+    <!-- /container -->
+<%
+include('/includes/scripts.jag')
+%>
+<script>
+   
+    $(document).ready(function () {
+        $('#tool').toggleClass('active')
+    })
+</script>
+</div>
+</body>
+</html>
+>>>>>>> ead0bb2c7440099367d1aec3f844530ef839e284

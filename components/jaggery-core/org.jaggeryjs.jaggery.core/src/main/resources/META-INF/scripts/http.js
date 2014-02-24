@@ -38,6 +38,8 @@ var get, post, put, del, head, options, trace, connect;
         var type = typeof url;
         var headers = null;
         var count = args.length;
+        var username = null;
+        var password = null;
         method = method.toUpperCase();
 
         if (count === 0 || count > 5) {
@@ -116,7 +118,7 @@ var get, post, put, del, head, options, trace, connect;
                     throw getError(method, type);
                 }
             }
-        } else if (count === 5) {
+        } else if (count >= 5) {
             if (args[1] != null) {
                 type = typeof args[1];
                 if (type === "object" || string(args[1])) {
@@ -150,6 +152,23 @@ var get, post, put, del, head, options, trace, connect;
                     callback = args[4];
                 } else {
                     throw getError(method, type);
+                }
+            }
+        }
+        // collect username and password
+        if (count === 7) {
+            if (args[5] !== null) {
+                if (string(args[5])) {
+                    username = args[5];
+                } else {
+                    throw getError(method, "argument username must be a string");
+                }
+            }
+            if (args[6] !== null) {
+                if (string(args[6])) {
+                    password = args[6];
+                } else {
+                    throw getError(method, "argument password must be a string");
                 }
             }
         }
@@ -190,7 +209,14 @@ var get, post, put, del, head, options, trace, connect;
                 }
             };
         }
-        xhr.open(method, url, callback !== null);
+
+        
+        if (password !== null && username !== null) {
+            xhr.open(method, url, callback !== null, username, password);
+        } else {
+            xhr.open(method, url, callback !== null);
+        }
+
         xhr.send(query);
         return callback !== null ? xhr : {
             data : formatData(xhr, dataType),

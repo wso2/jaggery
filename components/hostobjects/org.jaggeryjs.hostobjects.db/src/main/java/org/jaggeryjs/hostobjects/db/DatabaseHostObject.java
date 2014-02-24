@@ -485,8 +485,9 @@ public class DatabaseHostObject extends ScriptableObject {
                         if (isSelect) {
                             result = processResults(cx, db, db, stmt.executeQuery(), keyed);
                         } else {
-                            result = stmt.executeUpdate();
+                            result = stmt.executeUpdate();                            
                         }
+                        stmt.close();
                         callback.call(cx, db, db, new Object[]{result});
                     } catch (SQLException e) {
                         log.warn(e);
@@ -500,11 +501,14 @@ public class DatabaseHostObject extends ScriptableObject {
             return null;
         } else {
             try {
+            	Object result;
                 if (isSelect) {
-                    return processResults(cx, db, db, stmt.executeQuery(), keyed);
-                } else {
-                    return stmt.executeUpdate();
-                }
+                	result =  processResults(cx, db, db, stmt.executeQuery(), keyed);
+                } else {                	
+                	result = stmt.executeUpdate();                	
+                }               
+                stmt.close();
+            	return result;
             } catch (SQLException e) {
                 log.warn(e);
                 throw new ScriptException(e);

@@ -88,7 +88,23 @@ public class ApplicationHostObject extends ScriptableObject {
         ApplicationHostObject sho = (ApplicationHostObject) thisObj;
         sho.servletContext.removeAttribute(filterAttributeName((String) args[0]));
     }
+    
+    public static void jsFunction_serve(Context cx, Scriptable thisObj, Object[] args, Function funObj)
+            throws ScriptException {
+        String functionName = "serve";
+        int argsCount = args.length;
+        if (argsCount != 1) {
+            HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
+        }
+        if (!(args[0] instanceof Function)) {
+            HostObjectUtil.invalidArgsError(
+                    hostObjectName, functionName, "1", "function", args[0], false);
+        }
 
+        ApplicationHostObject sho = (ApplicationHostObject) thisObj;
+        sho.servletContext.setAttribute(filterAttributeName("serveFunction"), args[0]);
+    }
+    
     public static Object jsFunction_getContext(Context cx, Scriptable thisObj, Object[] args, Function funObj) {
         ApplicationHostObject sho = (ApplicationHostObject) thisObj;
         return sho.servletContext;

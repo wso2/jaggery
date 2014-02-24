@@ -14,7 +14,7 @@ var caramel, api, json, links, sections, examples, log, loader;
 		examples = loader.loadExamples(api);
 	}
 	
-	links = loader.loadSidebar();
+	list = loader.getCategorizedAPIs();
 	
 	
 	caramel.render({
@@ -24,9 +24,9 @@ var caramel, api, json, links, sections, examples, log, loader;
 					overview:json && json.overview, 
 					examples:examples, 
 					sections:sections,
-					deprecated:json.deprecated
+					deprecated: json && json.deprecated
 				 },
 		'nav'  : {currentPage:'documentation'},
-		'sidebar' : {links: links}
+		'sidebar' : {list: list}
 	});
 %>

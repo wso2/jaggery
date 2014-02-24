@@ -1,10 +1,11 @@
-var log = new Log();
-var CONFIG_APIS = '/config/apis/';
-var CONFIG_PROPS = '/config/properties/';
-var CONFIG_EXAMPLES = '/config/examples/';
+var log = new Log(),
+CONFIG_APIS = '/config/apis/',
+CONFIG_PROPS = '/config/properties/',
+CONFIG_EXAMPLES = '/config/examples/',
+CATEGORIES_SORTED = [],
 
-//TODO: Sort APIs
-var CATEGORIES = [{
+// Only the APIs listed below are loaded, in the order they are listed
+CATEGORIES = [{
 	'Basic Syntax' : ['html', 'html2', 'require']
 }, {
 	'Built-ins' : [{
@@ -12,84 +13,60 @@ var CATEGORIES = [{
 	}, {
 		'Variables' : ['request', 'response', 'session', 'application', 'webSocket']
 	}, {
-		'Http Client' : ['get', 'post', 'put', 'del', 'XMLHTTPRequest']
+		'Http Client' : ['get', 'post', 'put', 'del', 'xhr']
 	}]
 }];
 
-/*
- var sortAPIs = function(a, b) {
- return (a.categoryID - b.categoryID)
- }*/
 
-var groupCategories = function(srcArr, destArr) {
-
-	for (var i in srcArr) {
-
-		var _obj = {};
-
-		_obj.category = i;
-
-		var _subcats = [];
-
-		if ( typeof srcArr[i].subcategories != 'undefined') {
-
-			groupCategories(srcArr[i].subcategories, _subcats);
-
-			_obj.subcategories = _subcats;
-
-		} else {
-
-			_obj.apis = srcArr[i];
-
-		}
-
-		destArr.push(_obj);
-
-	}
-}
-var loadSidebar = function() {
-	var output = [];
-
-	var categories = [];
-
-	var categoriesGrouped = [];
-
-	var file = new File(CONFIG_APIS);
-	var files = file.listFiles();
-
-	for (var i in files) {
-
-		var path = CONFIG_APIS + files[i].getName();
-
-		var f = new File(path);
+var loadAPI = function(collection, destArray) {
+	for (var item in collection) {
+		var f = new File(CONFIG_APIS + collection[item] + '.json');
 		f.open("r");
 
-		var obj = parse(f.readAll());
+		var fo = parse(f.readAll());
 
-		if (obj.hasOwnProperty('category2')) {
-			categories[obj.category1] = categories[obj.category1] || [];
-
-			if ( typeof categories[obj.category1].subcategories == 'undefined') {
-				categories[obj.category1].category1 = obj.category1;
-				categories[obj.category1].subcategories = [];
-
-			}
-			categories[obj.category1].subcategories[obj.category2] = categories[obj.category1].subcategories[obj.category2] || [];
-			categories[obj.category1].subcategories[obj.category2].push(obj);
-
-		} else {
-			categories[obj.category1] = categories[obj.category1] || [];
-			categories[obj.category1].push(obj);
-
-		}
+		destArray.push(fo);
 		f.close();
 	}
+}
+var getCategorizedAPIs = function() {
 
-	groupCategories(categories, categoriesGrouped);
+	for (var i in CATEGORIES) {
 
-	return categoriesGrouped;
+		var category = Object.keys(CATEGORIES[i])[0];
+
+		var _obj = {};
+		_obj.category = category;
+
+		if ( typeof CATEGORIES[i][category][0] == 'string') {
+			_obj.apis = [];
+
+			loadAPI(CATEGORIES[i][category], _obj.apis);
+
+		} else {
+			_obj.subcategories = [];
+
+			for (var sc in CATEGORIES[i][category]) {
+				var subcat = Object.keys(CATEGORIES[i][category][sc])[0];
+
+				var __obj = {};
+				__obj.category = subcat;
+				__obj.apis = [];
+
+				loadAPI(CATEGORIES[i][category][sc][subcat], __obj.apis);
+
+				_obj.subcategories.push(__obj);
+
+			}
+
+		}
+		CATEGORIES_SORTED.push(_obj);
+	}
+
+	return CATEGORIES_SORTED;
 
 }
+
 var loadSections = function(api) {
 	var path = CONFIG_PROPS + api + '.json';
 	var file = new File(path);

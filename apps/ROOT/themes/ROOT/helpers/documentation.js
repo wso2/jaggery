@@ -3,7 +3,7 @@ var log = new Log();
 var resources = function (page, meta) {
     return {
         js: ['google-code-prettify/prettify.js', 'documentation.js'],
-        css: ['prettify.css'],
+        css: ['tomorrow.css'],
         code: []
     };
 };
