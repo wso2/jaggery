@@ -1,0 +1,35 @@
+{
+	"sections": [
+		{
+			"title": "Operations",
+			"columns": [
+				{
+					"name": "Member"
+				}, {
+					"name": "Returns"
+				}, {
+					"name": "Description"
+				}
+			],
+			"rows": [
+				{
+					"col1": 'URIMatcher(uri)',
+					"col2": 'URIMatcher Object',
+					"col3": 'Returns the URIMatcher Object <pre class="prettyprint">var uriMatcher = new URIMatcher(request.uri);</pre>'
+				},
+				{
+					"col1": 'match(pattern)',
+					"col2": 'String',
+					"col3": 'Returns the bolean for matched <pre class="prettyprint">uriMatcher.match(\'/{context}/{dir}/{page}\');</pre> '
+				},
+				{
+					"col1": 'elements()',
+					"col2": 'Object',
+					"col3": 'Returns the set of elements, which were matched with the provided uri, and provided template <pre class="prettyprint"uriMatcher.elements();</pre> '
+				}
+				
+			]
+		}
+		
+	]
+}

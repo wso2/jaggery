@@ -1,0 +1,9 @@
+<%
+var db = new Database("jdbc:h2:tmp/demo", "admin", "admin");
+ 
+db.query("INSERT INTO demo VALUES('WSO2','59 Flower Rd'), ('WSO2 UK', 'Emsworth, Hampshire, UK');");
+ 
+var result = db.query("SELECT * FROM demo");
+ 
+print(result);
+%>

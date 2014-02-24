@@ -1,0 +1,144 @@
+{
+	"sections": [
+		{
+			"title": "Members",
+			"columns": [
+				{
+					"name": "Member"
+				}, {
+					"name": "Type"
+				}, {
+					"name": "Description"
+				}
+			],
+			"rows": [
+				{
+					"col1": 'id',
+					"col2": 'String',
+					"col3": '<pre class="prettyprint">entry.id</pre> \
+					Returns the id. \
+					<pre class="prettyprint">entry.id = "id1";</pre>  \
+					Setting the id attribute.'
+				},
+				{
+					"col1": 'authors',
+					"col2": 'String[]',
+					"col3": '<pre class="prettyprint">entry.authors[i]</pre>  \
+					Returns the i th author of the entry. \
+					<pre class="prettyprint">entry.authors = ["author1","author2"]; \
+					</pre>Setting an array of authors to the entry.'
+				},
+				{
+					"col1": 'categories',
+					"col2": 'String[]',
+					"col3": '<pre class="prettyprint">entry.categories[i]</pre>  \
+					Returns the i th category of the entry. \
+					<pre class="prettyprint">entry.categories = ["cat1","cat2"]; \
+					</pre>Setting an array of categories to the entry.'
+				},
+				{
+					"col1": 'content',
+					"col2": 'String',
+					"col3": '<pre class="prettyprint">entry.content</pre>  \
+					Returns the content. \
+					<pre class="prettyprint">entry.content = "content1"; \
+					</pre>Setting the content attribute.'
+				},
+				{
+					"col1": 'contributors',
+					"col2": 'String[]',
+					"col3": '<pre class="prettyprint">entry.contributors[i]</pre>  \
+					Returns the i th contributor of the entry. \
+					<pre class="prettyprint">entry.contributors = ["cont1","cont2"];</pre> \
+					Setting an array of contributors to the entry.'
+				},
+				{
+					"col1": 'links',
+					"col2": 'String[]',
+					"col3": '<pre class="prettyprint">entry.links[i]</pre>  \
+					Returns the i th location of the entry. \
+					<pre class="prettyprint">entry.links = ["link1","link2"]; \
+					</pre>Setting locations of the entry.'
+				},
+				{
+					"col1": 'published',
+					"col2": 'Date',
+					"col3": '<pre class="prettyprint">entry.published</pre>  \
+					Returns the published date of the entry. \
+					<pre class="prettyprint"> \
+					var d1 = new Date("March 13, 2013 11:13:00") \
+					entry.published = d1; \
+					</pre>Setting published date of the entry.'
+				},
+				{
+					"col1": 'rights',
+					"col2": 'String',
+					"col3": '<pre class="prettyprint">entry.rights</pre>  \
+					Returns the rights associated with this entry. \
+					<pre class="prettyprint">entry.rights = "right1"; \
+					</pre>Setting rights associated with this entry.'
+				},
+				{
+					"col1": 'summary',
+					"col2": 'String',
+					"col3": '<pre class="prettyprint">entry.summary</pre>  \
+					Returns the summary of this entry. \
+					<pre class="prettyprint"> \
+					entry.summary = "summary1"; \
+					</pre>Setting the summary attribute.'
+				},
+				{
+					"col1": 'title',
+					"col2": 'String',
+					"col3": '<pre class="prettyprint">entry.title</pre>  \
+					Returns the title of this entry. \
+					<pre class="prettyprint">entry.title = "title1"; \
+					</pre>Setting the title attribute.'
+				},
+				{
+					"col1": 'updated',
+					"col2": 'Date',
+					"col3": '<pre class="prettyprint">entry.updated</pre>  \
+					Returns the last updated date of the entry. \
+					<pre class="prettyprint"> \
+					var d1 = new Date("March 13, 2013 11:13:00") \
+					entry.updated = d1; \
+					</pre>Setting the last updated date of the entry.'
+				}
+			]
+		},
+		{
+			"title": "Operations",
+			"columns": [
+				{
+					"name": "Operations"
+				}, {
+					"name": "Returns"
+				}, {
+					"name": "Description"
+				}
+			],
+			"rows": [
+				{
+					"col1": 'Entry()',
+					"col2": 'Entry',
+					"col3": '<pre class="prettyprint">var entry = new Entry();</pre> \
+					Returns an Entry object'
+				},
+				{
+					"col1": 'toXML()',
+					"col2": 'XML',
+					"col3": '<pre class="prettyprint">feed.toXML()</pre> \
+					Returns the E4X XML contents of this Entry object.'
+				},
+				{
+					"col1": 'toString()',
+					"col2": 'String',
+					"col3": '<pre class="prettyprint">entry.toString()</pre>  \
+					Returns the String representation of the Entry'
+				}
+			]
+		}
+		
+	]
+}

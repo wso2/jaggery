@@ -1,0 +1,24 @@
+{
+	"sections": [
+		{
+			"title": "Parameters",
+			"columns": [
+				{
+					"name": "Parameter"
+				}, {
+					"name": "Type"
+				}, {
+					"name": "Description"
+				}
+			],
+			"rows": [
+				{
+					"col1": 'path',
+					"col2": 'String',
+					"col3": '<pre class="prettyprint">include("header.jag");</pre> Path to the jaggery script'
+				}
+			]
+		}
+		
+	]
+}

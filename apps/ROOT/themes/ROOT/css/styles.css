@@ -130,11 +130,12 @@ h1, h2, h3, h4 {
     bottom: 0;
     color: #FFFFFF;
     left: 0;
-    padding: 23px 20px 20px;
+    padding: 23px 20px 20px 36px;
     position: fixed;
     top: 75px;
     overflow-y: auto;
     overflow-x: hidden;
+    
 }
 .sidebar-deprecated-api, .sidebar-deprecated-api:hover {
     text-decoration: line-through;

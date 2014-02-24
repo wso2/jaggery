@@ -14,6 +14,12 @@ CATEGORIES = [{
 		'Variables' : ['request', 'response', 'session', 'application', 'webSocket']
 	}, {
 		'Http Client' : ['get', 'post', 'put', 'del', 'xhr']
+	},
+	{
+		'Utils' : ['urimatcher', 'include', 'includeonce']
+	},
+	{
+		'Feed' : ['feed', 'entry']
 	}]
 }];
 

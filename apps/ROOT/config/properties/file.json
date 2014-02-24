@@ -1,0 +1,172 @@
+{
+	"sections": [
+		{
+			"title": "Members",
+			"columns": [
+				{
+					"name": "Operation"
+				}, {
+					"name": "Returns"
+				}, {
+					"name": "Description"
+				}
+			],
+			"rows": [
+				{
+					"col1": 'File(String filename)',
+					"col2": 'Object',
+					"col3": '<pre class="prettyprint">var file = new File("/templates/tmp.jag");</pre> \
+					Takes a filename and provides a File object. (File path is relative to the Jaggery application context root)'
+				},
+				{
+					"col1": 'open(r | r+ | w | w+ | a | a+)',
+					"col2": 'None',
+					"col3": '<pre class="prettyprint"> \
+					var file = new File("readme.txt"); \
+					file.open("r+"); \
+					</pre> \
+					File can be opened for read(r), write(w), append(a), read+write(r+), write+read(w+), append+read(a+)'
+				},
+				{
+					"col1": 'write(Object Object)',
+					"col2": 'None',
+					"col3": '<pre class="prettyprint"> \
+					var file = new File("readme.txt"); \
+					file.open("w"); \
+					file.write("Hello World!"); \
+					file.close();</pre>  \
+					Returns the i th author of the feed. \
+					Writes the String representation of the object to the file. Users can open the file for writing from the start of the file or for appending to the end of the file. \
+					<br> \
+					If the file is not already open for writing or appending, then calling this will automatically open the file for writing (overwriting the current content of the file if it exists). \
+					<br> \
+					Throws an error if the file is already open for reading.'
+				},
+				{
+					"col1": 'read(int numberOfCharacters)',
+					"col2": 'String',
+					"col3": '<pre class="prettyprint"> \
+					var file = new File("readme.txt"); \
+					file.open("r"); \
+					var text = file.read(5); \
+					print(text); \
+					file.close();</pre>  \
+					Reads the given number of characters from the file and returns a String representation of those characters. Users are required to open the file for reading before reading from the file. \
+					<br> \
+					If the file is not open for either reading or writing or appending, then calling this will automatically open the file for reading.'
+				},
+				{
+					"col1": 'getStream()',
+					"col2": 'Stream',
+					"col3": '<pre class="prettyprint"> \
+					var file = new File("readme.txt"); \
+					file.open("r"); \
+					print(file.getStream()); \
+					file.close();</pre>  \
+					Can retrieve the input stream of a file'
+				},
+				{
+					"col1": 'readAll()',
+					"col2": 'String',
+					"col3": '<pre class="prettyprint"> \
+					var file = new File("readme.txt"); \
+					file.open("r"); \
+					print(file.readAll()); \
+					file.close(); </pre>  \
+					Reads all the content in the file and returns a String representation of the content. Users are required to open the file for reading before reading from the file. \
+					<br> \
+					If the file is not open for either reading or writing or appending, then calling this will automatically open the file for reading. '
+				},
+				{
+					"col1": 'close()',
+					"col2": 'None',
+					"col3": '<pre class="prettyprint"> \
+					var file = new File("readme.txt"); \
+					file.open("r"); \
+					var x = file.readLine(); \
+					file.close(); \
+					file.open("a"); \
+					file.write("Hello world!"); \
+					file.close();</pre>  \
+					Users are expected to close the file after reading, writing and appending to the file.'
+				},
+				{
+					"col1": 'move(String targetFileName)',
+					"col2": 'Boolean',
+					"col3": '<pre class="prettyprint"> \
+					var path = "/foo.txt"; \
+					var file = new File(path); \
+					file.move("/bar.txt");</pre>  \
+					Move the file to the given target file. Returns True if the file was successfully moved.'
+				},
+				{
+					"col1": 'saveAs(String targetLocation)',
+					"col2": 'Boolean',
+					"col3": '<pre class="prettyprint"> \
+					var path = "/foo.txt"; \
+					var file = new File(path); \
+					file.saveAs("/newFile.txt");</pre>  \
+					Save the file to the given target file. Returns True if the file was successfully moved.'
+				},
+				{
+					"col1": 'del()',
+					"col2": 'Boolean',
+					"col3": '<pre class="prettyprint"> \
+					var path = "/foo.txt"; \
+					var file = new File(path); \
+					print(file.del())feed.rights</pre>  \
+					Deletes this file from the file system. Returns true or false depending on the success.'
+				},
+				{
+					"col1": 'getLength()',
+					"col2": 'Long',
+					"col3": '<pre class="prettyprint">file.getLength()</pre>  \
+					Length of the file in bytes'
+				},
+				{
+					"col1": 'getLastModified()',
+					"col2": 'String',
+					"col3": '<pre class="prettyprint">file.getLastModified()</pre>  \
+					Last modified time of this file.'
+				},
+				{
+					"col1": 'getName()',
+					"col2": 'String',
+					"col3": '<pre class="prettyprint">file.getName()</pre>  \
+					Name of the file without the path.'
+				},
+				{
+					"col1": 'isExists()',
+					"col2": 'Boolean',
+					"col3": '<pre class="prettyprint">file.isExists()</pre>  \
+					Checks whether this file actually exists. Returns True if the file exists.'
+				},
+				{
+					"col1": 'isDirectory()',
+					"col2": 'Boolean',
+					"col3": '<pre class="prettyprint">file.isDirectory()</pre>  \
+					Checks whether the given file path is a directory.'
+				},
+				{
+					"col1": 'listFiles()',
+					"col2": 'File[',
+					"col3": '<pre class="prettyprint">file.listFiles()</pre>  \
+					Returns the list of files in a directory'
+				},
+				{
+					"col1": 'mkdir(String name)',
+					"col2": 'Boolean',
+					"col3": '<pre class="prettyprint">file.mkdir()</pre>  \
+					Creates the directory named by this abstract pathname.'
+				},
+				{
+					"col1": 'getPath()',
+					"col2": 'String',
+					"col3": '<pre class="prettyprint">file.getPath()</pre>  \
+					Converts this abstract pathname into a pathname String. The resulting String uses the default path-separator character to separate the names in the name sequence.'
+				}				
+
+			]
+		}
+	]
+}
