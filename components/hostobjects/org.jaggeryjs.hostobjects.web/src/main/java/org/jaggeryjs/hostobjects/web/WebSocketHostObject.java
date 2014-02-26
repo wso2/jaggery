@@ -1,6 +1,8 @@
 package org.jaggeryjs.hostobjects.web;
 
+
 import org.apache.catalina.websocket.MessageInbound;
+import org.apache.catalina.websocket.WsOutbound;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.hostobjects.file.FileHostObject;
@@ -29,18 +31,22 @@ public class WebSocketHostObject extends ScriptableObject {
 
     private ContextFactory contextFactory;
     private MessageInbound inbound;
-    private Function textCallback = null;
+	private WsOutbound outbound;
+	private Function textCallback = null;
+    private Function onOpencallback = null;
+    private Function onCloseCallback = null;
     private Function binaryCallback = null;
     private JaggeryContext asyncContext;
 
     public WebSocketHostObject() {
 
     }
-
+    
     @Override
     public String getClassName() {
         return hostObjectName;
     }
+
 
     public static Scriptable jsConstructor(Context cx, Object[] args, Function ctorObj, boolean inNewExpr)
             throws Exception {
@@ -79,6 +85,29 @@ public class WebSocketHostObject extends ScriptableObject {
     public Scriptable jsGet_ontext() {
         return textCallback;
     }
+    
+    public void jsSet_onopen(Object openFunction) throws ScriptException {
+        if (!(openFunction instanceof Function)) {
+            HostObjectUtil.invalidProperty(hostObjectName, "onopen", "function", openFunction);
+        }
+        onOpencallback = (Function) openFunction;
+    }
+
+    public Scriptable jsGet_onopen() {
+        return onOpencallback;
+    }
+    
+    public void jsSet_onclose(Object closeFunction) throws ScriptException {
+        if (!(closeFunction instanceof Function)) {
+            HostObjectUtil.invalidProperty(hostObjectName, "onclose", "function", closeFunction);
+        }
+        onCloseCallback = (Function) closeFunction;
+    }
+
+    public Scriptable jsGet_onclose() {
+        return onCloseCallback;
+    }
+
 
     public void jsSet_onbinary(Object outPutMessage) throws ScriptException {
         if (!(outPutMessage instanceof Function)) {
@@ -129,6 +158,14 @@ public class WebSocketHostObject extends ScriptableObject {
     public void setInbound(MessageInbound inbound) {
         this.inbound = inbound;
     }
+    
+    public WsOutbound getOutbound() {
+		return outbound;
+	}
+
+	public void setOutbound(WsOutbound outbound) {
+		this.outbound = outbound;
+	}
 
     public void processText(CharBuffer charBuffer) {
         if (textCallback == null) {
@@ -137,6 +174,26 @@ public class WebSocketHostObject extends ScriptableObject {
         Context cx = RhinoEngine.enterContext(this.contextFactory);
         RhinoEngine.putContextProperty(EngineConstants.JAGGERY_CONTEXT, this.asyncContext);
         textCallback.call(cx, this, this, new Object[]{charBuffer.toString()});
+        RhinoEngine.exitContext();
+    }
+    
+    public void processOnOpen(WsOutbound wsOutbound) {
+        if (onOpencallback == null) {
+            return;
+        }
+        Context cx = RhinoEngine.enterContext(this.contextFactory);
+        RhinoEngine.putContextProperty(EngineConstants.JAGGERY_CONTEXT, this.asyncContext);
+        onOpencallback.call(cx, this, this, new Object[]{wsOutbound});
+        RhinoEngine.exitContext();
+    }
+    
+    public void processOnClose(int status) {
+        if (onCloseCallback == null) {
+            return;
+        }
+        Context cx = RhinoEngine.enterContext(this.contextFactory);
+        RhinoEngine.putContextProperty(EngineConstants.JAGGERY_CONTEXT, this.asyncContext);
+        onCloseCallback.call(cx, this, this, new Object[]{status});
         RhinoEngine.exitContext();
     }
 
