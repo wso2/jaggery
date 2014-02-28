@@ -17,10 +17,10 @@ entries.push(entry);
 
 var feed = new Feed();
 feed.entries = entries;
-if(param == "xml") {
-	print(feed.toXML());
+if (param == "xml") {
+    print(feed.toXML());
 } else {
-	print(feed.toString());
+    print(feed.toString());
 }
 
 %>
