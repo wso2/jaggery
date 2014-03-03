@@ -64,7 +64,7 @@
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.integration.core</artifactId>
-            <version>${patch.version.403}</version>
+            <version>${carbon.kernal.version}</version>
             <classifier>tests</classifier>
             <scope>test</scope>
             <exclusions>

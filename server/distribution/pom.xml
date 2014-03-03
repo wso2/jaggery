@@ -86,7 +86,7 @@
                             </artifactItems>
                         </configuration>
                     </execution>
-                    <execution>
+                    <!--execution>
                         <id>unpack-kernel-patch</id>
                         <phase>test</phase>
                         <goals>
@@ -104,7 +104,7 @@
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
-                    </execution>
+                    </execution-->
                 </executions>
             </plugin>
 
@@ -220,7 +220,6 @@
                                 <delete dir="target/site"/>
                                 <delete dir="target/antrun"/>
                                 <delete dir="src/site"/>
-                                <delete dir="target/WSO2-CARBON-PATCH-4.2.0-0005"/>
                             </tasks>
                         </configuration>
                         <goals>
