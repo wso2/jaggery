@@ -323,14 +323,14 @@ public class NativeJSONTestCase {
 			objout.put("Zip", "94107");
 			objout.put("Country","US");
 			
-			objout.put("precision", "zip");
-			objout.put("Latitude", 37.371991);
-			objout.put("Longitude", -122.02602);
-			objout.put("Address", "");
-			objout.put("City", "SUNNYVALE");
-			objout.put("State","CA");
-			objout.put("Zip", "94085");
-			objout.put("Country","US");
+			objout2.put("precision", "zip");
+			objout2.put("Latitude", 37.371991);
+			objout2.put("Longitude", -122.02602);
+			objout2.put("Address", "");
+			objout2.put("City", "SUNNYVALE");
+			objout2.put("State","CA");
+			objout2.put("Zip", "94085");
+			objout2.put("Country","US");
 			
 			objArr.put(objout);
 			objArr.put(objout2);	
