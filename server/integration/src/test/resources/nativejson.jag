@@ -1,0 +1,84 @@
+<%
+
+/*
+ * json will be testing
+ * http://www.jsonrpc.org/specification
+ * http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf
+ */
+var param = request.getParameter('action');
+var reqType = request.getMethod();
+switch(param) {
+    case "jsonObject":
+        var json1 = {
+            "jsonrpc" : "2.0"
+        }
+        print(json1)
+        break;
+    case "jsonNumberObject":
+        var json1 = {
+            "id" : 1,
+            "count" : 5.3
+        }
+        print(json1)
+        break;
+
+    case "jsonArray":
+        var json1 = {           
+            "params" : [42, 23],
+        }
+        print(json1)
+        break;
+
+case "jsonObjectArray":
+        var json1 = [{           
+             "jsonrpc" : "2.0"
+        },{           
+             "jsonrpcOld" : "1.2"
+        }]
+        print(json1)
+        break;
+case "jsonObjectNumberArray":
+        var json1 = [{           
+             "jsonrpc" : 2.0
+        },{           
+             "jsonrpcOld" : 1.2
+        }]
+        print(json1)
+        break;
+    case "spec01":
+        var json1 = {
+            "jsonrpc" : "2.0",
+            "method" : "subtract",
+            "params" : [42, 23],
+            "id" : 1
+        }
+        print(json1)
+        break;
+    case "spec05" :
+
+        var json2 = [{
+            "precision" : "zip",
+            "Latitude" : 37.7668,
+            "Longitude" : -122.3959,
+            "Address" : "",
+            "City" : "SAN FRANCISCO",
+            "State" : "CA",
+            "Zip" : "94107",
+            "Country" : "US"
+        }, {
+            "precision" : "zip",
+            "Latitude" : 37.371991,
+            "Longitude" : -122.026020,
+            "Address" : "",
+            "City" : "SUNNYVALE",
+            "State" : "CA",
+            "Zip" : "94085",
+            "Country" : "US"
+        }];
+        print(json2);
+        break;
+    default:
+        print('print testing');
+}
+
+%>

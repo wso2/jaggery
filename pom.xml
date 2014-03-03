@@ -295,7 +295,7 @@
         <patch.version.403>4.0.3</patch.version.403>
 
         <emma.version>2.1.5320</emma.version>
-        <jsonassert.version>1.1.1</jsonassert.version>
+        <jsonassert.version>1.2.3</jsonassert.version>
         <xmlunit.version>1.4</xmlunit.version>
 
 

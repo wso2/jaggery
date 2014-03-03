@@ -294,6 +294,12 @@ public class JaggeryTestServerManager extends TestServerManager {
         sourcePath = computeSourcePath(fileName);
         destinationPath = computeDestPath(carbonHome, fileName);
         copySampleFile(sourcePath, destinationPath);
+        
+        //native json object test file
+        fileName = "nativejson.jag";
+        sourcePath = computeSourcePath(fileName);
+        destinationPath = computeDestPath(carbonHome, fileName);
+        copySampleFile(sourcePath, destinationPath);
 	}
 
 	private void copySampleFile(String sourcePath, String destPath) {
