@@ -1,0 +1,8 @@
+<%
+var url = 'http://jaggeryjs.org/apidocs/resources/data.jag';
+var result = post(url, 'Jaggery HTTP POST', {
+    "User-Agent" : "Jaggery-XHR",
+    "Country" : "LK"
+}, 'json');
+print(result.data);
+%>

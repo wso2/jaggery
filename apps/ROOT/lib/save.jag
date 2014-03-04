@@ -1,0 +1,10 @@
+<%
+if(request.getContent()){ 
+	var fileName = new Date().getTime();
+	var path = "../content/posts/"+fileName;
+	var file = new File(path);
+	file.open("w");
+	file.write(request.getContent());
+	file.close();
+}
+%>

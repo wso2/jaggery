@@ -1,0 +1,31 @@
+{
+	"sections": [
+		{
+			"title": "Operations",
+			"columns": ["Member", "Returns", "Description"],
+			"rows": [
+				{
+					"Member": "<code>OAuthProvider(provider)</code>",
+					"Returns": "OAuthProvider Object",
+					"Description": "Returns the OAuthProvider Object<br><br> <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> oauth </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">require</span><span class=\"pun\">(</span><span class=\"str\">\"oauth\"</span><span class=\"pun\">);</span><span class=\"pln\">\n</span><span class=\"kwd\">var</span><span class=\"pln\"> provider </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"pun\">{</span><span class=\"pln\"> </span><span class=\"str\">\"oauth_version\"</span><span class=\"pln\"> </span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"str\">\"1\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"authorization_url\"</span><span class=\"pln\"> </span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"str\">\"https://www.linkedin.com/uas/oauth/authorize\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"access_token_url\"</span><span class=\"pln\"> </span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"str\">\"https://api.linkedin.com/uas/oauth/accessToken\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"request_token_url\"</span><span class=\"pln\"> </span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"str\">\"https://api.linkedin.com/uas/oauth/requestToken\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"api_key\"</span><span class=\"pln\"> </span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"str\">\"API_KEY\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"api_secret\"</span><span class=\"pln\"> </span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"str\">\"SECRET\"</span><span class=\"pln\">\n</span><span class=\"pun\">}</span><span class=\"pln\"> </span><span class=\"kwd\">var</span><span class=\"pln\"> linkedin </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> oauth</span><span class=\"pun\">.</span><span class=\"typ\">OAuthProvider</span><span class=\"pun\">(</span><span class=\"pln\">provider</span><span class=\"pun\">);</span></pre> "
+				}, {
+					"Member": "<code>getAuthorizationUrl()</code>",
+					"Returns": "String",
+					"Description": "Returns the authorization url to obtain the authentication code<br><br> "
+				}, {
+					"Member": "<code>getAccessToken(authCode)</code>",
+					"Returns": "Object",
+					"Description": "returns a token object <br><br> <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> accessToken </span><span class=\"pun\">=</span><span class=\"pln\"> linkedin</span><span class=\"pun\">.</span><span class=\"pln\">getAccessToken</span><span class=\"pun\">(</span><span class=\"str\">\"3741501\"</span><span class=\"pun\">);</span></pre> "
+				}, {
+					"Member": "<code>sendOAuthRequest(accessToken, verb, url[,parameters])</code>",
+					"Returns": "Object",
+					"Description": "returns a oauth response object. <br><br> <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> response </span><span class=\"pun\">=</span><span class=\"pln\"> linkedin</span><span class=\"pun\">.</span><span class=\"pln\">sendOAuthRequest</span><span class=\"pun\">(</span><span class=\"pln\">accessToken</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"GET\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"http://api.linkedin.com/v1/groups/59053/posts?count=20&amp;start=1&amp;format=json\"</span><span class=\"pun\">);</span></pre> "
+				}, {
+					"Member": "<code>response.getBody()</code>",
+					"Returns": "String",
+					"Description": "returns the response body. <br><br> <pre class=\"prettyprint\"><span class=\"kwd\">print</span><span class=\"pun\">(</span><span class=\"pln\">response</span><span class=\"pun\">.</span><span class=\"pln\">getBody</span><span class=\"pun\">());</span></pre> "
+				}
+			]
+		}
+	]
+}

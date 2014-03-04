@@ -1,0 +1,9 @@
+<%
+var uriMatcher = new URIMatcher(request.getRequestURI());
+ 
+//Provide a pattern to be matched against the URL
+if(uriMatcher.match('/{dir0}/{page}')) {
+    //If pattern matches, elements can be accessed from their keys
+    print("dir0 element is : " + uriMatcher.elements().dir0)
+}
+%>

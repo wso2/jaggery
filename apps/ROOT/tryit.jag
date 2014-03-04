@@ -1,0 +1,9 @@
+<%
+var caramel;
+	caramel = require('caramel');
+	caramel.render({
+		'title': {text :'Try it!'},
+		'body' : {},
+		'nav'  : {currentPage:'Try it!'}
+	});
+%>

@@ -1,0 +1,12 @@
+    <%
+    var dataStore = new MetadataStore("admin", "admin");
+    var collection = dataStore.newCollection();
+    dataStore.put("wso2products", collection);
+    //creating resource and adding it to collection
+    var resource = dataStore.newResource();
+    dataStore.put("wso2products/jaggery.xml", resource);
+     
+    //now we reading from collection
+    var res = dataStore.get("wso2products");
+    print(res.getChildren());
+    %>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Jaggery - Delicious Javascript</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+        }
+    </style>
+    <link href="css/prettify.css" rel="stylesheet">
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72"
+          href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114"
+          href="images/apple-touch-icon-114x114.png">
+</head>
+
+<body>
+
+<%
+include('/includes/topnavi.jag');
+%>
+
+<div class="container">
+
+ <div class="row">
+ <div class="span16">
+    <div class="page-header">
+                <h1>
+                    Samples
+                    <small>A list of sample apps created using Jaggery</small>
+                </h1>
+            </div>
+
+      <ul class="sampleapps">
+          <li>
+              <img src="images/task_thumb.jpg" alt="" class="sample_thumb" />
+
+              <h3>TaskMaster</h3>
+
+              <p>
+                  The TaskMaster is a task manager app which makes use of the session in Jaggery. The tasks are saved and can be viewed via the main page.
+              </p>
+              <a href="#" class="btn primary" onclick="calls('/taskmaster/index.jag');">View Demo</a> <a href="https://github.com/wso2/jaggery/tree/master/apps/taskmaster" target="_blank" class="btn info">View Source</a>
+          </li>
+
+          <li>
+         <img src="images/shout_thumb.jpg" alt="" class="sample_thumb" />
+
+         <h3>Shout!</h3>
+
+         <p>
+             Shout! is an app that will enable users to view 3 major social feeds and publish to all three of them using
+             the one client. Shout! requires the user to authenticate and approve the app before being able to
+             read / publish to their feeds.
+         </p>
+              <p><span class="label warning">Important</span> Sample requires you to be online</p>
+              <a href="#" class="btn primary" onclick="calls('/shout');">View Demo</a> <a href="https://github.com/wso2/jaggery/tree/master/apps/shout" target="_blank" class="btn info">View Source</a>
+          </li>
+
+          <li>
+         <img src="images/fresh_thumb.jpg" alt="" class="sample_thumb" />
+
+         <h3>Freshometer</h3>
+
+         <p>
+             The Fresh-o-meter app allows you to search for any movie title, and retrieve its information (Cast, Movie Poster,
+             Release year, Plot and rating) as well as related videos from youtube. it acts as a central movie information search engine.
+         </p>
+              <p><span class="label warning">Important</span> Sample requires you to be online</p>
+               <a href="#"  class="btn primary" onclick="calls('/freshometer/index.jag');">View Demo</a> <a href="https://github.com/wso2/jaggery/tree/master/apps/freshometer" target="_blank" class="btn info">View Source</a>
+          </li>
+
+          <li>
+              <img src="images/docs_thumb.jpg" alt="" class="sample_thumb" />
+
+              <h3>Jaggery Documentation</h3>
+
+              <p>
+                  The Documentation section of te jaggery site runs on Jaggery. it is the centralized and in-depth area to
+                  view descriptions, demos and samples and try out jaggery code. The documentation site also includes downloads
+                  and sample apps.
+              </p>
+              <a href="<%=context%>" target="_blank" class="btn primary">View Demo</a> <a href="https://github.com/wso2/jaggery/tree/master/apps/ROOT" target="_blank" class="btn info">View Source</a>
+          </li>
+		  
+		  <li>
+              <img src="images/coffee_shop_sample.jpg" alt="" class="sample_thumb" />
+
+              <h3>Coffee Shop REST sample</h3>
+
+              <p>
+                  The coffee shop sample will explain RESTful application features with Jaggery. it is a nice client end 
+				  user interface where user can make order for coffee. There are main seven REST calls happen in 
+				  this application with PUT, POST, GET and DELETE. This sample contains database connection, 
+				  URL mapping and web request in jaggery 
+              </p>
+              <a href="#" class="btn primary" onclick="calls('/coffeeshop/');">View Demo</a> <a href="https://github.com/wso2/jaggery/tree/master/apps/coffeeShop" target="_blank" class="btn info">View Source</a>
+          </li>
+
+
+      </ul>    
+   </div>
+     </div>
+    <%
+    include('includes/footer.jag');
+    %>
+
+</div>
+<!-- /container -->
+
+<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+<script src="js/google-code-prettify/prettify.js"></script>
+<script src="js/util.js"></script>
+<script>$(function () {
+    prettyPrint();
+})
+
+$(document).ready(function () {
+    $('#samples').toggleClass('active')
+})
+</script>
+
+<script language="javascript"> 
+
+function UrlExists(url) {
+  var http = new XMLHttpRequest();
+  try{
+  http.open('HEAD', url, false);
+  http.send();
+  }catch(err){
+  	return false;
+  }
+  return http.status!=404;
+}
+
+function calls(url) {
+	if(UrlExists(url)){
+  console.log("ss"+url);
+  window.open(url, '_blank');
+ } else{
+  	alert("This Sample Jaggery App is still not deployed\nTo deploy Jaggery Apps run 'ant' at \"<wso2product>\\samples\\jaggerySamples\\.\"");
+  	}
+}
+
+
+
+</script> 
+
+<script src="js/bootstrap-modal.js"></script>
+<script src="js/bootstrap-alerts.js"></script>
+<script src="js/bootstrap-twipsy.js"></script>
+<script src="js/bootstrap-popover.js"></script>
+<script src="js/bootstrap-dropdown.js"></script>
+<script src="js/bootstrap-scrollspy.js"></script>
+<script src="js/bootstrap-tabs.js"></script>
+<script src="js/bootstrap-buttons.js"></script>
+
+</body>
+</html>

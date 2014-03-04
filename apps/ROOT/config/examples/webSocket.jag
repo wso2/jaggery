@@ -1,0 +1,46 @@
+<%
+//Server
+var log = new Log();
+webSocket.ontext = function (data) {
+    log.info('Client Sent : ' + data);
+    var ws = this;
+    setTimeout(function () {
+       var currentDate = new Date();
+       ws.send("Server Receive message "+data+" on "+currentDate);
+    }, 1000);
+};
+ 
+webSocket.onbinary = function (stream) {
+    log.info('Client Streamed : ' + stream.toString());
+};
+%>
+
+//Client
+<script>
+var url = 'ws://localhost:9763/sample/ws/server.jag';
+function start() {
+ws = new WebSocket(url);
+ws.onopen = function() {
+	document.write("web Socket onopen. ");
+};
+//event handler for the message event in the case of text frames
+ws.onmessage = function(event) {
+	document.write("web Socket Onmessage from Server. " + event.data);
+};
+ws.onclose = function() {
+	document.write("web Socket onclose. ");
+};
+ws.onopen();
+var currentDate = new Date();
+  //send message to server
+  setTimeout(function() {
+	 ws.send("Client Timestamp "+currentDate);
+  }, 2000);
+ 
+  //close socket from client
+  setTimeout(function() {
+	  ws.close();
+  }, 5000);
+ 
+}
+</script>

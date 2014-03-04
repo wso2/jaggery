@@ -1,0 +1,57 @@
+{
+	"sections": [
+		{
+			"title": "Members",
+			"columns": ["Member", "&nbsp;&nbsp;Type&nbsp;&nbsp;", "Description"],
+			"rows": [
+				{
+					"Member": "<code>from</code>",
+					"&nbsp;&nbsp;Type&nbsp;&nbsp;": "String",
+					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">sender</span><span class=\"pun\">.</span><span class=\"kwd\">from</span><span class=\"pln\"> </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">\"madhuka@wso2.com\"</span><span class=\"pun\">;</span><span class=\"pln\"> </span></pre> An optional property to set the \"from\" address of the email to be sent. If not set the user account used to authenticate against the email gateway will be sent as the \"from\" address. <br> "
+				}, {
+					"Member": "<code>to </code>",
+					"&nbsp;&nbsp;Type&nbsp;&nbsp;": "String or Array",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">sender</span><span class=\"pun\">.</span><span class=\"pln\">to </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">\"nuwan@wso2.com\"</span><span class=\"pun\">;</span><span class=\"pln\"> </span></pre> <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> to </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> </span><span class=\"typ\">Array</span><span class=\"pun\">();</span><span class=\"pln\">\nto</span><span class=\"pun\">[</span><span class=\"lit\">0</span><span class=\"pun\">]</span><span class=\"pln\"> </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">\"nuwan@wso2.com\"</span><span class=\"pun\">;</span><span class=\"pln\">\nto</span><span class=\"pun\">[</span><span class=\"lit\">1</span><span class=\"pun\">]</span><span class=\"pln\"> </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">\"teague@wso2.com\"</span><span class=\"pun\">;</span><span class=\"pln\">\nsender</span><span class=\"pun\">.</span><span class=\"pln\">to </span><span class=\"pun\">=</span><span class=\"pln\"> to</span><span class=\"pun\">;</span><span class=\"pln\"> </span></pre> This is a required property that denotes the \"to\" address of the email to be sent. (Optionally an array of Strings denoting the \"to\" addresses can be passed as above.) "
+				}, {
+					"Member": "<code>cc </code>",
+					"&nbsp;&nbsp;Type&nbsp;&nbsp;": " String or Array",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">sender</span><span class=\"pun\">.</span><span class=\"pln\">cc </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">\"madhuka@wso2.com\"</span><span class=\"pun\">;</span><span class=\"pln\"> </span></pre> <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> cc </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> </span><span class=\"typ\">Array</span><span class=\"pun\">();</span><span class=\"pln\">\ncc</span><span class=\"pun\">[</span><span class=\"lit\">0</span><span class=\"pun\">]</span><span class=\"pln\"> </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">\"nuwan@wso2.com\"</span><span class=\"pun\">;</span><span class=\"pln\">\ncc</span><span class=\"pun\">[</span><span class=\"lit\">1</span><span class=\"pun\">]</span><span class=\"pln\"> </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">\"teague@wso2.com\"</span><span class=\"pun\">;</span><span class=\"pln\">\nsender</span><span class=\"pun\">.</span><span class=\"pln\">cc</span><span class=\"pun\">=</span><span class=\"pln\"> cc</span><span class=\"pun\">;</span><span class=\"pln\"> </span></pre> This is an optional property that denotes the \"cc\" address of the email to be sent. (Optionally an array of Strings denoting the \"cc\" addresses can be passed as above.) "
+				}, {
+					"Member": "<code>bcc</code>",
+					"&nbsp;&nbsp;Type&nbsp;&nbsp;": "String or Array",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">sender</span><span class=\"pun\">.</span><span class=\"pln\">bcc </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">\"jhon@wso2.com\"</span><span class=\"pun\">;</span><span class=\"pln\"> </span></pre> <pre class=\"prettyprint\"><span class=\"pln\"> </span><span class=\"kwd\">var</span><span class=\"pln\"> bcc </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> </span><span class=\"typ\">Array</span><span class=\"pun\">();</span><span class=\"pln\"> bcc</span><span class=\"pun\">[</span><span class=\"lit\">0</span><span class=\"pun\">]</span><span class=\"pln\"> </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">\"jonathan@wso2.com\"</span><span class=\"pun\">;</span><span class=\"pln\"> bcc</span><span class=\"pun\">[</span><span class=\"lit\">1</span><span class=\"pun\">]</span><span class=\"pln\"> </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">\"nuwan@wso2.com\"</span><span class=\"pun\">;</span><span class=\"pln\"> sender</span><span class=\"pun\">.</span><span class=\"pln\">bcc </span><span class=\"pun\">=</span><span class=\"pln\"> bcc</span><span class=\"pun\">;</span><span class=\"pln\"> </span></pre> This is an optional property that denotes the \"bcc\" address of the email to be sent. (Optionally an array of Strings denoting the \"bcc\" addresses can be passed as below.) "
+				}, {
+					"Member": "<code>subject</code>",
+					"&nbsp;&nbsp;Type&nbsp;&nbsp;": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">sender</span><span class=\"pun\">.</span><span class=\"pln\">subject </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">\"WSO2 Jaggery on Released\"</span><span class=\"pun\">;</span></pre> An optional property to set the subject of the email to be sent. "
+				}, {
+					"Member": "<code>text</code>",
+					"&nbsp;&nbsp;Type&nbsp;&nbsp;": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">sender</span><span class=\"pun\">.</span><span class=\"pln\">text </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">\"Jaggery goes on live from 2012\"</span><span class=\"pun\">;</span><span class=\"pln\"> </span></pre> An optional property to set the body text of the email to be sent. "
+				}, {
+					"Member": "<code>html</code>",
+					"&nbsp;&nbsp;Type&nbsp;&nbsp;": "String or XML Object",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\"> sender</span><span class=\"pun\">.</span><span class=\"pln\">html </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">\"&lt;h1&gt;Jaggery was Released on January 2012&lt;/h1&gt;\"</span><span class=\"pun\">;</span><span class=\"pln\"> </span><span class=\"com\">// Setthing the HTML content as a String </span></pre> <pre class=\"prettyprint\"><span class=\"pln\">sender</span><span class=\"pun\">.</span><span class=\"pln\">html </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">&lt;h1&gt;</span><span class=\"typ\">Jaggery</span><span class=\"pln\"> was </span><span class=\"typ\">Released</span><span class=\"pln\"> on </span><span class=\"typ\">January</span><span class=\"pln\"> </span><span class=\"lit\">2012</span><span class=\"pun\">&lt;</span><span class=\"str\">/h1&gt;; /</span><span class=\"pun\">/</span><span class=\"pln\"> </span><span class=\"typ\">Setting</span><span class=\"pln\"> the HTML content </span><span class=\"kwd\">as</span><span class=\"pln\"> an XML </span><span class=\"kwd\">object</span><span class=\"pln\"> </span></pre> An optional property to set the body of the email to be sent. This function can be used to send HTML mail. "
+				}
+			]
+		}, {
+			"title": "Operations",
+			"columns": ["Operations", "Returns", "Description"],
+			"rows": [
+				{
+					"Operations": "<code>Sender()</code>",
+					"Returns": "None",
+					"Description": " <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> sender </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> email</span><span class=\"pun\">.</span><span class=\"typ\">Sender</span><span class=\"pun\">(</span><span class=\"str\">\"smtp.example.com\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"25\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"username@example.com\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"password\"</span><span class=\"pun\">);</span><span class=\"pln\"> </span></pre> <br> <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> sender </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> email</span><span class=\"pun\">.</span><span class=\"typ\">Sender</span><span class=\"pun\">(</span><span class=\"str\">\"smtp.gmail.com\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"25\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"username@gmail.com\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"password\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"tls\"</span><span class=\"pun\">);</span><span class=\"pln\"> </span></pre> Adding <code>\"tls\"</code> as the fifth argument will enable TLS for the communication<br> "
+				}, {
+					"Operations": "<code>addAttachment([String filePath] [FileHostObject file]) </code> ",
+					"Returns": "None",
+					"Description": "<pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> file </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> </span><span class=\"typ\">File</span><span class=\"pun\">(</span><span class=\"str\">\"temp.txt\"</span><span class=\"pun\">);</span><span class=\"pln\"> </span><span class=\"com\">// A file exists at temp.txt</span><span class=\"pln\">\nsender</span><span class=\"pun\">.</span><span class=\"pln\">addAttachement</span><span class=\"pun\">(</span><span class=\"pln\">file</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"temp.txt\"</span><span class=\"pun\">);</span><span class=\"pln\"> </span></pre> An optional property to add attchments to the email been sent. This function has a variable number of arguments, each argument can be a File hostObject or a String representing a file. "
+				}, {
+					"Operations": "<code>send() </code> ",
+					"Returns": "None",
+					"Description": "Used to send the email."
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>{{include title}}</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="">
+		<meta name="author" content="">
+
+		<!-- Le styles -->
+		<link href="{{url "/themes/ROOT/css/bootstrap.css"}}" rel="stylesheet">
+		<link href="{{url "/themes/ROOT/css/bootstrap-responsive.css"}}" rel="stylesheet">
+		<link href="{{url "/themes/ROOT/css/font-awesome.css"}}" rel="stylesheet">
+		<link href="{{url "/themes/ROOT/css/font-awesome-ie7.css"}}" rel="stylesheet">
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
+		{{css .}}
+		<link href="{{url "/themes/ROOT/css/styles.css"}}" rel="stylesheet">
+		<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+		<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+
+		<!-- Fav and touch icons -->
+		<link rel="shortcut icon" href="{{url "/themes/ROOT/favicon.ico"}}">
+		<link rel="apple-touch-icon-precomposed" sizes="144x144"
+		href="{{url "/themes/ROOT/img/apple-touch-icon-144-precomposed.png"}}">
+		<link rel="apple-touch-icon-precomposed" sizes="114x114"
+		href="{{url "/themes/ROOT/img/apple-touch-icon-114-precomposed.png"}}">
+		<link rel="apple-touch-icon-precomposed" sizes="72x72"
+		href="{{url "/themes/ROOT/img/apple-touch-icon-72-precomposed.png"}}">
+		<link rel="apple-touch-icon-precomposed" href="{{url "/themes/ROOT/img/apple-touch-icon-57-precomposed.png"}}">
+		{{code .}}
+	</head>
+
+	<body>
+		<a class="ribbon-right" href="https://github.com/wso2/jaggery/"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github-camo.global.ssl.fastly.net/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+		<a class="ribbon-left" href="https://github.com/wso2/jaggery/"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://github-camo.global.ssl.fastly.net/82b228a3648bf44fc1163ef44c62fcc60081495e/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png"></a>
+		<div class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container-fluid">
+					<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+						<i class="fa fa-bars"></i>
+					</button>
+					<a class="brand" href="/"></a>
+					<div class="nav-collapse collapse">
+
+						{{include nav}}
+					</div><!--/.nav-collapse -->
+				</div>
+			</div>
+		</div>
+
+		<div class="container-fluid">
+
+			<div class="row-fluid">
+
+				{{include sidebar}}
+
+				<div class="span9 main offset2">
+					{{include body}}
+				</div>
+
+			</div>
+			{{>footer}}
+		</div>
+		<!-- /container -->
+
+		<!-- Le javascript
+		================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script src="{{url "/themes/ROOT/js/jquery-2.1.0.min.js"}}"></script>
+		<script src="{{url "/themes/ROOT/js/bootstrap.min.js"}}"></script>
+		<script src="{{url "/themes/ROOT/js/handlebars.js"}}"></script>
+		<script src="{{url "/themes/ROOT/js/theme.js"}}"></script>
+		<script src="{{url "/themes/ROOT/js/jquery.nicescroll.min.js"}}"></script>
+
+		{{js .}}
+		<script src="{{url "/themes/ROOT/js/caramel-client.js"}}"></script>
+		<script src="{{url "/themes/ROOT/js/core.js"}}"></script>
+	</body>
+</html>

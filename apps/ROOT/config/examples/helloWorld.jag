@@ -1,0 +1,10 @@
+<html>
+    <body>
+        <h1>
+        <%
+            var name = 'Jaggery';
+            print("Hello " + name);
+        %>
+        </h1>
+    </body>
+</html>

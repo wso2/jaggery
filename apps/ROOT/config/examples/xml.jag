@@ -1,0 +1,17 @@
+<%
+	var employees=
+			<employees>
+				<person>
+					<name>Tove</name>
+					<age>32</age>
+				</person>
+				<person>
+					<name>Jani</name>
+					<age>26</age>
+				</person>
+			</employees>;
+	
+	//or var employees= new XML("<employees><person><name>Tove</name><age>32</age></person><person><name>Jani</name><age>26</age></person></employees>");
+	
+	print("Toves age is - " + employees.person.(name == "Tove").age);
+%>

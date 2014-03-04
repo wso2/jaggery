@@ -1,0 +1,11 @@
+{
+	"api": "require",
+	"label": "require()",
+	"category1": "Basic Syntax",
+	"overview": 'In-built function require() allows to get a reference for any available Jaggery module. Adding a Jaggery module is detailed here. Apart from Jaggery modules, require() can import javascript(*.js) or JSON(*.json) files and assign it to a variable. \
+	<pre class="prettyprint">\n\
+var module = require("module_name");\n\
+var js = require("foo.js");\n\
+var json = require("bar.json");</pre>',
+	"deprecated" : false
+}

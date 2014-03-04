@@ -1,0 +1,10 @@
+<%
+    //reading a property from application context
+    application.get('foo');
+ 
+    //Putting a property to the application context
+    application.put('bar', {'name':'jaggery'})
+ 
+    //Removing a property from application context
+    application.remove('bar');
+%>

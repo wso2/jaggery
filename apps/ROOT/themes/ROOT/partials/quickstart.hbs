@@ -1,0 +1,268 @@
+<h1>Quickstart</h1>
+<br>
+
+<div class="row-fluid">
+	<div class="span12">
+		<div class="page-header">
+			<h2> Setting up Jaggery <a class="bookmark" id="settingup"></a></h2>
+
+		</div>
+
+		<ol>
+			<li>
+				Extract
+				<code>
+					jaggery-0.9.0-SNAPSHOT.zip
+				</code>
+				to a directory you prefer. lets call it
+				<code>
+					JAGGERY_HOME
+				</code>
+			</li>
+			<li>
+				Navigate to
+				<code>
+					JAGGERY_HOME/bin
+				</code>
+				directory which contains all the Jaggery execution scripts.
+			</li>
+			<li>
+				Run
+				<code>
+					sh JAGGERY_HOME/bin/server.sh
+				</code>
+				&nbsp; (
+				<code>
+					JAGGERY_HOME/bin/server.bat
+				</code>
+				in windows) command to start the server
+			</li>
+			<li>
+				Point the browser URL to <code><a href="http://localhost:9763/taskmaster" target="_blank">http://localhost:9763/taskmaster</a></code>
+			</li>
+		</ol>
+
+	</div>
+
+</div>
+
+<div class="row-fluid">
+	<div class="span12">
+		<div class="page-header">
+			<h2 > The "Hello World" Jaggery App <a class="bookmark" id="helloworld"></a></h2>
+
+		</div>
+
+		<ol>
+			<li>
+				Create a directory called
+				<code>
+					helloapp
+				</code>
+				at
+				<code>
+					<code>
+						{JAGGERY_HOME}/apps/
+					</code>
+				</code>
+			</li>
+			<li>
+				Create a jaggery file
+				<code>
+					helloworld.jag
+				</code>
+				inside the
+				<code>
+					helloapp
+				</code>
+				directory and add the following code snippet
+			</li>
+			<br/>
+			<pre class="prettyprint" id="indexsample">
+&lt%
+    var name = 'Jaggery';
+    print("Hello " + name);
+%&gt
+						</pre>
+			<br/>
+
+			<li>
+				Thats it! now point to <code><a href="http://localhost:9763/helloapp/helloworld.jag" target="_blank">http://localhost:9763/helloapp/helloworld.jag</a></code>
+			</li>
+		</ol>
+		<p>
+			Excited ?? check out the <a href="/documentation.jag">Jaggery API</a>
+		</p>
+
+	</div>
+</div>
+
+<div class="row-fluid">
+	<div class="span12">
+		<div class="page-header">
+			<h2>How To Deploy A Jaggery App <a class="bookmark" id="deploying"></a></h2>
+
+		</div>
+		<p>
+			In-order to compose a Jaggery script you will need to give it a
+			<code>
+				.jag
+			</code>
+			extension.
+		</p>
+
+		<p>
+			There are no restrictions for the directory structure, add your
+			<code>
+				.jag
+			</code>
+			files where ever you want, and copy the entire directory to
+			<code>
+				{JAGGERY_HOME}/apps/
+			</code> directory.
+			The Jaggery Server will then deploy the directory as an application which will be shown in the
+			management console. The directory name will be taken as the application context name
+		</p>
+
+		<p>
+			Alternatively your app could be uploaded as a .zip archive using the management console. The upload page can be found under the Add link in Jaggery Applications section.
+		</p>
+		<br/>
+
+		<img alt="Upload Jaggery" src="/themes/ROOT/img/uploadjaggery.png"/>
+
+	</div>
+</div>
+
+<br/>
+<div class="row-fluid">
+	<div class="span12">
+		<div class="page-header">
+			<h2> Jaggery Server <a id="jaggeryserver" class="bookmark"></a></h2>
+
+		</div>
+		<p>
+			Jaggery Server is the Runtime Environment that hosts Jaggery applications.
+			<br/>
+			<br/>
+			It contains a management console, for admins to manage (deploy, reload, stop and start) Jaggery apps. Using the management console, admins can gather basic statistics about
+			deployed applications.
+			<br/>
+			<br/>
+			Jaggery Server is powered by WSO2 carbon OSGi Runtime
+
+			<br/>
+			<br/>
+			Management console can be accessed by <code><a href="https://localhost:9443/admin" target="_blank">https://localhost:9443/admin</a></code>
+			- Username : "admin" , Password : "admin"
+		</p>
+
+		<img alt="Jaggery Management Console" src="/themes/ROOT/img/j-mgt-console.png" />
+
+	</div>
+</div>
+<br/>
+<div class="row-fluid">
+	<div class="span12">
+		<div class="page-header">
+			<h2> Jaggery Command Line Client <a id="commandline" class="bookmark"></a></h2>
+
+		</div>
+		<p>
+			The Jaggery command line client ships with the Jaggery server and can be executed at bin/jaggery.bat or bin/jaggery.sh
+			based on your platform. Using this it is possible to enter into the command line console.
+		</p>
+
+		<span class="label important">Important !</span>&nbsp; <em>Jaggery CMD is still experimental, and is for developer preview. You are welcome to play with it and please do provide us your <a href="https://wso2.org/jira/browse/JAGGERY">feedback</a></em>
+<br>
+		<img alt="Jaggery Command Line" src="/themes/ROOT/img/commandline.png"/>
+	</div>
+</div>
+<br/>
+<div class="row-fluid">
+	<div class="span12">
+		<div class="page-header">
+			<h2> The List Of Commands <a id="commands" class="bookmark"></a></h2>
+
+		</div>
+
+		<p>
+			<code>
+				&lt;script.jag&gt;
+			</code>
+			- Load Jaggery script (script.jag) from the current path.
+			<br/>
+			<br/>
+			<code>
+				Eg :- sh jaggery.sh script.jag
+			</code>
+		</p>
+
+		<br/>
+		<img alt="Jaggery Commands" src="/themes/ROOT/img/load.png"/>
+
+		<p>
+			<code>
+				-help
+			</code>
+			&#150 Shows all the commands for help.
+		</p>
+
+		<p>
+			<code>
+				-quit
+			</code>
+			&#150 Quits the Jaggery command line (Only applicable for shell mode).
+		</p>
+
+		<p>
+			<code>
+				-shell
+			</code>
+			&#150 Enter into the shell mode (shell mode is described in the next section).
+		</p>
+
+		<p>
+			<code>
+				-version
+			</code>
+			&#150 Shows the current version of the Jaggery build.
+		</p>
+	</div>
+</div>
+<br/>
+<div class="row-fluid">
+	<div class="span12">
+		<div class="page-header">
+			<h2> The Shell Mode <a id="shell" class="bookmark"></a></h2>
+
+		</div>
+		<p>
+			Jaggery shell mode will facilitate the evaluation of Jaggery expressions. Also this will be helpful for interactive script executions and debugging.
+		</p>
+
+		<img alt="Jaggery Shell" src="/themes/ROOT/img/shell.png"/>
+
+		<p>
+			<code>
+				help
+			</code>
+			&#150 Shows all the commands for help.
+		</p>
+
+		<p>
+			<code>
+				quit
+			</code>
+			&#150 Quits the Jaggery command line (Only applicable for shell mode).
+		</p>
+
+		<p>
+			<code>
+				version
+			</code>
+			&#150 Shows the current version of the Jaggery build.
+		</p>
+	</div>
+</div>
+

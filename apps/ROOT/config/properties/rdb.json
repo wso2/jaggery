@@ -1,0 +1,31 @@
+{
+	"sections": [
+		{
+			"title": "Operations",
+			"columns": ["Operation", "Returns", "Description"],
+			"rows": [
+				{
+					"Operation": "<code>Database(connectionUrl,<br> username, password[, config])</code>",
+					"Returns": "Database",
+					"Description": "<pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> db </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> </span><span class=\"typ\">Database</span><span class=\"pun\">(</span><span class=\"str\">\"jdbc:h2:demo\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"admin\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"admin\"</span><span class=\"pun\">);</span></pre> Returns Database object for database communication <br> <br> <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> config </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"pun\">{</span><span class=\"pln\"> defaultAutoCommit</span><span class=\"pun\">:</span><span class=\"kwd\">boolean</span><span class=\"pun\">,</span><span class=\"pln\"> defaultReadOnly</span><span class=\"pun\">:</span><span class=\"kwd\">boolean</span><span class=\"pun\">,</span><span class=\"pln\"> defaultTransactionIsolation</span><span class=\"pun\">:</span><span class=\"str\">\"String\"</span><span class=\"pun\">,</span><span class=\"pln\"> defaultCatalog</span><span class=\"pun\">:</span><span class=\"str\">\"String\"</span><span class=\"pun\">,</span><span class=\"pln\"> maxActive</span><span class=\"pun\">:</span><span class=\"pln\">number</span><span class=\"pun\">,</span><span class=\"pln\"> maxIdle</span><span class=\"pun\">:</span><span class=\"pln\">number</span><span class=\"pun\">,</span><span class=\"pln\"> minIdle</span><span class=\"pun\">:</span><span class=\"pln\">number</span><span class=\"pun\">,</span><span class=\"pln\"> initialSize</span><span class=\"pun\">:</span><span class=\"pln\">number</span><span class=\"pun\">,</span><span class=\"pln\"> maxWait</span><span class=\"pun\">:</span><span class=\"pln\">number</span><span class=\"pun\">,</span><span class=\"pln\"> testOnBorrow</span><span class=\"pun\">:</span><span class=\"kwd\">boolean</span><span class=\"pun\">,</span><span class=\"pln\"> testOnReturn</span><span class=\"pun\">:</span><span class=\"kwd\">boolean</span><span class=\"pun\">,</span><span class=\"pln\"> testWhileIdle</span><span class=\"pun\">:</span><span class=\"kwd\">boolean</span><span class=\"pun\">,</span><span class=\"pln\"> validationQuery</span><span class=\"pun\">:</span><span class=\"str\">\"String\"</span><span class=\"pun\">,</span><span class=\"pln\"> accessToUnderlyingConnectionAllowed</span><span class=\"pun\">:</span><span class=\"kwd\">boolean</span><span class=\"pun\">,</span><span class=\"pln\"> logAbandoned</span><span class=\"pun\">:</span><span class=\"kwd\">boolean</span><span class=\"pun\">,</span><span class=\"pln\"> connectionProperties</span><span class=\"pun\">:</span><span class=\"str\">\"String\"</span><span class=\"pun\">,</span><span class=\"pln\"> initSQL</span><span class=\"pun\">:</span><span class=\"str\">\"String\"</span><span class=\"pun\">,</span><span class=\"pln\"> validationInterval</span><span class=\"pun\">:</span><span class=\"pln\">number</span><span class=\"pun\">,</span><span class=\"pln\"> maxAge</span><span class=\"pun\">:</span><span class=\"pln\">number</span><span class=\"pun\">,</span><span class=\"pln\"> suspectTimeout</span><span class=\"pun\">:</span><span class=\"pln\">number\n</span><span class=\"pun\">}</span><span class=\"pln\"> </span><span class=\"kwd\">var</span><span class=\"pln\"> db </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> </span><span class=\"typ\">Database</span><span class=\"pun\">(</span><span class=\"str\">\"jdbc:h2:demo\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"admin\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"admin\"</span><span class=\"pun\">,</span><span class=\"pln\"> config</span><span class=\"pun\">);</span><span class=\"pln\"> </span></pre> Returns Database object for database communication with optional configurations <br> "
+				}, {
+					"Operation": "<code>query(query, callback)</code>",
+					"Returns": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">db</span><span class=\"pun\">.</span><span class=\"pln\">query</span><span class=\"pun\">(</span><span class=\"str\">\"SELECT * FROM myTable\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"kwd\">function</span><span class=\"pun\">(</span><span class=\"pln\">results</span><span class=\"pun\">)</span><span class=\"pln\"> </span><span class=\"pun\">{})</span></pre> Ruery result will be returned to the callback "
+				}, {
+					"Operation": "<code>commit()</code>",
+					"Returns": "None",
+					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">db</span><span class=\"pun\">.</span><span class=\"pln\">commit</span><span class=\"pun\">()</span></pre> SQL transaction commit "
+				}, {
+					"Operation": "<code>rollback()</code>",
+					"Returns": "None",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">db</span><span class=\"pun\">.</span><span class=\"pln\">rollback</span><span class=\"pun\">()</span></pre> SQL transaction rollback "
+				}, {
+					"Operation": "<code>close()</code>",
+					"Returns": "None",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">db</span><span class=\"pun\">.</span><span class=\"pln\">close</span><span class=\"pun\">()</span></pre> SQL connection close "
+				}
+			]
+		}
+	]
+}

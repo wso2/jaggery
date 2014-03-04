@@ -1,0 +1,7 @@
+<ul class="nav">
+	{{#each pages}}
+		<li {{#if this.active}} class="active" {{/if}}>
+			<a href="{{this.url}}">{{this.page}}</a>
+		</li>
+	{{/each}}
+</ul>
