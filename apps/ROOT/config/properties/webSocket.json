@@ -2,56 +2,28 @@
 	"sections": [
 		{
 			"title": "Members",
-			"columns": [
-				{
-					"name": "Member"
-				}, {
-					"name": "Type"
-				}, {
-					"name": "Description"
-				}
-			],
+			"columns": ["Member", "Type", "Description"],
 			"rows": [
 				{
-					"col1": 'ontext',
-					"col2": 'Scriptable',
-					"col3": '<pre class="prettyprint">webSocket.ontext = function (data) { \
-    log.info(\'Client sent : \' + data); \
- };</pre>Create the instance that will process this inbound connection for text and allow to handle a GET request. '
-				},
-				{
-					"col1": 'onbinary',
-					"col2": 'Scriptable',
-					"col3": '<pre class="prettyprint">webSocket.onbinary = function (stream) {  \  
-    log.info(\'Client Streamed : \' + stream.toString()); \
- };</pre>Create the instance that will process this inbound connection for stream. '
+					"Member": "<code>ontext</code> ",
+					"Type": "Scriptable",
+					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">webSocket</span><span class=\"pun\">.</span><span class=\"pln\">ontext </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">function</span><span class=\"pln\"> </span><span class=\"pun\">(</span><span class=\"pln\">data</span><span class=\"pun\">)</span><span class=\"pln\"> </span><span class=\"pun\">{</span><span class=\"pln\"> log</span><span class=\"pun\">.</span><span class=\"pln\">info</span><span class=\"pun\">(</span><span class=\"str\">'Client sent : '</span><span class=\"pln\"> </span><span class=\"pun\">+</span><span class=\"pln\"> data</span><span class=\"pun\">);</span><span class=\"pln\"> </span><span class=\"pun\">};</span></pre> Create the instance that will process this inbound connection for text and allow to handle a GET request. "
+				}, {
+					"Member": "<code>onbinary</code> ",
+					"Type": "Scriptable",
+					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">webSocket</span><span class=\"pun\">.</span><span class=\"pln\">onbinary </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">function</span><span class=\"pln\"> </span><span class=\"pun\">(</span><span class=\"pln\">stream</span><span class=\"pun\">)</span><span class=\"pln\"> </span><span class=\"pun\">{</span><span class=\"pln\"> log</span><span class=\"pun\">.</span><span class=\"pln\">info</span><span class=\"pun\">(</span><span class=\"str\">'Client Streamed : '</span><span class=\"pln\"> </span><span class=\"pun\">+</span><span class=\"pln\"> stream</span><span class=\"pun\">.</span><span class=\"pln\">toString</span><span class=\"pun\">());</span><span class=\"pln\"> </span><span class=\"pun\">};</span></pre> Create the instance that will process this inbound connection for stream. "
 				}
 			]
-		},
-		{
+		}, {
 			"title": "Operations",
-			"columns": [
-				{
-					"name": "Operation"
-				}, {
-					"name": "Returns"
-				}, {
-					"name": "Description"
-				}
-			],
+			"columns": ["Operation", "Returns", "Description"],
 			"rows": [
 				{
-					"col1": 'send (String text | Stream stream)',
-					"col2": 'None',
-					"col3": '<pre class="prettyprint">webSocket.ontext = function (data) { \
-    var ws = this; \
-    setTimeout(function () { \
-        ws.send(data); \
-    }, 5000); \
- };</pre>Sends data to the socket (inbound connection). '
+					"Operation": "<code>send (String text | Stream stream)</code>",
+					"Returns": "None",
+					"Description": "Sends data to the socket (inbound connection).<pre class=\"prettyprint\"><span class=\"pln\">webSocket</span><span class=\"pun\">.</span><span class=\"pln\">ontext </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">function</span><span class=\"pln\"> </span><span class=\"pun\">(</span><span class=\"pln\">data</span><span class=\"pun\">)</span><span class=\"pln\"> </span><span class=\"pun\">{</span><span class=\"pln\"> </span><span class=\"kwd\">var</span><span class=\"pln\"> ws </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">this</span><span class=\"pun\">;</span><span class=\"pln\"> setTimeout</span><span class=\"pun\">(</span><span class=\"kwd\">function</span><span class=\"pln\"> </span><span class=\"pun\">()</span><span class=\"pln\"> </span><span class=\"pun\">{</span><span class=\"pln\"> ws</span><span class=\"pun\">.</span><span class=\"pln\">send</span><span class=\"pun\">(</span><span class=\"pln\">data</span><span class=\"pun\">);</span><span class=\"pln\"> </span><span class=\"pun\">},</span><span class=\"pln\"> </span><span class=\"lit\">5000</span><span class=\"pun\">);</span><span class=\"pln\"> </span><span class=\"pun\">};</span></pre> "
 				}
 			]
 		}
-		
 	]
 }

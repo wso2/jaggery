@@ -1,148 +1,31 @@
 {
 	"sections": [
 		{
-			"title": "Members",
-			"columns": [
-				{
-					"name": "Member"
-				}, {
-					"name": "Type"
-				}, {
-					"name": "Description"
-				}
-			],
-			"rows": [
-				{
-					"col1": 'entries',
-					"col2": 'Entry[]',
-					"col3": '<pre class="prettyprint">feed.entries;</pre> \
-					Returns the complete set of entries contained in this feed. \
-					<pre class="prettyprint">feed.entries = entryList;</pre>  \
-					setting an entry list for to feed.'
-				},
-				{
-					"col1": 'author',
-					"col2": 'String',
-					"col3": '<pre class="prettyprint">feed.author</pre> \
-					Returns the author of the feed \
-					<pre class="prettyprint">feed.author = "author1";</pre> \
-					Setting an author to the feed.'
-				},
-				{
-					"col1": 'authors',
-					"col2": 'String[]',
-					"col3": '<pre class="prettyprint">feed.authors[i]</pre>  \
-					Returns the i th author of the feed. \
-					<pre class="prettyprint">feed.authors = ["author1","author2"]; \
-					</pre>Setting an array of authors to the feed.'
-				},
-				{
-					"col1": 'category',
-					"col2": 'String[]',
-					"col3": '<pre class="prettyprint">feed.category[i]</pre>  \
-					Returns the i th category of the feed. \
-					<pre class="prettyprint">feed.category = ["cat1","cat2"]; \
-					</pre>Setting an array of categories to the feed.'
-				},
-				{
-					"col1": 'contributors',
-					"col2": 'String[]',
-					"col3": '<pre class="prettyprint">feed.contributors[i]</pre>  \
-					Returns the i th contributor of the feed. \
-					<pre class="prettyprint">feed.contributors = ["cont1","cont2"]; \
-					</pre>Setting an array of contributor to the feed.'
-				},
-				{
-					"col1": 'logo',
-					"col2": 'String',
-					"col3": '<pre class="prettyprint">feed.logo</pre>  \
-					Returns the logo of this feed. \
-					<pre class="prettyprint">feed.logo = "http://abc.blogspot.com/Blogger-logo.png";</pre>'
-				},
-				{
-					"col1": 'icon',
-					"col2": 'String',
-					"col3": '<pre class="prettyprint">feed.icon</pre>  \
-					Returns the icon URL of this feed. \
-					<pre class="prettyprint">feed.icon = "http://abc.blogspot.com/RSS_Feed_Button.jpg"; \
-					</pre>Setting icon URL of this feed.'
-				},
-				{
-					"col1": 'links',
-					"col2": 'String[]',
-					"col3": '<pre class="prettyprint">feed.links[i]</pre>  \
-					Returns the i th location of the feed. \
-					<pre class="prettyprint">feed.links = ["link1","link2"] \
-					</pre>Setting locations of the feed..'
-				},
-				{
-					"col1": 'title',
-					"col2": 'String',
-					"col3": '<pre class="prettyprint">feed.title</pre>  \
-					Returns the title of the feed. \
-					<pre class="prettyprint">feed.title = "title"; \
-					</pre>Setting the title of the feed.'
-				},
-				{
-					"col1": 'rights',
-					"col2": 'String',
-					"col3": '<pre class="prettyprint">feed.rights</pre>  \
-					Returns the rights of the feed. \
-					<pre class="prettyprint">feed.rights = "rights"; \
-					</pre>Setting the rights for the feed.'
-				},
-				{
-					"col1": 'updated',
-					"col2": 'Date',
-					"col3": '<pre class="prettyprint">feed.updated</pre>  \
-					Returns the last updated date of the feed. \
-					<pre class="prettyprint"> \
-					var d1 = new Date("March 13, 2013 11:13:00") \
-					feed.updated = d1; \
-					</pre>Setting the last updated date of the feed.'
-				},
-				{
-					"col1": 'contributors',
-					"col2": 'String[]',
-					"col3": '<pre class="prettyprint">feed.contributors[i]</pre>  \
-					Returns the i th contributor of the feed. \
-					<pre class="prettyprint">feed.contributors = ["cont1","cont2"]; \
-					</pre>Setting an array of contributor to the feed.'
-				},
-			]
-		},
-		{
 			"title": "Operations",
-			"columns": [
-				{
-					"name": "Operations"
-				}, {
-					"name": "Returns"
-				}, {
-					"name": "Description"
-				}
-			],
+			"columns": ["Operation", "Returns", "Description"],
 			"rows": [
 				{
-					"col1": 'Feed([url])',
-					"col2": 'Feed',
-					"col3": '<pre class="prettyprint">var feed= new Feed(blogURL);</pre> \
-					Returns a Feed object'
-				},
-				{
-					"col1": 'toXML()',
-					"col2": 'XML',
-					"col3": '<pre class="prettyprint">feed.toXML()</pre> \
-					Returns the E4X XML contents of this Feed object.'
-				},
-				{
-					"col1": 'toString()',
-					"col2": 'String',
-					"col3": '<pre class="prettyprint">feed.toString()</pre>  \
-					Returns the String representation of the feed.'
+					"Operation": "<code>Database(connectionUrl,<br> username, password[, config])</code>",
+					"Returns": "Database",
+					"Description": "<pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> db </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> </span><span class=\"typ\">Database</span><span class=\"pun\">(</span><span class=\"str\">\"jdbc:h2:demo\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"admin\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"admin\"</span><span class=\"pun\">);</span></pre> Returns Database object for database communication <br> <br> <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> config </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"pun\">{</span><span class=\"pln\"> defaultAutoCommit</span><span class=\"pun\">:</span><span class=\"kwd\">boolean</span><span class=\"pun\">,</span><span class=\"pln\"> defaultReadOnly</span><span class=\"pun\">:</span><span class=\"kwd\">boolean</span><span class=\"pun\">,</span><span class=\"pln\"> defaultTransactionIsolation</span><span class=\"pun\">:</span><span class=\"str\">\"String\"</span><span class=\"pun\">,</span><span class=\"pln\"> defaultCatalog</span><span class=\"pun\">:</span><span class=\"str\">\"String\"</span><span class=\"pun\">,</span><span class=\"pln\"> maxActive</span><span class=\"pun\">:</span><span class=\"pln\">number</span><span class=\"pun\">,</span><span class=\"pln\"> maxIdle</span><span class=\"pun\">:</span><span class=\"pln\">number</span><span class=\"pun\">,</span><span class=\"pln\"> minIdle</span><span class=\"pun\">:</span><span class=\"pln\">number</span><span class=\"pun\">,</span><span class=\"pln\"> initialSize</span><span class=\"pun\">:</span><span class=\"pln\">number</span><span class=\"pun\">,</span><span class=\"pln\"> maxWait</span><span class=\"pun\">:</span><span class=\"pln\">number</span><span class=\"pun\">,</span><span class=\"pln\"> testOnBorrow</span><span class=\"pun\">:</span><span class=\"kwd\">boolean</span><span class=\"pun\">,</span><span class=\"pln\"> testOnReturn</span><span class=\"pun\">:</span><span class=\"kwd\">boolean</span><span class=\"pun\">,</span><span class=\"pln\"> testWhileIdle</span><span class=\"pun\">:</span><span class=\"kwd\">boolean</span><span class=\"pun\">,</span><span class=\"pln\"> validationQuery</span><span class=\"pun\">:</span><span class=\"str\">\"String\"</span><span class=\"pun\">,</span><span class=\"pln\"> accessToUnderlyingConnectionAllowed</span><span class=\"pun\">:</span><span class=\"kwd\">boolean</span><span class=\"pun\">,</span><span class=\"pln\"> logAbandoned</span><span class=\"pun\">:</span><span class=\"kwd\">boolean</span><span class=\"pun\">,</span><span class=\"pln\"> connectionProperties</span><span class=\"pun\">:</span><span class=\"str\">\"String\"</span><span class=\"pun\">,</span><span class=\"pln\"> initSQL</span><span class=\"pun\">:</span><span class=\"str\">\"String\"</span><span class=\"pun\">,</span><span class=\"pln\"> validationInterval</span><span class=\"pun\">:</span><span class=\"pln\">number</span><span class=\"pun\">,</span><span class=\"pln\"> maxAge</span><span class=\"pun\">:</span><span class=\"pln\">number</span><span class=\"pun\">,</span><span class=\"pln\"> suspectTimeout</span><span class=\"pun\">:</span><span class=\"pln\">number\n</span><span class=\"pun\">}</span><span class=\"pln\"> </span><span class=\"kwd\">var</span><span class=\"pln\"> db </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> </span><span class=\"typ\">Database</span><span class=\"pun\">(</span><span class=\"str\">\"jdbc:h2:demo\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"admin\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"admin\"</span><span class=\"pun\">,</span><span class=\"pln\"> config</span><span class=\"pun\">);</span><span class=\"pln\"> </span></pre> Returns Database object for database communication with optional configurations <br> "
+				}, {
+					"Operation": "<code>query(query, callback)</code>",
+					"Returns": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">db</span><span class=\"pun\">.</span><span class=\"pln\">query</span><span class=\"pun\">(</span><span class=\"str\">\"SELECT * FROM myTable\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"kwd\">function</span><span class=\"pun\">(</span><span class=\"pln\">results</span><span class=\"pun\">)</span><span class=\"pln\"> </span><span class=\"pun\">{})</span></pre> Ruery result will be returned to the callback "
+				}, {
+					"Operation": "<code>commit()</code>",
+					"Returns": "None",
+					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">db</span><span class=\"pun\">.</span><span class=\"pln\">commit</span><span class=\"pun\">()</span></pre> SQL transaction commit "
+				}, {
+					"Operation": "<code>rollback()</code>",
+					"Returns": "None",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">db</span><span class=\"pun\">.</span><span class=\"pln\">rollback</span><span class=\"pun\">()</span></pre> SQL transaction rollback "
+				}, {
+					"Operation": "<code>close()</code>",
+					"Returns": "None",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">db</span><span class=\"pun\">.</span><span class=\"pln\">close</span><span class=\"pun\">()</span></pre> SQL connection close "
 				}
 			]
 		}
-		
 	]
 }

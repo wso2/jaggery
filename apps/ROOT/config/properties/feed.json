@@ -2,147 +2,72 @@
 	"sections": [
 		{
 			"title": "Members",
-			"columns": [
-				{
-					"name": "Member"
-				}, {
-					"name": "Type"
-				}, {
-					"name": "Description"
-				}
-			],
+			"columns": ["Member", "Type", "Description"],
 			"rows": [
 				{
-					"col1": 'entries',
-					"col2": 'Entry[]',
-					"col3": '<pre class="prettyprint">feed.entries;</pre> \
-					Returns the complete set of entries contained in this feed. \
-					<pre class="prettyprint">feed.entries = entryList;</pre>  \
-					setting an entry list for to feed.'
-				},
-				{
-					"col1": 'author',
-					"col2": 'String',
-					"col3": '<pre class="prettyprint">feed.author</pre> \
-					Returns the author of the feed \
-					<pre class="prettyprint">feed.author = "author1";</pre> \
-					Setting an author to the feed.'
-				},
-				{
-					"col1": 'authors',
-					"col2": 'String[]',
-					"col3": '<pre class="prettyprint">feed.authors[i]</pre>  \
-					Returns the i th author of the feed. \
-					<pre class="prettyprint">feed.authors = ["author1","author2"]; \
-					</pre>Setting an array of authors to the feed.'
-				},
-				{
-					"col1": 'category',
-					"col2": 'String[]',
-					"col3": '<pre class="prettyprint">feed.category[i]</pre>  \
-					Returns the i th category of the feed. \
-					<pre class="prettyprint">feed.category = ["cat1","cat2"]; \
-					</pre>Setting an array of categories to the feed.'
-				},
-				{
-					"col1": 'contributors',
-					"col2": 'String[]',
-					"col3": '<pre class="prettyprint">feed.contributors[i]</pre>  \
-					Returns the i th contributor of the feed. \
-					<pre class="prettyprint">feed.contributors = ["cont1","cont2"]; \
-					</pre>Setting an array of contributor to the feed.'
-				},
-				{
-					"col1": 'logo',
-					"col2": 'String',
-					"col3": '<pre class="prettyprint">feed.logo</pre>  \
-					Returns the logo of this feed. \
-					<pre class="prettyprint">feed.logo = "http://abc.blogspot.com/Blogger-logo.png";</pre>'
-				},
-				{
-					"col1": 'icon',
-					"col2": 'String',
-					"col3": '<pre class="prettyprint">feed.icon</pre>  \
-					Returns the icon URL of this feed. \
-					<pre class="prettyprint">feed.icon = "http://abc.blogspot.com/RSS_Feed_Button.jpg"; \
-					</pre>Setting icon URL of this feed.'
-				},
-				{
-					"col1": 'links',
-					"col2": 'String[]',
-					"col3": '<pre class="prettyprint">feed.links[i]</pre>  \
-					Returns the i th location of the feed. \
-					<pre class="prettyprint">feed.links = ["link1","link2"] \
-					</pre>Setting locations of the feed..'
-				},
-				{
-					"col1": 'title',
-					"col2": 'String',
-					"col3": '<pre class="prettyprint">feed.title</pre>  \
-					Returns the title of the feed. \
-					<pre class="prettyprint">feed.title = "title"; \
-					</pre>Setting the title of the feed.'
-				},
-				{
-					"col1": 'rights',
-					"col2": 'String',
-					"col3": '<pre class="prettyprint">feed.rights</pre>  \
-					Returns the rights of the feed. \
-					<pre class="prettyprint">feed.rights = "rights"; \
-					</pre>Setting the rights for the feed.'
-				},
-				{
-					"col1": 'updated',
-					"col2": 'Date',
-					"col3": '<pre class="prettyprint">feed.updated</pre>  \
-					Returns the last updated date of the feed. \
-					<pre class="prettyprint"> \
-					var d1 = new Date("March 13, 2013 11:13:00") \
-					feed.updated = d1; \
-					</pre>Setting the last updated date of the feed.'
-				},
-				{
-					"col1": 'contributors',
-					"col2": 'String[]',
-					"col3": '<pre class="prettyprint">feed.contributors[i]</pre>  \
-					Returns the i th contributor of the feed. \
-					<pre class="prettyprint">feed.contributors = ["cont1","cont2"]; \
-					</pre>Setting an array of contributor to the feed.'
-				},
+					"Member": " <code>entries</code> ",
+					"Type": "Entry[]",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">feed</span><span class=\"pun\">.</span><span class=\"pln\">entries</span><span class=\"pun\">;</span></pre> Returns the complete set of entries contained in this feed. <pre class=\"prettyprint\"><span class=\"pln\">feed</span><span class=\"pun\">.</span><span class=\"pln\">entries </span><span class=\"pun\">=</span><span class=\"pln\"> entryList</span><span class=\"pun\">;</span></pre> setting an entry list for to feed. "
+				}, {
+					"Member": " <code>author</code> ",
+					"Type": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">feed</span><span class=\"pun\">.</span><span class=\"pln\">author</span></pre> Returns the author of the feed. <pre class=\"prettyprint\"><span class=\"pln\">feed</span><span class=\"pun\">.</span><span class=\"pln\">author </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">\"author1\"</span><span class=\"pun\">;</span></pre> Setting an author to the feed. "
+				}, {
+					"Member": " <code>authors</code> ",
+					"Type": "String [ ]",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">feed</span><span class=\"pun\">.</span><span class=\"pln\">authors</span><span class=\"pun\">[</span><span class=\"pln\">i</span><span class=\"pun\">]</span></pre> Returns the i th author of the feed. <pre class=\"prettyprint\"><span class=\"pln\">feed</span><span class=\"pun\">.</span><span class=\"pln\">authors </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"pun\">[</span><span class=\"str\">\"author1\"</span><span class=\"pun\">,</span><span class=\"str\">\"author2\"</span><span class=\"pun\">];</span></pre> Setting an array of authors to the feed. "
+				}, {
+					"Member": " <code>category</code> ",
+					"Type": "String [ ]",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">feed</span><span class=\"pun\">.</span><span class=\"pln\">category</span><span class=\"pun\">[</span><span class=\"pln\">i</span><span class=\"pun\">]</span></pre> Returns the i th category of the feed. <pre class=\"prettyprint\"><span class=\"pln\">feed</span><span class=\"pun\">.</span><span class=\"pln\">category </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"pun\">[</span><span class=\"str\">\"cat1\"</span><span class=\"pun\">,</span><span class=\"str\">\"cat2\"</span><span class=\"pun\">];</span></pre> Setting an array of categories to the feed. "
+				}, {
+					"Member": " <code>contributors</code> ",
+					"Type": "String [ ]",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">feed</span><span class=\"pun\">.</span><span class=\"pln\">contributors</span><span class=\"pun\">[</span><span class=\"pln\">i</span><span class=\"pun\">]</span></pre> Returns the i th contributor of the feed. <pre class=\"prettyprint\"><span class=\"pln\">feed</span><span class=\"pun\">.</span><span class=\"pln\">contributors </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"pun\">[</span><span class=\"str\">\"cont1\"</span><span class=\"pun\">,</span><span class=\"str\">\"cont2\"</span><span class=\"pun\">];</span></pre> Setting an array of contributor to the feed. "
+				}, {
+					"Member": " <code>logo</code> ",
+					"Type": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">feed</span><span class=\"pun\">.</span><span class=\"pln\">logo</span></pre> Returns the logo of this feed. <pre class=\"prettyprint\"><span class=\"pln\">feed</span><span class=\"pun\">.</span><span class=\"pln\">logo </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">\"http://abc.blogspot.com/Blogger-logo.png\"</span><span class=\"pun\">;</span><span class=\"pln\"> </span></pre>"
+				}, {
+					"Member": " <code>icon</code> ",
+					"Type": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">feed</span><span class=\"pun\">.</span><span class=\"pln\">icon</span></pre> Returns the icon URL of this feed. <pre class=\"prettyprint\"><span class=\"pln\">feed</span><span class=\"pun\">.</span><span class=\"pln\">icon </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">\"http://abc.blogspot.com/RSS_Feed_Button.jpg\"</span><span class=\"pun\">;</span></pre> Setting icon URL of this feed. "
+				}, {
+					"Member": " <code>links</code> ",
+					"Type": "String [ ]",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">feed</span><span class=\"pun\">.</span><span class=\"pln\">links</span><span class=\"pun\">[</span><span class=\"pln\">i</span><span class=\"pun\">]</span></pre> Returns the i th location of the feed. <pre class=\"prettyprint\"><span class=\"pln\">feed</span><span class=\"pun\">.</span><span class=\"pln\">links </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"pun\">[</span><span class=\"str\">\"link1\"</span><span class=\"pun\">,</span><span class=\"str\">\"link2\"</span><span class=\"pun\">];</span></pre> Setting locations of the feed. "
+				}, {
+					"Member": " <code>title</code> ",
+					"Type": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">feed</span><span class=\"pun\">.</span><span class=\"pln\">title</span></pre> Returns the title of the feed. <pre class=\"prettyprint\"><span class=\"pln\">feed</span><span class=\"pun\">.</span><span class=\"pln\">title </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">\"title\"</span><span class=\"pun\">;</span></pre> Setting the title of the feed. "
+				}, {
+					"Member": " <code>rights</code> ",
+					"Type": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">feed</span><span class=\"pun\">.</span><span class=\"pln\">rights</span></pre> Returns the rights of the feed. <pre class=\"prettyprint\"><span class=\"pln\">feed</span><span class=\"pun\">.</span><span class=\"pln\">rights </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">\"rights\"</span><span class=\"pun\">;</span></pre> Setting the rights for the feed. "
+				}, {
+					"Member": " <code>updated</code> ",
+					"Type": "Date",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">feed</span><span class=\"pun\">.</span><span class=\"pln\">updated</span></pre> Returns the last updated date of the feed. <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> d1 </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> </span><span class=\"typ\">Date</span><span class=\"pun\">(</span><span class=\"str\">\"March 13, 2013 11:13:00\"</span><span class=\"pun\">)</span><span class=\"pln\">\nfeed</span><span class=\"pun\">.</span><span class=\"pln\">updated </span><span class=\"pun\">=</span><span class=\"pln\"> d1</span><span class=\"pun\">;</span></pre> Setting the last updated date of the feed. "
+				}
 			]
-		},
-		{
+		}, {
 			"title": "Operations",
-			"columns": [
-				{
-					"name": "Operations"
-				}, {
-					"name": "Returns"
-				}, {
-					"name": "Description"
-				}
-			],
+			"columns": ["Operations", "Returns", "Description"],
 			"rows": [
 				{
-					"col1": 'Feed([url])',
-					"col2": 'Feed',
-					"col3": '<pre class="prettyprint">var feed= new Feed(blogURL);</pre> \
-					Returns a Feed object'
-				},
-				{
-					"col1": 'toXML()',
-					"col2": 'XML',
-					"col3": '<pre class="prettyprint">feed.toXML()</pre> \
-					Returns the E4X XML contents of this Feed object.'
-				},
-				{
-					"col1": 'toString()',
-					"col2": 'String',
-					"col3": '<pre class="prettyprint">feed.toString()</pre>  \
-					Returns the String representation of the feed.'
+					"Operations": " <code>Feed([url])</code> ",
+					"Returns": "Feed",
+					"Description": " <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> feed</span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> </span><span class=\"typ\">Feed</span><span class=\"pun\">(</span><span class=\"pln\">blogURL</span><span class=\"pun\">);</span></pre> Returns a Feed object "
+				}, {
+					"Operations": " <code>toXML()</code> ",
+					"Returns": "XML",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">feed</span><span class=\"pun\">.</span><span class=\"pln\">toXML</span><span class=\"pun\">()</span></pre> Returns the E4X XML contents of this Feed object. "
+				}, {
+					"Operations": " <code>toString()</code> ",
+					"Returns": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">feed</span><span class=\"pun\">.</span><span class=\"pln\">toString</span><span class=\"pun\">()</span></pre> Returns the String representation of the feed "
 				}
 			]
 		}
-		
 	]
 }

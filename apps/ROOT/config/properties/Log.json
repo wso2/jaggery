@@ -2,56 +2,41 @@
 	"sections": [
 		{
 			"title": "Operations",
-			"columns": [
-				{
-					"name": "Member"
-				}, {
-					"name": "Type"
-				}, {
-					"name": "Description"
-				}
-			],
+			"columns": ["Member", "&nbsp;&nbsp;Type&nbsp;&nbsp;", "Description"],
 			"rows": [
 				{
-					"col1": 'Log([logger])',
-					"col2": 'Log',
-					"col3": '<pre class="prettyprint">var log = new Log("MYAPP");</pre>Returns a Log object with "MYAPP" named logger if empty, log will take script name as the default logger'
+					"Member": "<code>Log([logger])</code>",
+					"&nbsp;&nbsp;Type&nbsp;&nbsp;": "Log",
+					"Description": "\n<pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> log </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> </span><span class=\"typ\">Log</span><span class=\"pun\">(</span><span class=\"str\">\"MYAPP\"</span><span class=\"pun\">);</span></pre> Returns a Log object with \"MYAPP\" named logger if empty, log will take script name as the default logger "
 				}, {
-					"col1": 'debug(String | Object)',
-					"col2": 'None',
-					"col3": '<pre class="prettyprint">log.debug("this is a debug message")</pre>prints a debug message to the console'
-				},
-				{
-					"col1": 'info(String | Object)',
-					"col2": 'None',
-					"col3": '<pre class="prettyprint">log.info("this is a info message")</pre>prints a info message to the console'
-				},
-				{
-					"col1": 'warn(String | Object)',
-					"col2": 'None',
-					"col3": '<pre class="prettyprint">log.warn("this is a warn message")</pre>prints a warn message to the console'
-				},
-				{
-					"col1": 'error(String | Object)',
-					"col2": 'None',
-					"col3": '<pre class="prettyprint">log.error("this is a error message")</pre>prints a error message to the console'
-				},
-				{
-					"col1": 'fatal(String | Object)',
-					"col2": 'None',
-					"col3": '<pre class="prettyprint">log.fatal("this is a fatal message")</pre>prints a fatal message to the console'
-				},
-				{
-					"col1": 'isDebugEnabeld()',
-					"col2": 'Boolean',
-					"col3": '<pre class="prettyprint">log.isDebugEnabled()</pre>Returns true if Debug level is enabled. Default is true'
-				},
-				{
-					"col1": 'isTraceEnabled()',
-					"col2": 'Boolean',
-					"col3": '<pre class="prettyprint">log.isTraceEnabled()</pre>Returns true if Trace level is enabled. Default is false'
+					"Member": "<code>debug(String | Object)</code>",
+					"&nbsp;&nbsp;Type&nbsp;&nbsp;": "None",
+					"Description": "\n<pre class=\"prettyprint\"><span class=\"pln\">log</span><span class=\"pun\">.</span><span class=\"pln\">debug</span><span class=\"pun\">(</span><span class=\"str\">\"this is a debug message\"</span><span class=\"pun\">)</span></pre> prints a debug message to the console "
+				}, {
+					"Member": "<code>info(String | Object)</code>",
+					"&nbsp;&nbsp;Type&nbsp;&nbsp;": "None",
+					"Description": "\n<pre class=\"prettyprint\"><span class=\"pln\">log</span><span class=\"pun\">.</span><span class=\"pln\">info</span><span class=\"pun\">(</span><span class=\"str\">\"this is a info message\"</span><span class=\"pun\">)</span></pre> prints a info message to the console "
+				}, {
+					"Member": "<code>warn(String | Object)</code>",
+					"&nbsp;&nbsp;Type&nbsp;&nbsp;": "None",
+					"Description": "\n<pre class=\"prettyprint\"><span class=\"pln\">log</span><span class=\"pun\">.</span><span class=\"pln\">warn</span><span class=\"pun\">(</span><span class=\"str\">\"this is a warn message\"</span><span class=\"pun\">)</span></pre> prints a warn message to the console "
+				}, {
+					"Member": "<code>error(String | Object)</code>",
+					"&nbsp;&nbsp;Type&nbsp;&nbsp;": "None",
+					"Description": "\n<pre class=\"prettyprint\"><span class=\"pln\">log</span><span class=\"pun\">.</span><span class=\"pln\">error</span><span class=\"pun\">(</span><span class=\"str\">\"this is a error message\"</span><span class=\"pun\">)</span></pre> prints a error message to the console "
+				}, {
+					"Member": "<code>fatal(String | Object)</code>",
+					"&nbsp;&nbsp;Type&nbsp;&nbsp;": "None",
+					"Description": "\n<pre class=\"prettyprint\"><span class=\"pln\">log</span><span class=\"pun\">.</span><span class=\"pln\">fatal</span><span class=\"pun\">(</span><span class=\"str\">\"this is a fatal message\"</span><span class=\"pun\">)</span></pre> prints a fatal message to the console "
+				}, {
+					"Member": "<code>isDebugEnabeld()</code>",
+					"&nbsp;&nbsp;Type&nbsp;&nbsp;": "Boolean",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">log</span><span class=\"pun\">.</span><span class=\"pln\">isDebugEnabled</span><span class=\"pun\">()</span></pre> Returns true if Debug level is enabled. Default is true "
+				}, {
+					"Member": "<code>isTraceEnabled()</code>",
+					"&nbsp;&nbsp;Type&nbsp;&nbsp;": "Boolean",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">log</span><span class=\"pun\">.</span><span class=\"pln\">isTraceEnabled</span><span class=\"pun\">()</span></pre> Returns true if Trace level is enabled. Default is false "
 				}
-				
 			]
 		}
 	]

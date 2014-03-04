@@ -2,23 +2,14 @@
 	"sections": [
 		{
 			"title": "Parameters",
-			"columns": [
-				{
-					"name": "Parameter"
-				}, {
-					"name": "Type"
-				}, {
-					"name": "Description"
-				}
-			],
+			"columns": ["Parameter", "Type", "Description"],
 			"rows": [
 				{
-					"col1": 'path',
-					"col2": 'String',
-					"col3": '<pre class="prettyprint">include("header.jag");</pre> Path to the jaggery script'
+					"Parameter": "<code>path</code>",
+					"Type": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">include_once</span><span class=\"pun\">(</span><span class=\"str\">\"header.jag\"</span><span class=\"pun\">);</span></pre> Path to the jaggery script "
 				}
 			]
 		}
-		
 	]
 }

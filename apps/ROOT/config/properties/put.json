@@ -2,67 +2,44 @@
 	"sections": [
 		{
 			"title": "Parameters",
-			"columns": [
-				{
-					"name": "Parameter"
-				}, {
-					"name": "Type"
-				}, {
-					"name": "Description"
-				}
-			],
+			"columns": ["Parameter", "Type", "Description"],
 			"rows": [
 				{
-					"col1": 'url',
-					"col2": 'String',
-					"col3": 'The URL which HTTP PUT is performed'
-				},
-				{
-					"col1": 'data',
-					"col2": 'Object',
-					"col3": 'Request parameters'
-				},
-				{
-					"col1": 'type',
-					"col2": 'String',
-					"col3": 'The type, which the response is expected '
-				},
-				{
-					"col1": 'headers',
-					"col2": 'String',
-					"col3": 'Optional HTTP headers '
-				},
-				{
-					"col1": 'success(data:Object,xhr:Object)',
-					"col2": 'function',
-					"col3": 'On success callback '
+					"Parameter": "<code>url</code>",
+					"Type": "String",
+					"Description": "The URL which HTTP PUT is performed "
+				}, {
+					"Parameter": "<code>data</code>",
+					"Type": "Object",
+					"Description": "Request parameters"
+				}, {
+					"Parameter": "<code>type</code>",
+					"Type": "String",
+					"Description": "The type, which the response is expected"
+				}, {
+					"Parameter": "<code>headers</code>",
+					"Type": "String",
+					"Description": "Optional HTTP headers"
+				}, {
+					"Parameter": "<code>success(data:Object,<br> xhr:Object)</code>",
+					"Type": "function",
+					"Description": "On success callback"
 				}
 			]
-		},
-		{
+		}, {
 			"title": "Return values",
-			"columns": [
-				{
-					"name": "Value"
-				}, {
-					"name": "Type"
-				}, {
-					"name": "Description"
-				}
-			],
+			"columns": ["Value", "Type", "Description"],
 			"rows": [
 				{
-					"col1": 'data',
-					"col2": 'Object',
-					"col3": 'Contains the return data of the HTTP PUT request'
-				},
-				{
-					"col1": 'xhr',
-					"col2": 'Object',
-					"col3": 'Contains an instance of XMLHTTPRequest'
+					"Value": "<code>data</code>",
+					"Type": "Object",
+					"Description": "Contains the return data of the HTTP PUT request"
+				}, {
+					"Value": "<code>xhr</code>",
+					"Type": "Object",
+					"Description": "Contains an instance of XMLHTTPRequest"
 				}
 			]
 		}
-		
 	]
 }

@@ -2,34 +2,22 @@
 	"sections": [
 		{
 			"title": "Operations",
-			"columns": [
-				{
-					"name": "Operation"
-				}, {
-					"name": "Returns"
-				}, {
-					"name": "Description"
-				}
-			],
+			"columns": ["Operation", "Returns", "Description"],
 			"rows": [
 				{
-					"col1": 'get(\'propName\')',
-					"col2": 'Object',
-					"col3": '<pre class="prettyprint">application.get(\'foo\')</pre>Returns the value (object) associated with the property '
-				},
-				{
-					"col1": 'put(\'propName\', value)',
-					"col2": 'None',
-					"col3": '<pre class="prettyprint">application.put(\'foo\', {\'name\':\'jaggery\'})</pre>Adding a value to the application context '
-				},
-				{
-					"col1": 'remove(\'propName\')',
-					"col2": 'None',
-					"col3": '<pre class="prettyprint">application.remove(\'foo\')</pre>Removes a property from application context '
+					"Operation": "<code>get('propName')</code>",
+					"Returns": "Object",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">application</span><span class=\"pun\">.</span><span class=\"kwd\">get</span><span class=\"pun\">(</span><span class=\"str\">'foo'</span><span class=\"pun\">)</span></pre> Returns the value (object) associated with the property "
+				}, {
+					"Operation": "<code>put('propName', value)</code>",
+					"Returns": "None",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">application</span><span class=\"pun\">.</span><span class=\"pln\">put</span><span class=\"pun\">(</span><span class=\"str\">'foo'</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"pun\">{</span><span class=\"str\">'name'</span><span class=\"pun\">:</span><span class=\"str\">'jaggery'</span><span class=\"pun\">})</span></pre> Adding a value to the application context "
+				}, {
+					"Operation": "<code>remove('propName')</code>",
+					"Returns": "None",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">application</span><span class=\"pun\">.</span><span class=\"pln\">remove</span><span class=\"pun\">(</span><span class=\"str\">'foo'</span><span class=\"pun\">)</span></pre> Removes a property from application context "
 				}
-				
 			]
 		}
-		
 	]
 }

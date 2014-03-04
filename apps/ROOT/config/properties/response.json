@@ -2,73 +2,47 @@
 	"sections": [
 		{
 			"title": "Members",
-			"columns": [
-				{
-					"name": "Member"
-				}, {
-					"name": "Type"
-				}, {
-					"name": "Description"
-				}
-			],
+			"columns": ["Member", "Type", "Description"],
 			"rows": [
 				{
-					"col1": 'status',
-					"col2": 'String',
-					"col3": '<pre class="prettyprint">response.status</pre>Sets the Status code'
+					"Member": "<code>status</code>",
+					"Type": "String",
+					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">response</span><span class=\"pun\">.</span><span class=\"pln\">status</span></pre> Sets the Status code "
 				}, {
-					"col1": 'contentType',
-					"col2": 'String',
-					"col3": '<pre class="prettyprint">response.contentType = \'application/x-www-form-urlencoded\'</pre>Sets response content type'
-				},
-				{
-					"col1": 'characterEncoding',
-					"col2": 'String',
-					"col3": '<pre class="prettyprint">response.characterEncoding = \'UTF-8\'</pre>Sets response character encoding'
-				},
-				{
-					"col1": 'content',
-					"col2": 'String | Object | XML',
-					"col3": '<pre class="prettyprint">response.content = { products : ["Jaggery", "ESB"] };</pre> \
-					<pre class="prettyprint">response.content = "My response content";</pre> Sets response content. <br>If any thing other than Strings are assigned, then they will be automatically serialized.'
+					"Member": "<code>contentType</code>",
+					"Type": "String",
+					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">response</span><span class=\"pun\">.</span><span class=\"pln\">contentType </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">'application/x-www-form-urlencoded'</span></pre> Sets response content type "
+				}, {
+					"Member": "<code>characterEncoding</code>",
+					"Type": "String",
+					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">response</span><span class=\"pun\">.</span><span class=\"pln\">characterEncoding </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">'UTF-8'</span></pre> Sets response character encoding "
+				}, {
+					"Member": "<code>content</code>",
+					"Type": "String | Object | XML",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">response</span><span class=\"pun\">.</span><span class=\"pln\">content </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"pun\">{</span><span class=\"pln\"> products </span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"pun\">[</span><span class=\"str\">\"Jaggery\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"ESB\"</span><span class=\"pun\">]</span><span class=\"pln\"> </span><span class=\"pun\">};</span></pre> <pre class=\"prettyprint\"><span class=\"pln\">response</span><span class=\"pun\">.</span><span class=\"pln\">content </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">\"My response content\"</span><span class=\"pun\">;</span></pre> <p>Sets response content</p> <p>If any thing other than Strings are assigned, then they will be automatically serialized.</p> "
 				}
-				
 			]
-		},
-		{
+		}, {
 			"title": "Operations",
-			"columns": [
-				{
-					"name": "Operation"
-				}, {
-					"name": "Returns"
-				}, {
-					"name": "Description"
-				}
-			],
+			"columns": ["Operation", "Returns", "Description"],
 			"rows": [
 				{
-					"col1": 'addHeader(key, value)',
-					"col2": 'String',
-					"col3": '<pre class="prettyprint">response.addHeader(\'custom-header\', \'jaggery_response\')</pre>Adding a header to the response'
+					"Operation": "<code>addHeader(key, value) </code> ",
+					"Returns": "String",
+					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">response</span><span class=\"pun\">.</span><span class=\"pln\">addHeader</span><span class=\"pun\">(</span><span class=\"str\">'custom-header'</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">'jaggery_response'</span><span class=\"pun\">)</span></pre> Adding a header to the response "
 				}, {
-					"col1": 'sendRedirect(url)',
-					"col2": 'None',
-					"col3": '<pre class="prettyprint">response.sendRedirect(url)</pre>Redirect via response'
-				},
-				{
-					"col1": 'sendError(errCode)',
-					"col2": 'None',
-					"col3": '<pre class="prettyprint">response.sendError(errCode)</pre>Send an error code'
-				},
-				{
-					"col1": 'addCookie(cookie)',
-					"col2": 'None',
-					"col3": '<pre class="prettyprint">var cookie= {\'name\':\'test\',\'value\':\'Cookie testing\'}; \
-response.addCookie(cookie)</pre> \
-					Adds the specified cookie to the response.'
+					"Operation": "<code>sendRedirect(url) </code> ",
+					"Returns": "None",
+					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">response</span><span class=\"pun\">.</span><span class=\"pln\">sendRedirect</span><span class=\"pun\">(</span><span class=\"pln\">url</span><span class=\"pun\">)</span></pre> Redirect via response "
+				}, {
+					"Operation": "<code>sendError(errCode) </code> ",
+					"Returns": "None",
+					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">response</span><span class=\"pun\">.</span><span class=\"pln\">sendError</span><span class=\"pun\">(</span><span class=\"pln\">errCode</span><span class=\"pun\">)</span></pre> Send an error code "
+				}, {
+					"Operation": "<code>addCookie(cookie) </code> ",
+					"Returns": "None",
+					"Description": "<pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> cookie</span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"pun\">{</span><span class=\"str\">'name'</span><span class=\"pun\">:</span><span class=\"str\">'test'</span><span class=\"pun\">,</span><span class=\"str\">'value'</span><span class=\"pun\">:</span><span class=\"str\">'Cookie testing'</span><span class=\"pun\">};</span><span class=\"pln\">\nresponse</span><span class=\"pun\">.</span><span class=\"pln\">addCookie</span><span class=\"pun\">(</span><span class=\"pln\">cookie</span><span class=\"pun\">)</span></pre> Adds the specified cookie to the response. "
 				}
-				
 			]
 		}
 	]

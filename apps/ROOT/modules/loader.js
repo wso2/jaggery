@@ -20,7 +20,34 @@ CATEGORIES = [{
 	},
 	{
 		'Feed' : ['feed', 'entry']
+	},
+	{
+		'File System' : ['file']
+	},
+	{
+		'Data Storage' : ['rdb', 'metadatastore', 'collection', 'resource']
+	},
+	{
+		'Dataformats' : ['parse', 'stringify', 'xml']
 	}]
+}, {
+	'Add-ons' : [{
+		'Email' : ['sender']
+	},
+	{
+		'Web Services' : ['ws', 'wsstub']
+	},
+	{
+		'Authentication' : ['oauth']
+	},
+	{
+		'Server' : ['process']
+	},
+	{
+		'Internationalization' : ['i18n']
+	}]
+},{
+	'Configuration File' : [{' ':['jagconf']}]
 }];
 
 

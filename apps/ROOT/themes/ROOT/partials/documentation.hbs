@@ -36,28 +36,22 @@
 <hr>
 
 	{{#each sections}}
+
 		<h3>{{title}}</h3>
-		
+
 		<table class="table">
 			<tr>
 				{{#each columns}}
-					<th>{{name}}</th>
+					<th>{{this}}</th>
 				{{/each}}
 			</tr>
 			{{#each rows}}
 				<tr>
-					{{#if col1}}
-					<td>{{col1}}</td>
-					{{/if}}
-					{{#if col2}}
-					<td>{{col2}}</td>
-					{{/if}}
-					{{#if col3}}
-					<td>{{{col3}}}</td>
-					{{/if}}
-					{{#if col4}}
-					<td>{{col4}}</td>
-					{{/if}}
+					{{#itr .}}
+						<td>
+							{{{value}}}
+						</td>
+					{{/itr}}
 				</tr>
 			{{/each}}
 		</table>
