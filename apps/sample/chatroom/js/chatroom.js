@@ -42,6 +42,8 @@ $(function () {
                 ws.onopen = function () {                	
                     //log('Connected to the server.');
                     ws.send(sessionStorage.getItem("lastname") +" contected to chat room.");
+                    $('#connect').addClass('disabled');
+                     $('#disconnect').removeClass('disabled');
                 };
                 ws.onmessage = function (event) {
                     log(event.data);
@@ -49,6 +51,8 @@ $(function () {
                 ws.onclose = function () {
                     log('Chat room closed.');
                 	// ws.send(sessionStorage.getItem("lastname") +" left the chat room.");
+                	$('#connect').removeClass('disabled');
+                     $('#disconnect').addClass('disabled');
                 };
             });
 
@@ -57,6 +61,7 @@ $(function () {
                 ws.close();
                 $('#username').prop('disabled', false);
             	$('#connect').prop('disabled', false);
+            	
             });
 
             $('#send').click(function () {
