@@ -282,6 +282,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                                 (JSONArray) jaggeryConfig.get(JaggeryConstants.JaggeryConfigParams.SESSION_DESTROYED_LISTENER_SCRIPTS));
                         executeScripts(context,
                                 (JSONArray) jaggeryConfig.get(JaggeryConstants.JaggeryConfigParams.INIT_SCRIPTS));
+                        addUrlMappings(context, jaggeryConfig);
                     }
                 } catch (ScriptException e) {
                     log.error(e.getMessage(), e);
@@ -340,7 +341,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
             addSecurityConstraints(ctx, jaggeryConfig);
             setLoginConfig(ctx, jaggeryConfig);
             addSecurityRoles(ctx, jaggeryConfig);
-            addUrlMappings(ctx, jaggeryConfig);
+           // addUrlMappings(ctx, jaggeryConfig);
             addParameters(ctx, jaggeryConfig);
             addLogLevel(ctx, jaggeryConfig);
         }
@@ -618,34 +619,56 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
         }
     }
 
-    private static void addUrlMappings(Context context, JSONObject obj) {
-        JSONArray arr = (JSONArray) obj.get(JaggeryConstants.JaggeryConfigParams.URL_MAPPINGS);
-        if (arr != null) {
-            Map<String, Object> urlMappings = new HashMap<String, Object>();
-            for (Object mapObj : arr) {
-                JSONObject mapping = (JSONObject) mapObj;
-                String url = (String) mapping.get(JaggeryConstants.JaggeryConfigParams.URL_MAPPINGS_URL);
-                String path = (String) mapping.get(JaggeryConstants.JaggeryConfigParams.URL_MAPPINGS_PATH);
-                if (url != null && path != null) {
-                    path = path.startsWith("/") ? path : "/" + path;
-                    FilterMap filterMap = new FilterMap();
-                    filterMap.setFilterName(JaggeryCoreConstants.JAGGERY_FILTER_NAME);
-                    filterMap.addURLPattern(url);
-                    context.addFilterMap(filterMap);
-                    if (url.equals("/")) {
-                        urlMappings.put("/", path);
-                        continue;
-                    }
-                    url = url.startsWith("/") ? url.substring(1) : url;
-                    List<String> parts = new ArrayList<String>(Arrays.asList(url.split("/", -1)));
-                    addMappings(urlMappings, parts, path);
-                } else {
-                    log.error("Invalid url mapping in jaggery.conf url : " + url + ", path : " + path);
-                }
-            }
-            context.getServletContext().setAttribute(CommonManager.JAGGERY_URLS_MAP, urlMappings);
-        }
-    }
+	private static void addUrlMappings(Context context, JSONObject obj) {
+		Object test = context.getServletContext().getAttribute("org.jaggeryjs.serveFunction");
+		JSONArray arr = null;
+		if (test != null) {
+			// URL mapping for progamticaly
+			arr = new JSONArray();
+			JSONObject js1 = new JSONObject();
+			JSONObject js2 = new JSONObject();
+			js1.put("url", "/*");
+			js1.put("path", "/index.jag");
+			arr.add(js1);
+		} else {
+			arr = (JSONArray) obj
+					.get(JaggeryConstants.JaggeryConfigParams.URL_MAPPINGS);
+		}
+		if (arr != null) {
+			Map<String, Object> urlMappings = new HashMap<String, Object>();
+			for (Object mapObj : arr) {
+				JSONObject mapping = (JSONObject) mapObj;
+				String url = (String) mapping
+						.get(JaggeryConstants.JaggeryConfigParams.URL_MAPPINGS_URL);
+				String path = (String) mapping
+						.get(JaggeryConstants.JaggeryConfigParams.URL_MAPPINGS_PATH);
+				if (url != null && path != null) {
+					path = path.startsWith("/") ? path : "/" + path;
+					FilterMap filterMap = new FilterMap();
+					filterMap
+							.setFilterName(JaggeryCoreConstants.JAGGERY_FILTER_NAME);
+					filterMap.addURLPattern(url);
+					context.addFilterMap(filterMap);
+					if (url.equals("/")) {
+						urlMappings.put("/", path);
+						continue;
+					}
+					url = url.startsWith("/") ? url.substring(1) : url;
+					List<String> parts = new ArrayList<String>(
+							Arrays.asList(url.split("/", -1)));
+					addMappings(urlMappings, parts, path);
+				} else {
+					log.error("Invalid url mapping in jaggery.conf url : "
+							+ url + ", path : " + path);
+				}
+			}
+
+			
+				context.getServletContext().setAttribute(
+						CommonManager.JAGGERY_URLS_MAP, urlMappings);
+			
+		}
+	}
 
     private static void addLogLevel(Context cx, JSONObject jaggeryConfig) {
         String level = (String) jaggeryConfig.get(JaggeryConstants.JaggeryConfigParams.LOG_LEVEL);
