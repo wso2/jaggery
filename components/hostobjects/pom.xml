@@ -52,13 +52,10 @@
         <module>org.jaggeryjs.hostobjects.process</module>
     </modules>
 
-    <dependencyManagement>
-        <dependencies>
+    <dependencies>
             <dependency>
                 <groupId>org.jaggeryjs</groupId>
                 <artifactId>org.jaggeryjs.scriptengine</artifactId>
-                <version>${jaggery.component.version}</version>
             </dependency>
-        </dependencies>
-    </dependencyManagement>
+    </dependencies>
 </project>

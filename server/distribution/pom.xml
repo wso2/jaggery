@@ -147,7 +147,7 @@
                                      basedir="${jardir}/deployer"/>
 
 
-                                <delete file="target/jaggery-${pom.version}.zip"/>
+                                <delete file="target/jaggery-${project.version}.zip"/>
                                 <delete dir="${tempdir}"/>
                                 <mkdir dir="${tempdir}"/>
                                 <unzip dest="${tempdir}">

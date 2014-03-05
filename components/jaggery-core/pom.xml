@@ -40,8 +40,7 @@
         <module>org.jaggeryjs.jaggery.app.mgt.ui</module>
     </modules>
 
-    <dependencyManagement>
-        <dependencies>
+    <dependencies>
             <dependency>
                 <groupId>org.jaggeryjs</groupId>
                 <artifactId>org.jaggeryjs.scriptengine</artifactId>
@@ -71,8 +70,7 @@
                 <groupId>org.jaggeryjs</groupId>
                 <artifactId>org.jaggeryjs.hostobjects.log</artifactId>
                 <version>${jaggery.component.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+            </dependency>        
+    </dependencies>
 
 </project>
