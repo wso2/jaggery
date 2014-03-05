@@ -89,6 +89,9 @@
                                 <featureArtifactDef>
                                     org.jaggeryjs:org.jaggeryjs.admin.styles.feature:${jaggery.feature.version}
                                 </featureArtifactDef>
+								<featureArtifactDef>
+									caramel:caramel.feature:${caramel.feature.version}
+                                </featureArtifactDef>
                             </featureArtifacts>
 
                         </configuration>
@@ -120,6 +123,10 @@
                                 <feature>
                                     <id>org.wso2.jaggery.styles.feature.group</id>
                                     <version>${jaggery.feature.version}</version>
+                                </feature>
+								<feature>
+                                    <id>caramel.feature.group</id>
+                                    <version>${caramel.feature.version}</version>
                                 </feature>
                             </features>
 

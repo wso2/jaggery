@@ -297,6 +297,7 @@
         <emma.version>2.1.5320</emma.version>
         <jsonassert.version>1.2.3</jsonassert.version>
         <xmlunit.version>1.4</xmlunit.version>
+		<caramel.feature.version>1.0.0</caramel.feature.version>
 
 
         <!-- maven plugin versions -->
