@@ -1,6 +1,5 @@
 package org.jaggeryjs.jaggery.core.manager;
 
-import org.apache.axis2.jaxws.description.xml.handler.ResSharingScopeType;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -9,6 +8,7 @@ import org.jaggeryjs.hostobjects.log.LogHostObject;
 import org.jaggeryjs.hostobjects.web.Constants;
 import org.jaggeryjs.jaggery.core.ScriptReader;
 import org.jaggeryjs.jaggery.core.plugins.WebAppFileManager;
+import org.jaggeryjs.scriptengine.EngineConstants;
 import org.jaggeryjs.scriptengine.cache.ScriptCachingContext;
 import org.jaggeryjs.scriptengine.engine.JaggeryContext;
 import org.jaggeryjs.scriptengine.engine.JavaScriptProperty;
@@ -18,10 +18,7 @@ import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.security.RhinoSecurityController;
 import org.jaggeryjs.scriptengine.security.RhinoSecurityDomain;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Function;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
+import org.mozilla.javascript.*;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -57,12 +54,14 @@ public class WebAppManager {
     public static final String WS_SERVLET_CONTEXT = "/websocket";
 
     private static final String SHARED_JAGGERY_CONTEXT = "shared.jaggery.context";
-    
+
     private static final String SERVE_FUNCTION_JAGGERY = "org.jaggeryjs.serveFunction";
 
     private static final Map<String, List<String>> timeouts = new HashMap<String, List<String>>();
 
     private static final Map<String, List<String>> intervals = new HashMap<String, List<String>>();
+
+    private static final Map<String, Object> locks = new HashMap<String, Object>();
 
     private static boolean isWebSocket = false;
 
@@ -335,6 +334,44 @@ public class WebAppManager {
         return object;
     }
 
+    /**
+     * The sync function creates a synchronized function (in the sense
+     * of a Java synchronized method) from an existing function. The
+     * new function synchronizes on the the second argument if it is
+     * defined, or otherwise the <code>this</code>
+     */
+    public static Object sync(Context cx, Scriptable thisObj, Object[] args, Function funObj)
+            throws ScriptException {
+        String functionName = "sync";
+        int argsCount = args.length;
+        if (argsCount <= 1 && argsCount >= 2) {
+            HostObjectUtil.invalidNumberOfArgs(EngineConstants.GLOBAL_OBJECT_NAME,
+                    functionName, argsCount, false);
+        }
+        if (!(args[0] instanceof Function)) {
+            HostObjectUtil.invalidArgsError(EngineConstants.GLOBAL_OBJECT_NAME,
+                    EngineConstants.GLOBAL_OBJECT_NAME, "1", "function", args[0], false);
+        }
+        Object lock = null;
+        if (argsCount == 2) {
+            if (args[1] == Undefined.instance) {
+                HostObjectUtil.invalidArgsError(EngineConstants.GLOBAL_OBJECT_NAME,
+                        EngineConstants.GLOBAL_OBJECT_NAME, "1", "object", args[0], false);
+            }
+            if (args[0] instanceof String) {
+                String key = (String) args[0];
+                lock = locks.get(key);
+                if (lock == null) {
+                    lock = new Object();
+                    locks.put(key, lock);
+                }
+            } else {
+                lock = args[1];
+            }
+        }
+        return new Synchronizer((Function) args[0], lock);
+    }
+
     public static void initModule(Context cx, JaggeryContext context, String module, ScriptableObject object) {
         if (CORE_MODULE_NAME.equals(module)) {
             defineProperties(cx, context, object);
@@ -419,53 +456,52 @@ public class WebAppManager {
         log.debug("Releasing resources of : " + context.getServletContext().getContextPath());
     }
 
-	public static void execute(HttpServletRequest request,
-			HttpServletResponse response) throws IOException, ServletException {
-		InputStream sourceIn = null;
-		RhinoEngine engine = null;
-		Function function = null;
-		Context cx = null;
-		JaggeryContext context = null;
-		Scriptable serveFunction = null;
-		serveFunction = (Scriptable) request.getServletContext().getAttribute(
-				SERVE_FUNCTION_JAGGERY);
+    public static void execute(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
+        InputStream sourceIn = null;
+        RhinoEngine engine = null;
+        Function function = null;
+        Context cx = null;
+        JaggeryContext context = null;
+        Scriptable serveFunction = null;
+        serveFunction = (Scriptable) request.getServletContext().getAttribute(SERVE_FUNCTION_JAGGERY);
 
-		try {
-			function = (Function) serveFunction;
-			engine = CommonManager.getInstance().getEngine();
-			cx = engine.enterContext();
-			String scriptPath = getScriptPath(request);
-			OutputStream out = response.getOutputStream();
-			context = createJaggeryContext(cx, out, scriptPath, request,response);
-			context.addProperty(FileHostObject.JAVASCRIPT_FILE_MANAGER,
-					new WebAppFileManager(request.getServletContext()));
-			if (serveFunction != null) {
-				HttpServletRequest servletRequest = (HttpServletRequest) context.getProperty(SERVLET_REQUEST);				
-				function.call(cx, context.getScope(), function, new Object[]{request, response, servletRequest.getSession()});
-				
-			} else {
-				//resource rendering model proceeding
-				sourceIn = request.getServletContext().getResourceAsStream(scriptPath);
-				if (sourceIn == null) {
-					response.sendError(HttpServletResponse.SC_NOT_FOUND,request.getRequestURI());
-					return;
-				}
-					CommonManager.getInstance().getEngine()
-							.exec(new ScriptReader(sourceIn), context.getScope(),
-									getScriptCachingContext(request, scriptPath));
-					}
-		} catch (ScriptException e) {
-			String msg = e.getMessage();
-			log.error(msg, e);
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-					msg);
-		} finally {
-			// Exiting from the context
-			if (engine != null) {
-				RhinoEngine.exitContext();
-			}
-		}
-	}
+        try {
+            function = (Function) serveFunction;
+            engine = CommonManager.getInstance().getEngine();
+            cx = engine.enterContext();
+            String scriptPath = getScriptPath(request);
+            OutputStream out = response.getOutputStream();
+            context = createJaggeryContext(cx, out, scriptPath, request, response);
+            context.addProperty(FileHostObject.JAVASCRIPT_FILE_MANAGER,
+                    new WebAppFileManager(request.getServletContext()));
+            if (serveFunction != null) {
+                HttpServletRequest servletRequest = (HttpServletRequest) context.getProperty(SERVLET_REQUEST);
+                function.call(cx, context.getScope(), function, new Object[]{request, response, servletRequest.getSession()});
+
+            } else {
+                //resource rendering model proceeding
+                sourceIn = request.getServletContext().getResourceAsStream(scriptPath);
+                if (sourceIn == null) {
+                    response.sendError(HttpServletResponse.SC_NOT_FOUND, request.getRequestURI());
+                    return;
+                }
+                CommonManager.getInstance().getEngine()
+                        .exec(new ScriptReader(sourceIn), context.getScope(),
+                                getScriptCachingContext(request, scriptPath));
+            }
+        } catch (ScriptException e) {
+            String msg = e.getMessage();
+            log.error(msg, e);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    msg);
+        } finally {
+            // Exiting from the context
+            if (engine != null) {
+                RhinoEngine.exitContext();
+            }
+        }
+    }
 
     public static String getScriptPath(HttpServletRequest request) {
         String url = request.getServletPath();
