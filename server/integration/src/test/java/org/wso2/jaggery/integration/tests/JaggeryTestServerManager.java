@@ -38,6 +38,7 @@ public class JaggeryTestServerManager extends TestServerManager {
 			.getLog(JaggeryTestServerManager.class);
 	private static final String JAGGERY_ADMIN_CONTEXT = "admin";
 	private static final String JAGGERY_SERVER_SCRIPT_NAME = "server";
+	private static final String JAGGERY_TEST_APP = "testapp2";
 
 	@Override
 	@BeforeSuite(timeOut = 300000)
@@ -300,6 +301,21 @@ public class JaggeryTestServerManager extends TestServerManager {
         sourcePath = computeSourcePath(fileName);
         destinationPath = computeDestPath(carbonHome, fileName);
         copySampleFile(sourcePath, destinationPath);
+        
+        //Build testapp2 for testing 
+        
+		// Copying jaggery configuration file
+        fileName = "init.js";
+		sourcePath = computeSourcePath(JAGGERY_TEST_APP,fileName);
+		destinationPath = computeDestPath(carbonHome,JAGGERY_TEST_APP, fileName);
+		copySampleFile(sourcePath, destinationPath);
+		
+		fileName = "jaggery.conf";
+		sourcePath = computeSourcePath(JAGGERY_TEST_APP,fileName);
+		destinationPath = computeDestPath(carbonHome,JAGGERY_TEST_APP, fileName);
+		copySampleFile(sourcePath, destinationPath);
+		
+		
 	}
 
 	private void copySampleFile(String sourcePath, String destPath) {
@@ -316,10 +332,24 @@ public class JaggeryTestServerManager extends TestServerManager {
 		String samplesDir = System.getProperty("samples.dir");
 		return samplesDir + File.separator + fileName;
 	}
-
+	
+	private String computeSourcePath(String appName,String fileName) {
+		String samplesDir = System.getProperty("samples.dir");
+		return samplesDir + File.separator + appName + File.separator +  fileName;
+	}
 	private String computeDestPath(String carbonHome, String fileName) {
 		String deploymentPath = carbonHome + File.separator + "apps"
 				+ File.separator + "testapp";
+		File depFile = new File(deploymentPath);
+		if (!depFile.exists() && !depFile.mkdir()) {
+			log.error("Error while creating the deployment folder : "
+					+ deploymentPath);
+		}
+		return deploymentPath + File.separator + fileName;
+	}
+	private String computeDestPath(String carbonHome, String Appname,String fileName) {
+		String deploymentPath = carbonHome + File.separator + "apps"
+				+ File.separator + Appname + File.separator ;
 		File depFile = new File(deploymentPath);
 		if (!depFile.exists() && !depFile.mkdir()) {
 			log.error("Error while creating the deployment folder : "
