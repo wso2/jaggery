@@ -104,7 +104,7 @@
         <name>stringify</name>
     </method>
     <method>
-        <className>org.jaggeryjs.scriptengine.engine.RhinoTopLevel</className>
+        <className>org.jaggeryjs.jaggery.core.manager.WebAppManager</className>
         <name>sync</name>
     </method>
 	<method>
