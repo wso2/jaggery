@@ -317,7 +317,7 @@
         </extensions>
     </build>
 
-    <pluginRepositories>
+    <!--pluginRepositories>
         <pluginRepository>
             <id>wso2-maven2-repository-1</id>
             <url>http://dist.wso2.org/maven2</url>
@@ -332,9 +332,9 @@
             <url>http://download.java.net/maven/2/</url>
             <layout>default</layout>
         </pluginRepository>
-    </pluginRepositories>
+    </pluginRepositories-->
 
-    <distributionManagement>
+    <!--distributionManagement>
         <repository>
             <id>wso2-maven2-repository</id>
             <name>WSO2 Maven2 Repository</name>
@@ -345,6 +345,6 @@
             <name>WSO2 Maven2 Snapshot Repository</name>
             <url>scp://dist.wso2.org/home/httpd/dist.wso2.org/snapshots/maven2/</url>
         </snapshotRepository>
-    </distributionManagement>
+    </distributionManagement-->
 
 </project>
