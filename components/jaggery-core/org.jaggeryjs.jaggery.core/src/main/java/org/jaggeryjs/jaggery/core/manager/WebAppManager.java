@@ -476,9 +476,12 @@ public class WebAppManager {
             context.addProperty(FileHostObject.JAVASCRIPT_FILE_MANAGER,
                     new WebAppFileManager(request.getServletContext()));
             if (serveFunction != null) {
-                HttpServletRequest servletRequest = (HttpServletRequest) context.getProperty(SERVLET_REQUEST);
-                function.call(cx, context.getScope(), function, new Object[]{request, response, servletRequest.getSession()});
-
+                ScriptableObject scope = context.getScope();
+                function.call(cx, scope, scope, new Object[]{
+                        scope.get("request", scope),
+                        scope.get("response", scope),
+                        scope.get("session", scope)
+                });
             } else {
                 //resource rendering model proceeding
                 sourceIn = request.getServletContext().getResourceAsStream(scriptPath);
