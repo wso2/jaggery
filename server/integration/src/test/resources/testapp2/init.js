@@ -10,7 +10,7 @@ application.serve(function test(request, respond, session) {
             break;
 
         case "url" :
-            print(request.getQueryString());
+            print(request.getRequestURL());
             break;
 
         case "secure" :
@@ -25,33 +25,17 @@ application.serve(function test(request, respond, session) {
             response.content = "My response content";
             break;
 
-        case "responseJson" :
-            response.content = {
-                products : ["Jaggery", "ESB"]
-            };
-            break;
-
         case "sessionset" :
-            session.set("wso2", "testing");
-            print("session testing. ");
+            session.put("wso2", "testing");
+            print("session testing.");
             break;
 
         case "sessionget" :
-            var name = session.get("wso2");
+			session.put("me", "test me");
+            var name = session.get("me");
             print(name);
-            break;
-            
-        //checking session     
-        case "session-set" :
-            Session["wso2"] = "testing";
-            print("session testing. ");
-            break;
-
-        case "session-get" :
-            var name = Session["wso2"];
-            print(name);
-            break;
-
+            break;            
+        
         default:
             print('app serve testing');
     }

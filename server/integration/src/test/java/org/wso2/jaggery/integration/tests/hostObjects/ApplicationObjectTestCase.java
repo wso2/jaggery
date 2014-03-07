@@ -88,5 +88,275 @@ public class ApplicationObjectTestCase {
 		}
         
     }
+    
+    @Test(groups = {"jaggery"},
+            description = "Test application object serve function")
+      public void testApplicationServe() {
+          ClientConnectionUtil.waitForPort(9763);
+          
+          String finalOutput = null;
+          
+          try {
+          	URL jaggeryURL = new URL("http://localhost:9763/testapp2/");
+          	URLConnection jaggeryServerConnection = jaggeryURL.openConnection();
+          	BufferedReader in = new BufferedReader(new InputStreamReader(
+          			jaggeryServerConnection.getInputStream()));
+          
+            	String inputLine;
+    			while ((inputLine = in.readLine()) != null) {
+    				finalOutput = inputLine;
+    			}
+  			    
+  			in.close();
+  		} catch (IOException e) {
+  			e.printStackTrace();
+  		} finally {
+  	        assertNotNull(finalOutput, "Result cannot be null");
+  		}
+          
+      }
+    
+    @Test(groups = {"jaggery"},
+            description = "Test application object serve function Qury")
+      public void testApplicationServeQury() {
+          ClientConnectionUtil.waitForPort(9763);
+          
+          String finalOutput = null;
+          
+          try {
+          	URL jaggeryURL = new URL("http://localhost:9763/testapp2/tests/test1/house/?action=url");
+          	URLConnection jaggeryServerConnection = jaggeryURL.openConnection();
+          	BufferedReader in = new BufferedReader(new InputStreamReader(
+          			jaggeryServerConnection.getInputStream()));
+          
+            	String inputLine;
+    			while ((inputLine = in.readLine()) != null) {
+    				finalOutput = inputLine;
+    			}
+  			    
+  			in.close();
+  		} catch (IOException e) {
+  			e.printStackTrace();
+  		} finally {
+  	        assertNotNull(finalOutput, "Result cannot be null");
+  		}
+          
+      }
+    
+    @Test(groups = {"jaggery"},
+            description = "Test application object serve function URL mapping")
+      public void testApplicationServeRoute() {
+          ClientConnectionUtil.waitForPort(9763);
+          
+          String finalOutput = null;
+          
+          try {
+          	URL jaggeryURL = new URL("http://localhost:9763/testapp2/tests/test1/house/?action=url");
+          	URLConnection jaggeryServerConnection = jaggeryURL.openConnection();
+          	BufferedReader in = new BufferedReader(new InputStreamReader(
+          			jaggeryServerConnection.getInputStream()));
+          
+            	String inputLine;
+    			while ((inputLine = in.readLine()) != null) {
+    				finalOutput = inputLine;
+    			}
+  			    
+  			in.close();
+  		} catch (IOException e) {
+  			e.printStackTrace();
+  		} finally {
+  			assertEquals(finalOutput, "http://localhost:9763/testapp2/tests/test1/house/");
+  		}
+          
+      }
+    
+    @Test(groups = {"jaggery"},
+            description = "Test application object - Request Query")
+      public void testApplicationQuery() {
+          ClientConnectionUtil.waitForPort(9763);
+          
+          String finalOutput = null;
+          
+          try {
+          	URL jaggeryURL = new URL("http://localhost:9763/testapp2/?action=query");
+          	URLConnection jaggeryServerConnection = jaggeryURL.openConnection();
+          	BufferedReader in = new BufferedReader(new InputStreamReader(
+          			jaggeryServerConnection.getInputStream()));
+          
+            	String inputLine;
+    			while ((inputLine = in.readLine()) != null) {
+    				finalOutput = inputLine;
+    			}
+  			    
+  			in.close();
+  		} catch (IOException e) {
+  			e.printStackTrace();
+  		} finally {
+  			assertEquals(finalOutput, "action=query");
+  		}
+          
+      }
+    
+    @Test(groups = {"jaggery"},
+            description = "Test application request url")
+      public void testApplicationRequestURL() {
+          ClientConnectionUtil.waitForPort(9763);
+          
+          String finalOutput = null;
+          
+          try {
+          	URL jaggeryURL = new URL("http://localhost:9763/testapp2/?action=url");
+          	URLConnection jaggeryServerConnection = jaggeryURL.openConnection();
+          	BufferedReader in = new BufferedReader(new InputStreamReader(
+          			jaggeryServerConnection.getInputStream()));
+          
+            	String inputLine;
+    			while ((inputLine = in.readLine()) != null) {
+    				finalOutput = inputLine;
+    			}
+  			    
+  			in.close();
+  		} catch (IOException e) {
+  			e.printStackTrace();
+  		} finally {
+  			assertEquals(finalOutput, "http://localhost:9763/testapp2/");
+  		}
+          
+      }
+    
+    @Test(groups = {"jaggery"},
+            description = "Test application request secure")
+      public void testApplicationRequestSecure() {
+          ClientConnectionUtil.waitForPort(9763);
+          
+          String finalOutput = null;
+          
+          try {
+          	URL jaggeryURL = new URL("http://localhost:9763/testapp2/?action=secure");
+          	URLConnection jaggeryServerConnection = jaggeryURL.openConnection();
+          	BufferedReader in = new BufferedReader(new InputStreamReader(
+          			jaggeryServerConnection.getInputStream()));
+          
+            	String inputLine;
+    			while ((inputLine = in.readLine()) != null) {
+    				finalOutput = inputLine;
+    			}
+  			    
+  			in.close();
+  		} catch (IOException e) {
+  			e.printStackTrace();
+  		} finally {
+  	        assertNotNull(finalOutput, "Result cannot be null");
+  		}
+          
+      }
+    
+    @Test(groups = {"jaggery"},
+            description = "Test application request port")
+      public void testApplicationRequestPort() {
+          ClientConnectionUtil.waitForPort(9763);
+          
+          String finalOutput = null;
+          
+          try {
+          	URL jaggeryURL = new URL("http://localhost:9763/testapp2/?action=port");
+          	URLConnection jaggeryServerConnection = jaggeryURL.openConnection();
+          	BufferedReader in = new BufferedReader(new InputStreamReader(
+          			jaggeryServerConnection.getInputStream()));
+          
+            	String inputLine;
+    			while ((inputLine = in.readLine()) != null) {
+    				finalOutput = inputLine;
+    			}
+  			    
+  			in.close();
+  		} catch (IOException e) {
+  			e.printStackTrace();
+  		} finally {
+  			assertEquals(finalOutput, "9763");
+  		}
+          
+      }
+    
+    @Test(groups = {"jaggery"},
+            description = "Test application object response")
+      public void testApplicationResponse() {
+          ClientConnectionUtil.waitForPort(9763);
+          
+          String finalOutput = null;
+          
+          try {
+          	URL jaggeryURL = new URL("http://localhost:9763/testapp2/?action=response");
+          	URLConnection jaggeryServerConnection = jaggeryURL.openConnection();
+          	BufferedReader in = new BufferedReader(new InputStreamReader(
+          			jaggeryServerConnection.getInputStream()));
+          
+            	String inputLine;
+    			while ((inputLine = in.readLine()) != null) {
+    				finalOutput = inputLine;
+    			}
+  			    
+  			in.close();
+  		} catch (IOException e) {
+  			e.printStackTrace();
+  		} finally {
+  			assertEquals(finalOutput, "My response content");
+  		}
+          
+      }
+    
+    @Test(groups = {"jaggery"},
+            description = "Test application object session put")
+      public void testSessionPut() {
+          ClientConnectionUtil.waitForPort(9763);
+          
+          String finalOutput = null;
+          
+          try {
+          	URL jaggeryURL = new URL("http://localhost:9763/testapp2/?action=sessionset");
+          	URLConnection jaggeryServerConnection = jaggeryURL.openConnection();
+          	BufferedReader in = new BufferedReader(new InputStreamReader(
+          			jaggeryServerConnection.getInputStream()));
+          
+            	String inputLine;
+    			while ((inputLine = in.readLine()) != null) {
+    				finalOutput = inputLine;
+    			}
+  			    
+  			in.close();
+  		} catch (IOException e) {
+  			e.printStackTrace();
+  		} finally {
+  			assertEquals(finalOutput, "session testing.");
+  		}
+          
+      }
+    
+    @Test(groups = {"jaggery"},
+            description = "Test application object Session get")
+      public void testSessionGet() {
+          ClientConnectionUtil.waitForPort(9763);
+          
+          String finalOutput = null;
+          
+          try {
+          	URL jaggeryURL = new URL("http://localhost:9763/testapp2/?action=sessionget");
+          	URLConnection jaggeryServerConnection = jaggeryURL.openConnection();
+          	BufferedReader in = new BufferedReader(new InputStreamReader(
+          			jaggeryServerConnection.getInputStream()));
+          
+            	String inputLine;
+    			while ((inputLine = in.readLine()) != null) {
+    				finalOutput = inputLine;
+    			}
+  			    
+  			in.close();
+  		} catch (IOException e) {
+  			e.printStackTrace();
+  		} finally {
+  			assertEquals(finalOutput, "test me");
+  		}
+          
+      }
 
 }
