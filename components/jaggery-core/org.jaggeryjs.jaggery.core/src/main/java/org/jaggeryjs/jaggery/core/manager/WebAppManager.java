@@ -1,6 +1,7 @@
 package org.jaggeryjs.jaggery.core.manager;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.hostobjects.file.FileHostObject;
@@ -18,6 +19,9 @@ import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.security.RhinoSecurityController;
 import org.jaggeryjs.scriptengine.security.RhinoSecurityDomain;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.mozilla.javascript.*;
 
 import javax.servlet.ServletContext;
@@ -52,6 +56,10 @@ public class WebAppManager {
     public static final String WS_REQUEST_PATH = "requestURI";
 
     public static final String WS_SERVLET_CONTEXT = "/websocket";
+
+    private static final String JAGGERY_CONF = "jaggery.conf";
+
+    private static final String INIT_SCRIPTS = "initScripts";
 
     private static final String SHARED_JAGGERY_CONTEXT = "shared.jaggery.context";
 
@@ -458,16 +466,13 @@ public class WebAppManager {
 
     public static void execute(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
-        InputStream sourceIn = null;
+        InputStream sourceIn;
+        Context cx;
+        JaggeryContext context;
         RhinoEngine engine = null;
-        Function function = null;
-        Context cx = null;
-        JaggeryContext context = null;
-        Scriptable serveFunction = null;
-        serveFunction = (Scriptable) request.getServletContext().getAttribute(SERVE_FUNCTION_JAGGERY);
+        ServletContext servletContext = request.getServletContext();
 
         try {
-            function = (Function) serveFunction;
             engine = CommonManager.getInstance().getEngine();
             cx = engine.enterContext();
             String scriptPath = getScriptPath(request);
@@ -475,7 +480,49 @@ public class WebAppManager {
             context = createJaggeryContext(cx, out, scriptPath, request, response);
             context.addProperty(FileHostObject.JAVASCRIPT_FILE_MANAGER,
                     new WebAppFileManager(request.getServletContext()));
+
+            if (ModuleManager.isModuleRefreshEnabled()) {
+                //reload init scripts
+                InputStream jaggeryConf = servletContext.getResourceAsStream(JAGGERY_CONF);
+                if (jaggeryConf != null) {
+                    StringWriter writer = new StringWriter();
+                    IOUtils.copy(jaggeryConf, writer, null);
+                    String jsonString = writer.toString();
+                    JSONObject conf = (JSONObject) JSONValue.parse(jsonString);
+                    JSONArray initScripts = (JSONArray) conf.get(INIT_SCRIPTS);
+                    if (initScripts != null) {
+                        JaggeryContext sharedContext = WebAppManager.sharedJaggeryContext(servletContext);
+                        ScriptableObject sharedScope = sharedContext.getScope();
+
+                        Object[] scripts = initScripts.toArray();
+                        for (Object script : scripts) {
+                            if (!(script instanceof String)) {
+                                log.error("Invalid value for initScripts in jaggery.conf : " + script);
+                                continue;
+                            }
+                            String path = (String) script;
+                            path = path.startsWith("/") ? path : "/" + path;
+                            Stack<String> callstack = CommonManager.getCallstack(sharedContext);
+                            callstack.push(path);
+                            engine.exec(new ScriptReader(servletContext.getResourceAsStream(path)) {
+                                @Override
+                                protected void build() throws IOException {
+                                    try {
+                                        sourceReader = new StringReader(HostObjectUtil.streamToString(sourceIn));
+                                    } catch (ScriptException e) {
+                                        throw new IOException(e);
+                                    }
+                                }
+                            }, sharedScope, null);
+                            callstack.pop();
+                        }
+                    }
+                }
+            }
+
+            Object serveFunction = request.getServletContext().getAttribute(SERVE_FUNCTION_JAGGERY);
             if (serveFunction != null) {
+                Function function = (Function) serveFunction;
                 ScriptableObject scope = context.getScope();
                 function.call(cx, scope, scope, new Object[]{
                         scope.get("request", scope),
