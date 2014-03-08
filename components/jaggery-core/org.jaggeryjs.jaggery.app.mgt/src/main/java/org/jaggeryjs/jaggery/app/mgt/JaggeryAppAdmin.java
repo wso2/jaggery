@@ -20,6 +20,7 @@ import org.apache.axis2.AxisFault;
 import org.apache.axis2.engine.AxisConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jaggeryjs.jaggery.core.JaggeryCoreConstants;
 import org.wso2.carbon.utils.ArchiveManipulator;
 import org.wso2.carbon.webapp.mgt.SessionsWrapper;
 import org.wso2.carbon.webapp.mgt.WebApplication;

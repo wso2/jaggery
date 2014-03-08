@@ -2,6 +2,7 @@ package org.jaggeryjs.jaggery.app.mgt;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jaggeryjs.jaggery.core.JaggeryCoreConstants;
 
 import java.io.*;
 import java.util.zip.ZipEntry;
@@ -20,7 +21,7 @@ public final class JaggeryDeploymentUtil {
     
     public static File getConfig(File webAppFile) {
         if (webAppFile.isDirectory()) {
-            File f = new File(webAppFile + File.separator + JaggeryConstants.JAGGERY_CONF_FILE);
+            File f = new File(webAppFile + File.separator + JaggeryCoreConstants.JAGGERY_CONF_FILE);
             if (f.exists()) {
                 return f;
             }

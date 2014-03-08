@@ -7,6 +7,7 @@ import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.hostobjects.file.FileHostObject;
 import org.jaggeryjs.hostobjects.log.LogHostObject;
 import org.jaggeryjs.hostobjects.web.Constants;
+import org.jaggeryjs.jaggery.core.JaggeryCoreConstants;
 import org.jaggeryjs.jaggery.core.ScriptReader;
 import org.jaggeryjs.jaggery.core.plugins.WebAppFileManager;
 import org.jaggeryjs.scriptengine.EngineConstants;
@@ -56,10 +57,6 @@ public class WebAppManager {
     public static final String WS_REQUEST_PATH = "requestURI";
 
     public static final String WS_SERVLET_CONTEXT = "/websocket";
-
-    private static final String JAGGERY_CONF = "jaggery.conf";
-
-    private static final String INIT_SCRIPTS = "initScripts";
 
     private static final String SHARED_JAGGERY_CONTEXT = "shared.jaggery.context";
 
@@ -483,13 +480,13 @@ public class WebAppManager {
 
             if (ModuleManager.isModuleRefreshEnabled()) {
                 //reload init scripts
-                InputStream jaggeryConf = servletContext.getResourceAsStream(JAGGERY_CONF);
+                InputStream jaggeryConf = servletContext.getResourceAsStream(JaggeryCoreConstants.JAGGERY_CONF_FILE);
                 if (jaggeryConf != null) {
                     StringWriter writer = new StringWriter();
                     IOUtils.copy(jaggeryConf, writer, null);
                     String jsonString = writer.toString();
                     JSONObject conf = (JSONObject) JSONValue.parse(jsonString);
-                    JSONArray initScripts = (JSONArray) conf.get(INIT_SCRIPTS);
+                    JSONArray initScripts = (JSONArray) conf.get(JaggeryCoreConstants.JaggeryConfigParams.INIT_SCRIPTS);
                     if (initScripts != null) {
                         JaggeryContext sharedContext = WebAppManager.sharedJaggeryContext(servletContext);
                         ScriptableObject sharedScope = sharedContext.getScope();
