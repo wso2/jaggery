@@ -192,7 +192,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
         SecurityCollection securityCollection = new SecurityCollection();
         securityCollection.setName("ConfigDir");
         securityCollection.setDescription("Jaggery Configuration Dir");
-        securityCollection.addPattern("/" + JaggeryConstants.JAGGERY_CONF_FILE);
+        securityCollection.addPattern("/" + JaggeryCoreConstants.JAGGERY_CONF_FILE);
 
         securityConstraint.addCollection(securityCollection);
 
@@ -277,11 +277,11 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                     setDisplayName(context, jaggeryConfig);
                     if (jaggeryConfig != null) {
                         addSessionCreatedListners(context,
-                                (JSONArray) jaggeryConfig.get(JaggeryConstants.JaggeryConfigParams.SESSION_CREATED_LISTENER_SCRIPTS));
+                                (JSONArray) jaggeryConfig.get(JaggeryCoreConstants.JaggeryConfigParams.SESSION_CREATED_LISTENER_SCRIPTS));
                         addSessionDestroyedListners(context,
-                                (JSONArray) jaggeryConfig.get(JaggeryConstants.JaggeryConfigParams.SESSION_DESTROYED_LISTENER_SCRIPTS));
+                                (JSONArray) jaggeryConfig.get(JaggeryCoreConstants.JaggeryConfigParams.SESSION_DESTROYED_LISTENER_SCRIPTS));
                         executeScripts(context,
-                                (JSONArray) jaggeryConfig.get(JaggeryConstants.JaggeryConfigParams.INIT_SCRIPTS));
+                                (JSONArray) jaggeryConfig.get(JaggeryCoreConstants.JaggeryConfigParams.INIT_SCRIPTS));
                         addUrlMappings(context, jaggeryConfig);
                     }
                 } catch (ScriptException e) {
@@ -303,7 +303,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                     WebAppManager.undeploy(context);
                     if (jaggeryConfig != null) {
                         executeScripts(context,
-                                (JSONArray) jaggeryConfig.get(JaggeryConstants.JaggeryConfigParams.DESTROY_SCRIPTS));
+                                (JSONArray) jaggeryConfig.get(JaggeryCoreConstants.JaggeryConfigParams.DESTROY_SCRIPTS));
                     }
                 } catch (ScriptException e) {
                     log.error(e.getMessage(), e);
@@ -349,7 +349,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
 
     private JSONObject readJaggeryConfig(File f) throws IOException {
 
-        File confFile = new File(f.getAbsolutePath() + File.separator + JaggeryConstants.JAGGERY_CONF_FILE);
+        File confFile = new File(f.getAbsolutePath() + File.separator + JaggeryCoreConstants.JAGGERY_CONF_FILE);
 
         if (!confFile.exists()) {
             return null;
@@ -483,7 +483,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
     }
 
     private static void addErrorPages(Context context, JSONObject obj) {
-        JSONObject arr = (JSONObject) obj.get(JaggeryConstants.JaggeryConfigParams.ERROR_PAGES);
+        JSONObject arr = (JSONObject) obj.get(JaggeryCoreConstants.JaggeryConfigParams.ERROR_PAGES);
         if (arr != null) {
             for (Object keys : arr.keySet()) {
                 ErrorPage errPage = new ErrorPage();
@@ -495,39 +495,39 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
     }
 
     private static void setLoginConfig(Context context, JSONObject obj) {
-        JSONObject loginObj = (JSONObject) obj.get(JaggeryConstants.JaggeryConfigParams.LOGIN_CONFIG);
+        JSONObject loginObj = (JSONObject) obj.get(JaggeryCoreConstants.JaggeryConfigParams.LOGIN_CONFIG);
         if (loginObj != null) {
-            if (loginObj.get(JaggeryConstants.JaggeryConfigParams.AUTH_METHOD).equals(JaggeryConstants.JaggeryConfigParams.AUTH_METHOD_FORM)) {
+            if (loginObj.get(JaggeryCoreConstants.JaggeryConfigParams.AUTH_METHOD).equals(JaggeryCoreConstants.JaggeryConfigParams.AUTH_METHOD_FORM)) {
                 LoginConfig loginConfig = new LoginConfig();
-                loginConfig.setAuthMethod(JaggeryConstants.JaggeryConfigParams.AUTH_METHOD_FORM);
-                loginConfig.setLoginPage((String) ((JSONObject) loginObj.get(JaggeryConstants.JaggeryConfigParams.FORM_LOGIN_CONFIG)).get(JaggeryConstants.JaggeryConfigParams.FORM_LOGIN_PAGE));
-                loginConfig.setErrorPage((String) ((JSONObject) loginObj.get(JaggeryConstants.JaggeryConfigParams.FORM_LOGIN_CONFIG)).get(JaggeryConstants.JaggeryConfigParams.FORM_ERROR_PAGE));
+                loginConfig.setAuthMethod(JaggeryCoreConstants.JaggeryConfigParams.AUTH_METHOD_FORM);
+                loginConfig.setLoginPage((String) ((JSONObject) loginObj.get(JaggeryCoreConstants.JaggeryConfigParams.FORM_LOGIN_CONFIG)).get(JaggeryCoreConstants.JaggeryConfigParams.FORM_LOGIN_PAGE));
+                loginConfig.setErrorPage((String) ((JSONObject) loginObj.get(JaggeryCoreConstants.JaggeryConfigParams.FORM_LOGIN_CONFIG)).get(JaggeryCoreConstants.JaggeryConfigParams.FORM_ERROR_PAGE));
                 context.setLoginConfig(loginConfig);
-            } else if (loginObj.get(JaggeryConstants.JaggeryConfigParams.AUTH_METHOD).equals(JaggeryConstants.JaggeryConfigParams.AUTH_METHOD_BASIC)) {
+            } else if (loginObj.get(JaggeryCoreConstants.JaggeryConfigParams.AUTH_METHOD).equals(JaggeryCoreConstants.JaggeryConfigParams.AUTH_METHOD_BASIC)) {
                 LoginConfig loginConfig = new LoginConfig();
-                loginConfig.setAuthMethod(JaggeryConstants.JaggeryConfigParams.AUTH_METHOD_BASIC);
+                loginConfig.setAuthMethod(JaggeryCoreConstants.JaggeryConfigParams.AUTH_METHOD_BASIC);
                 context.setLoginConfig(loginConfig);
             }
         }
     }
 
     private static void addSecurityConstraints(Context context, JSONObject obj) {
-        JSONArray arr = (JSONArray) obj.get(JaggeryConstants.JaggeryConfigParams.SECURITY_CONSTRAINTS);
+        JSONArray arr = (JSONArray) obj.get(JaggeryCoreConstants.JaggeryConfigParams.SECURITY_CONSTRAINTS);
         if (arr != null) {
             for (Object anArr : arr) {
                 JSONObject o = (JSONObject) anArr;
                 SecurityConstraint securityConstraint = new SecurityConstraint();
-                if (((JSONObject) o.get(JaggeryConstants.JaggeryConfigParams.SECURITY_CONSTRAINT)).get(JaggeryConstants.JaggeryConfigParams.WEB_RESOURCE_COLLECTION) != null) {
-                    JSONObject resCollection = (JSONObject) ((JSONObject) o.get(JaggeryConstants.JaggeryConfigParams.SECURITY_CONSTRAINT)).get(JaggeryConstants.JaggeryConfigParams.WEB_RESOURCE_COLLECTION);
+                if (((JSONObject) o.get(JaggeryCoreConstants.JaggeryConfigParams.SECURITY_CONSTRAINT)).get(JaggeryCoreConstants.JaggeryConfigParams.WEB_RESOURCE_COLLECTION) != null) {
+                    JSONObject resCollection = (JSONObject) ((JSONObject) o.get(JaggeryCoreConstants.JaggeryConfigParams.SECURITY_CONSTRAINT)).get(JaggeryCoreConstants.JaggeryConfigParams.WEB_RESOURCE_COLLECTION);
                     SecurityCollection secCollection = new SecurityCollection();
-                    secCollection.setName((String) resCollection.get(JaggeryConstants.JaggeryConfigParams.WEB_RES_NAME));
+                    secCollection.setName((String) resCollection.get(JaggeryCoreConstants.JaggeryConfigParams.WEB_RES_NAME));
 
-                    JSONArray arrPattern = (JSONArray) resCollection.get(JaggeryConstants.JaggeryConfigParams.URL_PATTERNS);
+                    JSONArray arrPattern = (JSONArray) resCollection.get(JaggeryCoreConstants.JaggeryConfigParams.URL_PATTERNS);
                     for (Object anArrPattern : arrPattern) {
                         secCollection.addPattern((String) anArrPattern);
                     }
 
-                    JSONArray methods = (JSONArray) resCollection.get(JaggeryConstants.JaggeryConfigParams.HTTP_METHODS);
+                    JSONArray methods = (JSONArray) resCollection.get(JaggeryCoreConstants.JaggeryConfigParams.HTTP_METHODS);
                     if (methods != null) {
                         for (Object method : methods) {
                             secCollection.addMethod((String) method);
@@ -537,8 +537,8 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                     securityConstraint.addCollection(secCollection);
                 }
 
-                if (((JSONObject) o.get(JaggeryConstants.JaggeryConfigParams.SECURITY_CONSTRAINT)).get(JaggeryConstants.JaggeryConfigParams.AUTH_ROLES) != null) {
-                    JSONArray roles = (JSONArray) ((JSONObject) o.get(JaggeryConstants.JaggeryConfigParams.SECURITY_CONSTRAINT)).get(JaggeryConstants.JaggeryConfigParams.AUTH_ROLES);
+                if (((JSONObject) o.get(JaggeryCoreConstants.JaggeryConfigParams.SECURITY_CONSTRAINT)).get(JaggeryCoreConstants.JaggeryConfigParams.AUTH_ROLES) != null) {
+                    JSONArray roles = (JSONArray) ((JSONObject) o.get(JaggeryCoreConstants.JaggeryConfigParams.SECURITY_CONSTRAINT)).get(JaggeryCoreConstants.JaggeryConfigParams.AUTH_ROLES);
                     for (Object role : roles) {
                         securityConstraint.addAuthRole((String) role);
                     }
@@ -551,7 +551,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
     }
 
     private static void addSecurityRoles(Context context, JSONObject obj) {
-        JSONArray arr = (JSONArray) obj.get(JaggeryConstants.JaggeryConfigParams.SECURITY_ROLES);
+        JSONArray arr = (JSONArray) obj.get(JaggeryCoreConstants.JaggeryConfigParams.SECURITY_ROLES);
         if (arr != null) {
             for (Object role : arr) {
                 context.addSecurityRole((String) role);
@@ -563,7 +563,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
         if (obj == null) {
             return;
         }
-        String dName = (String) obj.get(JaggeryConstants.JaggeryConfigParams.DISPLAY_NAME);
+        String dName = (String) obj.get(JaggeryCoreConstants.JaggeryConfigParams.DISPLAY_NAME);
         if (dName != null) {
             context.setDisplayName(dName);
         }
@@ -571,16 +571,16 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
 
     private static boolean isDistributable(Context context, JSONObject obj) {
         if (obj != null) {
-            if (obj.get(JaggeryConstants.JaggeryConfigParams.DISTRIBUTABLE)
+            if (obj.get(JaggeryCoreConstants.JaggeryConfigParams.DISTRIBUTABLE)
                     instanceof Boolean) {
-                Boolean isDistributable = (Boolean) obj.get(JaggeryConstants.
+                Boolean isDistributable = (Boolean) obj.get(JaggeryCoreConstants.
                         JaggeryConfigParams.DISTRIBUTABLE);
                 if (isDistributable != null) {
                     return isDistributable.booleanValue();
                 }
-            } else if (obj.get(JaggeryConstants.JaggeryConfigParams.DISTRIBUTABLE)
+            } else if (obj.get(JaggeryCoreConstants.JaggeryConfigParams.DISTRIBUTABLE)
                     instanceof String) {
-                String distributable = (String) obj.get(JaggeryConstants.
+                String distributable = (String) obj.get(JaggeryCoreConstants.
                         JaggeryConfigParams.DISTRIBUTABLE);
                 return (distributable != null && distributable.equalsIgnoreCase("true"));
             }
@@ -604,7 +604,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
 
     private static void addWelcomeFiles(Context context, JSONObject obj) {
         if (obj != null) {
-            JSONArray arr = (JSONArray) obj.get(JaggeryConstants.JaggeryConfigParams.WELCOME_FILES);
+            JSONArray arr = (JSONArray) obj.get(JaggeryCoreConstants.JaggeryConfigParams.WELCOME_FILES);
             if (arr != null) {
                 for (Object role : arr) {
                     context.addWelcomeFile((String) role);
@@ -632,16 +632,16 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
 			arr.add(js1);
 		} else {
 			arr = (JSONArray) obj
-					.get(JaggeryConstants.JaggeryConfigParams.URL_MAPPINGS);
+					.get(JaggeryCoreConstants.JaggeryConfigParams.URL_MAPPINGS);
 		}
 		if (arr != null) {
 			Map<String, Object> urlMappings = new HashMap<String, Object>();
 			for (Object mapObj : arr) {
 				JSONObject mapping = (JSONObject) mapObj;
 				String url = (String) mapping
-						.get(JaggeryConstants.JaggeryConfigParams.URL_MAPPINGS_URL);
+						.get(JaggeryCoreConstants.JaggeryConfigParams.URL_MAPPINGS_URL);
 				String path = (String) mapping
-						.get(JaggeryConstants.JaggeryConfigParams.URL_MAPPINGS_PATH);
+						.get(JaggeryCoreConstants.JaggeryConfigParams.URL_MAPPINGS_PATH);
 				if (url != null && path != null) {
 					path = path.startsWith("/") ? path : "/" + path;
 					FilterMap filterMap = new FilterMap();
@@ -671,7 +671,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
 	}
 
     private static void addLogLevel(Context cx, JSONObject jaggeryConfig) {
-        String level = (String) jaggeryConfig.get(JaggeryConstants.JaggeryConfigParams.LOG_LEVEL);
+        String level = (String) jaggeryConfig.get(JaggeryCoreConstants.JaggeryConfigParams.LOG_LEVEL);
         if (level == null) {
             return;
         }

@@ -56,6 +56,10 @@ public class ModuleManager {
         init();
     }
 
+    public static boolean isModuleRefreshEnabled() {
+        return isModuleRefreshEnabled;
+    }
+
     private void init() throws ScriptException {
         //load framework modules, we use jaggery.home to check whether it is a pure jaggery server
         // and loads even core modules from modules directory. Else, from the modules.xml
