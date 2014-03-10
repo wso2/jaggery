@@ -3,6 +3,6 @@
 	"label": "Entry",
 	"category1": "Built-ins",
 	"category2" : "Feed",
-	"overview": 'Entry object is the container for entries returned by Feed.',
+	"overview": "Entry object is the container for entries returned by Feed.",
 	"deprecated" : false
 }

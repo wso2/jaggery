@@ -3,6 +3,6 @@
 	"label": "Resource",
 	"category1": "Built-ins",
 	"category2" : "Data Storage",
-	"overview": 'Store any type of data or metadata as resources including contracts, models, workflows, documents and more',
+	"overview": "Store any type of data or metadata as resources including contracts, models, workflows, documents and more",
 	"deprecated" : false
 }

@@ -3,6 +3,6 @@
 	"label": "request",
 	"category1": "Built-ins",
 	"category2" : "Variables",
-	"overview": 'Object that provides the properties and functions of HTTP Request',
+	"overview": "Object that provides the properties and functions of HTTP Request",
 	"deprecated" : false
 }

@@ -3,6 +3,6 @@
 	"label": "Collection",
 	"category1": "Built-ins",
 	"category2" : "Data Storage",
-	"overview": 'Collection can contain resources',
+	"overview": "Collection can contain resources",
 	"deprecated" : false
 }
