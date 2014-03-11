@@ -18,7 +18,7 @@ var caramel, api, json, links, sections, examples, log, loader;
 	
 	
 	caramel.render({
-		'title': {text :'Quickstart'},
+		'title': {text :'Documentation'},
 		'body' : {	api : api,
 					title:json && json.label , 
 					overview:json && json.overview, 

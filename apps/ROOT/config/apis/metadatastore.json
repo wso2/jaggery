@@ -1,5 +1,5 @@
 {
-	"api": "metadataStore",
+	"api": "metadatastore",
 	"label": "MetadataStore",
 	"category1": "Built-ins",
 	"category2" : "Data Storage",
