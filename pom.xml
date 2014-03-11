@@ -706,7 +706,7 @@
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>SecVerifier</artifactId>
-            <version>${patch.version.403}</version>
+            <version>${carbon.kernal.version}</version>
             <type>aar</type>
         </dependency>
         <dependency>
