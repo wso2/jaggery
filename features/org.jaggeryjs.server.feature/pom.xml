@@ -98,20 +98,7 @@
         </dependency>
         <dependency>
             <groupId>org.jaggeryjs</groupId>
-            <artifactId>org.jaggeryjs.hostobjects.oauth</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jaggeryjs</groupId>
             <artifactId>org.jaggeryjs.hostobjects.xslt</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jaggeryjs</groupId>
-            <artifactId>org.jaggeryjs.hostobjects.uuid</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jaggeryjs</groupId>
-            <artifactId>org.jaggeryjs.hostobjects.process</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jaggeryjs</groupId>
@@ -131,15 +118,7 @@
         </dependency>
         <dependency>
             <groupId>org.jaggeryjs</groupId>
-            <artifactId>org.jaggeryjs.hostobjects.ws</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jaggeryjs</groupId>
             <artifactId>org.jaggeryjs.hostobjects.feed</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jaggeryjs</groupId>
-            <artifactId>org.jaggeryjs.hostobjects.email</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jaggeryjs</groupId>
@@ -340,17 +319,11 @@
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.stream</bundleDef>
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.xhr</bundleDef>
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.db</bundleDef>
-                                <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.ws</bundleDef>
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.feed</bundleDef>
-                                <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.db</bundleDef>
-                                <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.email</bundleDef>
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.xslt</bundleDef>
-                                <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.uuid</bundleDef>
-                                <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.process</bundleDef>
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.uri</bundleDef>
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.jaggeryparser</bundleDef>
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.log</bundleDef>
-                                <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.oauth</bundleDef>
                             </bundles>
                             <importBundles>
                                 <importBundleDef>org.wso2.carbon:org.wso2.carbon.webapp.mgt</importBundleDef>

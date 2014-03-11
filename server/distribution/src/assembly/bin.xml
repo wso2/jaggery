@@ -58,7 +58,7 @@
             </excludes>
             <fileMode>755</fileMode>
         </fileSet>
-               <fileSet>
+        <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/modules</directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/modules/</outputDirectory>
             <includes>
