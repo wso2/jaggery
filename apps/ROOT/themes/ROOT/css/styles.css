@@ -149,6 +149,9 @@ h1, h2, h3, h4 {
     border-bottom: 1px solid rgba(255, 255, 255, 0.09);
     padding-bottom: 6px;
 }
+.sidebar li.active{
+    border-left: 4px solid #BC360A;
+}
 .sidebar li a {
     font-weight: 600;
     padding: 10px;
@@ -161,6 +164,7 @@ h1, h2, h3, h4 {
 .sidebar li a {
     color: #fff;
 }
+
 .sidebar li a i {
     color: #bc360a;
     margin-right: 7px;
@@ -470,6 +474,7 @@ a.close {
 }
 .landing-banner-cont .btn-primary {
     padding: 15px 91px;
+    font-size:16px;
 }
 .landing-banner {
     background: url('../img/landing-banner.png') no-repeat top center;

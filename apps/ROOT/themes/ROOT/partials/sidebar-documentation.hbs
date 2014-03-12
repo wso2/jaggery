@@ -11,7 +11,7 @@
 				<h5>{{category}}</h5>
 				<ul>
 					{{#each apis}}
-					<li>
+					<li {{#if active}} class="active" {{/if}}>
 						<a href="?api={{api}}" {{#if deprecated}}  data-toggle="tooltip" title="Deprecated API" class="sidebar-deprecated-api" {{/if}}><i class="fa fa-cog"></i> {{label}}</a>
 					</li>
 					{{/each}}
@@ -22,7 +22,7 @@
 		{{else}}
 
 			{{#each apis}}
-			<li>
+			<li {{#if active}} class="active" {{/if}}>
 				<a href="?api={{api}}"><i class="fa fa-cog"></i> {{label}}</a>
 			</li>
 			{{/each}}

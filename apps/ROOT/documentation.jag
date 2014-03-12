@@ -14,7 +14,7 @@ var caramel, api, json, links, sections, examples, log, loader;
 		examples = loader.loadExamples(api);
 	}
 	
-	list = loader.getCategorizedAPIs();
+	list = loader.getCategorizedAPIs(api);
 	
 	
 	caramel.render({
