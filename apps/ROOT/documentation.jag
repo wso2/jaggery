@@ -14,11 +14,11 @@ var caramel, api, json, links, sections, examples, log, loader;
 		examples = loader.loadExamples(api);
 	}
 	
-	list = loader.getCategorizedAPIs();
+	list = loader.getCategorizedAPIs(api);
 	
 	
 	caramel.render({
-		'title': {text :'Quickstart'},
+		'title': {text :'Documentation'},
 		'body' : {	api : api,
 					title:json && json.label , 
 					overview:json && json.overview, 
