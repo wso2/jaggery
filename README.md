@@ -18,3 +18,16 @@ they need to get going.
 More information about jaggery can be found at 
 [jaggeryjs.org](http://jaggeryjs.org).
 
+###Building###
+
+####Jaggery Core Server (without any apps or extended modules)####
+
+1. `mvn clean install`
+
+
+####Jaggery Community Server (with docs, samples and modules)####
+
+1. Build Jaggery Core Server
+2. Build [Jaggery Extensions](https://github.com/wso2/jaggery-extensions) project
+3. Build Jaggery Community Server using `mvn clean install -P community`
+
