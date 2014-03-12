@@ -37,9 +37,7 @@
         <module>org.jaggeryjs.hostobjects.db</module>
         <module>org.jaggeryjs.hostobjects.web</module>
         <module>org.jaggeryjs.hostobjects.file</module>
-        <module>org.jaggeryjs.hostobjects.email</module>
         <module>org.jaggeryjs.hostobjects.registry</module>
-        <module>org.jaggeryjs.hostobjects.ws</module>
         <module>org.jaggeryjs.hostobjects.xhr</module>
         <module>org.jaggeryjs.hostobjects.xslt</module>
         <module>org.jaggeryjs.hostobjects.oauth</module>
@@ -48,8 +46,6 @@
         <module>org.jaggeryjs.hostobjects.stream</module>
         <module>org.jaggeryjs.hostobjects.log</module>
         <module>org.jaggeryjs.hostobjects.jaggeryparser</module>
-        <module>org.jaggeryjs.hostobjects.uuid</module>
-        <module>org.jaggeryjs.hostobjects.process</module>
     </modules>
 
     <dependencyManagement>

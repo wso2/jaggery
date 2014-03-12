@@ -324,6 +324,8 @@
         <caramel.module.version>1.1.0-SNAPSHOT</caramel.module.version>
         <carbon.module.version>1.0.0-SNAPSHOT</carbon.module.version>
         <email.module.version>1.0.0-SNAPSHOT</email.module.version>
+        <handlebars.module.version>1.0.0-SNAPSHOT</handlebars.module.version>
+        <markdown.module.version>1.0.0-SNAPSHOT</markdown.module.version>
         <gadget.module.version>1.0.0-SNAPSHOT</gadget.module.version>
         <i18n.module.version>1.0.0-SNAPSHOT</i18n.module.version>
         <oauth.module.version>1.0.0-SNAPSHOT</oauth.module.version>
