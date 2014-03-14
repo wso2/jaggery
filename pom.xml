@@ -58,14 +58,6 @@
         </license>
     </licenses>
 
-    <modules>
-        <module>components</module>
-        <module>features</module>
-        <module>server/p2-profile-gen</module>
-        <module>server/distribution</module>
-        <module>server/integration</module>
-    </modules>
-
     <scm>
         <connection>scm:svn:http://svn.wso2.org/repos/wso2/trunk/carbon/products/appserver</connection>
         <developerConnection>scm:svn:https://svn.wso2.org/repos/wso2/trunk/carbon/products/appserver
