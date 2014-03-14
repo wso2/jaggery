@@ -20,9 +20,9 @@ More information about jaggery can be found at
 
 ###Building###
 
-####Jaggery Core Server (without any apps or extended modules)####
-
-1. `mvn clean install`
+1. Clone the repo using `git clone --recurse-submodules https://github.com/wso2/jaggery.git`.
+If you have already clone repo, then init jaggery-extensions submodule using `git submodule init && git submodule update`
+2. `mvn clean install`
 
 
 ####Jaggery Community Server (with docs, samples and modules)####

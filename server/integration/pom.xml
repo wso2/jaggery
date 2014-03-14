@@ -93,7 +93,7 @@
     </dependencies>
 
     <profiles>
-        <profile>
+        <!--<profile>
             <id>core</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -119,10 +119,10 @@
                                 <samples.dir>${basedir}/src/test/resources</samples.dir>
                                 <extracted.dir>jaggery-${project.version}</extracted.dir>
                                 <sec.verifier.dir>${basedir}/target/security-verifier/</sec.verifier.dir>
-                                <!--
+                                &lt;!&ndash;
                                 <emma.home>${basedir}/target/emma</emma.home>
                                 <emma.output>${basedir}/target/emma</emma.output>
-                                -->
+                                &ndash;&gt;
                             </systemProperties>
                             <workingDirectory>${basedir}/target</workingDirectory>
                         </configuration>
@@ -174,9 +174,12 @@
 
                 </plugins>
             </build>
-        </profile>
+        </profile>-->
         <profile>
             <id>community</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <build>
                 <plugins>
                     <plugin>

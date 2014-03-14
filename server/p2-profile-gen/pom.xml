@@ -33,11 +33,8 @@
     <url>http:/jaggeryjs.org</url>
 
     <profiles>
-        <profile>
+        <!--<profile>
             <id>core</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <build>
                 <plugins>
 
@@ -110,7 +107,7 @@
 
                                 <configuration>
                                     <profile>default</profile>
-                                    <!--profile>WSO2CarbonProfile</profile-->
+                                    &lt;!&ndash;profile>WSO2CarbonProfile</profile&ndash;&gt;
                                     <metadataRepository>file:${basedir}/target/p2-repo</metadataRepository>
                                     <artifactRepository>file:${basedir}/target/p2-repo</artifactRepository>
                                     <destination>
@@ -169,12 +166,14 @@
 
                 </plugins>
             </build>
-        </profile>
+        </profile>-->
         <profile>
             <id>community</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <build>
                 <plugins>
-
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-dependency-plugin</artifactId>
