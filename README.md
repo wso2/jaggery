@@ -21,7 +21,7 @@ More information about jaggery can be found at
 ###Building###
 
 1. Clone the repo using `git clone --recurse-submodules https://github.com/wso2/jaggery.git`.
-If you have already clone repo, then init jaggery-extensions submodule using `git submodule init && git submodule update`
+If you have already cloned repo, then init jaggery-extensions submodule using `git submodule init && git submodule update`
 2. `mvn clean install`
 
 
