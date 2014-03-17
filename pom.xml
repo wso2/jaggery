@@ -701,7 +701,7 @@
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.integration.framework</artifactId>
-            <version>${patch.version.403}</version>
+            <version>${carbon.kernal.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>
@@ -960,9 +960,7 @@
         <!-- carbon versions -->
         <carbon.kernal.version>4.3.0-SNAPSHOT</carbon.kernal.version>
         <carbon.platform.version>4.3.0-SNAPSHOT</carbon.platform.version>
-
-        <!-- patch versions -->
-        <patch.version.403>4.0.3</patch.version.403>
+     
 
         <emma.version>2.1.5320</emma.version>
         <jsonassert.version>1.1.1</jsonassert.version>
