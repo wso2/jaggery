@@ -28,6 +28,15 @@
 				}, {
 					"Configuration": "<code>urlMappings</code>",
 					"Description": "\n<pre class=\"prettyprint\"><span class=\"str\">\"urlMappings\"</span><span class=\"pln\"> </span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"pun\">[{</span><span class=\"pln\"> </span><span class=\"str\">\"url\"</span><span class=\"pln\"> </span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"str\">\"/sample/uri-mapping\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"path\"</span><span class=\"pln\"> </span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"str\">\"/index.jag\"</span><span class=\"pln\"> </span><span class=\"pun\">}]</span></pre>\nspecifys URL mappings "
+				}, {
+					"Configuration": "<code>distributable</code>",
+					"Description": "\n<pre class=\"prettyprint\"><span class=\"str\">\"distributable\"</span><span class=\"pln\"> </span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"pun\">true</span></pre>\n application will distributable. It allow to use session replication efficiently."
+				}, {
+					"Configuration": "<code>initScripts</code>",
+					"Description": "\n<pre class=\"prettyprint\"><span class=\"str\">\"initScripts\"</span><span class=\"pln\"> </span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"pun\">[</span><span class=\"pln\"> </span><span class=\"str\">\"init.js\"</span><span class=\"pln\"> </span><span class=\"pun\">]</span></pre>\n specifys scripts to run at application deployment time."
+				}, {
+					"Configuration": "<code>destroyScripts</code>",
+					"Description": "\n<pre class=\"prettyprint\"><span class=\"str\">\"destroyScripts\"</span><span class=\"pln\"> </span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"pun\">[</span><span class=\"pln\"> </span><span class=\"str\">\"destroy.js\"</span><span class=\"pln\"> </span><span class=\"pun\">]</span></pre>\n specifys scripts to run when application undeploy."
 				}
 			]
 		}
