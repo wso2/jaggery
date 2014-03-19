@@ -16,6 +16,10 @@
 					"Operation": "<code>remove('propName')</code>",
 					"Returns": "None",
 					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">application</span><span class=\"pun\">.</span><span class=\"pln\">remove</span><span class=\"pun\">(</span><span class=\"str\">'foo'</span><span class=\"pun\">)</span></pre> Removes a property from application context "
+				}, {
+					"Operation": "<code>serve(function(request,respond,session){})</code>",
+					"Returns": "String | Object ",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">application</span><span class=\"pun\">.</span><span class=\"pln\">serve</span><span class=\"pun\">(</span><span class=\"str\">function(<span class=\"str\">request,respond,session</span>){}</span><span class=\"pun\">)</span></pre> Serve function from application context "
 				}
 			]
 		}

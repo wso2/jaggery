@@ -12,6 +12,14 @@
 					"Member": "<code>onbinary</code> ",
 					"Type": "Scriptable",
 					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">webSocket</span><span class=\"pun\">.</span><span class=\"pln\">onbinary </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">function</span><span class=\"pln\"> </span><span class=\"pun\">(</span><span class=\"pln\">stream</span><span class=\"pun\">)</span><span class=\"pln\"> </span><span class=\"pun\">{</span><span class=\"pln\"> log</span><span class=\"pun\">.</span><span class=\"pln\">info</span><span class=\"pun\">(</span><span class=\"str\">'Client Streamed : '</span><span class=\"pln\"> </span><span class=\"pun\">+</span><span class=\"pln\"> stream</span><span class=\"pun\">.</span><span class=\"pln\">toString</span><span class=\"pun\">());</span><span class=\"pln\"> </span><span class=\"pun\">};</span></pre> Create the instance that will process this inbound connection for stream. "
+				}, {
+					"Member": "<code>onopen</code> ",
+					"Type": "Scriptable",
+					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">webSocket</span><span class=\"pun\">.</span><span class=\"pln\">onopen </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">function</span><span class=\"pln\"> </span><span class=\"pun\">(</span><span class=\"pln\">stream</span><span class=\"pun\">)</span><span class=\"pln\"> </span><span class=\"pun\">{</span><span class=\"pln\"> log</span><span class=\"pun\">.</span><span class=\"pln\">info</span><span class=\"pun\">(</span><span class=\"str\">'Client Open : '</span><span class=\"pln\"> </span><span class=\"pun\">+</span><span class=\"pln\"> stream</span><span class=\"pun\">.</span><span class=\"pln\">toString</span><span class=\"pun\">());</span><span class=\"pln\"> </span><span class=\"pun\">};</span></pre> Create the instance that will process when socket connection is established. "
+				}, {
+					"Member": "<code>onclose</code> ",
+					"Type": "Scriptable",
+					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">webSocket</span><span class=\"pun\">.</span><span class=\"pln\">onclose </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">function</span><span class=\"pln\"> </span><span class=\"pun\">(</span><span class=\"pln\">stream</span><span class=\"pun\">)</span><span class=\"pln\"> </span><span class=\"pun\">{</span><span class=\"pln\"> log</span><span class=\"pun\">.</span><span class=\"pln\">info</span><span class=\"pun\">(</span><span class=\"str\">'Client Close'<span class=\"pun\">)};</span></pre> Create the instance that will process when connection is closed. "
 				}
 			]
 		}, {
