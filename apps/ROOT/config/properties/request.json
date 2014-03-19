@@ -57,6 +57,14 @@
 					"Returns": "Number",
 					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">request</span><span class=\"pun\">.</span><span class=\"pln\">getLocalPort</span><span class=\"pun\">()</span></pre> Returns the request local port number "
 				}, {
+					"Operation": "<code>getUser()</code> ",
+					"Returns": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">request</span><span class=\"pun\">.</span><span class=\"pln\">getUser</span><span class=\"pun\">()</span></pre> Returns the name of the current authenticated user. "
+				}, {
+					"Operation": "<code>getInputStream()</code> ",
+					"Returns": "Stream",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">request</span><span class=\"pun\">.</span><span class=\"pln\">getInputStream</span><span class=\"pun\">()</span></pre> Retrieves the body of the request as binary data. "
+				}, {
 					"Operation": "<code>getHeader(headerName) </code> ",
 					"Returns": "String",
 					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">request</span><span class=\"pun\">.</span><span class=\"pln\">getHeader</span><span class=\"pun\">(</span><span class=\"str\">\"User-Agent\"</span><span class=\"pun\">)</span></pre> Returns the Header properties "
