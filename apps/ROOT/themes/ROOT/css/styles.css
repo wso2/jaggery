@@ -569,6 +569,12 @@ pre.prettyprint, .landing-intro pre.prettyprint:hover {
 .ribbon-left {
     display: none;
 }
+
+.CodeMirror *::selection, .CodeMirror *::-moz-selection {
+    background:#D64937 !important;
+}
+
+
 @media (max-width: 767px) {
     .sidebar li {
         display: inline-block;
