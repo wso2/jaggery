@@ -33,6 +33,7 @@
 <h3>Overview</h3>
 <p>{{{overview}}}</p>
 
+
 <hr>
 
 	{{#each sections}}
@@ -47,11 +48,7 @@
 			</tr>
 			{{#each rows}}
 				<tr>
-					{{#itr .}}
-						<td>
-							{{{value}}}
-						</td>
-					{{/itr}}
+					{{{render .}}}
 				</tr>
 			{{/each}}
 		</table>

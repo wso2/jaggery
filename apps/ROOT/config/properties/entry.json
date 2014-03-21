@@ -55,15 +55,15 @@
 			"columns": ["Operations", "Returns", "Description"],
 			"rows": [
 				{
-					"Operations": " <code>Entry()</code> ",
+					"Operations": "Entry()",
 					"Returns": "Entry",
 					"Description": " <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> entry </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> </span><span class=\"typ\">Entry</span><span class=\"pun\">();</span></pre> Returns an Entry object "
 				}, {
-					"Operations": " <code>toXML()</code> ",
+					"Operations": "toXML()",
 					"Returns": "XML",
 					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">entry</span><span class=\"pun\">.</span><span class=\"pln\">toXML</span><span class=\"pun\">()</span></pre> Returns the E4X XML contents of this Entry object. "
 				}, {
-					"Operations": " <code>toString()</code> ",
+					"Operations": "toString()",
 					"Returns": "String",
 					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">entry</span><span class=\"pun\">.</span><span class=\"pln\">toString</span><span class=\"pun\">()</span></pre> Returns the String representation of the Entry"
 				}

@@ -1,0 +1,24 @@
+<p>
+	The current state of the object, which can be one of the following values:
+</p>
+<ul>
+	<li>
+		0: The object has not been initialized by calling the open() method.
+	</li>
+	<li>
+		1: The object has been initialized successfully, but the send() method has not been called.
+	</li>
+	<li>
+		2: The request is pending
+	</li>
+	<li>
+		3: The request is partially complete (some data has been received, and may be available in the responseText property.
+	</li>
+	<li>
+		4: The request is complete, all data has been received.
+	</li>
+
+</ul>
+<p>
+	Of these, typically only the last (readyState == 4) is used.
+</p>

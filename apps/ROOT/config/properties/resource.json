@@ -5,51 +5,51 @@
 			"columns": ["Member", "Type", "Description"],
 			"rows": [
 				{
-					"Member": " <code>author</code> ",
+					"Member": "author",
 					"Type": "String",
 					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">resource</span><span class=\"pun\">.</span><span class=\"pln\">author</span><span class=\"pun\">;</span></pre> Returns the author username on a resource "
 				}, {
-					"Member": " <code>lastUpdatedUser</code> ",
+					"Member": "lastUpdatedUser",
 					"Type": "String",
 					"Description": "get author username who did the last update on a resource "
 				}, {
-					"Member": " <code>lastUpdatedTime</code> ",
+					"Member": "lastUpdatedTime",
 					"Type": "scriptable",
 					"Description": "get lastUpdatedTime"
 				}, {
-					"Member": " <code>createdTime</code> ",
+					"Member": "createdTime",
 					"Type": "scriptable",
 					"Description": "get createdTime"
 				}, {
-					"Member": " <code>id</code> ",
+					"Member": "id",
 					"Type": "String",
 					"Description": "get id of the resource."
 				}, {
-					"Member": " <code>path</code> ",
+					"Member": "path",
 					"Type": "String",
 					"Description": "get path of the resource"
 				}, {
-					"Member": " <code>parentPath</code> ",
+					"Member": "parentPath",
 					"Type": "String",
 					"Description": "get parentPath"
 				}, {
-					"Member": " <code>permanentPath</code> ",
+					"Member": "permanentPath",
 					"Type": "String",
 					"Description": "get permanentPath"
 				}, {
-					"Member": " <code>state</code> ",
+					"Member": "state",
 					"Type": "Number",
 					"Description": "get state"
 				}, {
-					"Member": " <code>mediaType</code> ",
+					"Member": "mediaType",
 					"Type": "String",
 					"Description": "get/set mediaType"
 				}, {
-					"Member": " <code>content</code> ",
+					"Member": "content",
 					"Type": "String | Object | XML",
 					"Description": "get/set content"
 				}, {
-					"Member": " <code>description</code> ",
+					"Member": "description",
 					"Type": "String",
 					"Description": "get/set description"
 				}
@@ -59,35 +59,35 @@
 			"columns": ["Operation", "Returns", "Description"],
 			"rows": [
 				{
-					"Operation": "<code>addProperty(\"name\", \"value\")</code>",
+					"Operation": "addProperty(\"name\", \"value\")",
 					"Returns": "None",
 					"Description": "\n<pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> dataStore </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> </span><span class=\"typ\">MetadataStore</span><span class=\"pun\">(</span><span class=\"str\">\"admin\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"admin\"</span><span class=\"pun\">);</span><span class=\"pln\">\n</span><span class=\"kwd\">var</span><span class=\"pln\"> resource </span><span class=\"pun\">=</span><span class=\"pln\"> dataStore</span><span class=\"pun\">.</span><span class=\"pln\">newResource</span><span class=\"pun\">();</span><span class=\"pln\">\nresource</span><span class=\"pun\">.</span><span class=\"pln\">addProperty</span><span class=\"pun\">(</span><span class=\"str\">\"company\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"WSO2\"</span><span class=\"pun\">);</span></pre>\nadding property for resource "
 				}, {
-					"Operation": "<code>getProperty(String propertyName);</code>",
+					"Operation": "getProperty(String propertyName);",
 					"Returns": "String",
 					"Description": "\n<pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> value </span><span class=\"pun\">=</span><span class=\"pln\"> resource</span><span class=\"pun\">.</span><span class=\"pln\">getProperty</span><span class=\"pun\">(</span><span class=\"str\">\"company\"</span><span class=\"pun\">);</span></pre> This method returns value of a property <br><br> Above code returns last added value for a property if there is a list of values. "
 				}, {
-					"Operation": "<code>getPropertyValues(String propertyName);</code>",
+					"Operation": "getPropertyValues(String propertyName);",
 					"Returns": "String []",
 					"Description": "\n<pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> value </span><span class=\"pun\">=</span><span class=\"pln\"> resource</span><span class=\"pun\">.</span><span class=\"pln\">getPropertyValues</span><span class=\"pun\">(</span><span class=\"str\">\"company\"</span><span class=\"pun\">);</span></pre> This method returns list of values of a property "
 				}, {
-					"Operation": " <code>getProperties();</code> ",
+					"Operation": "getProperties();",
 					"Returns": "Object[]",
 					"Description": "<pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> properties </span><span class=\"pun\">=</span><span class=\"pln\"> resource</span><span class=\"pun\">.</span><span class=\"pln\">getProperties</span><span class=\"pun\">();</span></pre> This method returns the list of properties with 'name' and 'value'. value is list of a vlaue for particular property<br><br> "
 				}, {
-					"Operation": " <code>editPropertyValue(String propertyName,String propertyValue,String propertyNewValue );</code> ",
+					"Operation": "editPropertyValue(String propertyName,String propertyValue,String propertyNewValue );",
 					"Returns": "None",
 					"Description": "<pre class=\"prettyprint\"><span class=\"pln\"> editPropertyValue</span><span class=\"pun\">(</span><span class=\"str\">\"company\"</span><span class=\"pun\">,</span><span class=\"str\">\"WSO2\"</span><span class=\"pun\">,</span><span class=\"str\">\"WSO2 Inc\"</span><span class=\"pun\">);</span><span class=\"pln\"> </span></pre> This method will edit property value in to new value. "
 				}, {
-					"Operation": " <code>removePropertyValue(String propertyName,String propertyValue);</code> ",
+					"Operation": "removePropertyValue(String propertyName,String propertyValue);",
 					"Returns": "None",
 					"Description": " <pre class=\"prettyprint\"><span class=\"pln\"> removePropertyValue</span><span class=\"pun\">(</span><span class=\"str\">\"company\"</span><span class=\"pun\">,</span><span class=\"str\">\"WSO2 Inc\"</span><span class=\"pun\">);</span><span class=\"pln\"> </span></pre> This method will remove property value in property. "
 				}, {
-					"Operation": " <code>removeProperty(String propertyName);</code> ",
+					"Operation": "removeProperty(String propertyName);",
 					"Returns": "None",
 					"Description": " <pre class=\"prettyprint\"><span class=\"pln\"> removeProperty</span><span class=\"pun\">(</span><span class=\"str\">\"company\"</span><span class=\"pun\">);</span><span class=\"pln\"> </span></pre> This method will remove property from the resource. "
 				}, {
-					"Operation": " <code>setProperty(String propertyName, String propertyValue/Values);</code> ",
+					"Operation": "setProperty(String propertyName, String propertyValue/Values);",
 					"Returns": "None",
 					"Description": " <pre class=\"prettyprint\"><span class=\"pln\"> setProperty</span><span class=\"pun\">(</span><span class=\"str\">\"company\"</span><span class=\"pun\">,</span><span class=\"str\">\"WSO2\"</span><span class=\"pun\">);</span><span class=\"pln\"> </span></pre> This method will set property values. "
 				}

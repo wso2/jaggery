@@ -5,7 +5,7 @@
 			"columns": ["Member", "Type", "Description"],
 			"rows": [
 				{
-					"Member": "<code>maxInactive</code>",
+					"Member": "maxInactive",
 					"Type": "Number",
 					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">session</span><span class=\"pun\">.</span><span class=\"pln\">maxInactive</span></pre> Returns the max inactive interval of the session <br> "
 				}
@@ -15,35 +15,35 @@
 			"columns": ["Operation", "Returns", "Description"],
 			"rows": [
 				{
-					"Operation": "<code>getCreationTime()</code>",
+					"Operation": "getCreationTime()",
 					"Returns": "String",
 					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">session</span><span class=\"pun\">.</span><span class=\"pln\">getCreationTime</span><span class=\"pun\">()</span></pre> Returns the session created time "
 				}, {
-					"Operation": "<code>getLastAccessedTime()</code>",
+					"Operation": "getLastAccessedTime()",
 					"Returns": "String",
 					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">session</span><span class=\"pun\">.</span><span class=\"pln\">getLastAccessedTime</span><span class=\"pun\">()</span></pre> Returns the last accessed time of the session "
 				}, {
-					"Operation": "<code>put(key, value)</code> ",
+					"Operation": "put(key, value)",
 					"Returns": "None",
 					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">session</span><span class=\"pun\">.</span><span class=\"pln\">put</span><span class=\"pun\">(</span><span class=\"str\">'name'</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">'wso2'</span><span class=\"pun\">)</span></pre> Functions to put values to the session "
 				}, {
-					"Operation": "<code>get(key)</code> ",
+					"Operation": "get(key)",
 					"Returns": "String",
 					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">session</span><span class=\"pun\">.</span><span class=\"kwd\">get</span><span class=\"pun\">(</span><span class=\"str\">'name'</span><span class=\"pun\">)</span></pre> Returns values in the session "
 				}, {
-					"Operation": "<code>getId()</code> ",
+					"Operation": "getId()",
 					"Returns": "String",
 					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">session</span><span class=\"pun\">.</span><span class=\"pln\">getId</span><span class=\"pun\">()</span></pre> Returns Id of the session "
 				}, {
-					"Operation": "<code>remove(key)</code> ",
+					"Operation": "remove(key)",
 					"Returns": "None",
 					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">session</span><span class=\"pun\">.</span><span class=\"pln\">remove</span><span class=\"pun\">(</span><span class=\"pln\">key</span><span class=\"pun\">)</span></pre> Removes an attribute from the session. <br> "
 				}, {
-					"Operation": "<code>invalidate()</code> ",
+					"Operation": "invalidate()",
 					"Returns": "None",
 					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">session</span><span class=\"pun\">.</span><span class=\"pln\">invalidate</span><span class=\"pun\">()</span></pre> invalidates the session <br> "
 				}, {
-					"Operation": "<code>isNew()</code>",
+					"Operation": "isNew()",
 					"Returns": "Boolean",
 					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">session</span><span class=\"pun\">.</span><span class=\"pln\">isNew</span><span class=\"pun\">()</span></pre> Returns the true|false "
 				}

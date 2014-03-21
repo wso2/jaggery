@@ -5,30 +5,25 @@
 			"columns": ["Operation", "Returns", "Description"],
 			"rows": [
 				{
-					"Operation": "<code>getEnv(String name)</code>",
+					"Operation": "getEnv(String name)",
 					"Returns": "String",
-					"Description": " ",
-					"undefined": "<pre class=\"prettyprint\"><span class=\"pln\">process</span><span class=\"pun\">.</span><span class=\"pln\">getEnv</span><span class=\"pun\">(</span><span class=\"str\">\"JAVA_HOME\"</span><span class=\"pun\">)</span></pre> Gets the value of the specified environment variable. "
+					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">process</span><span class=\"pun\">.</span><span class=\"pln\">getEnv</span><span class=\"pun\">(</span><span class=\"str\">\"JAVA_HOME\"</span><span class=\"pun\">)</span></pre> Gets the value of the specified environment variable. "
 				}, {
-					"Operation": "<code>getEnvs()</code>",
+					"Operation": "getEnvs()",
 					"Returns": "Scriptable",
-					"Description": " ",
-					"undefined": "<pre class=\"prettyprint\"><span class=\"pln\">process</span><span class=\"pun\">.</span><span class=\"pln\">getEnvs</span><span class=\"pun\">()</span></pre> <code>getEnvs()</code> Returns an unmodifiable String map view of the current system environment. "
+					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">process</span><span class=\"pun\">.</span><span class=\"pln\">getEnvs</span><span class=\"pun\">()</span></pre> <code>getEnvs()</code> Returns an unmodifiable String map view of the current system environment. "
 				}, {
-					"Operation": "<code>setProperty(String key,String value)</code>",
+					"Operation": "setProperty(String key,String value)",
 					"Returns": "String",
-					"Description": " ",
-					"undefined": "<pre class=\"prettyprint\"><span class=\"pln\">process</span><span class=\"pun\">.</span><span class=\"pln\">setProperty</span><span class=\"pun\">(</span><span class=\"str\">\"Key\"</span><span class=\"pun\">,</span><span class=\"str\">\"Test Property\"</span><span class=\"pun\">)</span></pre> Sets the system property indicated by the specified key. "
+					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">process</span><span class=\"pun\">.</span><span class=\"pln\">setProperty</span><span class=\"pun\">(</span><span class=\"str\">\"Key\"</span><span class=\"pun\">,</span><span class=\"str\">\"Test Property\"</span><span class=\"pun\">)</span></pre> Sets the system property indicated by the specified key. "
 				}, {
-					"Operation": "<code>getProperty(String propertyName)</code>",
+					"Operation": "getProperty(String propertyName)",
 					"Returns": "String",
-					"Description": " ",
-					"undefined": "<pre class=\"prettyprint\"><span class=\"pln\">process</span><span class=\"pun\">.</span><span class=\"pln\">getProperty</span><span class=\"pun\">(</span><span class=\"str\">\"Key\"</span><span class=\"pun\">)</span></pre> <code>Gets the system property indicated by the specified key. </code>"
+					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">process</span><span class=\"pun\">.</span><span class=\"pln\">getProperty</span><span class=\"pun\">(</span><span class=\"str\">\"Key\"</span><span class=\"pun\">)</span></pre> <code>Gets the system property indicated by the specified key. </code>"
 				}, {
-					"Operation": "<code>getProperties()</code>",
+					"Operation": "getProperties()",
 					"Returns": "Scriptable",
-					"Description": " ",
-					"undefined": "<pre class=\"prettyprint\"><span class=\"pln\">process</span><span class=\"pun\">.</span><span class=\"pln\">getProperties</span><span class=\"pun\">()</span></pre> <code>getProperties()</code> Determines the current system properties. "
+					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">process</span><span class=\"pun\">.</span><span class=\"pln\">getProperties</span><span class=\"pun\">()</span></pre> <code>getProperties()</code> Determines the current system properties. "
 				}
 			]
 		}

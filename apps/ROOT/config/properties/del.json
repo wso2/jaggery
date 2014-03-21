@@ -5,23 +5,23 @@
 			"columns": ["Parameter", "Type", "Description"],
 			"rows": [
 				{
-					"Parameter": "<code>url</code>",
+					"Parameter": "url",
 					"Type": "String",
 					"Description": "The URL which HTTP DELETE is performed "
 				}, {
-					"Parameter": "<code>data</code>",
+					"Parameter": "data",
 					"Type": "Object",
 					"Description": "Request parameters"
 				}, {
-					"Parameter": "<code>type</code>",
+					"Parameter": "type",
 					"Type": "String",
 					"Description": "The type, which the response is expected"
 				}, {
-					"Parameter": "<code>headers</code>",
+					"Parameter": "headers",
 					"Type": "String",
 					"Description": "Optional HTTP headers"
 				}, {
-					"Parameter": "<code>success(data:Object,<br> xhr:Object)</code>",
+					"Parameter": "success(data:Object,<br> xhr:Object)",
 					"Type": "function",
 					"Description": "On success callback"
 				}
@@ -31,11 +31,11 @@
 			"columns": ["Value", "Type", "Description"],
 			"rows": [
 				{
-					"Value": "<code>data</code>",
+					"Value": "data",
 					"Type": "Object",
 					"Description": "Contains the return data of the HTTP DELETE request"
 				}, {
-					"Value": "<code>xhr</code>",
+					"Value": "xhr",
 					"Type": "Object",
 					"Description": "Contains an instance of XMLHTTPRequest"
 				}

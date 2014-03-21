@@ -5,19 +5,19 @@
 			"columns": ["Member", "Type", "Description"],
 			"rows": [
 				{
-					"Member": "<code>status</code>",
+					"Member": "status",
 					"Type": "String",
 					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">response</span><span class=\"pun\">.</span><span class=\"pln\">status</span></pre> Sets the Status code "
 				}, {
-					"Member": "<code>contentType</code>",
+					"Member": "contentType",
 					"Type": "String",
 					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">response</span><span class=\"pun\">.</span><span class=\"pln\">contentType </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">'application/x-www-form-urlencoded'</span></pre> Sets response content type "
 				}, {
-					"Member": "<code>characterEncoding</code>",
+					"Member": "characterEncoding",
 					"Type": "String",
 					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">response</span><span class=\"pun\">.</span><span class=\"pln\">characterEncoding </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">'UTF-8'</span></pre> Sets response character encoding "
 				}, {
-					"Member": "<code>content</code>",
+					"Member": "content",
 					"Type": "String | Object | XML",
 					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">response</span><span class=\"pun\">.</span><span class=\"pln\">content </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"pun\">{</span><span class=\"pln\"> products </span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"pun\">[</span><span class=\"str\">\"Jaggery\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"ESB\"</span><span class=\"pun\">]</span><span class=\"pln\"> </span><span class=\"pun\">};</span></pre> <pre class=\"prettyprint\"><span class=\"pln\">response</span><span class=\"pun\">.</span><span class=\"pln\">content </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">\"My response content\"</span><span class=\"pun\">;</span></pre> <p>Sets response content</p> <p>If any thing other than Strings are assigned, then they will be automatically serialized.</p> "
 				}
@@ -27,21 +27,21 @@
 			"columns": ["Operation", "Returns", "Description"],
 			"rows": [
 				{
-					"Operation": "<code>addHeader(key, value) </code> ",
+					"Operation": "addHeader(key, value) ",
 					"Returns": "String",
 					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">response</span><span class=\"pun\">.</span><span class=\"pln\">addHeader</span><span class=\"pun\">(</span><span class=\"str\">'custom-header'</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">'jaggery_response'</span><span class=\"pun\">)</span></pre> Adding a header to the response "
 				}, {
-					"Operation": "<code>sendRedirect(url) </code> ",
+					"Operation": "sendRedirect(url) ",
 					"Returns": "None",
 					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">response</span><span class=\"pun\">.</span><span class=\"pln\">sendRedirect</span><span class=\"pun\">(</span><span class=\"pln\">url</span><span class=\"pun\">)</span></pre> Redirect via response "
 				}, {
-					"Operation": "<code>sendError(errCode) </code> ",
+					"Operation": "sendError(errCode) ",
 					"Returns": "None",
 					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">response</span><span class=\"pun\">.</span><span class=\"pln\">sendError</span><span class=\"pun\">(</span><span class=\"pln\">errCode</span><span class=\"pun\">)</span></pre> Send an error code "
 				}, {
-					"Operation": "<code>addCookie(cookie) </code> ",
+					"Operation": "addCookie(cookie) ",
 					"Returns": "None",
-					"Description": "<pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> cookie</span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"pun\">{</span><span class=\"str\">'name'</span><span class=\"pun\">:</span><span class=\"str\">'test'</span><span class=\"pun\">,</span><span class=\"str\">'value'</span><span class=\"pun\">:</span><span class=\"str\">'Cookie testing'</span><span class=\"pun\">};</span><span class=\"pln\">\nresponse</span><span class=\"pun\">.</span><span class=\"pln\">addCookie</span><span class=\"pun\">(</span><span class=\"pln\">cookie</span><span class=\"pun\">)</span></pre> Adds the specified cookie to the response. "
+					"Description": ""
 				}
 			]
 		}

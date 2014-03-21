@@ -1,0 +1,23 @@
+<pre class="prettyprint">
+var file = new File("readme.txt");
+file.open("r");
+var text = file.read(5);
+print(text);
+file.close();
+</pre>
+	
+<p>
+	Reads the given number of characters from the file and returns a String representation of those characters. Users are required to open the file for reading before reading from the file.
+</p>
+<p>
+If the file is not open for either reading or writing or appending, then calling this will automatically open the file for reading. 
+</p>
+
+
+
+	
+
+
+
+
+
