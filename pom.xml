@@ -1034,7 +1034,7 @@
         <abdera-extensions.osgi.version>0.4.0.wso2v2</abdera-extensions.osgi.version>
         <xmlschema.osgi.version>1.4.7.wso2v1</xmlschema.osgi.version>
         <neethi.osgi.version>2.0.4.wso2v3</neethi.osgi.version>
-        <rampart.osgi.version>1.6.1.wso2v11-SNAPSHOT</rampart.osgi.version>
+        <rampart.osgi.version>1.6.1.wso2v10</rampart.osgi.version>
         <javax.servlet.osgi.version>3.0.0.wso2v1</javax.servlet.osgi.version>
         <javax.servlet.jsp.osgi.version>2.0.0.v200806031607</javax.servlet.jsp.osgi.version>
         <gson.osgi.version>2.1</gson.osgi.version>
