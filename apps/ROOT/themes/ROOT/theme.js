@@ -47,7 +47,7 @@ var engine = caramel.engine('handlebars', ( function() {
 						if (i == 0) {
 							firstCol = row[key].trim().replace(/[^\w]+/g, '');
 							col += "<code>" + row[key] + "</code>";
-						} else if (i == 2) {
+						} else if (i == (Object.keys(row).length -1)) {
 							var path = CONFIG_PROPS + api + '/' + firstCol + '.hbs';
 							var file = new File(path);
 							// if an HBS isn't found for the particular Memeber/Operation'

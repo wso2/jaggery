@@ -19,7 +19,7 @@
 				}, {
 					"Operation": "getProperty(String propertyName)",
 					"Returns": "String",
-					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">process</span><span class=\"pun\">.</span><span class=\"pln\">getProperty</span><span class=\"pun\">(</span><span class=\"str\">\"Key\"</span><span class=\"pun\">)</span></pre> <code>Gets the system property indicated by the specified key. </code>"
+					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">process</span><span class=\"pun\">.</span><span class=\"pln\">getProperty</span><span class=\"pun\">(</span><span class=\"str\">\"Key\"</span><span class=\"pun\">)</span></pre> Gets the system property indicated by the specified key."
 				}, {
 					"Operation": "getProperties()",
 					"Returns": "Scriptable",
