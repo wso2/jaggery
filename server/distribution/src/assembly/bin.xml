@@ -43,6 +43,7 @@
                 <exclude>**/registry.xml</exclude>
                 <exclude>**/axis2/axis2.xml</exclude>
                 <exclude>**/ciphertool.bat</exclude>
+                <exclude>**/client-truststore.jks</exclude>
             </excludes>
         </fileSet>
         <fileSet>
@@ -58,9 +59,8 @@
             <fileMode>755</fileMode>
         </fileSet>
         <fileSet>
-            <directory>../../modules/</directory>
-            <outputDirectory>jaggery-${pom.version}/modules/
-            </outputDirectory>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/modules</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/modules/</outputDirectory>
             <includes>
                 <include>*/**</include>
             </includes>
@@ -72,6 +72,11 @@
             <includes>
                 <include>*/**</include>
             </includes>
+        </fileSet>
+        <!-- Copying WSO2-CARBON-PATCH-4.1.0-0005 files to the patches directory-->
+        <fileSet>
+            <directory>target/WSO2-CARBON-PATCH-4.2.0-0005/repository/resources/security/</directory>
+            <outputDirectory>jaggery-${pom.version}/carbon/repository/resources/security/</outputDirectory>
         </fileSet>
     </fileSets>
     <dependencySets>

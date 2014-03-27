@@ -1,0 +1,8 @@
+{
+	"api": "webSocket",
+	"label": "webSocket",
+	"category1": "Built-ins",
+	"category2" : "Variables",
+	"overview": "Jaggery websocket enables full duplex transmission and it supports WebSocket specification. It defines an API establishing \"socket\" connections between a web browser and a server. In Simple words, There is an persistent connection between the client and the server and both parties can start sending data at any time. (WSO2 ELB do not support webSocket)",
+	"deprecated" : false
+}

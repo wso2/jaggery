@@ -1,0 +1,29 @@
+{
+	"sections": [
+		{
+			"title": "Members",
+			"columns": ["Member", "Type", "Description"],
+			"rows": [
+				{
+					"Member": "localeResourcesBasePath",
+					"Type": "String",
+					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">i18n</span><span class=\"pun\">.</span><span class=\"pln\">localeResourcesBasePath</span></pre> Sets base path for locale resources "
+				}
+			]
+		}, {
+			"title": "Operations",
+			"columns": ["Member", "Returns", "Description"],
+			"rows": [
+				{
+					"Member": "init(request)",
+					"Returns": "none",
+					"Description": "initialize i18n object with the request<br><br> <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> i18n </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">require</span><span class=\"pun\">(</span><span class=\"str\">\"i18n\"</span><span class=\"pun\">);</span><span class=\"pln\">\ni18n</span><span class=\"pun\">.</span><span class=\"pln\">init</span><span class=\"pun\">(</span><span class=\"pln\">request</span><span class=\"pun\">);</span></pre> "
+				}, {
+					"Member": "localize(key, fallback)",
+					"Returns": "String",
+					"Description": "Returns the localized String, if not provided the fallback text<br><br> <pre class=\"prettyprint\"><span class=\"kwd\">print</span><span class=\"pun\">(</span><span class=\"pln\">i18n</span><span class=\"pun\">.</span><span class=\"pln\">localize</span><span class=\"pun\">(</span><span class=\"str\">\"greetings.local\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"Greetings from Jaggery\"</span><span class=\"pun\">));</span></pre> "
+				}
+			]
+		}
+	]
+}

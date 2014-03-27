@@ -1,0 +1,60 @@
+<br>
+<br>
+<h1 class="text-center">Have a bite of Jaggery now!</h1>
+<h4 class="muted text-center">Use the editor on the left to write your code. When you're done, run it to see how it's rendered in a browser</h4>
+<br>
+<br>
+<div class="row-fluid tryit-windows">
+
+	<div class="span6" style="position: relative">
+		<table class="tryit-editor">
+			<tr class="tryit-editor-r1">
+				<td class="tryit-editor-c1"></td>
+				<td class="tryit-editor-c2">				<textarea id="codeinput" name="codeinput"></textarea></td>
+				<td class="tryit-editor-c3"></td>
+			</tr>
+			<tr class="tryit-editor-r2">
+				<td class="tryit-editor-c1"></td>
+				<td class="tryit-editor-c2"></td>
+				<td class="tryit-editor-c3"></td>
+			</tr>
+			<div class="query-cont">
+				<a href="#" class="btn" id="querybtn" data-toggle="tooltip" title="Insert a query string for samples, that need request parameters">+ Add Query String</a>
+
+				<div class="hidden" id="queryblock"> 
+					<label>QueryString:</label>
+					<input type="text" class="span6" id="qString">
+					<a href="#" id="queryremove"><i class="fa fa-times"></i></a> </span>
+			</div>
+
+		</table>
+
+		<span class="help-block"> <i class="fa fa-info-circle"></i> Press <strong><code>
+				CTRL</code></strong> <strong><code>
+				+</code></strong> <strong><code>
+				SPACE</code></strong> for autocompletion</span>
+	</div>
+
+	<div class="span6">
+
+		<table class="tryit-browser">
+			<tr class="tryit-browser-r1">
+				<td class="tryit-browser-c1"></td>
+				<td class="tryit-browser-c2"><iframe class="span-full" id='output' style="background:#FFF;"></iframe></td>
+				<td class="tryit-browser-c3"></td>
+			</tr>
+			<tr class="tryit-browser-r2">
+				<td class="tryit-browser-c1"></td>
+				<td class="tryit-browser-c2"></td>
+				<td class="tryit-browser-c3"></td>
+			</tr>
+
+		</table>
+
+	</div>
+	<button id="btn-tryit" onclick="Tryit.call('')">
+		<i class="fa fa-arrow-circle-o-right"></i>
+	</button>
+
+</div>
+<!-- /row -->

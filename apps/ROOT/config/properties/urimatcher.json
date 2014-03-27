@@ -1,0 +1,23 @@
+{
+	"sections": [
+		{
+			"title": "Operations",
+			"columns": ["Member", "Returns", "Description"],
+			"rows": [
+				{
+					"Member": "URIMatcher(uri)",
+					"Returns": "URIMatcher Object",
+					"Description": "Returns the URIMatcher Object<br><br> <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> uriMatcher </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> </span><span class=\"typ\">URIMatcher</span><span class=\"pun\">(</span><span class=\"pln\">request</span><span class=\"pun\">.</span><span class=\"pln\">uri</span><span class=\"pun\">);</span></pre> "
+				}, {
+					"Member": "match(pattern)",
+					"Returns": "Boolean",
+					"Description": "Returns the bolean for matched <br><br> <pre class=\"prettyprint\"><span class=\"pln\">uriMatcher</span><span class=\"pun\">.</span><span class=\"pln\">match</span><span class=\"pun\">(</span><span class=\"str\">'/{context}/{dir}/{page}'</span><span class=\"pun\">);</span></pre> "
+				}, {
+					"Member": "elements()",
+					"Returns": "Object",
+					"Description": "returns the set of elements, which were matched with the provided uri, and provided template <br><br> <pre class=\"prettyprint\"><span class=\"pln\">uriMatcher</span><span class=\"pun\">.</span><span class=\"pln\">elements</span><span class=\"pun\">();</span></pre> "
+				}
+			]
+		}
+	]
+}

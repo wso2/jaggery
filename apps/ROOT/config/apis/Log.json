@@ -1,0 +1,8 @@
+{
+	"api": "Log",
+	"label": "Log",
+	"category1": "Built-ins",
+	"category2" : "Output",
+	"overview": "The <code>Log</code> class will log errors, warning and information to the Jaggery console. It will mostly help when debugging your scripts.",
+	"deprecated" : false
+}

@@ -1,0 +1,8 @@
+{
+	"api": "stringify",
+	"label": "stringify()",
+	"category1": "Built-ins",
+	"category2" : "Dataformats",
+	"overview": "<code>parse()</code> takes a well-formed JSON String and returns the resulting JavaScript object.<pre class=\"prettyprint\">var obj = parse(jsonString)</pre>",
+	"deprecated" : false
+}

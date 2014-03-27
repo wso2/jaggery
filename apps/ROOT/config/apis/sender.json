@@ -1,0 +1,8 @@
+{
+	"api": "sender",
+	"label": "Sender",
+	"category1": "Add-ons",
+	"category2" : "Email",
+	"overview": "The Sender Object allows users to send out email from their apps.",
+	"deprecated" : false
+}

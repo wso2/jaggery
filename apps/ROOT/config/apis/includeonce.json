@@ -1,0 +1,8 @@
+{
+	"api": "includeonce",
+	"label": "include_once()",
+	"category1": "Built-ins",
+	"category2" : "Utils",
+	"overview": "<code>include_once()</code> can include external jaggery scripts to the working script once. This will limit the number of times a file will be included to once, therefor reducing duplications. <pre class=\"prettyprint\">include_once(path)</pre>",
+	"deprecated" : false
+}

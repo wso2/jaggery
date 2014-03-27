@@ -1,0 +1,27 @@
+{
+	"sections": [
+		{
+			"title": "Operations",
+			"columns": ["Operation", "Returns", "Description"],
+			"rows": [
+				{
+					"Operation": "get('propName')",
+					"Returns": "Object",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">application</span><span class=\"pun\">.</span><span class=\"kwd\">get</span><span class=\"pun\">(</span><span class=\"str\">'foo'</span><span class=\"pun\">)</span></pre> Returns the value (object) associated with the property "
+				}, {
+					"Operation": "put('propName', value)",
+					"Returns": "None",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">application</span><span class=\"pun\">.</span><span class=\"pln\">put</span><span class=\"pun\">(</span><span class=\"str\">'foo'</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"pun\">{</span><span class=\"str\">'name'</span><span class=\"pun\">:</span><span class=\"str\">'jaggery'</span><span class=\"pun\">})</span></pre> Adding a value to the application context "
+				}, {
+					"Operation": "remove('propName')",
+					"Returns": "None",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">application</span><span class=\"pun\">.</span><span class=\"pln\">remove</span><span class=\"pun\">(</span><span class=\"str\">'foo'</span><span class=\"pun\">)</span></pre> Removes a property from application context "
+				}, {
+					"Operation": "serve(function(request,respond,session){})",
+					"Returns": "String | Object ",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">application</span><span class=\"pun\">.</span><span class=\"pln\">serve</span><span class=\"pun\">(</span><span class=\"str\">function(<span class=\"str\">request,respond,session</span>){}</span><span class=\"pun\">)</span></pre> Serve function from application context "
+				}
+			]
+		}
+	]
+}

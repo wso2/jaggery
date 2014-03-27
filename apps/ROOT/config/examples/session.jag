@@ -1,0 +1,17 @@
+<%
+    var obj = {
+    	name : "wso2",
+    	cat : "software",
+    	address : {
+    		number : "59",
+    		address : "Flower Rd.",
+    		city : "Colombo 7"
+    	}
+    };
+    session.put("wso2", obj);
+ 
+    var o = session.get("wso2");
+    print("<html><body>");
+    print(o);
+    print("</body></html>");
+%>

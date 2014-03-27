@@ -2,6 +2,7 @@ package org.jaggeryjs.jaggery.core.websocket;
 
 
 import org.apache.catalina.websocket.MessageInbound;
+import org.apache.catalina.websocket.WsOutbound;
 import org.jaggeryjs.hostobjects.web.WebSocketHostObject;
 
 import java.io.IOException;
@@ -34,6 +35,15 @@ public class WSMessageInBound extends MessageInbound {
     @Override
     protected void onTextMessage(CharBuffer charBuffer) throws IOException {
         webSockHostObject.processText(charBuffer);
+    }
+    
+    protected void onOpen(WsOutbound outbound){
+        webSockHostObject.setOutbound(outbound);
+		webSockHostObject.processOnOpen(outbound);
+    }
+    
+    protected void onClose(int status){
+		webSockHostObject.processOnClose(status);
     }
 }
 

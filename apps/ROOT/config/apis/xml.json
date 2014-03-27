@@ -1,0 +1,8 @@
+{
+	"api": "xml",
+	"label": "XML",
+	"category1": "Built-ins",
+	"category2" : "Dataformats",
+	"overview": "<code>XML</code> is an API class in jaggery, and it provides the fucntionality of <a href=\"http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-357.pdf\">E4X</a> for XML manipulation. more information about EX4 can be found at <a href=\"https://developer.mozilla.org/En/E4X/Processing_XML_with_E4X#Creating_an_XML_object\">Mozilla Developer Network</a>",
+	"deprecated" : false
+}

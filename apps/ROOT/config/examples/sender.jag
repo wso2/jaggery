@@ -1,0 +1,19 @@
+<%
+
+	var content = request.getParameter("cont");
+	var to = request.getParameter("to");
+	var subject = request.getParameter("sub");
+	
+	var email = require('email');
+	var sender = new email.Sender("smtp.gmail.com", "25", "username", "password", "tls");
+	
+	sender.from = "";
+	sender.to = to;
+	sender.cc = "";
+	sender.bcc = "";
+	sender.subject = subject;
+	sender.text = content;
+	sender.send();
+	
+	print("email successfully sent to " + to);
+%>

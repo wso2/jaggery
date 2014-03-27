@@ -22,14 +22,8 @@ import org.wso2.carbon.ndatasource.core.CarbonDataSource;
 import org.wso2.carbon.ndatasource.core.DataSourceManager;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Savepoint;
-import java.sql.Statement;
-import java.sql.Types;
+import java.sql.*;
+import java.sql.Date;
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -173,6 +167,7 @@ public class DatabaseHostObject extends ScriptableObject {
 
     public static Object jsFunction_query(Context cx, Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException, SQLException {
+
         String functionName = "query";
         int argsCount = args.length;
         if (argsCount == 0) {
@@ -218,7 +213,7 @@ public class DatabaseHostObject extends ScriptableObject {
                 if (args[1] instanceof Function) {
                     callback = (Function) args[1];
                 } else {
-                    setQueryParams(stmt, args, 1, argsCount);
+                    setQueryParams(stmt, args, 1, 1);
                 }
                 return executeQuery(cx, db, stmt, query, callback, true);
             }
@@ -490,8 +485,9 @@ public class DatabaseHostObject extends ScriptableObject {
                         if (isSelect) {
                             result = processResults(cx, db, db, stmt.executeQuery(), keyed);
                         } else {
-                            result = stmt.executeUpdate();
+                            result = stmt.executeUpdate();                            
                         }
+                        stmt.close();
                         callback.call(cx, db, db, new Object[]{result});
                     } catch (SQLException e) {
                         log.warn(e);
@@ -505,11 +501,14 @@ public class DatabaseHostObject extends ScriptableObject {
             return null;
         } else {
             try {
+            	Object result;
                 if (isSelect) {
-                    return processResults(cx, db, db, stmt.executeQuery(), keyed);
-                } else {
-                    return stmt.executeUpdate();
-                }
+                	result =  processResults(cx, db, db, stmt.executeQuery(), keyed);
+                } else {                	
+                	result = stmt.executeUpdate();                	
+                }               
+                stmt.close();
+            	return result;
             } catch (SQLException e) {
                 log.warn(e);
                 throw new ScriptException(e);
@@ -612,8 +611,11 @@ public class DatabaseHostObject extends ScriptableObject {
                 return results.getClob(index) == null ? null : cx.newObject(db, "Stream", new Object[]{results.getClob(index).getAsciiStream()});
             case Types.BLOB:
                 return results.getBlob(index) == null ? null : cx.newObject(db, "Stream", new Object[]{results.getBlob(index).getBinaryStream()});
+            case Types.TIMESTAMP:
+                Timestamp date = results.getTimestamp(index);
+                return date == null ? null : cx.newObject(db, "Date", new Object[] {date.getTime()});
             default:
-                return results.getObject(index) == null ? null : Context.javaToJS(results.getObject(index), db);
+                return results.getObject(index) == null ? null : results.getObject(index);
         }
     }
 

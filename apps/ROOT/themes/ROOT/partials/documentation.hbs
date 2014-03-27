@@ -1,0 +1,92 @@
+{{#if sections}}
+
+<h1>{{title}}</h1>
+{{#if deprecated}}
+<div class="alert alert-info">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  This API has been deprecated. 
+</div>
+{{/if}}
+<br>
+<div class="prettyprint-cont">
+	
+<pre class="prettyprint linenums">
+{{examples}}
+</pre>
+<button id="btn-tryit-small" class="btn btn-primary btn-large pull-right" data-toggle="modal" data-target="#tryitwindow"><i class="fa fa-angle-double-right"></i> Try it!</button>
+</div>
+	
+<div id="tryitwindow" class="modal hide fade">
+	<div class="modal-header">
+		<a href="#" class="close" data-dismiss="modal"><i class="fa fa-times"></i></a>
+
+		<h3>Try it now</h3>
+	</div>
+	<div class="modal-body">
+		<iframe src="/tryitframe.jag?api={{api}}" style="border: none;" width="98%"
+		height="520px" scrolling="no"></iframe>
+	</div>
+
+</div>
+                
+                
+<h3>Overview</h3>
+<p>{{{overview}}}</p>
+
+
+<hr>
+
+	{{#each sections}}
+
+		<h3>{{title}}</h3>
+
+		<table class="table">
+			<tr>
+				{{#each columns}}
+					<th>{{this}}</th>
+				{{/each}}
+			</tr>
+			{{#each rows}}
+				<tr>
+					{{{render .}}}
+				</tr>
+			{{/each}}
+		</table>
+	{{/each}}
+
+{{else}}
+
+<h1>API documentation for Jaggery.js</h1>
+
+
+<div class="row-fluid">
+	<div class="span12">
+		<p>
+			So you want to write some code using Jaggery? Remember we are just at 0.9.0-ALPHA-3, We have provided all the basic useful APIs, so you can build cooler apps using this deliciously new framework.
+		</p>
+
+		<p>
+			So give it a run and let us know how it goes by mailing us here
+		</p>
+	</div>
+</div>
+
+<br>
+
+<div class="row-fluid">
+
+	<div class="span4 text-center feature-block">
+		<a href="https://github.com/wso2/jaggery/issues/new"> <i class="fa fa-bug fa-4x"></i> <h4>Report A Bug</h4> </a>
+	</div>
+
+	<div class="span4 text-center feature-block">
+		<a href="https://github.com/wso2/jaggery/"><i class="fa fa-file-text fa-4x"></i> <h4>Download Source Code</h4></a>
+	</div>
+
+	<div class="span4 text-center feature-block">
+		<a href="http://mail.jaggeryjs.org/cgi-bin/mailman/listinfo/dev"><i class="fa fa-envelope fa-4x"></i> <h4>Join Our Mailing List</h4></a>
+	</div>
+
+</div>
+
+{{/if}}

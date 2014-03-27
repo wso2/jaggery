@@ -1,0 +1,8 @@
+{
+	"api": "post",
+	"label": "post()",
+	"category1": "Built-ins",
+	"category2" : "Http Client",
+	"overview": "<code>post()</code> is a wrapper for XMLHTTPRequest's POST method. Using <code>post()</code> you can avoid the use of <i>XHR</i> and shorten the serverside <i>POST</i> requests. If the <code>Content-Type</code> header is not specified, <code>application/x-www-form-urlencoded; charset=UTF-8</code> will be set automatically.<h4>Asynchronous Invocation</h4> <pre class=\"prettyprint\">post(url[, data][, headers][, type][, success(data, xhr)])</pre><h4>Synchronous Invocation</h4><pre class=\"prettyprint\">var res = post(url[, data][, headers][, type])</pre>Returned result contains the data and the XMLHttpRequest instance. { data: {}, xhr: {} }",
+	"deprecated" : false
+}

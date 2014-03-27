@@ -1,0 +1,8 @@
+{
+	"api": "urimatcher",
+	"label": "URIMatcher",
+	"category1": "Built-ins",
+	"category2" : "Utils",
+	"overview": "<code>URIMatcher</code> provides the functionality of comparing a given uri with a template. This API function will be useful for REST service composition",
+	"deprecated" : false
+}

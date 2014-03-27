@@ -1,0 +1,8 @@
+{
+	"api": "response",
+	"label": "response",
+	"category1": "Built-ins",
+	"category2" : "Variables",
+	"overview": "Object that provides the properties and functions of HTTP Response.",
+	"deprecated" : false
+}

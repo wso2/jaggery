@@ -1,0 +1,8 @@
+{
+	"api": "jagconf",
+	"label": "jaggery.conf",
+	"category1": "Add-ons",
+	"category2" : "Configuration File",
+	"overview": "Jaggery configuration file specifies the application specific configurations",
+	"deprecated" : false
+}

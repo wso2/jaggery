@@ -1,0 +1,83 @@
+{
+	"sections": [
+		{
+			"title": "Operations",
+			"columns": ["Operation", "Returns", "Description"],
+			"rows": [
+				{
+					"Operation": "File(String filename)",
+					"Returns": "Object",
+					"Description": " <!--pre class=\"prettyprint\">var file = new File(\"file:///etc/fstab\");</pre> <pre class=\"prettyprint\">var file = new File(\"file://localhost/etc/fstab\");</pre> <pre class=\"prettyprint\">var file = new File(\"file:///c:/WINDOWS/clock.avi\");</pre--> <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> file </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> </span><span class=\"typ\">File</span><span class=\"pun\">(</span><span class=\"str\">\"/templates/tmp.jag\"</span><span class=\"pun\">);</span></pre> <p>Takes a filename and provides a File object. (File path is relative to the Jaggery application context root)</p> <!--p>If a file in your web context is referred, then use the relative path. Else, specify the file system path using file URI scheme.</p--> "
+				}, {
+					"Operation": "open(r | r+ | w | w+ | a | a+)",
+					"Returns": "None",
+					"Description": " <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> file </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> </span><span class=\"typ\">File</span><span class=\"pun\">(</span><span class=\"str\">\"readme.txt\"</span><span class=\"pun\">);</span><span class=\"pln\">\nfile</span><span class=\"pun\">.</span><span class=\"pln\">open</span><span class=\"pun\">(</span><span class=\"str\">\"r+\"</span><span class=\"pun\">);</span><span class=\"pln\"> </span></pre> File can be opened for <u>read(r)</u>, <u>write(w)</u>, <u>append(a)</u>, <u>read+write(r+)</u>, <u>write+read(w+)</u>, <u>append+read(a+)</u>"
+				}, {
+					"Operation": "write(Object Object)",
+					"Returns": "None",
+					"Description": "<pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> file </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> </span><span class=\"typ\">File</span><span class=\"pun\">(</span><span class=\"str\">\"readme.txt\"</span><span class=\"pun\">);</span><span class=\"pln\">\nfile</span><span class=\"pun\">.</span><span class=\"pln\">open</span><span class=\"pun\">(</span><span class=\"str\">\"w\"</span><span class=\"pun\">);</span><span class=\"pln\">\nfile</span><span class=\"pun\">.</span><span class=\"pln\">write</span><span class=\"pun\">(</span><span class=\"str\">\"Hello World!\"</span><span class=\"pun\">);</span><span class=\"pln\">\nfile</span><span class=\"pun\">.</span><span class=\"pln\">close</span><span class=\"pun\">();</span><span class=\"pln\"> </span></pre> Writes the String representation of the object to the file. Users can open the file for writing from the start of the file or for appending to the end of the file. <br><br> If the file is not already open for writing or appending, then calling this will automatically open the file for writing (overwriting the current content of the file if it exists). <br><br> Throws an error if the file is already open for reading. "
+				}, {
+					"Operation": "read(int numberOfCharacters)",
+					"Returns": "String",
+					"Description": "<pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> file </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> </span><span class=\"typ\">File</span><span class=\"pun\">(</span><span class=\"str\">\"readme.txt\"</span><span class=\"pun\">);</span><span class=\"pln\">\nfile</span><span class=\"pun\">.</span><span class=\"pln\">open</span><span class=\"pun\">(</span><span class=\"str\">\"r\"</span><span class=\"pun\">);</span><span class=\"pln\">\n</span><span class=\"kwd\">var</span><span class=\"pln\"> text </span><span class=\"pun\">=</span><span class=\"pln\"> file</span><span class=\"pun\">.</span><span class=\"pln\">read</span><span class=\"pun\">(</span><span class=\"lit\">5</span><span class=\"pun\">);</span><span class=\"pln\">\n</span><span class=\"kwd\">print</span><span class=\"pun\">(</span><span class=\"pln\">text</span><span class=\"pun\">);</span><span class=\"pln\">\nfile</span><span class=\"pun\">.</span><span class=\"pln\">close</span><span class=\"pun\">();</span></pre> Reads the given number of characters from the file and returns a String representation of those characters. Users are required to open the file for reading before reading from the file. <br><br> If the file is not open for either reading or writing or appending, then calling this will automatically open the file for reading. "
+				}, {
+					"Operation": "getStream()",
+					"Returns": "Stream",
+					"Description": "<pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> file </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> </span><span class=\"typ\">File</span><span class=\"pun\">(</span><span class=\"str\">\"readme.txt\"</span><span class=\"pun\">);</span><span class=\"pln\">\nfile</span><span class=\"pun\">.</span><span class=\"pln\">open</span><span class=\"pun\">(</span><span class=\"str\">\"r\"</span><span class=\"pun\">);</span><span class=\"pln\">\n</span><span class=\"kwd\">print</span><span class=\"pun\">(</span><span class=\"pln\">file</span><span class=\"pun\">.</span><span class=\"pln\">getStream</span><span class=\"pun\">());</span><span class=\"pln\">\nfile</span><span class=\"pun\">.</span><span class=\"pln\">close</span><span class=\"pun\">();</span></pre> Can retrieve the input stream of a file "
+				}, {
+					"Operation": "readAll()",
+					"Returns": "String",
+					"Description": "<pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> file </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> </span><span class=\"typ\">File</span><span class=\"pun\">(</span><span class=\"str\">\"readme.txt\"</span><span class=\"pun\">);</span><span class=\"pln\">\nfile</span><span class=\"pun\">.</span><span class=\"pln\">open</span><span class=\"pun\">(</span><span class=\"str\">\"r\"</span><span class=\"pun\">);</span><span class=\"pln\">\n</span><span class=\"kwd\">print</span><span class=\"pun\">(</span><span class=\"pln\">file</span><span class=\"pun\">.</span><span class=\"pln\">readAll</span><span class=\"pun\">());</span><span class=\"pln\">\nfile</span><span class=\"pun\">.</span><span class=\"pln\">close</span><span class=\"pun\">();</span></pre> Reads all the content in the file and returns a String representation of the content. Users are required to open the file for reading before reading from the file. <br><br> If the file is not open for either reading or writing or appending, then calling this will automatically open the file for reading. <br> "
+				}, {
+					"Operation": "close()",
+					"Returns": "None",
+					"Description": "\n<pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> file </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> </span><span class=\"typ\">File</span><span class=\"pun\">(</span><span class=\"str\">\"readme.txt\"</span><span class=\"pun\">);</span><span class=\"pln\">\nfile</span><span class=\"pun\">.</span><span class=\"pln\">open</span><span class=\"pun\">(</span><span class=\"str\">\"r\"</span><span class=\"pun\">);</span><span class=\"pln\">\n</span><span class=\"kwd\">var</span><span class=\"pln\"> x </span><span class=\"pun\">=</span><span class=\"pln\"> file</span><span class=\"pun\">.</span><span class=\"pln\">readLine</span><span class=\"pun\">();</span><span class=\"pln\">\nfile</span><span class=\"pun\">.</span><span class=\"pln\">close</span><span class=\"pun\">();</span><span class=\"pln\">\nfile</span><span class=\"pun\">.</span><span class=\"pln\">open</span><span class=\"pun\">(</span><span class=\"str\">\"a\"</span><span class=\"pun\">);</span><span class=\"pln\">\nfile</span><span class=\"pun\">.</span><span class=\"pln\">write</span><span class=\"pun\">(</span><span class=\"str\">\"Hello world!\"</span><span class=\"pun\">);</span><span class=\"pln\">\nfile</span><span class=\"pun\">.</span><span class=\"pln\">close</span><span class=\"pun\">();</span></pre> Users are expected to close the file after reading, writing and appending to the file. "
+				}, {
+					"Operation": "move(String targetFileName)",
+					"Returns": "Boolean",
+					"Description": " <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> path </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">\"/foo.txt\"</span><span class=\"pun\">;</span><span class=\"pln\">\n</span><span class=\"kwd\">var</span><span class=\"pln\"> file </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> </span><span class=\"typ\">File</span><span class=\"pun\">(</span><span class=\"pln\">path</span><span class=\"pun\">);</span><span class=\"pln\">\nfile</span><span class=\"pun\">.</span><span class=\"pln\">move</span><span class=\"pun\">(</span><span class=\"str\">\"/bar.txt\"</span><span class=\"pun\">);</span></pre> Move the file to the given target file. Returns True if the file was successfully moved. "
+				}, {
+					"Operation": "saveAs(String targetLocation)",
+					"Returns": "Boolean",
+					"Description": " <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> path </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">\"/foo.txt\"</span><span class=\"pun\">;</span><span class=\"pln\">\n</span><span class=\"kwd\">var</span><span class=\"pln\"> file </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> </span><span class=\"typ\">File</span><span class=\"pun\">(</span><span class=\"pln\">path</span><span class=\"pun\">);</span><span class=\"pln\">\nfile</span><span class=\"pun\">.</span><span class=\"pln\">saveAs</span><span class=\"pun\">(</span><span class=\"str\">\"/newFile.txt\"</span><span class=\"pun\">);</span></pre> Save the file to the given target file. Returns True if the file was successfully moved. "
+				}, {
+					"Operation": "del()",
+					"Returns": "Boolean",
+					"Description": " <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> path </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">\"/foo.txt\"</span><span class=\"pun\">;</span><span class=\"pln\">\n</span><span class=\"kwd\">var</span><span class=\"pln\"> file </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> </span><span class=\"typ\">File</span><span class=\"pun\">(</span><span class=\"pln\">path</span><span class=\"pun\">);</span><span class=\"pln\">\n</span><span class=\"kwd\">print</span><span class=\"pun\">(</span><span class=\"pln\">file</span><span class=\"pun\">.</span><span class=\"kwd\">del</span><span class=\"pun\">())</span></pre> Deletes this file from the file system. Returns true or false depending on the success. "
+				}, {
+					"Operation": "getLength()",
+					"Returns": "Long",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">file</span><span class=\"pun\">.</span><span class=\"pln\">getLength</span><span class=\"pun\">()</span></pre> Length of the file in bytes"
+				}, {
+					"Operation": "getLastModified()",
+					"Returns": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">file</span><span class=\"pun\">.</span><span class=\"pln\">getLastModified</span><span class=\"pun\">()</span></pre> Last modified time of this file."
+				}, {
+					"Operation": "getName()",
+					"Returns": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">file</span><span class=\"pun\">.</span><span class=\"pln\">getName</span><span class=\"pun\">()</span></pre> Name of the file without the path."
+				}, {
+					"Operation": "isExists()",
+					"Returns": "Boolean",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">file</span><span class=\"pun\">.</span><span class=\"pln\">isExists</span><span class=\"pun\">()</span></pre> Checks whether this file actually exists. Returns True if the file exists."
+				}, {
+					"Operation": "isDirectory()",
+					"Returns": "Boolean",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">file</span><span class=\"pun\">.</span><span class=\"pln\">isDirectory</span><span class=\"pun\">()</span></pre> Checks whether the given file path is a directory"
+				}, {
+					"Operation": "listFiles()",
+					"Returns": "File[]",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">file</span><span class=\"pun\">.</span><span class=\"pln\">listFiles</span><span class=\"pun\">()</span></pre> Returns the list of files in a directory"
+				}, {
+					"Operation": "mkdir(String name)",
+					"Returns": "Boolean",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">file</span><span class=\"pun\">.</span><span class=\"pln\">mkdir</span><span class=\"pun\">()</span></pre> Creates the directory named by this abstract pathname."
+				}, {
+					"Operation": "getPath()",
+					"Returns": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">file</span><span class=\"pun\">.</span><span class=\"pln\">getPath</span><span class=\"pun\">()</span></pre> Converts this abstract pathname into a pathname String. The resulting String uses the default path-separator character to separate the names in the name sequence."
+				}
+			]
+		}
+	]
+}

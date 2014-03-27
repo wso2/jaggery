@@ -1,0 +1,18 @@
+<pre class="prettyprint">
+var file = new File("readme.txt");
+file.open("w");
+file.write("Hello World!");
+file.close(); 
+</pre>
+	
+
+<p>
+	Writes the String representation of the object to the file. Users can open the file for writing from the start of the file or for appending to the end of the file.
+</p>
+<p>
+	If the file is not already open for writing or appending, then calling this will automatically open the file for writing (overwriting the current content of the file if it exists).
+</p>
+<p>
+	Throws an error if the file is already open for reading.
+</p>
+

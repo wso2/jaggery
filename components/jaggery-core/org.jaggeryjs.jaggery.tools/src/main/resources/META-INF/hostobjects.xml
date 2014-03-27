@@ -1,7 +1,7 @@
 <hostObjects>
 
     <hostObject>
-        <className>org.jaggeryjs.hostobjects.email.EmailHostObject</className>
+        <className>org.jaggeryjs.modules.email.EmailHostObject</className>
         <name>Email</name>
     </hostObject>
 <!--
@@ -48,12 +48,12 @@
 -->
 
     <hostObject>
-        <className>org.jaggeryjs.hostobjects.ws.WSRequestHostObject</className>
+        <className>org.jaggeryjs.modules.ws.WSRequestHostObject</className>
         <name>WSRequest</name>
     </hostObject>
 
     <hostObject>
-        <className>org.jaggeryjs.hostobjects.ws.WSStubHostObject</className>
+        <className>org.jaggeryjs.modules.ws.WSStubHostObject</className>
         <name>WSStub</name>
     </hostObject>
 

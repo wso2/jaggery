@@ -1,0 +1,35 @@
+{
+    "sections": [{
+        "title": "Parameters",
+        "columns": ["Parameter", "Type", "Description"],
+        "rows": [{
+            "Parameter": "module_name",
+            "Type": "String",
+            "Description": "\n<pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> </span><span class=\"kwd\">module</span><span class=\"pln\"> </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">require</span><span class=\"pun\">(</span><span class=\"str\">\"module_name\"</span><span class=\"pun\">);</span></pre> The module name which is specified in the modules.xml "
+        }, {
+            "Parameter": "{scriptfile}.js",
+            "Type": "String",
+            "Description": "\n<pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> js </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">require</span><span class=\"pun\">(</span><span class=\"str\">\"foo.js\"</span><span class=\"pun\">);</span></pre> Path of the script that need to be imported "
+        }, {
+            "Parameter": "{jsonfile}.json",
+            "Type": "String",
+            "Description": "\n<pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> json </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">require</span><span class=\"pun\">(</span><span class=\"str\">\"bar.json\"</span><span class=\"pun\">);</span></pre> Path of the JSON file that need to be imported "
+        }]
+    }, {
+        "title": "Return values",
+        "columns": ["Value", "Type", "Description"],
+        "rows": [{
+            "Value": "module_name",
+            "Type": "Object",
+            "Description": "\n<pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> </span><span class=\"kwd\">module</span><span class=\"pln\"> </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">require</span><span class=\"pun\">(</span><span class=\"str\">\"module_name\"</span><span class=\"pun\">);</span></pre> the Module as a javascript object "
+        }, {
+            "Value": "{scriptfile}.js",
+            "Type": "Object",
+            "Description": "\n<pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> js </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">require</span><span class=\"pun\">(</span><span class=\"str\">\"foo.js\"</span><span class=\"pun\">);</span></pre> The imported script as a javascript object "
+        }, {
+            "Value": "{jsonfile}.json",
+            "Type": "Object",
+            "Description": "\n<pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> json </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">require</span><span class=\"pun\">(</span><span class=\"str\">\"bar.json\"</span><span class=\"pun\">);</span></pre> The imported JSON as a javascript object "
+        }]
+    }]
+}

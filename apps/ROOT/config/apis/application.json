@@ -1,0 +1,8 @@
+{
+	"api": "application",
+	"label": "application",
+	"category1": "Built-ins",
+	"category2" : "Variables",
+	"overview": "Object that holds properties which are global to the entire application.",
+	"deprecated" : false
+}

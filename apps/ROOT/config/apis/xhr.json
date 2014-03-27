@@ -1,0 +1,8 @@
+{
+	"api": "xhr",
+	"label": "XMLHTTPRequest",
+	"category1": "Built-ins",
+	"category2" : "Http Client",
+	"overview": "<code>XMLHttpRequest</code> provides the functionality of server side XML HTTP communication. This follows the W3C XMLHttpRequest specification.",
+	"deprecated" : false
+}

@@ -1,0 +1,25 @@
+{
+	"sections": [
+		{
+			"title": "Parameters",
+			"columns": ["Parameter", "Type", "Description"],
+			"rows": [
+				{
+					"Parameter": "jsonString",
+					"Type": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> jsonString </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">'{\"name\":\"nuwan\"}'</span><span class=\"pun\">;</span></pre> Stringified JSON object "
+				}
+			]
+		}, {
+			"title": "Return values",
+			"columns": ["Value", "Type", "Description"],
+			"rows": [
+				{
+					"Value": "obj",
+					"Type": "Object",
+					"Description": " <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> jsObj </span><span class=\"pun\">=</span><span class=\"pln\"> parse</span><span class=\"pun\">(</span><span class=\"pln\">jsonString</span><span class=\"pun\">)</span></pre> JSON object"
+				}
+			]
+		}
+	]
+}

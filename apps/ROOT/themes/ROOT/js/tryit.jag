@@ -1,0 +1,23 @@
+<%
+//This is a dynamic JavaScript file
+response.contentType = "application/javascript";
+var context = request.getContextPath();
+%>
+Tryit = new function () {
+    var viewurl = "<%=context%>/tryit/tryit.jag";
+    this.call = function () {
+        var arg = editor.getValue();
+        var qString = $('#qString').val();
+        var htmlResult;
+        TryitUtil.makePost(viewurl,
+                "inputstream=" + encodeURIComponent(arg) + "&" + qString, function (html) {
+                    htmlResult = html;
+                    $('#output').contents().find('html').html(htmlResult);
+                });
+    };
+    this.test = function () {
+        var xx = editor.getValue();
+        $('#output').html('<p>out' + arg + '</p>');
+        return arg;
+    };
+};

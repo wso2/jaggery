@@ -1,0 +1,70 @@
+{
+	"sections": [
+		{
+			"title": "Members",
+			"columns": ["Member", "Type", "Description"],
+			"rows": [
+				{
+				}, {
+					"Member": "onreadystatechange",
+					"Type": "Function",
+					"Description": "Ready state change callback when async mode is used."
+				}
+			]
+		}, {
+			"title": "Operations",
+			"columns": ["Operation", "Returns", "Description"],
+			"rows": [
+				{
+					"Operation": "XMLHttpRequest()",
+					"Returns": "None",
+					"Description": " <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> xhr </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> </span><span class=\"typ\">XMLHttpRequest</span><span class=\"pun\">();</span></pre> Returns a reference to the constructor of an object. "
+				}, {
+					"Operation": "status",
+					"Returns": "String",
+					"Description": "Retrieves the HTTP status code of the request."
+				}, {
+					"Operation": "readyState",
+					"Returns": "String",
+					"Description": "Retrieves the friendly HTTP status of the request. Holds the status of the XMLHttprequest. Changes from 0 to 4 <br><br> <ul> <li>0: xhr request not initialized </li> <li>1: server connection established </li> <li>2: request received </li> <li>3: processing request </li> <li>4:request finished and response is ready </li> </ul> "
+				}, {
+					"Operation": "statusText",
+					"Returns": "String",
+					"Description": "Returns the status-text (e.g. \"Not Found\" or \"OK\")"
+				}, {
+					"Operation": "responseText",
+					"Returns": "String",
+					"Description": "Retrieves the response body as a String."
+				}, {
+					"Operation": "responseXML",
+					"Returns": "XML",
+					"Description": "Retrieves the response body as an E4X XML Object "
+				}, {
+					"Operation": "open(method,url,async)",
+					"Returns": "String",
+					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">xhr</span><span class=\"pun\">.</span><span class=\"pln\">open</span><span class=\"pun\">(</span><span class=\"pln\">method</span><span class=\"pun\">,</span><span class=\"pln\">url</span><span class=\"pun\">,</span><span class=\"pln\">async</span><span class=\"pun\">);</span></pre> Specifies the type of request, the URL, whether the request should be handled asynchronously or not, and other optional attributes of a request. <ul> <li>method: the type of request: GET or POST <br> </li> <li>url: the location of the file on the server <br> </li> <li>async: true (asynchronous) or false (synchronous) <br> </li> </ul> "
+				}, {
+					"Operation": "send(String)",
+					"Returns": "String",
+					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">xhr</span><span class=\"pun\">.</span><span class=\"pln\">send</span><span class=\"pun\">(</span><span class=\"typ\">String</span><span class=\"pun\">);</span></pre> Sends the request off to the server. String is only used for POSTing a requests "
+				}, {
+					"Operation": "getAllResponseHeaders()",
+					"Returns": "String",
+					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">xhr</span><span class=\"pun\">.</span><span class=\"pln\">getAllResponseHeaders</span><span class=\"pun\">();</span></pre> Returns header information. "
+				}, {
+					"Operation": "setRequestHeader(name, value)",
+					"Returns": "None",
+					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">xhr</span><span class=\"pun\">.</span><span class=\"pln\">setRequestHeader</span><span class=\"pun\">(</span><span class=\"str\">\"Content-Type\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"application/json\"</span><span class=\"pun\">);</span></pre> Adds an HTTP header to the request. "
+				}, {
+					"Operation": "getResponseHeader(name)",
+					"Returns": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">xhr</span><span class=\"pun\">.</span><span class=\"pln\">getResponseHeader</span><span class=\"pun\">(</span><span class=\"str\">\"Content-Type\"</span><span class=\"pun\">);</span></pre> Gets the specified HTTP header from the response. "
+				}, {
+					"Operation": "abort()",
+					"Returns": "None",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">xhr</span><span class=\"pun\">.</span><span class=\"pln\">abort</span><span class=\"pun\">();</span></pre> Abort the request if async mode is used. "
+				}
+			]
+		}
+	]
+}

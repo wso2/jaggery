@@ -1,0 +1,43 @@
+{
+	"sections": [
+		{
+			"title": "Operations",
+			"columns": ["Member", "&nbsp;&nbsp;Type&nbsp;&nbsp;", "Description"],
+			"rows": [
+				{
+					"Member": "Log([logger])",
+					"&nbsp;&nbsp;Type&nbsp;&nbsp;": "Log",
+					"Description": "\n<pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> log </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> </span><span class=\"typ\">Log</span><span class=\"pun\">(</span><span class=\"str\">\"MYAPP\"</span><span class=\"pun\">);</span></pre> Returns a Log object with \"MYAPP\" named logger if empty, log will take script name as the default logger "
+				}, {
+					"Member": "debug(String | Object)",
+					"&nbsp;&nbsp;Type&nbsp;&nbsp;": "None",
+					"Description": "\n<pre class=\"prettyprint\"><span class=\"pln\">log</span><span class=\"pun\">.</span><span class=\"pln\">debug</span><span class=\"pun\">(</span><span class=\"str\">\"this is a debug message\"</span><span class=\"pun\">)</span></pre> prints a debug message to the console "
+				}, {
+					"Member": "info(String | Object)",
+					"&nbsp;&nbsp;Type&nbsp;&nbsp;": "None",
+					"Description": "\n<pre class=\"prettyprint\"><span class=\"pln\">log</span><span class=\"pun\">.</span><span class=\"pln\">info</span><span class=\"pun\">(</span><span class=\"str\">\"this is a info message\"</span><span class=\"pun\">)</span></pre> prints a info message to the console "
+				}, {
+					"Member": "warn(String | Object)",
+					"&nbsp;&nbsp;Type&nbsp;&nbsp;": "None",
+					"Description": "\n<pre class=\"prettyprint\"><span class=\"pln\">log</span><span class=\"pun\">.</span><span class=\"pln\">warn</span><span class=\"pun\">(</span><span class=\"str\">\"this is a warn message\"</span><span class=\"pun\">)</span></pre> prints a warn message to the console "
+				}, {
+					"Member": "error(String | Object)",
+					"&nbsp;&nbsp;Type&nbsp;&nbsp;": "None",
+					"Description": "\n<pre class=\"prettyprint\"><span class=\"pln\">log</span><span class=\"pun\">.</span><span class=\"pln\">error</span><span class=\"pun\">(</span><span class=\"str\">\"this is a error message\"</span><span class=\"pun\">)</span></pre> prints a error message to the console "
+				}, {
+					"Member": "fatal(String | Object)",
+					"&nbsp;&nbsp;Type&nbsp;&nbsp;": "None",
+					"Description": "\n<pre class=\"prettyprint\"><span class=\"pln\">log</span><span class=\"pun\">.</span><span class=\"pln\">fatal</span><span class=\"pun\">(</span><span class=\"str\">\"this is a fatal message\"</span><span class=\"pun\">)</span></pre> prints a fatal message to the console "
+				}, {
+					"Member": "isDebugEnabeld()",
+					"&nbsp;&nbsp;Type&nbsp;&nbsp;": "Boolean",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">log</span><span class=\"pun\">.</span><span class=\"pln\">isDebugEnabled</span><span class=\"pun\">()</span></pre> Returns true if Debug level is enabled. Default is true "
+				}, {
+					"Member": "isTraceEnabled()",
+					"&nbsp;&nbsp;Type&nbsp;&nbsp;": "Boolean",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">log</span><span class=\"pun\">.</span><span class=\"pln\">isTraceEnabled</span><span class=\"pun\">()</span></pre> Returns true if Trace level is enabled. Default is false "
+				}
+			]
+		}
+	]
+}

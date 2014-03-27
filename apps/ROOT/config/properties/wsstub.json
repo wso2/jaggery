@@ -1,0 +1,29 @@
+{
+	"sections": [
+		{
+			"title": "Members",
+			"columns": ["Member", "Type", "Description"],
+			"rows": [
+				{
+					"Member": "services",
+					"Type": "Array",
+					"Description": "<pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> versionService </span><span class=\"pun\">=</span><span class=\"pln\"> stub</span><span class=\"pun\">.</span><span class=\"pln\">services</span><span class=\"pun\">[</span><span class=\"str\">'Version'</span><span class=\"pun\">];</span><span class=\"pln\"> </span></pre>\nProvides the set of services defined in a given WSDL "
+				}, {
+					"Member": "operations",
+					"Type": "Array",
+					"Description": "<pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> getVersion </span><span class=\"pun\">=</span><span class=\"pln\"> stub</span><span class=\"pun\">.</span><span class=\"pln\">services</span><span class=\"pun\">[</span><span class=\"str\">'Version'</span><span class=\"pun\">].</span><span class=\"pln\">operations</span><span class=\"pun\">[</span><span class=\"str\">'getVersion'</span><span class=\"pun\">]</span><span class=\"pln\"> </span></pre>\nA member of a given service "
+				}
+			]
+		}, {
+			"title": "Operations",
+			"columns": ["Operation", "Returns", "Description"],
+			"rows": [
+				{
+					"Operation": "request()",
+					"Returns": "String",
+					"Description": "<pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> getVersion </span><span class=\"pun\">=</span><span class=\"pln\"> stub</span><span class=\"pun\">.</span><span class=\"pln\">services</span><span class=\"pun\">[</span><span class=\"str\">'Version'</span><span class=\"pun\">].</span><span class=\"pln\">operations</span><span class=\"pun\">[</span><span class=\"str\">'getVersion'</span><span class=\"pun\">];</span><span class=\"pln\">\n</span><span class=\"kwd\">print</span><span class=\"pun\">(</span><span class=\"pln\">getVersion</span><span class=\"pun\">.</span><span class=\"pln\">request</span><span class=\"pun\">(</span><span class=\"kwd\">null</span><span class=\"pun\">));</span><span class=\"pln\"> </span></pre> <code>request()</code> is a part of the operations for a given service. "
+				}
+			]
+		}
+	]
+}

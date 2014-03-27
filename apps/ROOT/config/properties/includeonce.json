@@ -1,0 +1,15 @@
+{
+	"sections": [
+		{
+			"title": "Parameters",
+			"columns": ["Parameter", "Type", "Description"],
+			"rows": [
+				{
+					"Parameter": "path",
+					"Type": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">include_once</span><span class=\"pun\">(</span><span class=\"str\">\"header.jag\"</span><span class=\"pun\">);</span></pre> Path to the jaggery script "
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,25 @@
+{
+	"sections": [
+		{
+			"title": "Parameters",
+			"columns": ["Parameter", "Type", "Description"],
+			"rows": [
+				{
+					"Parameter": "jsonObj",
+					"Type": "Object",
+					"Description": " <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> jsonObj </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"pun\">{};</span><span class=\"pln\">\njsonObj</span><span class=\"pun\">.</span><span class=\"pln\">name </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">\"nuwan\"</span><span class=\"pun\">;</span><span class=\"pln\">\njsonObj</span><span class=\"pun\">.</span><span class=\"pln\">company </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">\"wso2\"</span><span class=\"pun\">;</span></pre> A JSON Object "
+				}
+			]
+		}, {
+			"title": "Return values",
+			"columns": ["Value", "Type", "Description"],
+			"rows": [
+				{
+					"Value": "jsonString",
+					"Type": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> jsonStr </span><span class=\"pun\">=</span><span class=\"pln\"> stringify</span><span class=\"pun\">(</span><span class=\"pln\">jsonObj</span><span class=\"pun\">)</span></pre> Stringified JSON object"
+				}
+			]
+		}
+	]
+}

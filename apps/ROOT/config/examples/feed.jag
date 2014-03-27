@@ -1,0 +1,19 @@
+<%
+var blogURL = "http://madhukaudantha.blogspot.com/feeds/posts/default"; 
+var feed= new Feed(blogURL);
+ 
+print("Feed Title : " + feed.title + "<br/>");
+print("Feed author is : " + feed.authors[0] + "<br/>");
+ 
+print("First five entries are :</br>");
+var entries = feed.entries;
+ 
+for(var i=0;i < 5; i++) {
+	var entry = entries[i];
+%>
+	<tr>
+        <td><%=entry.title%></br></td>
+        </tr>
+<%
+} 
+%>

@@ -1,0 +1,31 @@
+{
+	"sections": [
+		{
+			"title": "Operations",
+			"columns": ["Operation", "Returns", "Description"],
+			"rows": [
+				{
+					"Operation": "Database(connectionUrl,<br> username, password[, config])",
+					"Returns": "Database",
+					"Description": "<pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> db </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> </span><span class=\"typ\">Database</span><span class=\"pun\">(</span><span class=\"str\">\"jdbc:h2:demo\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"admin\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"admin\"</span><span class=\"pun\">);</span></pre> Returns Database object for database communication <br> <br> <pre class=\"prettyprint\">var config = {\n\t\tdefaultAutoCommit: boolean,\n\t\tdefaultReadOnly: boolean,\n\t\tdefaultTransactionIsolation: \"String\",\n\t\tdefaultCatalog: \"String\",\n\t\tmaxActive: number,\n\t\tmaxIdle: number,\n\t\tminIdle: number,\n\t\tinitialSize: number,\n\t\tmaxWait: number,\n\t\ttestOnBorrow: boolean,\n\t\ttestOnReturn: boolean,\n\t\ttestWhileIdle: boolean,\n\t\tvalidationQuery: \"String\",\n\t\taccessToUnderlyingConnectionAllowed: boolean,\n\t\tlogAbandoned: boolean,\n\t\tconnectionProperties: \"String\",\n\t\tinitSQL: \"String\",\n\t\tvalidationInterval: number,\n\t\tmaxAge: number,\n\t\tsuspectTimeout: number\n}\nvar db = new Database(\"jdbc:h2:demo\", \"admin\", \"admin\", config);</pre> Returns Database object for database communication with optional configurations <br> "
+				}, {
+					"Operation": "query(query, callback)",
+					"Returns": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">db</span><span class=\"pun\">.</span><span class=\"pln\">query</span><span class=\"pun\">(</span><span class=\"str\">\"SELECT * FROM myTable\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"kwd\">function</span><span class=\"pun\">(</span><span class=\"pln\">results</span><span class=\"pun\">)</span><span class=\"pln\"> </span><span class=\"pun\">{})</span></pre> Ruery result will be returned to the callback "
+				}, {
+					"Operation": "commit()",
+					"Returns": "None",
+					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">db</span><span class=\"pun\">.</span><span class=\"pln\">commit</span><span class=\"pun\">()</span></pre> SQL transaction commit "
+				}, {
+					"Operation": "rollback()",
+					"Returns": "None",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">db</span><span class=\"pun\">.</span><span class=\"pln\">rollback</span><span class=\"pun\">()</span></pre> SQL transaction rollback "
+				}, {
+					"Operation": "close()",
+					"Returns": "None",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">db</span><span class=\"pun\">.</span><span class=\"pln\">close</span><span class=\"pun\">()</span></pre> SQL connection close "
+				}
+			]
+		}
+	]
+}

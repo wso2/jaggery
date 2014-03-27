@@ -1,0 +1,9 @@
+<html>
+<body>
+<%
+    var total = 1 + 1;
+%>
+<h2>Below is a Jaggery print</h2>
+<%=total%>
+</body>
+</html>

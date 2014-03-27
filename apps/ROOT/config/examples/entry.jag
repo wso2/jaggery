@@ -1,0 +1,19 @@
+<%
+//creating entries for feed
+var entry = new Entry();
+entry.title = "Jaggery Sample Entry";
+entry.content = "This is content for a sample atom entry";
+entry.authors = ["wso2", "Jaggery"];
+ 
+//creating list of entris
+var entries  = new Array();
+entries.push(entry);
+ 
+//creating feed
+var feed= new Feed();
+//adding new entries for Feed
+feed.entries = entries;
+ 
+//printing the feed
+print(feed.toString());
+%>

@@ -1,0 +1,8 @@
+{
+	"api": "collection",
+	"label": "Collection",
+	"category1": "Built-ins",
+	"category2" : "Data Storage",
+	"overview": "Collection can contain resources",
+	"deprecated" : false
+}

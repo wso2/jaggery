@@ -1,0 +1,7 @@
+<%
+	var myJson = {};
+	myJson.name = "nuwan";
+	myJson.company = "wso2";
+	
+	print(stringify(myJson));
+%>

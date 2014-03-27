@@ -1,0 +1,20 @@
+<pre class="prettyprint">
+var file = new File("readme.txt");
+file.open("r");
+var x = file.readLine();
+file.close();
+file.open("a");
+file.write("Hello world!");
+file.close();
+</pre>
+	
+<p>
+	Users are expected to close the file after reading, writing and appending to the file. 
+</p>
+
+
+
+	
+
+
+

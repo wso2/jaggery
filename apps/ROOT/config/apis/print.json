@@ -1,0 +1,8 @@
+{
+	"api": "print",
+	"label": "print()",
+	"category1": "Built-ins",
+	"category2" : "Output",
+	"overview": "<p class=\"description\">In-built function <code>print()</code> will write server-side output to the document.</p><pre class=\"prettyprint\">print(str | obj)</pre>",
+    "deprecated" : false
+}

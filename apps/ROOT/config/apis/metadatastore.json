@@ -1,0 +1,8 @@
+{
+	"api": "metadatastore",
+	"label": "MetadataStore",
+	"category1": "Built-ins",
+	"category2" : "Data Storage",
+	"overview": "This enables data manipulation through registry (metadata store) resources.",
+	"deprecated" : false
+}

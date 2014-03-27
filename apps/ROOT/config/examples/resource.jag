@@ -1,0 +1,14 @@
+<%
+var dataStore = new MetadataStore("admin", "admin");
+var resource = dataStore.newResource();
+resource.content = "Hello Jaggery";
+resource.addProperty("url", "http://wso2.com");
+resource.addProperty("company", "WSO2 Inc.");
+dataStore.put("wso2products.xml", resource);
+//now we read the resource again
+var res = dataStore.get("wso2products.xml");
+
+print("Company : "+res.getProperty("company"));
+print("<br>URL : " +res.getProperty("url"));
+print("<br>Content : "+res.content);
+%>

@@ -17,3 +17,17 @@ they need to get going.
 
 More information about jaggery can be found at 
 [jaggeryjs.org](http://jaggeryjs.org).
+
+###Building###
+
+1. Clone the repo using `git clone --recurse-submodules https://github.com/wso2/jaggery.git`.
+If you have already cloned repo, then init jaggery-extensions submodule using `git submodule init && git submodule update`
+2. `mvn clean install`
+
+
+####Jaggery Community Server (with docs, samples and modules)####
+
+1. Build Jaggery Core Server
+2. Build [Jaggery Extensions](https://github.com/wso2/jaggery-extensions) project
+3. Build Jaggery Community Server using `mvn clean install -P community`
+

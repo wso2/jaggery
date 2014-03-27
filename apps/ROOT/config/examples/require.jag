@@ -1,0 +1,11 @@
+<%
+var core = require("core");
+var log = new core.Log();
+log.info("Required the module");
+ 
+function myFunc() {
+    var ws = require("ws");
+    var client = new ws.WSRequest();
+    log.info("Required within a function");
+}
+%>

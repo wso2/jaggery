@@ -1,0 +1,57 @@
+{
+	"sections": [
+		{
+			"title": "Members",
+			"columns": ["Member", "Type", "Description"],
+			"rows": [
+				{
+					"Member": "from",
+					"Type": "String",
+					"Description": "<pre class=\"prettyprint\">sender.from = \"madhuka@wso2.com\"; </pre> An optional property to set the \"from\" address of the email to be sent. If not set the user account used to authenticate against the email gateway will be sent as the \"from\" address. <br> "
+				}, {
+					"Member": "to ",
+					"Type": "String or Array",
+					"Description" : ""
+				}, {
+					"Member": "cc ",
+					"Type": " String or Array",
+					"Description":"" 
+				}, {
+					"Member": "bcc",
+					"Type": "String or Array",
+					"Description": ""
+				}, {
+					"Member": "subject",
+					"Type": "String",
+					"Description": " <pre class=\"prettyprint\">sender.subject = \"WSO2 Jaggery on Released\";</pre> An optional property to set the subject of the email to be sent. "
+				}, {
+					"Member": "text",
+					"Type": "String",
+					"Description": " <pre class=\"prettyprint\">sender.text = \"Jaggery goes on live from 2012\"; </pre> An optional property to set the body text of the email to be sent. "
+				}, {
+					"Member": "html",
+					"Type": "String or XML Object",
+					"Description": ""
+				}
+			]
+		}, {
+			"title": "Operations",
+			"columns": ["Operations", "Returns", "Description"],
+			"rows": [
+				{
+					"Operations": "Sender()",
+					"Returns": "None",
+					"Description": " <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> sender </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> email</span><span class=\"pun\">.</span><span class=\"typ\">Sender</span><span class=\"pun\">(</span><span class=\"str\">\"smtp.example.com\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"25\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"username@example.com\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"password\"</span><span class=\"pun\">);</span><span class=\"pln\"> </span></pre> <br> <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> sender </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> email</span><span class=\"pun\">.</span><span class=\"typ\">Sender</span><span class=\"pun\">(</span><span class=\"str\">\"smtp.gmail.com\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"25\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"username@gmail.com\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"password\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"tls\"</span><span class=\"pun\">);</span><span class=\"pln\"> </span></pre> Adding <code>\"tls\"</code> as the fifth argument will enable TLS for the communication<br> "
+				}, {
+					"Operations": "addAttachment([String filePath] [FileHostObject file]) ",
+					"Returns": "None",
+					"Description": "<pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> file </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> </span><span class=\"typ\">File</span><span class=\"pun\">(</span><span class=\"str\">\"temp.txt\"</span><span class=\"pun\">);</span><span class=\"pln\"> </span><span class=\"com\">// A file exists at temp.txt</span><span class=\"pln\">\nsender</span><span class=\"pun\">.</span><span class=\"pln\">addAttachement</span><span class=\"pun\">(</span><span class=\"pln\">file</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"temp.txt\"</span><span class=\"pun\">);</span><span class=\"pln\"> </span></pre> An optional property to add attchments to the email been sent. This function has a variable number of arguments, each argument can be a File hostObject or a String representing a file. "
+				}, {
+					"Operations": "send() ",
+					"Returns": "None",
+					"Description": "Used to send the email."
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,8 @@
+{
+	"api": "put",
+	"label": "put()",
+	"category1": "Built-ins",
+	"category2" : "Http Client",
+	"overview": "<code>put()</code> is a wrapper for <i>XMLHTTPRequest's</i> PUT method. using <code>put()</code> you can avoid the use of <i>XHR</i> and shorten the server-side PUT requests<pre class=\"prettyprint\">put(url[, data][, type][, headers][, success(data, xhr)]) </pre><pre class=\"prettyprint\">var res = put(url[, data][, type][, headers])</pre>",
+	"deprecated" : false
+}

@@ -1,0 +1,115 @@
+{
+	"sections": [
+		{
+			"title": "Operations",
+			"columns": ["Operation", "Returns", "Description"],
+			"rows": [
+				{
+					"Operation": "getMethod()",
+					"Returns": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">request</span><span class=\"pun\">.</span><span class=\"pln\">getMethod</span><span class=\"pun\">()</span></pre> Returns the HTTP method of the request "
+				}, {
+					"Operation": "getProtocol()",
+					"Returns": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">request</span><span class=\"pun\">.</span><span class=\"pln\">getProtocol</span><span class=\"pun\">()</span></pre> Returns the protocol of the request "
+				}, {
+					"Operation": "getQueryString()",
+					"Returns": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">request</span><span class=\"pun\">.</span><span class=\"pln\">getQueryString</span><span class=\"pun\">()</span></pre> Returns the query String of the request "
+				}, {
+					"Operation": "getContent()",
+					"Returns": "String | Object",
+					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">request</span><span class=\"pun\">.</span><span class=\"pln\">getContent</span><span class=\"pun\">()</span></pre> <p>Returns the content of the request.</p><p>If the request content type is either <code>application/json</code> or <code>application/json/badgerfish</code>, then content is returned as an object. Otherwise, it is returned as a String.</p> "
+				}, {
+					"Operation": "getContentType()",
+					"Returns": "String",
+					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">request</span><span class=\"pun\">.</span><span class=\"pln\">getContentType</span><span class=\"pun\">()</span></pre> Returns the content Type of the request "
+				}, {
+					"Operation": "getContentLength()",
+					"Returns": "Number",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">request</span><span class=\"pun\">.</span><span class=\"pln\">getContentLength</span><span class=\"pun\">()</span></pre> Returns the content length of the request "
+				}, {
+					"Operation": "getRequestURI()",
+					"Returns": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">request</span><span class=\"pun\">.</span><span class=\"pln\">getRequestURI</span><span class=\"pun\">()</span></pre> Returns the part of this request's URL from the protocol name up to the query String in the first line of the HTTP request "
+				}, {
+					"Operation": "getRequestURL()",
+					"Returns": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">request</span><span class=\"pun\">.</span><span class=\"pln\">getRequestURL</span><span class=\"pun\">()</span></pre> Reconstructs the URL the client used to make the request "
+				}, {
+					"Operation": "getPathTranslated()",
+					"Returns": "Object",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">request</span><span class=\"pun\">.</span><span class=\"pln\">getPathTranslated</span><span class=\"pun\">()</span></pre> Returns any extra path information before the query String, and translates it to a real path.\nIf the URL does not have any extra path information, this method returns null.<br><br> "
+				}, {
+					"Operation": "isSecure()",
+					"Returns": "Boolean",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">request</span><span class=\"pun\">.</span><span class=\"pln\">isSecure</span><span class=\"pun\">()</span></pre> Returns a Boolean indicating whether this request was made using a secure channel, such as HTTPS. "
+				}, {
+					"Operation": "getRemoteAddr()",
+					"Returns": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">request</span><span class=\"pun\">.</span><span class=\"pln\">getRemoteAddr</span><span class=\"pun\">()</span></pre> Returns the Internet Protocol (IP) address of the client that sent the request. "
+				}, {
+					"Operation": "getContextPath()",
+					"Returns": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">request</span><span class=\"pun\">.</span><span class=\"pln\">getContextPath</span><span class=\"pun\">()</span></pre> Returns the portion of the request URI that indicates the context of the request "
+				}, {
+					"Operation": "getLocalPort()",
+					"Returns": "Number",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">request</span><span class=\"pun\">.</span><span class=\"pln\">getLocalPort</span><span class=\"pun\">()</span></pre> Returns the request local port number "
+				}, {
+					"Operation": "getUser()",
+					"Returns": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">request</span><span class=\"pun\">.</span><span class=\"pln\">getUser</span><span class=\"pun\">()</span></pre> Returns the name of the current authenticated user. "
+				}, {
+					"Operation": "getInputStream()",
+					"Returns": "Stream",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">request</span><span class=\"pun\">.</span><span class=\"pln\">getInputStream</span><span class=\"pun\">()</span></pre> Retrieves the body of the request as binary data. "
+				}, {
+					"Operation": "getHeader(headerName) ",
+					"Returns": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">request</span><span class=\"pun\">.</span><span class=\"pln\">getHeader</span><span class=\"pun\">(</span><span class=\"str\">\"User-Agent\"</span><span class=\"pun\">)</span></pre> Returns the Header properties "
+				}, {
+					"Operation": "getAllHeaders() ",
+					"Returns": "Object",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">request</span><span class=\"pun\">.</span><span class=\"pln\">getAllHeaders</span><span class=\"pun\">()</span></pre> Returns all request headers as an object.<br><br>\n<pre class=\"prettyprint\"><span class=\"pun\">{</span><span class=\"pln\"> </span><span class=\"str\">\"Content-Type\"</span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"str\">\"application/json\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"User-Agent\"</span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"str\">\"Mozilla/5.0\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"Cookie\"</span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"str\">\"JSESSIONID=4DA02FE19BA086964227\"</span><span class=\"pln\">\n</span><span class=\"pun\">}</span></pre> "
+				}, {
+					"Operation": "getParameter(paramname [,charset]) ",
+					"Returns": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">request</span><span class=\"pun\">.</span><span class=\"pln\">getParameter</span><span class=\"pun\">(</span><span class=\"str\">\"action\"</span><span class=\"pun\">)</span></pre> Returns the request parameter. For <code>multipart/form-data</code> requests, an optional <code>charset</code> parameter can be passed to get the encoded value. <br> "
+				}, {
+					"Operation": "getAllParameters([charset]) ",
+					"Returns": "Object",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">request</span><span class=\"pun\">.</span><span class=\"pln\">getAllParameters</span><span class=\"pun\">(</span><span class=\"str\">\"UTF-8\"</span><span class=\"pun\">)</span></pre> Returns all request parameters as an object. For <code>multipart/form-data</code> requests, an optional <code>charset</code> parameter can be passed to get the encoded values. <br> "
+				}, {
+					"Operation": "getLocale() ",
+					"Returns": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">request</span><span class=\"pun\">.</span><span class=\"pln\">getLocale</span><span class=\"pun\">()</span></pre> Returns the preferred Locale that the client will accept content in, based on the Accept-Language header. <br> "
+				}, {
+					"Operation": "getAllLocales() ",
+					"Returns": "Object",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">request</span><span class=\"pun\">.</span><span class=\"pln\">getAllLocales</span><span class=\"pun\">()</span></pre> Returns an Enumeration of Locale objects indicating, in decreasing order starting with the preferred locale,If the client request doesn't provide an Accept-Language header, this method returns an Enumeration containing one Locale, the default locale for the server. <br> "
+				}, {
+					"Operation": "getMappedPath() ",
+					"Returns": "Object",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">getMappedPath</span><span class=\"pun\">()</span></pre> If file is mapped and request came through mapping.<code>getMappedPathURL()</code> will return file. If file is not mapped It will return null. <br> "
+				}, {
+					"Operation": "getFile(formFeildName)",
+					"Returns": "File",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">request</span><span class=\"pun\">.</span><span class=\"pln\">getFile</span><span class=\"pun\">(</span><span class=\"str\">\"fieldName\"</span><span class=\"pun\">)</span></pre> Returns a file object when the content type is <code>multipart/form-data</code> <br><br>\n<pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> file </span><span class=\"pun\">=</span><span class=\"pln\"> request</span><span class=\"pun\">.</span><span class=\"pln\">getFile</span><span class=\"pun\">(</span><span class=\"str\">\"userfile\"</span><span class=\"pun\">);</span><span class=\"pln\">\nfile</span><span class=\"pun\">.</span><span class=\"pln\">saveAs</span><span class=\"pun\">(</span><span class=\"pln\">file</span><span class=\"pun\">.</span><span class=\"pln\">getName</span><span class=\"pun\">());</span></pre> "
+				}, {
+					"Operation": "getAllFiles()",
+					"Returns": "Object",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">request</span><span class=\"pun\">.</span><span class=\"pln\">getAllFiles</span><span class=\"pun\">()</span></pre> Returns an object of files when the content type is <code>multipart/form-data</code> <br><br>\n<pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> files </span><span class=\"pun\">=</span><span class=\"pln\"> request</span><span class=\"pun\">.</span><span class=\"pln\">getAllFiles</span><span class=\"pun\">();</span><span class=\"pln\">\n</span><span class=\"kwd\">for</span><span class=\"pun\">(</span><span class=\"kwd\">var</span><span class=\"pln\"> name </span><span class=\"kwd\">in</span><span class=\"pln\"> files</span><span class=\"pun\">)</span><span class=\"pln\"> </span><span class=\"pun\">{</span><span class=\"pln\"> </span><span class=\"kwd\">if</span><span class=\"pun\">(</span><span class=\"pln\">files</span><span class=\"pun\">.</span><span class=\"pln\">hasOwnProperty</span><span class=\"pun\">(</span><span class=\"pln\">file</span><span class=\"pun\">))</span><span class=\"pln\"> </span><span class=\"pun\">{</span><span class=\"pln\"> </span><span class=\"kwd\">var</span><span class=\"pln\"> file </span><span class=\"pun\">=</span><span class=\"pln\"> files</span><span class=\"pun\">[</span><span class=\"pln\">name</span><span class=\"pun\">];</span><span class=\"pln\"> file</span><span class=\"pun\">.</span><span class=\"pln\">saveAs</span><span class=\"pun\">(</span><span class=\"pln\">name</span><span class=\"pun\">);</span><span class=\"pln\"> </span><span class=\"pun\">}</span><span class=\"pln\">\n</span><span class=\"pun\">}</span></pre> "
+				}, {
+					"Operation": "getCookie(name)",
+					"Returns": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">request</span><span class=\"pun\">.</span><span class=\"pln\">getCookie</span><span class=\"pun\">(</span><span class=\"pln\">name</span><span class=\"pun\">)</span></pre> Returns a cookie object.<br><br>\n<pre class=\"prettyprint\"><span class=\"pun\">{</span><span class=\"pln\"> </span><span class=\"str\">\"name\"</span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"str\">\"user\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"value\"</span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"str\">\"ruchira\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"domain\"</span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"str\">\"jaggeryjs.org\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"maxAge\"</span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"lit\">100000</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"secure\"</span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"kwd\">true</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"path\"</span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"str\">\"/\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"comment\"</span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"str\">\"Authenticated user\"</span><span class=\"pln\">\n</span><span class=\"pun\">}</span></pre> "
+				}, {
+					"Operation": "getAllCookies()",
+					"Returns": "Object",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">request</span><span class=\"pun\">.</span><span class=\"pln\">getAllCookies</span><span class=\"pun\">()</span></pre> Returns an object with cookies.<br><br>\n<pre class=\"prettyprint\"><span class=\"pun\">{</span><span class=\"pln\"> </span><span class=\"str\">\"user\"</span><span class=\"pln\"> </span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"pun\">{</span><span class=\"pln\"> </span><span class=\"str\">\"name\"</span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"str\">\"user\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"pun\">.....</span><span class=\"pln\"> </span><span class=\"pun\">},</span><span class=\"pln\"> </span><span class=\"str\">\"remember\"</span><span class=\"pln\"> </span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"pun\">{</span><span class=\"pln\"> </span><span class=\"str\">\"name\"</span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"str\">\"remember\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"pun\">.....</span><span class=\"pln\"> </span><span class=\"pun\">}</span><span class=\"pln\">\n</span><span class=\"pun\">}</span></pre> "
+				}
+			]
+		}
+	]
+}

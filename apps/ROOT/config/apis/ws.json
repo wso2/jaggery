@@ -1,0 +1,8 @@
+{
+	"api": "ws",
+	"label": "WSRequest",
+	"category1": "Add-ons",
+	"category2" : "Web Services",
+	"overview": "The WSRequest object is similar to the XMLHTTPRequest object. It's usage typically involves specifying the endpoint address and setting up options on how to frame the message, invoking the operation with a specific XML payload, and then checking and extracting information from the result.",
+	"deprecated" : false
+}

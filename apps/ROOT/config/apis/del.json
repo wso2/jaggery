@@ -1,0 +1,8 @@
+{
+	"api": "del",
+	"label": "del()",
+	"category1": "Built-ins",
+	"category2" : "Http Client",
+	"overview": "<code>del()</code> is a wrapper for XMLHTTPRequest's DELETE method. using <code>del()</code> you can avoid the use of XHR and shorten the server-side <i>DELETE</i> requests<pre class=\"prettyprint\">del(url[, data][, type][, headers][, success(data, xhr)])</pre> <pre class=\"prettyprint\">var data = {'key':'value'};\nvar headers = {'key', 'value'};\ndel(url, data, \"text\", headers, function (data, xhr) {\n\tlog(\"Response received\");\n});</pre>",
+	"deprecated" : false
+}

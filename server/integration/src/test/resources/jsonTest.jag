@@ -1,14 +1,15 @@
 <%
+
 var param = request.getParameter('action');
 var reqType = request.getMethod();
-if(param == "stringify"){
+if (param == "stringify") {
     var myJson = {};
     myJson.name = "Test parameters";
-	myJson.type = reqType;
+    myJson.type = reqType;
     print(stringify(myJson));
-	}else{
-   var jsonString = '[{"type":"'+reqType+'", "name":"Test"}]';
-   print(parse(jsonString));
-   }
-   
+} else {
+    var jsonString = '[{"type":"' + reqType + '", "name":"Test"}]';
+    print(parse(jsonString));
+}
+
 %>

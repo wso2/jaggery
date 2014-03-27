@@ -1,0 +1,13 @@
+<pre class="prettyprint">
+"securityConstraints": [{
+    "securityConstraint": {
+        "webResourceCollection": {
+            "name": "foo",
+            "urlPatterns": ["/bar/*"],
+            "methods": ["GET", "POST", "PUT", "DELETE"]
+        },
+        "authRoles": ["admin"]
+    }
+}]
+</pre>
+<p>specifys security constraint for a certain web resource (jaggery file/directory etc). </p>

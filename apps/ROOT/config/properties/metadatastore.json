@@ -1,0 +1,43 @@
+{
+	"sections": [
+		{
+			"title": "Operations",
+			"columns": ["Operation", "Returns", "Description"],
+			"rows": [
+				{
+					"Operation": "MetadataStore(\"username\", \"password\")",
+					"Returns": "MetadataStore",
+					"Description": "\n<pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> dataStore </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> </span><span class=\"typ\">MetadataStore</span><span class=\"pun\">(</span><span class=\"str\">\"username\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"password\"</span><span class=\"pun\">);</span></pre>\nReturns a new metadata store "
+				}, {
+					"Operation": "resourceExists(String path);",
+					"Returns": "Boolean",
+					"Description": "\n<pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> dataStore </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> </span><span class=\"typ\">MetadataStore</span><span class=\"pun\">(</span><span class=\"str\">\"username\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"password\"</span><span class=\"pun\">);</span><span class=\"pln\">\n</span><span class=\"kwd\">boolean</span><span class=\"pln\"> existance </span><span class=\"pun\">=</span><span class=\"pln\"> dataStore</span><span class=\"pun\">.</span><span class=\"pln\">resourceExists</span><span class=\"pun\">(</span><span class=\"str\">\"middleware/wso2/products\"</span><span class=\"pun\">);</span></pre> This method returns true or false depending on the existence of either a Resource or a Collection in the specified path.<br><br> Above code returns true if a resource exists in the path /_system/governance/middleware/wso2/products. "
+				}, {
+					"Operation": "get(String path, [Number start, Number pageSize]);",
+					"Returns": "Object",
+					"Description": "This method returns the resource in the specified path. If the resource in the path is a collection, then a Collection object is returned. Else, it returns a Resource object. If it is a collection, then you can specfify optional start and pageSize parameters to filter your results.<br><br> "
+				}, {
+					"Operation": "remove(String path);",
+					"Returns": "None",
+					"Description": "This method removes the resource in the specified path from the Metadata store. "
+				}, {
+					"Operation": "put(String suggestedPath, Resource|Collection resource);",
+					"Returns": "String",
+					"Description": "This method adds either a Resource or a Collection into the specified path in the Metadata store. "
+				}, {
+					"Operation": "createLink(String path, String target);",
+					"Returns": "String",
+					"Description": "Creates a link to a existing resource. "
+				}, {
+					"Operation": "newResource();",
+					"Returns": "Resource",
+					"Description": "Where you insert a new Resource into the Metadata store, then you should use this method to create the initial Resource object.<br><br> "
+				}, {
+					"Operation": "newCollection();",
+					"Returns": "Collection",
+					"Description": "Where you insert a new Resource into the Metadata store, then you should use this method to create the initial Resource object. "
+				}
+			]
+		}
+	]
+}

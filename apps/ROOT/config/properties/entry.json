@@ -1,0 +1,73 @@
+{
+	"sections": [
+		{
+			"title": "Members",
+			"columns": ["Member", "Type", "Description"],
+			"rows": [
+				{
+					"Member": "id",
+					"Type": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">entry</span><span class=\"pun\">.</span><span class=\"pln\">id</span></pre> Returns the id. <pre class=\"prettyprint\"><span class=\"pln\">entry</span><span class=\"pun\">.</span><span class=\"pln\">id </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">\"id1\"</span><span class=\"pun\">;</span></pre> Setting the id attribute. "
+				}, {
+					"Member": "authors",
+					"Type": "String [ ] ",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">entry</span><span class=\"pun\">.</span><span class=\"pln\">authors</span><span class=\"pun\">[</span><span class=\"pln\">i</span><span class=\"pun\">]</span></pre> Returns the i th author of the entry. <pre class=\"prettyprint\"><span class=\"pln\">entry</span><span class=\"pun\">.</span><span class=\"pln\">authors </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"pun\">[</span><span class=\"str\">\"author1\"</span><span class=\"pun\">,</span><span class=\"str\">\"author2\"</span><span class=\"pun\">];</span></pre> Setting an array of authors to the entry. "
+				}, {
+					"Member": "categories",
+					"Type": "String [ ]",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">entry</span><span class=\"pun\">.</span><span class=\"pln\">categories</span><span class=\"pun\">[</span><span class=\"pln\">i</span><span class=\"pun\">]</span></pre> Returns the i th category of the entry. <pre class=\"prettyprint\"><span class=\"pln\">entry</span><span class=\"pun\">.</span><span class=\"pln\">categories </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"pun\">[</span><span class=\"str\">\"cat1\"</span><span class=\"pun\">,</span><span class=\"str\">\"cat2\"</span><span class=\"pun\">];</span></pre> Setting an array of categories to the entry. "
+				}, {
+					"Member": "content",
+					"Type": "String ",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">entry</span><span class=\"pun\">.</span><span class=\"pln\">content</span></pre> Returns the content. <pre class=\"prettyprint\"><span class=\"pln\">entry</span><span class=\"pun\">.</span><span class=\"pln\">content </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">\"content1\"</span><span class=\"pun\">;</span></pre> Setting the content attribute. "
+				}, {
+					"Member": "contributors",
+					"Type": "String [ ] ",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">entry</span><span class=\"pun\">.</span><span class=\"pln\">contributors</span><span class=\"pun\">[</span><span class=\"pln\">i</span><span class=\"pun\">]</span></pre> Returns the i th contributor of the entry. <pre class=\"prettyprint\"><span class=\"pln\">entry</span><span class=\"pun\">.</span><span class=\"pln\">contributors </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"pun\">[</span><span class=\"str\">\"cont1\"</span><span class=\"pun\">,</span><span class=\"str\">\"cont2\"</span><span class=\"pun\">];</span></pre> Setting an array of contributors to the entry. "
+				}, {
+					"Member": "links",
+					"Type": "String [ ] ",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">entry</span><span class=\"pun\">.</span><span class=\"pln\">links</span><span class=\"pun\">[</span><span class=\"pln\">i</span><span class=\"pun\">]</span></pre> Returns the i th location of the entry. <pre class=\"prettyprint\"><span class=\"pln\">entry</span><span class=\"pun\">.</span><span class=\"pln\">links </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"pun\">[</span><span class=\"str\">\"link1\"</span><span class=\"pun\">,</span><span class=\"str\">\"link2\"</span><span class=\"pun\">];</span></pre> Setting locations of the entry. "
+				}, {
+					"Member": "published",
+					"Type": "Date ",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">entry</span><span class=\"pun\">.</span><span class=\"pln\">published</span></pre> Returns the published date of the entry. <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> d1 </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> </span><span class=\"typ\">Date</span><span class=\"pun\">(</span><span class=\"str\">\"March 13, 2013 11:13:00\"</span><span class=\"pun\">)</span><span class=\"pln\">\nentry</span><span class=\"pun\">.</span><span class=\"pln\">published </span><span class=\"pun\">=</span><span class=\"pln\"> d1</span><span class=\"pun\">;</span></pre> Setting published date of the entry. "
+				}, {
+					"Member": "rights",
+					"Type": "String ",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">entry</span><span class=\"pun\">.</span><span class=\"pln\">rights</span></pre> Returns the rights associated with this entry. <pre class=\"prettyprint\"><span class=\"pln\">entry</span><span class=\"pun\">.</span><span class=\"pln\">rights </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">\"right1\"</span><span class=\"pun\">;</span></pre> Setting rights associated with this entry. "
+				}, {
+					"Member": "summary",
+					"Type": "String ",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">entry</span><span class=\"pun\">.</span><span class=\"pln\">summary</span></pre> Returns the summary of this entry. <pre class=\"prettyprint\"><span class=\"pln\">entry</span><span class=\"pun\">.</span><span class=\"pln\">summary </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">\"summary1\"</span><span class=\"pun\">;</span></pre> Setting the summary attribute. "
+				}, {
+					"Member": "title",
+					"Type": "String ",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">entry</span><span class=\"pun\">.</span><span class=\"pln\">title</span></pre> Returns the title of this entry. <pre class=\"prettyprint\"><span class=\"pln\">entry</span><span class=\"pun\">.</span><span class=\"pln\">title </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">\"title1\"</span><span class=\"pun\">;</span></pre> Setting the title attribute. "
+				}, {
+					"Member": "updated",
+					"Type": "Date",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">entry</span><span class=\"pun\">.</span><span class=\"pln\">updated</span></pre> Returns the last updated date of the entry. <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> d1 </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> </span><span class=\"typ\">Date</span><span class=\"pun\">(</span><span class=\"str\">\"March 13, 2013 11:13:00\"</span><span class=\"pun\">)</span><span class=\"pln\">\nentry</span><span class=\"pun\">.</span><span class=\"pln\">updated </span><span class=\"pun\">=</span><span class=\"pln\"> d1</span><span class=\"pun\">;</span></pre> Setting the last updated date of the entry. "
+				}
+			]
+		}, {
+			"title": "Operations",
+			"columns": ["Operations", "Returns", "Description"],
+			"rows": [
+				{
+					"Operations": "Entry()",
+					"Returns": "Entry",
+					"Description": " <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> entry </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">new</span><span class=\"pln\"> </span><span class=\"typ\">Entry</span><span class=\"pun\">();</span></pre> Returns an Entry object "
+				}, {
+					"Operations": "toXML()",
+					"Returns": "XML",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">entry</span><span class=\"pun\">.</span><span class=\"pln\">toXML</span><span class=\"pun\">()</span></pre> Returns the E4X XML contents of this Entry object. "
+				}, {
+					"Operations": "toString()",
+					"Returns": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">entry</span><span class=\"pun\">.</span><span class=\"pln\">toString</span><span class=\"pun\">()</span></pre> Returns the String representation of the Entry"
+				}
+			]
+		}
+	]
+}

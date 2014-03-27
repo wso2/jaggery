@@ -1,0 +1,31 @@
+{
+	"sections": [
+		{
+			"title": "Operations",
+			"columns": ["Member", "Returns", "Description"],
+			"rows": [
+				{
+					"Member": "OAuthProvider(provider)",
+					"Returns": "OAuthProvider Object",
+					"Description": "Returns the OAuthProvider Object<br><br> <pre class=\"prettyprint\">var oauth = require(\"oauth\");\nvar provider = {\n\t\t\"oauth_version\": \"1\",\n\t\t\"authorization_url\": \"https://www.linkedin.com/uas/oauth/authorize\",\n\t\t\"access_token_url\": \"https://api.linkedin.com/uas/oauth/accessToken\",\n\t\t\"request_token_url\": \"https://api.linkedin.com/uas/oauth/requestToken\",\n\t\t\"api_key\": \"API_KEY\",\n\t\t\"api_secret\": \"SECRET\"\n}\nvar linkedin = new oauth.OAuthProvider(provider);</pre> "
+				}, {
+					"Member": "getAuthorizationUrl()",
+					"Returns": "String",
+					"Description": "Returns the authorization url to obtain the authentication code<br><br> "
+				}, {
+					"Member": "getAccessToken(authCode)",
+					"Returns": "Object",
+					"Description": "returns a token object <br><br> <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> accessToken </span><span class=\"pun\">=</span><span class=\"pln\"> linkedin</span><span class=\"pun\">.</span><span class=\"pln\">getAccessToken</span><span class=\"pun\">(</span><span class=\"str\">\"3741501\"</span><span class=\"pun\">);</span></pre> "
+				}, {
+					"Member": "sendOAuthRequest(accessToken, verb, url[,parameters])",
+					"Returns": "Object",
+					"Description": "returns a oauth response object. <br><br> <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> response </span><span class=\"pun\">=</span><span class=\"pln\"> linkedin</span><span class=\"pun\">.</span><span class=\"pln\">sendOAuthRequest</span><span class=\"pun\">(</span><span class=\"pln\">accessToken</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"GET\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"http://api.linkedin.com/v1/groups/59053/posts?count=20&amp;start=1&amp;format=json\"</span><span class=\"pun\">);</span></pre> "
+				}, {
+					"Member": "response.getBody()",
+					"Returns": "String",
+					"Description": "returns the response body. <br><br> <pre class=\"prettyprint\"><span class=\"kwd\">print</span><span class=\"pun\">(</span><span class=\"pln\">response</span><span class=\"pun\">.</span><span class=\"pln\">getBody</span><span class=\"pun\">());</span></pre> "
+				}
+			]
+		}
+	]
+}

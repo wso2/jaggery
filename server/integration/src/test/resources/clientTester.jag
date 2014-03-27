@@ -1,23 +1,23 @@
 <%
+
 var param = request.getParameter('action');
 print("Web Socket Client Tester : ");
 
-if(param == "start") {
-	makeCall("start",645,695);
-}else
-if(param == "send") {
-	makeCall("send",650,700);
-}else
-if(param == "close") {
-makeCall("close",650,702);
+if (param == "start") {
+    makeCall("start", 645, 695);
+} else if (param == "send") {
+    makeCall("send", 650, 700);
+} else if (param == "close") {
+    makeCall("close", 650, 702);
 }
-function makeCall(action,start,end){
+function makeCall(action, start, end) {
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://localhost:9763/testapp/client.jag?action="+action);
+    xhr.open("GET", "http://localhost:9763/testapp/client.jag?action=" + action);
     xhr.send();
     var out = xhr.responseText.length
-    print(start<out);
-    print(out<end);
-    print(start<out<end);
-   }
+    print(start < out);
+    print(out < end);
+    print(start < out < end);
+}
+
 %>

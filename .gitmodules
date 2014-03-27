@@ -1,0 +1,3 @@
+[submodule "jaggery-extensions"]
+	path = jaggery-extensions
+	url = https://github.com/wso2/jaggery-extensions.git

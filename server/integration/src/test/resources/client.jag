@@ -41,17 +41,17 @@ function doSomething() {
 }
 <%
 
-if(param == "start") {
-print("start();");
-}else
-if(param == "send") {
-new Log().info("Send")
-print("doSomething();");
-}else
-if(param == "close") {
-print("start();");
-print("close();");
+
+if (param == "start") {
+    print("start();");
+} else if (param == "send") {
+    new Log().info("Send")
+    print("doSomething();");
+} else if (param == "close") {
+    print("start();");
+    print("close();");
 }
+
 %>
 
 

@@ -1,0 +1,44 @@
+{
+	"sections": [
+		{
+			"title": "Configuration Options",
+			"columns": ["Configuration", "Description"],
+			"rows": [
+				{
+					"Configuration": "displayName",
+					"Description": "\n<pre class=\"prettyprint\"><span class=\"str\">\"displayName\"</span><span class=\"pln\"> </span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"str\">\"Minimal Sample\"</span></pre>\nThe display name of the application "
+				}, {
+					"Configuration": "welcomeFiles",
+					"Description": "\n<pre class=\"prettyprint\"><span class=\"str\">\"welcomeFiles\"</span><span class=\"pln\"> </span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"pun\">[</span><span class=\"str\">\"index.jag\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"index.html\"</span><span class=\"pun\">]</span></pre>\nspecifys an array of welcome files "
+				}, {
+					"Configuration": "logLevel",
+					"Description": "\n<pre class=\"prettyprint\"><span class=\"str\">\"logLevel\"</span><span class=\"pln\"> </span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"str\">\"info\"</span></pre>\nspecifys log level [info|debug|error|warn|fatal] for application "
+				}, {
+					"Configuration": "errorPages",
+					"Description": "\n<pre class=\"prettyprint\"><span class=\"str\">\"errorPages\"</span><span class=\"pun\">:[{</span><span class=\"pln\"> </span><span class=\"str\">\"errorCode\"</span><span class=\"pun\">:</span><span class=\"str\">\"500\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"location\"</span><span class=\"pun\">:</span><span class=\"str\">\"/error1.html\"</span><span class=\"pln\"> </span><span class=\"pun\">}]</span></pre>\nspecifys an error page for the corresponding HTTP error code "
+				}, {
+					"Configuration": "securityConstraints",
+					"Description": "\n<pre class=\"prettyprint\"><span class=\"str\">\"securityConstraints\"</span><span class=\"pun\">:[</span><span class=\"pln\"> </span><span class=\"pun\">{</span><span class=\"pln\"> </span><span class=\"str\">\"securityConstraint\"</span><span class=\"pun\">:{</span><span class=\"pln\"> </span><span class=\"str\">\"webResourceCollection\"</span><span class=\"pun\">:{</span><span class=\"pln\"> </span><span class=\"str\">\"name\"</span><span class=\"pun\">:</span><span class=\"str\">\"foo\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"urlPatterns\"</span><span class=\"pun\">:[</span><span class=\"str\">\"/bar/*\"</span><span class=\"pun\">],</span><span class=\"pln\"> </span><span class=\"str\">\"methods\"</span><span class=\"pun\">:[</span><span class=\"str\">\"GET\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"POST\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"PUT\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"DELETE\"</span><span class=\"pun\">]</span><span class=\"pln\"> </span><span class=\"pun\">},</span><span class=\"pln\"> </span><span class=\"str\">\"authRoles\"</span><span class=\"pun\">:[</span><span class=\"str\">\"admin\"</span><span class=\"pun\">]</span><span class=\"pln\"> </span><span class=\"pun\">}</span><span class=\"pln\"> </span><span class=\"pun\">}</span><span class=\"pln\"> </span><span class=\"pun\">]</span></pre>\nspecifys security constraint for a certain web resource (jaggery file/directory etc). "
+				}, {
+					"Configuration": "loginConfig <br>[\"BASIC\" <br>| \"CLIENT-CERT\" <br>| \"FORM\"]",
+					"Description": "\n<pre class=\"prettyprint\"><span class=\"str\">\"loginConfig\"</span><span class=\"pun\">:{</span><span class=\"pln\"> </span><span class=\"str\">\"authMethod\"</span><span class=\"pun\">:</span><span class=\"str\">\"BASIC\"</span><span class=\"pln\"> </span><span class=\"pun\">}</span></pre>\nspecifys login mechanism \"BASIC\" or \"FORM\" "
+				}, {
+					"Configuration": "securityRoles",
+					"Description": "\n<pre class=\"prettyprint\"><span class=\"str\">\"securityRoles\"</span><span class=\"pun\">:[</span><span class=\"str\">\"admin\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"everyone\"</span><span class=\"pun\">]</span></pre>\nspecifys the roles that applies to application's security constraints "
+				}, {
+					"Configuration": "urlMappings",
+					"Description": "\n<pre class=\"prettyprint\"><span class=\"str\">\"urlMappings\"</span><span class=\"pln\"> </span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"pun\">[{</span><span class=\"pln\"> </span><span class=\"str\">\"url\"</span><span class=\"pln\"> </span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"str\">\"/sample/uri-mapping\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"path\"</span><span class=\"pln\"> </span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"str\">\"/index.jag\"</span><span class=\"pln\"> </span><span class=\"pun\">}]</span></pre>\nspecifys URL mappings "
+				}, {
+					"Configuration": "distributable",
+					"Description": "\n<pre class=\"prettyprint\"><span class=\"str\">\"distributable\"</span><span class=\"pln\"> </span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"pun\">true</span></pre>\n application will distributable. It allow to use session replication efficiently."
+				}, {
+					"Configuration": "initScripts",
+					"Description": "\n<pre class=\"prettyprint\"><span class=\"str\">\"initScripts\"</span><span class=\"pln\"> </span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"pun\">[</span><span class=\"pln\"> </span><span class=\"str\">\"init.js\"</span><span class=\"pln\"> </span><span class=\"pun\">]</span></pre>\n specifys scripts to run at application deployment time."
+				}, {
+					"Configuration": "destroyScripts",
+					"Description": "\n<pre class=\"prettyprint\"><span class=\"str\">\"destroyScripts\"</span><span class=\"pln\"> </span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"pun\">[</span><span class=\"pln\"> </span><span class=\"str\">\"destroy.js\"</span><span class=\"pln\"> </span><span class=\"pun\">]</span></pre>\n specifys scripts to run when application undeploy."
+				}
+			]
+		}
+	]
+}

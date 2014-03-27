@@ -1,0 +1,8 @@
+{
+	"api": "oauth",
+	"label": "OAuthProvider",
+	"category1": "Add-ons",
+	"category2" : "Authentication",
+	"overview": "OAuthProvider api act as an oauth client for accessing resources protected by OAuth",
+	"deprecated" : false
+}

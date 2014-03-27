@@ -1,0 +1,34 @@
+<div class="span3 sidebar">
+
+	{{#each list}}
+	<h4>{{category}}</h4>
+
+	<ul>
+		{{#if subcategories}}
+		
+			{{#each subcategories}}
+			<li>
+				<h5>{{category}}</h5>
+				<ul>
+					{{#each apis}}
+					<li {{#if active}} class="active" {{/if}}>
+						<a href="?api={{api}}" {{#if deprecated}}  data-toggle="tooltip" title="Deprecated API" class="sidebar-deprecated-api" {{/if}}><i class="fa fa-cog"></i> {{label}}</a>
+					</li>
+					{{/each}}
+				</ul>
+			</li>
+			{{/each}}
+		
+		{{else}}
+
+			{{#each apis}}
+			<li {{#if active}} class="active" {{/if}}>
+				<a href="?api={{api}}"><i class="fa fa-cog"></i> {{label}}</a>
+			</li>
+			{{/each}}
+
+		{{/if}}
+
+	</ul>
+	{{/each}}
+</div>

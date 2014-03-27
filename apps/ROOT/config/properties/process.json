@@ -1,0 +1,31 @@
+{
+	"sections": [
+		{
+			"title": "Operations",
+			"columns": ["Operation", "Returns", "Description"],
+			"rows": [
+				{
+					"Operation": "getEnv(String name)",
+					"Returns": "String",
+					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">process</span><span class=\"pun\">.</span><span class=\"pln\">getEnv</span><span class=\"pun\">(</span><span class=\"str\">\"JAVA_HOME\"</span><span class=\"pun\">)</span></pre> Gets the value of the specified environment variable. "
+				}, {
+					"Operation": "getEnvs()",
+					"Returns": "Scriptable",
+					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">process</span><span class=\"pun\">.</span><span class=\"pln\">getEnvs</span><span class=\"pun\">()</span></pre> <code>getEnvs()</code> Returns an unmodifiable String map view of the current system environment. "
+				}, {
+					"Operation": "setProperty(String key,String value)",
+					"Returns": "String",
+					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">process</span><span class=\"pun\">.</span><span class=\"pln\">setProperty</span><span class=\"pun\">(</span><span class=\"str\">\"Key\"</span><span class=\"pun\">,</span><span class=\"str\">\"Test Property\"</span><span class=\"pun\">)</span></pre> Sets the system property indicated by the specified key. "
+				}, {
+					"Operation": "getProperty(String propertyName)",
+					"Returns": "String",
+					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">process</span><span class=\"pun\">.</span><span class=\"pln\">getProperty</span><span class=\"pun\">(</span><span class=\"str\">\"Key\"</span><span class=\"pun\">)</span></pre> Gets the system property indicated by the specified key."
+				}, {
+					"Operation": "getProperties()",
+					"Returns": "Scriptable",
+					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">process</span><span class=\"pun\">.</span><span class=\"pln\">getProperties</span><span class=\"pun\">()</span></pre> <code>getProperties()</code> Determines the current system properties. "
+				}
+			]
+		}
+	]
+}

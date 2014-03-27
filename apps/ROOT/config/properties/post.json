@@ -1,0 +1,45 @@
+{
+	"sections": [
+		{
+			"title": "Parameters",
+			"columns": ["Parameter", "Type", "Description"],
+			"rows": [
+				{
+					"Parameter": "url",
+					"Type": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> url </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">'http://jaggeryjs.org/apidocs/resources/data.jag'</span><span class=\"pun\">;</span></pre> The URL which HTTP POST is performed "
+				}, {
+					"Parameter": "data",
+					"Type": "Object|String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> param </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"pun\">{</span><span class=\"pln\">param1</span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"str\">\"value1\"</span><span class=\"pun\">,</span><span class=\"pln\"> param2</span><span class=\"pun\">:</span><span class=\"str\">\"value2\"</span><span class=\"pun\">}</span></pre> Request parameters"
+				}, {
+					"Parameter": "headers",
+					"Type": "Object",
+					"Description": "Optional HTTP headers.\n<pre class=\"prettyprint\"><span class=\"pun\">{</span><span class=\"pln\"> </span><span class=\"str\">\"Content-Type\"</span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"str\">\"application/json\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"User-Agent\"</span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"str\">\"Mozilla/5.0\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"str\">\"Cookie\"</span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"str\">\"JSESSIONID=4DA02FE19BA086964227\"</span><span class=\"pln\">\n</span><span class=\"pun\">}</span></pre> "
+				}, {
+					"Parameter": "type",
+					"Type": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> type </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">\"json\"</span></pre> The type, which the response is expected. Allowed types are <code>json, xml</code> or <code>text</code>. Returned response will be serialized either to an object, E4X XML or String depending on the value passed. <code>text</code> is the default value."
+				}, {
+					"Parameter": "success(data:Object,<br> xhr:Object)",
+					"Type": "function",
+					"Description": "On success callback. <code>data</code> will be passed according to the above mentioned <code>type</code> parameter passed during the invocation."
+				}
+			]
+		}, {
+			"title": "Return values",
+			"columns": ["Value", "Type", "Description"],
+			"rows": [
+				{
+					"Value": "data",
+					"Type": "Object",
+					"Description": "Contains the return data of the HTTP POST request"
+				}, {
+					"Value": "xhr",
+					"Type": "Object",
+					"Description": "Contains an instance of XMLHTTPRequest"
+				}
+			]
+		}
+	]
+}

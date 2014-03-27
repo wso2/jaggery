@@ -1,0 +1,45 @@
+{
+	"sections": [
+		{
+			"title": "Parameters",
+			"columns": ["Parameter", "Type", "Description"],
+			"rows": [
+				{
+					"Parameter": "url",
+					"Type": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> url </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">\"http://www.webservicex.com/globalweather.asmx/GetWeather\"</span></pre> The URL which HTTP get is performed"
+				}, {
+					"Parameter": "data",
+					"Type": "Object",
+					"Description": " <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> param </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"pun\">{</span><span class=\"typ\">CityName</span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"str\">\"Dalian\"</span><span class=\"pun\">,</span><span class=\"pln\"> </span><span class=\"typ\">CountryName</span><span class=\"pun\">:</span><span class=\"str\">\"China\"</span><span class=\"pun\">}</span></pre> Request parameters"
+				}, {
+					"Parameter": "type",
+					"Type": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> type </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"str\">\"xml\"</span><span class=\"pun\">;</span></pre> The type, which the response is expected"
+				}, {
+					"Parameter": "headers",
+					"Type": "Object",
+					"Description": " <pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> headers </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"pun\">{</span><span class=\"str\">\"From\"</span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"str\">\"user@example.com\"</span><span class=\"pun\">};</span></pre> Optional HTTP headers"
+				}, {
+					"Parameter": "success(data:Object,<br> xhr:Object)",
+					"Type": "function",
+					"Description": "On success callback"
+				}
+			]
+		}, {
+			"title": "Return values",
+			"columns": ["Value", "Type", "Description"],
+			"rows": [
+				{
+					"Value": "data",
+					"Type": "Object",
+					"Description": "Contains the return data of the HTTP GET request"
+				}, {
+					"Value": "xhr",
+					"Type": "Object",
+					"Description": "Contains an instance of XMLHTTPRequest"
+				}
+			]
+		}
+	]
+}

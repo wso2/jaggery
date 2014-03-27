@@ -1,0 +1,7 @@
+{
+	"api": "html",
+	"label": "<% %>",
+	"category1": "Basic Syntax",
+	"overview": "<% %> are the escaping characters for Jaggery. All the server-side code need to be wrapped by these escape characters, so that they will execute correctly in the server.",
+	"deprecated" : false
+}

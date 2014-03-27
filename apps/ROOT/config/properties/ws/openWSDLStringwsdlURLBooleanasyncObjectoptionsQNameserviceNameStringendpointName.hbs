@@ -1,0 +1,46 @@
+<p>
+	This method can be used to invoke a external web service which advertices a WSDL. Using this method had many advantages over using the open method.
+</p>
+<ol>
+	<li>
+		The user does not need to know how to frame the request. i.e. Whcih SOAP version to use? What should be the request be sent to? How do I configure WS-Security? and so on
+	</li>
+	<li>
+		Can be used to invoke services that are secured using WS-Security
+	</li>
+</ol>
+   
+<p>
+	This method acceps the following parameters
+</p>
+
+<ul>
+	<li> wsdlURL (String) - The url at which the WSDL is available at. Currently supports WSDL 1.1</li>
+	   
+   <li> async (boolean): A Boolean flag representing whether the operation should be invoked asynchrounously or not.</li>
+   <li> options (array): An array of options needed to parse in information to invoke secured services.</li>
+</ul>
+
+<p>
+	The following is a list of supported options
+</p>
+<ul>
+	<li>
+		username - Used to specify the username if the service needs a username token to carry out any WS-Security related operations.
+	</li>
+	<li>
+		password - Used to specify the password if the service needs a password token to carry out any WS-Security related operations.
+	</li>
+	<li>
+		encryptionUser - Used to specify the alias of the certificate to use in Encryption if the service needs the request to be encrypted.
+	</li>
+	<li>
+		mep - Allows you to control the Message Exchange Pattern for an invocation. Supported values are in-only (need to send a request and do not care about the response) and in-out (request - response). Defaults to in-out.
+	</li>
+	<li>
+		serviceName (QName) - The QName of the service to be invoked. Could be usefull if the WSDL has multiple services. If not specified the ffirst service in the WSDL is used.
+	</li>
+	<li>
+		endpointName (String) - The name of the endpoint to use wehn invoking the service. Could be usefull if the service has multiple endpoints and you prefer to use a particular one. If not specified the first SOAP endpoint is used.
+	</li>
+</ul>

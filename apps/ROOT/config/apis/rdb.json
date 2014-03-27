@@ -1,0 +1,8 @@
+{
+	"api": "rdb",
+	"label": "Database",
+	"category1": "Built-ins",
+	"category2" : "Data Storage",
+	"overview": "The Database Object is used to connect to a relational database through jaggery and provides most of the default functionality and manipulation through the below members/functions. Jaggery out of the box support H2 database engine, and with little configuration supports MySql and Oracle.<br>In-order to connect to other database engines, you need to place the connector libs (MySql lib, Oracle lib) into Jaggery runtime. you can copy these files to <code>{JAGGERY_HOME}/carbon/repository/components/lib/</code>",
+	"deprecated" : false
+}

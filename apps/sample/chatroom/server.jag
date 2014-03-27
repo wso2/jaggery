@@ -1,0 +1,59 @@
+<%
+var log = new Log();
+webSocket.ontext = function (data) {
+	log.debug('Client Sent : ' + data);
+	var ws = this;
+	var list = application.get('list');
+	var currentdate = new Date();
+	var dateStr = currentdate.toLocaleTimeString();
+	//broadcasting
+	for(var i = list.length - 1; i >= 0; i--) {		
+		list[i].send(dateStr.substring(0,11)+' '+data);
+	}
+
+};
+
+webSocket.onbinary = function (stream) {
+	log.debug('Client Streamed : ' + stream.toString());
+};
+
+
+webSocket.onopen = function (outstre) {
+	log.debug(this.toString());
+	var streamList=[];
+	var list = application.get('list');
+	var name = request.getParameter("user");
+	if(list ==null){
+		log.debug('adding list');
+		streamList.push(this);
+		application.put('list', streamList);
+		log.debug(streamList.length);
+	}
+	else{
+		var storedList = application.get('list');
+		storedList.push(this);
+		application.put('list', storedList);
+		log.debug(storedList.length);
+	}
+};
+
+webSocket.onclose = function (status) {
+
+	log.debug('Client Streamed close');
+	log.debug(this.outbound);
+	var list = application.get('list');
+	log.debug(list.length);
+	for(var i = list.length - 1; i >= 0; i--) {
+		if(list[i] === this) {
+			list.splice(i, 1);
+			log.debug("removing element");
+		}
+	}
+
+
+
+	log.debug(list.length);
+	log.debug(this.outbound.toString());
+};
+
+%>

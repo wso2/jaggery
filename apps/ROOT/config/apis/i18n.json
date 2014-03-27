@@ -1,0 +1,8 @@
+{
+	"api": "i18n",
+	"label": "i18n",
+	"category1": "Add-ons",
+	"category2" : "Internationalization",
+	"overview": "i18n provides the ability to internationalize text in webapps <br>The content related to localization, need to be placed as json files with the name locale_{language_code}.json, i.e french locale file will be locale_fr.json The content is in JSON which will have simple key-vale pairs like follows.<pre class=\"prettyprint\">{\n\"greetings.local\": \"FranÃ§ais - DÃ©mo de l10n.js\", \n\"info.local\": \"Vous lisez une localisation en franÃ§ais de cette page.\"\n}</pre>",
+	"deprecated" : false
+}

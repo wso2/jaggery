@@ -1,0 +1,19 @@
+{
+	"sections": [
+		{
+			"title": "Parameters",
+			"columns": ["Parameter", "Type", "Description"],
+			"rows": [
+				{
+					"Parameter": "str",
+					"Type": "String",
+					"Description": " <pre class=\"prettyprint\"><span class=\"kwd\">print</span><span class=\"pun\">(</span><span class=\"str\">\"hello\"</span><span class=\"pun\">);</span></pre> print a String to the response "
+				}, {
+					"Parameter": "obj",
+					"Type": "Object",
+					"Description": "\n<pre class=\"prettyprint\"><span class=\"kwd\">var</span><span class=\"pln\"> obj </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"pun\">{</span><span class=\"str\">\"name\"</span><span class=\"pun\">:</span><span class=\"pln\"> </span><span class=\"str\">\"jaggery\"</span><span class=\"pun\">};</span><span class=\"pln\">\n</span><span class=\"kwd\">print</span><span class=\"pun\">(</span><span class=\"pln\">obj</span><span class=\"pun\">);</span><span class=\"pln\"> </span></pre> Passing a Javascript object to <code>print()</code> serialize the object to the response "
+				}
+			]
+		}
+	]
+}

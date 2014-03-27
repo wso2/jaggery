@@ -1,0 +1,37 @@
+{
+	"sections": [
+		{
+			"title": "Members",
+			"columns": ["Member", "Type", "Description"],
+			"rows": [
+				{
+					"Member": "ontext",
+					"Type": "Scriptable",
+					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">webSocket</span><span class=\"pun\">.</span><span class=\"pln\">ontext </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">function</span><span class=\"pln\"> </span><span class=\"pun\">(</span><span class=\"pln\">data</span><span class=\"pun\">)</span><span class=\"pln\"> </span><span class=\"pun\">{</span><span class=\"pln\"> log</span><span class=\"pun\">.</span><span class=\"pln\">info</span><span class=\"pun\">(</span><span class=\"str\">'Client sent : '</span><span class=\"pln\"> </span><span class=\"pun\">+</span><span class=\"pln\"> data</span><span class=\"pun\">);</span><span class=\"pln\"> </span><span class=\"pun\">};</span></pre> Create the instance that will process this inbound connection for text and allow to handle a GET request. "
+				}, {
+					"Member": "onbinary",
+					"Type": "Scriptable",
+					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">webSocket</span><span class=\"pun\">.</span><span class=\"pln\">onbinary </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">function</span><span class=\"pln\"> </span><span class=\"pun\">(</span><span class=\"pln\">stream</span><span class=\"pun\">)</span><span class=\"pln\"> </span><span class=\"pun\">{</span><span class=\"pln\"> log</span><span class=\"pun\">.</span><span class=\"pln\">info</span><span class=\"pun\">(</span><span class=\"str\">'Client Streamed : '</span><span class=\"pln\"> </span><span class=\"pun\">+</span><span class=\"pln\"> stream</span><span class=\"pun\">.</span><span class=\"pln\">toString</span><span class=\"pun\">());</span><span class=\"pln\"> </span><span class=\"pun\">};</span></pre> Create the instance that will process this inbound connection for stream. "
+				}, {
+					"Member": "onopen",
+					"Type": "Scriptable",
+					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">webSocket</span><span class=\"pun\">.</span><span class=\"pln\">onopen </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">function</span><span class=\"pln\"> </span><span class=\"pun\">(</span><span class=\"pln\">stream</span><span class=\"pun\">)</span><span class=\"pln\"> </span><span class=\"pun\">{</span><span class=\"pln\"> log</span><span class=\"pun\">.</span><span class=\"pln\">info</span><span class=\"pun\">(</span><span class=\"str\">'Client Open : '</span><span class=\"pln\"> </span><span class=\"pun\">+</span><span class=\"pln\"> stream</span><span class=\"pun\">.</span><span class=\"pln\">toString</span><span class=\"pun\">());</span><span class=\"pln\"> </span><span class=\"pun\">};</span></pre> Create the instance that will process when socket connection is established. "
+				}, {
+					"Member": "onclose",
+					"Type": "Scriptable",
+					"Description": "<pre class=\"prettyprint\"><span class=\"pln\">webSocket</span><span class=\"pun\">.</span><span class=\"pln\">onclose </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">function</span><span class=\"pln\"> </span><span class=\"pun\">(</span><span class=\"pln\">stream</span><span class=\"pun\">)</span><span class=\"pln\"> </span><span class=\"pun\">{</span><span class=\"pln\"> log</span><span class=\"pun\">.</span><span class=\"pln\">info</span><span class=\"pun\">(</span><span class=\"str\">'Client Close'<span class=\"pun\">)};</span></pre> Create the instance that will process when connection is closed. "
+				}
+			]
+		}, {
+			"title": "Operations",
+			"columns": ["Operation", "Returns", "Description"],
+			"rows": [
+				{
+					"Operation": "send (String text | Stream stream)",
+					"Returns": "None",
+					"Description": "Sends data to the socket (inbound connection).<pre class=\"prettyprint\"><span class=\"pln\">webSocket</span><span class=\"pun\">.</span><span class=\"pln\">ontext </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">function</span><span class=\"pln\"> </span><span class=\"pun\">(</span><span class=\"pln\">data</span><span class=\"pun\">)</span><span class=\"pln\"> </span><span class=\"pun\">{</span><span class=\"pln\"> </span><span class=\"kwd\">var</span><span class=\"pln\"> ws </span><span class=\"pun\">=</span><span class=\"pln\"> </span><span class=\"kwd\">this</span><span class=\"pun\">;</span><span class=\"pln\"> setTimeout</span><span class=\"pun\">(</span><span class=\"kwd\">function</span><span class=\"pln\"> </span><span class=\"pun\">()</span><span class=\"pln\"> </span><span class=\"pun\">{</span><span class=\"pln\"> ws</span><span class=\"pun\">.</span><span class=\"pln\">send</span><span class=\"pun\">(</span><span class=\"pln\">data</span><span class=\"pun\">);</span><span class=\"pln\"> </span><span class=\"pun\">},</span><span class=\"pln\"> </span><span class=\"lit\">5000</span><span class=\"pun\">);</span><span class=\"pln\"> </span><span class=\"pun\">};</span></pre> "
+				}
+			]
+		}
+	]
+}
