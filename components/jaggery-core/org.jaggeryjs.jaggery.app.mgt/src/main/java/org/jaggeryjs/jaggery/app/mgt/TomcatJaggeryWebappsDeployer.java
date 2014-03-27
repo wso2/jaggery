@@ -223,10 +223,17 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                 context.setDistributable(true);
                 CarbonTomcatClusterableSessionManager sessionManager =
                         new CarbonTomcatClusterableSessionManager(tenantId);
-                context.setManager(sessionManager);
-                sessionManagerMap.put(context.getName(), sessionManager);
-                configurationContext.setProperty(CarbonConstants.TOMCAT_SESSION_MANAGER_MAP,
-                        sessionManagerMap);
+                context.setManager(sessionManager);                
+                
+                Object alreadyinsertedSMMap = configurationContext.getProperty(CarbonConstants.TOMCAT_SESSION_MANAGER_MAP);
+                if(alreadyinsertedSMMap != null){
+                	((Map<String, CarbonTomcatClusterableSessionManager>) alreadyinsertedSMMap).put(context.getName(), sessionManager);
+                }else{
+                	sessionManagerMap.put(context.getName(), sessionManager);
+                	configurationContext.setProperty(CarbonConstants.TOMCAT_SESSION_MANAGER_MAP,
+                            sessionManagerMap);
+                }
+                
             } else {
                 context.setManager(new CarbonTomcatSessionManager(tenantId));
             }
