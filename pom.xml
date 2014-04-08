@@ -22,7 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jaggeryjs</groupId>
     <artifactId>jaggery-parent</artifactId>
-    <version>0.9.0-SNAPSHOT</version>
+    <version>0.9.0.ALPHA4</version>
     <packaging>pom</packaging>
     <name>jaggeryjs - Parent</name>
     <url>http://jaggeryjs.org</url>
@@ -299,9 +299,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- jaggery versions -->
-        <jaggery.component.version>0.9.0-SNAPSHOT</jaggery.component.version>
-        <jaggery.feature.version>0.9.0-SNAPSHOT</jaggery.feature.version>
-        <jaggery.deployer.osgi.version>0.9.0.SNAPSHOT</jaggery.deployer.osgi.version>
+        <jaggery.component.version>0.9.0.ALPHA4</jaggery.component.version>
+        <jaggery.feature.version>0.9.0.ALPHA4</jaggery.feature.version>
+        <jaggery.deployer.osgi.version>0.9.0.ALPHA4</jaggery.deployer.osgi.version>
 
         <!-- carbon versions -->
         <carbon.kernal.version>4.2.0</carbon.kernal.version>
