@@ -22,7 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jaggeryjs</groupId>
     <artifactId>jaggery-parent</artifactId>
-    <version>0.9.0-SNAPSHOT</version>
+    <version>0.9.0.ALPHA4.wso2v4</version>
     <packaging>pom</packaging>
     <name>jaggeryjs - Parent</name>
     <url>http://jaggeryjs.org</url>
@@ -299,9 +299,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- jaggery versions -->
-        <jaggery.component.version>0.9.0-SNAPSHOT</jaggery.component.version>
-        <jaggery.feature.version>0.9.0-SNAPSHOT</jaggery.feature.version>
-        <jaggery.deployer.osgi.version>0.9.0.SNAPSHOT</jaggery.deployer.osgi.version>
+        <jaggery.component.version>0.9.0.ALPHA4.wso2v4</jaggery.component.version>
+        <jaggery.feature.version>0.9.0.ALPHA4.wso2v4</jaggery.feature.version>
+        <jaggery.deployer.osgi.version>0.9.0.ALPHA4_wso2v4</jaggery.deployer.osgi.version>
 
         <!-- carbon versions -->
         <carbon.kernal.version>4.2.0</carbon.kernal.version>
@@ -337,17 +337,17 @@
         <maven-dependency-plugin.version>2.4</maven-dependency-plugin.version>
 
         <!-- jaggery modules -->
-        <caramel.module.version>1.1.0-SNAPSHOT</caramel.module.version>
-        <carbon.module.version>1.0.0-SNAPSHOT</carbon.module.version>
-        <email.module.version>1.0.0-SNAPSHOT</email.module.version>
-        <handlebars.module.version>1.0.0-SNAPSHOT</handlebars.module.version>
-        <markdown.module.version>1.0.0-SNAPSHOT</markdown.module.version>
-        <gadget.module.version>1.0.0-SNAPSHOT</gadget.module.version>
-        <i18n.module.version>1.0.0-SNAPSHOT</i18n.module.version>
-        <oauth.module.version>1.0.0-SNAPSHOT</oauth.module.version>
-        <process.module.version>1.0.0-SNAPSHOT</process.module.version>
-        <uuid.module.version>1.0.0-SNAPSHOT</uuid.module.version>
-        <ws.module.version>1.0.0-SNAPSHOT</ws.module.version>
+        <caramel.module.version>1.0.1</caramel.module.version>
+        <carbon.module.version>1.0.0</carbon.module.version>
+        <email.module.version>1.0.0</email.module.version>
+        <handlebars.module.version>1.0.0</handlebars.module.version>
+        <markdown.module.version>1.0.0</markdown.module.version>
+        <gadget.module.version>1.0.0</gadget.module.version>
+        <i18n.module.version>1.0.0</i18n.module.version>
+        <oauth.module.version>1.0.0</oauth.module.version>
+        <process.module.version>1.0.0</process.module.version>
+        <uuid.module.version>1.0.0</uuid.module.version>
+        <ws.module.version>1.0.0</ws.module.version>
     </properties>
 
     <distributionManagement>
