@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * Copyright (c) 2005-2010, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
@@ -47,40 +48,46 @@ public class WebAppSessionListener implements HttpSessionListener {
         ServletContext ctx = httpSessionEvent.getSession().getServletContext();
 
         List<Object> jsListeners = (List<Object>) ctx.getAttribute(JaggeryCoreConstants.JS_CREATED_LISTENERS);
-        JaggeryContext clonedContext = WebAppManager.clonedJaggeryContext(ctx);
+        if (jsListeners == null) {
+            return;
+        }
 
-        RhinoEngine engine = clonedContext.getEngine();
-        Context cx = engine.enterContext();
-
-
-        ScriptableObject clonedScope = clonedContext.getScope();
+        JaggeryContext shared = WebAppManager.sharedJaggeryContext(ctx);
+        Context cx = shared.getEngine().enterContext();
+        JaggeryContext context = CommonManager.getJaggeryContext();
+        if (CommonManager.getJaggeryContext() == null) {
+            context = WebAppManager.clonedJaggeryContext(ctx);
+            CommonManager.setJaggeryContext(context);
+        }
+        RhinoEngine engine = context.getEngine();
+        ScriptableObject clonedScope = context.getScope();
 
         JavaScriptProperty session = new JavaScriptProperty("session");
         session.setValue(cx.newObject(clonedScope, "Session", new Object[]{httpSessionEvent.getSession()}));
         session.setAttribute(ScriptableObject.READONLY);
         RhinoEngine.defineProperty(clonedScope, session);
 
-        if (jsListeners != null) {
-            for (Object jsListener : jsListeners) {
-                CommonManager.getCallstack(clonedContext).push((String) jsListener);
-                try {
-                    ScriptReader sr = new ScriptReader(ctx.getResourceAsStream((String) jsListener)) {
-                        @Override
-                        protected void build() throws IOException {
-                            try {
-                                sourceReader = new StringReader(HostObjectUtil.streamToString(sourceIn));
-                            } catch (ScriptException e) {
-                                throw new IOException(e);
-                            }
+        for (Object jsListener : jsListeners) {
+            CommonManager.getCallstack(context).push((String) jsListener);
+            try {
+                ScriptReader sr = new ScriptReader(ctx.getResourceAsStream((String) jsListener)) {
+                    @Override
+                    protected void build() throws IOException {
+                        try {
+                            sourceReader = new StringReader(HostObjectUtil.streamToString(sourceIn));
+                        } catch (ScriptException e) {
+                            throw new IOException(e);
                         }
-                    };
-                    engine.exec(sr, clonedScope, null);
-                } catch (ScriptException e) {
-                    log.error(e.getMessage(), e);
-                }
+                    }
+                };
+                engine.exec(sr, clonedScope, null);
+            } catch (ScriptException e) {
+                log.error(e.getMessage(), e);
+            } finally {
+                CommonManager.getCallstack(context).pop();
             }
         }
-
+        Context.exit();
     }
 
     @Override
@@ -88,38 +95,45 @@ public class WebAppSessionListener implements HttpSessionListener {
         ServletContext ctx = httpSessionEvent.getSession().getServletContext();
 
         List<Object> jsListeners = (List<Object>) ctx.getAttribute(JaggeryCoreConstants.JS_DESTROYED_LISTENERS);
-        JaggeryContext clonedContext = WebAppManager.clonedJaggeryContext(ctx);
+        if (jsListeners == null) {
+            return;
+        }
 
-        RhinoEngine engine = clonedContext.getEngine();
-        Context cx = engine.enterContext();
-
-
-        ScriptableObject clonedScope = clonedContext.getScope();
+        JaggeryContext shared = WebAppManager.sharedJaggeryContext(ctx);
+        Context cx = shared.getEngine().enterContext();
+        JaggeryContext context = CommonManager.getJaggeryContext();
+        if (CommonManager.getJaggeryContext() == null) {
+            context = WebAppManager.clonedJaggeryContext(ctx);
+            CommonManager.setJaggeryContext(context);
+        }
+        RhinoEngine engine = context.getEngine();
+        ScriptableObject clonedScope = context.getScope();
 
         JavaScriptProperty session = new JavaScriptProperty("session");
         session.setValue(cx.newObject(clonedScope, "Session", new Object[]{httpSessionEvent.getSession()}));
         session.setAttribute(ScriptableObject.READONLY);
         RhinoEngine.defineProperty(clonedScope, session);
 
-        if (jsListeners != null) {
-            for (Object jsListener : jsListeners) {
-                CommonManager.getCallstack(clonedContext).push((String) jsListener);
-                try {
-                    ScriptReader sr = new ScriptReader(ctx.getResourceAsStream((String) jsListener)) {
-                        @Override
-                        protected void build() throws IOException {
-                            try {
-                                sourceReader = new StringReader(HostObjectUtil.streamToString(sourceIn));
-                            } catch (ScriptException e) {
-                                throw new IOException(e);
-                            }
+        for (Object jsListener : jsListeners) {
+            CommonManager.getCallstack(context).push((String) jsListener);
+            try {
+                ScriptReader sr = new ScriptReader(ctx.getResourceAsStream((String) jsListener)) {
+                    @Override
+                    protected void build() throws IOException {
+                        try {
+                            sourceReader = new StringReader(HostObjectUtil.streamToString(sourceIn));
+                        } catch (ScriptException e) {
+                            throw new IOException(e);
                         }
-                    };
-                    engine.exec(sr, clonedScope, null);
-                } catch (ScriptException e) {
-                    log.error(e.getMessage(), e);
-                }
+                    }
+                };
+                engine.exec(sr, clonedScope, null);
+            } catch (ScriptException e) {
+                log.error(e.getMessage(), e);
+            } finally {
+                CommonManager.getCallstack(context).pop();
             }
         }
+        Context.exit();
     }
 }
