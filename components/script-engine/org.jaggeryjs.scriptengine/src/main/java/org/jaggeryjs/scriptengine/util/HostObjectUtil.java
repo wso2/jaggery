@@ -95,13 +95,7 @@ public class HostObjectUtil {
         if (obj instanceof ConsString) {
             return serializeString(obj.toString());
         }
-        if (obj instanceof Integer ||
-                obj instanceof Long ||
-                obj instanceof Float ||
-                obj instanceof Double ||
-                obj instanceof Short ||
-                obj instanceof BigInteger ||
-                obj instanceof BigDecimal) {
+        if (obj instanceof Number) {
             return obj.toString();
         }
         if (obj instanceof XMLObject) {
