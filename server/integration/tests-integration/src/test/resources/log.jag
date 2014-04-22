@@ -1,0 +1,5 @@
+<%
+    var log = new Log();
+    log.info("This is an INFO level log");
+    print("This is an INFO level log");
+%>

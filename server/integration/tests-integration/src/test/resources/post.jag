@@ -1,0 +1,10 @@
+<%
+var param = request.getParameter('action');
+if(param == "parameters"){
+var testJson = post("http://localhost:9763/testapp/jsonTest.jag?action=stringify","","json");
+print(testJson);
+}else{
+var testJson = post("http://localhost:9763/testapp/jsonTest.jag",null,"json");
+print(testJson);
+}
+%>

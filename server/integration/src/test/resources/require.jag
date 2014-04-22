@@ -1,6 +1,0 @@
-<%
-var core = require("core");
-var log = new core.Log();
-log.info("Required the module");
-print("core require was success");
-%> 

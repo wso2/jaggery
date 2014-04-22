@@ -1,0 +1,12 @@
+<%
+    var db = new Database("jdbc:h2:demo", "admin", "admin");
+    
+	db.query("DROP TABLE demo IF EXISTS");
+    db.query("CREATE TABLE demo(name varchar(255), address varchar(255))");
+     
+    db.query("INSERT INTO demo VALUES(1, 'WSO2'), (2, '59 Flower Rd');");
+     
+    var result = db.query("SELECT * FROM demo");
+     
+    print(result);
+%>

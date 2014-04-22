@@ -1,0 +1,5 @@
+<%
+	application.put("wso2", "test jaggery application value");
+	print(application.get("wso2"));
+	application.remove("wso2");
+%>

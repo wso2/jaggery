@@ -1,0 +1,46 @@
+<%
+var param = request.getParameter('action');
+if(param == "write") {
+	var file = new File("readme1.txt");
+	file.open("w");
+	file.write("writting Hello World!");
+	//file.writeLine("Hello World Line!");
+	file.close();
+	print("write was success");
+} else if(param == "read") {
+	var file = new File("/testfile.txt");
+	file.open("r");
+	var text = file.read(7);
+	print(text);
+	file.close();
+
+} else if(param == "test") {
+	var file = new File("/testfile.txt");
+	file.open("r");
+	var text = file.getLength();
+	print("length : "+text);
+	print(", exists : " + file.isExists());
+	print(", stream : " + file.getStream());
+	file.close();
+	//print("write line was success");
+	
+	//move is not testing currently
+} else if(param == "move") {
+	var file = new File("readme1x.txt");
+	file.open("w");
+	file.write("tmpreadmex");
+	print(file.move("a"));
+	file.close();
+	print("move was success");
+} else {
+	var path = "/testfile.txt";
+	var file = new File(path);
+	file.open("r");
+
+	print(file.readAll());
+
+	file.close();
+
+}
+
+%>

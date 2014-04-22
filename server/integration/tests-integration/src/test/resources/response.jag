@@ -1,0 +1,19 @@
+<%
+var param = request.getParameter('action');
+if(param == "member") {
+	response.content = "My response content";
+	print(", status : " + response.status);
+	print(", contentType : " + response.contentType);
+} else if(param == "operation") {
+	response.addHeader('custom-header', 'jaggery_response');    	
+	response.sendError(200);
+	} else if(param == "Redirect") {
+	response.sendRedirect('http://localhost:9763/tmp/response.jag');
+} else if(param == "cookie") {
+	var cookie= {'name':'test','value':'Cookie testing'};
+	response.addCookie(cookie);
+	print('added a test cookie');
+}else {
+	print(response.status);
+}
+%>

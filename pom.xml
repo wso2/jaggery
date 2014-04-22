@@ -117,6 +117,60 @@
                 <artifactId>jsr107cache</artifactId>
                 <version>${jsr107cache.osgi.version}</version>
             </dependency>
+			
+			<!--Integration test -->
+			   <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.aarservices.stub</artifactId>
+                <version>${stub.version}</version>
+            </dependency>
+			  <dependency>
+                <groupId>org.jaggeryjs</groupId>
+                <artifactId>org.jaggeryjs.jaggery.app.mgt.stub</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+			<dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.module.mgt.stub</artifactId>
+                <version>${stub.version}</version>
+            </dependency>
+			<dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.service.mgt.stub</artifactId>
+                <version>${stub.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.springservices.stub</artifactId>
+                <version>${stub.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.jarservices.stub</artifactId>
+                <version>${stub.version}</version>
+            </dependency>
+			
+			<dependency>
+                <groupId>org.wso2.carbon.automation</groupId>
+                <artifactId>org.wso2.carbon.automation.engine</artifactId>
+                <version>${test.framework.version}</version>
+            </dependency>
+			<dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.integration.common.extensions</artifactId>
+                <version>${carbon.platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.integration.common.admin.client</artifactId>
+                <version>${carbon.platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.integration.common.utils</artifactId>
+                <version>${carbon.platform.version}</version>
+            </dependency>
+			<!--End of Integration test -->
             <dependency>
                 <groupId>javax.activation</groupId>
                 <artifactId>activation</artifactId>
@@ -987,11 +1041,17 @@
         <maven-project-info-report-plugin.version>2.4</maven-project-info-report-plugin.version>
         <maven-buildnumber-plugin.version>1.1</maven-buildnumber-plugin.version>
         <maven-dependency-plugin.version>2.4</maven-dependency-plugin.version>
+		        
+		<!--rhino debugger versions-->
+        <eclipse-debugger.version>1.0.300.v201109150503</eclipse-debugger.version>
+        <eclipse-transport.version>1.0.100.v201109150330</eclipse-transport.version>     
 		
 		<!-- component version -->
 		<jsr107cache.osgi.version>1.1.wso2v1</jsr107cache.osgi.version>
 		<version.solr>1.4.1.wso2v1</version.solr>
 		<axiom.osgi.version>1.2.11.wso2v4</axiom.osgi.version>
+		<stub.version>4.3.0-SNAPSHOT</stub.version>
+		<test.framework.version>4.3.1-SNAPSHOT</test.framework.version>
 		
 		<!-- non-osgi bundle versions -->
         <json.version>20090211</json.version>

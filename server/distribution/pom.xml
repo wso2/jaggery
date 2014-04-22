@@ -125,13 +125,13 @@
                                 <mkdir dir="${tempdir}"/>
                                 <unzip dest="${tempdir}">
                                     <fileset dir="target">
-                                        <include name="jaggery-${pom.version}.zip"/>
+                                        <include name="jaggery-${project.version}.zip"/>
                                     </fileset>
                                 </unzip>
                                 <copy todir="target/wso2carbon-core-${carbon.kernal.version}/repository/components"
                                       overwrite="true">
                                     <fileset
-                                            dir="${tempdir}/jaggery-${pom.version}/carbon/repository/components">
+                                            dir="${tempdir}/jaggery-${project.version}/carbon/repository/components">
                                     </fileset>
                                 </copy>
                                 <unzip src="target/wso2carbon-core-${carbon.kernal.version}/repository/components/plugins/org.jaggeryjs.jaggery.deployer_${jaggery.deployer.osgi.version}.jar"
