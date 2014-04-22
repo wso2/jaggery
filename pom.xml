@@ -170,6 +170,11 @@
                 <artifactId>org.wso2.carbon.integration.common.utils</artifactId>
                 <version>${carbon.platform.version}</version>
             </dependency>
+			<dependency>
+				<groupId>org.wso2.jaggeryjs</groupId>
+				<artifactId>org.wso2.jaggeryjs.integration.common.clients</artifactId>
+				<version>${jaggery.component.version}</version>
+			</dependency>
 			<!--End of Integration test -->
             <dependency>
                 <groupId>javax.activation</groupId>
