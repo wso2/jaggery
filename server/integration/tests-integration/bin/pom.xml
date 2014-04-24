@@ -12,7 +12,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <name>jaggeryJS- Integration Test Module</name>
-    <artifactId>org.jaggeryjs.integration.tests</artifactId>
+    <artifactId>jaggery-integration-test</artifactId>
     <packaging>jar</packaging>
 
     <build>
@@ -40,7 +40,7 @@
                         <property>
                             <name>carbon.zip</name>
                             <value>
-                                ${basedir}/../../distribution/target/jaggery-${project.version}.zip
+                                ${basedir}/../../distribution/target/wso2as-${project.version}.zip
                             </value>
                         </property>
                         <property>
@@ -207,7 +207,7 @@
                             <resources>
                                 <resource>
                                     <directory>
-                                        ${basedir}/target/tobeCopied/jaggery-${project.version}/repository/deployment/client/modules
+                                        ${basedir}/target/tobeCopied/wso2as-${project.version}/repository/deployment/client/modules
                                     </directory>
                                     <includes>
                                         <include>**/*.mar</include>
@@ -237,10 +237,10 @@
             <artifactId>SecVerifier</artifactId>
             <type>aar</type>
         </dependency>
-        <dependency>
+        <!--dependency>
             <groupId>org.jaggeryjs</groupId>
             <artifactId>org.jaggeryjs.integration.common.utils</artifactId>
-        </dependency>
+        </dependency-->
         <dependency>
             <groupId>org.wso2.carbon.automation</groupId>
             <artifactId>org.wso2.carbon.automation.test.utils</artifactId>
