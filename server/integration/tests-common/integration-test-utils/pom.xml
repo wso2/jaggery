@@ -5,14 +5,14 @@
 
     <parent>
         <groupId>org.jaggeryjs</groupId>
-        <artifactId>jaggery-parent</artifactId>
+        <artifactId>integration</artifactId>
         <version>0.9.0.ALPHA5.wso2v1-SNAPSHOT</version>
-        <relativePath>../../../../pom.xml</relativePath>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <name>Jaggery Integration Tests Commons</name>
-    <artifactId>org.jaggeryjs.integration.common.clients</artifactId>
+    <name>WSO2 Jaggery - Integration Test Common Utils Module</name>
+    <artifactId>org.jaggeryjs.integration.common.utils</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -32,22 +32,34 @@
             <groupId>org.jaggeryjs</groupId>
             <artifactId>org.jaggeryjs.jaggery.app.mgt.stub</artifactId>
         </dependency>
-        <!--dependency>
+        <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.module.mgt.stub</artifactId>
-        </dependency-->
+        </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.service.mgt.stub</artifactId>
         </dependency>
-        <!--dependency>
+        <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.jarservices.stub</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.wso2.carbon.automation</groupId>
+            <artifactId>org.wso2.carbon.automation.engine</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jaggeryjs</groupId>
+            <artifactId>org.jaggeryjs.integration.common.clients</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.wso2.carbon</groupId>
-            <artifactId>org.wso2.carbon.springservices.stub</artifactId>
-        </dependency-->      
+            <artifactId>org.wso2.carbon.integration.common.admin.client</artifactId>
+        </dependency>
+        <!--dependency>
+            <groupId>org.wso2.carbon</groupId>
+            <artifactId>org.wso2.carbon.springservices.ui</artifactId>
+        </dependency-->
     </dependencies>
 
 </project>
