@@ -1,6 +1,5 @@
 axiom_
 axis2_
-org.wso2.carbon.aarservices_
 XmlSchema_
 axis2-json_
 rampart-core_
