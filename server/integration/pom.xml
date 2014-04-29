@@ -44,7 +44,7 @@
         <module>tests-common/admin-clients</module>
         <module>tests-common/integration-test-utils</module>
 		<!--  test-automation-framework 4.3.1-->
-        <!--module>tests-integration</module-->
+        <module>tests-integration</module>
 		<!--  old test framework -->
 		<!-- <module>tests-new</module>
         <module>tests-ui</module>-->

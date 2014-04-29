@@ -1,0 +1,67 @@
+<html>
+<header>
+    <title>Jaggery Test Dasboard</title>
+    <link rel="stylesheet" type="text/css" href="utilities/css/bootstrap.css">
+</header>
+
+<body>
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <div class="jumbotron">
+                    <h1>
+					Sugarcane! Jaggery TestFramework
+				</h1>
+                    <div id="summaryReport">
+                        <p>
+                            This JS and Jaggery test frame work, dasboard
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- div class="progress progress-striped">
+  <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+    <span class="sr-only">60% Complete</span>
+  </div>
+</div-->
+
+        <div id="controllers" class="col-md-12-x column">
+            
+            <p>
+
+                <div class="btn-group ">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        Select
+                        <span class="caret"></span>
+                    </button>
+                    <ul id="dropdown-menu-button" class="dropdown-menu dropdown-menu-form">
+                        <li><a onclick="TestApp.selectAll(false)">None</a>
+                        </li>
+                        <li><a onclick="TestApp.selectAll(true)">All</a>
+                        </li>
+                        <li><a onclick="TestApp.selectFail()">Failed</a>
+                        </li>
+                    </ul>
+                </div>
+                <a class="btn btn-primary btn-large" onclick="TestApp.runTest()">Run</a>
+
+                <br>
+                <div id='basicInfor'></div>
+        </div>
+
+        <div id='sampleLoc'></div>
+    </div>
+    <script src="utilities/js/jquery.min.js"></script>
+    <script src="utilities/js/mustache.js"></script>
+    <script src="utilities/js/util.js"></script>
+    <script src="utilities/js/bootstrap.min.js"></script>
+    <script src="utilities/js/dashboard.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            TestApp.loadSuiteList();
+        });
+    </script>
+</body>
+
+</html>
