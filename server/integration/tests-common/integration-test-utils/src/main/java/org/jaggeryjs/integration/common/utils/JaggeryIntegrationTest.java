@@ -46,7 +46,7 @@ public class JaggeryIntegrationTest {
     protected void init() throws Exception {
         asServer = new AutomationContext("AS", TestUserMode.SUPER_TENANT_ADMIN);
         asServer.getDefaultInstance().getHosts();
-        asServer.getUser();
+        asServer.getContextTenant();
      //   sessionCookie = asServer.login();
         backendURL = asServer.getContextUrls().getBackEndUrl();
         webAppURL = asServer.getContextUrls().getWebAppURL();
