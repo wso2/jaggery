@@ -1,0 +1,51 @@
+{
+	"sections": [
+		 {
+			"title": "Operations",
+			"columns": ["Operation", "Returns", "Description"],
+			"rows": [
+				{
+					"Operation": "User(manager Object, username String)",
+					"Returns": "Object",
+					"Description": "Following parameters should be passed to the constructor: <br><br> <ul> <li><em>manager (Object)</em>: a Usermanager instance to be used. </li> <li><em>username (String)</em>: username of the required user. </li> </ul> <pre class=\"prettyprint\"><span class=\"kwd\">var carbon = require('carbon');<br>var tenantId = -1234;<br>var url = 'https://10.100.0.49:9443/admin/services/';<br>var server = new carbon.server.Server(url);<br>var userManager = new carbon.user.UserManager(server, tenantId); <br> var user = new carbon.user.User(userManager, 'admin');</span></pre> "
+				},{
+					"Operation": "getClaims(profile String)",
+					"Returns": "Object",
+					"Description": "This method returns all claims of this user object. It accepts the following parameters: <br><br> <ul> <li><em>profile (String) </em>:  </li> </ul> This returns a JSON object with all claims this user has and their values. "
+				},{
+					"Operation": "getClaimsForSet(claims Array, profile String)",
+					"Returns": "Object",
+					"Description": "This method returns sppecified set of claims of this user object. It accepts the following parameters: <br><br> <ul> <li><em>claims (Array) </em>: Array of claim URIs of required claim URIs. </li> <li><em>profile (String) </em>:  </li> </ul> This returns a JSON object with requested claims of this user has and their values. "
+				},{
+					"Operation": "setClaims(claims Object, profile String)",
+					"Returns": "None",
+					"Description": "This method is used to set few user claims of athis user at single time.It accepts the following parameters: <br><br> <ul> <li><em>claims (Object) </em>: A JSON object which contains the claims to be set and values for them.. </li> <li><em>profile (String) </em>:  </li> </ul>  "
+				},{
+					"Operation": "getRoles()",
+					"Returns": "Array",
+					"Description": "This method returns an array with all roles of this user."
+				},{
+					"Operation": "hasRoles(roles Array)",
+					"Returns": "Boolean",
+					"Description": "This method checks if the user has set of rules or not.  It accepts the following parameters: <br><br> <ul> <li><em>roles (Array) </em>: list of roles to be checked. </li> </ul> This will return 'true' if this user has all the specified roles and will return 'false' otherwise."
+				},{
+					"Operation": "addRoles(roles Array)",
+					"Returns": "None",
+					"Description": "This method adds this user to specified new set of roles.  It accepts the following parameters: <br><br> <ul> <li><em>roles (Array) </em>: list of roles which user to be added. </li> </ul> "
+				},{
+					"Operation": "removeRoles(roles Array)",
+					"Returns": "None",
+					"Description": "This method removes this user from specified set of roles.  It accepts the following parameters: <br><br> <ul> <li><em>roles (Array) </em>: list of roles which user to be removed from. </li> </ul> "
+				},{
+					"Operation": "updateRoles(remove Array, add Array)",
+					"Returns": "None",
+					"Description": "This method update the list of roles of this user.  It accepts the following parameters: <br><br> <ul> <li><em>remove (Array) </em>: list of roles to be removed. </li> <li><em>add (Array) </em>: list of new roles to be added. </li> </ul> "
+				},{
+					"Operation": "isAuthorized(permission String, action String)",
+					"Returns": "Boolean",
+					"Description": "This method checks if this user is authorized for given action..  It accepts the following parameters: <br><br> <ul> <li><em>permission (String) </em>: permission path in permission tree.  </li><li><em>action (String) </em>: The action.  </li> </ul> This methods returns 'true' if this user is authorized to do 'action' on 'permission'."
+				}
+			]
+		}
+	]
+}

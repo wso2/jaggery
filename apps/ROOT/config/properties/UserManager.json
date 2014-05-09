@@ -1,0 +1,87 @@
+{
+	"sections": [
+		 {
+			"title": "Operations",
+			"columns": ["Operation", "Returns", "Description"],
+			"rows": [
+				{
+					"Operation": "UserManager(serv, tenantId)",
+					"Returns": "Object",
+					"Description": "Following parameters should be passed to the constructor: <br><br> <ul> <li><em>serv </em>: carbon server instance which we connect to the user store. </li> <li><em>tenantId</em>: tenant id of user </li> </ul> <pre class=\"prettyprint\"><span class=\"kwd\">var carbon = require('carbon');<br>var tenantId = -1234;<br>var url = 'https://10.100.0.49:9443/admin/services/';<br>var server = new carbon.server.Server(url);<br>var userManager = new carbon.user.UserManager(server, tenantId);</span></pre> "
+				},{
+					"Operation": "addUser(userName String, password String, roles Array, claims Object, profile String)",
+					"Returns": "None",
+					"Description": "This method adds a new user to the user store. It accepts the following parameters: <br><br> <ul> <li><em>username (String) </em>: user name to be added. This name should be unique.  </li> <li><em>password (String) </em>: password for the new user.  </li> <li><em>roles (Array) </em>: Array of roles that user should be added. If there are no such roles, an empty array should be passed.  </li> <li><em>claims (Object) </em>: A JSON object which contains claims to be added to new user and their respective values.<br> </li> <li><em>profile (String) </em>:  </li> </ul> This adds user with specified details to the user store.  "
+				},{
+					"Operation": "getUser(userName String)",
+					"Returns": "Object",
+					"Description": "This method checks if a user with given username exists in user store or not. It accepts the following parameters: <br><br> <ul> <li><em>username (String) </em>: username of the required user.  </li>  </ul> This method returns a user object.  "
+				}, {
+					"Operation": "userExists(userName String)",
+					"Returns": "Boolean",
+					"Description": "This method retrives a user with specified username. It accepts the following parameters: <br><br> <ul> <li><em>username (String) </em>: username to be checked.  </li>  </ul> This method returns a boolean value. If user exists it will return “true”.  "
+				},{
+					"Operation": "removeUser(userName String)",
+					"Returns": "None",
+					"Description": "This method removes a user with specified username from user store. It accepts the following parameters: <br><br> <ul> <li><em>username (String) </em>: username of the user to be removed.  </li>  </ul>   "
+				},{
+					"Operation": "listUsers(filter String)",
+					"Returns": "Array",
+					"Description": "This method retrieves a list of all user names which follows given filter. It accepts the following parameters: <br><br> <ul> <li><em>filter (String) </em>: The string to filter out user. If you give an emplty string as filter, it will return list of all users.  </li>  </ul>   "
+				},{
+					"Operation": "setClaims(username String, claims Object, profile String)",
+					"Returns": "None",
+					"Description": "This method is used to set few user claims of a user at single time. It accepts the following parameters: <br><br> <ul> <li><em>username (String) </em>: username of the user whos claims to be set.  </li>  <li><em>claims (Object) </em>: A JSON object which contains the claims to be set and values for them. </li> <li><em>profile (String) </em>: The profile name can be null. If null the default profile is considered.  </li>  </ul>   "
+				},{
+					"Operation": "getClaims(username String, profile String)",
+					"Returns": "Object",
+					"Description": "This method get all claim values of the user in the profile. It accepts the following parameters: <br><br> <ul> <li><em>username (String) </em>: username of the user whos claims to be get.  </li>   <li><em>profile (String) </em>:   </li> </ul>  This returns a JSON object with all claims that user has and their values. "
+				},{
+					"Operation": "getClaimsForSet(username String, claims Array, profile String)",
+					"Returns": "Object",
+					"Description": "This method get specified user claim values in the profile. It accepts the following parameters: <br><br> <ul> <li><em>username (String) </em>: username of the user whos claims to be get.  </li>  <li><em>claims (Array) </em>: Array of claim URIs of required claims.  </li>  <li><em>profile (String) </em>: The profile name can be null. If null the default profile is considered.  </li> </ul>  This returns a JSON object with requested claims of the user and their values. "
+				},{
+					"Operation": "getClaim(username String, claim String, profile String)",
+					"Returns": "String",
+					"Description": "This method get a single user claim value in the profile. It accepts the following parameters: <br><br> <ul> <li><em>username (String) </em>: username of the user whos claim to be get.  </li>  <li><em>claim (String) </em>: Claim URI of required claim.  </li>  <li><em>profile (String) </em>: The profile name can be null. If null the default profile is considered.  </li> </ul>  This returns value of requested claim as a String. "
+				},{
+					"Operation": "addRole(role String, users Array, permissions Object)",
+					"Returns": "None",
+					"Description": "This method adds a new role to the user store. It accepts the following parameters: <br><br> <ul> <li><em>role (String) </em>: new role name.  </li>  <li><em>users (Array) </em>: user array to be added to new role.  </li>  <li><em>permissions (Object) </em>: permissions and action list which new role should be authorized. <br> <pre class=\"prettyprint\"><span class=\"kwd\">var permissions = { <br>\t'/permission/admin/manage/extensions/add': ['ui.execute'], <br> \t'/permission/admin/manage/extensions/list': ['ui.execute'] <br> };</span></pre> </li> </ul>   "
+				},{
+					"Operation": "allRoles()",
+					"Returns": "Array",
+					"Description": "This method returns an array with all roles in user store."
+				},{
+					"Operation": "roleExists(role String)",
+					"Returns": "Boolean",
+					"Description": "This method checks if a role is there in user store. It accepts the following parameters: <br><br> <ul> <li><em>role (String) </em>: role name.  </li>  This returns 'true' if role exists in user store."
+				},{
+					"Operation": "updateRole(previousRoleName String, newRoleName String)",
+					"Returns": "None",
+					"Description": "This method update the role name of given role. It accepts the following parameters: <br><br> <ul> <li><em>previousRoleName (String) </em>:   </li> <li><em>newRoleName (String) </em>:   </li>"
+				},{
+					"Operation": "authorizeRole(role String, permission String, action String)",
+					"Returns": "None",
+					"Description": "This method is used to give permissions to a role in an action. It accepts the following parameters: <br><br> <ul> <li><em>role (String) </em>: role name.  </li> <li><em>permission (String) </em>: permission path in permission tree.  </li><li><em>action (String) </em>: The action that should be granted to the role.  </li> "
+				},{
+					"Operation": "isAuthorized(role String, permission String, action String)",
+					"Returns": "Boolean",
+					"Description": "This method checks if a given role is authorized for given action. It accepts the following parameters: <br><br> <ul> <li><em>role (String) </em>: role name.  </li> <li><em>permission (String) </em>: permission path in permission tree.  </li><li><em>action (String) </em>: The action.  </li> This methods returns 'true' if the 'role' is authorized to do 'action' on 'permission'"
+				},{
+					"Operation": "denyRole(role String, permission String, action String)",
+					"Returns": "None",
+					"Description": "This method is used to remove permissions of a role in an action. It accepts the following parameters: <br><br> <ul> <li><em>role (String) </em>: role name.  </li> <li><em>permission (String) </em>: permission path in permission tree.  </li><li><em>action (String) </em>: The action.</li> "
+				},{
+					"Operation": "updateRoleListOfUser(username String, deletedRoles Array, newRoles Array)",
+					"Returns": "None",
+					"Description": "This method update the list of roles of a given user. It accepts the following parameters: <br><br> <ul> <li><em>username (String) </em>: username of the user whose role has to be  updated.  </li> <li><em>deletedRoles (Array) </em>: list of roles to be removed.  </li><li><em>newRoles (Array) </em>: list of roles to be added.</li> "
+				},{
+					"Operation": "updateUserListOfRole(rolename String, deletedUsers Array, newUsers Array)",
+					"Returns": "None",
+					"Description": "This method update the list of users of a given role. It accepts the following parameters: <br><br> <ul> <li><em>rolename (String) </em>: name of the role to be  updated.  </li> <li><em>deletedUsers (Array) </em>: list of users to be removed.  </li><li><em>newUsers (Array) </em>: list of users to be added.</li> "
+				}
+			]
+		}
+	]
+}
