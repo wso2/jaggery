@@ -87,6 +87,7 @@
         <eclipse-transport.version>1.0.100.v201109150330</eclipse-transport.version>
 
         <!-- osgi bundle versions -->
+        <!-- when rhino version is upgrated, will have to fix synapse script meadiator too. -->
         <rhino.osgi.version>1.7.0.R4.wso2v1</rhino.osgi.version>
         <commons-httpclient.osgi.version>3.1.0.wso2v2</commons-httpclient.osgi.version>
         <wss4j.osgi.version>1.5.11.wso2v3</wss4j.osgi.version>
