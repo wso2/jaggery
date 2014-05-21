@@ -4,6 +4,10 @@
         <className>org.jaggeryjs.hostobjects.xhr.XMLHttpRequestHostObject</className>
         <name>XMLHttpRequest</name>
     </hostObject>
+    <hostObject readOnly="true">
+        <className>org.jaggeryjs.hostobjects.xhr.FormDataHostObject</className>
+        <name>FormData</name>
+    </hostObject>
     <hostObject>
         <className>org.jaggeryjs.hostobjects.registry.RegistryHostObject</className>
         <name>MetadataStore</name>
