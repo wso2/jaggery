@@ -5,7 +5,6 @@ var caramel, api, json, links, sections, examples, log, loader;
 	log = new Log();
 	loader = require('/modules/loader.js');
 	
-	
 	api = request.getParameter('api');
 	
 	if(api){

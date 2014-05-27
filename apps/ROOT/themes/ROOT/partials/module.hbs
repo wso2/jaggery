@@ -1,0 +1,73 @@
+
+<h1>module.xml</h1>
+
+
+<div class="span">
+    <p>modules.xml is used to configure the modules that need to be loaded when the server is started up.
+        A module can be a set of JavaScript objects and functions defined either via
+        <a href="http://wso2.org/library/tutorials/writing-custom-hostobject" target="_blank">Rhino Hostobjects</a> or
+        just as *.js files which reside in &lt;JAGGERY_HOME&gt;/modules directory. </p>
+
+    <p>The structure of module.xml is shown below.</p>
+
+    <div class="prettyprint-cont">
+
+    <pre class="prettyprint linenums">
+        {{examples}}
+    </pre>
+
+    </div>
+
+    <p>The module.xml need to have a top level <code>&lt;module/&gt;</code> element. The <code>&lt;module/&gt;</code> element should consist of a
+        name attribute and optional <code>namespace</code>, <code>expose</code> attributes. <code>name</code> corresponds to the module
+        name and <code>expose</code> specify whether you need to expose the module by default. i.e. If exposed is set to <code>true</code> and
+        <code>namespace</code> attribute is also specified, then, framework will automatically create a variable which points to the module.
+    </p>
+    <p>
+        i.e. assuming <code>foo</code> is specified as the value of namespace attribute, you can use objects/methods in the module as below.
+    </p>
+    <pre class="codettyprint linenums">var xhr = new foo.XMLHttpRequest();</pre>
+    <p>If the <code>namespace</code> attribute is ommited, but <code>expose</code> is set as <code>true</code>,
+        then module objects and methods will be imported globally.</p>
+    <ul>
+        <li>
+            <p>The <code>&lt;module/&gt;</code> element can contain any number of <code>&lt;hostObject/&gt;</code>,
+                <code>&lt;method/&gt;</code> and <code>&lt;script/&gt;</code> elements. A <code>&lt;hostObject/&gt;</code>
+                element should consist of two child elements named <code>&lt;className/&gt;</code> and
+                <code>&lt;name/&gt;</code> which corresponds to the fully qualified class name of the hostObject
+                Java class and the name of the hostObject.</p>
+        </li>
+        <li>
+            <p>A <code>&lt;method/&gt;</code> element should consist of two child elements named
+                <code>&lt;className/&gt;</code> and <code>&lt;name/&gt;</code> which corresponds to the fully qualified class name of the
+                Java class which contains the method implementation and the name of the method.</p>
+        </li>
+        <li>
+            <p>To read a file inside module, module script have to give absolute path for the file. </p>
+        </li>
+        <li>
+            <p>A <code>&lt;script/&gt;</code> element should consist of two child elements named
+                <code>&lt;path/&gt;</code> and <code>&lt;name/&gt;</code> which corresponds to the script path relative to
+                the &lt;JAGGERY_HOME&gt;/jaggery directory and a name for the script.
+            </p>
+        </li>
+        <li>
+            <p>The attribute <code>&lt;readOnly/&gt;</code> is optionl. If its set, then no
+                one will be able to overwrite the method/hostobject/script from their jaggery files.
+            </p>
+        </li>
+        <li> <p><span class="label important">Important !</span> Each module should be put in a directory with the module name and should have a module.xml.
+            Within that module.xml the mothods/hostobjects/scripts need to be defined.</p>
+            <p>All hostobject jars should be copied into carbon/repository/components/lib(Non-OSGI jars)
+                or carbon/repository/components/dropins(OSGI jars).</p>
+            <p>Sample modules can also be found in {JAGGERY_HOME}/modules directory</p>
+        </li>
+    </ul>
+    <p>also Starting jaggery server with <code>-DmodRefresh=true</code> will
+        load modules on change; This should be enabled during module development
+        phase only. Enabling modRefresh will prevent jaggery runtime from caching
+        the modules, which is not recommended for production.
+
+    <pre class="codettyprint linenums">jaggery.bat/sh -DmodRefresh=true</pre></p>
+
+</div>
