@@ -14,18 +14,34 @@ var caramel, api, json, links, sections, examples, log, loader;
 	}
 	
 	list = loader.getCategorizedAPIs(api);
-	
-	
-	caramel.render({
-		'title': {text :'Documentation'},
-		'body' : {	api : api,
-					title:json && json.label , 
-					overview:json && json.overview, 
-					examples:examples, 
-					sections:sections,
-					deprecated: json && json.deprecated
-				 },
-		'nav'  : {currentPage:'documentation'},
-		'sidebar' : {list: list}
-	});
+
+    if (api == 'Log') {
+        caramel.render({
+            'title': {text :'Documentation'},
+            'body' : {	api : api,
+                title:json && json.label ,
+                overview:json && json.overview,
+                examples:examples,
+                sections:sections,
+                deprecated: json && json.deprecated,
+                re_button : true
+            },
+            'nav'  : {currentPage:'documentation'},
+            'sidebar' : {list: list}
+        });
+    } else {
+        caramel.render({
+            'title': {text :'Documentation'},
+            'body' : {	api : api,
+                title:json && json.label ,
+                overview:json && json.overview,
+                examples:examples,
+                sections:sections,
+                deprecated: json && json.deprecated,
+                re_button : false
+            },
+            'nav'  : {currentPage:'documentation'},
+            'sidebar' : {list: list}
+        });
+    }
 %>
