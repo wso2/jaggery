@@ -4,5 +4,6 @@
 	"category1": "Built-ins",
 	"category2" : "Variables",
 	"overview": "Object that provides the properties and functions of HTTP Session.",
-	"deprecated" : false
+	"deprecated" : false,
+	"tryit": true
 }

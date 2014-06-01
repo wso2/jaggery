@@ -4,5 +4,6 @@
 	"category1": "Built-ins",
 	"category2" : "Utils",
 	"overview": "<code>include()</code>  can include external jaggery scripts to the working script <pre class=\"prettyprint\">include(path)</pre>",
-	"deprecated" : false
+	"deprecated" : false,
+	"tryit": true
 }

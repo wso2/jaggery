@@ -3,5 +3,6 @@
 	"label": "<%= %>",
 	"category1": "Basic Syntax",
 	"overview": "<%= %> are the escaping characters for print out server-side data.",
-	"deprecated" : false
+	"deprecated" : false,
+	"tryit": true
 }
