@@ -57,11 +57,6 @@
             <version>${emma.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.sun.xml.ws</groupId>
-            <artifactId>jaxws-rt</artifactId>
-            <version>2.1.4</version>
-        </dependency>
-        <dependency>
             <groupId>org.skyscreamer</groupId>
             <artifactId>jsonassert</artifactId>
             <version>${jsonassert.version}</version>
@@ -194,8 +189,8 @@
                         <configuration>
                             <includes>
                                 <include>**/*TestServerManager.java</include>
-                                <!--include>**/core/*TestCase.java</include-->
-                                <include>**/community/WS*TestCase.java</include>
+                                <include>**/core/*TestCase.java</include>
+                                <include>**/community/*TestCase.java</include>
                             </includes>
                             <systemProperties>
                                 <maven.test.haltafterfailure>false</maven.test.haltafterfailure>
