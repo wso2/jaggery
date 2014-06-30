@@ -19,10 +19,14 @@
 package org.wso2.jaggery.integration.tests.hostObjects.community;
 
 import org.custommonkey.xmlunit.XMLAssert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.integration.framework.ClientConnectionUtil;
+import org.wso2.jaggery.integration.tests.wsmock.AddServiceImpl;
 import org.xml.sax.SAXException;
 
+import javax.xml.ws.Endpoint;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -39,6 +43,20 @@ import static org.testng.Assert.fail;
  * Test cases for Database Host Object
  */
 public class WSRequestHostObjectTestCase {
+
+    private Endpoint ep;
+
+    @BeforeClass
+    public void startService(){
+        ep = Endpoint.publish("http://localhost:9960/ws/add", new AddServiceImpl());
+    }
+
+    @AfterClass
+    public void endService(){
+        if (ep != null && ep.isPublished()){
+            ep.stop();
+        }
+    }
 
     @Test(groups = {"jaggery"},
             description = "Test for WSRequest host object")
@@ -89,7 +107,7 @@ public class WSRequestHostObjectTestCase {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            XMLAssert.assertXMLEqual(finalOutput, "<ns:getVersionResponse xmlns:ns=\"http://version.services.core.carbon.wso2.org\">  <return>WSO2 Stratos Manager-2.0.2</return></ns:getVersionResponse>");
+            XMLAssert.assertXMLEqual(finalOutput, "<ns2:addIntResponse xmlns:ns2=\"http://wsmock.tests.integration.jaggery.wso2.org/\">  <return>4</return></ns2:addIntResponse>");
         }
 
     }
