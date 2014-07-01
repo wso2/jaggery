@@ -131,9 +131,14 @@ public class RhinoTopLevel extends ImporterTopLevel {
         final int tenantId = carbonContext.getTenantId();
         final String tenantDomain = carbonContext.getTenantDomain();
         final String applicationName = carbonContext.getApplicationName();
+        final ClassLoader contextClassLoader=Thread.currentThread().getContextClassLoader();
 
         ScheduledFuture future = timerExecutor.schedule(new Callable<Void>() {
             public Void call() throws Exception {
+                //set the context classloader
+                Thread currentThread= Thread.currentThread();
+                ClassLoader originalClassLoader=currentThread.getContextClassLoader();
+                Thread.currentThread().setContextClassLoader(contextClassLoader);
                 // child inherits context properties form the parent thread.
                 PrivilegedCarbonContext.startTenantFlow();
                 PrivilegedCarbonContext carbonContext = PrivilegedCarbonContext.getThreadLocalCarbonContext();
@@ -150,6 +155,7 @@ public class RhinoTopLevel extends ImporterTopLevel {
                 } finally {
                     PrivilegedCarbonContext.endTenantFlow();
                     RhinoEngine.exitContext();
+                    currentThread.setContextClassLoader(originalClassLoader);
                 }
                 return null;
             }
@@ -202,6 +208,7 @@ public class RhinoTopLevel extends ImporterTopLevel {
         final int tenantId = carbonContext.getTenantId();
         final String tenantDomain = carbonContext.getTenantDomain();
         final String applicationName = carbonContext.getApplicationName();
+        final ClassLoader contextClassLoader=Thread.currentThread().getContextClassLoader();
 
         ScheduledFuture future = timerExecutor.scheduleAtFixedRate(new Runnable() {
 
@@ -209,6 +216,10 @@ public class RhinoTopLevel extends ImporterTopLevel {
 
             @Override
             public void run() {
+                //set the context classloader
+                Thread currentThread= Thread.currentThread();
+                ClassLoader originalClassLoader=currentThread.getContextClassLoader();
+                Thread.currentThread().setContextClassLoader(contextClassLoader);
                 // child inherits context properties form the parent thread.
                 PrivilegedCarbonContext.startTenantFlow();
                 PrivilegedCarbonContext carbonContext = PrivilegedCarbonContext.getThreadLocalCarbonContext();
@@ -225,6 +236,7 @@ public class RhinoTopLevel extends ImporterTopLevel {
                 } finally {
                     PrivilegedCarbonContext.endTenantFlow();
                     RhinoEngine.exitContext();
+                    currentThread.setContextClassLoader(originalClassLoader);
                 }
             }
         }, interval, interval, TimeUnit.MILLISECONDS);

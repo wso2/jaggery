@@ -1,0 +1,26 @@
+<%
+var caramel, searchResult, solrSearch, searchTerm;
+
+var log = new Log();
+solrSearch = require('/modules/search.js');
+
+searchTerm = String(request.getParameter('search'));
+
+if (searchTerm) {
+    searchResult = solrSearch.result(searchTerm);
+}
+
+if (searchResult == '') {
+    searchResult = 'No Result';
+}
+
+caramel = require('caramel');
+caramel.render({
+    'title': {text :'search'},
+    'body' : {
+        searchResults : searchResult,
+        searchTerm : searchTerm
+    },
+    'nav'  : {currentPage:''}
+});
+%>

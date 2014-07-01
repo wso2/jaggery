@@ -78,6 +78,11 @@
             <directory>target/WSO2-CARBON-PATCH-4.2.0-0005/repository/resources/security/</directory>
             <outputDirectory>jaggery-${pom.version}/carbon/repository/resources/security/</outputDirectory>
         </fileSet>
+        <!-- Copying solr core to use in Jaggery Documentation site(Root App) -->
+        <fileSet>
+            <directory>src/resources/SolrRoot/</directory>
+            <outputDirectory>jaggery-${pom.version}/carbon/repository/conf/SolrRoot</outputDirectory>
+        </fileSet>
     </fileSets>
     <dependencySets>
         <dependencySet>

@@ -20,6 +20,9 @@
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
 
+        <!-- highlight text -->
+        <link href="{{url "/themes/ROOT/css/highlight.css"}}" rel="stylesheet">
+
 		<!-- Fav and touch icons -->
 		<link rel="shortcut icon" href="{{url "/themes/ROOT/favicon.ico"}}">
 		<link rel="apple-touch-icon-precomposed" sizes="144x144"
@@ -52,9 +55,11 @@
 		<script src="{{url "/themes/ROOT/js/handlebars.js"}}"></script>
 		<script src="{{url "/themes/ROOT/js/theme.js"}}"></script>
 		<script src="{{url "/themes/ROOT/js/jquery.nicescroll.min.js"}}"></script>
+        <script src="{{url "/themes/ROOT/js/jquery.highlight-4.closure.js"}}"></script>
 
 		{{js .}}
 		<script src="{{url "/themes/ROOT/js/caramel-client.js"}}"></script>
 		<script src="{{url "/themes/ROOT/js/core.js"}}"></script>
+        <script src="{{url "/themes/ROOT/js/search.js"}}"></script>
 	</body>
 </html>
