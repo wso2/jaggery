@@ -23,7 +23,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.integration.framework.ClientConnectionUtil;
-import org.wso2.jaggery.integration.tests.wsmock.AddServiceImpl;
+import org.wso2.jaggery.integration.tests.wsmock.MockServiceImpl;
 import org.xml.sax.SAXException;
 
 import javax.xml.ws.Endpoint;
@@ -48,7 +48,7 @@ public class WSRequestHostObjectTestCase {
 
     @BeforeClass
     public void startService(){
-        ep = Endpoint.publish("http://localhost:9960/ws/add", new AddServiceImpl());
+        ep = Endpoint.publish("http://localhost:9960/ws/mock", new MockServiceImpl());
     }
 
     @AfterClass
@@ -192,4 +192,60 @@ public class WSRequestHostObjectTestCase {
             break;
         }
     }
+
+    @Test(groups = {"jaggery"},
+            description = "Test for in-only WSRequest")
+    public void testWSRequestInOnly() {
+        ClientConnectionUtil.waitForPort(9763);
+
+        String finalOutput = null;
+
+        try {
+            URL jaggeryURL = new URL("http://localhost:9763/testapp/wsrequest.jag?action=in-only");
+            URLConnection jaggeryServerConnection = jaggeryURL.openConnection();
+            BufferedReader in = new BufferedReader(new InputStreamReader(
+                    jaggeryServerConnection.getInputStream()));
+
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                finalOutput = inputLine;
+            }
+
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            assertEquals(finalOutput,"null","In only message's return should always should be 'null'");
+        }
+
+    }
+
+    @Test(groups = {"jaggery"},
+            description = "Test for in-only WSRequest")
+    public void testWSRequestInOnlyRobust() {
+        ClientConnectionUtil.waitForPort(9763);
+
+        String finalOutput = null;
+
+        try {
+            URL jaggeryURL = new URL("http://localhost:9763/testapp/wsrequest.jag?action=robust-in-only");
+            URLConnection jaggeryServerConnection = jaggeryURL.openConnection();
+            BufferedReader in = new BufferedReader(new InputStreamReader(
+                    jaggeryServerConnection.getInputStream()));
+
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                finalOutput = inputLine;
+            }
+
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            assertEquals(finalOutput, "org.apache.axis2.AxisFault: Mock error",
+                    "Robust invocation should throw an error");
+        }
+
+    }
+
 }

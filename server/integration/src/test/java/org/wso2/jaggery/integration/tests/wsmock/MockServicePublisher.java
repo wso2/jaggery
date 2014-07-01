@@ -6,7 +6,7 @@ public class MockServicePublisher {
 
     public static void main(String[] args) {
 
-        Endpoint.publish("http://localhost:9960/ws/add", new AddServiceImpl());
+        Endpoint.publish("http://localhost:9960/ws/mock", new MockServiceImpl());
         System.out.println("Server is published!");
     }
 }

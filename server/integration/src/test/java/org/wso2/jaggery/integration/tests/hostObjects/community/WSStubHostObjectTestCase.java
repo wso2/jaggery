@@ -23,7 +23,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.integration.framework.ClientConnectionUtil;
-import org.wso2.jaggery.integration.tests.wsmock.AddServiceImpl;
+import org.wso2.jaggery.integration.tests.wsmock.MockServiceImpl;
 import org.xml.sax.SAXException;
 
 import javax.xml.ws.Endpoint;
@@ -44,7 +44,7 @@ public class WSStubHostObjectTestCase {
 
     @BeforeClass
     public void startService(){
-        ep = Endpoint.publish("http://localhost:9960/ws/add", new AddServiceImpl());
+        ep = Endpoint.publish("http://localhost:9960/ws/mock", new MockServiceImpl());
     }
 
     @AfterClass

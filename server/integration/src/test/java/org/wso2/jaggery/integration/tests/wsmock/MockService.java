@@ -6,7 +6,11 @@ import javax.jws.soap.SOAPBinding;
 import javax.xml.ws.BindingType;
 
 @WebService
-public interface AddService {
+public interface MockService {
+
     @WebMethod
     int addInt(int i, int j);
+
+    @WebMethod
+    void error();
 }
