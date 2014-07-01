@@ -13,7 +13,9 @@
 <pre class="prettyprint linenums">
 {{examples}}
 </pre>
-<button id="btn-tryit-small" class="btn btn-primary btn-large pull-right" data-toggle="modal" data-target="#tryitwindow"><i class="fa fa-angle-double-right"></i> Try it!</button>
+    {{#unless re_button}}
+        <button id="btn-tryit-small" class="btn btn-primary btn-large pull-right" data-toggle="modal" data-target="#tryitwindow"><i class="fa fa-angle-double-right"></i> Try it!</button>
+    {{/unless}}
 </div>
 	
 <div id="tryitwindow" class="modal hide fade">

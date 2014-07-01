@@ -1,0 +1,14 @@
+<div>
+    <h3>Search result for {{searchTerm}}</h3>
+
+
+    {{#each searchResults}}
+    <ul>
+        <li>
+            <h4>{{key}}</h4>
+            <a href="{{this.url}}">{{this.overview}}</a>
+        </li>
+    </ul>
+    {{/each}}
+</div>
+

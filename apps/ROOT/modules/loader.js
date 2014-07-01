@@ -1,4 +1,5 @@
-var log = new Log(), 
+var log = new Log(),
+
 	CONFIG_APIS = '/config/apis/', 
 	CONFIG_PROPS = '/config/properties/',
 	CONFIG_EXAMPLES = '/config/examples/', 
@@ -57,7 +58,7 @@ var loadAPI = function(collection, destArray, currentAPI) {
 		f.close();
 	}
 }
-var getCategorizedAPIs = function(currentAPI) {
+var getCategorizedAPIs = function(currentAPI){
 
 	for (var i in CATEGORIES) {
 

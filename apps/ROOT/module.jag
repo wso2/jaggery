@@ -1,0 +1,42 @@
+<%
+var caramel, loader, api, json, sections, examples, log;
+caramel = require('caramel');
+
+log = new Log();
+
+loader = require('/modules/loader.js');
+
+api = request.getParameter('api');
+
+if(api){
+    json = require('/config/apis/' + api + '.json');
+    sections = loader.loadSections(api);
+    examples = loader.loadExamples(api);
+}
+
+list = loader.getCategorizedAPIs(api);
+
+if (api) {
+    caramel.render({
+        'title': {text :'Documentation'},
+        'body' : {	api : api,
+            title:json && json.label ,
+            overview:json && json.overview,
+            examples:examples,
+            sections:sections,
+            deprecated: json && json.deprecated
+        },
+        'nav'  : {currentPage:'documentation'},
+        'sidebar' : {list: list}
+    });
+} else {
+    examples = loader.loadExamples('module');
+
+    caramel.render({
+        'title' : {text : 'Documentation'},
+        'body' : { examples:examples },
+        'nav' : {currentPage:'module'},
+        'sidebar' : {list: list}
+    });
+}
+%>

@@ -1,32 +1,40 @@
 <%
-var caramel, api, json, links, sections, examples, log, loader;
+var caramel, api, json, links, sections, examples, log, loader, re_button;
 	caramel = require('caramel');
-	
-	log = new Log();
+
 	loader = require('/modules/loader.js');
-	
-	
 	api = request.getParameter('api');
 	
 	if(api){
+
 		json = require('/config/apis/' + api + '.json');
 		sections = loader.loadSections(api);
 		examples = loader.loadExamples(api);
+        setButton(api);
 	}
 	
 	list = loader.getCategorizedAPIs(api);
-	
-	
-	caramel.render({
-		'title': {text :'Documentation'},
-		'body' : {	api : api,
-					title:json && json.label , 
-					overview:json && json.overview, 
-					examples:examples, 
-					sections:sections,
-					deprecated: json && json.deprecated
-				 },
-		'nav'  : {currentPage:'documentation'},
-		'sidebar' : {list: list}
-	});
+
+    caramel.render({
+        'title': {text :'Documentation'},
+         'body' : {	api : api,
+            title:json && json.label ,
+            overview:json && json.overview,
+            examples:examples,
+            sections:sections,
+            deprecated: json && json.deprecated,
+            re_button : re_button
+         },
+         'nav'  : {currentPage:'documentation'},
+         'sidebar' : {list: list}
+    });
+
+    function setButton(api) {
+        if (api == 'Log') {
+            re_button = true;
+        } else {
+            re_button = false;
+        }
+    }
+
 %>
