@@ -5,5 +5,5 @@
 	"category2" : "Email",
 	"overview": "The Sender Object allows users to send out email from their apps.",
 	"deprecated" : false,
-	"tryit": true
+	"tryit": false
 }

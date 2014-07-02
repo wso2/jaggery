@@ -5,5 +5,5 @@
 	"category2" : "Configuration File",
 	"overview": "Jaggery configuration file specifies the application specific configurations",
 	"deprecated" : false,
-	"tryit": true
+	"tryit": false
 }
