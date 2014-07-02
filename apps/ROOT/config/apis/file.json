@@ -5,5 +5,5 @@
 	"category2" : "File System",
 	"overview": "The File object is meant to provide file storage/manipulation functionality.",
 	"deprecated" : false,
-	"tryit": true
+	"tryit": false
 }
