@@ -24,7 +24,8 @@ var caramel, api, json, links, sections, examples, log, loader;
 					overview:json && json.overview, 
 					examples:examples, 
 					sections:sections,
-					deprecated: json && json.deprecated
+					deprecated: json && json.deprecated,
+					tryit: json && json.tryit
 				 },
 		'nav'  : {currentPage:'documentation'},
 		'sidebar' : {list: list}
