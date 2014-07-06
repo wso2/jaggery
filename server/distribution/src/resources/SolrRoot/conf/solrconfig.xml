@@ -459,6 +459,9 @@
         <!-- default values for query parameters -->
         <lst name="defaults">
             <str name="echoParams">explicit</str>
+            <str name="hl.usePhraseHighlighter">false</str>
+            <str name="hl.useFastVectorHighlighter">true</str>
+            <str name="hl.boundaryScanner">breakIterator</str>
             <!--
             <int name="rows">10</int>
             <str name="fl">*</str>

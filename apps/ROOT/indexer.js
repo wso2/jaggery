@@ -47,19 +47,24 @@ var JFile = java.io.File;
         url : "/about.jag"
     }, {
         page : "documentation.hbs",
-        url : "/documentation.jag"
+        url : "/documentation.jag",
+        overview : "API documentation for Jaggery.js"
     }, {
         page : "quickstart.hbs",
-        url : "/quickstart.jag"
+        url : "/quickstart.jag",
+        overview : "Setting up Jaggery"
     }, {
         page : "tools.hbs",
-        url : "/tools.jag"
+        url : "/tools.jag",
+        overview : "A list of tools you can use together with Jaggery"
     }, {
         page : "samples.hbs",
-        url : "/samples.jag"
+        url : "/samples.jag",
+        overview : "A list of sample apps created using Jaggery"
     }, {
         page : "tryit.hbs",
-        url : "/tryit.jag"
+        url : "/tryit.jag",
+        overview : "Have a bite of Jaggery now!"
     }];
 
 
@@ -84,6 +89,7 @@ var JFile = java.io.File;
             hbsFile.key = fn[0];
             hbsFile.content = hbsContent;
             hbsFile.url = pages[i].url;
+            hbsFile.overview = pages[i].overview;
 
             hbsFileSet[i] = hbsFile;
         }
@@ -226,12 +232,16 @@ var JFile = java.io.File;
 
     /**
      * removing all <a> tags
+     *
+     * we cannot use solr.HTMLStripCharFilterFactory in solr.it will remove all the content
+     * inside <script></script> tags.
+     * some examples provided in jaggery doc includes search keywords inside script tags.
      */
+
     for (var j = 0; j < pageSets.length; j++) {
         pageContent = pageSets[j].content;
         pageSets[j].content = pageContent.replace(/(<[a|A][^>]*>|)/g, "");
     }
-
 
     indexer = require('/modules/search.js');
     indexer.index(pageSets);
