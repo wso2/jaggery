@@ -36,7 +36,7 @@ public class JaggeryDeployer extends AbstractWebappDeployer {
     @Override
     protected TomcatGenericWebappsDeployer createTomcatGenericWebappDeployer(
             String webContextPrefix, int tenantId, String tenantDomain) {
-        return new TomcatJaggeryWebappsDeployer(webContextPrefix, tenantId, tenantDomain, webappsHolder, configContext);
+        return new TomcatJaggeryWebappsDeployer(webContextPrefix, tenantId, tenantDomain, webApplicationsHolderList, configContext);
     }
 
     @Override
@@ -44,12 +44,10 @@ public class JaggeryDeployer extends AbstractWebappDeployer {
         return WebappsConstants.JAGGERY_WEBAPP_FILTER_PROP;
     }
 
-    @Override
     public void setDirectory(String directory) {
         this.webappsDir = directory;
     }
 
-    @Override
     public void setExtension(String extension) {
 
     }

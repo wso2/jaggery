@@ -42,9 +42,7 @@ import org.wso2.carbon.CarbonException;
 import org.wso2.carbon.context.PrivilegedCarbonContext;
 import org.wso2.carbon.core.session.CarbonTomcatClusterableSessionManager;
 import org.wso2.carbon.webapp.mgt.*;
-import org.wso2.carbon.utils.FileManipulator;
-import org.wso2.carbon.utils.deployment.GhostDeployerUtils;
-
+import org.wso2.carbon.webapp.mgt.utils.WebAppUtils;
 
 import javax.servlet.ServletContext;
 import java.io.*;
@@ -67,14 +65,14 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
      * @param webContextPrefix The Web context prefix
      * @param tenantId         The tenant ID of the tenant to whom this deployer belongs to
      * @param tenantDomain     The tenant domain of the tenant to whom this deployer belongs to
-     * @param webappsHolder    JaggeryApplicationsHolder
+     * @param webApplicationsHolderMap    JaggeryApplicationsHolder
      */
     public TomcatJaggeryWebappsDeployer(String webContextPrefix,
                                         int tenantId,
                                         String tenantDomain,
-                                        WebApplicationsHolder webappsHolder,
+                                        Map<String, WebApplicationsHolder> webApplicationsHolderMap,
                                         ConfigurationContext configurationContext) {
-        super(webContextPrefix, tenantId, tenantDomain, webappsHolder, configurationContext);
+        super(webContextPrefix, tenantId, tenantDomain, webApplicationsHolderMap, configurationContext);
     }
 
     /**
@@ -100,11 +98,14 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
             }
 
             JaggeryApplication deployedWebapp =
-                    (JaggeryApplication) webappsHolder.getStartedWebapps().get(webappFile.getName());
+                    (JaggeryApplication) (WebAppUtils.getwebappHolder(webappFile.getAbsolutePath(),
+                            configurationContext)).getStartedWebapps().get(webappFile.getName());
             JaggeryApplication undeployedWebapp =
-                    (JaggeryApplication) webappsHolder.getStoppedWebapps().get(webappFile.getName());
+                    (JaggeryApplication) (WebAppUtils.getwebappHolder(webappFile.getAbsolutePath(),
+                            configurationContext)).getStoppedWebapps().get(webappFile.getName());
             JaggeryApplication faultyWebapp =
-                    (JaggeryApplication) webappsHolder.getFaultyWebapps().get(webappFile.getName());
+                    (JaggeryApplication) (WebAppUtils.getwebappHolder(webappFile.getAbsolutePath(),
+                            configurationContext)).getFaultyWebapps().get(webappFile.getName());
             if (deployedWebapp == null && faultyWebapp == null && undeployedWebapp == null) {
                 handleHotDeployment(webappFile, webContextParams, applicationEventListeners);
             } else if (deployedWebapp != null && deployedWebapp.getLastModifiedTime() != lastModifiedTime &&
@@ -195,6 +196,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
         securityCollection.addPattern("/" + JaggeryCoreConstants.JAGGERY_CONF_FILE);
 
         securityConstraint.addCollection(securityCollection);
+        WebApplicationsHolder webApplicationsHolder = WebAppUtils.getwebappHolder(webappFile.getAbsolutePath(),configurationContext);
 
         try {
             JSONObject jaggeryConfigObj = readJaggeryConfig(webappFile);
@@ -238,12 +240,13 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                 context.setManager(new CarbonTomcatSessionManager(tenantId));
             }
 
+
             context.setReloadable(true);
             JaggeryApplication webapp = new JaggeryApplication(this, context, webappFile);
             webapp.setServletContextParameters(webContextParams);
             webapp.setState("Started");
-            webappsHolder.getStartedWebapps().put(filename, webapp);
-            webappsHolder.getFaultyWebapps().remove(filename);
+            webApplicationsHolder.getStartedWebapps().put(filename, webapp);
+            webApplicationsHolder.getFaultyWebapps().remove(filename);
             registerApplicationEventListeners(applicationEventListeners, context);
             log.info("Deployed webapp: " + webapp);
         } catch (Throwable e) {
@@ -256,8 +259,8 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
             String msg = "Error while deploying webapp: " + webapp;
             log.error(msg, e);
             webapp.setFaultReason(new Exception(msg, e));
-            webappsHolder.getFaultyWebapps().put(filename, webapp);
-            webappsHolder.getStartedWebapps().remove(filename);
+            webApplicationsHolder.getFaultyWebapps().put(filename, webapp);
+            webApplicationsHolder.getStartedWebapps().remove(filename);
             throw new CarbonException(msg, e);
         }
     }
