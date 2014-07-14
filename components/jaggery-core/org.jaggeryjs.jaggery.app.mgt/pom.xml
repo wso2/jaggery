@@ -18,21 +18,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
     <parent>
         <groupId>org.jaggeryjs</groupId>
         <artifactId>jaggery-core</artifactId>
         <version>0.9.0-SNAPSHOT</version>
-<relativePath>../pom.xml</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
     <artifactId>org.jaggeryjs.jaggery.app.mgt</artifactId>
     <packaging>bundle</packaging>
     <name>WSO2 Carbon - Jaggery Management BE</name>
     <description>Jaggery management BE fuctionalities</description>
     <url>http://wso2.org</url>
-
     <dependencies>
         <dependency>
             <groupId>org.jaggeryjs</groupId>
@@ -76,7 +73,6 @@
             <artifactId>json-simple</artifactId>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -100,7 +96,7 @@
                             org.apache.axiom.*,
                             org.apache.neethi.*; version="${neethi.osgi.version}",
                             javax.xml.stream.*; version="1.0.1",
-                            javax.wsdl.*; version="1.6.2",
+                            javax.wsdl.*; version="${wsdl4j.osgi.version}",
                             org.osgi.framework.*,
                             *;resolution:=optional
                         </Import-Package>

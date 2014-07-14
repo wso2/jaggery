@@ -17,21 +17,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
     <parent>
         <groupId>org.jaggeryjs</groupId>
         <artifactId>jaggery-core</artifactId>
         <version>0.9.0-SNAPSHOT</version>
-<relativePath>../pom.xml</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
     <artifactId>org.jaggeryjs.jaggery.app.mgt.ui</artifactId>
     <packaging>bundle</packaging>
     <name>Jaggery Management UI</name>
     <description>Jaggery management UI bundle</description>
     <url>http://wso2.org</url>
-
     <dependencies>
         <dependency>
             <groupId>org.apache.axis2.wso2</groupId>
@@ -55,7 +52,6 @@
             <version>${project.version}</version>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -68,7 +64,7 @@
                         <Bundle-Name>${project.artifactId}</Bundle-Name>
                         <Export-Package>
                             !org.jaggeryjs.jaggery.app.mgt.ui.internal,
-                            org.jaggeryjs.jaggery.app.mgt.ui.*;version="${jaggery.component.version}"
+                            org.jaggeryjs.jaggery.app.mgt.ui.*;version="${project.version}"
                         </Export-Package>
                         <Bundle-Activator>
                             org.jaggeryjs.jaggery.app.mgt.ui.internal.JaggeryManagementUIActivator
@@ -86,5 +82,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

@@ -12,11 +12,11 @@
     <packaging>bundle</packaging>
     <name>Registry HostObject</name>
     <url>http://wso2.org</url>
-
     <dependencies>
         <dependency>
             <groupId>org.jaggeryjs</groupId>
             <artifactId>org.jaggeryjs.scriptengine</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-logging</groupId>
@@ -47,7 +47,6 @@
             <artifactId>js</artifactId>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>

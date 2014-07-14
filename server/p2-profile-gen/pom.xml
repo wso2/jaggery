@@ -18,155 +18,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
     <parent>
         <groupId>org.jaggeryjs</groupId>
         <artifactId>jaggery-parent</artifactId>
         <version>0.9.0-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
     <artifactId>p2-profile-gen</artifactId>
     <packaging>pom</packaging>
     <name>Jaggery - Profile Generation</name>
     <url>http:/jaggeryjs.org</url>
-
     <profiles>
-        <!--<profile>
-            <id>core</id>
-            <build>
-                <plugins>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-dependency-plugin</artifactId>
-                        <inherited>false</inherited>
-                        <executions>
-                            <execution>
-                                <id>1-unpack-p2-agent-distribution</id>
-                                <phase>test</phase>
-                                <goals>
-                                    <goal>unpack</goal>
-                                </goals>
-                                <configuration>
-                                    <artifactItems>
-                                        <artifactItem>
-                                            <groupId>org.wso2.carbon</groupId>
-                                            <artifactId>wso2carbon-core</artifactId>
-                                            <version>${carbon.kernal.version}</version>
-                                            <type>zip</type>
-                                            <overWrite>true</overWrite>
-                                            <outputDirectory>target</outputDirectory>
-                                        </artifactItem>
-                                    </artifactItems>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.wso2.maven</groupId>
-                        <artifactId>carbon-p2-plugin</artifactId>
-                        <version>${carbon.p2.plugin.version}</version>
-
-                        <executions>
-                            <execution>
-                                <id>2-p2-repo-generation</id>
-                                <phase>package</phase>
-
-                                <goals>
-                                    <goal>p2-repo-gen</goal>
-                                </goals>
-
-                                <configuration>
-                                    <metadataRepository>file:${basedir}/target/p2-repo</metadataRepository>
-                                    <artifactRepository>file:${basedir}/target/p2-repo</artifactRepository>
-                                    <publishArtifacts>true</publishArtifacts>
-                                    <publishArtifactRepository>true</publishArtifactRepository>
-
-                                    <featureArtifacts>
-                                        <featureArtifactDef>
-                                            org.jaggeryjs:org.jaggeryjs.feature:${jaggery.feature.version}
-                                        </featureArtifactDef>
-                                        <featureArtifactDef>
-                                            org.jaggeryjs:org.jaggeryjs.admin.styles.feature:${jaggery.feature.version}
-                                        </featureArtifactDef>
-                                    </featureArtifacts>
-
-                                </configuration>
-                            </execution>
-
-                            <execution>
-                                <id>3-p2-profile-generation</id>
-                                <phase>package</phase>
-
-                                <goals>
-                                    <goal>p2-profile-gen</goal>
-                                </goals>
-
-                                <configuration>
-                                    <profile>default</profile>
-                                    &lt;!&ndash;profile>WSO2CarbonProfile</profile&ndash;&gt;
-                                    <metadataRepository>file:${basedir}/target/p2-repo</metadataRepository>
-                                    <artifactRepository>file:${basedir}/target/p2-repo</artifactRepository>
-                                    <destination>
-                                        ${basedir}/target/wso2carbon-core-${carbon.kernal.version}/repository/components
-                                    </destination>
-                                    <deleteOldProfileFiles>true</deleteOldProfileFiles>
-                                    <features>
-                                        <feature>
-                                            <id>org.jaggeryjs.feature.group</id>
-                                            <version>${jaggery.feature.version}</version>
-                                        </feature>
-                                        <feature>
-                                            <id>org.wso2.jaggery.styles.feature.group</id>
-                                            <version>${jaggery.feature.version}</version>
-                                        </feature>
-                                    </features>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <version>1.1</version>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <configuration>
-                                    <tasks>
-                                        <replace token="false" value="true"
-                                                 dir="target/wso2carbon-core-${carbon.kernal.version}/repository/components/">
-                                            <include name="**/bundles.info"/>
-                                        </replace>
-                                    </tasks>
-                                </configuration>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <artifactId>maven-clean-plugin</artifactId>
-                        <version>${maven-clean-plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>auto-clean</id>
-                                <phase>initialize</phase>
-                                <goals>
-                                    <goal>clean</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                </plugins>
-            </build>
-        </profile>-->
         <profile>
             <id>community</id>
             <activation>
@@ -190,7 +53,7 @@
                                         <artifactItem>
                                             <groupId>org.wso2.carbon</groupId>
                                             <artifactId>wso2carbon-core</artifactId>
-                                            <version>${carbon.kernal.version}</version>
+                                            <version>${carbon.kernel.version}</version>
                                             <type>zip</type>
                                             <overWrite>true</overWrite>
                                             <outputDirectory>target</outputDirectory>
@@ -200,33 +63,27 @@
                             </execution>
                         </executions>
                     </plugin>
-
                     <plugin>
                         <groupId>org.wso2.maven</groupId>
                         <artifactId>carbon-p2-plugin</artifactId>
-                        <version>${carbon.p2.plugin.version}</version>
-
                         <executions>
                             <execution>
                                 <id>2-p2-repo-generation</id>
                                 <phase>package</phase>
-
                                 <goals>
                                     <goal>p2-repo-gen</goal>
                                 </goals>
-
                                 <configuration>
                                     <metadataRepository>file:${basedir}/target/p2-repo</metadataRepository>
                                     <artifactRepository>file:${basedir}/target/p2-repo</artifactRepository>
                                     <publishArtifacts>true</publishArtifacts>
                                     <publishArtifactRepository>true</publishArtifactRepository>
-
                                     <featureArtifacts>
                                         <featureArtifactDef>
-                                            org.jaggeryjs:org.jaggeryjs.feature:${jaggery.feature.version}
+                                            org.jaggeryjs:org.jaggeryjs.feature:${project.version}
                                         </featureArtifactDef>
                                         <featureArtifactDef>
-                                            org.jaggeryjs:org.jaggeryjs.admin.styles.feature:${jaggery.feature.version}
+                                            org.jaggeryjs:org.jaggeryjs.admin.styles.feature:${project.version}
                                         </featureArtifactDef>
                                         <featureArtifactDef>
                                             org.jaggeryjs.modules:caramel.feature:${caramel.module.version}
@@ -257,35 +114,31 @@
                                         <featureArtifactDef>org.jaggeryjs.modules:ws.feature:${ws.module.version}
                                         </featureArtifactDef>
                                     </featureArtifacts>
-
                                 </configuration>
                             </execution>
-
                             <execution>
                                 <id>3-p2-profile-generation</id>
                                 <phase>package</phase>
-
                                 <goals>
                                     <goal>p2-profile-gen</goal>
                                 </goals>
-
                                 <configuration>
                                     <profile>default</profile>
                                     <!--profile>WSO2CarbonProfile</profile-->
                                     <metadataRepository>file:${basedir}/target/p2-repo</metadataRepository>
                                     <artifactRepository>file:${basedir}/target/p2-repo</artifactRepository>
                                     <destination>
-                                        ${basedir}/target/wso2carbon-core-${carbon.kernal.version}/repository/components
+                                        ${basedir}/target/wso2carbon-core-${carbon.kernel.version}/repository/components
                                     </destination>
                                     <deleteOldProfileFiles>true</deleteOldProfileFiles>
                                     <features>
                                         <feature>
                                             <id>org.jaggeryjs.feature.group</id>
-                                            <version>${jaggery.feature.version}</version>
+                                            <version>${project.version}</version>
                                         </feature>
                                         <feature>
                                             <id>org.wso2.jaggery.styles.feature.group</id>
-                                            <version>${jaggery.feature.version}</version>
+                                            <version>${project.version}</version>
                                         </feature>
                                         <feature>
                                             <id>org.jaggeryjs.modules.caramel.feature.group</id>
@@ -339,14 +192,13 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-antrun-plugin</artifactId>
-                        <version>1.1</version>
                         <executions>
                             <execution>
                                 <phase>package</phase>
                                 <configuration>
                                     <tasks>
                                         <replace token="false" value="true"
-                                                 dir="target/wso2carbon-core-${carbon.kernal.version}/repository/components/">
+                                                 dir="target/wso2carbon-core-${carbon.kernel.version}/repository/components/">
                                             <include name="**/bundles.info"/>
                                         </replace>
                                     </tasks>
@@ -357,10 +209,8 @@
                             </execution>
                         </executions>
                     </plugin>
-
                     <plugin>
                         <artifactId>maven-clean-plugin</artifactId>
-                        <version>${maven-clean-plugin.version}</version>
                         <executions>
                             <execution>
                                 <id>auto-clean</id>
@@ -371,10 +221,8 @@
                             </execution>
                         </executions>
                     </plugin>
-
                 </plugins>
             </build>
         </profile>
     </profiles>
-
 </project>
