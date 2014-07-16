@@ -1,25 +1,22 @@
 <%
-
 var param = request.getParameter('action');
+var ws = require("ws");
 
-function invokeGetVersion() {
-    var ws = require("ws");
-
-    var version = new ws.WSRequest();
+function invokeAdd() {
+    var addInt = new ws.WSRequest();
     var options = new Array();
-    options.useSOAP = 1.2;
-    options.action = "urn:getVersion";
-    var payload = null;
+    options.useSOAP = 1.1;
+    var payload = '<wsm:addInt xmlns:wsm="http://wsmock.tests.integration.jaggery.wso2.org/"><arg0>1</arg0><arg1>3</arg1></wsm:addInt>';
     var result;
     if (param == "state") {
-        print(version.readyState);
+        print(addInt.readyState);
         try {
-            version.open(options, "http://stratoslive.wso2.com/services/Version", false);
-            print(version.readyState);
-            version.send(payload);
-            version.responseText
+            addInt.open(options, "http://localhost:9960/ws/mock/", false);
+            print(addInt.readyState);
+            addInt.send(payload);
+            addInt.responseText
             result = " success";
-            print(version.readyState);
+            print(addInt.readyState);
         } catch (e) {
             log.error(e.toString());
             return e.toString();
@@ -27,9 +24,9 @@ function invokeGetVersion() {
         return result;
     } else {
         try {
-            version.open(options, "http://stratoslive.wso2.com/services/Version", false);
-            version.send(payload);
-            result = version.responseE4X;
+            addInt.open(options, "http://localhost:9960/ws/mock/", false);
+            addInt.send(payload);
+            result = addInt.responseE4X;
         } catch (e) {
             log(e.toString(), "error");
             return e.toString();
@@ -39,6 +36,29 @@ function invokeGetVersion() {
     }
 }
 
-print(invokeGetVersion());
+function invokeErrorService(isRobust) {
+    var errorService = new ws.WSRequest();
+    var options = new Array();
+    var payload = '<wsm:error xmlns:wsm="http://wsmock.tests.integration.jaggery.wso2.org/"></wsm:error>';
+    options.useSOAP = 1.1;
+    options.mep = 'in-only';
+    options.robust = isRobust;
+    try {
+        errorService.open(options, "http://localhost:9960/ws/mock", false);
+        errorService.send(payload);
+        result = errorService.responseE4X;
+    } catch (e) {
+        return String(e.javaException.getCause()) || e.toString();
+    }
+    return result;
+}
+
+if (param == 'in-only') {
+    print(invokeErrorService(false));
+} else if (param == 'robust-in-only') {
+    print(invokeErrorService(true));
+} else {
+    print(invokeAdd());
+}
 
 %>

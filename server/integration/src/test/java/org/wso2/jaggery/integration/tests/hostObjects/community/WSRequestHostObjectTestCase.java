@@ -19,10 +19,14 @@
 package org.wso2.jaggery.integration.tests.hostObjects.community;
 
 import org.custommonkey.xmlunit.XMLAssert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.integration.framework.ClientConnectionUtil;
+import org.wso2.jaggery.integration.tests.wsmock.MockServiceImpl;
 import org.xml.sax.SAXException;
 
+import javax.xml.ws.Endpoint;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -39,6 +43,20 @@ import static org.testng.Assert.fail;
  * Test cases for Database Host Object
  */
 public class WSRequestHostObjectTestCase {
+
+    private Endpoint ep;
+
+    @BeforeClass
+    public void startService(){
+        ep = Endpoint.publish("http://localhost:9960/ws/mock", new MockServiceImpl());
+    }
+
+    @AfterClass
+    public void endService(){
+        if (ep != null && ep.isPublished()){
+            ep.stop();
+        }
+    }
 
     @Test(groups = {"jaggery"},
             description = "Test for WSRequest host object")
@@ -89,7 +107,7 @@ public class WSRequestHostObjectTestCase {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            XMLAssert.assertXMLEqual(finalOutput, "<ns:getVersionResponse xmlns:ns=\"http://version.services.core.carbon.wso2.org\">  <return>WSO2 Stratos Manager-2.0.2</return></ns:getVersionResponse>");
+            XMLAssert.assertXMLEqual(finalOutput, "<ns2:addIntResponse xmlns:ns2=\"http://wsmock.tests.integration.jaggery.wso2.org/\">  <return>4</return></ns2:addIntResponse>");
         }
 
     }
@@ -174,4 +192,60 @@ public class WSRequestHostObjectTestCase {
             break;
         }
     }
+
+    @Test(groups = {"jaggery"},
+            description = "Test for in-only WSRequest")
+    public void testWSRequestInOnly() {
+        ClientConnectionUtil.waitForPort(9763);
+
+        String finalOutput = null;
+
+        try {
+            URL jaggeryURL = new URL("http://localhost:9763/testapp/wsrequest.jag?action=in-only");
+            URLConnection jaggeryServerConnection = jaggeryURL.openConnection();
+            BufferedReader in = new BufferedReader(new InputStreamReader(
+                    jaggeryServerConnection.getInputStream()));
+
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                finalOutput = inputLine;
+            }
+
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            assertEquals(finalOutput,"null","In only message's return should always should be 'null'");
+        }
+
+    }
+
+    @Test(groups = {"jaggery"},
+            description = "Test for in-only WSRequest")
+    public void testWSRequestInOnlyRobust() {
+        ClientConnectionUtil.waitForPort(9763);
+
+        String finalOutput = null;
+
+        try {
+            URL jaggeryURL = new URL("http://localhost:9763/testapp/wsrequest.jag?action=robust-in-only");
+            URLConnection jaggeryServerConnection = jaggeryURL.openConnection();
+            BufferedReader in = new BufferedReader(new InputStreamReader(
+                    jaggeryServerConnection.getInputStream()));
+
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                finalOutput = inputLine;
+            }
+
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            assertEquals(finalOutput, "org.apache.axis2.AxisFault: Mock error",
+                    "Robust invocation should throw an error");
+        }
+
+    }
+
 }

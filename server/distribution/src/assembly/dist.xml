@@ -16,6 +16,7 @@
  ~ under the License.
  -->
 <assembly>
+    <id>dist</id>
     <formats>
         <format>zip</format>
     </formats>
@@ -24,8 +25,8 @@
     <fileSets>
       <!-- Copying p2 profile and osgi bundles-->
         <fileSet>
-             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/components</directory>
-            <outputDirectory>jaggery-${pom.version}/carbon/repository/components</outputDirectory>
+             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/components</directory>
+            <outputDirectory>jaggery-${project.version}/carbon/repository/components</outputDirectory>
             <excludes>
                 <exclude>**/eclipse.ini</exclude>
                 <exclude>**/*.lock</exclude>

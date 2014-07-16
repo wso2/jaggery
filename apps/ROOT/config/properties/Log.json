@@ -29,7 +29,7 @@
 					"&nbsp;&nbsp;Type&nbsp;&nbsp;": "None",
 					"Description": "\n<pre class=\"prettyprint\"><span class=\"pln\">log</span><span class=\"pun\">.</span><span class=\"pln\">fatal</span><span class=\"pun\">(</span><span class=\"str\">\"this is a fatal message\"</span><span class=\"pun\">)</span></pre> prints a fatal message to the console "
 				}, {
-					"Member": "isDebugEnabeld()",
+					"Member": "isDebugEnabled()",
 					"&nbsp;&nbsp;Type&nbsp;&nbsp;": "Boolean",
 					"Description": " <pre class=\"prettyprint\"><span class=\"pln\">log</span><span class=\"pun\">.</span><span class=\"pln\">isDebugEnabled</span><span class=\"pun\">()</span></pre> Returns true if Debug level is enabled. Default is true "
 				}, {
