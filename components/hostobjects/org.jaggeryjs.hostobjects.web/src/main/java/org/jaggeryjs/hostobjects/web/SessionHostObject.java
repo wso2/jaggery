@@ -10,6 +10,7 @@ import org.jaggeryjs.scriptengine.util.HostObjectUtil;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 
 import javax.servlet.http.HttpSession;
+import java.io.*;
 
 public class SessionHostObject extends ScriptableObject {
 
@@ -74,7 +75,7 @@ public class SessionHostObject extends ScriptableObject {
         SessionHostObject sho = (SessionHostObject) thisObj;
         return sho.session.getId();
     }
-    
+
     public long jsGet_maxInactive() throws ScriptException {
         return session.getMaxInactiveInterval();
     }
@@ -107,8 +108,9 @@ public class SessionHostObject extends ScriptableObject {
         if (!(args[0] instanceof String)) {
             HostObjectUtil.invalidArgsError(hostObjectName, functionName, "1", "string", args[0], false);
         }
+        JSONWrapper wrapper = new JSONWrapper(args[1]);
         SessionHostObject sho = (SessionHostObject) thisObj;
-        sho.session.setAttribute((String) args[0], args[1]);
+        sho.session.setAttribute((String) args[0], wrapper);
     }
 
     public static Object jsFunction_get(Context cx, Scriptable thisObj, Object[] args, Function funObj)
@@ -123,7 +125,14 @@ public class SessionHostObject extends ScriptableObject {
                     hostObjectName, functionName, "1", "string", args[0], false);
         }
         SessionHostObject sho = (SessionHostObject) thisObj;
-        return sho.session.getAttribute((String) args[0]);
+        JSONWrapper wrapper = (JSONWrapper) sho.session.getAttribute((String) args[0]);
+        if (wrapper == null) {
+            return null;
+        }
+        if (!wrapper.isInitialized()) {
+            wrapper.init(cx, thisObj);
+        }
+        return wrapper.object;
     }
 
     public static void jsFunction_invalidate(Context cx, Scriptable thisObj, Object[] args, Function funObj)
@@ -155,5 +164,25 @@ public class SessionHostObject extends ScriptableObject {
         sho.session.removeAttribute(attr);
     }
 
+    private static class JSONWrapper implements Serializable {
 
+        private String json;
+        private transient Object object;
+        private transient boolean initialized = false;
+
+        private JSONWrapper(Object object) {
+            this.object = object;
+            this.json = HostObjectUtil.serializeJSON(object);
+            this.initialized = true;
+        }
+
+        private void init(Context cxt, Scriptable scope) {
+            this.object = HostObjectUtil.parseJSON(cxt, scope, this.json);
+            this.initialized = true;
+        }
+
+        private boolean isInitialized() {
+            return this.initialized;
+        }
+    }
 }

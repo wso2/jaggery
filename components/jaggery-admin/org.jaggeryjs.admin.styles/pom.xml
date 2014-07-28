@@ -18,27 +18,23 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
     <parent>
         <groupId>org.jaggeryjs</groupId>
         <artifactId>jaggery-admin</artifactId>
-        <version>0.9.0.ALPHA4.wso2v4</version>
-<relativePath>../pom.xml</relativePath>
+        <version>0.9.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
     <artifactId>org.jaggeryjs.admin.styles</artifactId>
     <packaging>bundle</packaging>
     <name>Jaggery Server - UI styles</name>
     <url>http://wso2.org</url>
-
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
@@ -53,7 +49,7 @@
                             org.osgi.framework,
                             org.osgi.service.http,
                             org.wso2.carbon.ui,
-                            javax.servlet.*;version="2.4.0",
+                            javax.servlet.*;version="${servlet-api.version}",
                             *;resolution:=optional
                         </Import-Package>
                         <!--<Fragment-Host>org.wso2.carbon.ui</Fragment-Host>-->

@@ -1,0 +1,52 @@
+<%
+var carbon = require('carbon');
+var url = 'https://10.100.0.49:9443/admin/services/';
+var server = new carbon.server.Server(url);
+var options = {username: 'admin',  domain: 'carbon.super' , tenantId: -1234};  
+var registry = new carbon.registry.Registry(server, options);
+
+
+//Add a resource to the registry
+var path ='/_system/config/wso2/sample'; 
+var resource ={ 
+	content: 'This is a sample text.', 
+	mediaType: 'text/plain', 
+	description: 'This is a sample description', 
+	uuid: '0123', 
+		properties:{prop1: 'val1', prop2: 'val2'}
+	}; 
+registry.put(path,resource);
+
+
+//retriving a resource from registry
+var retrivedresource = registry.get(path);
+print('Retrived Resource : ');
+print(retrivedresource);
+
+//checking the existency
+var bol = registry.exists(path);
+print('<br>');
+print("check the existence in the location /_system/config/wso2/sample :");
+print(bol);
+
+//add tags
+var tags =['tag1','tag2'];
+registry.tag(path,tags);
+
+//retrive tags
+var retrivedtags = registry.tags(path);
+print('<br>');
+print(retrivedtags);
+
+//rating a resource
+var rate = 3;
+registry.rate(path,rate);
+
+//getting a ratings of a resource
+var user ='admin';
+var rating = registry.rating(path,user);
+print('<br>');
+print("Rating for the resource :");
+print(rating);
+
+%>

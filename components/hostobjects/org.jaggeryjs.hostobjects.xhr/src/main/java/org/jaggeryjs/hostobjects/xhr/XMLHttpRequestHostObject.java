@@ -3,6 +3,9 @@ package org.jaggeryjs.hostobjects.xhr;
 import org.apache.commons.httpclient.*;
 import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.*;
+import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
+import org.apache.commons.httpclient.methods.multipart.Part;
+import org.apache.commons.httpclient.methods.multipart.StringPart;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.scriptengine.engine.RhinoEngine;
@@ -14,6 +17,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -466,9 +470,20 @@ public class XMLHttpRequestHostObject extends ScriptableObject {
             method = new HeadMethod(this.url);
         } else if ("POST".equalsIgnoreCase(methodName)) {
             PostMethod post = new PostMethod(this.url);
-            String content = getRequestContent(obj);
-            if (content != null) {
-                post.setRequestEntity(new InputStreamRequestEntity(new ByteArrayInputStream(content.getBytes())));
+            if(obj instanceof FormDataHostObject){
+                FormDataHostObject fd = ((FormDataHostObject) obj);
+                List<Part> parts = new ArrayList<Part>();
+                for (Map.Entry<String, String> entry : fd) {
+                    parts.add(new StringPart(entry.getKey(),entry.getValue()));
+                }
+                post.setRequestEntity(
+                        new MultipartRequestEntity(parts.toArray(new Part[parts.size()]), post.getParams())
+                );
+            } else {
+                String content = getRequestContent(obj);
+                if (content != null) {
+                    post.setRequestEntity(new InputStreamRequestEntity(new ByteArrayInputStream(content.getBytes())));
+                }
             }
             method = post;
         } else if ("PUT".equalsIgnoreCase(methodName)) {

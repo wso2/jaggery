@@ -166,15 +166,20 @@ public class WebAppManager {
 
             //If the script itself havent set the content type we set the default content type to be text/html
             HttpServletResponse servletResponse = (HttpServletResponse) jaggeryContext.getProperty(SERVLET_RESPONSE);
-            if (servletResponse.getContentType() == null) {
-                servletResponse.setContentType(DEFAULT_CONTENT_TYPE);
-            }
 
-            if (servletResponse.getCharacterEncoding() == null) {
-                servletResponse.setCharacterEncoding(DEFAULT_CHAR_ENCODING);
-            }
+            //servletResponse can be null if the script is executed as a initScripts, destroyScripts or
+            //a sessionDestroyedListeners
+            if (servletResponse != null) {
+                if (servletResponse.getContentType() == null) {
+                    servletResponse.setContentType(DEFAULT_CONTENT_TYPE);
+                }
 
-            CommonManager.print(cx, thisObj, args, funObj);
+                if (servletResponse.getCharacterEncoding() == null) {
+                    servletResponse.setCharacterEncoding(DEFAULT_CHAR_ENCODING);
+                }
+
+                CommonManager.print(cx, thisObj, args, funObj);
+            }
         }
     }
 

@@ -1,0 +1,8 @@
+{
+	"api": "registry",
+	"label": "Registry",
+	"category1": "Add-ons",
+	"category2" : "Carbon",
+	"overview": "Registry contains all functions related to Carbon registry which can be done in Jaggery. ",
+	"deprecated" : false
+}

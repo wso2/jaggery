@@ -1,0 +1,8 @@
+{
+	"api": "server",
+	"label": "server.Server",
+	"category1": "Add-ons",
+	"category2" : "Carbon",
+	"overview": "Server object allows to do operations on Carbon server using Jaggery.",
+	"deprecated" : false
+}

@@ -16,25 +16,18 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
     <parent>
         <groupId>org.jaggeryjs</groupId>
         <artifactId>jaggery-core</artifactId>
-        <version>0.9.0.ALPHA4.wso2v4</version>
-<relativePath>../pom.xml</relativePath>
+        <version>0.9.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
     <artifactId>org.jaggeryjs.jaggery.deployer</artifactId>
     <packaging>bundle</packaging>
     <name>WSO2 Jaggery Deployer</name>
     <description>Deployment module for Jaggery</description>
-
     <dependencies>
-<!--        <dependency>
-            <groupId>org.wso2.carbon</groupId>
-            <artifactId>org.wso2.carbon.registry.resource</artifactId>
-        </dependency>-->
         <dependency>
             <groupId>org.jaggeryjs</groupId>
             <artifactId>org.jaggeryjs.jaggery.core</artifactId>
@@ -85,5 +78,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

@@ -1,0 +1,8 @@
+{
+	"api": "UserManager",
+	"label": "user.UserManager",
+	"category1": "Add-ons",
+	"category2" : "Carbon",
+	"overview": "UserManager object allows to do operations on the Carbon user store in Jaggery.",
+	"deprecated" : false
+}
