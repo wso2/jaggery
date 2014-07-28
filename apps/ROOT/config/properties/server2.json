@@ -1,0 +1,31 @@
+{
+	"sections": [
+		 {
+			"title": "Operations",
+			"columns": ["Operation", "Returns", "Description"],
+			"rows": [
+				{
+					"Operation": "address(transport String)",
+					"Returns": "String",
+					"Description": "This method is used to get address of the server based on host or ip. It accepts the following parameters: <br><br> <ul> <li><em>transport (Object) </em>: https or http</li>  </ul> "
+				},{
+					"Operation": "tenantDomain(options Object)",
+					"Returns": "String",
+					"Description": "This method returns tenent domain name based on tenentID, username or url. It accepts the following parameters: <br><br> <ul> <li><em>options (Object) </em>: object with information such as tenentId, username and/or url.</li>  </ul> "
+				},{
+					"Operation": "tenantId(options Object)",
+					"Returns": "String",
+					"Description": "This method returns tenent Id based on tenentID, username or url. It accepts the following parameters: <br><br> <ul> <li><em>options (Object) </em>: object with information such as tenentId, username and/or url.</li>  </ul> "
+				},{
+					"Operation": "tenantUser(username String)",
+					"Returns": "Object",
+					"Description": "This method returns tenent user object when user name is given. It accepts the following parameters: <br><br> <ul> <li><em>username (String) </em>: </li>  </ul> This returns an object with tenant user information. <pre class=\"prettyprint\"><span class=\"kwd\">{'domain' : 'carbon.super', 'username' : 'admin', 'tenantId' : -1234}</span></pre> "
+				},{
+					"Operation": "sandbox(options Object, fn String)",
+					"Returns": "None",
+					"Description": "This method is used to run a function using a different tenant. "
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,13 @@
+<%
+var carbon = require('carbon');
+
+print(carbon.server.address('http'));
+print('<br>');
+print(carbon.server.tenantDomain());
+print('<br>');
+print(carbon.server.tenantId());
+print('<br>');
+print(carbon.server.tenantUser('admin'));
+print('<br>');
+
+%>
