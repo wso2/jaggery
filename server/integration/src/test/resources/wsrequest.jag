@@ -1,10 +1,8 @@
 <%
-
 var param = request.getParameter('action');
+var ws = require("ws");
 
 function invokeAdd() {
-    var ws = require("ws");
-
     var addInt = new ws.WSRequest();
     var options = new Array();
     options.useSOAP = 1.1;
@@ -13,7 +11,7 @@ function invokeAdd() {
     if (param == "state") {
         print(addInt.readyState);
         try {
-            addInt.open(options, "http://localhost:9960/ws/add/", false);
+            addInt.open(options, "http://localhost:9960/ws/mock/", false);
             print(addInt.readyState);
             addInt.send(payload);
             addInt.responseText
@@ -26,7 +24,7 @@ function invokeAdd() {
         return result;
     } else {
         try {
-            addInt.open(options, "http://localhost:9960/ws/add/", false);
+            addInt.open(options, "http://localhost:9960/ws/mock/", false);
             addInt.send(payload);
             result = addInt.responseE4X;
         } catch (e) {
@@ -38,6 +36,29 @@ function invokeAdd() {
     }
 }
 
-print(invokeAdd());
+function invokeErrorService(isRobust) {
+    var errorService = new ws.WSRequest();
+    var options = new Array();
+    var payload = '<wsm:error xmlns:wsm="http://wsmock.tests.integration.jaggery.wso2.org/"></wsm:error>';
+    options.useSOAP = 1.1;
+    options.mep = 'in-only';
+    options.robust = isRobust;
+    try {
+        errorService.open(options, "http://localhost:9960/ws/mock", false);
+        errorService.send(payload);
+        result = errorService.responseE4X;
+    } catch (e) {
+        return String(e.javaException.getCause()) || e.toString();
+    }
+    return result;
+}
+
+if (param == 'in-only') {
+    print(invokeErrorService(false));
+} else if (param == 'robust-in-only') {
+    print(invokeErrorService(true));
+} else {
+    print(invokeAdd());
+}
 
 %>

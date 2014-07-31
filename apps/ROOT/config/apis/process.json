@@ -4,5 +4,6 @@
 	"category1": "Add-ons",
 	"category2" : "Server",
 	"overview": "process allow to access to externally defined properties and environment variables",
-	"deprecated" : false
+	"deprecated" : false,
+	"tryit": true
 }

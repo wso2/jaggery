@@ -1,0 +1,19 @@
+{
+	"sections": [
+		 {
+			"title": "Operations",
+			"columns": ["Operation", "Returns", "Description"],
+			"rows": [
+				{
+					"Operation": "Server(options Object)",
+					"Returns": "Object",
+					"Description": "Following parameters should be passed to the constructor: <br><br> <ul> <li><em>options (Object)</em>: an object which contains fields like tenantID, username and server URL. </li>  </ul> "
+				},{
+					"Operation": "authenticate(username String, password String)",
+					"Returns": "Boolean",
+					"Description": "This method authenticated user using his password. It accepts the following parameters: <br><br> <ul> <li><em>username (String) </em>:  </li> <li><em>password (String) </em>:  </li> </ul> This returns 'true' if password authenticates username successfully and 'false' otherwise. "
+				}
+			]
+		}
+	]
+}

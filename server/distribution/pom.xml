@@ -18,32 +18,29 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
     <parent>
         <groupId>org.jaggeryjs</groupId>
         <artifactId>jaggery-parent</artifactId>
         <version>0.9.0-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
     <artifactId>jaggery</artifactId>
     <packaging>jar</packaging>
     <name>WSO2 Carbon - Distribution</name>
     <description>WSO2 Carbon Distribution</description>
-    <dependencies>
+    <!--<dependencies>
         <dependency>
             <groupId>net.sf.saxon.wso2</groupId>
             <artifactId>saxon.bps</artifactId>
             <version>9.0.0.x-wso2v1</version>
         </dependency>
-    </dependencies>
+    </dependencies>-->
     <profiles>
-        <!--<profile>
+        <profile>
             <id>core</id>
             <build>
                 <plugins>
-
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>buildnumber-maven-plugin</artifactId>
@@ -64,7 +61,6 @@
                             </execution>
                         </executions>
                     </plugin>
-
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-dependency-plugin</artifactId>
@@ -81,7 +77,7 @@
                                         <artifactItem>
                                             <groupId>org.wso2.carbon</groupId>
                                             <artifactId>wso2carbon-core</artifactId>
-                                            <version>${carbon.kernal.version}</version>
+                                            <version>${carbon.kernel.version}</version>
                                             <type>zip</type>
                                             <overWrite>true</overWrite>
                                             <outputDirectory>target</outputDirectory>
@@ -110,7 +106,6 @@
                             </execution>
                         </executions>
                     </plugin>
-
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-antrun-plugin</artifactId>
@@ -131,13 +126,13 @@
                                                 <include name="jaggery-${pom.version}.zip"/>
                                             </fileset>
                                         </unzip>
-                                        <copy todir="target/wso2carbon-core-${carbon.kernal.version}/repository/components"
+                                        <copy todir="target/wso2carbon-core-${carbon.kernel.version}/repository/components"
                                               overwrite="true">
                                             <fileset
                                                     dir="${tempdir}/jaggery-${pom.version}/carbon/repository/components">
                                             </fileset>
                                         </copy>
-                                        <unzip src="target/wso2carbon-core-${carbon.kernal.version}/repository/components/plugins/org.jaggeryjs.jaggery.deployer_${jaggery.deployer.osgi.version}.jar"
+                                        <unzip src="target/wso2carbon-core-${carbon.kernel.version}/repository/components/plugins/org.jaggeryjs.jaggery.deployer_${jaggery.deployer.osgi.version}.jar"
                                                dest="${jardir}/deployer">
                                             <patternset>
                                                 <exclude name="**/component.xml"/>
@@ -145,8 +140,8 @@
                                         </unzip>
                                         <copy file="src/resources/jar/META-INF/component.xml"
                                               todir="${jardir}/deployer/META-INF"/>
-                                        <delete file="target/wso2carbon-core-${carbon.kernal.version}/repository/components/plugins/org.jaggeryjs.jaggery.deployer_${jaggery.deployer.osgi.version}.jar"></delete>
-                                        <zip destfile="target/wso2carbon-core-${carbon.kernal.version}/repository/components/plugins/org.jaggeryjs.jaggery.deployer_${jaggery.deployer.osgi.version}.jar"
+                                        <delete file="target/wso2carbon-core-${carbon.kernel.version}/repository/components/plugins/org.jaggeryjs.jaggery.deployer_${jaggery.deployer.osgi.version}.jar"></delete>
+                                        <zip destfile="target/wso2carbon-core-${carbon.kernel.version}/repository/components/plugins/org.jaggeryjs.jaggery.deployer_${jaggery.deployer.osgi.version}.jar"
                                              basedir="${jardir}/deployer"/>
 
 
@@ -155,7 +150,7 @@
                                         <mkdir dir="${tempdir}"/>
                                         <unzip dest="${tempdir}">
                                             <fileset
-                                                    dir="target/wso2carbon-core-${carbon.kernal.version}/repository/components/plugins/">
+                                                    dir="target/wso2carbon-core-${carbon.kernel.version}/repository/components/plugins/">
                                                 <include name="*.ui*.jar"/>
                                             </fileset>
                                         </unzip>
@@ -184,19 +179,6 @@
                                                 <exclude name="*.*"/>
                                             </fileset>
                                         </copy>
-                                        &lt;!&ndash;copy todir="src/site" overwrite="false" includeemptydirs="false">
-                                            <fileset dir="../../docs">
-                                                <exclude name="**/images/**/*.*"/>
-                                            </fileset>
-                                            <filterset>
-                                                <filter token="buildNumber" value="${buildNumber}"/>
-                                            </filterset>
-                                        </copy>
-                                        <copy todir="src/site" overwrite="false" includeemptydirs="false">
-                                            <fileset dir="../../docs">
-                                                <include name="**/images/**/*.*"/>
-                                            </fileset>
-                                        </copy&ndash;&gt;
                                         <copy todir="target/site/" overwrite="false"
                                               includeemptydirs="false">
                                             <fileset dir="src/site/xdoc/">
@@ -217,7 +199,7 @@
                                         <delete dir="target/archive-tmp"/>
                                         <delete dir="target/dependency-maven-plugin-markers"/>
                                         <delete dir="target/maven-archiver"/>
-                                        <delete dir="target/wso2carbon-core-${carbon.kernal.version}"/>
+                                        <delete dir="target/wso2carbon-core-${carbon.kernel.version}"/>
                                         <delete file="target/jaggery-${project.version}.jar"/>
                                         <delete dir="target/sources"/>
                                         <delete dir="target/site"/>
@@ -232,287 +214,6 @@
                             </execution>
                         </executions>
                     </plugin>
-
-                    &lt;!&ndash;<plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-site-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>site</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>&ndash;&gt;
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-assembly-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>1-pre-dist</id>
-                                <phase>test</phase>
-                                &lt;!&ndash;we are creating a temporary carbon distribution for document extracting purposes during the test phase&ndash;&gt;
-                                <goals>
-                                    <goal>attached</goal>
-                                </goals>
-                                <configuration>
-                                    <filters>
-                                        <filter>${basedir}/src/assembly/filter.properties</filter>
-                                    </filters>
-                                    <descriptors>
-                                        <descriptor>${basedir}/src/assembly/dist.xml</descriptor>
-                                    </descriptors>
-                                </configuration>
-                            </execution>
-
-                            <execution>
-                                <id>2-dist</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>attached</goal>
-                                </goals>
-                                <configuration>
-                                    <filters>
-                                        <filter>${basedir}/src/assembly/filter.properties</filter>
-                                    </filters>
-                                    <descriptors>
-                                        <descriptor>${basedir}/src/assembly/bin-core.xml</descriptor>
-                                        <descriptor>${basedir}/src/assembly/docs.xml</descriptor>
-                                    </descriptors>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-clean-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>auto-clean</id>
-                                <phase>initialize</phase>
-                                <goals>
-                                    <goal>clean</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                </plugins>
-            </build>
-        </profile>-->
-        <profile>
-            <id>community</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>buildnumber-maven-plugin</artifactId>
-                        <configuration>
-                            <format>{0,date,dd MMM yyyy}</format>
-                            <items>
-                                <item>timestamp</item>
-                            </items>
-                            <doCheck>false</doCheck>
-                            <doUpdate>false</doUpdate>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <phase>validate</phase>
-                                <goals>
-                                    <goal>create</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-dependency-plugin</artifactId>
-                        <inherited>false</inherited>
-                        <executions>
-                            <execution>
-                                <id>2-unpack-wso2carbon</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>unpack</goal>
-                                </goals>
-                                <configuration>
-                                    <artifactItems>
-                                        <artifactItem>
-                                            <groupId>org.wso2.carbon</groupId>
-                                            <artifactId>wso2carbon-core</artifactId>
-                                            <version>${carbon.kernal.version}</version>
-                                            <type>zip</type>
-                                            <overWrite>true</overWrite>
-                                            <outputDirectory>target</outputDirectory>
-                                        </artifactItem>
-                                    </artifactItems>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>unpack-kernel-patch</id>
-                                <phase>test</phase>
-                                <goals>
-                                    <goal>unpack</goal>
-                                </goals>
-                                <configuration>
-                                    <artifactItems>
-                                        <artifactItem>
-                                            <groupId>org.wso2.carbon</groupId>
-                                            <artifactId>WSO2-CARBON-PATCH-4.2.0</artifactId>
-                                            <version>0005</version>
-                                            <type>zip</type>
-                                            <overWrite>true</overWrite>
-                                            <outputDirectory>target</outputDirectory>
-                                        </artifactItem>
-                                    </artifactItems>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>3-extract-docs-from-components</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <tasks>
-                                        <property name="tempdir" value="target/docs-temp"/>
-                                        <property name="jardir" value="target/jars"/>
-                                        <mkdir dir="${tempdir}"/>
-                                        <unzip dest="${tempdir}">
-                                            <fileset dir="target">
-                                                <include name="jaggery-${pom.version}.zip"/>
-                                            </fileset>
-                                        </unzip>
-                                        <copy todir="target/wso2carbon-core-${carbon.kernal.version}/repository/components"
-                                              overwrite="true">
-                                            <fileset
-                                                    dir="${tempdir}/jaggery-${pom.version}/carbon/repository/components">
-                                            </fileset>
-                                        </copy>
-                                        <unzip src="target/wso2carbon-core-${carbon.kernal.version}/repository/components/plugins/org.jaggeryjs.jaggery.deployer_${jaggery.deployer.osgi.version}.jar"
-                                               dest="${jardir}/deployer">
-                                            <patternset>
-                                                <exclude name="**/component.xml"/>
-                                            </patternset>
-                                        </unzip>
-                                        <copy file="src/resources/jar/META-INF/component.xml"
-                                              todir="${jardir}/deployer/META-INF"/>
-                                        <delete file="target/wso2carbon-core-${carbon.kernal.version}/repository/components/plugins/org.jaggeryjs.jaggery.deployer_${jaggery.deployer.osgi.version}.jar"></delete>
-                                        <zip destfile="target/wso2carbon-core-${carbon.kernal.version}/repository/components/plugins/org.jaggeryjs.jaggery.deployer_${jaggery.deployer.osgi.version}.jar"
-                                             basedir="${jardir}/deployer"/>
-
-
-                                        <delete file="target/jaggery-${pom.version}.zip"/>
-                                        <delete dir="${tempdir}"/>
-                                        <mkdir dir="${tempdir}"/>
-                                        <unzip dest="${tempdir}">
-                                            <fileset
-                                                    dir="target/wso2carbon-core-${carbon.kernal.version}/repository/components/plugins/">
-                                                <include name="*.ui*.jar"/>
-                                            </fileset>
-                                        </unzip>
-                                        <move todir="${tempdir}/web/" includeemptydirs="false">
-                                            <fileset dir="${tempdir}/web/">
-                                                <exclude name="**/yui/**"/>
-                                                <exclude name="**/ajax/**"/>
-                                                <exclude name="**/editarea/**"/>
-                                                <exclude name="**/codepress/**"/>
-                                                <exclude name="**/WEB-INF/**"/>
-                                                <include name="**/*.html"/>
-                                            </fileset>
-                                            <mapper type="glob" from="*.html" to="*.xml"/>
-                                        </move>
-                                        <mkdir dir="src/site/xdoc"/>
-                                        <copy todir="src/site/xdoc" overwrite="false"
-                                              includeemptydirs="false">
-                                            <fileset dir="${tempdir}/web">
-                                                <exclude name="**/yui/**"/>
-                                                <exclude name="**/ajax/**"/>
-                                                <exclude name="**/WEB-INF/**"/>
-                                                <exclude name="**/*.html"/>
-                                                <exclude name="**/*.js"/>
-                                                <exclude name="**/*.jsp"/>
-                                                <exclude name="**/*.xsl"/>
-                                                <exclude name="*.*"/>
-                                            </fileset>
-                                        </copy>
-                                        <!--copy todir="src/site" overwrite="false" includeemptydirs="false">
-                                            <fileset dir="../../docs">
-                                                <exclude name="**/images/**/*.*"/>
-                                            </fileset>
-                                            <filterset>
-                                                <filter token="buildNumber" value="${buildNumber}"/>
-                                            </filterset>
-                                        </copy>
-                                        <copy todir="src/site" overwrite="false" includeemptydirs="false">
-                                            <fileset dir="../../docs">
-                                                <include name="**/images/**/*.*"/>
-                                            </fileset>
-                                        </copy-->
-                                        <copy todir="target/site/" overwrite="false"
-                                              includeemptydirs="false">
-                                            <fileset dir="src/site/xdoc/">
-                                                <include name="**/images/**/*.*"/>
-                                            </fileset>
-                                        </copy>
-                                        <delete dir="${tempdir}"/>
-                                    </tasks>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>clean_target</id>
-                                <phase>install</phase>
-                                <configuration>
-                                    <tasks>
-                                        <delete dir="target/jars"/>
-                                        <delete dir="target/*.xml"/>
-                                        <delete dir="target/archive-tmp"/>
-                                        <delete dir="target/dependency-maven-plugin-markers"/>
-                                        <delete dir="target/maven-archiver"/>
-                                        <delete dir="target/wso2carbon-core-${carbon.kernal.version}"/>
-                                        <delete file="target/jaggery-${project.version}.jar"/>
-                                        <delete dir="target/sources"/>
-                                        <delete dir="target/site"/>
-                                        <delete dir="target/antrun"/>
-                                        <delete dir="src/site"/>
-                                        <delete dir="target/WSO2-CARBON-PATCH-4.2.0-0005"/>
-                                    </tasks>
-                                </configuration>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <!--<plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-site-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>site</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>-->
-
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-assembly-plugin</artifactId>
@@ -531,9 +232,9 @@
                                     <descriptors>
                                         <descriptor>${basedir}/src/assembly/dist.xml</descriptor>
                                     </descriptors>
+                                    <appendAssemblyId>false</appendAssemblyId>
                                 </configuration>
                             </execution>
-
                             <execution>
                                 <id>2-dist</id>
                                 <phase>package</phase>
@@ -545,14 +246,14 @@
                                         <filter>${basedir}/src/assembly/filter.properties</filter>
                                     </filters>
                                     <descriptors>
-                                        <descriptor>${basedir}/src/assembly/bin.xml</descriptor>
-                                        <descriptor>${basedir}/src/assembly/docs.xml</descriptor>
+                                        <descriptor>${basedir}/src/assembly/bin-core.xml</descriptor>
+                                        <!--<descriptor>${basedir}/src/assembly/docs.xml</descriptor>-->
                                     </descriptors>
+                                    <appendAssemblyId>false</appendAssemblyId>
                                 </configuration>
                             </execution>
                         </executions>
                     </plugin>
-
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-clean-plugin</artifactId>
@@ -567,6 +268,240 @@
                         </executions>
                     </plugin>
 
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>community</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>buildnumber-maven-plugin</artifactId>
+                        <configuration>
+                            <format>{0,date,dd MMM yyyy}</format>
+                            <items>
+                                <item>timestamp</item>
+                            </items>
+                            <doCheck>false</doCheck>
+                            <doUpdate>false</doUpdate>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>create</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <inherited>false</inherited>
+                        <executions>
+                            <execution>
+                                <id>2-unpack-wso2carbon</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>org.wso2.carbon</groupId>
+                                            <artifactId>wso2carbon-core</artifactId>
+                                            <version>${carbon.kernel.version}</version>
+                                            <type>zip</type>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>target</outputDirectory>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>unpack-kernel-patch</id>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>org.wso2.carbon</groupId>
+                                            <artifactId>WSO2-CARBON-PATCH-4.2.0</artifactId>
+                                            <version>0005</version>
+                                            <type>zip</type>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>target</outputDirectory>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>3-extract-docs-from-components</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <tasks>
+                                        <property name="tempdir" value="target/docs-temp"/>
+                                        <property name="jardir" value="target/jars"/>
+                                        <mkdir dir="${tempdir}"/>
+                                        <unzip dest="${tempdir}">
+                                            <fileset dir="target">
+                                                <include name="jaggery-${pom.version}.zip"/>
+                                            </fileset>
+                                        </unzip>
+                                        <copy todir="target/wso2carbon-core-${carbon.kernel.version}/repository/components"
+                                              overwrite="true">
+                                            <fileset
+                                                    dir="${tempdir}/jaggery-${pom.version}/carbon/repository/components">
+                                            </fileset>
+                                        </copy>
+                                        <unzip src="target/wso2carbon-core-${carbon.kernel.version}/repository/components/plugins/org.jaggeryjs.jaggery.deployer_${jaggery.deployer.osgi.version}.jar"
+                                               dest="${jardir}/deployer">
+                                            <patternset>
+                                                <exclude name="**/component.xml"/>
+                                            </patternset>
+                                        </unzip>
+                                        <copy file="src/resources/jar/META-INF/component.xml"
+                                              todir="${jardir}/deployer/META-INF"/>
+                                        <delete file="target/wso2carbon-core-${carbon.kernel.version}/repository/components/plugins/org.jaggeryjs.jaggery.deployer_${jaggery.deployer.osgi.version}.jar"></delete>
+                                        <zip destfile="target/wso2carbon-core-${carbon.kernel.version}/repository/components/plugins/org.jaggeryjs.jaggery.deployer_${jaggery.deployer.osgi.version}.jar"
+                                             basedir="${jardir}/deployer"/>
+                                        <delete file="target/jaggery-${pom.version}.zip"/>
+                                        <delete dir="${tempdir}"/>
+                                        <mkdir dir="${tempdir}"/>
+                                        <unzip dest="${tempdir}">
+                                            <fileset
+                                                    dir="target/wso2carbon-core-${carbon.kernel.version}/repository/components/plugins/">
+                                                <include name="*.ui*.jar"/>
+                                            </fileset>
+                                        </unzip>
+                                        <move todir="${tempdir}/web/" includeemptydirs="false">
+                                            <fileset dir="${tempdir}/web/">
+                                                <exclude name="**/yui/**"/>
+                                                <exclude name="**/ajax/**"/>
+                                                <exclude name="**/editarea/**"/>
+                                                <exclude name="**/codepress/**"/>
+                                                <exclude name="**/WEB-INF/**"/>
+                                                <include name="**/*.html"/>
+                                            </fileset>
+                                            <mapper type="glob" from="*.html" to="*.xml"/>
+                                        </move>
+                                        <mkdir dir="src/site/xdoc"/>
+                                        <copy todir="src/site/xdoc" overwrite="false"
+                                              includeemptydirs="false">
+                                            <fileset dir="${tempdir}/web">
+                                                <exclude name="**/yui/**"/>
+                                                <exclude name="**/ajax/**"/>
+                                                <exclude name="**/WEB-INF/**"/>
+                                                <exclude name="**/*.html"/>
+                                                <exclude name="**/*.js"/>
+                                                <exclude name="**/*.jsp"/>
+                                                <exclude name="**/*.xsl"/>
+                                                <exclude name="*.*"/>
+                                            </fileset>
+                                        </copy>
+                                        <copy todir="target/site/" overwrite="false"
+                                              includeemptydirs="false">
+                                            <fileset dir="src/site/xdoc/">
+                                                <include name="**/images/**/*.*"/>
+                                            </fileset>
+                                        </copy>
+                                        <delete dir="${tempdir}"/>
+                                    </tasks>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>clean_target</id>
+                                <phase>install</phase>
+                                <configuration>
+                                    <tasks>
+                                        <delete dir="target/jars"/>
+                                        <delete dir="target/*.xml"/>
+                                        <delete dir="target/archive-tmp"/>
+                                        <delete dir="target/dependency-maven-plugin-markers"/>
+                                        <delete dir="target/maven-archiver"/>
+                                        <delete dir="target/wso2carbon-core-${carbon.kernel.version}"/>
+                                        <delete file="target/jaggery-${project.version}.jar"/>
+                                        <delete dir="target/sources"/>
+                                        <delete dir="target/site"/>
+                                        <delete dir="target/antrun"/>
+                                        <delete dir="src/site"/>
+                                        <delete dir="target/WSO2-CARBON-PATCH-4.2.0-0005"/>
+                                    </tasks>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>1-pre-dist</id>
+                                <phase>test</phase>
+                                <!--we are creating a temporary carbon distribution for document extracting purposes during the test phase-->
+                                <goals>
+                                    <goal>attached</goal>
+                                </goals>
+                                <configuration>
+                                    <filters>
+                                        <filter>${basedir}/src/assembly/filter.properties</filter>
+                                    </filters>
+                                    <descriptors>
+                                        <descriptor>${basedir}/src/assembly/dist.xml</descriptor>
+                                    </descriptors>
+                                    <appendAssemblyId>false</appendAssemblyId>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>2-dist</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>attached</goal>
+                                </goals>
+                                <configuration>
+                                    <filters>
+                                        <filter>${basedir}/src/assembly/filter.properties</filter>
+                                    </filters>
+                                    <descriptors>
+                                        <descriptor>${basedir}/src/assembly/bin.xml</descriptor>
+                                        <!--<descriptor>${basedir}/src/assembly/docs.xml</descriptor>-->
+                                    </descriptors>
+                                    <appendAssemblyId>false</appendAssemblyId>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-clean-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>auto-clean</id>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>clean</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
                 </plugins>
             </build>
         </profile>
