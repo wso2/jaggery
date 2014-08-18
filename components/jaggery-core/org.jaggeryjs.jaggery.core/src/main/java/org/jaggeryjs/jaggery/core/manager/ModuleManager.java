@@ -6,19 +6,27 @@ import org.apache.axiom.om.OMNamespace;
 import org.apache.axiom.om.impl.builder.StAXOMBuilder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jaggeryjs.scriptengine.cache.CacheManager;
+import org.jaggeryjs.scriptengine.cache.ScriptCachingContext;
 import org.jaggeryjs.scriptengine.engine.*;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.security.RhinoSecurityController;
+import org.jaggeryjs.scriptengine.security.RhinoSecurityDomain;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Script;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
+import org.wso2.carbon.utils.multitenancy.MultitenantConstants;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.AccessController;
+import java.security.CodeSource;
 import java.security.PrivilegedAction;
+import java.security.cert.Certificate;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -161,41 +169,57 @@ public class ModuleManager {
                 script = new JavaScriptScript(name);
 
                 Reader reader;
+                final String fileName;
+                ScriptCachingContext sctx;
                 if (isCustom) {
-                    reader = new FileReader(modulesDir + File.separator + module.getName() +
-                            File.separator + filterPath(path));
+                    String filteredPath = filterPath(path);
+                    fileName = modulesDir + File.separator + module.getName() +
+                            File.separator + filterPath(path);
+                    reader = new FileReader(fileName);
+                    int endIndex = filteredPath.lastIndexOf(File.separator);
+                    sctx = new ScriptCachingContext(
+                            String.valueOf(MultitenantConstants.SUPER_TENANT_ID),
+                            '<' + module.getName() + '>',
+                            filteredPath.substring(0, endIndex),
+                            filteredPath.substring(endIndex));
                 } else {
                     reader = new InputStreamReader(ModuleManager.class.getClassLoader().getResourceAsStream(path));
+                    fileName = modulesDir + File.separator + name;
+                    int endIndex = path.lastIndexOf('/');
+                     sctx = new ScriptCachingContext(
+                            String.valueOf(MultitenantConstants.SUPER_TENANT_ID),
+                            "<<" +  name + ">>",
+                            '/' + path.substring(0, endIndex),
+                            path.substring(endIndex));
                 }
-                final Script scriptObj = cx.compileReader(reader, name, 1, null);
-                if (RhinoSecurityController.isSecurityEnabled()) {
-                    script.setScript(new Script() {
-                        @Override
-                        public Object exec(final Context cx, final Scriptable scope) {
-                            return AccessController.doPrivileged(new PrivilegedAction<Object>() {
-                                @Override
-                                public Object run() {
-                                    return scriptObj.exec(cx, scope);
-                                }
-                            });
+                CacheManager cacheManager = new CacheManager(null);
+
+                sctx.setSecurityDomain(new RhinoSecurityDomain() {
+                    @Override
+                    public CodeSource getCodeSource() throws ScriptException {
+                        try {
+                            URL url = new File(fileName).getCanonicalFile().toURI().toURL();
+                            return new CodeSource(url, (Certificate[]) null);
+                        } catch (MalformedURLException e) {
+                            throw new ScriptException(e);
+                        } catch (IOException e) {
+                            throw new ScriptException(e);
                         }
-                    });
-                } else {
-                    script.setScript(scriptObj);
+                    }
+                });
+                sctx.setSourceModifiedTime(1);
+
+                Script cachedScript = cacheManager.getScriptObject(reader, sctx);
+                if (cachedScript == null) {
+                    cacheManager.cacheScript(reader, sctx);
+                    cachedScript = cacheManager.getScriptObject(reader, sctx);
                 }
+                script.setScript(cachedScript);
                 module.addScript(script);
             } catch (FileNotFoundException e) {
                 String msg = "Error executing script. Script cannot be found, name : " + name + ", path : " + path;
                 log.error(msg, e);
-                if (!isCustom) {
-                    throw new ScriptException(msg, e);
-                }
-            } catch (IOException e) {
-                String msg = "Error executing script. Script cannot be found, name : " + name + ", path : " + path;
-                log.error(msg, e);
-                if (!isCustom) {
-                    throw new ScriptException(msg, e);
-                }
+                throw new ScriptException(msg, e);
             }
         }
     }
