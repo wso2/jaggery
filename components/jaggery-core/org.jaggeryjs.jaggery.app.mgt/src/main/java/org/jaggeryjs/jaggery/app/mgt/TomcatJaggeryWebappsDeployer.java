@@ -28,7 +28,9 @@ import org.jaggeryjs.hostobjects.log.LogHostObject;
 import org.jaggeryjs.jaggery.core.JaggeryCoreConstants;
 import org.jaggeryjs.jaggery.core.ScriptReader;
 import org.jaggeryjs.jaggery.core.manager.CommonManager;
+import org.jaggeryjs.jaggery.core.manager.JaggerySecurityDomain;
 import org.jaggeryjs.jaggery.core.manager.WebAppManager;
+import org.jaggeryjs.scriptengine.cache.ScriptCachingContext;
 import org.jaggeryjs.scriptengine.engine.JaggeryContext;
 import org.jaggeryjs.scriptengine.engine.RhinoEngine;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
@@ -468,6 +470,10 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                     path = path.startsWith("/") ? path : "/" + path;
                     Stack<String> callstack = CommonManager.getCallstack(sharedContext);
                     callstack.push(path);
+                    String[] parts = WebAppManager.getKeys(servletContext.getContextPath(), path, path);
+                    ScriptCachingContext sctx = new ScriptCachingContext(sharedContext.getTenantId(),
+                            parts[0], parts[1], parts[2]);
+                    sctx.setSecurityDomain(new JaggerySecurityDomain(path, servletContext));
                     engine.exec(new ScriptReader(servletContext.getResourceAsStream(path)) {
                         @Override
                         protected void build() throws IOException {
@@ -477,7 +483,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                                 throw new IOException(e);
                             }
                         }
-                    }, sharedScope, null);
+                    }, sharedScope, sctx);
                 }
             } catch (ScriptException e) {
                 log.error(e.getMessage(), e);
