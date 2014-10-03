@@ -36,7 +36,7 @@ public class JaggeryDeployer extends AbstractWebappDeployer {
     @Override
     protected TomcatGenericWebappsDeployer createTomcatGenericWebappDeployer(
             String webContextPrefix, int tenantId, String tenantDomain) {
-        return new TomcatJaggeryWebappsDeployer(webContextPrefix, tenantId, tenantDomain, webApplicationsHolderList, configContext);
+        return new TomcatJaggeryWebappsDeployer(webContextPrefix, tenantId, tenantDomain, webApplicationsHolderMap, configContext);
     }
 
     @Override

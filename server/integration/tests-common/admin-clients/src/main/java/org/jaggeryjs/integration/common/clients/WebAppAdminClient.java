@@ -29,6 +29,7 @@ import org.wso2.carbon.webapp.mgt.stub.types.carbon.WebappsWrapper;
 
 import javax.activation.DataHandler;
 import java.io.File;
+import java.lang.String;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.rmi.RemoteException;
@@ -71,44 +72,44 @@ public class WebAppAdminClient {
         }
     }
 
-    public void deleteWebAppFile(String fileName) throws RemoteException {
-        webappAdminStub.deleteStartedWebapps(new String[]{fileName});
+    public void deleteWebAppFile(String fileName, String hostName) throws RemoteException {
+        webappAdminStub.deleteStartedWebapps(new String[]{hostName+":"+fileName});
     }
 
-    public void deleteFaultyWebAppFile(String fileName) throws RemoteException {
-        webappAdminStub.deleteFaultyWebapps(new String[]{fileName});
+    public void deleteFaultyWebAppFile(String fileName, String hostName) throws RemoteException {
+        webappAdminStub.deleteFaultyWebapps(new String[]{hostName+":"+fileName});
     }
 
-    public void deleteStoppedWebapps(String fileName) throws RemoteException {
+    public void deleteStoppedWebapps(String fileName, String hostName) throws RemoteException {
 
-        webappAdminStub.deleteStoppedWebapps(new String[]{fileName});
+        webappAdminStub.deleteStoppedWebapps(new String[]{hostName+":"+fileName});
     }
 
-    public void deleteFaultyWebApps(String fileName) throws RemoteException {
+    public void deleteFaultyWebApps(String fileName, String hostName) throws RemoteException {
         try {
-            webappAdminStub.deleteFaultyWebapps(new String[]{fileName});
+            webappAdminStub.deleteFaultyWebapps(new String[]{hostName+":"+fileName});
         } catch (RemoteException e) {
             throw new RemoteException("Faulty webApp deletion fail", e);
         }
     }
 
-    public void stopWebapps(String fileName) throws RemoteException {
+    public void stopWebapps(String fileName, String hostName) throws RemoteException {
         webappAdminStub.stopAllWebapps();
-        WebappMetadata webappMetadata = webappAdminStub.getStoppedWebapp(fileName);
+        WebappMetadata webappMetadata = webappAdminStub.getStoppedWebapp(fileName,hostName);
     }
 
-    public boolean stopWebApp(String fileName) throws RemoteException {
-        webappAdminStub.stopWebapps(new String[]{fileName});
-        WebappMetadata webappMetadata = webappAdminStub.getStoppedWebapp(fileName);
+    public boolean stopWebApp(String fileName, String hostName) throws RemoteException {
+        webappAdminStub.stopWebapps(new String[]{hostName+":"+fileName});
+        WebappMetadata webappMetadata = webappAdminStub.getStoppedWebapp(fileName, hostName);
         if (webappMetadata.getWebappFile().equals(fileName)) {
             return true;
         }
         return false;
     }
 
-    public boolean startWebApp(String fileName) throws RemoteException {
-        webappAdminStub.startWebapps(new String[]{fileName});
-        WebappMetadata webappMetadata = webappAdminStub.getStartedWebapp(fileName);
+    public boolean startWebApp(String fileName, String hostName) throws RemoteException {
+        webappAdminStub.startWebapps(new String[]{hostName+":"+fileName});
+        WebappMetadata webappMetadata = webappAdminStub.getStartedWebapp(fileName, hostName);
         if (webappMetadata.getWebappFile().equals(fileName)) {
             return true;
         }
@@ -171,8 +172,8 @@ public class WebAppAdminClient {
         return list;
     }
 
-    public void reloadWebApp(String webAppFileName) throws RemoteException {
-        webappAdminStub.reloadWebapps(new String[]{webAppFileName});
+    public void reloadWebApp(String webAppFileName, String hostName) throws RemoteException {
+        webappAdminStub.reloadWebapps(new String[]{hostName+":"+webAppFileName});
     }
 }
 

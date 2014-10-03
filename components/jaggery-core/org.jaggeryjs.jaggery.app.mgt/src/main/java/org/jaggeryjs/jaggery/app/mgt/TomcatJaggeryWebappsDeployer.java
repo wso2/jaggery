@@ -98,13 +98,13 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
             }
 
             JaggeryApplication deployedWebapp =
-                    (JaggeryApplication) (WebAppUtils.getwebappHolder(webappFile.getAbsolutePath(),
+                    (JaggeryApplication) (WebAppUtils.getWebappHolder(webappFile.getAbsolutePath(),
                             configurationContext)).getStartedWebapps().get(webappFile.getName());
             JaggeryApplication undeployedWebapp =
-                    (JaggeryApplication) (WebAppUtils.getwebappHolder(webappFile.getAbsolutePath(),
+                    (JaggeryApplication) (WebAppUtils.getWebappHolder(webappFile.getAbsolutePath(),
                             configurationContext)).getStoppedWebapps().get(webappFile.getName());
             JaggeryApplication faultyWebapp =
-                    (JaggeryApplication) (WebAppUtils.getwebappHolder(webappFile.getAbsolutePath(),
+                    (JaggeryApplication) (WebAppUtils.getWebappHolder(webappFile.getAbsolutePath(),
                             configurationContext)).getFaultyWebapps().get(webappFile.getName());
             if (deployedWebapp == null && faultyWebapp == null && undeployedWebapp == null) {
                 handleHotDeployment(webappFile, webContextParams, applicationEventListeners);
@@ -196,7 +196,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
         securityCollection.addPattern("/" + JaggeryCoreConstants.JAGGERY_CONF_FILE);
 
         securityConstraint.addCollection(securityCollection);
-        WebApplicationsHolder webApplicationsHolder = WebAppUtils.getwebappHolder(webappFile.getAbsolutePath(),configurationContext);
+        WebApplicationsHolder webApplicationsHolder = WebAppUtils.getWebappHolder(webappFile.getAbsolutePath(),configurationContext);
 
         try {
             JSONObject jaggeryConfigObj = readJaggeryConfig(webappFile);
