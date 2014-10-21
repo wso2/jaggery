@@ -61,37 +61,37 @@ public class RhinoTopLevel extends ImporterTopLevel {
         }
         return HostObjectUtil.serializeJSON(args[0]);
     }
-    
+
     /**
      * The sync function creates a synchronized function (in the sense
      * of a Java synchronized method) from an existing function. The
      * new function synchronizes on the the second argument if it is
      * defined, or otherwise the <code>this</code>
      */
-	public static Object sync(Context cx, Scriptable thisObj, Object[] args,Function funObj)
-			throws ScriptException {
-		Object syncObject = null;
-		String functionName = "sync";
-		int argsCount = args.length;
-		if (argsCount <= 1 && argsCount >= 2) {
-			HostObjectUtil.invalidNumberOfArgs(EngineConstants.GLOBAL_OBJECT_NAME, 
-					functionName,argsCount, false);
-		} else {
-			if (! (args[0] instanceof Function)) {
-				HostObjectUtil.invalidArgsError(EngineConstants.GLOBAL_OBJECT_NAME,
-						EngineConstants.GLOBAL_OBJECT_NAME, "1", "function", args[0], false);
-			}
-			if (argsCount == 2){
-				if (args[1] == Undefined.instance) {
-					HostObjectUtil.invalidArgsError(EngineConstants.GLOBAL_OBJECT_NAME,
-							EngineConstants.GLOBAL_OBJECT_NAME, "1", "object", args[0], false);
-				} else {
-					syncObject = args[1];
-				}								
-			}		
-		}
-		return new Synchronizer((Function) args[0], syncObject);
-	}
+    public static Object sync(Context cx, Scriptable thisObj, Object[] args, Function funObj)
+            throws ScriptException {
+        Object syncObject = null;
+        String functionName = "sync";
+        int argsCount = args.length;
+        if (argsCount <= 1 && argsCount >= 2) {
+            HostObjectUtil.invalidNumberOfArgs(EngineConstants.GLOBAL_OBJECT_NAME,
+                    functionName, argsCount, false);
+        } else {
+            if (!(args[0] instanceof Function)) {
+                HostObjectUtil.invalidArgsError(EngineConstants.GLOBAL_OBJECT_NAME,
+                        EngineConstants.GLOBAL_OBJECT_NAME, "1", "function", args[0], false);
+            }
+            if (argsCount == 2) {
+                if (args[1] == Undefined.instance) {
+                    HostObjectUtil.invalidArgsError(EngineConstants.GLOBAL_OBJECT_NAME,
+                            EngineConstants.GLOBAL_OBJECT_NAME, "1", "object", args[0], false);
+                } else {
+                    syncObject = args[1];
+                }
+            }
+        }
+        return new Synchronizer((Function) args[0], syncObject);
+    }
 
     public static String setTimeout(Context cx, final Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException {
@@ -131,13 +131,13 @@ public class RhinoTopLevel extends ImporterTopLevel {
         final int tenantId = carbonContext.getTenantId();
         final String tenantDomain = carbonContext.getTenantDomain();
         final String applicationName = carbonContext.getApplicationName();
-        final ClassLoader contextClassLoader=Thread.currentThread().getContextClassLoader();
+        final ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
 
         ScheduledFuture future = timerExecutor.schedule(new Callable<Void>() {
             public Void call() throws Exception {
                 //set the context classloader
-                Thread currentThread= Thread.currentThread();
-                ClassLoader originalClassLoader=currentThread.getContextClassLoader();
+                Thread currentThread = Thread.currentThread();
+                ClassLoader originalClassLoader = currentThread.getContextClassLoader();
                 Thread.currentThread().setContextClassLoader(contextClassLoader);
                 // child inherits context properties form the parent thread.
                 PrivilegedCarbonContext.startTenantFlow();
@@ -208,7 +208,7 @@ public class RhinoTopLevel extends ImporterTopLevel {
         final int tenantId = carbonContext.getTenantId();
         final String tenantDomain = carbonContext.getTenantDomain();
         final String applicationName = carbonContext.getApplicationName();
-        final ClassLoader contextClassLoader=Thread.currentThread().getContextClassLoader();
+        final ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
 
         ScheduledFuture future = timerExecutor.scheduleAtFixedRate(new Runnable() {
 
@@ -217,8 +217,8 @@ public class RhinoTopLevel extends ImporterTopLevel {
             @Override
             public void run() {
                 //set the context classloader
-                Thread currentThread= Thread.currentThread();
-                ClassLoader originalClassLoader=currentThread.getContextClassLoader();
+                Thread currentThread = Thread.currentThread();
+                ClassLoader originalClassLoader = currentThread.getContextClassLoader();
                 Thread.currentThread().setContextClassLoader(contextClassLoader);
                 // child inherits context properties form the parent thread.
                 PrivilegedCarbonContext.startTenantFlow();
@@ -289,6 +289,11 @@ public class RhinoTopLevel extends ImporterTopLevel {
                     EngineConstants.GLOBAL_OBJECT_NAME, "1", "string", args[0], false);
         }
         clearInterval((String) args[0]);
+    }
+
+    public static void exit(Context cx, Scriptable thisObj, Object[] args, Function funObj)
+            throws ScriptException {
+        throw new Error();
     }
 
     public static void clearTimeout(String taskId) throws ScriptException {

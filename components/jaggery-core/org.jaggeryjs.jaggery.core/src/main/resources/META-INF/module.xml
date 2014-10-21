@@ -60,7 +60,7 @@
     <hostObject>
         <className>org.jaggeryjs.hostobjects.web.ApplicationHostObject</className>
         <name>Application</name>
-    </hostObject>    
+    </hostObject>
     <hostObject>
         <className>org.jaggeryjs.hostobjects.stream.StreamHostObject</className>
         <name>Stream</name>
@@ -111,10 +111,10 @@
         <className>org.jaggeryjs.jaggery.core.manager.WebAppManager</className>
         <name>sync</name>
     </method>
-	<method>
+    <method>
         <className>org.jaggeryjs.scriptengine.engine.RhinoTopLevel</className>
         <name>setTimeout</name>
-    </method>    
+    </method>
     <method>
         <className>org.jaggeryjs.scriptengine.engine.RhinoTopLevel</className>
         <name>setInterval</name>
@@ -122,12 +122,16 @@
     <method>
         <className>org.jaggeryjs.scriptengine.engine.RhinoTopLevel</className>
         <name>clearTimeout</name>
-    </method>    
+    </method>
     <method>
         <className>org.jaggeryjs.scriptengine.engine.RhinoTopLevel</className>
         <name>clearInterval</name>
     </method>
-    
+    <method>
+        <className>org.jaggeryjs.scriptengine.engine.RhinoTopLevel</className>
+        <name>exit</name>
+    </method>
+
     <!-- scripts -->
     <script>
         <name>http</name>

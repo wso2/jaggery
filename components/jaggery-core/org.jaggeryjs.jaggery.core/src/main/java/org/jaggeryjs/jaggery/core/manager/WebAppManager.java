@@ -565,6 +565,11 @@ public class WebAppManager {
             log.error(msg, e);
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
                     msg);
+        } catch (Error e) {
+            //Rhino doesn't catch Error instances and it is been used to stop the script execution
+            //from any specific place. Hence, Error exception propagates up to Java and we silently
+            //ignore it, assuming it was initiated by an exit() method call.
+            log.debug("Script has called exit() method", e);
         } finally {
             // Exiting from the context
             if (engine != null) {
