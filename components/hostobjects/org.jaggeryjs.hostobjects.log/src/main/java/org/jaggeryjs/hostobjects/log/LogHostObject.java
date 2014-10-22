@@ -1,5 +1,22 @@
+/*
+ *  Copyright (c), WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ *  WSO2 Inc. licenses this file to you under the Apache License,
+ *  Version 2.0 (the "License"); you may not use this file except
+ *  in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing,
+ *  software distributed under the License is distributed on an
+ *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *  KIND, either express or implied.  See the License for the
+ *  specific language governing permissions and limitations
+ *  under the License.
+ *
+ */
 package org.jaggeryjs.hostobjects.log;
-
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -101,139 +118,37 @@ public class LogHostObject extends ScriptableObject {
     //prints a debug message
     public static void jsFunction_debug(Context cx, Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException {
-        String functionName = "debug";
-        int argsCount = args.length;
-        if (argsCount == 0) {
-            HostObjectUtil.invalidNumberOfArgs(HOSTOBJECT_NAME, functionName, argsCount, false);
-        }
-        LogHostObject logObj = (LogHostObject) thisObj;
-        String message = HostObjectUtil.serializeObject(args[0]);
-        if (argsCount == 1) {
-            logObj.logger.debug(message);
-            return;
-        }
-        Throwable exception = getThrowable(args[1]);
-        if (exception == null) {
-            logObj.logger.debug(message);
-            log.warn(WARN_NON_THROWABLE);
-            return;
-        }
-        logObj.logger.debug(message, exception);
+        log(LOG_LEVEL_DEBUG, thisObj, args);
     }
 
     //prints a trace message
     public static void jsFunction_trace(Context cx, Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException {
-        String functionName = "trace";
-        int argsCount = args.length;
-        if (argsCount == 0) {
-            HostObjectUtil.invalidNumberOfArgs(HOSTOBJECT_NAME, functionName, argsCount, false);
-        }
-        LogHostObject logObj = (LogHostObject) thisObj;
-        String message = HostObjectUtil.serializeObject(args[0]);
-        if (argsCount == 1) {
-            logObj.logger.trace(message);
-            return;
-        }
-        Throwable exception = getThrowable(args[1]);
-        if (exception == null) {
-            logObj.logger.trace(message);
-            log.warn(WARN_NON_THROWABLE);
-            return;
-        }
-        logObj.logger.trace(message, exception);
+        log(LOG_LEVEL_TRACE, thisObj, args);
     }
 
     //prints an info message
     public static void jsFunction_info(Context cx, Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException {
-        String functionName = "info";
-        int argsCount = args.length;
-        if (argsCount == 0) {
-            HostObjectUtil.invalidNumberOfArgs(HOSTOBJECT_NAME, functionName, argsCount, false);
-        }
-        LogHostObject logObj = (LogHostObject) thisObj;
-        String message = HostObjectUtil.serializeObject(args[0]);
-        if (argsCount == 1) {
-            logObj.logger.info(message);
-            return;
-        }
-        Throwable exception = getThrowable(args[1]);
-        if (exception == null) {
-            logObj.logger.info(message);
-            log.warn(WARN_NON_THROWABLE);
-            return;
-        }
-        logObj.logger.info(message, exception);
+        log(LOG_LEVEL_INFO, thisObj, args);
     }
 
     //prints an error message
     public static void jsFunction_error(Context cx, Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException {
-        String functionName = "error";
-        int argsCount = args.length;
-        if (argsCount == 0) {
-            HostObjectUtil.invalidNumberOfArgs(HOSTOBJECT_NAME, functionName, argsCount, false);
-        }
-        LogHostObject logObj = (LogHostObject) thisObj;
-        String message = HostObjectUtil.serializeObject(args[0]);
-        if (argsCount == 1) {
-            logObj.logger.error(message);
-            return;
-        }
-        Throwable exception = getThrowable(args[1]);
-        if (exception == null) {
-            logObj.logger.error(message);
-            log.warn(WARN_NON_THROWABLE);
-            return;
-        }
-        logObj.logger.error(message, exception);
+        log(LOG_LEVEL_ERROR, thisObj, args);
     }
 
     //prints a warning message
     public static void jsFunction_warn(Context cx, Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException {
-        String functionName = "warn";
-        int argsCount = args.length;
-        if (argsCount == 0) {
-            HostObjectUtil.invalidNumberOfArgs(HOSTOBJECT_NAME, functionName, argsCount, false);
-        }
-        LogHostObject logObj = (LogHostObject) thisObj;
-        String message = HostObjectUtil.serializeObject(args[0]);
-        if (argsCount == 1) {
-            logObj.logger.warn(message);
-            return;
-        }
-        Throwable exception = getThrowable(args[1]);
-        if (exception == null) {
-            logObj.logger.warn(message);
-            log.warn(WARN_NON_THROWABLE);
-            return;
-        }
-        logObj.logger.warn(message, exception);
+        log(LOG_LEVEL_WARN, thisObj, args);
     }
 
     //prints a fatal message
     public static void jsFunction_fatal(Context cx, Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException {
-        String functionName = "fatal";
-        int argsCount = args.length;
-        if (argsCount == 0) {
-            HostObjectUtil.invalidNumberOfArgs(HOSTOBJECT_NAME, functionName, argsCount, false);
-        }
-        LogHostObject logObj = (LogHostObject) thisObj;
-        String message = HostObjectUtil.serializeObject(args[0]);
-        if (argsCount == 1) {
-            logObj.logger.fatal(message);
-            return;
-        }
-        Throwable exception = getThrowable(args[1]);
-        if (exception == null) {
-            logObj.logger.fatal(message);
-            log.warn(WARN_NON_THROWABLE);
-            return;
-        }
-        logObj.logger.fatal(message, exception);
+        log(LOG_LEVEL_FATAL, thisObj, args);
     }
 
     //check if debug is enabled
@@ -268,5 +183,77 @@ public class LogHostObject extends ScriptableObject {
             return null;
         }
         return (Throwable) error;
+    }
+
+    private static void log(String logLevel, Scriptable thisObj, Object[] args) throws ScriptException {
+        int argsCount = args.length;
+        if (argsCount == 0) {
+            HostObjectUtil.invalidNumberOfArgs(HOSTOBJECT_NAME, logLevel, argsCount, false);
+        }
+        LogHostObject logObj = (LogHostObject) thisObj;
+        String message = HostObjectUtil.serializeObject(args[0]);
+        if (argsCount == 1) {
+            logMessage(logObj.logger, logLevel, message);
+            return;
+        }
+        Throwable exception = getThrowable(args[1]);
+        if (exception == null) {
+            logMessage(logObj.logger, logLevel, message);
+            log.warn(WARN_NON_THROWABLE);
+            return;
+        }
+        logException(logObj.logger, logLevel, message, exception);
+    }
+
+    private static void logMessage(Logger log, String logLevel, String message) {
+        if (LOG_LEVEL_DEBUG.equals(logLevel)) {
+            log.debug(message);
+            return;
+        }
+        if (LOG_LEVEL_ERROR.equals(logLevel)) {
+            log.error(message);
+            return;
+        }
+        if (LOG_LEVEL_FATAL.equals(logLevel)) {
+            log.fatal(message);
+            return;
+        }
+        if (LOG_LEVEL_INFO.equals(logLevel)) {
+            log.info(message);
+            return;
+        }
+        if (LOG_LEVEL_TRACE.equals(logLevel)) {
+            log.trace(message);
+            return;
+        }
+        if (LOG_LEVEL_WARN.equals(logLevel)) {
+            log.warn(message);
+        }
+    }
+
+    private static void logException(Logger log, String logLevel, String message, Throwable throwable) {
+        if (LOG_LEVEL_DEBUG.equals(logLevel)) {
+            log.debug(message, throwable);
+            return;
+        }
+        if (LOG_LEVEL_ERROR.equals(logLevel)) {
+            log.error(message, throwable);
+            return;
+        }
+        if (LOG_LEVEL_FATAL.equals(logLevel)) {
+            log.fatal(message, throwable);
+            return;
+        }
+        if (LOG_LEVEL_INFO.equals(logLevel)) {
+            log.info(message, throwable);
+            return;
+        }
+        if (LOG_LEVEL_TRACE.equals(logLevel)) {
+            log.trace(message, throwable);
+            return;
+        }
+        if (LOG_LEVEL_WARN.equals(logLevel)) {
+            log.warn(message, throwable);
+        }
     }
 }
