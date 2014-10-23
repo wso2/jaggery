@@ -100,11 +100,14 @@ public class CommonManager {
             throws ScriptException {
         String functionName = "include";
         int argsCount = args.length;
-        if (argsCount != 1) {
+        if (argsCount != 1 && argsCount != 2) {
             HostObjectUtil.invalidNumberOfArgs(HOST_OBJECT_NAME, functionName, argsCount, false);
         }
         if (!(args[0] instanceof String)) {
             HostObjectUtil.invalidArgsError(HOST_OBJECT_NAME, functionName, "1", "string", args[0], false);
+        }
+        if (argsCount == 2 && !(args[1] instanceof ScriptableObject)) {
+            HostObjectUtil.invalidArgsError(HOST_OBJECT_NAME, functionName, "2", "Object", args[1], false);
         }
         JaggeryContext jaggeryContext = getJaggeryContext();
         RhinoEngine engine = jaggeryContext.getEngine();
@@ -124,7 +127,12 @@ public class CommonManager {
                 return;
             }
             ScriptReader source;
-            ScriptableObject scope = jaggeryContext.getScope();
+            ScriptableObject scope;
+            if (argsCount == 2) {
+                scope = (ScriptableObject) args[1];
+            } else {
+                scope = jaggeryContext.getScope();
+            }
             //this is a remote file url
             try {
                 URL url = new URL(fileURL);
@@ -153,11 +161,14 @@ public class CommonManager {
             throws ScriptException {
         String functionName = "include_once";
         int argsCount = args.length;
-        if (argsCount != 1) {
+        if (argsCount != 1 && argsCount != 2) {
             HostObjectUtil.invalidNumberOfArgs(HOST_OBJECT_NAME, functionName, argsCount, false);
         }
         if (!(args[0] instanceof String)) {
             HostObjectUtil.invalidArgsError(HOST_OBJECT_NAME, functionName, "1", "string", args[0], false);
+        }
+        if (argsCount == 2 && !(args[1] instanceof ScriptableObject)) {
+            HostObjectUtil.invalidArgsError(HOST_OBJECT_NAME, functionName, "2", "Object", args[1], false);
         }
         JaggeryContext jaggeryContext = getJaggeryContext();
         RhinoEngine engine = jaggeryContext.getEngine();
@@ -182,7 +193,12 @@ public class CommonManager {
             }
 
             ScriptReader source;
-            ScriptableObject scope = jaggeryContext.getScope();
+            ScriptableObject scope;
+            if (argsCount == 2) {
+                scope = (ScriptableObject) args[1];
+            } else {
+                scope = jaggeryContext.getScope();
+            }
             //this is a remote file url
             try {
                 URL url = new URL(fileURL);

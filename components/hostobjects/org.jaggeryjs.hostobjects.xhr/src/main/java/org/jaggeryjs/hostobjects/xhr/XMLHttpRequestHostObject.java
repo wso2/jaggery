@@ -36,6 +36,8 @@ public class XMLHttpRequestHostObject extends ScriptableObject {
     private static final short LOADING = 3;
     private static final short DONE = 4;
 
+    private static final String HEADER_JOINER = ", ";
+
     /**
      * XHR properties
      */
@@ -331,19 +333,20 @@ public class XMLHttpRequestHostObject extends ScriptableObject {
         if (xhr.error) {
             return null;
         }
-        // 5
-        if (isInvalidHeader(header)) {
-            return null;
-        }
         if (xhr.responseHeaders == null) {
             return null;
         }
+        StringBuffer value = null;
         for (Header h : xhr.responseHeaders) {
             if (h.getName().equalsIgnoreCase(header)) {
-                return h.getValue();
+                if (value == null) {
+                    value = new StringBuffer(h.getValue());
+                    continue;
+                }
+                value.append(HEADER_JOINER).append(h.getValue());
             }
         }
-        return null;
+        return value != null ? value.toString() : null;
     }
 
     /**
@@ -380,9 +383,6 @@ public class XMLHttpRequestHostObject extends ScriptableObject {
         }
         for (Header h : xhr.responseHeaders) {
             String header = h.getName();
-            if (isInvalidHeader(header)) {
-                continue;
-            }
             hBuf.append(h.getName() + ": " + h.getValue() + "\r\n");
         }
         headers = hBuf.toString();

@@ -41,42 +41,43 @@ import static org.testng.Assert.assertNotNull;
 public class ApplicationObjectTestCase extends JaggeryIntegrationTest {
     private static final Log log = LogFactory.getLog(ApplicationObjectTestCase.class);
 
-    @BeforeTest(alwaysRun = true) //uploads testapp.zip file and verify  deployment
-    public void jaggeryFileUpload() throws Exception {
-        super.init();
-        JaggeryApplicationUploaderClient jaggeryAppUploaderClient =
-                new JaggeryApplicationUploaderClient(backendURL, sessionCookie);
-        jaggeryAppUploaderClient.uploadJaggeryFile("testapp.zip",
-                FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator + "testapp.zip");
-        WebAppDeploymentUtil.isWebApplicationDeployed(backendURL, sessionCookie, "application.jag");   // verifying the deployment
-        log.info("testapp.zip file uploaded successfully");
-    }
 
-    @AfterTest(alwaysRun = true)
-    public void jaggeryFileDelete() throws Exception {  // deletes the testapp.zip web app file
-        WebAppAdminClient webAppAdminClient = new WebAppAdminClient(backendURL, sessionCookie);
-        webAppAdminClient.deleteWebAppFile("testapp");
-        log.info("testapp deleted successfully");
-    }
+//    @BeforeTest(alwaysRun = true) //uploads testapp.zip file and verify  deployment
+//    public void jaggeryFileUpload() throws Exception {
+//        super.init();
+//        JaggeryApplicationUploaderClient jaggeryAppUploaderClient =
+//                new JaggeryApplicationUploaderClient(backendURL, sessionCookie);
+//        jaggeryAppUploaderClient.uploadJaggeryFile("testapp.zip",
+//                FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator + "testapp.zip");
+//        WebAppDeploymentUtil.isWebApplicationDeployed(backendURL, sessionCookie, "application.jag");   // verifying the deployment
+//        log.info("testapp.zip file uploaded successfully");
+//    }
 
-    @Test(groups = "wso2.as", description = "invoke applicationjag")
-    public void testApplication() throws Exception {
-        String response = null;
-        URLConnection jaggeryServerConnection;
-        URL jaggeryURL = new URL(webAppURL + "/testapp/application.jag");
-        jaggeryServerConnection = JaggeryTestUtil.openConnection(jaggeryURL);
-        assertNotNull(jaggeryServerConnection, "Connection establishment failure");
-        BufferedReader in = JaggeryTestUtil.inputReader(jaggeryServerConnection);
-        assertNotNull(in, "Input stream failure");
-        String inputLine;
-        while ((inputLine = in.readLine()) != null) {
-            response = inputLine;
-        }
-        in.close();
-        log.info("Response: " + response);
-        assertNotNull(response, "Response cannot be null");
-        assertEquals(response, "test jaggery application value");
-    }
+//    @AfterTest(alwaysRun = true)
+//    public void jaggeryFileDelete() throws Exception {  // deletes the testapp.zip web app file
+//        WebAppAdminClient webAppAdminClient = new WebAppAdminClient(backendURL, sessionCookie);
+//        webAppAdminClient.deleteWebAppFile("testapp");
+//        log.info("testapp deleted successfully");
+//    }
+
+//    @Test(groups = "wso2.as", description = "invoke applicationjag")
+//    public void testApplication() throws Exception {
+//        String response = null;
+//        URLConnection jaggeryServerConnection;
+//        URL jaggeryURL = new URL(webAppURL + "/testapp/application.jag");
+//        jaggeryServerConnection = JaggeryTestUtil.openConnection(jaggeryURL);
+//        assertNotNull(jaggeryServerConnection, "Connection establishment failure");
+//        BufferedReader in = JaggeryTestUtil.inputReader(jaggeryServerConnection);
+//        assertNotNull(in, "Input stream failure");
+//        String inputLine;
+//        while ((inputLine = in.readLine()) != null) {
+//            response = inputLine;
+//        }
+//        in.close();
+//        log.info("Response: " + response);
+//        assertNotNull(response, "Response cannot be null");
+//        assertEquals(response, "test jaggery application value");
+//    }
 }
 
 

@@ -114,7 +114,7 @@ public class WebAppManager {
             throws ScriptException {
         String functionName = "include";
         int argsCount = args.length;
-        if (argsCount != 1) {
+        if (argsCount != 1 && argsCount != 2) {
             HostObjectUtil.invalidNumberOfArgs(CommonManager.HOST_OBJECT_NAME, functionName, argsCount, false);
         }
         if (!(args[0] instanceof String)) {
@@ -130,14 +130,23 @@ public class WebAppManager {
             CommonManager.include(cx, thisObj, args, funObj);
             return;
         }
-        executeScript(jaggeryContext, jaggeryContext.getScope(), fileURL, false, false, false);
+        if (argsCount == 2 && !(args[1] instanceof ScriptableObject)) {
+            HostObjectUtil.invalidArgsError(CommonManager.HOST_OBJECT_NAME, functionName, "2", "Object", args[1], false);
+        }
+        ScriptableObject scope;
+        if (argsCount == 2) {
+            scope = (ScriptableObject) args[1];
+        } else {
+            scope = jaggeryContext.getScope();
+        }
+        executeScript(jaggeryContext, scope, fileURL, false, false, false);
     }
 
     public static void include_once(Context cx, Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException {
         String functionName = "include_once";
         int argsCount = args.length;
-        if (argsCount != 1) {
+        if (argsCount != 1 && argsCount != 2) {
             HostObjectUtil.invalidNumberOfArgs(CommonManager.HOST_OBJECT_NAME, functionName, argsCount, false);
         }
         if (!(args[0] instanceof String)) {
@@ -153,7 +162,16 @@ public class WebAppManager {
             CommonManager.include_once(cx, thisObj, args, funObj);
             return;
         }
-        executeScript(jaggeryContext, jaggeryContext.getScope(), fileURL, false, false, true);
+        if (argsCount == 2 && !(args[1] instanceof ScriptableObject)) {
+            HostObjectUtil.invalidArgsError(CommonManager.HOST_OBJECT_NAME, functionName, "2", "Object", args[1], false);
+        }
+        ScriptableObject scope;
+        if (argsCount == 2) {
+            scope = (ScriptableObject) args[1];
+        } else {
+            scope = jaggeryContext.getScope();
+        }
+        executeScript(jaggeryContext, scope, fileURL, false, false, true);
     }
 
     /**
