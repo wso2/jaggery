@@ -41,14 +41,6 @@
             <artifactId>org.jaggeryjs.jaggery.app.mgt.ui</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.wso2.carbon</groupId>
-            <artifactId>org.wso2.carbon.webapp.list.ui</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.wso2.carbon</groupId>
-            <artifactId>org.wso2.carbon.webapp.mgt.stub</artifactId>
-        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -74,8 +66,6 @@
                             <bundles>
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.jaggery.app.mgt.stub</bundleDef>
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.jaggery.app.mgt.ui</bundleDef>
-                                <bundleDef>org.wso2.carbon:org.wso2.carbon.webapp.mgt.stub</bundleDef>
-                                <bundleDef>org.wso2.carbon:org.wso2.carbon.webapp.list.ui</bundleDef>
                             </bundles>
                             <importFeatures>
                                 <importFeatureDef>org.wso2.carbon.core.ui:${carbon.kernel.version}</importFeatureDef>
