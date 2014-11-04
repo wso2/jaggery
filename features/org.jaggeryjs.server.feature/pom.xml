@@ -50,10 +50,6 @@
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>
-            <artifactId>org.wso2.carbon.webapp.mgt</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.registry.admin.api</artifactId>
         </dependency>
         <dependency>
@@ -250,10 +246,6 @@
             <artifactId>wso2-uri-templates</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.wso2.carbon</groupId>
-            <artifactId>javax.servlet</artifactId>
-        </dependency>
-        <dependency>
             <groupId>net.sf.saxon.wso2</groupId>
             <artifactId>saxon.bps</artifactId>
         </dependency>
@@ -337,7 +329,6 @@
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.log</bundleDef>
                             </bundles>
                             <importBundles>
-                                <!--importBundleDef>org.wso2.carbon:org.wso2.carbon.webapp.mgt</importBundleDef-->
                                 <importBundleDef>org.wso2.carbon:org.wso2.carbon.registry.search</importBundleDef>
                                 <importBundleDef>org.wso2.carbon:org.wso2.carbon.registry.admin.api</importBundleDef>
                                 <importBundleDef>org.wso2.carbon:org.wso2.carbon.registry.common</importBundleDef>
@@ -355,7 +346,6 @@
 
                                 <importBundleDef>commons-io.wso2:commons-io</importBundleDef>
                                 <!--<importBundleDef>org.hectorclient:hector-core</importBundleDef>-->
-                                <importBundleDef>org.eclipse.equinox:javax.servlet.jsp</importBundleDef>
 
                                 <importBundleDef>org.apache.axis2.wso2:axis2</importBundleDef>
                                 <importBundleDef>org.wso2.carbon:org.wso2.carbon.addressing</importBundleDef>
@@ -369,7 +359,6 @@
                                 <importBundleDef>org.eclipse.wst.jsdt:org.eclipse.wst.jsdt.debug.transport
                                 </importBundleDef>
                                 <importBundleDef>rome.wso2:rome</importBundleDef>
-                                <importBundleDef>org.wso2.carbon:javax.servlet</importBundleDef>
                                 <importBundleDef>org.wso2.uri.template:wso2-uri-templates</importBundleDef>
                                 <importBundleDef>net.sf.saxon.wso2:saxon.bps</importBundleDef>
                                 <importBundleDef>jdom.wso2:jdom</importBundleDef>
