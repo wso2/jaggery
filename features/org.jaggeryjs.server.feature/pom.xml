@@ -338,8 +338,6 @@
                                 <importBundleDef>org.apache.rampart.wso2:rampart-core</importBundleDef>
                                 <importBundleDef>org.apache.rampart.wso2:rampart-trust</importBundleDef>
                                 <importBundleDef>org.apache.rampart.wso2:rampart-policy</importBundleDef>
-                                <importBundleDef>org.apache.geronimo.specs.wso2:geronimo-stax-api_1.0_spec
-                                </importBundleDef>
                                 <importBundleDef>org.apache.ws.security.wso2:wss4j</importBundleDef>
 
                                 <importBundleDef>org.apache.ws.commons.axiom.wso2:axiom</importBundleDef>

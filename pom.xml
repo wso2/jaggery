@@ -406,7 +406,6 @@
         <wsdl4j.osgi.version>1.6.2.wso2v3</wsdl4j.osgi.version>
         <axis2-json.osgi.version>1.6.1.wso2v10</axis2-json.osgi.version>
         <mail.version>1.4</mail.version>
-        <geronimo-stax-api_1.0_spec.osgi.version>1.0.1.wso2v2</geronimo-stax-api_1.0_spec.osgi.version>
         <servlet-api.version>2.4</servlet-api.version>
         <wss4j.osgi.version>1.5.11.wso2v3</wss4j.osgi.version>
         <json-simple.osgi.version>1.1.wso2v1</json-simple.osgi.version>
@@ -598,11 +597,6 @@
                 <groupId>org.apache.ws.commons.schema.wso2</groupId>
                 <artifactId>XmlSchema</artifactId>
                 <version>${xmlschema.osgi.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.geronimo.specs.wso2</groupId>
-                <artifactId>geronimo-stax-api_1.0_spec</artifactId>
-                <version>${geronimo-stax-api_1.0_spec.osgi.version}</version>
             </dependency>
             <dependency>
                 <groupId>commons-codec.wso2</groupId>
