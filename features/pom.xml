@@ -462,7 +462,7 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.registry.indexing</artifactId>
-                <version>${carbon.platform.version}</version>
+                <version>${patch.version.421}</version>
             </dependency>
             <dependency>
                 <groupId>solr.wso2</groupId>
