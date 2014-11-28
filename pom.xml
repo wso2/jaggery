@@ -346,7 +346,7 @@
 
         <jaggery.deployer.osgi.version>0.9.0.SNAPSHOT</jaggery.deployer.osgi.version>
 
-        <test.framework.version>4.3.1-SNAPSHOT</test.framework.version>
+        <test.framework.version>4.3.1</test.framework.version>
         <platform.integration.utils.version>4.3.0-SNAPSHOT</platform.integration.utils.version>
 
         <maven.scrplugin.version>1.7.2</maven.scrplugin.version>
