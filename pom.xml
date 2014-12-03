@@ -342,7 +342,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <carbon.platform.version>4.3.0-SNAPSHOT</carbon.platform.version>
-        <carbon.kernel.version>4.3.0-SNAPSHOT</carbon.kernel.version>
+        <carbon.kernel.version>4.3.0</carbon.kernel.version>
 
         <jaggery.deployer.osgi.version>0.9.0.SNAPSHOT</jaggery.deployer.osgi.version>
 
@@ -696,12 +696,12 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.ndatasource.rdbms</artifactId>
-                <version>${carbon.platform.version}</version>
+                <version>${carbon.kernel.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.ndatasource.core</artifactId>
-                <version>${carbon.platform.version}</version>
+                <version>${carbon.kernel.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.geronimo.specs</groupId>
@@ -731,7 +731,7 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.addressing</artifactId>
-                <version>${carbon.platform.version}</version>
+                <version>${carbon.kernel.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
@@ -766,17 +766,17 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.registry.search</artifactId>
-                <version>${carbon.kernel.version}</version>
+                <version>${carbon.platform.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.registry.ws.client</artifactId>
-                <version>${carbon.kernel.version}</version>
+                <version>${carbon.platform.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.registry.indexing</artifactId>
-                <version>${carbon.kernel.version}</version>
+                <version>${carbon.platform.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.scribe</groupId>
@@ -787,7 +787,7 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.logging</artifactId>
-                <version>${carbon.platform.version}</version>
+                <version>${carbon.kernel.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
@@ -904,7 +904,7 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>SecVerifier</artifactId>
-                <version>${carbon.kernel.version}</version>
+                <version>${carbon.platform.version}</version>
                 <type>aar</type>
             </dependency>
             <dependency>
