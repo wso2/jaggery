@@ -346,9 +346,7 @@
                                 <!--<importBundleDef>org.hectorclient:hector-core</importBundleDef>-->
 
                                 <importBundleDef>org.apache.axis2.wso2:axis2</importBundleDef>
-                                <importBundleDef>org.wso2.carbon:org.wso2.carbon.addressing</importBundleDef>
                                 <importBundleDef>commons-dbcp.wso2:commons-dbcp</importBundleDef>
-                                <importBundleDef>org.wso2.carbon:org.wso2.carbon.utils</importBundleDef>
 
                                 <importBundleDef>commons-fileupload.wso2:commons-fileupload</importBundleDef>
                                 <importBundleDef>rhino.wso2:js</importBundleDef>

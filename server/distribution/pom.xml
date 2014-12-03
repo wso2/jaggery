@@ -85,25 +85,6 @@
                                     </artifactItems>
                                 </configuration>
                             </execution>
-                            <execution>
-                                <id>unpack-kernel-patch</id>
-                                <phase>test</phase>
-                                <goals>
-                                    <goal>unpack</goal>
-                                </goals>
-                                <configuration>
-                                    <artifactItems>
-                                        <artifactItem>
-                                            <groupId>org.wso2.carbon</groupId>
-                                            <artifactId>WSO2-CARBON-PATCH-4.2.0</artifactId>
-                                            <version>0005</version>
-                                            <type>zip</type>
-                                            <overWrite>true</overWrite>
-                                            <outputDirectory>target</outputDirectory>
-                                        </artifactItem>
-                                    </artifactItems>
-                                </configuration>
-                            </execution>
                         </executions>
                     </plugin>
                     <plugin>
@@ -315,25 +296,6 @@
                                             <groupId>org.wso2.carbon</groupId>
                                             <artifactId>wso2carbon-core</artifactId>
                                             <version>${carbon.kernel.version}</version>
-                                            <type>zip</type>
-                                            <overWrite>true</overWrite>
-                                            <outputDirectory>target</outputDirectory>
-                                        </artifactItem>
-                                    </artifactItems>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>unpack-kernel-patch</id>
-                                <phase>test</phase>
-                                <goals>
-                                    <goal>unpack</goal>
-                                </goals>
-                                <configuration>
-                                    <artifactItems>
-                                        <artifactItem>
-                                            <groupId>org.wso2.carbon</groupId>
-                                            <artifactId>WSO2-CARBON-PATCH-4.2.0</artifactId>
-                                            <version>0005</version>
                                             <type>zip</type>
                                             <overWrite>true</overWrite>
                                             <outputDirectory>target</outputDirectory>
