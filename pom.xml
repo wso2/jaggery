@@ -71,7 +71,7 @@
             </activation>
             <modules>
                 <module>components</module>
-                <!--<module>jaggery-extensions</module>-->
+                <module>jaggery-extensions</module>
                 <module>features</module>
                 <module>server/p2-profile-gen</module>
                 <module>server/distribution</module>
@@ -407,7 +407,7 @@
         <axis2-json.osgi.version>1.6.1.wso2v10</axis2-json.osgi.version>
         <mail.version>1.4</mail.version>
         <servlet-api.version>2.4</servlet-api.version>
-        <wss4j.osgi.version>1.5.11.wso2v3</wss4j.osgi.version>
+        <wss4j.osgi.version>1.5.11.wso2v7</wss4j.osgi.version>
         <json-simple.osgi.version>1.1.wso2v1</json-simple.osgi.version>
         <h2-engine.osgi.version>1.2.140.wso2v3</h2-engine.osgi.version>
         <commons-cli.osgi.version>1.2.0.wso2v1</commons-cli.osgi.version>
@@ -433,7 +433,7 @@
         <oauth.module.version>1.0.0</oauth.module.version>
         <process.module.version>1.0.0</process.module.version>
         <uuid.module.version>1.0.0</uuid.module.version>
-        <ws.module.version>1.0.0</ws.module.version>
+        <ws.module.version>1.2.0-SNAPSHOT</ws.module.version>
 
 
         <!--        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
