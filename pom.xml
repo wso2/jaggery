@@ -71,7 +71,7 @@
             </activation>
             <modules>
                 <module>components</module>
-                <module>jaggery-extensions</module>
+                <!--<module>jaggery-extensions</module>-->
                 <module>features</module>
                 <module>server/p2-profile-gen</module>
                 <module>server/distribution</module>
@@ -341,8 +341,14 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <carbon.platform.version>4.3.0-SNAPSHOT</carbon.platform.version>
-        <carbon.kernel.version>4.3.0-SNAPSHOT</carbon.kernel.version>
+        <carbon.platform.version>4.3.0</carbon.platform.version>
+        <carbon.kernel.version>4.3.0</carbon.kernel.version>
+        <carbon.registry.version>4.3.0-SNAPSHOT</carbon.registry.version>
+        <carbon.webapp.version>4.3.0-SNAPSHOT</carbon.webapp.version>
+        <aarservices.stub.version>4.3.0-SNAPSHOT</aarservices.stub.version>
+        <module.mgt.stub.version>4.3.0-SNAPSHOT</module.mgt.stub.version>
+        <service.mgt.stub.version>4.3.0-SNAPSHOT</service.mgt.stub.version>
+        <jarservices.stub.version>4.3.0-SNAPSHOT</jarservices.stub.version>
 
         <jaggery.deployer.osgi.version>0.9.0.SNAPSHOT</jaggery.deployer.osgi.version>
 
@@ -406,8 +412,9 @@
         <wsdl4j.osgi.version>1.6.2.wso2v3</wsdl4j.osgi.version>
         <axis2-json.osgi.version>1.6.1.wso2v10</axis2-json.osgi.version>
         <mail.version>1.4</mail.version>
+        <geronimo-stax-api_1.0_spec.osgi.version>1.0.1.wso2v2</geronimo-stax-api_1.0_spec.osgi.version>
         <servlet-api.version>2.4</servlet-api.version>
-        <wss4j.osgi.version>1.5.11.wso2v7</wss4j.osgi.version>
+        <wss4j.osgi.version>1.5.11.wso2v8-SNAPSHOT</wss4j.osgi.version>
         <json-simple.osgi.version>1.1.wso2v1</json-simple.osgi.version>
         <h2-engine.osgi.version>1.2.140.wso2v3</h2-engine.osgi.version>
         <commons-cli.osgi.version>1.2.0.wso2v1</commons-cli.osgi.version>
@@ -433,7 +440,7 @@
         <oauth.module.version>1.0.0</oauth.module.version>
         <process.module.version>1.0.0</process.module.version>
         <uuid.module.version>1.0.0</uuid.module.version>
-        <ws.module.version>1.2.0-SNAPSHOT</ws.module.version>
+        <ws.module.version>1.0.0</ws.module.version>
 
 
         <!--        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -597,6 +604,11 @@
                 <groupId>org.apache.ws.commons.schema.wso2</groupId>
                 <artifactId>XmlSchema</artifactId>
                 <version>${xmlschema.osgi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.geronimo.specs.wso2</groupId>
+                <artifactId>geronimo-stax-api_1.0_spec</artifactId>
+                <version>${geronimo-stax-api_1.0_spec.osgi.version}</version>
             </dependency>
             <dependency>
                 <groupId>commons-codec.wso2</groupId>
@@ -766,17 +778,17 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.registry.search</artifactId>
-                <version>${carbon.kernel.version}</version>
+                <version>${carbon.registry.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.registry.ws.client</artifactId>
-                <version>${carbon.kernel.version}</version>
+                <version>${carbon.registry.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.registry.indexing</artifactId>
-                <version>${carbon.kernel.version}</version>
+                <version>${carbon.registry.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.scribe</groupId>
@@ -792,7 +804,12 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.webapp.mgt</artifactId>
-                <version>${carbon.platform.version}</version>
+                <version>${carbon.webapp.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.webapp.mgt.server</artifactId>
+                <version>${carbon.webapp.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
@@ -849,22 +866,57 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.webapp.list.ui</artifactId>
-                <version>${carbon.platform.version}</version>
+                <version>${carbon.webapp.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.webapp.mgt.stub</artifactId>
-                <version>${carbon.platform.version}</version>
+                <version>${carbon.webapp.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.registry.admin.api</artifactId>
-                <version>${carbon.platform.version}</version>
+                <version>${carbon.registry.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.registry.common</artifactId>
-                <version>${carbon.platform.version}</version>
+                <version>${carbon.registry.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.feature.mgt.services</artifactId>
+                <version>${carbon.kernel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.registry.server</artifactId>
+                <version>${carbon.kernel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.authenticator.proxy</artifactId>
+                <version>${carbon.kernel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.server.admin.common</artifactId>
+                <version>${carbon.kernel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.server.admin.ui</artifactId>
+                <version>${carbon.kernel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.core.ui</artifactId>
+                <version>${carbon.kernel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.base</artifactId>
+                <version>${carbon.kernel.version}</version>
             </dependency>
             <dependency>
                 <groupId>solr.wso2</groupId>
@@ -874,22 +926,22 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.aarservices.stub</artifactId>
-                <version>${carbon.platform.version}</version>
+                <version>${aarservices.stub.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.module.mgt.stub</artifactId>
-                <version>${carbon.platform.version}</version>
+                <version>${module.mgt.stub.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.service.mgt.stub</artifactId>
-                <version>${carbon.platform.version}</version>
+                <version>${service.mgt.stub.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.jarservices.stub</artifactId>
-                <version>${carbon.platform.version}</version>
+                <version>${jarservices.stub.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon.automation</groupId>
@@ -899,7 +951,7 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.integration.common.admin.client</artifactId>
-                <version>${carbon.platform.version}</version>
+                <version>${platform.integration.utils.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
@@ -915,12 +967,12 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.integration.common.extensions</artifactId>
-                <version>${carbon.platform.version}</version>
+                <version>${platform.integration.utils.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.integration.common.utils</artifactId>
-                <version>${carbon.platform.version}</version>
+                <version>${platform.integration.utils.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.xfer</groupId>

@@ -114,10 +114,10 @@
                                         <featureArtifactDef>org.jaggeryjs.modules:ws.feature:${ws.module.version}
                                         </featureArtifactDef>
                                         <featureArtifactDef>
-                                            org.wso2.carbon:org.wso2.carbon.webapp.mgt.server.feature:${carbon.platform.version}
+                                            org.wso2.carbon:org.wso2.carbon.webapp.mgt.server.feature:${carbon.webapp.version}
                                         </featureArtifactDef>
                                         <featureArtifactDef>
-                                            org.wso2.carbon:org.wso2.carbon.webapp.mgt.common.ui.feature:${carbon.platform.version}
+                                            org.wso2.carbon:org.wso2.carbon.webapp.mgt.common.ui.feature:${carbon.webapp.version}
                                         </featureArtifactDef>
                                     </featureArtifacts>
                                 </configuration>
@@ -192,11 +192,11 @@
                                         </feature>
                                         <feature>
                                             <id>org.wso2.carbon.webapp.mgt.server.feature.group</id>
-                                            <version>${carbon.platform.version}</version>
+                                            <version>${carbon.webapp.version}</version>
                                         </feature>
                                         <feature>
                                             <id>org.wso2.carbon.webapp.mgt.common.ui.feature.group</id>
-                                            <version>${carbon.platform.version}</version>
+                                            <version>${carbon.webapp.version}</version>
                                         </feature>
                                     </features>
                                 </configuration>
