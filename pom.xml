@@ -71,7 +71,7 @@
             </activation>
             <modules>
                 <module>components</module>
-                <!--<module>jaggery-extensions</module>-->
+                <module>jaggery-extensions</module>
                 <module>features</module>
                 <module>server/p2-profile-gen</module>
                 <module>server/distribution</module>
