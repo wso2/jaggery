@@ -341,7 +341,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <carbon.platform.version>4.3.0</carbon.platform.version>
+        <!--carbon.platform.version>4.3.0</carbon.platform.version-->
         <carbon.kernel.version>4.3.0</carbon.kernel.version>
         <carbon.registry.version>4.3.0-SNAPSHOT</carbon.registry.version>
         <carbon.webapp.version>4.3.0-SNAPSHOT</carbon.webapp.version>
@@ -708,12 +708,12 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.ndatasource.rdbms</artifactId>
-                <version>${carbon.platform.version}</version>
+                <version>${carbon.kernel.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.ndatasource.core</artifactId>
-                <version>${carbon.platform.version}</version>
+                <version>${carbon.kernel.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.geronimo.specs</groupId>
@@ -743,7 +743,7 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.addressing</artifactId>
-                <version>${carbon.platform.version}</version>
+                <version>${carbon.kernel.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
@@ -799,7 +799,7 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.logging</artifactId>
-                <version>${carbon.platform.version}</version>
+                <version>${carbon.kernel.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
