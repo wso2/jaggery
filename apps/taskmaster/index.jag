@@ -73,7 +73,7 @@ return dateStr;
 		if (document.task.textboxmain.value == "") {
 			alert("Sorry Task cannot be blank");
 			document.task.textboxmain.focus();
-			exit(0);
+			return;
 		}
 		var id = Math.floor(Math.random()*100000);
         var curtime = getTime();
