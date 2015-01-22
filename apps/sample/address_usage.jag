@@ -1,0 +1,6 @@
+<%
+var Server = require('carbon').server;
+print("Http address "+Server.getAddress('http'));
+print("</br>");
+print("Https address "+Server.getAddress('https'));
+%>
