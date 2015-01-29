@@ -113,11 +113,15 @@
                                         </featureArtifactDef>
                                         <featureArtifactDef>org.jaggeryjs.modules:ws.feature:${ws.module.version}
                                         </featureArtifactDef>
-                                        <featureArtifactDef>
-                                            org.wso2.carbon:org.wso2.carbon.webapp.mgt.server.feature:${carbon.webapp.version}
+                                        <featureArtifactDef>org.jaggeryjs.modules:jaggery-test.feature:${jaggery-tests.module.version}
+                                        </featureArtifactDef>
+                                        <featureArtifactDef>org.jaggeryjs.modules:sso.feature:${sso.module.version}
                                         </featureArtifactDef>
                                         <featureArtifactDef>
-                                            org.wso2.carbon:org.wso2.carbon.webapp.mgt.common.ui.feature:${carbon.webapp.version}
+                                            org.wso2.carbon:org.wso2.carbon.webapp.mgt.server.feature:${carbon.deployment.version}
+                                        </featureArtifactDef>
+                                        <featureArtifactDef>
+                                            org.wso2.carbon:org.wso2.carbon.webapp.mgt.common.ui.feature:${carbon.deployment.version}
                                         </featureArtifactDef>
                                     </featureArtifacts>
                                 </configuration>
@@ -191,12 +195,20 @@
                                             <version>${ws.module.version}</version>
                                         </feature>
                                         <feature>
+                                            <id>org.jaggeryjs.modules.jaggery-test.feature.group</id>
+                                            <version>${jaggery-tests.module.version}</version>
+                                        </feature>
+                                        <feature>
+                                            <id>org.jaggeryjs.modules.sso.feature.group</id>
+                                            <version>${sso.module.version}</version>
+                                        </feature>
+                                        <feature>
                                             <id>org.wso2.carbon.webapp.mgt.server.feature.group</id>
-                                            <version>${carbon.webapp.version}</version>
+                                            <version>${carbon.deployment.version}</version>
                                         </feature>
                                         <feature>
                                             <id>org.wso2.carbon.webapp.mgt.common.ui.feature.group</id>
-                                            <version>${carbon.webapp.version}</version>
+                                            <version>${carbon.deployment.version}</version>
                                         </feature>
                                     </features>
                                 </configuration>
