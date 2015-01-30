@@ -349,10 +349,6 @@
         <carbon.registry.imp.pkg.version>[4.3.0, 4.4.0)</carbon.registry.imp.pkg.version>
 
         <carbon.deployment.version>4.3.0</carbon.deployment.version>
-        <!--<carbon.deployment.version>4.3.0-SNAPSHOT</carbon.deployment.version>-->
-        <!--<carbon.deployment.version>4.3.0-SNAPSHOT</carbon.deployment.version>-->
-        <!--<carbon.deployment.version>4.3.0-SNAPSHOT</carbon.deployment.version>-->
-        <!--<carbon.deployment.version>4.3.0-SNAPSHOT</carbon.deployment.version>-->
 
         <!--This is a locally used value-->
         <jaggery.deployer.version>0.9.0.ALPHA6</jaggery.deployer.version>
@@ -448,53 +444,6 @@
         <ws.module.version>1.2.0</ws.module.version>
         <jaggery-tests.module.version>1.2.0</jaggery-tests.module.version>
         <sso.module.version>1.0.0</sso.module.version>
-
-        <!--        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-                &lt;!&ndash; jaggery versions &ndash;&gt;
-                <jaggery.component.version>0.9.0-SNAPSHOT</jaggery.component.version>
-                <jaggery.feature.version>0.9.0-SNAPSHOT</jaggery.feature.version>
-
-                &lt;!&ndash; carbon versions &ndash;&gt;
-                <carbon.kernel.version>4.2.0</carbon.kernel.version>
-                <carbon.platform.version>4.2.0</carbon.platform.version>
-
-                &lt;!&ndash; patch versions &ndash;&gt;
-                <patch.version.421>4.2.1</patch.version.421>
-
-                &lt;!&ndash;rhino debugger versions&ndash;&gt;
-
-                &lt;!&ndash; osgi bundle versions &ndash;&gt;
-                &lt;!&ndash; when rhino version is upgrated, will have to fix synapse script meadiator too. &ndash;&gt;
-                <rhino.osgi.version>1.7.0.R4.wso2v1</rhino.osgi.version>
-                <jsr107cache.osgi.version>1.1.wso2v1</jsr107cache.osgi.version>
-                <commons-codec.osgi.version>1.4.0.wso2v1</commons-codec.osgi.version>
-                <javax.servlet.osgi.version>3.0.0.wso2v1</javax.servlet.osgi.version>
-                &lt;!&ndash; non-osgi bundle versions &ndash;&gt;
-                <json.version>20090211</json.version>
-                <commons-logging.version>1.1.1</commons-logging.version>
-                <junit.version>3.8.2</junit.version>
-
-                &lt;!&ndash; maven plugin versions &ndash;&gt;
-                <build-helper-maven-plugin.version>1.7</build-helper-maven-plugin.version>
-                <maven-compiler-plugin.version>2.3.1</maven-compiler-plugin.version>
-                <maven-clean-plugin.version>2.5</maven-clean-plugin.version>
-                <maven-surefire-plugin.version>2.12</maven-surefire-plugin.version>
-                <maven-antrun-plugin.version>1.7</maven-antrun-plugin.version>
-                <maven-jar-plugin.version>2.4</maven-jar-plugin.version>
-                <felix.bundle.version>2.3.5</felix.bundle.version>
-                <felix.scr.version>1.7.2</felix.scr.version>
-                <carbon.p2.plugin.version>1.5</carbon.p2.plugin.version>
-                <mvn.gpg>1.0-alpha-3</mvn.gpg>
-                <maven-site-plugin.version>3.0</maven-site-plugin.version>
-                <maven-src-plugin.version>1.7.2</maven-src-plugin.version>
-                <maven-bunlde-plugin.version>2.3.5</maven-bunlde-plugin.version>
-                <maven-source-plugin.version>2.1.2</maven-source-plugin.version>
-                <maven-assembly-plugin.version>2.2-beta-2</maven-assembly-plugin.version>
-                <maven-project-info-report-plugin.version>2.4</maven-project-info-report-plugin.version>
-                <maven-buildnumber-plugin.version>1.1</maven-buildnumber-plugin.version>
-                <maven-dependency-plugin.version>2.4</maven-dependency-plugin.version>
-                <maven-wagon-ssh.version>2.1</maven-wagon-ssh.version>-->
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -514,11 +463,6 @@
                 <artifactId>commons-logging</artifactId>
                 <version>${commons-logging.version}</version>
             </dependency>
-            <!--<dependency>
-                <groupId>org.wso2.carbon</groupId>
-                <artifactId>javax.servlet</artifactId>
-                <version>${javax.servlet.osgi.version}</version>
-            </dependency>-->
             <dependency>
                 <groupId>org.apache.ws.security.wso2</groupId>
                 <artifactId>wss4j</artifactId>
