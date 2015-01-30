@@ -14,11 +14,11 @@
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
-            <groupId>org.wso2.carbon</groupId>
+            <groupId>org.wso2.carbon.deployment</groupId>
             <artifactId>org.wso2.carbon.aarservices.stub</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.wso2.carbon</groupId>
+            <groupId>org.wso2.carbon.deployment</groupId>
             <artifactId>org.wso2.carbon.webapp.mgt.stub</artifactId>
         </dependency>
         <dependency>
@@ -35,7 +35,7 @@
             <artifactId>org.wso2.carbon.module.mgt.stub</artifactId>
         </dependency-->
         <dependency>
-            <groupId>org.wso2.carbon</groupId>
+            <groupId>org.wso2.carbon.deployment</groupId>
             <artifactId>org.wso2.carbon.service.mgt.stub</artifactId>
         </dependency>
         <!--dependency>
