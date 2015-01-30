@@ -118,10 +118,10 @@
                                         <featureArtifactDef>org.jaggeryjs.modules:sso.feature:${sso.module.version}
                                         </featureArtifactDef>
                                         <featureArtifactDef>
-                                            org.wso2.carbon:org.wso2.carbon.webapp.mgt.server.feature:${carbon.deployment.version}
+                                            org.wso2.carbon.deployment:org.wso2.carbon.webapp.mgt.server.feature:${carbon.deployment.version}
                                         </featureArtifactDef>
                                         <featureArtifactDef>
-                                            org.wso2.carbon:org.wso2.carbon.webapp.mgt.common.ui.feature:${carbon.deployment.version}
+                                            org.wso2.carbon.deployment:org.wso2.carbon.webapp.mgt.common.ui.feature:${carbon.deployment.version}
                                         </featureArtifactDef>
                                     </featureArtifacts>
                                 </configuration>
