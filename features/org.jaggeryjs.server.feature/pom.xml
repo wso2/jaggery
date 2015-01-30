@@ -329,10 +329,10 @@
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.log</bundleDef>
                             </bundles>
                             <importBundles>
-                                <importBundleDef>org.wso2.carbon:org.wso2.carbon.registry.search</importBundleDef>
-                                <importBundleDef>org.wso2.carbon:org.wso2.carbon.registry.admin.api</importBundleDef>
-                                <importBundleDef>org.wso2.carbon:org.wso2.carbon.registry.common</importBundleDef>
-                                <importBundleDef>org.wso2.carbon:org.wso2.carbon.registry.indexing</importBundleDef>
+                                <importBundleDef>org.wso2.carbon.registry:org.wso2.carbon.registry.search</importBundleDef>
+                                <importBundleDef>org.wso2.carbon.registry:org.wso2.carbon.registry.admin.api</importBundleDef>
+                                <importBundleDef>org.wso2.carbon.registry:org.wso2.carbon.registry.common</importBundleDef>
+                                <importBundleDef>org.wso2.carbon.registry:org.wso2.carbon.registry.indexing</importBundleDef>
                                 <importBundleDef>solr.wso2:solr</importBundleDef>
                                 <importBundleDef>org.codehaus.jettison.wso2:jettison</importBundleDef>
                                 <importBundleDef>org.apache.rampart.wso2:rampart-core</importBundleDef>
