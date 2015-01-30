@@ -20,7 +20,7 @@
     <parent>
         <groupId>org.jaggeryjs</groupId>
         <artifactId>jaggery-core</artifactId>
-        <version>0.9.0.ALPHA6</version>
+        <version>0.9.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -52,7 +52,7 @@
                                     <pathelement location="${settings.localRepository}/org/apache/ws/commons/schema/wso2/XmlSchema/${xmlschema.osgi.version}/XmlSchema-${xmlschema.osgi.version}.jar" />
                                 </path>
                                 <java classname="org.apache.axis2.wsdl.WSDL2Java" fork="true">
-                                    <arg line="-uri src/main/resources/JaggeryAppAdmin.wsdl -u -uw -o target/generated-code -p org.jaggeryjs.jaggery.app.mgt.stub                                     -ns2p http://utils.carbon.wso2.org/xsd=org.jaggeryjs.jaggery.app.mgt.stub.types.carbon,http://util.java/xsd=org.jaggeryjs.jaggery.app.mgt.stub.types.carbon,http://mgt.app.jaggery.jaggeryjs.org/xsd=org.jaggeryjs.jaggery.app.mgt.stub.types.carbon,http://org.apache.axis2/xsd=org.jaggeryjs.jaggery.app.mgt.stub.types.axis2,http://neethi.apache.org/xsd=org.jaggeryjs.jaggery.app.mgt.stub.types.neethi,http://mgt.webapp.carbon.wso2.org/xsd=org.jaggeryjs.jaggery.app.mgt.stub.types.carbon" />
+                                    <arg line="-uri src/main/resources/JaggeryAppAdmin.wsdl -u -uw -o target/generated-code -p org.jaggeryjs.jaggery.app.mgt.stub -ns2p http://utils.carbon.wso2.org/xsd=org.jaggeryjs.jaggery.app.mgt.stub.types.carbon,http://util.java/xsd=org.jaggeryjs.jaggery.app.mgt.stub.types.carbon,http://mgt.app.jaggery.jaggeryjs.org/xsd=org.jaggeryjs.jaggery.app.mgt.stub.types.carbon,http://org.apache.axis2/xsd=org.jaggeryjs.jaggery.app.mgt.stub.types.axis2,http://neethi.apache.org/xsd=org.jaggeryjs.jaggery.app.mgt.stub.types.neethi,http://mgt.webapp.carbon.wso2.org/xsd=org.jaggeryjs.jaggery.app.mgt.stub.types.carbon" />
                                     <classpath refid="wsdl2java.classpath" />
                                 </java>
                             </tasks>
