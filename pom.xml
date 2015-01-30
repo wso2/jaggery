@@ -61,19 +61,16 @@
         </profile>
         <profile>
             <id>core</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <modules>
                 <module>components</module>
                 <module>features</module>
-                <module>server/p2-profile-gen</module>
-                <module>server/distribution</module>
-                <module>server/integration</module>
             </modules>
         </profile>
         <profile>
             <id>community</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <modules>
                 <module>components</module>
                 <module>jaggery-extensions</module>
