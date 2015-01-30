@@ -360,7 +360,7 @@
 
         <!--carbon.platform.version>4.3.0</carbon.platform.version-->
         <carbon.kernel.version>4.3.0</carbon.kernel.version>
-        <carbon.registry.version>4.3.0-SNAPSHOT</carbon.registry.version>
+        <carbon.registry.version>4.3.0</carbon.registry.version>
         <carbon.registry.imp.pkg.version>[4.3.0, 4.4.0)</carbon.registry.imp.pkg.version>
 
         <carbon.deployment.version>4.3.0-SNAPSHOT</carbon.deployment.version>
@@ -373,7 +373,7 @@
         <jaggery.deployer.version>0.9.0.SNAPSHOT</jaggery.deployer.version>
 
         <test.framework.version>4.3.1</test.framework.version>
-        <automation.utils.version>4.3.0-SNAPSHOT</automation.utils.version>
+        <automationutils.version>4.3.0-SNAPSHOT</automationutils.version>
 
         <maven.scrplugin.version>1.7.2</maven.scrplugin.version>
         <maven.wagon.ssh.version>2.1</maven.wagon.ssh.version>
@@ -972,7 +972,7 @@
             <dependency>
                 <groupId>org.wso2.carbon.integration</groupId>
                 <artifactId>org.wso2.carbon.integration.common.admin.client</artifactId>
-                <version>${automation.utils.version}</version>
+                <version>${automationutils.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
@@ -986,14 +986,14 @@
                 <version>${test.framework.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.wso2.carbon.integration</groupId>
+                <groupId>org.wso2.carbon.automationutils</groupId>
                 <artifactId>org.wso2.carbon.integration.common.extensions</artifactId>
-                <version>${automation.utils.version}</version>
+                <version>${automationutils.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.wso2.carbon.integration</groupId>
+                <groupId>org.wso2.carbon.automationutils</groupId>
                 <artifactId>org.wso2.carbon.integration.common.utils</artifactId>
-                <version>${automation.utils.version}</version>
+                <version>${automationutils.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.xfer</groupId>
