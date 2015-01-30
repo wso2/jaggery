@@ -364,7 +364,7 @@
         <carbon.registry.version>4.3.0</carbon.registry.version>
         <carbon.registry.imp.pkg.version>[4.3.0, 4.4.0)</carbon.registry.imp.pkg.version>
 
-        <carbon.deployment.version>4.3.0-SNAPSHOT</carbon.deployment.version>
+        <carbon.deployment.version>4.3.0</carbon.deployment.version>
         <!--<carbon.deployment.version>4.3.0-SNAPSHOT</carbon.deployment.version>-->
         <!--<carbon.deployment.version>4.3.0-SNAPSHOT</carbon.deployment.version>-->
         <!--<carbon.deployment.version>4.3.0-SNAPSHOT</carbon.deployment.version>-->
@@ -374,7 +374,7 @@
         <jaggery.deployer.version>0.9.0.SNAPSHOT</jaggery.deployer.version>
 
         <test.framework.version>4.3.1</test.framework.version>
-        <automationutils.version>4.3.0-SNAPSHOT</automationutils.version>
+        <automationutils.version>4.3.0</automationutils.version>
 
         <maven.scrplugin.version>1.7.2</maven.scrplugin.version>
         <maven.wagon.ssh.version>2.1</maven.wagon.ssh.version>
@@ -411,8 +411,8 @@
         <eclipse-transport.version>1.0.100.v201109150330</eclipse-transport.version>
         <geronimo-servlet_3.0_spec.version>1.0</geronimo-servlet_3.0_spec.version>
         <commons-fileupload.osgi.version>1.2.2.wso2v1</commons-fileupload.osgi.version>
-        <axis2.osgi.version>1.6.1.wso2v10</axis2.osgi.version>
-        <axiom.osgi.version>1.2.11.wso2v4</axiom.osgi.version>
+        <axis2.osgi.version>1.6.1.wso2v11</axis2.osgi.version>
+        <axiom.osgi.version>1.2.11.wso2v5</axiom.osgi.version>
         <activation.version>1.1</activation.version>
         <javax.servlet.jsp.osgi.version>2.0.0.v200806031607</javax.servlet.jsp.osgi.version>
         <commons-dbcp.osgi.version>1.4.0.wso2v1</commons-dbcp.osgi.version>
@@ -435,12 +435,12 @@
         <mail.version>1.4</mail.version>
         <geronimo-stax-api_1.0_spec.osgi.version>1.0.1.wso2v2</geronimo-stax-api_1.0_spec.osgi.version>
         <servlet-api.version>2.4</servlet-api.version>
-        <carbon.wss4j.version>1.5.11.wso2v8-SNAPSHOT</carbon.wss4j.version>
+        <carbon.wss4j.version>1.5.11.wso2v8</carbon.wss4j.version>
         <json-simple.osgi.version>1.1.wso2v1</json-simple.osgi.version>
         <h2-engine.osgi.version>1.2.140.wso2v3</h2-engine.osgi.version>
         <commons-cli.osgi.version>1.2.0.wso2v1</commons-cli.osgi.version>
         <commons-lang3.version>3.1</commons-lang3.version>
-        <rampart.osgi.version>1.6.1.wso2v10</rampart.osgi.version>
+        <rampart.osgi.version>1.6.1.wso2v13</rampart.osgi.version>
         <xmlbeans.osgi.version>2.3.0.wso2v1</xmlbeans.osgi.version>
         <saxon.bps.osgi.version>9.0.0.x-wso2v1</saxon.bps.osgi.version>
         <jettison.osgi.version>1.3.4.wso2v1</jettison.osgi.version>
@@ -793,7 +793,7 @@
                 <version>${geronimo-servlet_3.0_spec.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.wso2.carbon.registry</groupId>
+                <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.registry.core</artifactId>
                 <version>${carbon.registry.version}</version>
             </dependency>
@@ -966,20 +966,20 @@
                 <version>${carbon.deployment.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>SecVerifier</artifactId>
+                <version>${carbon.kernel.version}</version>
+                <type>aar</type>
+            </dependency>
+            <dependency>
                 <groupId>org.wso2.carbon.automation</groupId>
                 <artifactId>org.wso2.carbon.automation.engine</artifactId>
                 <version>${test.framework.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.wso2.carbon.integration</groupId>
+                <groupId>org.wso2.carbon.automationutils</groupId>
                 <artifactId>org.wso2.carbon.integration.common.admin.client</artifactId>
                 <version>${automationutils.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.wso2.carbon</groupId>
-                <artifactId>SecVerifier</artifactId>
-                <version>${carbon.kernel.version}</version>
-                <type>aar</type>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon.automation</groupId>
