@@ -67,17 +67,6 @@
                 <module>features</module>
             </modules>
         </profile>
-        <profile>
-            <id>community</id>
-            <modules>
-                <module>components</module>
-                <module>jaggery-extensions</module>
-                <module>features</module>
-                <module>server/p2-profile-gen</module>
-                <module>server/distribution</module>
-                <module>server/integration</module>
-            </modules>
-        </profile>
     </profiles>
     <licenses>
         <license>

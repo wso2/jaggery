@@ -1,6 +1,0 @@
-<%
-	var log = new Log();
-	log.info(request.getContent());
-	response.contentType = 'application/json';
-	print('{ "data" : { "row" : "val" } }');
-%>

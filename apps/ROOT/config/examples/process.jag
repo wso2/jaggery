@@ -1,6 +1,0 @@
-<%
-	
-	var process = require("process");
-	print(process.getEnv("JAVA_HOME")); 
-
-%>

@@ -1,4 +1,0 @@
-<%
-	var jsonString = '{"name":"nuwan"}';
-	print(parse(jsonString));
-%>

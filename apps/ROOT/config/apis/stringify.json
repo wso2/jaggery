@@ -1,9 +1,0 @@
-{
-	"api": "stringify",
-	"label": "stringify()",
-	"category1": "Built-ins",
-	"category2" : "Dataformats",
-	"overview": "<code>stringify()</code> takes a well-formed JavaScript Object and returns the resulting JSON string.<pre class=\"prettyprint\">var str = stringify(jsObject)</pre>",
-	"deprecated" : false,
-	"tryit": true
-}

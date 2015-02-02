@@ -1,8 +1,0 @@
-<%
-var data = {'key':'value'}; 
-var headers = {'key', 'value'};
-del(url, data, "text", headers, function (data, xhr) {
-       log("Response received");
-   }
-);
-%>
