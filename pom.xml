@@ -333,12 +333,13 @@
         <project.scm.id>github-scm</project.scm.id>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!--carbon.platform.version>4.3.0</carbon.platform.version-->
         <carbon.kernel.version>4.3.0</carbon.kernel.version>
         <carbon.registry.version>4.3.0</carbon.registry.version>
         <carbon.registry.imp.pkg.version>[4.3.0, 4.4.0)</carbon.registry.imp.pkg.version>
 
         <carbon.deployment.version>4.3.0</carbon.deployment.version>
+
+        <jaggery.version>0.9.0-SNAPSHOT</jaggery.version>
 
         <test.framework.version>4.3.1</test.framework.version>
         <automationutils.version>4.3.0</automationutils.version>
@@ -901,6 +902,108 @@
                 <artifactId>wso2xfer</artifactId>
                 <version>${xfer.version}</version>
                 <type>jar</type>
+            </dependency>
+            <dependency>
+                <groupId>org.jaggeryjs</groupId>
+                <artifactId>org.jaggeryjs.server.feature</artifactId>
+                <version>${jaggery.version}</version>
+                <type>zip</type>
+            </dependency>
+            <dependency>
+                <groupId>org.jaggeryjs</groupId>
+                <artifactId>org.jaggeryjs.ui.feature</artifactId>
+                <version>${jaggery.version}</version>
+                <type>zip</type>
+            </dependency>
+            <dependency>
+                <groupId>org.jaggeryjs</groupId>
+                <artifactId>org.jaggeryjs.scriptengine</artifactId>
+                <version>${jaggery.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jaggeryjs</groupId>
+                <artifactId>org.jaggeryjs.hostobjects.stream</artifactId>
+                <version>${jaggery.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jaggeryjs</groupId>
+                <artifactId>org.jaggeryjs.hostobjects.file</artifactId>
+                <version>${jaggery.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jaggeryjs</groupId>
+                <artifactId>org.jaggeryjs.hostobjects.log</artifactId>
+                <version>${jaggery.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jaggeryjs</groupId>
+                <artifactId>org.jaggeryjs.jaggery.core</artifactId>
+                <version>${jaggery.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jaggeryjs</groupId>
+                <artifactId>org.jaggeryjs.jaggery.app.mgt.stub</artifactId>
+                <version>${jaggery.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jaggeryjs</groupId>
+                <artifactId>org.jaggeryjs.hostobjects.web</artifactId>
+                <version>${jaggery.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jaggeryjs</groupId>
+                <artifactId>org.jaggeryjs.hostobjects.jaggeryparser</artifactId>
+                <version>${jaggery.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jaggeryjs</groupId>
+                <artifactId>org.jaggeryjs.jaggery.app.mgt</artifactId>
+                <version>${jaggery.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jaggeryjs</groupId>
+                <artifactId>org.jaggeryjs.jaggery.app.mgt.ui</artifactId>
+                <version>${jaggery.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jaggeryjs</groupId>
+                <artifactId>org.jaggeryjs.jaggery.deployer</artifactId>
+                <version>${jaggery.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jaggeryjs</groupId>
+                <artifactId>org.jaggeryjs.jaggery.tools</artifactId>
+                <version>${jaggery.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jaggeryjs</groupId>
+                <artifactId>org.jaggeryjs.hostobjects.registry</artifactId>
+                <version>${jaggery.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jaggeryjs</groupId>
+                <artifactId>org.jaggeryjs.hostobjects.xslt</artifactId>
+                <version>${jaggery.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jaggeryjs</groupId>
+                <artifactId>org.jaggeryjs.hostobjects.uri</artifactId>
+                <version>${jaggery.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jaggeryjs</groupId>
+                <artifactId>org.jaggeryjs.hostobjects.xhr</artifactId>
+                <version>${jaggery.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jaggeryjs</groupId>
+                <artifactId>org.jaggeryjs.hostobjects.db</artifactId>
+                <version>${jaggery.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jaggeryjs</groupId>
+                <artifactId>org.jaggeryjs.hostobjects.feed</artifactId>
+                <version>${jaggery.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

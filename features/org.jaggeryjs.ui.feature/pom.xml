@@ -32,12 +32,10 @@
         <dependency>
             <groupId>org.jaggeryjs</groupId>
             <artifactId>org.jaggeryjs.jaggery.app.mgt.stub</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jaggeryjs</groupId>
             <artifactId>org.jaggeryjs.jaggery.app.mgt.ui</artifactId>
-            <version>${project.version}</version>
         </dependency>
     </dependencies>
     <build>

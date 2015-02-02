@@ -47,7 +47,6 @@
         <dependency>
             <groupId>org.jaggeryjs</groupId>
             <artifactId>org.jaggeryjs.jaggery.app.mgt.stub</artifactId>
-            <version>${project.version}</version>
         </dependency>
     </dependencies>
     <build>
@@ -62,7 +61,7 @@
                         <Bundle-Name>${project.artifactId}</Bundle-Name>
                         <Export-Package>
                             !org.jaggeryjs.jaggery.app.mgt.ui.internal,
-                            org.jaggeryjs.jaggery.app.mgt.ui.*;version="${project.version}"
+                            org.jaggeryjs.jaggery.app.mgt.ui.*;version="${jaggery.version}"
                         </Export-Package>
                         <Bundle-Activator>
                             org.jaggeryjs.jaggery.app.mgt.ui.internal.JaggeryManagementUIActivator
@@ -71,7 +70,7 @@
                         <Carbon-Component>UIBundle</Carbon-Component>
                         <Import-Package>
                             !org.jaggeryjs.jaggery.app.mgt.ui.*,
-                            org.jaggeryjs.jaggery.app.mgt.stub.*;version="${project.version}",
+                            org.jaggeryjs.jaggery.app.mgt.stub.*;version="${jaggery.version}",
                             org.apache.axis2.*; version="${axis2.osgi.version}",
                             *;resolution:=optional
                         </Import-Package>

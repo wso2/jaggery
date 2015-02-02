@@ -31,6 +31,5 @@
         <module>script-engine</module>
         <module>hostobjects</module>
         <module>jaggery-core</module>
-        <module>jaggery-admin</module>
     </modules>
 </project>

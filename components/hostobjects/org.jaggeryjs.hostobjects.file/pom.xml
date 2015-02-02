@@ -14,12 +14,10 @@
         <dependency>
             <groupId>org.jaggeryjs</groupId>
             <artifactId>org.jaggeryjs.scriptengine</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jaggeryjs</groupId>
             <artifactId>org.jaggeryjs.hostobjects.stream</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-logging</groupId>

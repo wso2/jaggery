@@ -32,7 +32,6 @@
         <dependency>
             <groupId>org.jaggeryjs</groupId>
             <artifactId>org.jaggeryjs.jaggery.core</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>
@@ -103,9 +102,6 @@
                             org.jaggeryjs.jaggery.app.mgt
                         </Export-Package>
                         <DynamicImport-Package>*</DynamicImport-Package>
-                        <!--<Require-CarbonUIComponents>
-                            ${project.artifactId}.ui-${project.version}
-                        </Require-CarbonUIComponents>-->
                     </instructions>
                 </configuration>
             </plugin>
