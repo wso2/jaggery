@@ -1,4 +1,0 @@
-<%
-    response.addHeader("custom-header", "jaggery_response");
-    print("Hello World");
-%>

@@ -1,8 +1,0 @@
-{
-	"api": "user",
-	"label": "user.User",
-	"category1": "Add-ons",
-	"category2" : "Carbon",
-	"overview": "User object allows to do operations on specific user in Carbon user store using Jaggery.",
-	"deprecated" : false
-}

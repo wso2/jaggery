@@ -1,2 +1,0 @@
-<%
-print('{ "POST data" : "'+request.getContent()+'"}' );

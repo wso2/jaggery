@@ -1,9 +1,0 @@
-{
-	"api": "feed",
-	"label": "Feed",
-	"category1": "Built-ins",
-	"category2" : "Feed",
-	"overview": "The Feed API handles reading and writing Atom feeds",
-	"deprecated" : false,
-	"tryit": true
-}

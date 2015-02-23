@@ -1,9 +1,0 @@
-{
-	"api": "wsstub",
-	"label": "WSStub",
-	"category1": "Add-ons",
-	"category2" : "Web Services",
-	"overview": "<code>WSStub</code> provides a web service client from a given WSDL",
-	"deprecated" : false,
-	"tryit": true
-}
