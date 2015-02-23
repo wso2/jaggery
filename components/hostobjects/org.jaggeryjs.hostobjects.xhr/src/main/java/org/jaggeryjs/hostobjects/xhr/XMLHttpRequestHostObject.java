@@ -44,6 +44,7 @@ public class XMLHttpRequestHostObject extends ScriptableObject {
     private short readyState;
     private StatusLine statusLine;
     private String responseText;
+    private byte[] responseAsBytes;
     private Scriptable responseXML;
     private Function onreadystatechange;
 
@@ -162,6 +163,20 @@ public class XMLHttpRequestHostObject extends ScriptableObject {
             return "";
         }
     }
+    /**
+     * This corresponds to the readyonly responseAsBytes property of XHR.
+     *
+     * @return
+     * @throws ScriptException
+     */
+    public byte[] jsGet_responseBytes() throws ScriptException {
+        if (this.readyState == LOADING || this.readyState == DONE) {
+            return this.responseAsBytes;
+        } else {
+            return new byte[]{};
+        }
+    }
+
 
     /**
      * This corresponds to the readyonly responseXML property of XHR.
@@ -543,6 +558,7 @@ public class XMLHttpRequestHostObject extends ScriptableObject {
             byte[] response = xhr.method.getResponseBody();
 			if (response != null) {
 				if (response.length > 0) {
+                    xhr.responseAsBytes = response;
 					xhr.responseText = new String(response);
 				}
 			}
