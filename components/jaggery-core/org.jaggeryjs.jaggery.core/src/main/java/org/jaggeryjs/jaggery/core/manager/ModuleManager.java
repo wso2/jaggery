@@ -105,7 +105,7 @@ public class ModuleManager {
     }
 
     public JavaScriptModule getModule(String name) throws ScriptException {
-        if (isModuleRefreshEnabled) {
+        if (isModuleRefreshEnabled()) {
             this.modules.remove(name);
             File module = new File(this.modulesDir + File.separator + name);
             loadModule(module);
@@ -186,9 +186,9 @@ public class ModuleManager {
                     reader = new InputStreamReader(ModuleManager.class.getClassLoader().getResourceAsStream(path));
                     fileName = modulesDir + File.separator + name;
                     int endIndex = path.lastIndexOf('/');
-                     sctx = new ScriptCachingContext(
+                    sctx = new ScriptCachingContext(
                             String.valueOf(MultitenantConstants.SUPER_TENANT_ID),
-                            "<<" +  name + ">>",
+                            "<<" + name + ">>",
                             '/' + path.substring(0, endIndex),
                             path.substring(endIndex));
                 }

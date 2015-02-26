@@ -65,11 +65,17 @@ public class RhinoSecurityController extends SecurityController {
         PermissionCollection permissions = policy.getPermissions(codeSource);
         //getClassLoader permission is needed for E4X feature
         permissions.add(new RuntimePermission("getClassLoader"));
-        updatePermissions(permissions, securityDomain);
+        try {
+            updatePermissions(permissions, securityDomain);
+        } catch (ScriptException e) {
+            log.error(e.getMessage(), e);
+            return null;
+        }
         return new ProtectionDomain(codeSource, permissions);
     }
 
-    protected void updatePermissions(PermissionCollection permissions, RhinoSecurityDomain securityDomain) {
+    protected void updatePermissions(PermissionCollection permissions, RhinoSecurityDomain securityDomain)
+            throws ScriptException {
 
     }
 

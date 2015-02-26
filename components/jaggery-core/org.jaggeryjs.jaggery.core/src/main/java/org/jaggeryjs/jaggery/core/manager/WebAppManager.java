@@ -6,6 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.hostobjects.file.FileHostObject;
 import org.jaggeryjs.hostobjects.log.LogHostObject;
+import org.jaggeryjs.hostobjects.web.ApplicationHostObject;
 import org.jaggeryjs.hostobjects.web.Constants;
 import org.jaggeryjs.jaggery.core.JaggeryCoreConstants;
 import org.jaggeryjs.jaggery.core.ScriptReader;
@@ -70,6 +71,10 @@ public class WebAppManager {
 
     private static boolean isWebSocket = false;
 
+    private static final Object modRefreshLock = new Object();
+
+    private static final String ATTRIBUTE_PREFIX = "org.jaggeryjs.";
+
     static {
         try {
 
@@ -86,10 +91,11 @@ public class WebAppManager {
 
             CommonManager.getInstance().initialize(modulesDir, new RhinoSecurityController() {
                 @Override
-                protected void updatePermissions(PermissionCollection permissions, RhinoSecurityDomain securityDomain) {
-                    JaggerySecurityDomain domain = (JaggerySecurityDomain) securityDomain;
-                    ServletContext context = domain.getServletContext();
-                    String docBase = context.getRealPath("/");
+                protected void updatePermissions(PermissionCollection permissions, RhinoSecurityDomain securityDomain)
+                        throws ScriptException {
+                    JaggeryContext context = CommonManager.getJaggeryContext();
+                    ServletContext servletContext = (ServletContext) context.getProperty(Constants.SERVLET_CONTEXT);
+                    String docBase = servletContext.getRealPath("/");
                     // Create a file read permission for web app context directory
                     if (!docBase.endsWith(File.separator)) {
                         permissions.add(new FilePermission(docBase, "read"));
@@ -484,8 +490,29 @@ public class WebAppManager {
         log.debug("Releasing resources of : " + context.getServletContext().getContextPath());
     }
 
+    private static void refreshServletContext(ServletContext context) {
+        Enumeration<String> names = context.getAttributeNames();
+        while (names.hasMoreElements()) {
+            String name = names.nextElement();
+            if (!name.startsWith(ATTRIBUTE_PREFIX)) {
+                continue;
+            }
+            context.removeAttribute(name);
+        }
+    }
+
     public static void execute(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
+        if (!ModuleManager.isModuleRefreshEnabled()) {
+            exec(request, response);
+            return;
+        }
+        synchronized (modRefreshLock) {
+            exec(request, response);
+        }
+    }
+
+    private static void exec(HttpServletRequest request, HttpServletResponse response) throws IOException {
         InputStream sourceIn;
         Context cx;
         JaggeryContext context;
@@ -503,6 +530,7 @@ public class WebAppManager {
 
             if (ModuleManager.isModuleRefreshEnabled()) {
                 //reload init scripts
+                refreshServletContext(servletContext);
                 InputStream jaggeryConf = servletContext.getResourceAsStream(JaggeryCoreConstants.JAGGERY_CONF_FILE);
                 if (jaggeryConf != null) {
                     StringWriter writer = new StringWriter();
