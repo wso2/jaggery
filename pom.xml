@@ -376,6 +376,7 @@
 	<!-- Axis2 Versions -->
         <axis2-json.osgi.version>1.6.1.wso2v12-SNAPSHOT</axis2-json.osgi.version>
         <axis2.osgi.version>1.6.1.wso2v12-SNAPSHOT</axis2.osgi.version>
+	<imp.pkg.version.axis2>[1.6.1.wso2v12, 1.7.0)</imp.pkg.version.axis2>
 
         <commons-io.osgi.version>2.0.0.wso2v1</commons-io.osgi.version>
         <commons-httpclient.osgi.version>3.1.0.wso2v2</commons-httpclient.osgi.version>

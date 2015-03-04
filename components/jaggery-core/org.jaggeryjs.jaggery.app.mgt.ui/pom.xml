@@ -72,7 +72,7 @@
                         <Import-Package>
                             !org.jaggeryjs.jaggery.app.mgt.ui.*,
                             org.jaggeryjs.jaggery.app.mgt.stub.*;version="${project.version}",
-                            org.apache.axis2.*; version="${axis2.osgi.version}",
+                            org.apache.axis2.*; version="${imp.pkg.version.axis2}",
                             *;resolution:=optional
                         </Import-Package>
                     </instructions>

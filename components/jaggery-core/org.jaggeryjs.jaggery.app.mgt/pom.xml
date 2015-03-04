@@ -90,7 +90,7 @@
                         </Bundle-Activator>
                         <Private-Package>org.jaggeryjs.jaggery.app.mgt.internal</Private-Package>
                         <Import-Package>
-                            org.apache.axis2.*; version="${axis2.osgi.version}",
+                            org.apache.axis2.*; version="${imp.pkg.version.axis2}",
                             org.apache.axiom.*,
                             org.apache.neethi.*; version="${neethi.osgi.version}",
                             javax.xml.stream.*; version="1.0.1",
