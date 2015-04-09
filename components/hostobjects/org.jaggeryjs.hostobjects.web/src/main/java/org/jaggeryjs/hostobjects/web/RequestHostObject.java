@@ -585,6 +585,21 @@ public class RequestHostObject extends ScriptableObject {
         return path;
     }
 
+    public static Object jsFunction_getAttribute(Context cx, Scriptable thisObj, Object[] args, Function funObj)
+            throws ScriptException {
+        String functionName = "getAttribute";
+        int argsCount = args.length;
+        if (argsCount != 1) {
+            HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
+        }
+        if (!(args[0] instanceof String)) {
+            HostObjectUtil.invalidArgsError(
+                    hostObjectName, functionName, "1", "string", args[0], false);
+        }
+        RequestHostObject rho = (RequestHostObject) thisObj;
+        return rho.request.getAttribute((String) args[0]);
+    }
+
     private static void parseCookies(Context cx, Scriptable thisObj, RequestHostObject rho) {
         if (rho.request.getCookies() != null) {
             for (Cookie cookie : rho.request.getCookies()) {
