@@ -246,7 +246,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                 context.setManager(new CarbonTomcatSessionManager(tenantId));
             }
 
-            context.setReloadable(true);
+            context.setReloadable(false);
             JaggeryApplication webapp = new JaggeryApplication(this, context, webappFile);
             webapp.setServletContextParameters(webContextParams);
             webapp.setState("Started");
