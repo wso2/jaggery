@@ -411,7 +411,7 @@
         <xmlbeans.osgi.version>2.3.0.wso2v1</xmlbeans.osgi.version>
         <saxon.bps.osgi.version>9.0.0.x-wso2v1</saxon.bps.osgi.version>
         <jettison.osgi.version>1.3.4.wso2v1</jettison.osgi.version>
-        <solr.wso2.version>1.4.1.wso2v1</solr.wso2.version>
+        <solr.wso2.version>5.0.0.wso2v1</solr.wso2.version>
         <xfer.version>3.3.0</xfer.version>
 
         <httpcomponents-httpclient.wso2.version>4.1.1-wso2v1</httpcomponents-httpclient.wso2.version>
@@ -841,7 +841,7 @@
                 <version>${carbon.kernel.version}</version>
             </dependency>
             <dependency>
-                <groupId>solr.wso2</groupId>
+                <groupId>org.wso2.apache.solr</groupId>
                 <artifactId>solr</artifactId>
                 <version>${solr.wso2.version}</version>
             </dependency>
