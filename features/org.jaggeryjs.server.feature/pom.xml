@@ -60,7 +60,7 @@
             <artifactId>org.wso2.carbon.registry.indexing</artifactId>
         </dependency>
         <dependency>
-            <groupId>solr.wso2</groupId>
+            <groupId>org.wso2.apache.solr</groupId>
             <artifactId>solr</artifactId>
         </dependency>
         <dependency>
@@ -315,7 +315,7 @@
                                 <importBundleDef>org.wso2.carbon.registry:org.wso2.carbon.registry.admin.api</importBundleDef>
                                 <importBundleDef>org.wso2.carbon.registry:org.wso2.carbon.registry.common</importBundleDef>
                                 <importBundleDef>org.wso2.carbon.registry:org.wso2.carbon.registry.indexing</importBundleDef>
-                                <importBundleDef>solr.wso2:solr</importBundleDef>
+                                <importBundleDef>org.wso2.apache.solr:solr</importBundleDef>
                                 <importBundleDef>org.codehaus.jettison.wso2:jettison</importBundleDef>
                                 <importBundleDef>org.apache.rampart.wso2:rampart-core</importBundleDef>
                                 <importBundleDef>org.apache.rampart.wso2:rampart-trust</importBundleDef>
