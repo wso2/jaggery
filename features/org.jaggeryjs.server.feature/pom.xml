@@ -344,7 +344,6 @@
                                 <importBundleDef>jdom.wso2:jdom</importBundleDef>
                                 <importBundleDef>commons-cli.wso2:commons-cli</importBundleDef>
                                 <importBundleDef>com.googlecode.json-simple.wso2:json-simple</importBundleDef>
-                                <importBundleDef>com.google.code.gson:gson</importBundleDef>
                             </importBundles>
                         </configuration>
                     </execution>

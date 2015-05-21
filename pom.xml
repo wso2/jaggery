@@ -373,7 +373,7 @@
 
         <commons-io.osgi.version>2.0.0.wso2v1</commons-io.osgi.version>
         <commons-httpclient.osgi.version>3.1.0.wso2v2</commons-httpclient.osgi.version>
-        <gson.osgi.version>2.1</gson.osgi.version>
+        <gson.osgi.version>2.3.1</gson.osgi.version>
         <eclipse-debugger.version>1.0.300.v201109150503</eclipse-debugger.version>
         <eclipse-transport.version>1.0.100.v201109150330</eclipse-transport.version>
         <geronimo-servlet_3.0_spec.version>1.0</geronimo-servlet_3.0_spec.version>
