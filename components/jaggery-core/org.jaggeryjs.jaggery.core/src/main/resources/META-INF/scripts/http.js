@@ -14,7 +14,7 @@ var get, post, put, del, head, options, trace, connect;
         if (type === "xml") {
 			return new XML(data.replace(/<\?xml.*?\?>/, "").replace(/<!--[\s\S]*?-->/g, ""));
 		} else if (type === "json") {
-			return parse(data);
+			return JSON.parse(data);
         } else {
 			return data;
 		}
