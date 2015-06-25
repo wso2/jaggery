@@ -24,6 +24,8 @@ public class JavaScriptFileImpl implements JavaScriptFile {
     private boolean readable = false;
     private boolean writable = false;
 
+    private JavaScriptFileManager fileManager = new JavaScriptFileManagerImpl();
+
     public JavaScriptFileImpl(String uri, String path) {
         this.uri = uri;
         this.path = path;
@@ -213,7 +215,7 @@ public class JavaScriptFileImpl implements JavaScriptFile {
             log.warn("Please close the file before moving");
             return false;
         }
-        return f.renameTo(new File(dest));
+        return f.renameTo(this.fileManager.getFile(dest));
     }
 
     @Override
@@ -297,7 +299,7 @@ public class JavaScriptFileImpl implements JavaScriptFile {
     public ArrayList<String> listFiles() throws ScriptException {
         File[] fileList = f.listFiles();
         ArrayList<String> jsfl = new ArrayList<String>();
-        String parentDir = this.getPath();
+        String parentDir = this.getURI();
         if (fileList != null) {
             for (File fi : fileList) {
                 jsfl.add(parentDir + '/' + fi.getName());

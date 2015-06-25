@@ -147,7 +147,7 @@ public class FileHostObject extends ScriptableObject {
         }
 
         FileHostObject fho = (FileHostObject) thisObj;
-        String dest = fho.manager.getJavaScriptFile(args[0]).getPath();
+        String dest = fho.manager.getJavaScriptFile(args[0]).getURI();
         return fho.file.move(dest);
     }
 
@@ -163,7 +163,7 @@ public class FileHostObject extends ScriptableObject {
         }
 
         FileHostObject fho = (FileHostObject) thisObj;
-        String dest = fho.manager.getJavaScriptFile(args[0]).getPath();
+        String dest = fho.manager.getJavaScriptFile(args[0]).getURI();
         return fho.file.saveAs(dest);
     }
 

@@ -326,7 +326,7 @@ public class WebAppFile implements JavaScriptFile {
     public ArrayList<String> listFiles() throws ScriptException {
         File[] fileList = f.listFiles();
         ArrayList<String> jsfl = new ArrayList<String>();
-        String parentDir = this.getPath();
+        String parentDir = this.getURI();
         if (fileList != null) {
             for (File fi : fileList) {
                 jsfl.add(parentDir + '/' + fi.getName());
