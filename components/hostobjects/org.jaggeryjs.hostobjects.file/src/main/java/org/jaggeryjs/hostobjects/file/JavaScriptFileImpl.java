@@ -300,9 +300,12 @@ public class JavaScriptFileImpl implements JavaScriptFile {
         File[] fileList = f.listFiles();
         ArrayList<String> jsfl = new ArrayList<String>();
         String parentDir = this.getURI();
+        if (!parentDir.endsWith("/")) {
+            parentDir += "/";
+        }
         if (fileList != null) {
             for (File fi : fileList) {
-                jsfl.add(parentDir + '/' + fi.getName());
+                jsfl.add(parentDir + fi.getName());
             }
         }
         return jsfl;
