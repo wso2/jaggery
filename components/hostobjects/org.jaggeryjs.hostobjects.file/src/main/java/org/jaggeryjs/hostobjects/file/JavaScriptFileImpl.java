@@ -297,9 +297,10 @@ public class JavaScriptFileImpl implements JavaScriptFile {
     public ArrayList<String> listFiles() throws ScriptException {
         File[] fileList = f.listFiles();
         ArrayList<String> jsfl = new ArrayList<String>();
+        String parentDir = this.getPath();
         if (fileList != null) {
             for (File fi : fileList) {
-                jsfl.add(fi.getPath());
+                jsfl.add(parentDir + '/' + fi.getName());
             }
         }
         return jsfl;
