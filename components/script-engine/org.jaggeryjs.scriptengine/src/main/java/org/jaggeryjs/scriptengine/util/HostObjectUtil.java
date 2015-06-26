@@ -67,7 +67,7 @@ public class HostObjectUtil {
     }
 
     public static Object parseJSON(Context cx, Scriptable scope, String json) {
-        return NativeJSON.parse(cx,scope,json, new Callable() {
+        return NativeJSON.parse(cx, scope, json, new Callable() {
             @Override
             public Object call(Context cx, Scriptable scope, Scriptable thisObj, Object[] args) {
                 return args[1];
@@ -156,7 +156,7 @@ public class HostObjectUtil {
                 return serializeNativeDate(object);
             } else if ("Error".equals(jsClass)) {
                 return serializeNativeError(object);
-            } else if("String".equals(jsClass)) {
+            } else if ("String".equals(jsClass)) {
                 return obj.toString();
             }
         }
@@ -273,7 +273,8 @@ public class HostObjectUtil {
 
     private static String serializeString(String obj) {
         return "\"" + obj.replace("\\", "\\\\").replace("\"", "\\\"").replace("\r", "\\r").replace("\n", "\\n")
-                .replace("\u2028", "\\u2028").replace("\u2029", "\\u2029") + "\"";
+                .replace("\t", "\\t").replace("\f", "\\f").replace("\b", "\\b").replace("\u2028", "\\u2028")
+                .replace("\u2029", "\\u2029") + "\"";
     }
 
     private static String serializeXML(ScriptableObject obj) {
