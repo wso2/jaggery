@@ -26,7 +26,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jaggeryjs</groupId>
     <artifactId>jaggery-parent</artifactId>
-    <version>0.10.2-SNAPSHOT</version>
+    <version>0.10.3-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>jaggeryjs - Parent</name>
     <url>http://jaggeryjs.org</url>
@@ -334,11 +334,12 @@
 
         <carbon.kernel.version>4.4.0</carbon.kernel.version>
         <carbon.registry.version>4.4.0</carbon.registry.version>
+        <carbon.identity.version>4.5.1</carbon.identity.version>
         <carbon.registry.imp.pkg.version>[4.4.0, 4.5.0)</carbon.registry.imp.pkg.version>
 
         <carbon.deployment.version>4.4.0</carbon.deployment.version>
 
-        <jaggery.version>0.10.2-SNAPSHOT</jaggery.version>
+        <jaggery.version>0.10.3-SNAPSHOT</jaggery.version>
 
         <test.framework.version>4.3.1</test.framework.version>
         <automationutils.version>4.3.0</automationutils.version>

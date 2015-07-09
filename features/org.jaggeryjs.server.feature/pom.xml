@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.jaggeryjs</groupId>
         <artifactId>features</artifactId>
-        <version>0.10.2-SNAPSHOT</version>
+        <version>0.10.3-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -311,28 +311,6 @@
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.log</bundleDef>
                             </bundles>
                             <importBundles>
-                                <importBundleDef>org.wso2.carbon.registry:org.wso2.carbon.registry.search</importBundleDef>
-                                <importBundleDef>org.wso2.carbon.registry:org.wso2.carbon.registry.admin.api</importBundleDef>
-                                <importBundleDef>org.wso2.carbon.registry:org.wso2.carbon.registry.common</importBundleDef>
-                                <importBundleDef>org.wso2.carbon.registry:org.wso2.carbon.registry.indexing</importBundleDef>
-                                <importBundleDef>org.wso2.apache.solr:solr</importBundleDef>
-                                <importBundleDef>org.codehaus.jettison.wso2:jettison</importBundleDef>
-                                <importBundleDef>org.apache.rampart.wso2:rampart-core</importBundleDef>
-                                <importBundleDef>org.apache.rampart.wso2:rampart-trust</importBundleDef>
-                                <importBundleDef>org.apache.rampart.wso2:rampart-policy</importBundleDef>
-                                <importBundleDef>org.apache.ws.security.wso2:wss4j</importBundleDef>
-
-                                <importBundleDef>org.apache.ws.commons.axiom.wso2:axiom</importBundleDef>
-
-                                <importBundleDef>commons-io.wso2:commons-io</importBundleDef>
-                                <!--<importBundleDef>org.hectorclient:hector-core</importBundleDef>-->
-
-                                <importBundleDef>org.apache.axis2.wso2:axis2</importBundleDef>
-                                <importBundleDef>org.wso2.carbon:org.wso2.carbon.addressing</importBundleDef>
-                                <importBundleDef>commons-dbcp.wso2:commons-dbcp</importBundleDef>
-                                <importBundleDef>org.wso2.carbon:org.wso2.carbon.utils</importBundleDef>
-
-                                <importBundleDef>commons-fileupload.wso2:commons-fileupload</importBundleDef>
                                 <importBundleDef>rhino.wso2:js</importBundleDef>
                                 <importBundleDef>org.eclipse.wst.jsdt:org.eclipse.wst.jsdt.debug.rhino.debugger
                                 </importBundleDef>
@@ -346,6 +324,13 @@
                                 <importBundleDef>com.googlecode.json-simple.wso2:json-simple</importBundleDef>
                                 <importBundleDef>com.google.code.gson:gson</importBundleDef>
                             </importBundles>
+                            <importFeatures>
+                                <importFeatureDef>org.wso2.carbon.registry.core.server:${carbon.registry.version}</importFeatureDef>
+                                <importFeatureDef>org.wso2.carbon.registry.core.common:${carbon.registry.version}</importFeatureDef>
+                                <importFeatureDef>org.wso2.carbon.registry.contentsearch.server:${carbon.registry.version}</importFeatureDef>
+                                <importFeatureDef>org.wso2.carbon.core.common:${carbon.kernel.version}</importFeatureDef>
+                                <importFeatureDef>org.wso2.carbon.security.mgt.server:${carbon.identity.version}</importFeatureDef>
+                            </importFeatures>
                         </configuration>
                     </execution>
                 </executions>
