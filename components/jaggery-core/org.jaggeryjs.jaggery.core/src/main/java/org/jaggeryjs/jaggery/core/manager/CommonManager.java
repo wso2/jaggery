@@ -1,5 +1,6 @@
 package org.jaggeryjs.jaggery.core.manager;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.hostobjects.stream.StreamHostObject;
@@ -302,12 +303,7 @@ public class CommonManager {
         if (args[0] instanceof StreamHostObject) {
             InputStream in = ((StreamHostObject) args[0]).getStream();
             try {
-                byte[] buffer = new byte[BYTE_BUFFER_SIZE];
-                int count;
-                while ((count = in.read(buffer)) != -1) {
-                    out.write(buffer, 0, count);
-                }
-                in.close();
+                IOUtils.copy(in,out);
             } catch (IOException e) {
                 log.debug(e.getMessage(), e);
                 throw new ScriptException(e);
