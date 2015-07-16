@@ -1,6 +1,5 @@
 package org.jaggeryjs.jaggery.core.manager;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.hostobjects.stream.StreamHostObject;
@@ -18,11 +17,16 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.wso2.carbon.context.PrivilegedCarbonContext;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.FileChannel;
+import java.nio.channels.ReadableByteChannel;
+import java.nio.channels.WritableByteChannel;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
@@ -302,26 +306,43 @@ public class CommonManager {
         OutputStream out = (OutputStream) jaggeryContext.getProperty(CommonManager.JAGGERY_OUTPUT_STREAM);
         if (args[0] instanceof StreamHostObject) {
             InputStream in = ((StreamHostObject) args[0]).getStream();
+            ReadableByteChannel inputChannel = null;
+            WritableByteChannel outputChannel = null;
+            FileChannel fc = null;
             try {
-                IOUtils.copy(in,out);
+                inputChannel = Channels.newChannel(in);
+                outputChannel = Channels.newChannel(out);
+                // copy the channels
+                fc = (FileChannel) inputChannel;
+                fc.transferTo(0, fc.size(), outputChannel);
             } catch (IOException e) {
                 log.debug(e.getMessage(), e);
                 throw new ScriptException(e);
             } finally {
-                if (in != null) {
-                    try {
-                        in.close();
-                    } catch (IOException e) {
-                        log.debug(e.getMessage(), e);
-                    }
-                }
+                clearResources(fc, inputChannel, outputChannel, in, out);
             }
         } else {
             try {
                 out.write(HostObjectUtil.serializeObject(args[0]).getBytes());
             } catch (IOException e) {
-                log.debug(e.getMessage(), e);
+                if (log.isDebugEnabled()) {
+                    log.debug(e.getMessage(), e);
+                }
                 throw new ScriptException(e);
+            }
+        }
+    }
+
+    private static void clearResources(Closeable... resources) {
+        for (Closeable resource : resources) {
+            if (resource != null) {
+                try {
+                    resource.close();
+                } catch (IOException e) {
+                    if (log.isDebugEnabled()) {
+                        log.debug(e.getMessage(), e);
+                    }
+                }
             }
         }
     }
