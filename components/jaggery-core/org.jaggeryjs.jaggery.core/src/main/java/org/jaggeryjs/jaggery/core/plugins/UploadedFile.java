@@ -1,6 +1,7 @@
 package org.jaggeryjs.jaggery.core.plugins;
 
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.BoundedInputStream;
 import org.apache.commons.logging.Log;
@@ -200,12 +201,13 @@ public class UploadedFile implements JavaScriptFile {
 
     @Override
     public String getPath() throws ScriptException {
-        return null;
+        return ((DiskFileItem)fileItem).getStoreLocation().getPath();
     }
 
     @Override
     public String getURI() throws ScriptException {
-        return null;
+        String filePath = ((DiskFileItem)fileItem).getStoreLocation().toURI().toString();
+        return filePath.replaceFirst("file:/", "file:///");
     }
 
     @Override
