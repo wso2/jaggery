@@ -337,7 +337,7 @@
         <carbon.identity.version>4.5.1</carbon.identity.version>
         <carbon.registry.imp.pkg.version>[4.4.0, 4.5.0)</carbon.registry.imp.pkg.version>
 
-        <carbon.deployment.version>4.4.0</carbon.deployment.version>
+        <carbon.deployment.version>4.5.0</carbon.deployment.version>
 
         <jaggery.version>0.10.3-SNAPSHOT</jaggery.version>
 
