@@ -322,7 +322,6 @@
                                 <importBundleDef>jdom.wso2:jdom</importBundleDef>
                                 <importBundleDef>commons-cli.wso2:commons-cli</importBundleDef>
                                 <importBundleDef>com.googlecode.json-simple.wso2:json-simple</importBundleDef>
-                                <importBundleDef>com.google.code.gson:gson</importBundleDef>
                             </importBundles>
                             <importFeatures>
                                 <importFeatureDef>org.wso2.carbon.registry.core.server:${carbon.registry.version}</importFeatureDef>
