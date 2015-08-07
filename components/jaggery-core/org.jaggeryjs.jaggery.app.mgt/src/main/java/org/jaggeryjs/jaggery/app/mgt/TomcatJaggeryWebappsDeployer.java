@@ -18,6 +18,7 @@ package org.jaggeryjs.jaggery.app.mgt;
 
 import org.apache.axis2.context.ConfigurationContext;
 import org.apache.catalina.*;
+import org.apache.catalina.Manager;
 import org.apache.catalina.core.StandardContext;
 import org.apache.catalina.deploy.*;
 import org.apache.catalina.startup.Tomcat;
@@ -226,13 +227,21 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                 }
             }
 
+            Manager manager = context.getManager();
             if (isDistributable(context, jaggeryConfigObj)) {
                 //Clusterable manager implementation as DeltaManager
                 context.setDistributable(true);
-                CarbonTomcatClusterableSessionManager sessionManager =
-                        new CarbonTomcatClusterableSessionManager(tenantId);
-                context.setManager(sessionManager);                
-                
+
+                // Using clusterable manager
+                CarbonTomcatClusterableSessionManager sessionManager;
+                if (manager instanceof CarbonTomcatClusterableSessionManager) {
+                    sessionManager = (CarbonTomcatClusterableSessionManager) manager;
+                    sessionManager.setOwnerTenantId(tenantId);
+                } else {
+                    sessionManager = new CarbonTomcatClusterableSessionManager(tenantId);
+                    context.setManager(sessionManager);
+                }
+
                 Object alreadyinsertedSMMap = configurationContext.getProperty(CarbonConstants.TOMCAT_SESSION_MANAGER_MAP);
                 if(alreadyinsertedSMMap != null){
                 	((Map<String, CarbonTomcatClusterableSessionManager>) alreadyinsertedSMMap).put(context.getName(), sessionManager);
@@ -243,7 +252,11 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                 }
                 
             } else {
-                context.setManager(new CarbonTomcatSessionManager(tenantId));
+                if (manager instanceof CarbonTomcatSessionManager) {
+                    ((CarbonTomcatSessionManager) manager).setOwnerTenantId(tenantId);
+                } else {
+                    context.setManager(new CarbonTomcatSessionManager(tenantId));
+                }
             }
 
             context.setReloadable(false);
