@@ -1,5 +1,6 @@
 package org.jaggeryjs.jaggery.core.manager;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.hostobjects.stream.StreamHostObject;
@@ -17,10 +18,7 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.wso2.carbon.context.PrivilegedCarbonContext;
 
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.channels.Channels;
@@ -306,20 +304,31 @@ public class CommonManager {
         OutputStream out = (OutputStream) jaggeryContext.getProperty(CommonManager.JAGGERY_OUTPUT_STREAM);
         if (args[0] instanceof StreamHostObject) {
             InputStream in = ((StreamHostObject) args[0]).getStream();
-            ReadableByteChannel inputChannel = null;
-            WritableByteChannel outputChannel = null;
-            FileChannel fc = null;
-            try {
-                inputChannel = Channels.newChannel(in);
-                outputChannel = Channels.newChannel(out);
-                // copy the channels
-                fc = (FileChannel) inputChannel;
-                fc.transferTo(0, fc.size(), outputChannel);
-            } catch (IOException e) {
-                log.debug(e.getMessage(), e);
-                throw new ScriptException(e);
-            } finally {
-                clearResources(fc, inputChannel, outputChannel, in, out);
+            if(in instanceof FileInputStream){  //if form file we will use channel since it's faster
+
+                ReadableByteChannel inputChannel = null;
+                WritableByteChannel outputChannel = null;
+                FileChannel fc = null;
+                try {
+                    inputChannel = Channels.newChannel(in);
+                    outputChannel = Channels.newChannel(out);
+                    fc = (FileChannel) inputChannel;
+                    fc.transferTo(0, fc.size(), outputChannel);
+                } catch (IOException e) {
+                    log.error(e.getMessage(), e);
+                    throw new ScriptException(e);
+                } finally {
+                    clearResources(fc, inputChannel, outputChannel, in, out);
+                }
+            }else{
+                try {
+                    IOUtils.copy(in, out);
+                } catch (IOException e) {
+                    log.error(e.getMessage(), e);
+                    throw new ScriptException(e);
+                } finally {
+                    clearResources( in, out);
+                }
             }
         } else {
             try {
