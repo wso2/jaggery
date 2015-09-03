@@ -53,6 +53,8 @@ public final class JaggeryCoreConstants {
         public static final String LOG_LEVEL = "logLevel";
         public static final String SESSION_CREATED_LISTENER_SCRIPTS = "sessionCreatedListeners";
         public static final String SESSION_DESTROYED_LISTENER_SCRIPTS = "sessionDestroyedListeners";
+        public static final String USER_DATA_CONSTRAINT = "userDataConstraint";
+        public static final String TRANSPORT_GUARANTEE = "transportGuarantee";
     }
 
 }

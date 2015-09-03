@@ -582,6 +582,16 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                     securityConstraint.setAuthConstraint(true);
                 }
 
+                if (((JSONObject) o.get(JaggeryCoreConstants.JaggeryConfigParams.SECURITY_CONSTRAINT)).
+                        get(JaggeryCoreConstants.JaggeryConfigParams.USER_DATA_CONSTRAINT) != null) {
+                    JSONObject userDataConstraint = (JSONObject) ((JSONObject) o.get(JaggeryCoreConstants.
+                            JaggeryConfigParams.SECURITY_CONSTRAINT)).
+                            get(JaggeryCoreConstants.JaggeryConfigParams.USER_DATA_CONSTRAINT);
+                    String transportGuarantee = (String) userDataConstraint.get(JaggeryCoreConstants.
+                            JaggeryConfigParams.TRANSPORT_GUARANTEE);
+                    securityConstraint.setUserConstraint(transportGuarantee);
+                }
+
                 context.addConstraint(securityConstraint);
             }
         }
