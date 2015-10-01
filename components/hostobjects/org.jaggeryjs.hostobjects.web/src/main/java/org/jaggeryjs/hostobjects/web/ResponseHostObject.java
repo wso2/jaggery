@@ -53,7 +53,7 @@ public class ResponseHostObject extends ScriptableObject {
     public void jsSet_content(Object object) throws ScriptException {
         try {
             String content = HostObjectUtil.serializeObject(object);
-            response.getOutputStream().print(content);
+            response.getOutputStream().write(content.getBytes("UTF-8"));
         } catch (IOException e) {
             String msg = "Error occurred while reading Servlet OutputStream";
             log.error(msg, e);
