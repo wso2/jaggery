@@ -333,16 +333,16 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <carbon.kernel.version>4.4.1</carbon.kernel.version>
-        <carbon.registry.version>4.4.1</carbon.registry.version>
+        <carbon.registry.version>4.4.9</carbon.registry.version>
         <carbon.identity.version>4.6.0-alpha</carbon.identity.version>
         <carbon.registry.imp.pkg.version>[4.4.1, 4.5.0)</carbon.registry.imp.pkg.version>
 
-        <carbon.deployment.version>4.5.2</carbon.deployment.version>
+        <carbon.deployment.version>4.5.3</carbon.deployment.version>
 
         <jaggery.version>0.11.2-SNAPSHOT</jaggery.version>
 
-        <test.framework.version>4.3.1</test.framework.version>
-        <automationutils.version>4.3.0</automationutils.version>
+        <test.framework.version>4.4.2</test.framework.version>
+        <automationutils.version>4.4.2</automationutils.version>
 
         <maven.scrplugin.version>1.7.2</maven.scrplugin.version>
         <maven.wagon.ssh.version>2.1</maven.wagon.ssh.version>
@@ -696,7 +696,7 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.registry.core</artifactId>
-                <version>${carbon.registry.version}</version>
+                <version>${carbon.kernel.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon.registry</groupId>
