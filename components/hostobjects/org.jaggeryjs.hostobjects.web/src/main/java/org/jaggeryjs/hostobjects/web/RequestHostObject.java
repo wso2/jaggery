@@ -20,6 +20,7 @@ import org.mozilla.javascript.ScriptableObject;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -42,7 +43,9 @@ public class RequestHostObject extends ScriptableObject {
 
     private boolean isMultipart = false;
 
-    private Map<String, FileItem> parameterMap = new HashMap<String, FileItem>();
+    private Map<String, ArrayList<FileItem>> parameterMap = new HashMap<String, ArrayList<FileItem>>();
+    
+    //Map<String, List<String>> m = new HashMap<String, List<String>>();
 
     private Scriptable parameters = null;
 
@@ -270,9 +273,9 @@ public class RequestHostObject extends ScriptableObject {
             }
             encoding = (String) args[0];
         }
-        parseMultipart(rho);
+        parseMultipart(rho, thisObj);
         // if no encoding is specified, UTF-8 is assumed.
-        parseMultipartParams(rho, encoding == null ? "UTF-8" : encoding);
+        parseMultipartParams(rho, encoding == null ? "UTF-8" : encoding, cx, thisObj);
         return rho.parameters;
     }
 
@@ -288,7 +291,7 @@ public class RequestHostObject extends ScriptableObject {
         if (!rho.isMultipart) {
             return null;
         }
-        parseMultipart(rho);
+        parseMultipart(rho, thisObj);
         return rho.files;
     }
 
@@ -435,8 +438,8 @@ public class RequestHostObject extends ScriptableObject {
         if (!rho.isMultipart) {
             return getParameter(parameter, rho.request, rho);
         }
-        parseMultipart(rho);
-        FileItem item = rho.parameterMap.get(parameter);
+        parseMultipart(rho, thisObj);
+        FileItem item = rho.parameterMap.get(parameter).get(0);
         if (item == null) {
             return null;
         }
@@ -465,7 +468,7 @@ public class RequestHostObject extends ScriptableObject {
         if (!rho.isMultipart) {
             return null;
         }
-        parseMultipart(rho);
+        parseMultipart(rho, thisObj);
         Object obj = rho.files.get((String) args[0], thisObj);
         if (obj instanceof Scriptable) {
             return (Scriptable) obj;
@@ -477,7 +480,7 @@ public class RequestHostObject extends ScriptableObject {
         return this.request;
     }
 
-    private static void parseMultipart(RequestHostObject rho) throws ScriptException {
+    private static void parseMultipart(RequestHostObject rho, Scriptable scope) throws ScriptException {
         if (rho.files != null) {
             return;
         }
@@ -497,21 +500,43 @@ public class RequestHostObject extends ScriptableObject {
             FileItem item = (FileItem) obj;
             name = item.getFieldName();
             if (item.isFormField()) {
-                rho.parameterMap.put(name, item);
+            	//ArrayList<FileItem> x = (ArrayList<FileItem>) rho.parameterMap.get(name);
+            	ArrayList<FileItem> x = (ArrayList<FileItem>) rho.parameterMap.get(name);
+            	if(x == null){
+            		ArrayList<FileItem> array = new ArrayList<FileItem>(1);
+            		array.add(item);
+            		//x.add((FileItem) array);
+            		rho.parameterMap.put(name, array);
+            	}else{
+            		x.add(item);
+            	}
+//                rho.parameterMap.put(name, item);
             } else {
                 rho.files.put(item.getFieldName(), rho.files, rho.context.newObject(rho, "File", new Object[]{item}));
             }
         }
     }
 
-    private static void parseMultipartParams(RequestHostObject rho, String encoding) throws ScriptException {
+    private static void parseMultipartParams(RequestHostObject rho, String encoding,Context cx, Scriptable scope) throws ScriptException {
         if (rho.parameters != null) {
             return;
         }
         rho.parameters = rho.context.newObject(rho);
         for (String name : rho.parameterMap.keySet()) {
             try {
-                rho.parameters.put(name, rho.parameters, rho.parameterMap.get(name).getString(encoding));
+            	ArrayList<FileItem> x  = (ArrayList<FileItem>) rho.parameterMap.get(name);
+            	if(x.size()>1){
+            		Scriptable y = cx.newArray(scope, x.size()); 
+      
+            		for (int i = 0; i < x.size(); i++) {
+						y.put(i, y, x.get(i).getString(encoding));
+					}
+            		rho.parameters.put(name, rho.parameters,y);
+
+            	}else{
+            		 rho.parameters.put(name, rho.parameters,x.get(0).getString(encoding));
+            	}
+               
             } catch (UnsupportedEncodingException e) {
                 log.error(e.getMessage(), e);
                 throw new ScriptException(e);
