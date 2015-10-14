@@ -273,7 +273,7 @@ public class RequestHostObject extends ScriptableObject {
             }
             encoding = (String) args[0];
         }
-        parseMultipart(rho, thisObj);
+        parseMultipart(rho);
         // if no encoding is specified, UTF-8 is assumed.
         parseMultipartParams(rho, encoding == null ? "UTF-8" : encoding, cx, thisObj);
         return rho.parameters;
@@ -291,7 +291,7 @@ public class RequestHostObject extends ScriptableObject {
         if (!rho.isMultipart) {
             return null;
         }
-        parseMultipart(rho, thisObj);
+        parseMultipart(rho);
         return rho.files;
     }
 
@@ -439,7 +439,7 @@ public class RequestHostObject extends ScriptableObject {
         if (!rho.isMultipart) {
             return getParameter(parameter, rho.request, rho);
         }
-        parseMultipart(rho, thisObj);
+        parseMultipart(rho);
         
         if(rho.parameterMap.get(parameter) != null){
         	item = rho.parameterMap.get(parameter).get(0);
@@ -472,7 +472,7 @@ public class RequestHostObject extends ScriptableObject {
         if (!rho.isMultipart) {
             return null;
         }
-        parseMultipart(rho, thisObj);
+        parseMultipart(rho);
         Object obj = rho.files.get((String) args[0], thisObj);
         if (obj instanceof Scriptable) {
             return (Scriptable) obj;
@@ -484,7 +484,7 @@ public class RequestHostObject extends ScriptableObject {
         return this.request;
     }
 
-    private static void parseMultipart(RequestHostObject rho, Scriptable scope) throws ScriptException {
+    private static void parseMultipart(RequestHostObject rho) throws ScriptException {
         if (rho.files != null) {
             return;
         }
@@ -504,17 +504,14 @@ public class RequestHostObject extends ScriptableObject {
             FileItem item = (FileItem) obj;
             name = item.getFieldName();
             if (item.isFormField()) {
-            	//ArrayList<FileItem> x = (ArrayList<FileItem>) rho.parameterMap.get(name);
             	ArrayList<FileItem> x = (ArrayList<FileItem>) rho.parameterMap.get(name);
             	if(x == null){
             		ArrayList<FileItem> array = new ArrayList<FileItem>(1);
             		array.add(item);
-            		//x.add((FileItem) array);
             		rho.parameterMap.put(name, array);
             	}else{
             		x.add(item);
             	}
-//                rho.parameterMap.put(name, item);
             } else {
                 rho.files.put(item.getFieldName(), rho.files, rho.context.newObject(rho, "File", new Object[]{item}));
             }
@@ -531,12 +528,10 @@ public class RequestHostObject extends ScriptableObject {
             	ArrayList<FileItem> x  = (ArrayList<FileItem>) rho.parameterMap.get(name);
             	if(x.size()>1){
             		Scriptable y = cx.newArray(scope, x.size()); 
-      
             		for (int i = 0; i < x.size(); i++) {
 						y.put(i, y, x.get(i).getString(encoding));
 					}
             		rho.parameters.put(name, rho.parameters,y);
-
             	}else{
             		 rho.parameters.put(name, rho.parameters,x.get(0).getString(encoding));
             	}
