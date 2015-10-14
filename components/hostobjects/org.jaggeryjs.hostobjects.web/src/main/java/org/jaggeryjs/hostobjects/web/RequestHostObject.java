@@ -422,6 +422,7 @@ public class RequestHostObject extends ScriptableObject {
     public static Object jsFunction_getParameter(Context cx, Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException {
         String functionName = "getParameter";
+        FileItem item;
         int argsCount = args.length;
         if (argsCount != 1 && argsCount != 2) {
             HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
@@ -439,11 +440,14 @@ public class RequestHostObject extends ScriptableObject {
             return getParameter(parameter, rho.request, rho);
         }
         parseMultipart(rho, thisObj);
-        FileItem item = rho.parameterMap.get(parameter).get(0);
-        if (item == null) {
+        
+        if(rho.parameterMap.get(parameter) != null){
+        	item = rho.parameterMap.get(parameter).get(0);
+        }
+        else {
             return null;
         }
-        if (argsCount == 1) {
+		if (argsCount == 1) {
             return item.getString();
         }
         try {
