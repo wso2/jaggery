@@ -679,7 +679,7 @@ public class WebAppManager {
         RhinoEngine.defineProperty(scope, response);
 
         JavaScriptProperty session = new JavaScriptProperty("session");
-        session.setValue(cx.newObject(scope, "Session", new Object[]{servletRequest.getSession()}));
+        session.setValue(cx.newObject(scope, "Session", new Object[]{servletRequest}));
         session.setAttribute(ScriptableObject.READONLY);
         RhinoEngine.defineProperty(scope, session);
 

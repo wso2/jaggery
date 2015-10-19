@@ -9,6 +9,7 @@ import org.mozilla.javascript.ScriptableObject;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 
@@ -19,6 +20,7 @@ public class SessionHostObject extends ScriptableObject {
     private static final String hostObjectName = "Session";
 
     private HttpSession session;
+    private HttpServletRequest servletRequest;
 
     public SessionHostObject() {
 
@@ -30,11 +32,11 @@ public class SessionHostObject extends ScriptableObject {
         if (argsCount != 1) {
             HostObjectUtil.invalidNumberOfArgs(hostObjectName, hostObjectName, argsCount, true);
         }
-        if (!(args[0] instanceof HttpSession)) {
+        if (!(args[0] instanceof HttpServletRequest)) {
             HostObjectUtil.getReservedHostObjectWarn(hostObjectName);
         }
         SessionHostObject sho = new SessionHostObject();
-        sho.session = (HttpSession) args[0];
+        sho.servletRequest = (HttpServletRequest) args[0];
         return sho;
     }
 
@@ -51,7 +53,14 @@ public class SessionHostObject extends ScriptableObject {
         }
 
         SessionHostObject sho = (SessionHostObject) thisObj;
-        return sho.session.getCreationTime();
+        return sho.getSession().getCreationTime();
+    }
+
+    private HttpSession getSession() {
+        if (session == null) {
+            session = servletRequest.getSession();
+        }
+        return session;
     }
 
     public static long jsFunction_getLastAccessedTime(Context cx, Scriptable thisObj, Object[] args, Function funObj) throws ScriptException {
@@ -62,7 +71,7 @@ public class SessionHostObject extends ScriptableObject {
         }
 
         SessionHostObject sho = (SessionHostObject) thisObj;
-        return sho.session.getLastAccessedTime();
+        return sho.getSession().getLastAccessedTime();
     }
 
     public static String jsFunction_getId(Context cx, Scriptable thisObj, Object[] args, Function funObj) throws ScriptException {
@@ -73,18 +82,18 @@ public class SessionHostObject extends ScriptableObject {
         }
 
         SessionHostObject sho = (SessionHostObject) thisObj;
-        return sho.session.getId();
+        return sho.getSession().getId();
     }
 
     public long jsGet_maxInactive() throws ScriptException {
-        return session.getMaxInactiveInterval();
+        return getSession().getMaxInactiveInterval();
     }
 
     public void jsSet_maxInactive(Object object) throws ScriptException {
         if (!(object instanceof Integer)) {
             HostObjectUtil.invalidProperty(hostObjectName, "maxInactive", "integer", object);
         }
-        session.setMaxInactiveInterval((Integer) object);
+        getSession().setMaxInactiveInterval((Integer) object);
     }
 
     public static boolean jsFunction_isNew(Context cx, Scriptable thisObj, Object[] args, Function funObj) throws ScriptException {
@@ -95,7 +104,7 @@ public class SessionHostObject extends ScriptableObject {
         }
 
         SessionHostObject sho = (SessionHostObject) thisObj;
-        return sho.session.isNew();
+        return sho.getSession().isNew();
     }
 
     public static void jsFunction_put(Context cx, Scriptable thisObj, Object[] args, Function funObj)
@@ -110,7 +119,7 @@ public class SessionHostObject extends ScriptableObject {
         }
         JSONWrapper wrapper = new JSONWrapper(args[1]);
         SessionHostObject sho = (SessionHostObject) thisObj;
-        sho.session.setAttribute((String) args[0], wrapper);
+        sho.getSession().setAttribute((String) args[0], wrapper);
     }
 
     public static Object jsFunction_get(Context cx, Scriptable thisObj, Object[] args, Function funObj)
@@ -125,7 +134,7 @@ public class SessionHostObject extends ScriptableObject {
                     hostObjectName, functionName, "1", "string", args[0], false);
         }
         SessionHostObject sho = (SessionHostObject) thisObj;
-        JSONWrapper wrapper = (JSONWrapper) sho.session.getAttribute((String) args[0]);
+        JSONWrapper wrapper = (JSONWrapper) sho.getSession().getAttribute((String) args[0]);
         if (wrapper == null) {
             return null;
         }
@@ -143,7 +152,7 @@ public class SessionHostObject extends ScriptableObject {
             HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
         }
         SessionHostObject sho = (SessionHostObject) thisObj;
-        sho.session.invalidate();
+        sho.getSession().invalidate();
     }
 
     public static void jsFunction_remove(Context cx, Scriptable thisObj, Object[] args, Function funObj)
@@ -161,7 +170,7 @@ public class SessionHostObject extends ScriptableObject {
         String attr = (String) args[0];
 
         SessionHostObject sho = (SessionHostObject) thisObj;
-        sho.session.removeAttribute(attr);
+        sho.getSession().removeAttribute(attr);
     }
 
     private static class JSONWrapper implements Serializable {
