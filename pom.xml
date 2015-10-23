@@ -333,9 +333,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <carbon.kernel.version>4.4.1</carbon.kernel.version>
-        <carbon.registry.version>4.4.1</carbon.registry.version>
-        <carbon.identity.version>5.0.0</carbon.identity.version>
-        <carbon.registry.imp.pkg.version>[4.4.1, 5.0.0)</carbon.registry.imp.pkg.version>
+        <carbon.registry.version>4.5.0</carbon.registry.version>
+        <carbon.identity.version>4.5.6</carbon.identity.version>
+        <carbon.registry.imp.pkg.version>[4.5.0, 5.0.0)</carbon.registry.imp.pkg.version>
 
         <carbon.deployment.version>4.5.2</carbon.deployment.version>
 
@@ -696,7 +696,7 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.registry.core</artifactId>
-                <version>${carbon.registry.version}</version>
+                <version>${carbon.kernel.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon.registry</groupId>
