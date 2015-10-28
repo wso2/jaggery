@@ -33,10 +33,13 @@ public class SessionHostObject extends ScriptableObject {
             HostObjectUtil.invalidNumberOfArgs(hostObjectName, hostObjectName, argsCount, true);
         }
         SessionHostObject sho = new SessionHostObject();
-        if(args[0] instanceof HttpSession){
+        if (args[0] instanceof HttpSession) {
             sho.session = (HttpSession) args[0];
-        } else{
+        } else if (args[0] instanceof HttpServletRequest) {
             sho.servletRequest = (HttpServletRequest) args[0];
+        } else {
+            //throw error
+            HostObjectUtil.invalidArgsError(hostObjectName, hostObjectName, "1", "HttpSession/HttpServletRequest", args[0], true);
         }
         return sho;
     }
