@@ -855,7 +855,7 @@ public class WebAppManager {
     }
 
     public static boolean isWebSocket(ServletRequest request) {
-        isWebSocket = "websocket".equals(((HttpServletRequest) request).getHeader("Upgrade"));
-        return "websocket".equals(((HttpServletRequest) request).getHeader("Upgrade"));
+        isWebSocket = "websocket".equalsIgnoreCase(((HttpServletRequest) request).getHeader("Upgrade"));
+        return isWebSocket;
     }
 }
