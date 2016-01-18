@@ -20,6 +20,7 @@ import org.mozilla.javascript.ScriptableObject;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -635,5 +636,27 @@ public class RequestHostObject extends ScriptableObject {
             return values[0];
         }
         return Context.javaToJS(values, scope);
+    }
+
+    public static Scriptable jsFunction_getSession(Context cx, Scriptable thisObj, Object[] args, Function funObj)
+            throws ScriptException {
+        String functionName = "getSession";
+        int argsCount = args.length;
+
+        HttpSession sessionObj;
+        RequestHostObject rho = (RequestHostObject) thisObj;
+        if(0 == argsCount){
+            // execute function "getSession" without parameter
+            sessionObj = rho.request.getSession();
+        }else{
+            //execute function "getSession(<boolean>)" with boolean parameter
+            if (1 != argsCount && !(args[0] instanceof Boolean)) {
+                HostObjectUtil.invalidArgsError(hostObjectName, functionName, "1", "boolean", args[0], false);
+            }
+            Boolean parameter = (Boolean) args[0];
+            sessionObj = rho.request.getSession(parameter.booleanValue());
+        }
+
+        return cx.newObject(thisObj.getParentScope(), "Session", new Object[]{sessionObj});
     }
 }
