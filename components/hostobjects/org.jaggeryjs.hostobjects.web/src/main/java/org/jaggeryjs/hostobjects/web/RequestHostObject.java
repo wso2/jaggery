@@ -657,6 +657,6 @@ public class RequestHostObject extends ScriptableObject {
             sessionObj = rho.request.getSession(parameter.booleanValue());
         }
 
-        return cx.newObject(thisObj.getParentScope(), "Session", new Object[]{sessionObj});
+        return cx.newObject(thisObj.getParentScope(), "Session", new Object[]{rho.request});
     }
 }
