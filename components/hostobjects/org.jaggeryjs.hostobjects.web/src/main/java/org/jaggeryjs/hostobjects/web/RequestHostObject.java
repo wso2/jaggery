@@ -637,12 +637,16 @@ public class RequestHostObject extends ScriptableObject {
         }
         return Context.javaToJS(values, scope);
     }
-
+    /**
+     * Modified the Jaggery get to support lazy session creation.
+     *
+     * @deprecated use {http://jaggeryjs.org/documentation.jag?api=session - session.get()} instead.
+     */
+    @Deprecated
     public static Scriptable jsFunction_getSession(Context cx, Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException {
         String functionName = "getSession";
         int argsCount = args.length;
-
         HttpSession sessionObj;
         RequestHostObject rho = (RequestHostObject) thisObj;
         if(0 == argsCount){
@@ -656,7 +660,6 @@ public class RequestHostObject extends ScriptableObject {
             Boolean parameter = (Boolean) args[0];
             sessionObj = rho.request.getSession(parameter.booleanValue());
         }
-
         return cx.newObject(thisObj.getParentScope(), "Session", new Object[]{rho.request});
     }
 }
