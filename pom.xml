@@ -380,7 +380,7 @@
         <geronimo-servlet_3.0_spec.version>1.0</geronimo-servlet_3.0_spec.version>
         <commons-fileupload.osgi.version>1.2.2.wso2v1</commons-fileupload.osgi.version>
         <axis2.osgi.version>1.6.1.wso2v12</axis2.osgi.version>
-        <axiom.osgi.version>1.2.11.wso2v10</axiom.osgi.version>
+        <axiom.osgi.version>1.2.11.wso2v9</axiom.osgi.version>
         <activation.version>1.1</activation.version>
         <javax.servlet.jsp.osgi.version>2.0.0.v200806031607</javax.servlet.jsp.osgi.version>
         <commons-dbcp.osgi.version>1.4.0.wso2v1</commons-dbcp.osgi.version>
