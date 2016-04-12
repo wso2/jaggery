@@ -353,15 +353,17 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
         Tomcat.addServlet(ctx, JaggeryCoreConstants.JAGGERY_SERVLET_NAME, JaggeryCoreConstants.JAGGERY_SERVLET_CLASS);
         Tomcat.addServlet(ctx, JaggeryCoreConstants.JAGGERY_WEBSOCKET_SERVLET_NAME, JaggeryCoreConstants.JAGGERY_WEBSOCKET_SERVLET_CLASS);
 
+        addFilters(ctx, jaggeryConfig);
+
         FilterDef filterDef = new FilterDef();
         filterDef.setFilterName(JaggeryCoreConstants.JAGGERY_FILTER_NAME);
         filterDef.setFilterClass(JaggeryCoreConstants.JAGGERY_FILTER_CLASS);
         ctx.addFilterDef(filterDef);
 
-        FilterMap filter1mapping = new FilterMap();
-        filter1mapping.setFilterName(JaggeryCoreConstants.JAGGERY_FILTER_NAME);
-        filter1mapping.addURLPattern(JaggeryCoreConstants.JAGGERY_URL_PATTERN);
-        ctx.addFilterMap(filter1mapping);
+        FilterMap filterMapping = new FilterMap();
+        filterMapping.setFilterName(JaggeryCoreConstants.JAGGERY_FILTER_NAME);
+        filterMapping.addURLPattern(JaggeryCoreConstants.JAGGERY_URL_PATTERN);
+        ctx.addFilterMap(filterMapping);
 
         ctx.addApplicationListener(JaggeryCoreConstants.JAGGERY_APPLICATION_SESSION_LISTENER);
 
@@ -780,6 +782,58 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
             }
         }
         addMappings(childMap, parts, path);
+    }
+
+    private static void addFilters(Context ctx, JSONObject jaggeryConfig) {
+        if(jaggeryConfig != null) {
+            JSONArray arrFilters = (JSONArray) jaggeryConfig.get(JaggeryCoreConstants.JaggeryConfigParams.FILTERS);
+            JSONArray arrFilterMappings = (JSONArray) jaggeryConfig.get(JaggeryCoreConstants.JaggeryConfigParams.FILTER_MAPPINGS);
+
+            if (arrFilters != null) {
+                for (Object filterObj : arrFilters) {
+                    JSONObject filter = (JSONObject) filterObj;
+                    String name = (String) filter
+                            .get(JaggeryCoreConstants.JaggeryConfigParams.FILTERS_NAME);
+                    String clazz = (String) filter
+                            .get(JaggeryCoreConstants.JaggeryConfigParams.FILTERS_CLASS);
+
+                    FilterDef filterDef = new FilterDef();
+                    filterDef.setFilterName(name);
+                    filterDef.setFilterClass(clazz);
+
+                    JSONArray arrParams = (JSONArray) filter
+                            .get(JaggeryCoreConstants.JaggeryConfigParams.FILTERS_PARAMS);
+                    if (arrParams != null) {
+                        for (Object paramObj : arrParams) {
+                            JSONObject param = (JSONObject) paramObj;
+
+                            String paramName = (String) param
+                                    .get(JaggeryCoreConstants.JaggeryConfigParams.FILTERS_PARAMS_NAME);
+                            String paramValue = (String) param
+                                    .get(JaggeryCoreConstants.JaggeryConfigParams.FILTERS_PARAMS_VALUE);
+
+                            filterDef.addInitParameter(paramName, paramValue);
+                        }
+                    }
+                    ctx.addFilterDef(filterDef);
+                }
+            }
+
+            if (arrFilterMappings != null) {
+                for (Object filterMappingObj : arrFilterMappings) {
+                    JSONObject mapping = (JSONObject) filterMappingObj;
+                    String name = (String) mapping
+                            .get(JaggeryCoreConstants.JaggeryConfigParams.FILTER_MAPPINGS_NAME);
+                    String url = (String) mapping
+                            .get(JaggeryCoreConstants.JaggeryConfigParams.FILTER_MAPPINGS_URL);
+
+                    FilterMap filterMapping = new FilterMap();
+                    filterMapping.setFilterName(name);
+                    filterMapping.addURLPattern(url);
+                    ctx.addFilterMap(filterMapping);
+                }
+            }
+        }
     }
 }
 

@@ -55,6 +55,15 @@ public final class JaggeryCoreConstants {
         public static final String SESSION_DESTROYED_LISTENER_SCRIPTS = "sessionDestroyedListeners";
         public static final String USER_DATA_CONSTRAINT = "userDataConstraint";
         public static final String TRANSPORT_GUARANTEE = "transportGuarantee";
+        public static final String FILTERS = "filters";
+        public static final String FILTERS_NAME = "name";
+        public static final String FILTERS_CLASS = "class";
+        public static final String FILTERS_PARAMS = "params";
+        public static final String FILTERS_PARAMS_NAME = "name";
+        public static final String FILTERS_PARAMS_VALUE = "value";
+        public static final String FILTER_MAPPINGS = "filterMappings";
+        public static final String FILTER_MAPPINGS_NAME = "name";
+        public static final String FILTER_MAPPINGS_URL = "url";
     }
 
 }
