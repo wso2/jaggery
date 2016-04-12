@@ -360,10 +360,10 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
         filterDef.setFilterClass(JaggeryCoreConstants.JAGGERY_FILTER_CLASS);
         ctx.addFilterDef(filterDef);
 
-        FilterMap filter1mapping = new FilterMap();
-        filter1mapping.setFilterName(JaggeryCoreConstants.JAGGERY_FILTER_NAME);
-        filter1mapping.addURLPattern(JaggeryCoreConstants.JAGGERY_URL_PATTERN);
-        ctx.addFilterMap(filter1mapping);
+        FilterMap filterMapping = new FilterMap();
+        filterMapping.setFilterName(JaggeryCoreConstants.JAGGERY_FILTER_NAME);
+        filterMapping.addURLPattern(JaggeryCoreConstants.JAGGERY_URL_PATTERN);
+        ctx.addFilterMap(filterMapping);
 
         ctx.addApplicationListener(JaggeryCoreConstants.JAGGERY_APPLICATION_SESSION_LISTENER);
 
@@ -807,9 +807,9 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                         for (Object paramObj : arrParams) {
                             JSONObject param = (JSONObject) paramObj;
 
-                            String paramName = (String) filter
+                            String paramName = (String) param
                                     .get(JaggeryCoreConstants.JaggeryConfigParams.FILTERS_PARAMS_NAME);
-                            String paramValue = (String) filter
+                            String paramValue = (String) param
                                     .get(JaggeryCoreConstants.JaggeryConfigParams.FILTERS_PARAMS_VALUE);
 
                             filterDef.addInitParameter(paramName, paramValue);
@@ -821,16 +821,16 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
 
             if (arrFilterMappings != null) {
                 for (Object filterMappingObj : arrFilterMappings) {
-                    JSONObject filterMapping = (JSONObject) filterMappingObj;
-                    String name = (String) filterMapping
+                    JSONObject mapping = (JSONObject) filterMappingObj;
+                    String name = (String) mapping
                             .get(JaggeryCoreConstants.JaggeryConfigParams.FILTER_MAPPINGS_NAME);
-                    String url = (String) filterMapping
+                    String url = (String) mapping
                             .get(JaggeryCoreConstants.JaggeryConfigParams.FILTER_MAPPINGS_URL);
 
-                    FilterMap filter1mapping = new FilterMap();
-                    filter1mapping.setFilterName(name);
-                    filter1mapping.addURLPattern(url);
-                    ctx.addFilterMap(filter1mapping);
+                    FilterMap filterMapping = new FilterMap();
+                    filterMapping.setFilterName(name);
+                    filterMapping.addURLPattern(url);
+                    ctx.addFilterMap(filterMapping);
                 }
             }
         }
