@@ -324,11 +324,11 @@
                                 <importBundleDef>com.googlecode.json-simple.wso2:json-simple</importBundleDef>
                             </importBundles>
                             <importFeatures>
-                                <importFeatureDef>org.wso2.carbon.registry.core.server:${carbon.registry.version}</importFeatureDef>
-                                <importFeatureDef>org.wso2.carbon.registry.core.common:${carbon.registry.version}</importFeatureDef>
-                                <importFeatureDef>org.wso2.carbon.registry.contentsearch.server:${carbon.registry.version}</importFeatureDef>
-                                <importFeatureDef>org.wso2.carbon.core.common:${carbon.kernel.version}</importFeatureDef>
-                                <importFeatureDef>org.wso2.carbon.security.mgt.server:${carbon.identity.version}</importFeatureDef>
+                                <importFeatureDef>org.wso2.carbon.registry.core.server:compatible:${carbon.kernel.version}</importFeatureDef>
+                                <importFeatureDef>org.wso2.carbon.registry.core.common:compatible:${carbon.kernel.version}</importFeatureDef>
+                                <importFeatureDef>org.wso2.carbon.registry.contentsearch.server:compatible:${carbon.registry.version}</importFeatureDef>
+                                <importFeatureDef>org.wso2.carbon.core.common:compatible:${carbon.kernel.version}</importFeatureDef>
+                                <importFeatureDef>org.wso2.carbon.security.mgt.server:compatible:${carbon.identity.version}</importFeatureDef>
                             </importFeatures>
                         </configuration>
                     </execution>
