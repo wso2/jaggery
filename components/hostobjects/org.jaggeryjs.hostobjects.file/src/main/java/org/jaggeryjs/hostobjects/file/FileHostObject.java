@@ -1,6 +1,7 @@
 package org.jaggeryjs.hostobjects.file;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.hostobjects.stream.StreamHostObject;
@@ -311,7 +312,9 @@ public class FileHostObject extends ScriptableObject {
     }
 
     public String getName() throws ScriptException {
-        return file.getName();
+        String fileName = file.getName();
+        fileName = FilenameUtils.getName(fileName);
+        return fileName;
     }
 
     public JavaScriptFile getJavaScriptFile() throws ScriptException {
