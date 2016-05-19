@@ -64,6 +64,20 @@ public final class JaggeryCoreConstants {
         public static final String FILTER_MAPPINGS = "filterMappings";
         public static final String FILTER_MAPPINGS_NAME = "name";
         public static final String FILTER_MAPPINGS_URL = "url";
+        public static final String SERVLETS = "servlets";
+        public static final String SERVLETS_NAME = "name";
+        public static final String SERVLETS_CLASS = "class";
+        public static final String SERVLETS_PARAMS = "params";
+        public static final String SERVLETS_PARAMS_NAME = "name";
+        public static final String SERVLETS_PARAMS_VALUE = "value";
+        public static final String SERVLET_MAPPINGS = "servletMappings";
+        public static final String SERVLET_MAPPINGS_NAME = "name";
+        public static final String SERVLET_MAPPINGS_URL = "url";
+        public static final String LISTENERS = "listeners";
+        public static final String LISTENERS_CLASS = "class";
+        public static final String CONTEXT_PARAMS = "contextParams";
+        public static final String CONTEXT_PARAMS_NAME = "name";
+        public static final String CONTEXT_PARAMS_VALUE = "value";
     }
 
 }

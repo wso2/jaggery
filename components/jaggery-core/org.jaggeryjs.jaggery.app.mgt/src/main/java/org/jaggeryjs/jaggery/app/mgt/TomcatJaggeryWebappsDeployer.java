@@ -353,6 +353,9 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
         Tomcat.addServlet(ctx, JaggeryCoreConstants.JAGGERY_SERVLET_NAME, JaggeryCoreConstants.JAGGERY_SERVLET_CLASS);
         Tomcat.addServlet(ctx, JaggeryCoreConstants.JAGGERY_WEBSOCKET_SERVLET_NAME, JaggeryCoreConstants.JAGGERY_WEBSOCKET_SERVLET_CLASS);
 
+        addContextParams(ctx, jaggeryConfig);
+        addListeners(ctx, jaggeryConfig);
+        addServlets(ctx, jaggeryConfig);
         addFilters(ctx, jaggeryConfig);
 
         FilterDef filterDef = new FilterDef();
@@ -831,6 +834,86 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                     filterMapping.setFilterName(name);
                     filterMapping.addURLPattern(url);
                     ctx.addFilterMap(filterMapping);
+                }
+            }
+        }
+    }
+
+    private static void addServlets(Context ctx, JSONObject jaggeryConfig) {
+        if(jaggeryConfig != null) {
+            JSONArray arrServlets = (JSONArray) jaggeryConfig.get(JaggeryCoreConstants.JaggeryConfigParams.SERVLETS);
+            JSONArray arrServletMappings = (JSONArray) jaggeryConfig.get(JaggeryCoreConstants.JaggeryConfigParams.SERVLET_MAPPINGS);
+
+            if (arrServlets != null) {
+                for (Object servletObj : arrServlets) {
+                    JSONObject servlet = (JSONObject) servletObj;
+                    String name = (String) servlet
+                            .get(JaggeryCoreConstants.JaggeryConfigParams.SERVLETS_NAME);
+                    String clazz = (String) servlet
+                            .get(JaggeryCoreConstants.JaggeryConfigParams.SERVLETS_CLASS);
+
+                    Wrapper servletWrapper = Tomcat.addServlet(ctx, name, clazz);
+
+                    JSONArray arrParams = (JSONArray) servlet
+                            .get(JaggeryCoreConstants.JaggeryConfigParams.SERVLETS_PARAMS);
+                    if (arrParams != null) {
+                        for (Object paramObj : arrParams) {
+                            JSONObject param = (JSONObject) paramObj;
+
+                            String paramName = (String) param
+                                    .get(JaggeryCoreConstants.JaggeryConfigParams.SERVLETS_PARAMS_NAME);
+                            String paramValue = (String) param
+                                    .get(JaggeryCoreConstants.JaggeryConfigParams.SERVLETS_PARAMS_VALUE);
+
+                            servletWrapper.addInitParameter(paramName, paramValue);
+                        }
+                    }
+                }
+            }
+
+            if (arrServletMappings != null) {
+                for (Object servletMappingObj : arrServletMappings) {
+                    JSONObject mapping = (JSONObject) servletMappingObj;
+                    String name = (String) mapping
+                            .get(JaggeryCoreConstants.JaggeryConfigParams.SERVLET_MAPPINGS_NAME);
+                    String url = (String) mapping
+                            .get(JaggeryCoreConstants.JaggeryConfigParams.SERVLET_MAPPINGS_URL);
+
+                    ctx.addServletMapping(url, name);
+                }
+            }
+        }
+    }
+
+    private static void addListeners(Context ctx, JSONObject jaggeryConfig) {
+        if(jaggeryConfig != null) {
+            JSONArray arrListeners = (JSONArray) jaggeryConfig.get(JaggeryCoreConstants.JaggeryConfigParams.LISTENERS);
+
+            if (arrListeners != null) {
+                for (Object listenerObj : arrListeners) {
+                    JSONObject listener = (JSONObject) listenerObj;
+                    String clazz = (String) listener
+                            .get(JaggeryCoreConstants.JaggeryConfigParams.LISTENERS_CLASS);
+
+                    ctx.addApplicationListener(clazz);
+                }
+            }
+        }
+    }
+
+    private static void addContextParams(Context ctx, JSONObject jaggeryConfig) {
+        if(jaggeryConfig != null) {
+            JSONArray arrContextParams = (JSONArray) jaggeryConfig.get(JaggeryCoreConstants.JaggeryConfigParams.CONTEXT_PARAMS);
+
+            if (arrContextParams != null) {
+                for (Object contextParamObj : arrContextParams) {
+                    JSONObject contextParam = (JSONObject) contextParamObj;
+                    String name = (String) contextParam
+                            .get(JaggeryCoreConstants.JaggeryConfigParams.CONTEXT_PARAMS_NAME);
+                    String value = (String) contextParam
+                            .get(JaggeryCoreConstants.JaggeryConfigParams.CONTEXT_PARAMS_VALUE);
+
+                    ctx.addParameter(name, value);
                 }
             }
         }
