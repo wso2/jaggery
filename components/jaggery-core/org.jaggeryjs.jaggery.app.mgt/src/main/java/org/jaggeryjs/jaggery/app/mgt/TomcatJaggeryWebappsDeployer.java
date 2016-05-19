@@ -839,22 +839,6 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
         }
     }
 
-    private static void addListeners(Context ctx, JSONObject jaggeryConfig) {
-        if(jaggeryConfig != null) {
-            JSONArray arrListeners = (JSONArray) jaggeryConfig.get(JaggeryCoreConstants.JaggeryConfigParams.LISTENERS);
-
-            if (arrListeners != null) {
-                for (Object listenerObj : arrListeners) {
-                    JSONObject listener = (JSONObject) listenerObj;
-                    String clazz = (String) listener
-                            .get(JaggeryCoreConstants.JaggeryConfigParams.LISTENERS_CLASS);
-
-                    ctx.addApplicationListener(clazz);
-                }
-            }
-        }
-    }
-
     private static void addContextParams(Context ctx, JSONObject jaggeryConfig) {
         if(jaggeryConfig != null) {
             JSONArray arrContextParams = (JSONArray) jaggeryConfig.get(JaggeryCoreConstants.JaggeryConfigParams.CONTEXT_PARAMS);
@@ -868,6 +852,22 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                             .get(JaggeryCoreConstants.JaggeryConfigParams.CONTEXT_PARAMS_VALUE);
 
                     ctx.addParameter(name, value);
+                }
+            }
+        }
+    }
+
+    private static void addListeners(Context ctx, JSONObject jaggeryConfig) {
+        if(jaggeryConfig != null) {
+            JSONArray arrListeners = (JSONArray) jaggeryConfig.get(JaggeryCoreConstants.JaggeryConfigParams.LISTENERS);
+
+            if (arrListeners != null) {
+                for (Object listenerObj : arrListeners) {
+                    JSONObject listener = (JSONObject) listenerObj;
+                    String clazz = (String) listener
+                            .get(JaggeryCoreConstants.JaggeryConfigParams.LISTENERS_CLASS);
+
+                    ctx.addApplicationListener(clazz);
                 }
             }
         }
