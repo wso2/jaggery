@@ -16,7 +16,6 @@ import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
 import org.mozilla.javascript.*;
 
-import javax.net.ssl.SSLSocketFactory;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -484,7 +483,6 @@ public class XMLHttpRequestHostObject extends ScriptableObject {
 
     private void send(Context cx, Object obj) throws ScriptException {
         final HttpMethodBase method;
-        log.info(System.getProperty("abc"));
         if ("GET".equalsIgnoreCase(methodName)) {
             method = new GetMethod(this.url);
         } else if ("HEAD".equalsIgnoreCase(methodName)) {
