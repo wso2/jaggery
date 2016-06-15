@@ -8,6 +8,9 @@ import org.apache.commons.httpclient.methods.multipart.Part;
 import org.apache.commons.httpclient.methods.multipart.StringPart;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.commons.httpclient.contrib.ssl.EasySSLProtocolSocketFactory;
+import org.apache.commons.httpclient.protocol.ProtocolSocketFactory;
+import org.apache.commons.httpclient.protocol.Protocol;
 import org.jaggeryjs.scriptengine.engine.RhinoEngine;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.util.HostObjectUtil;
@@ -15,6 +18,7 @@ import org.mozilla.javascript.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -62,7 +66,7 @@ public class XMLHttpRequestHostObject extends ScriptableObject {
 
     private Header[] responseHeaders = null;
     private String responseType = null;
-
+    private final int HTTPS_DEFAULT_PORT = 443;
     /**
      * flags
      */
@@ -72,11 +76,24 @@ public class XMLHttpRequestHostObject extends ScriptableObject {
     private HttpClient httpClient = null;
 
     public XMLHttpRequestHostObject() {
-        httpClient = new HttpClient(new MultiThreadedHttpConnectionManager());
-        ProxyHost proxyConfig = getProxyConfig();
-        if (proxyConfig != null) {
-            httpClient.getHostConfiguration().setProxyHost(proxyConfig);
-
+        try {
+            // To ignore the hostname verification in http client side when org.wso2.ignoreHostnameVerification is set
+            // This system variable should not be set in product environment due to security reasons
+            String ignoreHostnameVerification = System.getProperty("org.wso2.ignoreHostnameVerification");
+            if (ignoreHostnameVerification != null && "true".equalsIgnoreCase(ignoreHostnameVerification)) {
+                Protocol protocolWithoutHostNameVerification = new Protocol("https",
+                        (ProtocolSocketFactory) new EasySSLProtocolSocketFactory(), HTTPS_DEFAULT_PORT);
+                Protocol.registerProtocol("https", protocolWithoutHostNameVerification);
+            }
+            httpClient = new HttpClient(new MultiThreadedHttpConnectionManager());
+            ProxyHost proxyConfig = getProxyConfig();
+            if (proxyConfig != null) {
+                httpClient.getHostConfiguration().setProxyHost(proxyConfig);
+            }
+        } catch(IOException e){
+            log.error(e);
+        } catch(GeneralSecurityException e) {
+            log.error(e);
         }
     }
 
