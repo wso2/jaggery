@@ -90,11 +90,9 @@ public class XMLHttpRequestHostObject extends ScriptableObject {
             if (proxyConfig != null) {
                 httpClient.getHostConfiguration().setProxyHost(proxyConfig);
             }
-        }
-        catch(IOException e){
+        } catch(IOException e){
             log.error(e);
-        }
-        catch(GeneralSecurityException e) {
+        } catch(GeneralSecurityException e) {
             log.error(e);
         }
     }
