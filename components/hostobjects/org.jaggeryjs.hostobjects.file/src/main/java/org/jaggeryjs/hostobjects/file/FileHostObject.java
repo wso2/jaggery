@@ -14,16 +14,18 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
+import org.mozilla.javascript.annotations.JSConstructor;
 import org.wso2.carbon.utils.CarbonUtils;
 
 import javax.activation.FileTypeMap;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 public class FileHostObject extends ScriptableObject {
 
@@ -369,4 +371,112 @@ public class FileHostObject extends ScriptableObject {
         return cx.newArray(thisObj, fhol.toArray());
     }
 
+    /**
+     * To unzip a zip file
+     *
+     * @param cx
+     * @param thisObj
+     * @param args    - Argument should be absolute path of unzipping folder
+     * @param funObj
+     * @throws ScriptException
+     */
+    public static boolean jsFunction_unZip(Context cx, Scriptable thisObj, Object[] args, Function funObj)
+            throws ScriptException {
+        String functionName = "unZip";
+        int argsCount = args.length;
+        if (argsCount != 1) {
+            HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
+        }
+        FileHostObject fho = (FileHostObject) thisObj;
+
+        byte[] buffer = new byte[1024];
+
+        try {
+            if (fho.file.isExist()) {
+                log.info(fho.getJavaScriptFile().getContentType());
+                File folder = new File(args[0].toString());
+                if (!folder.exists()) {
+                    folder.mkdir();
+                }
+                //get the zip file content
+                ZipInputStream zis = new ZipInputStream(fho.getInputStream());
+                //get the zipped file list entry
+                ZipEntry ze = zis.getNextEntry();
+
+                while (ze != null) {
+                    String fileName = ze.getName();
+                    File newFile = new File(args[0].toString() + File.separator + fileName);
+
+                    //create all non exists folders
+                    new File(newFile.getParent()).mkdirs();
+                    FileOutputStream fos = new FileOutputStream(newFile);
+
+                    int len;
+                    while ((len = zis.read(buffer)) > 0) {
+                        fos.write(buffer, 0, len);
+                    }
+                    fos.close();
+                    ze = zis.getNextEntry();
+                }
+                zis.closeEntry();
+                zis.close();
+
+                return true;
+            } else {
+                log.error("Zip File not exists");
+            }
+        } catch (IOException ex) {
+            log.error("Cannot unzip the file " + ex);
+        }
+        return false;
+    }
+
+    /**
+     * To zip a folder
+     *
+     * @param cx
+     * @param thisObj
+     * @param args    - Argument should be absolute path of the zip file to be created
+     * @param funObj
+     * @throws ScriptException
+     */
+    public static void jsFunction_zip(Context cx, Scriptable thisObj, Object[] args, Function funObj)
+            throws ScriptException {
+        String functionName = "zip";
+        int argsCount = args.length;
+        if (argsCount != 1) {
+            HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
+        }
+        FileHostObject fho = (FileHostObject) thisObj;
+        ArrayList<String> fileList = fho.file.listFiles();
+        byte[] buffer = new byte[1024];
+
+        String zipFile = args[0].toString();
+
+        try {
+            FileOutputStream fos = new FileOutputStream(zipFile);
+            ZipOutputStream zos = new ZipOutputStream(fos);
+
+            ArrayList<FileHostObject> fhol = new ArrayList<>();
+            for (String jsf : fileList) {
+                fhol.add((FileHostObject) fho.context.newObject(thisObj, "File", new Object[] { jsf }));
+            }
+            for (FileHostObject fhoTemp : fhol) {
+                String path = fhoTemp.file.getPath().substring(fho.file.getName().length() + 1);
+                ZipEntry ze = new ZipEntry(path);
+                zos.putNextEntry(ze);
+
+                InputStream in = fhoTemp.getInputStream();
+                int len;
+                while ((len = in.read(buffer)) > 0) {
+                    zos.write(buffer, 0, len);
+                }
+                in.close();
+            }
+            zos.closeEntry();
+            zos.close();
+        } catch (IOException ex) {
+            log.error("Cannot zip the file" + ex);
+        }
+    }
 }
