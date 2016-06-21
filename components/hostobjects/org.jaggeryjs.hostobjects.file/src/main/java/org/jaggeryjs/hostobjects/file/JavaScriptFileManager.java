@@ -11,4 +11,6 @@ public interface JavaScriptFileManager {
 
     public File getFile(String path) throws ScriptException;
 
+    public String getDirectoryPath(String path) throws ScriptException;
+
 }

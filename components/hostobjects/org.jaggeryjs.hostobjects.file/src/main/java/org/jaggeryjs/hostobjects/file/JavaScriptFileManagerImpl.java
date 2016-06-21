@@ -49,4 +49,9 @@ public class JavaScriptFileManagerImpl implements JavaScriptFileManager {
 
         return file;
     }
+
+    @Override
+    public String getDirectoryPath(String path) throws ScriptException {
+        return getFile(path).getAbsolutePath();
+    }
 }

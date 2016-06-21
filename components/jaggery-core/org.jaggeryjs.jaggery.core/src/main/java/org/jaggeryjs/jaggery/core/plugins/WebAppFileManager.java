@@ -65,4 +65,22 @@ public class WebAppFileManager implements JavaScriptFileManager {
         }
         return file;
     }
+
+    @Override
+    public String getDirectoryPath(String path) throws ScriptException {
+        if (path.startsWith("file://")) {
+            return new JavaScriptFileManagerImpl().getFile(path).getAbsolutePath();
+        }
+
+        String oldPath = path;
+        path = FilenameUtils.normalizeNoEndSeparator(path);
+        if (path == null) {
+            String msg = "Invalid file path : " + oldPath;
+            log.error(msg);
+            throw new ScriptException(msg);
+        }
+
+        File file = new File(context.getRealPath("/"), path);
+        return file.getPath();
+    }
 }

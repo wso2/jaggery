@@ -14,14 +14,12 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
-import org.mozilla.javascript.annotations.JSConstructor;
 import org.wso2.carbon.utils.CarbonUtils;
 
 import javax.activation.FileTypeMap;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -374,14 +372,14 @@ public class FileHostObject extends ScriptableObject {
     /**
      * To unzip a zip file
      *
-     * @param cx
-     * @param thisObj
-     * @param args    - Argument should be absolute path of unzipping folder
-     * @param funObj
+     * @param cx      Context
+     * @param thisObj FileHostObject to be unzipped
+     * @param args    Path to unzip the zip file
+     * @param funObj  Function Object
      * @throws ScriptException
      */
     public static boolean jsFunction_unZip(Context cx, Scriptable thisObj, Object[] args, Function funObj)
-            throws ScriptException {
+            throws ScriptException, IOException {
         String functionName = "unZip";
         int argsCount = args.length;
         if (argsCount != 1) {
@@ -391,42 +389,51 @@ public class FileHostObject extends ScriptableObject {
 
         byte[] buffer = new byte[1024];
 
-        try {
-            if (fho.file.isExist()) {
-                log.info(fho.getJavaScriptFile().getContentType());
-                File folder = new File(args[0].toString());
-                if (!folder.exists()) {
-                    folder.mkdir();
+        if (fho.file.isExist()) {
+            try {
+                JaggeryContext context = (JaggeryContext) RhinoEngine
+                        .getContextProperty(EngineConstants.JAGGERY_CONTEXT);
+                Object obj = context.getProperty(JAVASCRIPT_FILE_MANAGER);
+                if (obj instanceof JavaScriptFileManager) {
+                    fho.manager = (JavaScriptFileManager) obj;
+                } else {
+                    fho.manager = new JavaScriptFileManagerImpl();
                 }
-                //get the zip file content
-                ZipInputStream zis = new ZipInputStream(fho.getInputStream());
-                //get the zipped file list entry
-                ZipEntry ze = zis.getNextEntry();
+                File zipfile = new File(fho.manager.getFile(fho.file.getPath()).getAbsolutePath());
+                File outdir = new File(fho.manager.getDirectoryPath(args[0].toString()));
+                outdir.getParentFile().mkdirs();
+                outdir.mkdir();
 
-                while (ze != null) {
-                    String fileName = ze.getName();
-                    File newFile = new File(args[0].toString() + File.separator + fileName);
-
-                    //create all non exists folders
-                    new File(newFile.getParent()).mkdirs();
-                    FileOutputStream fos = new FileOutputStream(newFile);
-
-                    int len;
-                    while ((len = zis.read(buffer)) > 0) {
-                        fos.write(buffer, 0, len);
+                ZipInputStream zin = new ZipInputStream(new FileInputStream(zipfile));
+                ZipEntry entry;
+                String name, dir;
+                while ((entry = zin.getNextEntry()) != null) {
+                    name = entry.getName();
+                    if (entry.isDirectory()) {
+                        mkdirs(outdir, name);
+                        continue;
                     }
-                    fos.close();
-                    ze = zis.getNextEntry();
+                    int hasParentDirs = name.lastIndexOf(File.separatorChar);
+                    dir = (hasParentDirs == -1) ? null : name.substring(0, hasParentDirs);
+                    if (dir != null) {
+                        mkdirs(outdir, dir);
+                    }
+                    BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(new File(outdir, name)));
+                    int count = -1;
+                    while ((count = zin.read(buffer)) != -1)
+                        out.write(buffer, 0, count);
+                    out.close();
+                    out.close();
                 }
-                zis.closeEntry();
-                zis.close();
-
+                zin.close();
                 return true;
-            } else {
-                log.error("Zip File not exists");
+
+            } catch (IOException ex) {
+                log.error("Cannot unzip the file " + ex);
+                throw new IOException(ex);
             }
-        } catch (IOException ex) {
-            log.error("Cannot unzip the file " + ex);
+        } else {
+            log.error("Zip File not exists");
         }
         return false;
     }
@@ -434,49 +441,106 @@ public class FileHostObject extends ScriptableObject {
     /**
      * To zip a folder
      *
-     * @param cx
-     * @param thisObj
-     * @param args    - Argument should be absolute path of the zip file to be created
-     * @param funObj
+     * @param cx      Context
+     * @param thisObj FileHostObject
+     * @param args    Zip file path to zip the folder
+     * @param funObj  Function
      * @throws ScriptException
      */
-    public static void jsFunction_zip(Context cx, Scriptable thisObj, Object[] args, Function funObj)
-            throws ScriptException {
+    public static boolean jsFunction_zip(Context cx, Scriptable thisObj, Object[] args, Function funObj)
+            throws ScriptException, IOException {
         String functionName = "zip";
         int argsCount = args.length;
         if (argsCount != 1) {
             HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
         }
         FileHostObject fho = (FileHostObject) thisObj;
-        ArrayList<String> fileList = fho.file.listFiles();
-        byte[] buffer = new byte[1024];
 
-        String zipFile = args[0].toString();
-
-        try {
-            FileOutputStream fos = new FileOutputStream(zipFile);
-            ZipOutputStream zos = new ZipOutputStream(fos);
-
-            ArrayList<FileHostObject> fhol = new ArrayList<>();
-            for (String jsf : fileList) {
-                fhol.add((FileHostObject) fho.context.newObject(thisObj, "File", new Object[] { jsf }));
-            }
-            for (FileHostObject fhoTemp : fhol) {
-                String path = fhoTemp.file.getPath().substring(fho.file.getName().length() + 1);
-                ZipEntry ze = new ZipEntry(path);
-                zos.putNextEntry(ze);
-
-                InputStream in = fhoTemp.getInputStream();
-                int len;
-                while ((len = in.read(buffer)) > 0) {
-                    zos.write(buffer, 0, len);
+        if (fho.file.isExist()) {
+            try {
+                JaggeryContext context = (JaggeryContext) RhinoEngine
+                        .getContextProperty(EngineConstants.JAGGERY_CONTEXT);
+                Object obj = context.getProperty(JAVASCRIPT_FILE_MANAGER);
+                if (obj instanceof JavaScriptFileManager) {
+                    fho.manager = (JavaScriptFileManager) obj;
+                } else {
+                    fho.manager = new JavaScriptFileManagerImpl();
                 }
-                in.close();
+                String destinationPath = fho.manager.getFile(args[0].toString()).getAbsolutePath();
+                String sourcePath = fho.manager.getDirectoryPath(fho.file.getPath());
+                ZipOutputStream zip;
+                FileOutputStream fileWriter;
+                File destinationFile = new File(destinationPath);
+                destinationFile.getParentFile().mkdirs();
+
+                fileWriter = new FileOutputStream(destinationPath);
+                zip = new ZipOutputStream(fileWriter);
+
+                File folder = new File(sourcePath);
+
+                for (String fileName : folder.list()) {
+                    addFileToZip("", sourcePath + File.separator + fileName, zip);
+                }
+                zip.flush();
+                zip.close();
+                return true;
+            } catch (IOException ex) {
+                log.error("Cannot zip the folder. " + ex);
+                throw new IOException(ex);
             }
-            zos.closeEntry();
-            zos.close();
-        } catch (IOException ex) {
-            log.error("Cannot zip the file" + ex);
+        } else {
+            log.error("Zip operation cannot be done. Folder not found");
         }
+        return false;
+    }
+
+    private static void addFileToZip(String path, String srcFile, ZipOutputStream zip) throws IOException {
+        try {
+            File folder = new File(srcFile);
+            if (folder.isDirectory()) {
+                addFolderToZip(path, srcFile, zip);
+            } else {
+                byte[] buf = new byte[1024];
+                int len;
+                FileInputStream in = new FileInputStream(srcFile);
+                zip.putNextEntry(new ZipEntry(path + File.separator + folder.getName()));
+                while ((len = in.read(buf)) > 0) {
+                    zip.write(buf, 0, len);
+                }
+            }
+        } catch (IOException er) {
+            log.error("Cannot add file to zip " + er);
+            throw new IOException(er);
+        }
+    }
+
+    /**
+     * To add a folder to zip
+     *
+     * @param path      Path of the file or folder from root directory of zip
+     * @param srcFolder Source folder to be made as zip
+     * @param zip       ZipOutputStream
+     */
+    private static void addFolderToZip(String path, String srcFolder, ZipOutputStream zip) throws IOException {
+        File folder = new File(srcFolder);
+        for (String fileName : folder.list()) {
+            if (path.equals("")) {
+                addFileToZip(folder.getName(), srcFolder + File.separator + fileName, zip);
+            } else {
+                addFileToZip(path + File.separator + folder.getName(), srcFolder + File.separator + fileName, zip);
+            }
+        }
+    }
+
+    /**
+     * To create the recursive directories in a specific path
+     *
+     * @param parentDirectory Parent of the directory
+     * @param path            Path of the the child directory to be created inside
+     */
+    private static void mkdirs(File parentDirectory, String path) {
+        File dir = new File(parentDirectory, path);
+        if (!dir.exists())
+            dir.mkdirs();
     }
 }
