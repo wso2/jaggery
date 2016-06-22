@@ -386,27 +386,24 @@ public class FileHostObject extends ScriptableObject {
             HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
         }
         FileHostObject fho = (FileHostObject) thisObj;
-
-        byte[] buffer = new byte[1024];
-
+        ZipInputStream zin = null;
         if (fho.file.isExist()) {
+            JaggeryContext context = (JaggeryContext) RhinoEngine.getContextProperty(EngineConstants.JAGGERY_CONTEXT);
+            Object obj = context.getProperty(JAVASCRIPT_FILE_MANAGER);
+            if (obj instanceof JavaScriptFileManager) {
+                fho.manager = (JavaScriptFileManager) obj;
+            } else {
+                fho.manager = new JavaScriptFileManagerImpl();
+            }
+            File zipfile = new File(fho.manager.getFile(fho.file.getPath()).getAbsolutePath());
+            File outdir = new File(fho.manager.getDirectoryPath(args[0].toString()));
+            outdir.getParentFile().mkdirs();
+            outdir.mkdir();
             try {
-                JaggeryContext context = (JaggeryContext) RhinoEngine
-                        .getContextProperty(EngineConstants.JAGGERY_CONTEXT);
-                Object obj = context.getProperty(JAVASCRIPT_FILE_MANAGER);
-                if (obj instanceof JavaScriptFileManager) {
-                    fho.manager = (JavaScriptFileManager) obj;
-                } else {
-                    fho.manager = new JavaScriptFileManagerImpl();
-                }
-                File zipfile = new File(fho.manager.getFile(fho.file.getPath()).getAbsolutePath());
-                File outdir = new File(fho.manager.getDirectoryPath(args[0].toString()));
-                outdir.getParentFile().mkdirs();
-                outdir.mkdir();
-
-                ZipInputStream zin = new ZipInputStream(new FileInputStream(zipfile));
+                zin = new ZipInputStream(new FileInputStream(zipfile));
                 ZipEntry entry;
                 String name, dir;
+                byte[] buffer = new byte[1024];
                 while ((entry = zin.getNextEntry()) != null) {
                     name = entry.getName();
                     if (entry.isDirectory()) {
@@ -419,18 +416,25 @@ public class FileHostObject extends ScriptableObject {
                         mkdirs(outdir, dir);
                     }
                     BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(new File(outdir, name)));
-                    int count = -1;
-                    while ((count = zin.read(buffer)) != -1)
-                        out.write(buffer, 0, count);
-                    out.close();
-                    out.close();
+                    try {
+                        int count = -1;
+                        while ((count = zin.read(buffer)) != -1) {
+                            out.write(buffer, 0, count);
+                        }
+                    } finally {
+                        if (out != null) {
+                            out.close();
+                        }
+                    }
                 }
-                zin.close();
                 return true;
-
             } catch (IOException ex) {
                 log.error("Cannot unzip the file " + ex);
                 throw new IOException(ex);
+            } finally {
+                if (zin != null) {
+                    zin.close();
+                }
             }
         } else {
             log.error("Zip File not exists");
@@ -455,38 +459,37 @@ public class FileHostObject extends ScriptableObject {
             HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
         }
         FileHostObject fho = (FileHostObject) thisObj;
+        ZipOutputStream zip = null;
+        FileOutputStream fileWriter;
 
         if (fho.file.isExist()) {
+            JaggeryContext context = (JaggeryContext) RhinoEngine.getContextProperty(EngineConstants.JAGGERY_CONTEXT);
+            Object obj = context.getProperty(JAVASCRIPT_FILE_MANAGER);
+            if (obj instanceof JavaScriptFileManager) {
+                fho.manager = (JavaScriptFileManager) obj;
+            } else {
+                fho.manager = new JavaScriptFileManagerImpl();
+            }
+            String destinationPath = fho.manager.getFile(args[0].toString()).getAbsolutePath();
+            String sourcePath = fho.manager.getDirectoryPath(fho.file.getPath());
+            File destinationFile = new File(destinationPath);
+            destinationFile.getParentFile().mkdirs();
             try {
-                JaggeryContext context = (JaggeryContext) RhinoEngine
-                        .getContextProperty(EngineConstants.JAGGERY_CONTEXT);
-                Object obj = context.getProperty(JAVASCRIPT_FILE_MANAGER);
-                if (obj instanceof JavaScriptFileManager) {
-                    fho.manager = (JavaScriptFileManager) obj;
-                } else {
-                    fho.manager = new JavaScriptFileManagerImpl();
-                }
-                String destinationPath = fho.manager.getFile(args[0].toString()).getAbsolutePath();
-                String sourcePath = fho.manager.getDirectoryPath(fho.file.getPath());
-                ZipOutputStream zip;
-                FileOutputStream fileWriter;
-                File destinationFile = new File(destinationPath);
-                destinationFile.getParentFile().mkdirs();
-
                 fileWriter = new FileOutputStream(destinationPath);
                 zip = new ZipOutputStream(fileWriter);
-
                 File folder = new File(sourcePath);
-
                 for (String fileName : folder.list()) {
                     addFileToZip("", sourcePath + File.separator + fileName, zip);
                 }
-                zip.flush();
-                zip.close();
                 return true;
             } catch (IOException ex) {
                 log.error("Cannot zip the folder. " + ex);
                 throw new IOException(ex);
+            } finally {
+                if (zip != null) {
+                    zip.flush();
+                    zip.close();
+                }
             }
         } else {
             log.error("Zip operation cannot be done. Folder not found");
@@ -503,9 +506,13 @@ public class FileHostObject extends ScriptableObject {
                 byte[] buf = new byte[1024];
                 int len;
                 FileInputStream in = new FileInputStream(srcFile);
-                zip.putNextEntry(new ZipEntry(path + File.separator + folder.getName()));
-                while ((len = in.read(buf)) > 0) {
-                    zip.write(buf, 0, len);
+                try {
+                    zip.putNextEntry(new ZipEntry(path + File.separator + folder.getName()));
+                    while ((len = in.read(buf)) > 0) {
+                        zip.write(buf, 0, len);
+                    }
+                } finally {
+                    in.close();
                 }
             }
         } catch (IOException er) {
@@ -540,7 +547,8 @@ public class FileHostObject extends ScriptableObject {
      */
     private static void mkdirs(File parentDirectory, String path) {
         File dir = new File(parentDirectory, path);
-        if (!dir.exists())
+        if (!dir.exists()) {
             dir.mkdirs();
+        }
     }
 }
