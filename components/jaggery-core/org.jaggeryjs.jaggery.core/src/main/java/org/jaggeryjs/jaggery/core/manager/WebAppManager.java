@@ -6,7 +6,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.hostobjects.file.FileHostObject;
 import org.jaggeryjs.hostobjects.log.LogHostObject;
-import org.jaggeryjs.hostobjects.web.ApplicationHostObject;
 import org.jaggeryjs.hostobjects.web.Constants;
 import org.jaggeryjs.jaggery.core.JaggeryCoreConstants;
 import org.jaggeryjs.jaggery.core.ScriptReader;
@@ -31,7 +30,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.*;
 import java.net.JarURLConnection;
 import java.net.URL;
@@ -96,9 +94,8 @@ public class WebAppManager {
             String modulesDir = jaggeryDir + File.separator + JAGGERY_MODULES_DIR;
 
             CommonManager.getInstance().initialize(modulesDir, new RhinoSecurityController() {
-                @Override
-                protected void updatePermissions(PermissionCollection permissions, RhinoSecurityDomain securityDomain)
-                        throws ScriptException {
+                @Override protected void updatePermissions(PermissionCollection permissions,
+                        RhinoSecurityDomain securityDomain) throws ScriptException {
                     JaggeryContext context = CommonManager.getJaggeryContext();
                     ServletContext servletContext = (ServletContext) context.getProperty(Constants.SERVLET_CONTEXT);
                     String docBase = servletContext.getRealPath("/");
@@ -122,15 +119,15 @@ public class WebAppManager {
         return CommonManager.getInstance().getEngine();
     }
 
-    public static void include(Context cx, Scriptable thisObj, Object[] args, Function funObj)
-            throws ScriptException {
+    public static void include(Context cx, Scriptable thisObj, Object[] args, Function funObj) throws ScriptException {
         String functionName = "include";
         int argsCount = args.length;
         if (argsCount != 1 && argsCount != 2) {
             HostObjectUtil.invalidNumberOfArgs(CommonManager.HOST_OBJECT_NAME, functionName, argsCount, false);
         }
         if (!(args[0] instanceof String)) {
-            HostObjectUtil.invalidArgsError(CommonManager.HOST_OBJECT_NAME, functionName, "1", "string", args[0], false);
+            HostObjectUtil
+                    .invalidArgsError(CommonManager.HOST_OBJECT_NAME, functionName, "1", "string", args[0], false);
         }
 
         JaggeryContext jaggeryContext = CommonManager.getJaggeryContext();
@@ -143,7 +140,8 @@ public class WebAppManager {
             return;
         }
         if (argsCount == 2 && !(args[1] instanceof ScriptableObject)) {
-            HostObjectUtil.invalidArgsError(CommonManager.HOST_OBJECT_NAME, functionName, "2", "Object", args[1], false);
+            HostObjectUtil
+                    .invalidArgsError(CommonManager.HOST_OBJECT_NAME, functionName, "2", "Object", args[1], false);
         }
         ScriptableObject scope;
         if (argsCount == 2) {
@@ -162,7 +160,8 @@ public class WebAppManager {
             HostObjectUtil.invalidNumberOfArgs(CommonManager.HOST_OBJECT_NAME, functionName, argsCount, false);
         }
         if (!(args[0] instanceof String)) {
-            HostObjectUtil.invalidArgsError(CommonManager.HOST_OBJECT_NAME, functionName, "1", "string", args[0], false);
+            HostObjectUtil
+                    .invalidArgsError(CommonManager.HOST_OBJECT_NAME, functionName, "1", "string", args[0], false);
         }
 
         JaggeryContext jaggeryContext = CommonManager.getJaggeryContext();
@@ -175,7 +174,8 @@ public class WebAppManager {
             return;
         }
         if (argsCount == 2 && !(args[1] instanceof ScriptableObject)) {
-            HostObjectUtil.invalidArgsError(CommonManager.HOST_OBJECT_NAME, functionName, "2", "Object", args[1], false);
+            HostObjectUtil
+                    .invalidArgsError(CommonManager.HOST_OBJECT_NAME, functionName, "2", "Object", args[1], false);
         }
         ScriptableObject scope;
         if (argsCount == 2) {
@@ -189,8 +189,7 @@ public class WebAppManager {
     /**
      * JaggeryMethod responsible of writing to the output stream
      */
-    public static void print(Context cx, Scriptable thisObj, Object[] args, Function funObj)
-            throws ScriptException {
+    public static void print(Context cx, Scriptable thisObj, Object[] args, Function funObj) throws ScriptException {
         if (!isWebSocket) {
             JaggeryContext jaggeryContext = CommonManager.getJaggeryContext();
 
@@ -263,9 +262,8 @@ public class WebAppManager {
         taskIds.remove(String.valueOf(args[0]));
     }
 
-    private static ScriptableObject executeScript(JaggeryContext jaggeryContext, ScriptableObject scope,
-                                                  String fileURL, final boolean isJSON, boolean isBuilt,
-                                                  boolean isIncludeOnce) throws ScriptException {
+    private static ScriptableObject executeScript(JaggeryContext jaggeryContext, ScriptableObject scope, String fileURL,
+            final boolean isJSON, boolean isBuilt, boolean isIncludeOnce) throws ScriptException {
         Stack<String> includesCallstack = CommonManager.getCallstack(jaggeryContext);
         Map<String, Boolean> includedScripts = CommonManager.getIncludes(jaggeryContext);
         ServletContext context = (ServletContext) jaggeryContext.getProperty(Constants.SERVLET_CONTEXT);
@@ -284,8 +282,7 @@ public class WebAppManager {
         RhinoEngine engine = jaggeryContext.getEngine();
         if (isBuilt) {
             source = new ScriptReader(context.getResourceAsStream(fileURL)) {
-                @Override
-                protected void build() throws IOException {
+                @Override protected void build() throws IOException {
                     try {
                         if (isJSON) {
                             sourceReader = new StringReader("(" + HostObjectUtil.streamToString(sourceIn) + ")");
@@ -301,7 +298,8 @@ public class WebAppManager {
             source = new ScriptReader(context.getResourceAsStream(fileURL));
         }
 
-        ScriptCachingContext sctx = new ScriptCachingContext(jaggeryContext.getTenantDomain(), keys[0], keys[1], keys[2]);
+        ScriptCachingContext sctx = new ScriptCachingContext(jaggeryContext.getTenantDomain(), keys[0], keys[1],
+                keys[2]);
         sctx.setSecurityDomain(new JaggerySecurityDomain(fileURL, context));
         long lastModified = WebAppManager.getScriptLastModified(context, fileURL);
         sctx.setSourceModifiedTime(lastModified);
@@ -329,7 +327,8 @@ public class WebAppManager {
             HostObjectUtil.invalidNumberOfArgs(CommonManager.HOST_OBJECT_NAME, functionName, argsCount, false);
         }
         if (!(args[0] instanceof String)) {
-            HostObjectUtil.invalidArgsError(CommonManager.HOST_OBJECT_NAME, functionName, "1", "string", args[0], false);
+            HostObjectUtil
+                    .invalidArgsError(CommonManager.HOST_OBJECT_NAME, functionName, "1", "string", args[0], false);
         }
 
         String moduleId = (String) args[0];
@@ -341,8 +340,8 @@ public class WebAppManager {
         }
 
         JaggeryContext jaggeryContext = CommonManager.getJaggeryContext();
-        Map<String, ScriptableObject> requiredModules = (Map<String, ScriptableObject>) jaggeryContext.getProperty(
-                Constants.JAGGERY_REQUIRED_MODULES);
+        Map<String, ScriptableObject> requiredModules = (Map<String, ScriptableObject>) jaggeryContext
+                .getProperty(Constants.JAGGERY_REQUIRED_MODULES);
         ScriptableObject object = requiredModules.get(moduleId);
         if (object != null) {
             return object;
@@ -380,23 +379,22 @@ public class WebAppManager {
      * new function synchronizes on the the second argument if it is
      * defined, or otherwise the <code>this</code>
      */
-    public static Object sync(Context cx, Scriptable thisObj, Object[] args, Function funObj)
-            throws ScriptException {
+    public static Object sync(Context cx, Scriptable thisObj, Object[] args, Function funObj) throws ScriptException {
         String functionName = "sync";
         int argsCount = args.length;
         if (argsCount <= 1 && argsCount >= 2) {
-            HostObjectUtil.invalidNumberOfArgs(EngineConstants.GLOBAL_OBJECT_NAME,
-                    functionName, argsCount, false);
+            HostObjectUtil.invalidNumberOfArgs(EngineConstants.GLOBAL_OBJECT_NAME, functionName, argsCount, false);
         }
         if (!(args[0] instanceof Function)) {
-            HostObjectUtil.invalidArgsError(EngineConstants.GLOBAL_OBJECT_NAME,
-                    EngineConstants.GLOBAL_OBJECT_NAME, "1", "function", args[0], false);
+            HostObjectUtil.invalidArgsError(EngineConstants.GLOBAL_OBJECT_NAME, EngineConstants.GLOBAL_OBJECT_NAME, "1",
+                    "function", args[0], false);
         }
         Object lock = null;
         if (argsCount == 2) {
             if (args[1] == Undefined.instance) {
-                HostObjectUtil.invalidArgsError(EngineConstants.GLOBAL_OBJECT_NAME,
-                        EngineConstants.GLOBAL_OBJECT_NAME, "1", "object", args[0], false);
+                HostObjectUtil
+                        .invalidArgsError(EngineConstants.GLOBAL_OBJECT_NAME, EngineConstants.GLOBAL_OBJECT_NAME, "1",
+                                "object", args[0], false);
             }
             if (args[0] instanceof String) {
                 String key = (String) args[0];
@@ -463,7 +461,7 @@ public class WebAppManager {
         }
         ScriptableObject sharedScope = sharedContext.getScope();
         JavaScriptProperty application = new JavaScriptProperty("application");
-        application.setValue(cx.newObject(sharedScope, "Application", new Object[]{ctx}));
+        application.setValue(cx.newObject(sharedScope, "Application", new Object[] { ctx }));
         application.setAttribute(ScriptableObject.READONLY);
         RhinoEngine.defineProperty(sharedScope, application);
         ctx.setAttribute(SHARED_JAGGERY_CONTEXT, sharedContext);
@@ -559,8 +557,7 @@ public class WebAppManager {
                             Stack<String> callstack = CommonManager.getCallstack(sharedContext);
                             callstack.push(path);
                             engine.exec(new ScriptReader(servletContext.getResourceAsStream(path)) {
-                                @Override
-                                protected void build() throws IOException {
+                                @Override protected void build() throws IOException {
                                     try {
                                         sourceReader = new StringReader(HostObjectUtil.streamToString(sourceIn));
                                     } catch (ScriptException e) {
@@ -578,11 +575,9 @@ public class WebAppManager {
             if (serveFunction != null) {
                 Function function = (Function) serveFunction;
                 ScriptableObject scope = context.getScope();
-                function.call(cx, scope, scope, new Object[]{
-                        scope.get("request", scope),
-                        scope.get("response", scope),
-                        scope.get("session", scope)
-                });
+                function.call(cx, scope, scope,
+                        new Object[] { scope.get("request", scope), scope.get("response", scope),
+                                scope.get("session", scope) });
             } else {
                 //resource rendering model proceeding
                 sourceIn = request.getServletContext().getResourceAsStream(scriptPath);
@@ -590,15 +585,13 @@ public class WebAppManager {
                     response.sendError(HttpServletResponse.SC_NOT_FOUND, request.getRequestURI());
                     return;
                 }
-                CommonManager.getInstance().getEngine()
-                        .exec(new ScriptReader(sourceIn), context.getScope(),
-                                getScriptCachingContext(request, scriptPath));
+                CommonManager.getInstance().getEngine().exec(new ScriptReader(sourceIn), context.getScope(),
+                        getScriptCachingContext(request, scriptPath));
             }
         } catch (ScriptException e) {
             String msg = e.getMessage();
             log.error(msg, e);
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-                    msg);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, msg);
         } catch (Error e) {
             //Rhino doesn't catch Error instances and it is been used to stop the script execution
             //from any specific place. Hence, Error exception propagates up to Java and we silently
@@ -623,7 +616,8 @@ public class WebAppManager {
         if (url.equals("/")) {
             path = getPath(urlMappings, url);
         } else {
-            path = resolveScriptPath(new ArrayList<String>(Arrays.asList(url.substring(1).split("/", -1))), urlMappings);
+            path = resolveScriptPath(new ArrayList<String>(Arrays.asList(url.substring(1).split("/", -1))),
+                    urlMappings);
         }
         return path == null ? url : path;
     }
@@ -674,23 +668,23 @@ public class WebAppManager {
 
         JavaScriptProperty request = new JavaScriptProperty("request");
         HttpServletRequest servletRequest = (HttpServletRequest) context.getProperty(SERVLET_REQUEST);
-        request.setValue(cx.newObject(scope, "Request", new Object[]{servletRequest}));
+        request.setValue(cx.newObject(scope, "Request", new Object[] { servletRequest }));
         request.setAttribute(ScriptableObject.READONLY);
         RhinoEngine.defineProperty(scope, request);
 
         JavaScriptProperty response = new JavaScriptProperty("response");
         HttpServletResponse servletResponse = (HttpServletResponse) context.getProperty(SERVLET_RESPONSE);
-        response.setValue(cx.newObject(scope, "Response", new Object[]{servletResponse}));
+        response.setValue(cx.newObject(scope, "Response", new Object[] { servletResponse }));
         response.setAttribute(ScriptableObject.READONLY);
         RhinoEngine.defineProperty(scope, response);
 
         JavaScriptProperty session = new JavaScriptProperty("session");
-        session.setValue(cx.newObject(scope, "Session", new Object[]{servletRequest}));
+        session.setValue(cx.newObject(scope, "Session", new Object[] { servletRequest }));
         RhinoEngine.defineProperty(scope, session);
 
         JavaScriptProperty application = new JavaScriptProperty("application");
         ServletContext servletConext = (ServletContext) context.getProperty(Constants.SERVLET_CONTEXT);
-        application.setValue(cx.newObject(scope, "Application", new Object[]{servletConext}));
+        application.setValue(cx.newObject(scope, "Application", new Object[] { servletConext }));
         application.setAttribute(ScriptableObject.READONLY);
         RhinoEngine.defineProperty(scope, application);
 
@@ -704,7 +698,7 @@ public class WebAppManager {
     }
 
     private static JaggeryContext createJaggeryContext(Context cx, OutputStream out, String scriptPath,
-                                                       HttpServletRequest request, HttpServletResponse response) {
+            HttpServletRequest request, HttpServletResponse response) {
         ServletContext servletContext = request.getServletContext();
         JaggeryContext context = clonedJaggeryContext(servletContext);
         CommonManager.setJaggeryContext(context);
@@ -753,11 +747,7 @@ public class WebAppManager {
         //remove trailing "/"
         path = path.equals("/") ? path : path.substring(0, path.length() - 1);
         normalizedScriptPath = "/" + FilenameUtils.getName(normalizedScriptPath);
-        return new String[]{
-                context,
-                path,
-                normalizedScriptPath
-        };
+        return new String[] { context, path, normalizedScriptPath };
     }
 
     public static long getScriptLastModified(ServletContext context, String scriptPath) throws ScriptException {
@@ -822,30 +812,28 @@ public class WebAppManager {
                         * self directory in path
                         * foo/./bar -> foo/bar
                         */
-                        case '/':
-                        case '\\':
-                            pos += 2;
-                            continue;
+                    case '/':
+                    case '\\':
+                        pos += 2;
+                        continue;
 
                             /*
                             * two dots in a path: go back one hierarchy.
                             * foo/bar/../baz -> foo/baz
                             */
-                        case '.':
-                            // only if we have exactly _two_ dots.
-                            if (pos + 3 < len && isPathSeparator(s.charAt(pos + 3))) {
-                                pos += 3;
-                                int separatorPos = result.length() - 1;
-                                while (separatorPos >= 0 &&
-                                        !isPathSeparator(result
-                                                .charAt(separatorPos))) {
-                                    --separatorPos;
-                                }
-                                if (separatorPos >= 0) {
-                                    result.setLength(separatorPos);
-                                }
-                                continue;
+                    case '.':
+                        // only if we have exactly _two_ dots.
+                        if (pos + 3 < len && isPathSeparator(s.charAt(pos + 3))) {
+                            pos += 3;
+                            int separatorPos = result.length() - 1;
+                            while (separatorPos >= 0 && !isPathSeparator(result.charAt(separatorPos))) {
+                                --separatorPos;
                             }
+                            if (separatorPos >= 0) {
+                                result.setLength(separatorPos);
+                            }
+                            continue;
+                        }
                     }
                 }
             }
@@ -864,10 +852,10 @@ public class WebAppManager {
         return isWebSocket;
     }
 
-    public static boolean isCarbonServer(){
-        if(System.getProperty(CARBON_HOME)!=null){
+    public static boolean isCarbonServer() {
+        if (System.getProperty(CARBON_HOME) != null) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }

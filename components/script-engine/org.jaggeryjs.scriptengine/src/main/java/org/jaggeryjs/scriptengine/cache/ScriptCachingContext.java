@@ -12,9 +12,9 @@ public class ScriptCachingContext {
     private static final String TENANT_DOMAIN = "tenantDomain";
 
     public ScriptCachingContext(String tenantDomain, String context, String path, String cacheKey) {
-        if (tenantDomain == null){
+        if (tenantDomain == null) {
             tenantDomain = System.getProperty(TENANT_DOMAIN);
-            if(tenantDomain==null){
+            if (tenantDomain == null) {
                 tenantDomain = "-1234";
             }
         }
@@ -24,7 +24,9 @@ public class ScriptCachingContext {
         this.cacheKey = cacheKey;
     }
 
-    public String getTenantDomain() { return tenantDomain; }
+    public String getTenantDomain() {
+        return tenantDomain;
+    }
 
     public String getContext() {
         return context;

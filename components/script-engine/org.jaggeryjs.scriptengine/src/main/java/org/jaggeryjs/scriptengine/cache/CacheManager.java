@@ -81,8 +81,8 @@ public class CacheManager {
         }
         try {
             String scriptPath = sctx.getContext() + sctx.getPath() + sctx.getCacheKey();
-            Object[] compiled = compiler.compileToClassFiles(
-                    HostObjectUtil.readerToString(scriptReader), scriptPath, 1, className);
+            Object[] compiled = compiler
+                    .compileToClassFiles(HostObjectUtil.readerToString(scriptReader), scriptPath, 1, className);
             ctx.setScript(getScriptObject(compiled, sctx));
             ctx.setCacheUpdatedTime(System.currentTimeMillis());
             ctx.setSourceModifiedTime(sctx.getSourceModifiedTime());
