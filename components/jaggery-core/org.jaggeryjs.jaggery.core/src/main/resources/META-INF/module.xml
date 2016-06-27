@@ -8,15 +8,15 @@
         <className>org.jaggeryjs.hostobjects.xhr.FormDataHostObject</className>
         <name>FormData</name>
     </hostObject>
-    <hostObject>
+    <!--<hostObject>
         <className>org.jaggeryjs.hostobjects.registry.RegistryHostObject</className>
         <name>MetadataStore</name>
-    </hostObject>
+    </hostObject>-->
     <hostObject>
         <className>org.jaggeryjs.hostobjects.log.LogHostObject</className>
         <name>Log</name>
     </hostObject>
-    <hostObject>
+    <!--<hostObject>
         <className>org.jaggeryjs.hostobjects.registry.ResourceHostObject</className>
         <name>Resource</name>
     </hostObject>
@@ -27,7 +27,7 @@
     <hostObject>
         <className>org.jaggeryjs.hostobjects.db.DatabaseHostObject</className>
         <name>Database</name>
-    </hostObject>
+    </hostObject>-->
     <hostObject>
         <className>org.jaggeryjs.hostobjects.xslt.XSLTHostObject</className>
         <name>XSLT</name>
@@ -73,10 +73,10 @@
         <className>org.jaggeryjs.hostobjects.jaggeryparser.JaggeryParserHostObject</className>
         <name>JaggeryParser</name>
     </hostObject>
-    <hostObject>
+    <!--<hostObject>
         <className>org.jaggeryjs.hostobjects.web.WebSocketHostObject</className>
         <name>WebSocket</name>
-    </hostObject>
+    </hostObject> -->
 
     <!-- methods -->
     <method readOnly="true">

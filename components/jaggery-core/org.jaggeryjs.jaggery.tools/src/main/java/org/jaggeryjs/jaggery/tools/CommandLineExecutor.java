@@ -54,7 +54,7 @@ public final class CommandLineExecutor {
         	
         	//initialize JaggeryContext
 			final JaggeryContext jaggeryContext = new JaggeryContext();
-        	jaggeryContext.setTenantId("0");
+        	jaggeryContext.setTenantDomain("0");
         	jaggeryContext.setEngine(engine);
         	jaggeryContext.setScope(scope);
             jaggeryContext.addProperty(CommonManager.JAGGERY_OUTPUT_STREAM, System.out);
@@ -94,7 +94,7 @@ public final class CommandLineExecutor {
         	
         	//initialize JaggeryContext
             final JaggeryContext jaggeryContext = new JaggeryContext();
-        	jaggeryContext.setTenantId("0");
+        	jaggeryContext.setTenantDomain("0");
         	jaggeryContext.setEngine(engine);
         	jaggeryContext.setScope(scope);
             jaggeryContext.addProperty(CommonManager.JAGGERY_OUTPUT_STREAM, out);

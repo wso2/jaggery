@@ -76,7 +76,9 @@ public class CommonManager {
     public static void initContext(JaggeryContext context) throws ScriptException {
         context.setEngine(manager.engine);
         context.setScope(manager.engine.getRuntimeScope());
-        context.setTenantId(Integer.toString(PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId()));
+        if(WebAppManager.isCarbonServer()){
+            context.setTenantDomain(PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantDomain(true));
+        }
 
         context.addProperty(Constants.JAGGERY_CORE_MANAGER, manager);
         context.addProperty(Constants.JAGGERY_INCLUDED_SCRIPTS, new HashMap<String, Boolean>());

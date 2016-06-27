@@ -75,10 +75,16 @@ public class WebAppManager {
 
     private static final String ATTRIBUTE_PREFIX = "org.jaggeryjs.";
 
+    private static final String CARBON_HOME = "carbon.home";
+
     static {
         try {
 
             String jaggeryDir = System.getProperty("jaggery.home");
+            if (System.getProperty("catalina.base") != null && jaggeryDir == null) {
+                jaggeryDir = System.getProperty("catalina.base") + File.pathSeparator + "jaggery";
+            }
+
             if (jaggeryDir == null) {
                 jaggeryDir = System.getProperty("carbon.home");
             }
@@ -295,7 +301,7 @@ public class WebAppManager {
             source = new ScriptReader(context.getResourceAsStream(fileURL));
         }
 
-        ScriptCachingContext sctx = new ScriptCachingContext(jaggeryContext.getTenantId(), keys[0], keys[1], keys[2]);
+        ScriptCachingContext sctx = new ScriptCachingContext(jaggeryContext.getTenantDomain(), keys[0], keys[1], keys[2]);
         sctx.setSecurityDomain(new JaggerySecurityDomain(fileURL, context));
         long lastModified = WebAppManager.getScriptLastModified(context, fileURL);
         sctx.setSourceModifiedTime(lastModified);
@@ -427,7 +433,7 @@ public class WebAppManager {
 
         JaggeryContext clone = new JaggeryContext();
         clone.setEngine(engine);
-        clone.setTenantId(shared.getTenantId());
+        clone.setTenantDomain(shared.getTenantDomain());
         clone.setScope(instanceScope);
 
         clone.addProperty(Constants.SERVLET_CONTEXT, shared.getProperty(Constants.SERVLET_CONTEXT));
@@ -714,7 +720,7 @@ public class WebAppManager {
     protected static ScriptCachingContext getScriptCachingContext(HttpServletRequest request, String scriptPath)
             throws ScriptException {
         JaggeryContext jaggeryContext = CommonManager.getJaggeryContext();
-        String tenantId = jaggeryContext.getTenantId();
+        String tenantId = jaggeryContext.getTenantDomain();
         String[] parts = getKeys(request.getContextPath(), scriptPath, scriptPath);
         /**
          * tenantId = tenantId
@@ -856,5 +862,13 @@ public class WebAppManager {
     public static boolean isWebSocket(ServletRequest request) {
         isWebSocket = "websocket".equalsIgnoreCase(((HttpServletRequest) request).getHeader("Upgrade"));
         return isWebSocket;
+    }
+
+    public static boolean isCarbonServer(){
+        if(System.getProperty(CARBON_HOME)!=null){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

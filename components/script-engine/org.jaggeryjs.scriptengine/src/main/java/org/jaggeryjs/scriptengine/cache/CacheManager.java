@@ -73,7 +73,7 @@ public class CacheManager {
         } else {
             className = getClassName(tenant, sctx);
             ctx = new CachingContext(sctx.getContext(), sctx.getPath(), sctx.getCacheKey());
-            ctx.setTenantId(sctx.getTenantId());
+            ctx.setTenantId(sctx.getTenantDomain());
             ctx.setContext(sctx.getContext());
             ctx.setPath(sctx.getPath());
             ctx.setCacheKey(sctx.getCacheKey());
@@ -115,10 +115,10 @@ public class CacheManager {
     }
 
     private TenantWrapper initContexts(ScriptCachingContext sctx) {
-        TenantWrapper tenant = tenants.get(sctx.getTenantId());
+        TenantWrapper tenant = tenants.get(sctx.getTenantDomain());
         if (tenant == null) {
             tenant = new TenantWrapper();
-            tenants.put(sctx.getTenantId(), tenant);
+            tenants.put(sctx.getTenantDomain(), tenant);
         }
         ContextWrapper context = tenant.getContext(sctx);
         if (context == null) {
@@ -142,7 +142,7 @@ public class CacheManager {
     }
 
     private CachingContext getCachingContext(ScriptCachingContext sctx) {
-        TenantWrapper tenant = tenants.get(sctx.getTenantId());
+        TenantWrapper tenant = tenants.get(sctx.getTenantDomain());
         if (tenant == null) {
             return null;
         }

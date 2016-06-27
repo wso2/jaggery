@@ -12,6 +12,16 @@
     <url>http://wso2.org</url>
     <dependencies>
         <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-catalina</artifactId>
+            <version>8.0.33</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-util-scan</artifactId>
+            <version>8.0.33</version>
+        </dependency>
+        <dependency>
             <groupId>org.eclipse.equinox</groupId>
             <artifactId>javax.servlet.jsp</artifactId>
         </dependency>

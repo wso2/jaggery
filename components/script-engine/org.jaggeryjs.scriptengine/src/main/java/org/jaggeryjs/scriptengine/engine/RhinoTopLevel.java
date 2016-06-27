@@ -161,10 +161,10 @@ public class RhinoTopLevel extends ImporterTopLevel {
             }
         }, timeout, TimeUnit.MILLISECONDS);
 
-        Map<String, ScheduledFuture> tasks = timeouts.get(context.getTenantId());
+        Map<String, ScheduledFuture> tasks = timeouts.get(context.getTenantDomain());
         if (tasks == null) {
             tasks = new HashMap<String, ScheduledFuture>();
-            timeouts.put(context.getTenantId(), tasks);
+            timeouts.put(context.getTenantDomain(), tasks);
         }
         tasks.put(uuid, future);
         return uuid;
@@ -241,10 +241,10 @@ public class RhinoTopLevel extends ImporterTopLevel {
             }
         }, interval, interval, TimeUnit.MILLISECONDS);
 
-        Map<String, ScheduledFuture> tasks = intervals.get(context.getTenantId());
+        Map<String, ScheduledFuture> tasks = intervals.get(context.getTenantDomain());
         if (tasks == null) {
             tasks = new HashMap<String, ScheduledFuture>();
-            intervals.put(context.getTenantId(), tasks);
+            intervals.put(context.getTenantDomain(), tasks);
         }
         tasks.put(uuid, future);
         return uuid;
@@ -298,7 +298,7 @@ public class RhinoTopLevel extends ImporterTopLevel {
 
     public static void clearTimeout(String taskId) throws ScriptException {
         JaggeryContext context = getJaggeryContext();
-        Map<String, ScheduledFuture> tasks = timeouts.get(context.getTenantId());
+        Map<String, ScheduledFuture> tasks = timeouts.get(context.getTenantDomain());
         if (tasks == null) {
             return;
         }
@@ -308,7 +308,7 @@ public class RhinoTopLevel extends ImporterTopLevel {
 
     public static void clearInterval(String taskId) throws ScriptException {
         JaggeryContext context = getJaggeryContext();
-        Map<String, ScheduledFuture> tasks = intervals.get(context.getTenantId());
+        Map<String, ScheduledFuture> tasks = intervals.get(context.getTenantDomain());
         if (tasks == null) {
             return;
         }
