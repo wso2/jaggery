@@ -460,7 +460,6 @@ public class FileHostObject extends ScriptableObject {
         }
         FileHostObject fho = (FileHostObject) thisObj;
         ZipOutputStream zip = null;
-        FileOutputStream fileWriter;
 
         if (fho.file.isExist()) {
             JaggeryContext context = (JaggeryContext) RhinoEngine.getContextProperty(EngineConstants.JAGGERY_CONTEXT);
@@ -475,8 +474,7 @@ public class FileHostObject extends ScriptableObject {
             File destinationFile = new File(destinationPath);
             destinationFile.getParentFile().mkdirs();
             try {
-                fileWriter = new FileOutputStream(destinationPath);
-                zip = new ZipOutputStream(fileWriter);
+                zip = new ZipOutputStream(new FileOutputStream(destinationPath));
                 File folder = new File(sourcePath);
                 for (String fileName : folder.list()) {
                     addFileToZip("", sourcePath + File.separator + fileName, zip);
@@ -497,6 +495,13 @@ public class FileHostObject extends ScriptableObject {
         return false;
     }
 
+    /**
+     * To add a file to zip
+     * @param path Root path name
+     * @param srcFile Source File that need to be added to zip
+     * @param zip ZipOutputStream
+     * @throws IOException
+     */
     private static void addFileToZip(String path, String srcFile, ZipOutputStream zip) throws IOException {
         try {
             File folder = new File(srcFile);
@@ -530,6 +535,11 @@ public class FileHostObject extends ScriptableObject {
      */
     private static void addFolderToZip(String path, String srcFolder, ZipOutputStream zip) throws IOException {
         File folder = new File(srcFolder);
+        if (path.equals("")) {
+            zip.putNextEntry(new ZipEntry(folder.getName() + File.separator));
+        } else {
+            zip.putNextEntry(new ZipEntry(path + File.separator + folder.getName() + File.separator));
+        }
         for (String fileName : folder.list()) {
             if (path.equals("")) {
                 addFileToZip(folder.getName(), srcFolder + File.separator + fileName, zip);
