@@ -418,13 +418,17 @@ public class FileHostObject extends ScriptableObject {
                     }
                     try {
                         out = new BufferedOutputStream(new FileOutputStream(new File(outdir, name)));
-                        int count = -1;
+                        int count;
                         while ((count = zin.read(buffer)) != -1) {
                             out.write(buffer, 0, count);
                         }
                     } finally {
                         if (out != null) {
-                            out.close();
+                            try {
+                                out.close();
+                            } catch (IOException er) {
+                                log.error("Unable to close the output stream " + er);
+                            }
                         }
                     }
                 }
@@ -434,7 +438,11 @@ public class FileHostObject extends ScriptableObject {
                 throw new IOException(ex);
             } finally {
                 if (zin != null) {
-                    zin.close();
+                    try {
+                        zin.close();
+                    } catch (IOException er) {
+                        log.error("Unable to close the zip input stream " + er);
+                    }
                 }
             }
         } else {
@@ -486,8 +494,12 @@ public class FileHostObject extends ScriptableObject {
                 throw new IOException(ex);
             } finally {
                 if (zip != null) {
-                    zip.flush();
-                    zip.close();
+                    try {
+                        zip.flush();
+                        zip.close();
+                    } catch (IOException er) {
+                        log.error("Unable to close the zip output stream " + er);
+                    }
                 }
             }
         } else {
@@ -524,7 +536,11 @@ public class FileHostObject extends ScriptableObject {
             throw new IOException(er);
         } finally {
             if (in != null) {
-                in.close();
+                try {
+                    in.close();
+                } catch (IOException ex) {
+                    log.error("Unable to close file input stream. " + ex);
+                }
             }
         }
     }
