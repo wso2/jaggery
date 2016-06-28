@@ -416,10 +416,16 @@ public class FileHostObject extends ScriptableObject {
                     if (dir != null) {
                         mkdirs(outdir, dir);
                     }
-                    out = new BufferedOutputStream(new FileOutputStream(new File(outdir, name)));
-                    int count = -1;
-                    while ((count = zin.read(buffer)) != -1) {
-                        out.write(buffer, 0, count);
+                    try {
+                        out = new BufferedOutputStream(new FileOutputStream(new File(outdir, name)));
+                        int count = -1;
+                        while ((count = zin.read(buffer)) != -1) {
+                            out.write(buffer, 0, count);
+                        }
+                    } finally {
+                        if (out != null) {
+                            out.close();
+                        }
                     }
                 }
                 return true;
@@ -429,9 +435,6 @@ public class FileHostObject extends ScriptableObject {
             } finally {
                 if (zin != null) {
                     zin.close();
-                }
-                if (out != null) {
-                    out.close();
                 }
             }
         } else {
