@@ -13,47 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jaggeryjs.jaggery.core.pojos;
+package org.jaggeryjs.jaggery.core;
 
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlElement;
 
 /**
- * POJO class to represent Hostobject in module.xml
+ * POJO class to represent script in module.xml
  */
-public class HostObject {
-    private String className;
+public class Script {
     private String name;
-    private String readOnly;
+    private String path;
 
-    public HostObject(){}
+    private Script(){}
 
-    public HostObject(String className, String name){
+    public Script(String name, String path){
         super();
-        this.className = className;
         this.name = name;
-        this.readOnly = readOnly;
+        this.path = path;
     }
 
-    @XmlAttribute (name = "readOnly")
-    public void setReadOnly(String readOnly){
-        this.readOnly = readOnly;
+    @XmlElement (name = "path")
+    public void setPath(String path){
+        this.path = path;
     }
 
-    public  String getReadOnly(){
-        return readOnly;
+    public  String getPath(){
+        return path;
     }
 
-    @javax.xml.bind.annotation.XmlElement (name = "className")
-    public void setClassName(String className){
-        this.className = className;
-    }
-
-    public  String getClassName(){
-        return className;
-    }
-
-    @javax.xml.bind.annotation.XmlElement (name = "name")
+    @XmlElement (name = "name")
     public void setName(String name){
         this.name = name;
     }

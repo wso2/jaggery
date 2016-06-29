@@ -31,6 +31,7 @@ import java.io.*;
 public final class CommandLineExecutor {
 
     private static PrintStream out = System.out;
+    private static String DEFAULT_TENANTDOMAIN = "carbon.super";
 
     private CommandLineExecutor() {
         //disable external instantiation
@@ -54,7 +55,7 @@ public final class CommandLineExecutor {
 
             //initialize JaggeryContext
             final JaggeryContext jaggeryContext = new JaggeryContext();
-            jaggeryContext.setTenantDomain("0");
+            jaggeryContext.setTenantDomain(DEFAULT_TENANTDOMAIN);
             jaggeryContext.setEngine(engine);
             jaggeryContext.setScope(scope);
             jaggeryContext.addProperty(CommonManager.JAGGERY_OUTPUT_STREAM, System.out);
@@ -94,7 +95,7 @@ public final class CommandLineExecutor {
 
             //initialize JaggeryContext
             final JaggeryContext jaggeryContext = new JaggeryContext();
-            jaggeryContext.setTenantDomain("0");
+            jaggeryContext.setTenantDomain("ca");
             jaggeryContext.setEngine(engine);
             jaggeryContext.setScope(scope);
             jaggeryContext.addProperty(CommonManager.JAGGERY_OUTPUT_STREAM, out);

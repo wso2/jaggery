@@ -742,11 +742,6 @@
             </dependency>
 
             <!-- jaggery-core dep -->
-            <!--<dependency>
-                <groupId>org.wso2.carbon</groupId>
-                <artifactId>org.wso2.carbon.tomcat</artifactId>
-                <version>${carbon.kernel.version}</version>
-            </dependency>-->
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.core</artifactId>

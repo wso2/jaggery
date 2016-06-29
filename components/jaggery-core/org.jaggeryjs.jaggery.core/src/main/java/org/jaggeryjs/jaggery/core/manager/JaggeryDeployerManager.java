@@ -41,6 +41,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -54,20 +55,24 @@ public class JaggeryDeployerManager {
     private static Log log = LogFactory.getLog(JaggeryDeployerManager.class);
     private static final String INDEX_HTML = "index.html";
     private static final String INDEX_JAG = "index.jag";
+    private static final String JAGGERY_CONF = "jaggery.conf";
+    private static final String WAR_EXTENSION = ".war";
+    private static final String SECURITYCOLLECTION_NAME = "ConfigDir";
+    private static final String SECURITYCOLLECTION_DESCRIPTION = "Jaggery Configuration Dir";
 
     /**
      * Process the jaggery.conf file of jaggery apps
+     *
      * @param context context of the jaggery app
      */
-    public void processJaggeryApp(Context context) {
-        JSONObject jaggeryConfigObj = null;
+    public static void processJaggeryApp(Context context, Path appBase) {
+        JSONObject jaggeryConfigObj = readJaggeryConfig(context, appBase);
         SecurityConstraint securityConstraint = new SecurityConstraint();
         securityConstraint.setAuthConstraint(true);
         SecurityCollection securityCollection = new SecurityCollection();
-        securityCollection.setName("ConfigDir");
-        securityCollection.setDescription("Jaggery Configuration Dir");
+        securityCollection.setName(SECURITYCOLLECTION_NAME);
+        securityCollection.setDescription(SECURITYCOLLECTION_DESCRIPTION);
         securityConstraint.addCollection(securityCollection);
-        jaggeryConfigObj = readJaggeryConfig(context);
         initJaggeryappDefaults(context, jaggeryConfigObj, securityConstraint);
         try {
             WebAppManager.getEngine().enterContext();
@@ -159,7 +164,6 @@ public class JaggeryDeployerManager {
     private static void addParameters(Context context, JSONObject obj) {
         if (obj != null) {
             Iterator<?> keys = obj.keySet().iterator();
-
             while (keys.hasNext()) {
                 String key = (String) keys.next();
                 if (obj.get(key) instanceof String) {
@@ -311,14 +315,14 @@ public class JaggeryDeployerManager {
         }
     }
 
-    private JSONObject readJaggeryConfig(Context context) {
+    private static JSONObject readJaggeryConfig(Context context, Path appBase) {
         String content = null;
-        if (context.getDocBase().contains(".war")) {
+        if (context.getDocBase().contains(WAR_EXTENSION)) {
             try {
-                ZipFile zip = new ZipFile("../webapps/" + context.getDocBase());
+                ZipFile zip = new ZipFile(appBase + context.getDocBase());
                 for (Enumeration e = zip.entries(); e.hasMoreElements(); ) {
                     ZipEntry entry = (ZipEntry) e.nextElement();
-                    if (entry.getName().toLowerCase().contains("jaggery.conf")) {
+                    if (entry.getName().toLowerCase().contains(JAGGERY_CONF)) {
                         InputStream inputStream = zip.getInputStream(entry);
                         content = IOUtils.toString(inputStream);
                     }
@@ -329,7 +333,7 @@ public class JaggeryDeployerManager {
                         e);
             }
         } else {
-            File file = new File("../webapps" + context.getPath() + "/jaggery.conf");
+            File file = new File(appBase + context.getPath() + File.separator + JAGGERY_CONF);
             try {
                 content = FileUtils.readFileToString(file);
             } catch (IOException e) {
@@ -342,9 +346,8 @@ public class JaggeryDeployerManager {
             JSONParser jp = new JSONParser();
             jaggeryConfig = (JSONObject) jp.parse(content);
         } catch (ParseException e) {
-            log.error(e.getMessage(), e);
+            log.error("Error in parsing the jaggery.conf file", e);
         }
-
         return jaggeryConfig;
     }
 
@@ -483,11 +486,11 @@ public class JaggeryDeployerManager {
         if (test != null) {
             // URL mapping for progamticaly
             arr = new JSONArray();
-            JSONObject js1 = new JSONObject();
-            JSONObject js2 = new JSONObject();
-            js1.put("url", "/*");
-            js1.put("path", File.pathSeparator + INDEX_JAG);
-            arr.add(js1);
+            JSONObject urlJSONObj = new JSONObject();
+            JSONObject pathJSONObj = new JSONObject();
+            urlJSONObj.put("url", "/*");
+            pathJSONObj.put("path", File.separator + INDEX_JAG);
+            arr.add(urlJSONObj);
         } else {
             arr = (JSONArray) obj.get(JaggeryCoreConstants.JaggeryConfigParams.URL_MAPPINGS);
         }

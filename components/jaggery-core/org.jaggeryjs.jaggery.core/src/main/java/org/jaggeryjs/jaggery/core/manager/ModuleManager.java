@@ -2,9 +2,9 @@ package org.jaggeryjs.jaggery.core.manager;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jaggeryjs.jaggery.core.pojos.HostObject;
-import org.jaggeryjs.jaggery.core.pojos.Method;
-import org.jaggeryjs.jaggery.core.pojos.Module;
+import org.jaggeryjs.jaggery.core.HostObject;
+import org.jaggeryjs.jaggery.core.Method;
+import org.jaggeryjs.jaggery.core.Module;
 import org.jaggeryjs.scriptengine.cache.CacheManager;
 import org.jaggeryjs.scriptengine.cache.ScriptCachingContext;
 import org.jaggeryjs.scriptengine.engine.*;
@@ -18,10 +18,8 @@ import org.wso2.carbon.utils.multitenancy.MultitenantConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.namespace.QName;
 import java.io.*;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.security.CodeSource;
 import java.security.cert.Certificate;
@@ -118,13 +116,7 @@ public class ModuleManager {
 
             JAXBContext jaxbContext = JAXBContext.newInstance(Module.class);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-
             Module moduleObject = (Module) jaxbUnmarshaller.unmarshal(modulesXML);
-
-//            if (moduleObject.getNamespace() == null || !MODULE_NAMESPACE.equals(moduleObject.getNamespace())) {
-//                log.warn("A module xml found without the proper namespace");
-//                return;
-//            }
             String moduleName = moduleObject.getName();
 
             if (modules.get(moduleName) != null) {
@@ -132,7 +124,7 @@ public class ModuleManager {
             }
 
             String namespace = moduleObject.getNamespace();
-            boolean expose = ("true".equals(moduleObject.getExpose()));
+            boolean expose = (Boolean.parseBoolean(moduleObject.getExpose()) == true);
 
             JavaScriptModule module = new JavaScriptModule(moduleName);
             module.setNamespace(namespace);
@@ -144,11 +136,11 @@ public class ModuleManager {
 
             modules.put(moduleName, module);
 
-        }catch (JAXBException e) {
+        } catch (JAXBException e) {
             String msg = "Error while reading the module.xml";
             log.error(msg, e);
             throw new ScriptException(msg, e);
-        }finally {
+        } finally {
             RhinoEngine.exitContext();
         }
     }
@@ -163,7 +155,7 @@ public class ModuleManager {
         while (itr.hasNext()) {
             try {
                 //process methods
-                org.jaggeryjs.jaggery.core.pojos.Script scriptObject = (org.jaggeryjs.jaggery.core.pojos.Script) itr.next();
+                org.jaggeryjs.jaggery.core.Script scriptObject = (org.jaggeryjs.jaggery.core.Script) itr.next();
                 name = scriptObject.getName();
                 path = scriptObject.getPath();
                 script = new JavaScriptScript(name);
@@ -177,26 +169,20 @@ public class ModuleManager {
                             File.separator + filterPath(path);
                     reader = new FileReader(fileName);
                     int endIndex = filteredPath.lastIndexOf(File.separator);
-                    sctx = new ScriptCachingContext(
-                            String.valueOf(MultitenantConstants.SUPER_TENANT_ID),
-                            '<' + module.getName() + '>',
-                            filteredPath.substring(0, endIndex),
+                    sctx = new ScriptCachingContext(String.valueOf(MultitenantConstants.SUPER_TENANT_ID),
+                            '<' + module.getName() + '>', filteredPath.substring(0, endIndex),
                             filteredPath.substring(endIndex));
                 } else {
                     reader = new InputStreamReader(ModuleManager.class.getClassLoader().getResourceAsStream(path));
                     fileName = modulesDir + File.separator + name;
                     int endIndex = path.lastIndexOf('/');
-                    sctx = new ScriptCachingContext(
-                            String.valueOf(MultitenantConstants.SUPER_TENANT_ID),
-                            "<<" + name + ">>",
-                            '/' + path.substring(0, endIndex),
-                            path.substring(endIndex));
+                    sctx = new ScriptCachingContext(String.valueOf(MultitenantConstants.SUPER_TENANT_ID),
+                            "<<" + name + ">>", '/' + path.substring(0, endIndex), path.substring(endIndex));
                 }
                 CacheManager cacheManager = new CacheManager(null);
 
                 sctx.setSecurityDomain(new RhinoSecurityDomain() {
-                    @Override
-                    public CodeSource getCodeSource() throws ScriptException {
+                    @Override public CodeSource getCodeSource() throws ScriptException {
                         try {
                             URL url = new File(fileName).getCanonicalFile().toURI().toURL();
                             return new CodeSource(url, (Certificate[]) null);
@@ -242,8 +228,9 @@ public class ModuleManager {
                 method.setClazz(Class.forName(className));
                 method.setMethodName(name);
                 if (attribute != null) {
-                    method.setAttribute(("true".equals(attribute)) ?
-                            ScriptableObject.READONLY : ScriptableObject.PERMANENT);
+                    method.setAttribute((Boolean.parseBoolean(attribute) == true) ?
+                            ScriptableObject.READONLY :
+                            ScriptableObject.PERMANENT);
                 }
                 module.addMethod(method);
             } catch (ClassNotFoundException e) {
@@ -270,8 +257,9 @@ public class ModuleManager {
             attribute = hostObjectObject.getReadOnly();
             hostObject = new JavaScriptHostObject(name);
             if (attribute != null) {
-                hostObject.setAttribute("true".equals(attribute) ?
-                        ScriptableObject.READONLY : ScriptableObject.PERMANENT);
+                hostObject.setAttribute((Boolean.parseBoolean(attribute) == true) ?
+                        ScriptableObject.READONLY :
+                        ScriptableObject.PERMANENT);
             }
             try {
                 hostObject.setClazz(Class.forName(className));
