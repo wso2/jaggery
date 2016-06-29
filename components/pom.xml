@@ -31,5 +31,6 @@
         <module>script-engine</module>
         <module>hostobjects</module>
         <module>jaggery-core</module>
+        <module>app-listeners</module>
     </modules>
 </project>
