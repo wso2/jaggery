@@ -7,18 +7,18 @@ import java.util.Map;
 
 public class JaggeryContext {
 
-    private String tenantId = null;
+    private String tenantDomain = null;
     private RhinoEngine engine = null;
     private ScriptableObject scope = null;
 
     private Map<String, Object> properties = new HashMap<String, Object>();
 
-    public String getTenantId() {
-        return tenantId;
+    public String getTenantDomain() {
+        return tenantDomain;
     }
 
-    public void setTenantId(String tenantId) {
-        this.tenantId = tenantId;
+    public void setTenantDomain(String tenantDomain) {
+        this.tenantDomain = tenantDomain;
     }
 
     public RhinoEngine getEngine() {

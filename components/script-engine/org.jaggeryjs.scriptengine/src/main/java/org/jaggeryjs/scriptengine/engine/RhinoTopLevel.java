@@ -15,7 +15,6 @@ import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.*;
 
-
 public class RhinoTopLevel extends ImporterTopLevel {
 
     private static final String JS_TIMER_THREADS = "jsTimerThreads";
@@ -36,17 +35,15 @@ public class RhinoTopLevel extends ImporterTopLevel {
         super(context, sealed);
     }
 
-    public static Object parse(Context cx, Scriptable thisObj, Object[] args, Function funObj)
-            throws ScriptException {
+    public static Object parse(Context cx, Scriptable thisObj, Object[] args, Function funObj) throws ScriptException {
         String functionName = "parse";
         int argsCount = args.length;
         if (argsCount != 1) {
-            HostObjectUtil.invalidNumberOfArgs(EngineConstants.GLOBAL_OBJECT_NAME,
-                    functionName, argsCount, false);
+            HostObjectUtil.invalidNumberOfArgs(EngineConstants.GLOBAL_OBJECT_NAME, functionName, argsCount, false);
         }
         if (!(args[0] instanceof String)) {
-            HostObjectUtil.invalidArgsError(EngineConstants.GLOBAL_OBJECT_NAME,
-                    EngineConstants.GLOBAL_OBJECT_NAME, "1", "string", args[0], false);
+            HostObjectUtil.invalidArgsError(EngineConstants.GLOBAL_OBJECT_NAME, EngineConstants.GLOBAL_OBJECT_NAME, "1",
+                    "string", args[0], false);
         }
         return HostObjectUtil.parseJSON(cx, thisObj, (String) args[0]);
     }
@@ -56,8 +53,7 @@ public class RhinoTopLevel extends ImporterTopLevel {
         String functionName = "stringify";
         int argsCount = args.length;
         if (argsCount != 1) {
-            HostObjectUtil.invalidNumberOfArgs(EngineConstants.GLOBAL_OBJECT_NAME,
-                    functionName, argsCount, false);
+            HostObjectUtil.invalidNumberOfArgs(EngineConstants.GLOBAL_OBJECT_NAME, functionName, argsCount, false);
         }
         return HostObjectUtil.serializeJSON(args[0]);
     }
@@ -68,23 +64,23 @@ public class RhinoTopLevel extends ImporterTopLevel {
      * new function synchronizes on the the second argument if it is
      * defined, or otherwise the <code>this</code>
      */
-    public static Object sync(Context cx, Scriptable thisObj, Object[] args, Function funObj)
-            throws ScriptException {
+    public static Object sync(Context cx, Scriptable thisObj, Object[] args, Function funObj) throws ScriptException {
         Object syncObject = null;
         String functionName = "sync";
         int argsCount = args.length;
         if (argsCount <= 1 && argsCount >= 2) {
-            HostObjectUtil.invalidNumberOfArgs(EngineConstants.GLOBAL_OBJECT_NAME,
-                    functionName, argsCount, false);
+            HostObjectUtil.invalidNumberOfArgs(EngineConstants.GLOBAL_OBJECT_NAME, functionName, argsCount, false);
         } else {
             if (!(args[0] instanceof Function)) {
-                HostObjectUtil.invalidArgsError(EngineConstants.GLOBAL_OBJECT_NAME,
-                        EngineConstants.GLOBAL_OBJECT_NAME, "1", "function", args[0], false);
+                HostObjectUtil
+                        .invalidArgsError(EngineConstants.GLOBAL_OBJECT_NAME, EngineConstants.GLOBAL_OBJECT_NAME, "1",
+                                "function", args[0], false);
             }
             if (argsCount == 2) {
                 if (args[1] == Undefined.instance) {
-                    HostObjectUtil.invalidArgsError(EngineConstants.GLOBAL_OBJECT_NAME,
-                            EngineConstants.GLOBAL_OBJECT_NAME, "1", "object", args[0], false);
+                    HostObjectUtil
+                            .invalidArgsError(EngineConstants.GLOBAL_OBJECT_NAME, EngineConstants.GLOBAL_OBJECT_NAME,
+                                    "1", "object", args[0], false);
                 } else {
                     syncObject = args[1];
                 }
@@ -98,8 +94,7 @@ public class RhinoTopLevel extends ImporterTopLevel {
         String functionName = "setTimeout";
         int argsCount = args.length;
         if (argsCount < 2) {
-            HostObjectUtil.invalidNumberOfArgs(EngineConstants.GLOBAL_OBJECT_NAME,
-                    functionName, argsCount, false);
+            HostObjectUtil.invalidNumberOfArgs(EngineConstants.GLOBAL_OBJECT_NAME, functionName, argsCount, false);
         }
         Function function = null;
         long timeout;
@@ -108,12 +103,12 @@ public class RhinoTopLevel extends ImporterTopLevel {
         } else if (args[0] instanceof String) {
             function = getFunction(cx, thisObj, (String) args[0], functionName);
         } else {
-            HostObjectUtil.invalidArgsError(EngineConstants.GLOBAL_OBJECT_NAME,
-                    EngineConstants.GLOBAL_OBJECT_NAME, "1", "string|function", args[0], false);
+            HostObjectUtil.invalidArgsError(EngineConstants.GLOBAL_OBJECT_NAME, EngineConstants.GLOBAL_OBJECT_NAME, "1",
+                    "string|function", args[0], false);
         }
         if (!(args[1] instanceof Number)) {
-            HostObjectUtil.invalidArgsError(EngineConstants.GLOBAL_OBJECT_NAME,
-                    EngineConstants.GLOBAL_OBJECT_NAME, "2", "number", args[1], false);
+            HostObjectUtil.invalidArgsError(EngineConstants.GLOBAL_OBJECT_NAME, EngineConstants.GLOBAL_OBJECT_NAME, "2",
+                    "number", args[1], false);
         }
         if (function == null) {
             String error = "Callback cannot be null in " + functionName;
@@ -161,10 +156,10 @@ public class RhinoTopLevel extends ImporterTopLevel {
             }
         }, timeout, TimeUnit.MILLISECONDS);
 
-        Map<String, ScheduledFuture> tasks = timeouts.get(context.getTenantId());
+        Map<String, ScheduledFuture> tasks = timeouts.get(context.getTenantDomain());
         if (tasks == null) {
             tasks = new HashMap<String, ScheduledFuture>();
-            timeouts.put(context.getTenantId(), tasks);
+            timeouts.put(context.getTenantDomain(), tasks);
         }
         tasks.put(uuid, future);
         return uuid;
@@ -175,8 +170,7 @@ public class RhinoTopLevel extends ImporterTopLevel {
         String functionName = "setTimeout";
         int argsCount = args.length;
         if (argsCount < 2) {
-            HostObjectUtil.invalidNumberOfArgs(EngineConstants.GLOBAL_OBJECT_NAME,
-                    functionName, argsCount, false);
+            HostObjectUtil.invalidNumberOfArgs(EngineConstants.GLOBAL_OBJECT_NAME, functionName, argsCount, false);
         }
         Function function = null;
         long interval;
@@ -185,12 +179,12 @@ public class RhinoTopLevel extends ImporterTopLevel {
         } else if (args[0] instanceof String) {
             function = getFunction(cx, thisObj, (String) args[0], functionName);
         } else {
-            HostObjectUtil.invalidArgsError(EngineConstants.GLOBAL_OBJECT_NAME,
-                    EngineConstants.GLOBAL_OBJECT_NAME, "1", "string|function", args[0], false);
+            HostObjectUtil.invalidArgsError(EngineConstants.GLOBAL_OBJECT_NAME, EngineConstants.GLOBAL_OBJECT_NAME, "1",
+                    "string|function", args[0], false);
         }
         if (!(args[1] instanceof Number)) {
-            HostObjectUtil.invalidArgsError(EngineConstants.GLOBAL_OBJECT_NAME,
-                    EngineConstants.GLOBAL_OBJECT_NAME, "2", "number", args[1], false);
+            HostObjectUtil.invalidArgsError(EngineConstants.GLOBAL_OBJECT_NAME, EngineConstants.GLOBAL_OBJECT_NAME, "2",
+                    "number", args[1], false);
         }
         if (function == null) {
             String error = "Callback cannot be null in " + functionName;
@@ -214,8 +208,7 @@ public class RhinoTopLevel extends ImporterTopLevel {
 
             private boolean firstTime = true;
 
-            @Override
-            public void run() {
+            @Override public void run() {
                 //set the context classloader
                 Thread currentThread = Thread.currentThread();
                 ClassLoader originalClassLoader = currentThread.getContextClassLoader();
@@ -241,10 +234,10 @@ public class RhinoTopLevel extends ImporterTopLevel {
             }
         }, interval, interval, TimeUnit.MILLISECONDS);
 
-        Map<String, ScheduledFuture> tasks = intervals.get(context.getTenantId());
+        Map<String, ScheduledFuture> tasks = intervals.get(context.getTenantDomain());
         if (tasks == null) {
             tasks = new HashMap<String, ScheduledFuture>();
-            intervals.put(context.getTenantId(), tasks);
+            intervals.put(context.getTenantDomain(), tasks);
         }
         tasks.put(uuid, future);
         return uuid;
@@ -253,8 +246,8 @@ public class RhinoTopLevel extends ImporterTopLevel {
     private static JaggeryContext getJaggeryContext() throws ScriptException {
         final JaggeryContext context = (JaggeryContext) RhinoEngine.getContextProperty(EngineConstants.JAGGERY_CONTEXT);
         if (context == null) {
-            String error = "JaggeryContext instance cannot be found in the current thread : " +
-                    Thread.currentThread().getName();
+            String error = "JaggeryContext instance cannot be found in the current thread : " + Thread.currentThread()
+                    .getName();
             log.error(error);
             throw new ScriptException(error);
         }
@@ -266,12 +259,11 @@ public class RhinoTopLevel extends ImporterTopLevel {
         String functionName = "clearTimeout";
         int argsCount = args.length;
         if (argsCount != 1) {
-            HostObjectUtil.invalidNumberOfArgs(EngineConstants.GLOBAL_OBJECT_NAME,
-                    functionName, argsCount, false);
+            HostObjectUtil.invalidNumberOfArgs(EngineConstants.GLOBAL_OBJECT_NAME, functionName, argsCount, false);
         }
         if (!(args[0] instanceof String)) {
-            HostObjectUtil.invalidArgsError(EngineConstants.GLOBAL_OBJECT_NAME,
-                    EngineConstants.GLOBAL_OBJECT_NAME, "1", "string", args[0], false);
+            HostObjectUtil.invalidArgsError(EngineConstants.GLOBAL_OBJECT_NAME, EngineConstants.GLOBAL_OBJECT_NAME, "1",
+                    "string", args[0], false);
         }
         clearTimeout((String) args[0]);
     }
@@ -281,24 +273,22 @@ public class RhinoTopLevel extends ImporterTopLevel {
         String functionName = "clearTimeout";
         int argsCount = args.length;
         if (argsCount != 1) {
-            HostObjectUtil.invalidNumberOfArgs(EngineConstants.GLOBAL_OBJECT_NAME,
-                    functionName, argsCount, false);
+            HostObjectUtil.invalidNumberOfArgs(EngineConstants.GLOBAL_OBJECT_NAME, functionName, argsCount, false);
         }
         if (!(args[0] instanceof String)) {
-            HostObjectUtil.invalidArgsError(EngineConstants.GLOBAL_OBJECT_NAME,
-                    EngineConstants.GLOBAL_OBJECT_NAME, "1", "string", args[0], false);
+            HostObjectUtil.invalidArgsError(EngineConstants.GLOBAL_OBJECT_NAME, EngineConstants.GLOBAL_OBJECT_NAME, "1",
+                    "string", args[0], false);
         }
         clearInterval((String) args[0]);
     }
 
-    public static void exit(Context cx, Scriptable thisObj, Object[] args, Function funObj)
-            throws ScriptException {
+    public static void exit(Context cx, Scriptable thisObj, Object[] args, Function funObj) throws ScriptException {
         throw new Error();
     }
 
     public static void clearTimeout(String taskId) throws ScriptException {
         JaggeryContext context = getJaggeryContext();
-        Map<String, ScheduledFuture> tasks = timeouts.get(context.getTenantId());
+        Map<String, ScheduledFuture> tasks = timeouts.get(context.getTenantDomain());
         if (tasks == null) {
             return;
         }
@@ -308,7 +298,7 @@ public class RhinoTopLevel extends ImporterTopLevel {
 
     public static void clearInterval(String taskId) throws ScriptException {
         JaggeryContext context = getJaggeryContext();
-        Map<String, ScheduledFuture> tasks = intervals.get(context.getTenantId());
+        Map<String, ScheduledFuture> tasks = intervals.get(context.getTenantDomain());
         if (tasks == null) {
             return;
         }
@@ -322,8 +312,8 @@ public class RhinoTopLevel extends ImporterTopLevel {
     }
 
     private static Function getFunction(Context cx, Scriptable thisObj, String source, String functionName) {
-        ScriptableObject scope = (ScriptableObject) cx.evaluateString(
-                thisObj, "var fn=" + source + ";", functionName, 0, null);
+        ScriptableObject scope = (ScriptableObject) cx
+                .evaluateString(thisObj, "var fn=" + source + ";", functionName, 0, null);
         return (Function) scope.get("fn", scope);
     }
 }

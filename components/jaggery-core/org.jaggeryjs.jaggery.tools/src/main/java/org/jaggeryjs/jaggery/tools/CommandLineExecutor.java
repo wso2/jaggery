@@ -25,91 +25,91 @@ import org.mozilla.javascript.ScriptableObject;
 import java.io.*;
 
 /**
-*
-* Jaggery CommnadLineExecutor - this will parse file URLs or expressions by 
-* runtime Jaggery engine
-*/
+ * Jaggery CommnadLineExecutor - this will parse file URLs or expressions by
+ * runtime Jaggery engine
+ */
 public final class CommandLineExecutor {
 
-	private static PrintStream out = System.out;
-    
-	private CommandLineExecutor() {
-	    //disable external instantiation
-	}
-	/**
+    private static PrintStream out = System.out;
+
+    private CommandLineExecutor() {
+        //disable external instantiation
+    }
+
+    /**
      * Parse Jaggery scripts resides in the file path
      *
      * @param fileURL url of the file
      */
-	public static void parseJaggeryScript(final String fileURL) {
+    public static void parseJaggeryScript(final String fileURL) {
 
-        try{
+        try {
 
             //Initialize the Rhino context
             RhinoEngine.enterGlobalContext();
-			final FileInputStream fstream = new FileInputStream(fileURL);
-            
-			final RhinoEngine engine = CommandLineManager.getCommandLineEngine();
-			final ScriptableObject scope = engine.getRuntimeScope();
-        	
-        	//initialize JaggeryContext
-			final JaggeryContext jaggeryContext = new JaggeryContext();
-        	jaggeryContext.setTenantId("0");
-        	jaggeryContext.setEngine(engine);
-        	jaggeryContext.setScope(scope);
+            final FileInputStream fstream = new FileInputStream(fileURL);
+
+            final RhinoEngine engine = CommandLineManager.getCommandLineEngine();
+            final ScriptableObject scope = engine.getRuntimeScope();
+
+            //initialize JaggeryContext
+            final JaggeryContext jaggeryContext = new JaggeryContext();
+            jaggeryContext.setTenantDomain("0");
+            jaggeryContext.setEngine(engine);
+            jaggeryContext.setScope(scope);
             jaggeryContext.addProperty(CommonManager.JAGGERY_OUTPUT_STREAM, System.out);
-        	
-        	RhinoEngine.putContextProperty("jaggeryContext", jaggeryContext);
+
+            RhinoEngine.putContextProperty("jaggeryContext", jaggeryContext);
 
             //Parsing the script
-        	final Reader source = new ScriptReader(new BufferedInputStream(fstream));
+            final Reader source = new ScriptReader(new BufferedInputStream(fstream));
             out.println("\n");
             ShellUtilityService.initializeUtilityServices();
             engine.exec(source, scope, null);
             ShellUtilityService.destroyUtilityServices();
             out.flush();
             out.println("\n");
-		}catch (Exception e){
-			out.println("\n");
-			out.println("Error: " + e.getMessage());
-			out.println("\n");
-		}
+        } catch (Exception e) {
+            out.println("\n");
+            out.println("Error: " + e.getMessage());
+            out.println("\n");
+        }
 
-	}
+    }
 
     /**
      * Parse Jaggery expressions
      *
      * @param expression Jaggery expression string
      */
-	public static void parseJaggeryExpression(final String expression) {
+    public static void parseJaggeryExpression(final String expression) {
 
-        try{
+        try {
 
-        	//Initialize the Rhino context
+            //Initialize the Rhino context
             RhinoEngine.enterGlobalContext();
 
             final RhinoEngine engine = CommandLineManager.getCommandLineEngine();
             final ScriptableObject scope = engine.getRuntimeScope();
-        	
-        	//initialize JaggeryContext
-            final JaggeryContext jaggeryContext = new JaggeryContext();
-        	jaggeryContext.setTenantId("0");
-        	jaggeryContext.setEngine(engine);
-        	jaggeryContext.setScope(scope);
-            jaggeryContext.addProperty(CommonManager.JAGGERY_OUTPUT_STREAM, out);
-        	
-        	RhinoEngine.putContextProperty("jaggeryContext", jaggeryContext);
 
-        	//Parsing the script
-        	ShellUtilityService.initializeUtilityServices();
+            //initialize JaggeryContext
+            final JaggeryContext jaggeryContext = new JaggeryContext();
+            jaggeryContext.setTenantDomain("0");
+            jaggeryContext.setEngine(engine);
+            jaggeryContext.setScope(scope);
+            jaggeryContext.addProperty(CommonManager.JAGGERY_OUTPUT_STREAM, out);
+
+            RhinoEngine.putContextProperty("jaggeryContext", jaggeryContext);
+
+            //Parsing the script
+            ShellUtilityService.initializeUtilityServices();
             engine.exec(new StringReader(expression), scope, null);
             ShellUtilityService.destroyUtilityServices();
             out.flush();
-		}catch (Exception e){
-			out.println("Error: " + e.getMessage());
-		}
+        } catch (Exception e) {
+            out.println("Error: " + e.getMessage());
+        }
 
-	}
+    }
 
 }
