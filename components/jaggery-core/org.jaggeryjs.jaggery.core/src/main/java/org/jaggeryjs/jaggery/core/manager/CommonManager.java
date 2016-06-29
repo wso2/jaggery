@@ -66,8 +66,7 @@ public class CommonManager {
         return this.moduleManager;
     }
 
-    public void initialize(String modulesDir, RhinoSecurityController securityController)
-            throws ScriptException {
+    public void initialize(String modulesDir, RhinoSecurityController securityController) throws ScriptException {
         this.engine = new RhinoEngine(new CacheManager(null), new RhinoContextFactory(securityController));
         this.moduleManager = new ModuleManager(modulesDir);
         exposeDefaultModules(this.engine, this.moduleManager.getModules());
@@ -76,7 +75,9 @@ public class CommonManager {
     public static void initContext(JaggeryContext context) throws ScriptException {
         context.setEngine(manager.engine);
         context.setScope(manager.engine.getRuntimeScope());
-        context.setTenantId(Integer.toString(PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId()));
+        if (WebAppManager.isCarbonServer()) {
+            context.setTenantDomain(PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantDomain(true));
+        }
 
         context.addProperty(Constants.JAGGERY_CORE_MANAGER, manager);
         context.addProperty(Constants.JAGGERY_INCLUDED_SCRIPTS, new HashMap<String, Boolean>());
@@ -99,8 +100,7 @@ public class CommonManager {
 
     }
 
-    public static void include(Context cx, Scriptable thisObj, Object[] args, Function funObj)
-            throws ScriptException {
+    public static void include(Context cx, Scriptable thisObj, Object[] args, Function funObj) throws ScriptException {
         String functionName = "include";
         int argsCount = args.length;
         if (argsCount != 1 && argsCount != 2) {
@@ -292,8 +292,7 @@ public class CommonManager {
     /**
      * JaggeryMethod responsible of writing to the output stream
      */
-    public static void print(Context cx, Scriptable thisObj, Object[] args, Function funObj)
-            throws ScriptException {
+    public static void print(Context cx, Scriptable thisObj, Object[] args, Function funObj) throws ScriptException {
         String functionName = "print";
         JaggeryContext jaggeryContext = getJaggeryContext();
 
@@ -304,7 +303,7 @@ public class CommonManager {
         OutputStream out = (OutputStream) jaggeryContext.getProperty(CommonManager.JAGGERY_OUTPUT_STREAM);
         if (args[0] instanceof StreamHostObject) {
             InputStream in = ((StreamHostObject) args[0]).getStream();
-            if(in instanceof FileInputStream){  //if form file we will use channel since it's faster
+            if (in instanceof FileInputStream) {  //if form file we will use channel since it's faster
 
                 ReadableByteChannel inputChannel = null;
                 WritableByteChannel outputChannel = null;
@@ -320,14 +319,14 @@ public class CommonManager {
                 } finally {
                     clearResources(fc, inputChannel, outputChannel, in, out);
                 }
-            }else{
+            } else {
                 try {
                     IOUtils.copy(in, out);
                 } catch (IOException e) {
                     log.error(e.getMessage(), e);
                     throw new ScriptException(e);
                 } finally {
-                    clearResources( in, out);
+                    clearResources(in, out);
                 }
             }
         } else {

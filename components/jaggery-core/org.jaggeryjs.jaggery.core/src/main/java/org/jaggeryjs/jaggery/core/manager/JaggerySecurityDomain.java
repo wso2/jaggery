@@ -26,12 +26,17 @@ public class JaggerySecurityDomain implements RhinoSecurityDomain {
         if (codeSource != null) {
             return codeSource;
         }
+        URL url = null;
         try {
             String contextPath = servletContext.getRealPath("/");
-            if (!contextPath.endsWith(File.separator)) {
-                contextPath += File.separator;
+            if(contextPath == null){
+                url = servletContext.getResource(scriptPath);
+            }else {
+                if (!contextPath.endsWith(File.separator)) {
+                    contextPath += File.separator;
+                }
+                url = new File(contextPath + scriptPath).getCanonicalFile().toURI().toURL();
             }
-            URL url = new File(contextPath + scriptPath).getCanonicalFile().toURI().toURL();
             codeSource = new CodeSource(url, (Certificate[]) null);
             return codeSource;
         } catch (MalformedURLException e) {
