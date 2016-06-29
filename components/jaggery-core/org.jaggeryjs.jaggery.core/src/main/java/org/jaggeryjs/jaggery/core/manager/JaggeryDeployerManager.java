@@ -18,6 +18,7 @@ package org.jaggeryjs.jaggery.core.manager;
 import org.apache.catalina.*;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tomcat.util.descriptor.web.*;
@@ -38,13 +39,26 @@ import org.mozilla.javascript.ScriptableObject;
 import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringReader;
 import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
+/**
+ * This JaggeryDeployerManager is responsible for processing jaggery.conf file and making relevant modifications
+ * according to jaggery.conf file
+ */
 public class JaggeryDeployerManager {
 
     private static Log log = LogFactory.getLog(JaggeryDeployerManager.class);
+    private static final String INDEX_HTML = "index.html";
+    private static final String INDEX_JAG = "index.jag";
 
+    /**
+     * Process the jaggery.conf file of jaggery apps
+     * @param context context of the jaggery app
+     */
     public void processJaggeryApp(Context context) {
         JSONObject jaggeryConfigObj = null;
         SecurityConstraint securityConstraint = new SecurityConstraint();
@@ -53,7 +67,7 @@ public class JaggeryDeployerManager {
         securityCollection.setName("ConfigDir");
         securityCollection.setDescription("Jaggery Configuration Dir");
         securityConstraint.addCollection(securityCollection);
-        jaggeryConfigObj = readJaggeryConfig(context.getPath());
+        jaggeryConfigObj = readJaggeryConfig(context);
         initJaggeryappDefaults(context, jaggeryConfigObj, securityConstraint);
         try {
             WebAppManager.getEngine().enterContext();
@@ -80,25 +94,19 @@ public class JaggeryDeployerManager {
 
     private static void initJaggeryappDefaults(Context ctx, JSONObject jaggeryConfig,
             SecurityConstraint securityConstraint) {
-
         Tomcat.addServlet(ctx, JaggeryCoreConstants.JAGGERY_SERVLET_NAME, JaggeryCoreConstants.JAGGERY_SERVLET_CLASS);
         Tomcat.addServlet(ctx, JaggeryCoreConstants.JAGGERY_WEBSOCKET_SERVLET_NAME,
                 JaggeryCoreConstants.JAGGERY_WEBSOCKET_SERVLET_CLASS);
-
         addFilters(ctx, jaggeryConfig);
-
         FilterDef filterDef = new FilterDef();
         filterDef.setFilterName(JaggeryCoreConstants.JAGGERY_FILTER_NAME);
         filterDef.setFilterClass(JaggeryCoreConstants.JAGGERY_FILTER_CLASS);
         ctx.addFilterDef(filterDef);
-
         FilterMap filterMapping = new FilterMap();
         filterMapping.setFilterName(JaggeryCoreConstants.JAGGERY_FILTER_NAME);
         filterMapping.addURLPattern(JaggeryCoreConstants.JAGGERY_URL_PATTERN);
         ctx.addFilterMap(filterMapping);
-
         ctx.addApplicationListener(JaggeryCoreConstants.JAGGERY_APPLICATION_SESSION_LISTENER);
-
         ctx.addConstraint(securityConstraint);
         addWelcomeFiles(ctx, jaggeryConfig);
         //jaggery conf params if null conf is not available
@@ -121,12 +129,12 @@ public class JaggeryDeployerManager {
                     context.addWelcomeFile((String) role);
                 }
             } else {
-                context.addWelcomeFile("index.jag");
-                context.addWelcomeFile("index.html");
+                context.addWelcomeFile(INDEX_JAG);
+                context.addWelcomeFile(INDEX_HTML);
             }
         } else {
-            context.addWelcomeFile("index.jag");
-            context.addWelcomeFile("index.html");
+            context.addWelcomeFile(INDEX_JAG);
+            context.addWelcomeFile(INDEX_HTML);
         }
     }
 
@@ -303,19 +311,40 @@ public class JaggeryDeployerManager {
         }
     }
 
-    private JSONObject readJaggeryConfig(String path) {
-        File file = new File("../webapps" + path + "/jaggery.conf");
+    private JSONObject readJaggeryConfig(Context context) {
         String content = null;
+        if (context.getDocBase().contains(".war")) {
+            try {
+                ZipFile zip = new ZipFile("../webapps/" + context.getDocBase());
+                for (Enumeration e = zip.entries(); e.hasMoreElements(); ) {
+                    ZipEntry entry = (ZipEntry) e.nextElement();
+                    if (entry.getName().toLowerCase().contains("jaggery.conf")) {
+                        InputStream inputStream = zip.getInputStream(entry);
+                        content = IOUtils.toString(inputStream);
+                    }
+                }
+            } catch (IOException e) {
+                log.error(
+                        "Error occuered when the accessing the jaggery.conf file of " + context.getPath().substring(1),
+                        e);
+            }
+        } else {
+            File file = new File("../webapps" + context.getPath() + "/jaggery.conf");
+            try {
+                content = FileUtils.readFileToString(file);
+            } catch (IOException e) {
+                log.error("IOException is thrown when accessing the jaggery.conf file of " + context.getPath()
+                        .substring(1), e);
+            }
+        }
         JSONObject jaggeryConfig = null;
         try {
-            content = FileUtils.readFileToString(file);
             JSONParser jp = new JSONParser();
             jaggeryConfig = (JSONObject) jp.parse(content);
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (ParseException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
+
         return jaggeryConfig;
     }
 
@@ -457,7 +486,7 @@ public class JaggeryDeployerManager {
             JSONObject js1 = new JSONObject();
             JSONObject js2 = new JSONObject();
             js1.put("url", "/*");
-            js1.put("path", "/index.jag");
+            js1.put("path", File.pathSeparator + INDEX_JAG);
             arr.add(js1);
         } else {
             arr = (JSONArray) obj.get(JaggeryCoreConstants.JaggeryConfigParams.URL_MAPPINGS);

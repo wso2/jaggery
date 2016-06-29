@@ -10,12 +10,13 @@ public class ScriptCachingContext {
     private RhinoSecurityDomain securityDomain = null;
     private volatile long sourceModifiedTime = 0L;
     private static final String TENANT_DOMAIN = "tenantDomain";
+    private static final String DEFAULT_TENANT_DOMAIN = "carbon.super";
 
     public ScriptCachingContext(String tenantDomain, String context, String path, String cacheKey) {
         if (tenantDomain == null) {
             tenantDomain = System.getProperty(TENANT_DOMAIN);
             if (tenantDomain == null) {
-                tenantDomain = "-1234";
+                tenantDomain = DEFAULT_TENANT_DOMAIN;
             }
         }
         this.tenantDomain = tenantDomain;

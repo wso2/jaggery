@@ -32,6 +32,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.JarURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.security.PermissionCollection;
@@ -75,20 +76,27 @@ public class WebAppManager {
 
     private static final String CARBON_HOME = "carbon.home";
 
+    private static final String JAGGERY_HOME = "jaggery.home";
+
+    private static final String CATALINA_HOME = "catalina.base";
+
+    private static final String JAGGERY = "jaggery";
+
     static {
         try {
 
-            String jaggeryDir = System.getProperty("jaggery.home");
-            if (System.getProperty("catalina.base") != null && jaggeryDir == null) {
-                jaggeryDir = System.getProperty("catalina.base") + File.pathSeparator + "jaggery";
+            String jaggeryDir = System.getProperty(JAGGERY_HOME);
+            if (System.getProperty(CATALINA_HOME) != null && jaggeryDir == null) {
+                jaggeryDir = System.getProperty(CATALINA_HOME) + File.pathSeparator + JAGGERY;
             }
 
             if (jaggeryDir == null) {
-                jaggeryDir = System.getProperty("carbon.home");
+                jaggeryDir = System.getProperty(CARBON_HOME);
             }
 
             if (jaggeryDir == null) {
                 log.error("Unable to find jaggery.home or carbon.home system properties");
+                throw new RuntimeException("Unable to find jaggery.home or carbon.home system properties");
             }
 
             String modulesDir = jaggeryDir + File.separator + JAGGERY_MODULES_DIR;
@@ -100,6 +108,13 @@ public class WebAppManager {
                     ServletContext servletContext = (ServletContext) context.getProperty(Constants.SERVLET_CONTEXT);
                     String docBase = servletContext.getRealPath("/");
                     // Create a file read permission for web app context directory
+                    if(docBase == null){
+                        try {
+                            docBase = servletContext.getResource("").getPath();
+                        } catch (MalformedURLException e) {
+                            log.error("Error in getting the real path of the webapp", e);
+                        }
+                    }
                     if (!docBase.endsWith(File.separator)) {
                         permissions.add(new FilePermission(docBase, "read"));
                         docBase = docBase + File.separator;
