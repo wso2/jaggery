@@ -17,6 +17,7 @@ public class WebAppFileManager implements JavaScriptFileManager {
     private static final Log log = LogFactory.getLog(WebAppFileManager.class);
 
     private ServletContext context;
+    private static final String FILE_PATH = "file://";
 
     public WebAppFileManager(ServletContext context) throws ScriptException {
         this.context = context;
@@ -26,7 +27,7 @@ public class WebAppFileManager implements JavaScriptFileManager {
     public JavaScriptFile getJavaScriptFile(Object object) throws ScriptException {
         if (object instanceof String) {
             String path = (String) object;
-            if (path.startsWith("file://")) {
+            if (path.startsWith(FILE_PATH)) {
                 return new JavaScriptFileManagerImpl().getJavaScriptFile(path);
             }
             WebAppFile webAppFile = new WebAppFile(path, context);
@@ -45,7 +46,7 @@ public class WebAppFileManager implements JavaScriptFileManager {
 
     @Override
     public File getFile(String path) throws ScriptException {
-        if (path.startsWith("file://")) {
+        if (path.startsWith(FILE_PATH)) {
             return new JavaScriptFileManagerImpl().getFile(path);
         }
 
@@ -64,5 +65,23 @@ public class WebAppFileManager implements JavaScriptFileManager {
             throw new ScriptException(msg);
         }
         return file;
+    }
+
+    @Override
+    public String getDirectoryPath(String path) throws ScriptException {
+        if (path.startsWith(FILE_PATH)) {
+            return new JavaScriptFileManagerImpl().getFile(path).getAbsolutePath();
+        }
+
+        String oldPath = path;
+        path = FilenameUtils.normalizeNoEndSeparator(path);
+        if (path == null) {
+            String msg = "Invalid file path : " + oldPath;
+            log.error(msg);
+            throw new ScriptException(msg);
+        }
+
+        File file = new File(context.getRealPath("/"), path);
+        return file.getPath();
     }
 }
