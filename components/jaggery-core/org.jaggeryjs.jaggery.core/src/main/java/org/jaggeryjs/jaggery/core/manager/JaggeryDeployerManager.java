@@ -317,9 +317,15 @@ public class JaggeryDeployerManager {
 
     private static JSONObject readJaggeryConfig(Context context, Path appBase) {
         String content = null;
+        String path = null;
         if (context.getDocBase().contains(WAR_EXTENSION)) {
             try {
-                ZipFile zip = new ZipFile(appBase + context.getDocBase());
+                if (!appBase.endsWith("/")) {
+                    path = appBase + File.separator + context.getDocBase();
+                } else {
+                    path = appBase + context.getDocBase();
+                }
+                ZipFile zip = new ZipFile(path);
                 for (Enumeration e = zip.entries(); e.hasMoreElements(); ) {
                     ZipEntry entry = (ZipEntry) e.nextElement();
                     if (entry.getName().toLowerCase().contains(JAGGERY_CONF)) {

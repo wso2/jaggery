@@ -75,9 +75,15 @@ public class JaggeryAppListener implements LifecycleListener {
      */
     private boolean isJaggeryApp(Context context) {
         Path appBase = getAppBase(context);
+        String path;
         if (context.getDocBase().contains(WAR_EXTENSION)) {
             try {
-                ZipFile zip = new ZipFile(getAppBase(context) + context.getDocBase());
+                if (!appBase.endsWith("/")) {
+                    path = appBase + File.separator + context.getDocBase();
+                } else {
+                    path = appBase + context.getDocBase();
+                }
+                ZipFile zip = new ZipFile(path);
                 for (Enumeration e = zip.entries(); e.hasMoreElements(); ) {
                     ZipEntry entry = (ZipEntry) e.nextElement();
                     if (entry.getName().toLowerCase().contains(JAGGERY_CONF)) {
@@ -85,7 +91,7 @@ public class JaggeryAppListener implements LifecycleListener {
                     }
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("Error in processing the zip file", e);
             }
         } else {
             Path filepath = Paths.get(appBase + context.getPath() + File.separator + JAGGERY_CONF);
