@@ -40,7 +40,7 @@ public class FeedHostObject extends ScriptableObject {
     private static final String HOST_OBJECT_NAME = "Feed";
     private static boolean isRssFeed;
     private static Log log = LogFactory.getLog(FeedHostObject.class);
-    public static Context ctx;
+    private static Context ctx;
 
     @Override
     public String getClassName() {

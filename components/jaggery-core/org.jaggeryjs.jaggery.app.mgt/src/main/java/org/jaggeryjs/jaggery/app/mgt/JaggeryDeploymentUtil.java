@@ -19,7 +19,7 @@ public final class JaggeryDeploymentUtil {
         //disable external instantiation
     }
     
-    public static File getConfig(File webAppFile) {
+    static File getConfig(File webAppFile) {
         if (webAppFile.isDirectory()) {
             File f = new File(webAppFile + File.separator + JaggeryCoreConstants.JAGGERY_CONF_FILE);
             if (f.exists()) {
@@ -29,18 +29,15 @@ public final class JaggeryDeploymentUtil {
         return null;
     }
 
-    public static void unZip(InputStream is, String destDir) {
+    static void unZip(InputStream is, String destDir) {
     	
         try {
             File unzipDestinationDirectory = new File(destDir);
             if (!unzipDestinationDirectory.mkdir()) {
                 log.error("could not create " + destDir);
             }
-
             BufferedOutputStream dest = null;
-
-            ZipInputStream zis = new
-                    ZipInputStream(new BufferedInputStream(is));
+            ZipInputStream zis = new ZipInputStream(new BufferedInputStream(is));
             ZipEntry entry;
             while ((entry = zis.getNextEntry()) != null) {
                 if (entry.isDirectory()) {

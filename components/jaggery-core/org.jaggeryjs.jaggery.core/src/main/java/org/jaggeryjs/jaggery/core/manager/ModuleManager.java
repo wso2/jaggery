@@ -200,8 +200,6 @@ public class ModuleManager {
                         try {
                             URL url = new File(fileName).getCanonicalFile().toURI().toURL();
                             return new CodeSource(url, (Certificate[]) null);
-                        } catch (MalformedURLException e) {
-                            throw new ScriptException(e);
                         } catch (IOException e) {
                             throw new ScriptException(e);
                         }

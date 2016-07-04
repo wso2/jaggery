@@ -179,12 +179,9 @@ public class ResponseHostObject extends ScriptableObject {
         if (!(args[0] instanceof NativeObject)) {
             HostObjectUtil.invalidArgsError(hostObjectName, functionName, "1", "string", args[0], false);
         }
-
         NativeObject jcookie = (NativeObject) args[0];
         Gson gson = new Gson();
         Cookie cookie = gson.fromJson(HostObjectUtil.serializeJSON(jcookie), Cookie.class);
-
-
         ResponseHostObject rho = (ResponseHostObject) thisObj;
         rho.response.addCookie(cookie);
     }

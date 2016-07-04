@@ -34,8 +34,6 @@ public class JaggerySecurityDomain implements RhinoSecurityDomain {
             URL url = new File(contextPath + scriptPath).getCanonicalFile().toURI().toURL();
             codeSource = new CodeSource(url, (Certificate[]) null);
             return codeSource;
-        } catch (MalformedURLException e) {
-            throw new ScriptException(e);
         } catch (IOException e) {
             throw new ScriptException(e);
         }

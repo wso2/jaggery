@@ -754,7 +754,7 @@ public class WebAppManager {
         };
     }
 
-    public static long getScriptLastModified(ServletContext context, String scriptPath) throws ScriptException {
+    static long getScriptLastModified(ServletContext context, String scriptPath) throws ScriptException {
         long result = -1;
         URLConnection uc = null;
         try {

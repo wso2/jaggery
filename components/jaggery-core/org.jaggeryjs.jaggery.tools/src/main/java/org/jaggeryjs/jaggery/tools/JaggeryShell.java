@@ -15,12 +15,7 @@
  */
 package org.jaggeryjs.jaggery.tools;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
+import java.io.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -234,25 +229,10 @@ public class JaggeryShell extends ScriptableObject
         	final String fileSeparator = System.getProperty("file.separator");
 			String fileToProcess = filename.replace("\\", fileSeparator + fileSeparator);
         	fileToProcess = fileToProcess.replace("/", fileSeparator + fileSeparator);
-
-        	FileReader in = null;
-            try {
-            	in = new FileReader(fileToProcess);
-            	in.toString();
+            File file = new File(fileToProcess);
+            if (file.exists()) {
+                CommandLineExecutor.parseJaggeryScript(fileToProcess);
             }
-            catch (FileNotFoundException ex) {
-                Context.reportError("Couldn't open file \"" + fileToProcess + "\".");
-                return;
-            } finally {
-            	try {
-            		in.close();
-            	} catch (IOException e) {
-            		LOG.error("Error closing file reader for file " + filename, e);
-            	}
-            	
-            }
-
-            CommandLineExecutor.parseJaggeryScript(fileToProcess);
         }
     }
 

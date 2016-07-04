@@ -397,53 +397,63 @@ public class FileHostObject extends ScriptableObject {
                 fho.manager = new JavaScriptFileManagerImpl();
             }
             File zipfile = new File(fho.manager.getFile(fho.file.getPath()).getAbsolutePath());
+
             File outdir = new File(fho.manager.getDirectoryPath(args[0].toString()));
-            outdir.getParentFile().mkdirs();
-            outdir.mkdir();
-            try {
-                zin = new ZipInputStream(new FileInputStream(zipfile));
-                ZipEntry entry;
-                String name, dir;
-                byte[] buffer = new byte[1024];
-                while ((entry = zin.getNextEntry()) != null) {
-                    name = entry.getName();
-                    if (entry.isDirectory()) {
-                        mkdirs(outdir, name);
-                        continue;
-                    }
-                    int hasParentDirs = name.lastIndexOf(File.separatorChar);
-                    dir = (hasParentDirs == -1) ? null : name.substring(0, hasParentDirs);
-                    if (dir != null) {
-                        mkdirs(outdir, dir);
-                    }
+            if (outdir.getParentFile().mkdirs()) {
+                if (outdir.mkdir()) {
                     try {
-                        out = new BufferedOutputStream(new FileOutputStream(new File(outdir, name)));
-                        int count;
-                        while ((count = zin.read(buffer)) != -1) {
-                            out.write(buffer, 0, count);
-                        }
-                    } finally {
-                        if (out != null) {
+                        zin = new ZipInputStream(new FileInputStream(zipfile));
+                        ZipEntry entry;
+                        String name, dir;
+                        byte[] buffer = new byte[1024];
+                        while ((entry = zin.getNextEntry()) != null) {
+                            name = entry.getName();
+                            if (entry.isDirectory()) {
+                                mkdirs(outdir, name);
+                                continue;
+                            }
+                            int hasParentDirs = name.lastIndexOf(File.separatorChar);
+                            dir = (hasParentDirs == -1) ? null : name.substring(0, hasParentDirs);
+                            if (dir != null) {
+                                mkdirs(outdir, dir);
+                            }
                             try {
-                                out.close();
+                                out = new BufferedOutputStream(new FileOutputStream(new File(outdir, name)));
+                                int count;
+                                while ((count = zin.read(buffer)) != -1) {
+                                    out.write(buffer, 0, count);
+                                }
+                            } catch (Exception ex){
+                                log.error("Unable to perform unZip operation for file : "+ fho.file.getName(), ex);
+                                return false;
+                            } finally {
+                                if (out != null) {
+                                    try {
+                                        out.close();
+                                    } catch (IOException er) {
+                                        log.error("Unable to close the output stream " + er);
+                                    }
+                                }
+                            }
+                        }
+                        return true;
+                    } catch (IOException ex) {
+                        log.error("Cannot unzip the file " + ex);
+                        throw new IOException(ex);
+                    } finally {
+                        if (zin != null) {
+                            try {
+                                zin.close();
                             } catch (IOException er) {
-                                log.error("Unable to close the output stream " + er);
+                                log.error("Unable to close the zip input stream " + er);
                             }
                         }
                     }
+                } else {
+                    log.error("Unable to create directories to handle file : "+  fho.file.getName());
                 }
-                return true;
-            } catch (IOException ex) {
-                log.error("Cannot unzip the file " + ex);
-                throw new IOException(ex);
-            } finally {
-                if (zin != null) {
-                    try {
-                        zin.close();
-                    } catch (IOException er) {
-                        log.error("Unable to close the zip input stream " + er);
-                    }
-                }
+            } else {
+                log.error("Unable to create directories to handle file : "+  fho.file.getName());
             }
         } else {
             log.error("Zip file not exists");
@@ -481,28 +491,33 @@ public class FileHostObject extends ScriptableObject {
             String destinationPath = fho.manager.getFile(args[0].toString()).getAbsolutePath();
             String sourcePath = fho.manager.getDirectoryPath(fho.file.getPath());
             File destinationFile = new File(destinationPath);
-            destinationFile.getParentFile().mkdirs();
-            try {
-                zip = new ZipOutputStream(new FileOutputStream(destinationPath));
-                File folder = new File(sourcePath);
-                for (String fileName : folder.list()) {
-                    addFileToZip("", sourcePath + File.separator + fileName, zip);
-                }
-                return true;
-            } catch (IOException ex) {
-                log.error("Cannot zip the folder. " + ex);
-                throw new IOException(ex);
-            } finally {
-                if (zip != null) {
-                    try {
-                        zip.flush();
-                        zip.close();
-                    } catch (IOException er) {
-                        log.error("Unable to close the zip output stream " + er);
+            if (destinationFile.getParentFile().mkdirs()) {
+                try {
+                    zip = new ZipOutputStream(new FileOutputStream(destinationPath));
+                    File folder = new File(sourcePath);
+                    if (folder.list() != null) {
+                        for (String fileName : folder.list()) {
+                            addFileToZip("", sourcePath + File.separator + fileName, zip);
+                        }
+                    }
+                    return true;
+                } catch (IOException ex) {
+                    log.error("Cannot zip the folder. " + ex);
+                    throw new IOException(ex);
+                } finally {
+                    if (zip != null) {
+                        try {
+                            zip.flush();
+                            zip.close();
+                        } catch (IOException er) {
+                            log.error("Unable to close the zip output stream " + er);
+                        }
                     }
                 }
+            } else {
+                log.error("Unable to create the directory path for file : "+ fho.file.getName());
             }
-        } else {
+        }else {
             log.error("Zip operation cannot be done. Folder not found");
         }
         return false;
@@ -574,10 +589,8 @@ public class FileHostObject extends ScriptableObject {
      * @param parentDirectory Parent of the directory
      * @param path            Path of the the child directory to be created inside
      */
-    private static void mkdirs(File parentDirectory, String path) {
+    private static boolean mkdirs(File parentDirectory, String path) {
         File dir = new File(parentDirectory, path);
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
+        return dir.exists() || dir.mkdirs();
     }
 }
