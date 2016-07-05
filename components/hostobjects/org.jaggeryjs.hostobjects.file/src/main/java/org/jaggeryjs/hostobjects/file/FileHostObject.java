@@ -399,8 +399,8 @@ public class FileHostObject extends ScriptableObject {
             File zipfile = new File(fho.manager.getFile(fho.file.getPath()).getAbsolutePath());
 
             File outdir = new File(fho.manager.getDirectoryPath(args[0].toString()));
-            if (outdir.getParentFile().mkdirs()) {
-                if (outdir.mkdir()) {
+            if (outdir.getParentFile().exists() || outdir.getParentFile().mkdirs()) {
+                if (outdir.exists() || outdir.mkdir()) {
                     try {
                         zin = new ZipInputStream(new FileInputStream(zipfile));
                         ZipEntry entry;
@@ -491,7 +491,7 @@ public class FileHostObject extends ScriptableObject {
             String destinationPath = fho.manager.getFile(args[0].toString()).getAbsolutePath();
             String sourcePath = fho.manager.getDirectoryPath(fho.file.getPath());
             File destinationFile = new File(destinationPath);
-            if (destinationFile.getParentFile().mkdirs()) {
+            if (destinationFile.getParentFile().exists() || destinationFile.getParentFile().mkdirs()) {
                 try {
                     zip = new ZipOutputStream(new FileOutputStream(destinationPath));
                     File folder = new File(sourcePath);
