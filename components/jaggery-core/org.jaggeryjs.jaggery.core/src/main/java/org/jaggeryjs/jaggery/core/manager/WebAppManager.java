@@ -1,5 +1,6 @@
 package org.jaggeryjs.jaggery.core.manager;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
@@ -754,7 +755,8 @@ public class WebAppManager {
         };
     }
 
-    static long getScriptLastModified(ServletContext context, String scriptPath) throws ScriptException {
+    @SuppressFBWarnings({"CRLF_INJECTION_LOGS", "CRLF_INJECTION_LOGS", "CRLF_INJECTION_LOGS"})
+    private static long getScriptLastModified(ServletContext context, String scriptPath) throws ScriptException {
         long result = -1;
         URLConnection uc = null;
         try {

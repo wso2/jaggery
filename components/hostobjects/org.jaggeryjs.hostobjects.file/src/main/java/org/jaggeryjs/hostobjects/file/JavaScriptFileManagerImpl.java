@@ -1,5 +1,6 @@
 package org.jaggeryjs.hostobjects.file;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.logging.Log;
@@ -26,6 +27,7 @@ public class JavaScriptFileManagerImpl implements JavaScriptFileManager {
         }
     }
 
+    @SuppressFBWarnings("PATH_TRAVERSAL_IN")
     @Override
     public File getFile(String uri) throws ScriptException {
         File file;

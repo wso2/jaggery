@@ -1,5 +1,6 @@
 package org.jaggeryjs.jaggery.core.manager;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.axiom.om.OMAttribute;
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.OMNamespace;
@@ -68,6 +69,7 @@ public class ModuleManager {
         return isModuleRefreshEnabled;
     }
 
+    @SuppressFBWarnings("PATH_TRAVERSAL_IN")
     private void init() throws ScriptException {
         //load framework modules, we use jaggery.home to check whether it is a pure jaggery server
         // and loads even core modules from modules directory. Else, from the modules.xml
@@ -100,11 +102,12 @@ public class ModuleManager {
         }
     }
 
-    public Map<String, JavaScriptModule> getModules() {
+    Map<String, JavaScriptModule> getModules() {
         return this.modules;
     }
 
-    public JavaScriptModule getModule(String name) throws ScriptException {
+    @SuppressFBWarnings("PATH_TRAVERSAL_IN")
+    JavaScriptModule getModule(String name) throws ScriptException {
         if (isModuleRefreshEnabled()) {
             this.modules.remove(name);
             File module = new File(this.modulesDir + File.separator + name);
@@ -152,6 +155,7 @@ public class ModuleManager {
         }
     }
 
+    @SuppressFBWarnings("PATH_TRAVERSAL_IN")
     private void initScripts(OMElement moduleOM, Context cx, JavaScriptModule module, boolean isCustom)
             throws ScriptException {
         String name = null;
@@ -195,6 +199,7 @@ public class ModuleManager {
                 CacheManager cacheManager = new CacheManager(null);
 
                 sctx.setSecurityDomain(new RhinoSecurityDomain() {
+                    @SuppressFBWarnings("PATH_TRAVERSAL_IN")
                     @Override
                     public CodeSource getCodeSource() throws ScriptException {
                         try {

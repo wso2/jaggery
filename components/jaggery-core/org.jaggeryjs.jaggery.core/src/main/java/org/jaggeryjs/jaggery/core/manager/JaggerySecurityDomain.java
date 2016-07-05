@@ -1,5 +1,6 @@
 package org.jaggeryjs.jaggery.core.manager;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.jaggeryjs.scriptengine.exceptions.ScriptException;
 import org.jaggeryjs.scriptengine.security.RhinoSecurityDomain;
 
@@ -22,6 +23,7 @@ public class JaggerySecurityDomain implements RhinoSecurityDomain {
         this.servletContext = servletContext;
     }
 
+    @SuppressFBWarnings("PATH_TRAVERSAL_IN")
     public CodeSource getCodeSource() throws ScriptException {
         if (codeSource != null) {
             return codeSource;

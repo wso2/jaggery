@@ -15,6 +15,7 @@
  */
 package org.jaggeryjs.jaggery.deployer;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.axis2.deployment.DeploymentException;
 import org.apache.axis2.deployment.repository.util.DeploymentFileData;
 import org.apache.commons.logging.Log;
@@ -59,6 +60,7 @@ public class JaggeryDeployer extends AbstractWebappDeployer {
         super.deploy(deploymentFileData);
     }
 
+    @SuppressFBWarnings("PATH_TRAVERSAL_IN")
     @Override
     public void undeploy(String fileName) throws DeploymentException {
         if (!new File(fileName).exists()) {

@@ -1,5 +1,6 @@
 package org.jaggeryjs.jaggery.app.mgt;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.jaggery.core.JaggeryCoreConstants;
@@ -19,6 +20,7 @@ public final class JaggeryDeploymentUtil {
         //disable external instantiation
     }
     
+    @SuppressFBWarnings("PATH_TRAVERSAL_IN")
     static File getConfig(File webAppFile) {
         if (webAppFile.isDirectory()) {
             File f = new File(webAppFile + File.separator + JaggeryCoreConstants.JAGGERY_CONF_FILE);
@@ -29,6 +31,7 @@ public final class JaggeryDeploymentUtil {
         return null;
     }
 
+    @SuppressFBWarnings({"PATH_TRAVERSAL_IN", "PATH_TRAVERSAL_IN", "PATH_TRAVERSAL_OUT"})
     static void unZip(InputStream is, String destDir) {
     	
         try {

@@ -16,6 +16,7 @@
 
 package org.jaggeryjs.jaggery.app.mgt;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.axis2.AxisFault;
 import org.apache.axis2.engine.AxisConfiguration;
 import org.apache.commons.logging.Log;
@@ -82,6 +83,7 @@ public class JaggeryAppAdmin extends WebappAdmin {
      * @return true - if upload was successful
      * @throws org.apache.axis2.AxisFault If an error occurrs while uploading
      */
+    @SuppressFBWarnings({"PATH_TRAVERSAL_IN", "PATH_TRAVERSAL_IN"})
     public boolean uploadWebapp(WebappUploadData[] webappUploadDataList) throws AxisFault {
 
         AxisConfiguration axisConfig = getAxisConfig();

@@ -1,5 +1,6 @@
 package org.jaggeryjs.jaggery.core.manager;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.impl.builder.StAXOMBuilder;
 import org.apache.commons.io.FilenameUtils;
@@ -106,6 +107,7 @@ public final class CommandLineManager {
         RhinoEngine.putContextProperty(CommandLineManager.JAGGERY_CONTEXT, jaggeryContext);
     }
 
+    @SuppressFBWarnings("PATH_TRAVERSAL_IN")
     public static void include(Context cx, Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException {
         String functionName = "include";
@@ -153,6 +155,7 @@ public final class CommandLineManager {
         }
     }
 
+    @SuppressFBWarnings("PATH_TRAVERSAL_IN")
     public static void include_once(Context cx, Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException {
         String functionName = "include_once";

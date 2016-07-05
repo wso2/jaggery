@@ -1,5 +1,6 @@
 package org.jaggeryjs.jaggery.core.plugins;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
@@ -40,6 +41,7 @@ public class WebAppFile implements JavaScriptFile {
         this.realPath = context.getRealPath(getFilePath(path));
     }
 
+    @SuppressFBWarnings("PATH_TRAVERSAL_IN")
     @Override
     public void construct() throws ScriptException {
         f = new File(realPath);
@@ -59,6 +61,7 @@ public class WebAppFile implements JavaScriptFile {
         return fileURL;
     }
 
+    @SuppressFBWarnings({"PATH_TRAVERSAL_IN", "PATH_TRAVERSAL_IN", "PATH_TRAVERSAL_IN", "PATH_TRAVERSAL_IN", "PATH_TRAVERSAL_IN", "PATH_TRAVERSAL_IN"})
     @Override
     public void open(String mode) throws ScriptException {
         if ("r".equals(mode)) {

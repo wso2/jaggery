@@ -165,9 +165,9 @@ public class DatabaseHostObject extends ScriptableObject {
         this.autoCommit = (Boolean) object;
     }
 
+    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings({"SQL_INJECTION_JDBC", "SQL_INJECTION_JDBC", "SQL_INJECTION_JDBC", "SQL_INJECTION_JDBC"})
     public static Object jsFunction_query(Context cx, Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException, SQLException {
-
         String functionName = "query";
         int argsCount = args.length;
         if (argsCount == 0) {
@@ -516,6 +516,7 @@ public class DatabaseHostObject extends ScriptableObject {
         }
     }
 
+    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("SQL_INJECTION_JDBC")
     private static Object executeBatch(Context cx, final DatabaseHostObject db, NativeArray queries,
                                        NativeArray params, final Function callback)
             throws ScriptException, SQLException {

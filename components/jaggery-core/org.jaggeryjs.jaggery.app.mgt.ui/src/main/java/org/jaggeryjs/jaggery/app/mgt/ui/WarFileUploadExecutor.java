@@ -37,6 +37,7 @@ public class WarFileUploadExecutor extends AbstractFileUploadExecutor {
 
     private static final String[] ALLOWED_FILE_EXTENSIONS = new String[]{".war", ".zip"};
 
+    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings({"FILE_UPLOAD_FILENAME", "FILE_UPLOAD_FILENAME"})
     public boolean execute(HttpServletRequest request,
                            HttpServletResponse response) throws CarbonException, IOException {
 

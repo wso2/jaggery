@@ -1,5 +1,6 @@
 package org.jaggeryjs.jaggery.core.plugins;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.apache.commons.io.IOUtils;
@@ -158,16 +159,19 @@ public class UploadedFile implements JavaScriptFile {
         return fileItem.getSize();
     }
 
+    @SuppressFBWarnings("PATH_TRAVERSAL_IN")
     @Override
     public long getLastModified() throws ScriptException {
         return new File(path).lastModified();
     }
 
+    @SuppressFBWarnings("FILE_UPLOAD_FILENAME")
     @Override
     public String getName() throws ScriptException {
         return fileItem.getName();
     }
 
+    @SuppressFBWarnings("PATH_TRAVERSAL_IN")
     @Override
     public boolean isExist() throws ScriptException {
         return new File(path).exists();

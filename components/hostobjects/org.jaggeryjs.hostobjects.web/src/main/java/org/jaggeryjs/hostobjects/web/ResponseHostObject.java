@@ -1,6 +1,7 @@
 package org.jaggeryjs.hostobjects.web;
 
 import com.google.gson.Gson;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mozilla.javascript.Context;
@@ -149,6 +150,7 @@ public class ResponseHostObject extends ScriptableObject {
         }
     }
 
+    @SuppressFBWarnings("UNVALIDATED_REDIRECT")
     public static void jsFunction_sendRedirect(Context cx, Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException {
         String functionName = "sendRedirect";

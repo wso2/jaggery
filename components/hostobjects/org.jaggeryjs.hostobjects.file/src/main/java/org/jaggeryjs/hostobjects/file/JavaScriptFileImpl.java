@@ -1,5 +1,6 @@
 package org.jaggeryjs.hostobjects.file;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
@@ -31,11 +32,14 @@ public class JavaScriptFileImpl implements JavaScriptFile {
         this.path = path;
     }
 
+    @SuppressFBWarnings("PATH_TRAVERSAL_IN")
     @Override
     public void construct() throws ScriptException {
         f = new File(path);
     }
 
+    @SuppressFBWarnings({"PATH_TRAVERSAL_IN", "PATH_TRAVERSAL_IN", "PATH_TRAVERSAL_IN", "PATH_TRAVERSAL_IN",
+            "PATH_TRAVERSAL_IN", "PATH_TRAVERSAL_IN"})
     @Override
     public void open(String mode) throws ScriptException {
         if ("r".equals(mode)) {

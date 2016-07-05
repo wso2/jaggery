@@ -1,5 +1,6 @@
 package org.jaggeryjs.jaggery.core.plugins;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.logging.Log;
@@ -44,6 +45,7 @@ public class WebAppFileManager implements JavaScriptFileManager {
         }
     }
 
+    @SuppressFBWarnings({"PATH_TRAVERSAL_IN", "PATH_TRAVERSAL_IN"})
     @Override
     public File getFile(String path) throws ScriptException {
         if (path.startsWith(FILE_PATH)) {
@@ -67,6 +69,7 @@ public class WebAppFileManager implements JavaScriptFileManager {
         return file;
     }
 
+    @SuppressFBWarnings({"PATH_TRAVERSAL_IN", "PATH_TRAVERSAL_IN"})
     @Override
     public String getDirectoryPath(String path) throws ScriptException {
         if (path.startsWith(FILE_PATH)) {

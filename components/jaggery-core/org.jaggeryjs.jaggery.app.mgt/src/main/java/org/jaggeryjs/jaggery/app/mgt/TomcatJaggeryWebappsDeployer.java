@@ -16,6 +16,7 @@
 
 package org.jaggeryjs.jaggery.app.mgt;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.axis2.context.ConfigurationContext;
 import org.apache.catalina.*;
 import org.apache.catalina.Manager;
@@ -140,6 +141,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
      * @param applicationEventListeners Application event listeners
      * @throws CarbonException If a deployment error occurs
      */
+    @SuppressFBWarnings("PATH_TRAVERSAL_IN")
     protected void handleZipWebappDeployment(File webapp,
                                              List<WebContextParameter> webContextParams,
                                              List<Object> applicationEventListeners)
@@ -378,6 +380,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
         }
     }
 
+    @SuppressFBWarnings("PATH_TRAVERSAL_IN")
     private JSONObject readJaggeryConfig(File file) throws IOException {
         File confFile = new File(file.getAbsolutePath() + File.separator + JaggeryCoreConstants.JAGGERY_CONF_FILE);
         if (!confFile.exists()) {

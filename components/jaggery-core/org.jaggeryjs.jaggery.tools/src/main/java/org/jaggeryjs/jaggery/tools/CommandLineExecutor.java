@@ -15,6 +15,7 @@
  */
 package org.jaggeryjs.jaggery.tools;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.jaggeryjs.jaggery.core.ScriptReader;
 import org.jaggeryjs.jaggery.core.manager.CommandLineManager;
 import org.jaggeryjs.jaggery.core.manager.CommonManager;
@@ -29,7 +30,7 @@ import java.io.*;
 * Jaggery CommnadLineExecutor - this will parse file URLs or expressions by 
 * runtime Jaggery engine
 */
-public final class CommandLineExecutor {
+final class CommandLineExecutor {
 
 	private static PrintStream out = System.out;
     
@@ -41,13 +42,13 @@ public final class CommandLineExecutor {
      *
      * @param fileURL url of the file
      */
-	public static void parseJaggeryScript(final String fileURL) {
-
+	@SuppressFBWarnings("PATH_TRAVERSAL_IN")
+	static void parseJaggeryScript(final String fileURL) {
+		FileInputStream fstream = null;
         try{
-
             //Initialize the Rhino context
             RhinoEngine.enterGlobalContext();
-			final FileInputStream fstream = new FileInputStream(fileURL);
+			fstream = new FileInputStream(fileURL);
             
 			final RhinoEngine engine = CommandLineManager.getCommandLineEngine();
 			final ScriptableObject scope = engine.getRuntimeScope();
@@ -73,6 +74,13 @@ public final class CommandLineExecutor {
 			out.println("\n");
 			out.println("Error: " + e.getMessage());
 			out.println("\n");
+		} finally {
+			if (fstream != null){
+				try {
+					fstream.close();
+				} catch (IOException ignored) {
+				}
+			}
 		}
 
 	}

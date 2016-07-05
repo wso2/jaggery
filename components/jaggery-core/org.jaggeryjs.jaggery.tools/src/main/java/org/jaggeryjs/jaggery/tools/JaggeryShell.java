@@ -17,6 +17,7 @@ package org.jaggeryjs.jaggery.tools;
 
 import java.io.*;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mozilla.javascript.Context;
@@ -219,7 +220,8 @@ public class JaggeryShell extends ScriptableObject
      * @param filename the name of the file to compile, or null
      *                 for interactive mode.
      */
-	@SuppressWarnings("unused")
+	@SuppressFBWarnings("PATH_TRAVERSAL_IN")
+    @SuppressWarnings("unused")
 	private void processSource(Context cx, String filename)
     {
         if (filename == null) {

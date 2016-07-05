@@ -1,5 +1,6 @@
 package org.jaggeryjs.hostobjects.file;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.logging.Log;
@@ -240,6 +241,7 @@ public class FileHostObject extends ScriptableObject {
         return fho.file.getContentType();
     }
 
+    @SuppressFBWarnings("PATH_TRAVERSAL_IN")
     private static FileTypeMap loadMimeMap() throws ScriptException {
         String configDirPath = CarbonUtils.getEtcCarbonConfigDirPath();
         File configFile = new File(configDirPath, RESOURCE_MEDIA_TYPE_MAPPINGS_FILE);
@@ -378,6 +380,7 @@ public class FileHostObject extends ScriptableObject {
      * @param funObj  Function Object
      * @throws ScriptException
      */
+    @SuppressFBWarnings({"PATH_TRAVERSAL_IN", "PATH_TRAVERSAL_IN", "PATH_TRAVERSAL_IN"})
     public static boolean jsFunction_unZip(Context cx, Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException, IOException {
         String functionName = "unZip";
@@ -397,7 +400,6 @@ public class FileHostObject extends ScriptableObject {
                 fho.manager = new JavaScriptFileManagerImpl();
             }
             File zipfile = new File(fho.manager.getFile(fho.file.getPath()).getAbsolutePath());
-
             File outdir = new File(fho.manager.getDirectoryPath(args[0].toString()));
             if (outdir.getParentFile().exists() || outdir.getParentFile().mkdirs()) {
                 if (outdir.exists() || outdir.mkdir()) {
@@ -470,6 +472,7 @@ public class FileHostObject extends ScriptableObject {
      * @param funObj  Function
      * @throws ScriptException
      */
+    @SuppressFBWarnings({"PATH_TRAVERSAL_IN", "PATH_TRAVERSAL_OUT", "PATH_TRAVERSAL_IN"})
     public static boolean jsFunction_zip(Context cx, Scriptable thisObj, Object[] args, Function funObj)
             throws ScriptException, IOException {
         String functionName = "zip";
@@ -531,6 +534,7 @@ public class FileHostObject extends ScriptableObject {
      * @param zip     ZipOutputStream
      * @throws IOException
      */
+    @SuppressFBWarnings({"PATH_TRAVERSAL_IN", "PATH_TRAVERSAL_IN"})
     private static void addFileToZip(String path, String srcFile, ZipOutputStream zip) throws IOException {
         FileInputStream in = null;
         try {
@@ -567,6 +571,7 @@ public class FileHostObject extends ScriptableObject {
      * @param srcFolder Source folder to be made as zip
      * @param zip       ZipOutputStream
      */
+    @SuppressFBWarnings("PATH_TRAVERSAL_IN")
     private static void addFolderToZip(String path, String srcFolder, ZipOutputStream zip) throws IOException {
         File folder = new File(srcFolder);
         if (path.isEmpty()) {
@@ -589,6 +594,7 @@ public class FileHostObject extends ScriptableObject {
      * @param parentDirectory Parent of the directory
      * @param path            Path of the the child directory to be created inside
      */
+    @SuppressFBWarnings("PATH_TRAVERSAL_IN")
     private static boolean mkdirs(File parentDirectory, String path) {
         File dir = new File(parentDirectory, path);
         return dir.exists() || dir.mkdirs();
