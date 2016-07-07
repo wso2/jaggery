@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.jaggeryjs</groupId>
         <artifactId>components</artifactId>
-        <version>0.12.6</version>
+        <version>0.12.7-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
