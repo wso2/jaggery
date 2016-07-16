@@ -12,12 +12,12 @@ var get, post, put, del, head, options, trace, connect;
         var data = xhr.responseText;
         type = type.toLowerCase();
         if (type === "xml") {
-			return new XML(data.replace(/<\?xml.*?\?>/, "").replace(/<!--[\s\S]*?-->/g, ""));
-		} else if (type === "json") {
-			return JSON.parse(data);
+            return new XML(data.replace(/<\?xml.*?\?>/, "").replace(/<!--[\s\S]*?-->/g, ""));
+        } else if (type === "json") {
+            return JSON.parse(data);
         } else {
-			return data;
-		}
+            return data;
+        }
     };
 
     var string = function(o) {
