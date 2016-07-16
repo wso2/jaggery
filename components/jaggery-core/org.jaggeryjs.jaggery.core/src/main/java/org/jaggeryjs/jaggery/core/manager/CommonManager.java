@@ -302,8 +302,9 @@ public class CommonManager {
             HostObjectUtil.invalidNumberOfArgs("RhinoTopLevel", functionName, argsCount, false);
         }
         OutputStream out = (OutputStream) jaggeryContext.getProperty(CommonManager.JAGGERY_OUTPUT_STREAM);
-        if (args[0] instanceof StreamHostObject) {
-            InputStream in = ((StreamHostObject) args[0]).getStream();
+        Object printObj = args[0];
+        if (printObj instanceof StreamHostObject) {
+            InputStream in = ((StreamHostObject) printObj).getStream();
             if(in instanceof FileInputStream){  //if form file we will use channel since it's faster
 
                 ReadableByteChannel inputChannel = null;
@@ -332,7 +333,7 @@ public class CommonManager {
             }
         } else {
             try {
-                out.write(HostObjectUtil.serializeObject(args[0]).getBytes());
+                out.write(HostObjectUtil.serializeObject(printObj).getBytes());
             } catch (IOException e) {
                 if (log.isDebugEnabled()) {
                     log.debug(e.getMessage(), e);
