@@ -29,7 +29,7 @@ import java.io.*;
  * Jaggery CommnadLineExecutor - this will parse file URLs or expressions by
  * runtime Jaggery engine
  */
-public final class CommandLineExecutor {
+final class CommandLineExecutor {
 
     private static PrintStream out = System.out;
     private static String DEFAULT_TENANTDOMAIN = "carbon.super";
@@ -45,25 +45,21 @@ public final class CommandLineExecutor {
      */
 
 	@SuppressFBWarnings("PATH_TRAVERSAL_IN")
-	static void parseJaggeryScript(final String fileURL) {
+    static void parseJaggeryScript(final String fileURL) {
 		FileInputStream fstream = null;
         try{
             //Initialize the Rhino context
             RhinoEngine.enterGlobalContext();
-            final FileInputStream fstream = new FileInputStream(fileURL);
-
+            fstream = new FileInputStream(fileURL);
             final RhinoEngine engine = CommandLineManager.getCommandLineEngine();
             final ScriptableObject scope = engine.getRuntimeScope();
-
             //initialize JaggeryContext
             final JaggeryContext jaggeryContext = new JaggeryContext();
             jaggeryContext.setTenantDomain(DEFAULT_TENANTDOMAIN);
             jaggeryContext.setEngine(engine);
             jaggeryContext.setScope(scope);
             jaggeryContext.addProperty(CommonManager.JAGGERY_OUTPUT_STREAM, System.out);
-
             RhinoEngine.putContextProperty("jaggeryContext", jaggeryContext);
-
             //Parsing the script
             final Reader source = new ScriptReader(new BufferedInputStream(fstream));
             out.println("\n");
@@ -76,12 +72,7 @@ public final class CommandLineExecutor {
             out.println("\n");
             out.println("Error: " + e.getMessage());
             out.println("\n");
-        }
-		}catch (Exception e){
-			out.println("\n");
-			out.println("Error: " + e.getMessage());
-			out.println("\n");
-		} finally {
+        } finally {
 			if (fstream != null){
 				try {
 					fstream.close();
@@ -97,25 +88,19 @@ public final class CommandLineExecutor {
      *
      * @param expression Jaggery expression string
      */
-    public static void parseJaggeryExpression(final String expression) {
-
+    static void parseJaggeryExpression(final String expression) {
         try {
-
             //Initialize the Rhino context
             RhinoEngine.enterGlobalContext();
-
             final RhinoEngine engine = CommandLineManager.getCommandLineEngine();
             final ScriptableObject scope = engine.getRuntimeScope();
-
             //initialize JaggeryContext
             final JaggeryContext jaggeryContext = new JaggeryContext();
             jaggeryContext.setTenantDomain("ca");
             jaggeryContext.setEngine(engine);
             jaggeryContext.setScope(scope);
             jaggeryContext.addProperty(CommonManager.JAGGERY_OUTPUT_STREAM, out);
-
             RhinoEngine.putContextProperty("jaggeryContext", jaggeryContext);
-
             //Parsing the script
             ShellUtilityService.initializeUtilityServices();
             engine.exec(new StringReader(expression), scope, null);
@@ -124,7 +109,5 @@ public final class CommandLineExecutor {
         } catch (Exception e) {
             out.println("Error: " + e.getMessage());
         }
-
     }
-
 }
