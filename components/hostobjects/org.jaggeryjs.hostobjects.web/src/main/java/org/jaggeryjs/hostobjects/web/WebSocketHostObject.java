@@ -61,7 +61,7 @@ public class WebSocketHostObject extends ScriptableObject {
         JaggeryContext asyncContext = new JaggeryContext();
         asyncContext.setEngine(currentContext.getEngine());
         asyncContext.setScope(currentContext.getScope());
-        asyncContext.setTenantId(currentContext.getTenantId());
+        asyncContext.setTenantDomain(currentContext.getTenantDomain());
 
         asyncContext.addProperty(Constants.SERVLET_CONTEXT, currentContext.getProperty(Constants.SERVLET_CONTEXT));
         asyncContext.addProperty(LogHostObject.LOG_LEVEL, currentContext.getProperty(LogHostObject.LOG_LEVEL));

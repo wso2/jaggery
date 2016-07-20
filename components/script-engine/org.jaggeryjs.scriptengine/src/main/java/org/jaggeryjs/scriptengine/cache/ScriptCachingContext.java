@@ -3,22 +3,30 @@ package org.jaggeryjs.scriptengine.cache;
 import org.jaggeryjs.scriptengine.security.RhinoSecurityDomain;
 
 public class ScriptCachingContext {
-    private String tenantId = null;
+    private String tenantDomain = null;
     private String context = null;
     private String path = null;
     private String cacheKey = null;
     private RhinoSecurityDomain securityDomain = null;
     private volatile long sourceModifiedTime = 0L;
+    private static final String TENANT_DOMAIN = "tenantDomain";
+    private static final String DEFAULT_TENANT_DOMAIN = "carbon.super";
 
-    public ScriptCachingContext(String tenantId, String context, String path, String cacheKey) {
-        this.tenantId = tenantId;
+    public ScriptCachingContext(String tenantDomain, String context, String path, String cacheKey) {
+        if (tenantDomain == null) {
+            tenantDomain = System.getProperty(TENANT_DOMAIN);
+            if (tenantDomain == null) {
+                tenantDomain = DEFAULT_TENANT_DOMAIN;
+            }
+        }
+        this.tenantDomain = tenantDomain;
         this.context = context;
         this.path = path;
         this.cacheKey = cacheKey;
     }
 
-    public String getTenantId() {
-        return tenantId;
+    public String getTenantDomain() {
+        return tenantDomain;
     }
 
     public String getContext() {

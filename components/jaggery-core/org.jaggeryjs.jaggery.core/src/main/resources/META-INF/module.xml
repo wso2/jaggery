@@ -9,24 +9,8 @@
         <name>FormData</name>
     </hostObject>
     <hostObject>
-        <className>org.jaggeryjs.hostobjects.registry.RegistryHostObject</className>
-        <name>MetadataStore</name>
-    </hostObject>
-    <hostObject>
         <className>org.jaggeryjs.hostobjects.log.LogHostObject</className>
         <name>Log</name>
-    </hostObject>
-    <hostObject>
-        <className>org.jaggeryjs.hostobjects.registry.ResourceHostObject</className>
-        <name>Resource</name>
-    </hostObject>
-    <hostObject>
-        <className>org.jaggeryjs.hostobjects.registry.CollectionHostObject</className>
-        <name>Collection</name>
-    </hostObject>
-    <hostObject>
-        <className>org.jaggeryjs.hostobjects.db.DatabaseHostObject</className>
-        <name>Database</name>
     </hostObject>
     <hostObject>
         <className>org.jaggeryjs.hostobjects.xslt.XSLTHostObject</className>
@@ -36,15 +20,6 @@
         <className>org.jaggeryjs.hostobjects.file.FileHostObject</className>
         <name>File</name>
     </hostObject>
-    <hostObject>
-        <className>org.jaggeryjs.hostobjects.feed.EntryHostObject</className>
-        <name>Entry</name>
-    </hostObject>
-    <hostObject>
-        <className>org.jaggeryjs.hostobjects.feed.FeedHostObject</className>
-        <name>Feed</name>
-    </hostObject>
-
     <hostObject>
         <className>org.jaggeryjs.hostobjects.web.RequestHostObject</className>
         <name>Request</name>
@@ -73,10 +48,35 @@
         <className>org.jaggeryjs.hostobjects.jaggeryparser.JaggeryParserHostObject</className>
         <name>JaggeryParser</name>
     </hostObject>
+    <!-- Since AS6 does not provide carbon environment, Remove these hostobjects from module.xml
+    <hostObject>
+        <className>org.jaggeryjs.hostobjects.registry.RegistryHostObject</className>
+        <name>MetadataStore</name>
+    </hostObject>
+    <hostObject>
+        <className>org.jaggeryjs.hostobjects.registry.ResourceHostObject</className>
+        <name>Resource</name>
+    </hostObject>
+    <hostObject>
+        <className>org.jaggeryjs.hostobjects.registry.CollectionHostObject</className>
+        <name>Collection</name>
+    </hostObject>
+    <hostObject>
+        <className>org.jaggeryjs.hostobjects.db.DatabaseHostObject</className>
+        <name>Database</name>
+    </hostObject>
+    <hostObject>
+        <className>org.jaggeryjs.hostobjects.feed.EntryHostObject</className>
+        <name>Entry</name>
+    </hostObject>
+    <hostObject>
+        <className>org.jaggeryjs.hostobjects.feed.FeedHostObject</className>
+        <name>Feed</name>
+    </hostObject>
     <hostObject>
         <className>org.jaggeryjs.hostobjects.web.WebSocketHostObject</className>
         <name>WebSocket</name>
-    </hostObject>
+    </hostObject> -->
 
     <!-- methods -->
     <method readOnly="true">
