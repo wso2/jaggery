@@ -95,23 +95,14 @@ public class LogHostObject extends ScriptableObject {
             String requestString = ((Stack<String>) context.getProperty(JAGGERY_INCLUDES_CALLSTACK)).peek();
             loggerName = ROOT_LOGGER + requestString.replace(".jag", ":jag").replace(".js", ":js").replace("/", ".");
         }
-        LogHostObject logObj = new LogHostObject();
-        logObj.logger = Logger.getLogger(loggerName);
 
-        String logLevel = (String) context.getProperty(LOG_LEVEL);
-        if (LOG_LEVEL_FATAL.equalsIgnoreCase(logLevel)) {
-            logObj.logger.setLevel(Level.FATAL);
-        } else if (LOG_LEVEL_WARN.equalsIgnoreCase(logLevel)) {
-            logObj.logger.setLevel(Level.WARN);
-        } else if (LOG_LEVEL_DEBUG.equalsIgnoreCase(logLevel)) {
-            logObj.logger.setLevel(Level.DEBUG);
-        } else if (LOG_LEVEL_ERROR.equalsIgnoreCase(logLevel)) {
-            logObj.logger.setLevel(Level.ERROR);
-        } else if (LOG_LEVEL_TRACE.equalsIgnoreCase(logLevel)) {
-            logObj.logger.setLevel(Level.TRACE);
-        } else {
-            logObj.logger.setLevel(Level.INFO);
+        LogHostObject logObj = new LogHostObject();
+        Logger currentLogger = Logger.getLogger(loggerName);
+        String appLogLevel = (String) context.getProperty(LOG_LEVEL);
+        if(currentLogger.getLevel() == null){
+            currentLogger.setLevel(Level.toLevel(appLogLevel));
         }
+        logObj.logger = currentLogger;
         return logObj;
     }
 
