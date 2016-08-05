@@ -66,7 +66,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
      * @param webApplicationsHolderMap JaggeryApplicationsHolder
      */
     public TomcatJaggeryWebappsDeployer(String webContextPrefix, int tenantId, String tenantDomain,
-            Map<String, WebApplicationsHolder> webApplicationsHolderMap, ConfigurationContext configurationContext) {
+                                        Map<String, WebApplicationsHolder> webApplicationsHolderMap, ConfigurationContext configurationContext) {
         super(webContextPrefix, tenantId, tenantDomain, webApplicationsHolderMap, configurationContext);
     }
 
@@ -79,7 +79,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
      * @throws CarbonException If a deployment error occurs
      */
     public void deploy(File webappFile, List<WebContextParameter> webContextParams,
-            List<Object> applicationEventListeners) throws CarbonException {
+                       List<Object> applicationEventListeners) throws CarbonException {
 
         try {
 
@@ -129,24 +129,70 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
      * @throws CarbonException If a deployment error occurs
      */
     @SuppressFBWarnings("PATH_TRAVERSAL_IN")
+    @SuppressWarnings("unchecked")
     protected void handleZipWebappDeployment(File webapp,
                                              List<WebContextParameter> webContextParams, List<Object> applicationEventListeners)
             throws CarbonException {
         synchronized (this) {
             String appPath = webapp.getAbsolutePath().substring(0, webapp.getAbsolutePath().indexOf(".zip"));
+            String excludeJsonProperty = JaggeryCoreConstants.JaggeryConfigParams.EXCLUDE_FROM_DEPLOYMENT;
+            JSONObject jsonConf = null;
+            File webAppRoot = null;
+            boolean doUnzip = true;
             try {
-                JaggeryDeploymentUtil.unZip(new FileInputStream(webapp), appPath);
-                if (!webapp.delete()) {
-                    throw new CarbonException(appPath + "could not be deleted");
+                for (Map.Entry<String, WebApplicationsHolder> entry : webApplicationsHolderMap.entrySet()) {
+                    WebApplicationsHolder value = entry.getValue();
+                    for (Map.Entry<String, WebApplication> holder : value.getStartedWebapps().entrySet()) {
+                        WebApplication holderValue = holder.getValue();
+                        webAppRoot = holderValue.getWebappFile();
+                        if (appPath.contains(webAppRoot.getAbsolutePath())) {
+                            jsonConf = readJaggeryConfig(webAppRoot);
+                            break;
+                        }
+                    }
                 }
-            } catch (FileNotFoundException e) {
+
+                if (jsonConf != null) {
+                    Object excludedDirListJson = jsonConf.get(excludeJsonProperty);
+                    List<String> dirListToExclude = excludedDirListJson == null ? null : (List<String>) excludedDirListJson;
+                    if (dirListToExclude != null) {
+                        for (String excludedDir : dirListToExclude) {
+                            String relativePath = appPath.substring(webAppRoot.getAbsolutePath().length(), appPath.length());
+                            if (relativePath.contains(excludedDir)) {
+                                doUnzip = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (doUnzip) {
+                    JaggeryDeploymentUtil.unZip(new FileInputStream(webapp), appPath);
+                    if (!webapp.delete()) {
+                        throw new CarbonException(appPath + "could not be deleted");
+                    }
+                }
+            } catch (IOException e) {
+                throw new CarbonException(e);
+            } catch (ClassCastException e) {
+                throw new CarbonException(e);
+            } catch (NullPointerException e) {
                 throw new CarbonException(e);
             }
-            File unzippedWebapp = new File(appPath);
-            handleExplodedWebappDeployment(unzippedWebapp, webContextParams, applicationEventListeners);
+
+            if (doUnzip) {
+                File unzippedWebapp = new File(appPath);
+                handleExplodedWebappDeployment(unzippedWebapp, webContextParams, applicationEventListeners);
+            }
         }
     }
 
+    /**
+     * Register event listeners for application.
+     *
+     * @param applicationEventListeners List of application listeners
+     * @param context                   Current context
+     */
     private void registerApplicationEventListeners(List<Object> applicationEventListeners, Context context) {
         Object[] originalEventListeners = context.getApplicationEventListeners();
         Object[] newEventListeners = new Object[originalEventListeners.length + applicationEventListeners.size()];
@@ -172,7 +218,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
      * @throws CarbonException If a deployment error occurs
      */
     protected void handleWebappDeployment(File webappFile, String contextStr,
-            List<WebContextParameter> webContextParams, List<Object> applicationEventListeners) throws CarbonException {
+                                          List<WebContextParameter> webContextParams, List<Object> applicationEventListeners) throws CarbonException {
 
         String filename = webappFile.getName();
         ArrayList<Object> listeners = new ArrayList<Object>(1);
@@ -197,7 +243,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
 
             Context context = DataHolder.getCarbonTomcatService().addWebApp(contextStr, webappFile.getAbsolutePath(),
                     new JaggeryDeployerManager.JaggeryConfListener(jaggeryConfigObj, securityConstraint));
-           //deploying web app for url mapping inside virtual host
+            //deploying web app for url mapping inside virtual host
             if (DataHolder.getHotUpdateService() != null) {
                 List<String> hostNames = DataHolder.getHotUpdateService().getMappigsPerWebapp(contextStr);
                 for (String hostName : hostNames) {
@@ -273,6 +319,12 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
         }
     }
 
+    /**
+     * Get the config file for Jaggery application.
+     *
+     * @param f location to the Jaggery conf file
+     * @return confFile JSONObject of conf file
+     */
     private JSONObject readJaggeryConfig(File f) throws IOException {
 
         File confFile = new File(f.getAbsolutePath() + File.separator + JaggeryCoreConstants.JAGGERY_CONF_FILE);
@@ -292,6 +344,13 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
         return (JSONObject) JSONValue.parse(jsonString);
     }
 
+    /**
+     * Check whether distributable or not
+     *
+     * @param context Current context
+     * @param obj     Jaggery conf json object
+     * @return true if distributable else false
+     */
     private static boolean isDistributable(Context context, JSONObject obj) {
         if (obj != null) {
             if (obj.get(JaggeryCoreConstants.JaggeryConfigParams.DISTRIBUTABLE) instanceof Boolean) {
@@ -310,6 +369,12 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
         return false;
     }
 
+    /**
+     * Add parameters for context
+     *
+     * @param ctx           Current context
+     * @param jaggeryConfig Jaggery config json object
+     */
     private static void addContextParams(Context ctx, JSONObject jaggeryConfig) {
         if (jaggeryConfig != null) {
             JSONArray arrContextParams = (JSONArray) jaggeryConfig
@@ -329,6 +394,12 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
         }
     }
 
+    /**
+     * Add listeners
+     *
+     * @param ctx           Current context
+     * @param jaggeryConfig Jaggery config json object
+     */
     private static void addListeners(Context ctx, JSONObject jaggeryConfig) {
         if (jaggeryConfig != null) {
             JSONArray arrListeners = (JSONArray) jaggeryConfig.get(JaggeryCoreConstants.JaggeryConfigParams.LISTENERS);
@@ -344,6 +415,12 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
         }
     }
 
+    /**
+     * Add servlets
+     *
+     * @param ctx           Current context
+     * @param jaggeryConfig Jaggery config json object
+     */
     private static void addServlets(Context ctx, JSONObject jaggeryConfig) {
         if (jaggeryConfig != null) {
             JSONArray arrServlets = (JSONArray) jaggeryConfig.get(JaggeryCoreConstants.JaggeryConfigParams.SERVLETS);
