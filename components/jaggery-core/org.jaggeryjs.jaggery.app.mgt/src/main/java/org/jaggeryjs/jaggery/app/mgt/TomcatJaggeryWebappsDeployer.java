@@ -135,7 +135,6 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
             throws CarbonException {
         synchronized (this) {
             String appPath = webapp.getAbsolutePath().substring(0, webapp.getAbsolutePath().indexOf(".zip"));
-            String excludeJsonProperty = JaggeryCoreConstants.JaggeryConfigParams.EXCLUDE_FROM_DEPLOYMENT;
             JSONObject jsonConf = null;
             File webAppRoot = null;
             boolean doUnzip = true;
@@ -153,7 +152,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                 }
 
                 if (jsonConf != null) {
-                    Object excludedDirListJson = jsonConf.get(excludeJsonProperty);
+                    Object excludedDirListJson = jsonConf.get(JaggeryCoreConstants.JaggeryConfigParams.EXCLUDE_FROM_DEPLOYMENT);
                     List<String> dirListToExclude = excludedDirListJson == null ? null : (List<String>) excludedDirListJson;
                     if (dirListToExclude != null) {
                         for (String excludedDir : dirListToExclude) {
