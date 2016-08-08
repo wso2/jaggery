@@ -78,6 +78,7 @@ public final class JaggeryCoreConstants {
         public static final String CONTEXT_PARAMS = "contextParams";
         public static final String CONTEXT_PARAMS_NAME = "name";
         public static final String CONTEXT_PARAMS_VALUE = "value";
+        public static final String EXCLUDE_FROM_DEPLOYMENT = "excludeFromDeployment";
     }
 
 }
