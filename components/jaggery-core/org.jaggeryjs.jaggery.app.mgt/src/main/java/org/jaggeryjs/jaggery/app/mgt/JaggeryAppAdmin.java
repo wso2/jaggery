@@ -92,10 +92,10 @@ public class JaggeryAppAdmin extends WebappAdmin {
 
         for (WebappUploadData uploadData : webappUploadDataList) {
             String fName = uploadData.getFileName();
-            if (fName.contains(".")) {
-                fName = fName.split("\\.")[0];
-            }
-
+            int lastIndex=fName.lastIndexOf(".");
+            if (lastIndex>0) {
+                fName = fName.substring(0,lastIndex);
+             }
             File webappsDir = new File(jaggeryAppsPath + File.separator + fName);
             File jaggeryAppsFile = new File(jaggeryAppsPath);
             if (webappsDir.exists()) {
