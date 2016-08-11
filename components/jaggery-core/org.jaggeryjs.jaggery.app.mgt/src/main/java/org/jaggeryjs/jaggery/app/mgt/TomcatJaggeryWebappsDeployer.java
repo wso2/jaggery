@@ -69,10 +69,10 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
     /**
      * Constructor
      *
-     * @param webContextPrefix The Web context prefix
-     * @param tenantId         The tenant ID of the tenant to whom this deployer belongs to
-     * @param tenantDomain     The tenant domain of the tenant to whom this deployer belongs to
-     * @param webApplicationsHolderMap    JaggeryApplicationsHolder
+     * @param webContextPrefix         The Web context prefix
+     * @param tenantId                 The tenant ID of the tenant to whom this deployer belongs to
+     * @param tenantDomain             The tenant domain of the tenant to whom this deployer belongs to
+     * @param webApplicationsHolderMap JaggeryApplicationsHolder
      */
     public TomcatJaggeryWebappsDeployer(String webContextPrefix,
                                         int tenantId,
@@ -142,25 +142,70 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
      * @throws CarbonException If a deployment error occurs
      */
     @SuppressFBWarnings("PATH_TRAVERSAL_IN")
+    @SuppressWarnings("unchecked")
     protected void handleZipWebappDeployment(File webapp,
                                              List<WebContextParameter> webContextParams,
                                              List<Object> applicationEventListeners)
             throws CarbonException {
         synchronized (this) {
             String appPath = webapp.getAbsolutePath().substring(0, webapp.getAbsolutePath().indexOf(".zip"));
+            JSONObject jsonConf = null;
+            File webAppRoot = null;
+            boolean doUnzip = true;
             try {
-                JaggeryDeploymentUtil.unZip(new FileInputStream(webapp), appPath);
-                if (!webapp.delete()) {
-                    throw new CarbonException(appPath + "could not be deleted");
+                for (Map.Entry<String, WebApplicationsHolder> entry : webApplicationsHolderMap.entrySet()) {
+                    WebApplicationsHolder value = entry.getValue();
+                    for (Map.Entry<String, WebApplication> holder : value.getStartedWebapps().entrySet()) {
+                        WebApplication holderValue = holder.getValue();
+                        webAppRoot = holderValue.getWebappFile();
+                        if (appPath.contains(webAppRoot.getAbsolutePath())) {
+                            jsonConf = readJaggeryConfig(webAppRoot);
+                            break;
+                        }
+                    }
                 }
-            } catch (FileNotFoundException e) {
+
+                if (jsonConf != null) {
+                    Object excludedDirListJson = jsonConf.get(JaggeryCoreConstants.JaggeryConfigParams.EXCLUDE_FROM_DEPLOYMENT);
+                    List<String> dirListToExclude = excludedDirListJson == null ? null : (List<String>) excludedDirListJson;
+                    if (dirListToExclude != null) {
+                        for (String excludedDir : dirListToExclude) {
+                            String relativePath = appPath.substring(webAppRoot.getAbsolutePath().length(), appPath.length());
+                            if (relativePath.contains(excludedDir)) {
+                                doUnzip = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (doUnzip) {
+                    JaggeryDeploymentUtil.unZip(new FileInputStream(webapp), appPath);
+                    if (!webapp.delete()) {
+                        throw new CarbonException(appPath + "could not be deleted");
+                    }
+                }
+            } catch (IOException e) {
+                throw new CarbonException(e);
+            } catch (ClassCastException e) {
+                throw new CarbonException(e);
+            } catch (NullPointerException e) {
                 throw new CarbonException(e);
             }
-            File unzippedWebapp = new File(appPath);
-            handleExplodedWebappDeployment(unzippedWebapp, webContextParams, applicationEventListeners);
+
+            if (doUnzip) {
+                File unzippedWebapp = new File(appPath);
+                handleExplodedWebappDeployment(unzippedWebapp, webContextParams, applicationEventListeners);
+            }
         }
     }
 
+    /**
+     * Register event listeners for application.
+     *
+     * @param applicationEventListeners List of application listeners
+     * @param context                   Current context
+     */
     private void registerApplicationEventListeners(List<Object> applicationEventListeners,
                                                    Context context) {
         Object[] originalEventListeners = context.getApplicationEventListeners();
@@ -205,7 +250,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
 
         securityConstraint.addCollection(securityCollection);
         WebApplicationsHolder webApplicationsHolder =
-                WebAppUtils.getWebappHolder(webappFile.getAbsolutePath(),configurationContext);
+                WebAppUtils.getWebappHolder(webappFile.getAbsolutePath(), configurationContext);
 
         try {
             JSONObject jaggeryConfigObj = readJaggeryConfig(webappFile);
@@ -213,7 +258,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                     DataHolder.getCarbonTomcatService().addWebApp(contextStr, webappFile.getAbsolutePath(),
                             new JaggeryConfListener(jaggeryConfigObj, securityConstraint));
             //deploying web app for url mapping inside virtual host
-            	 if (DataHolder.getHotUpdateService() != null) {
+            if (DataHolder.getHotUpdateService() != null) {
                 List<String> hostNames = DataHolder.getHotUpdateService().getMappigsPerWebapp(contextStr);
                 for (String hostName : hostNames) {
                     Host host = DataHolder.getHotUpdateService().addHost(hostName);
@@ -240,21 +285,21 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                 }
 
                 Object alreadyinsertedSMMap = configurationContext.getProperty(CarbonConstants.TOMCAT_SESSION_MANAGER_MAP);
-                if(alreadyinsertedSMMap != null){
-                	((Map<String, CarbonTomcatClusterableSessionManager>) alreadyinsertedSMMap).put(context.getName(), sessionManager);
-                }else{
-                	sessionManagerMap.put(context.getName(), sessionManager);
-                	configurationContext.setProperty(CarbonConstants.TOMCAT_SESSION_MANAGER_MAP,
+                if (alreadyinsertedSMMap != null) {
+                    ((Map<String, CarbonTomcatClusterableSessionManager>) alreadyinsertedSMMap).put(context.getName(), sessionManager);
+                } else {
+                    sessionManagerMap.put(context.getName(), sessionManager);
+                    configurationContext.setProperty(CarbonConstants.TOMCAT_SESSION_MANAGER_MAP,
                             sessionManagerMap);
                 }
             } else {
                 if (manager instanceof CarbonTomcatSessionManager) {
                     ((CarbonTomcatSessionManager) manager).setOwnerTenantId(tenantId);
-                } else if (manager instanceof CarbonTomcatSessionPersistentManager){
+                } else if (manager instanceof CarbonTomcatSessionPersistentManager) {
                     ((CarbonTomcatSessionPersistentManager) manager).setOwnerTenantId(tenantId);
                     log.debug(manager.getInfo() +
-                             " enabled Tomcat HTTP Session Persistent mode using " +
-                             ((CarbonTomcatSessionPersistentManager) manager).getStore().getInfo());
+                            " enabled Tomcat HTTP Session Persistent mode using " +
+                            ((CarbonTomcatSessionPersistentManager) manager).getStore().getInfo());
                 } else {
                     context.setManager(new CarbonTomcatSessionManager(tenantId));
                 }
@@ -374,12 +419,18 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
             addSecurityConstraints(ctx, jaggeryConfig);
             setLoginConfig(ctx, jaggeryConfig);
             addSecurityRoles(ctx, jaggeryConfig);
-           // addUrlMappings(ctx, jaggeryConfig);
+            // addUrlMappings(ctx, jaggeryConfig);
             addParameters(ctx, jaggeryConfig);
             addLogLevel(ctx, jaggeryConfig);
         }
     }
 
+    /**
+     * Get the config file for Jaggery application.
+     *
+     * @param file location to the Jaggery conf file
+     * @return confFile JSONObject of conf file
+     */
     @SuppressFBWarnings("PATH_TRAVERSAL_IN")
     private JSONObject readJaggeryConfig(File file) throws IOException {
         File confFile = new File(file.getAbsolutePath() + File.separator + JaggeryCoreConstants.JAGGERY_CONF_FILE);
@@ -613,6 +664,13 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
         }
     }
 
+    /**
+     * Check whether distributable or not
+     *
+     * @param context Current context
+     * @param obj     Jaggery conf json object
+     * @return true if distributable else false
+     */
     private static boolean isDistributable(Context context, JSONObject obj) {
         if (obj != null) {
             if (obj.get(JaggeryCoreConstants.JaggeryConfigParams.DISTRIBUTABLE)
@@ -663,56 +721,56 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
         }
     }
 
-	private static void addUrlMappings(Context context, JSONObject obj) {
-		Object test = context.getServletContext().getAttribute("org.jaggeryjs.serveFunction");
-		JSONArray arr = null;
-		if (test != null) {
-			// URL mapping for progamticaly
-			arr = new JSONArray();
-			JSONObject js1 = new JSONObject();
-			JSONObject js2 = new JSONObject();
-			js1.put("url", "/*");
-			js1.put("path", "/index.jag");
-			arr.add(js1);
-		} else {
-			arr = (JSONArray) obj
-					.get(JaggeryCoreConstants.JaggeryConfigParams.URL_MAPPINGS);
-		}
-		if (arr != null) {
-			Map<String, Object> urlMappings = new HashMap<String, Object>();
-			for (Object mapObj : arr) {
-				JSONObject mapping = (JSONObject) mapObj;
-				String url = (String) mapping
-						.get(JaggeryCoreConstants.JaggeryConfigParams.URL_MAPPINGS_URL);
-				String path = (String) mapping
-						.get(JaggeryCoreConstants.JaggeryConfigParams.URL_MAPPINGS_PATH);
-				if (url != null && path != null) {
-					path = path.startsWith("/") ? path : "/" + path;
-					FilterMap filterMap = new FilterMap();
-					filterMap
-							.setFilterName(JaggeryCoreConstants.JAGGERY_FILTER_NAME);
-					filterMap.addURLPattern(url);
-					context.addFilterMap(filterMap);
-					if (url.equals("/")) {
-						urlMappings.put("/", path);
-						continue;
-					}
-					url = url.startsWith("/") ? url.substring(1) : url;
-					List<String> parts = new ArrayList<String>(
-							Arrays.asList(url.split("/", -1)));
-					addMappings(urlMappings, parts, path);
-				} else {
-					log.error("Invalid url mapping in jaggery.conf url : "
-							+ url + ", path : " + path);
-				}
-			}
+    private static void addUrlMappings(Context context, JSONObject obj) {
+        Object test = context.getServletContext().getAttribute("org.jaggeryjs.serveFunction");
+        JSONArray arr = null;
+        if (test != null) {
+            // URL mapping for progamticaly
+            arr = new JSONArray();
+            JSONObject js1 = new JSONObject();
+            JSONObject js2 = new JSONObject();
+            js1.put("url", "/*");
+            js1.put("path", "/index.jag");
+            arr.add(js1);
+        } else {
+            arr = (JSONArray) obj
+                    .get(JaggeryCoreConstants.JaggeryConfigParams.URL_MAPPINGS);
+        }
+        if (arr != null) {
+            Map<String, Object> urlMappings = new HashMap<String, Object>();
+            for (Object mapObj : arr) {
+                JSONObject mapping = (JSONObject) mapObj;
+                String url = (String) mapping
+                        .get(JaggeryCoreConstants.JaggeryConfigParams.URL_MAPPINGS_URL);
+                String path = (String) mapping
+                        .get(JaggeryCoreConstants.JaggeryConfigParams.URL_MAPPINGS_PATH);
+                if (url != null && path != null) {
+                    path = path.startsWith("/") ? path : "/" + path;
+                    FilterMap filterMap = new FilterMap();
+                    filterMap
+                            .setFilterName(JaggeryCoreConstants.JAGGERY_FILTER_NAME);
+                    filterMap.addURLPattern(url);
+                    context.addFilterMap(filterMap);
+                    if (url.equals("/")) {
+                        urlMappings.put("/", path);
+                        continue;
+                    }
+                    url = url.startsWith("/") ? url.substring(1) : url;
+                    List<String> parts = new ArrayList<String>(
+                            Arrays.asList(url.split("/", -1)));
+                    addMappings(urlMappings, parts, path);
+                } else {
+                    log.error("Invalid url mapping in jaggery.conf url : "
+                            + url + ", path : " + path);
+                }
+            }
 
-			
-				context.getServletContext().setAttribute(
-						CommonManager.JAGGERY_URLS_MAP, urlMappings);
-			
-		}
-	}
+
+            context.getServletContext().setAttribute(
+                    CommonManager.JAGGERY_URLS_MAP, urlMappings);
+
+        }
+    }
 
     private static void addLogLevel(Context cx, JSONObject jaggeryConfig) {
         String level = (String) jaggeryConfig.get(JaggeryCoreConstants.JaggeryConfigParams.LOG_LEVEL);
@@ -780,7 +838,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
     }
 
     private static void addFilters(Context ctx, JSONObject jaggeryConfig) {
-        if(jaggeryConfig != null) {
+        if (jaggeryConfig != null) {
             JSONArray arrFilters = (JSONArray) jaggeryConfig.get(JaggeryCoreConstants.JaggeryConfigParams.FILTERS);
             JSONArray arrFilterMappings = (JSONArray) jaggeryConfig.get(JaggeryCoreConstants.JaggeryConfigParams.FILTER_MAPPINGS);
 
@@ -831,8 +889,14 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
         }
     }
 
+    /**
+     * Add parameters for context
+     *
+     * @param ctx           Current context
+     * @param jaggeryConfig Jaggery config json object
+     */
     private static void addContextParams(Context ctx, JSONObject jaggeryConfig) {
-        if(jaggeryConfig != null) {
+        if (jaggeryConfig != null) {
             JSONArray arrContextParams = (JSONArray) jaggeryConfig.get(JaggeryCoreConstants.JaggeryConfigParams.CONTEXT_PARAMS);
 
             if (arrContextParams != null) {
@@ -849,8 +913,14 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
         }
     }
 
+    /**
+     * Add listeners
+     *
+     * @param ctx           Current context
+     * @param jaggeryConfig Jaggery config json object
+     */
     private static void addListeners(Context ctx, JSONObject jaggeryConfig) {
-        if(jaggeryConfig != null) {
+        if (jaggeryConfig != null) {
             JSONArray arrListeners = (JSONArray) jaggeryConfig.get(JaggeryCoreConstants.JaggeryConfigParams.LISTENERS);
 
             if (arrListeners != null) {
@@ -865,8 +935,14 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
         }
     }
 
+    /**
+     * Add servlets
+     *
+     * @param ctx           Current context
+     * @param jaggeryConfig Jaggery config json object
+     */
     private static void addServlets(Context ctx, JSONObject jaggeryConfig) {
-        if(jaggeryConfig != null) {
+        if (jaggeryConfig != null) {
             JSONArray arrServlets = (JSONArray) jaggeryConfig.get(JaggeryCoreConstants.JaggeryConfigParams.SERVLETS);
             JSONArray arrServletMappings = (JSONArray) jaggeryConfig.get(JaggeryCoreConstants.JaggeryConfigParams.SERVLET_MAPPINGS);
 
