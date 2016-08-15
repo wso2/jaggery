@@ -90,9 +90,9 @@ public class XMLHttpRequestHostObject extends ScriptableObject {
             if (proxyConfig != null) {
                 httpClient.getHostConfiguration().setProxyHost(proxyConfig);
             }
-        } catch(IOException e){
+        } catch (IOException e) {
             log.error(e);
-        } catch(GeneralSecurityException e) {
+        } catch (GeneralSecurityException e) {
             log.error(e);
         }
     }
@@ -487,11 +487,11 @@ public class XMLHttpRequestHostObject extends ScriptableObject {
             method = new HeadMethod(this.url);
         } else if ("POST".equalsIgnoreCase(methodName)) {
             PostMethod post = new PostMethod(this.url);
-            if(obj instanceof FormDataHostObject){
+            if (obj instanceof FormDataHostObject) {
                 FormDataHostObject fd = ((FormDataHostObject) obj);
                 List<Part> parts = new ArrayList<Part>();
                 for (Map.Entry<String, String> entry : fd) {
-                    parts.add(new StringPart(entry.getKey(),entry.getValue()));
+                    parts.add(new StringPart(entry.getKey(), entry.getValue()));
                 }
                 post.setRequestEntity(
                         new MultipartRequestEntity(parts.toArray(new Part[parts.size()]), post.getParams())
@@ -558,18 +558,17 @@ public class XMLHttpRequestHostObject extends ScriptableObject {
             updateReadyState(cx, xhr, HEADERS_RECEIVED);
 
             byte[] response = xhr.method.getResponseBody();
-			if (response != null) {
-				if (response.length > 0) {
-					xhr.responseText = new String(response);
-				}
-			}
+            if (response != null) {
+                if (response.length > 0) {
+                    xhr.responseText = new String(response);
+                }
+            }
             Header contentType = xhr.method.getResponseHeader("Content-Type");
             if (contentType != null) {
                 xhr.responseType = contentType.getValue();
             }
             updateReadyState(cx, xhr, DONE);
         } catch (IOException e) {
-            log.error(e.getMessage(), e);
             throw new ScriptException(e);
         } finally {
             xhr.method.releaseConnection();
