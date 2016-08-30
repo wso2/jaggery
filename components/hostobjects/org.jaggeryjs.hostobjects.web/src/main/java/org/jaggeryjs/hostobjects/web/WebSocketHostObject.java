@@ -155,22 +155,6 @@ public class WebSocketHostObject extends ScriptableObject {
         }
     }
 
-    public static void jsFunction_close(Context cx, Scriptable thisObj, Object[] args, Function funObj)
-            throws ScriptException {
-        String functionName = "close";
-        int argsCount = args.length;
-        if (argsCount != 0) {
-            HostObjectUtil.invalidNumberOfArgs(hostObjectName, functionName, argsCount, false);
-        }
-        WebSocketHostObject who = (WebSocketHostObject) thisObj;
-        try {
-            who.outbound.close(0, null);
-        } catch (IOException e) {
-            log.error("Unable to close the websocket connection. ", e);
-            throw new ScriptException(e);
-        }
-    }
-
     public void setInbound(MessageInbound inbound) {
         this.inbound = inbound;
     }
