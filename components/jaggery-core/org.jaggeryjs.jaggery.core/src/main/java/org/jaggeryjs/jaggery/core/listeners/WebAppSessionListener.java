@@ -111,7 +111,6 @@ public class WebAppSessionListener implements HttpSessionListener {
 
         JavaScriptProperty session = new JavaScriptProperty("session");
         session.setValue(cx.newObject(clonedScope, "Session", new Object[]{httpSessionEvent.getSession()}));
-        session.setAttribute(ScriptableObject.READONLY);
         RhinoEngine.defineProperty(clonedScope, session);
 
         for (Object jsListener : jsListeners) {
