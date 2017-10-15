@@ -124,7 +124,7 @@ public class HostObjectUtil {
             }
         }
 
-        return "{}";
+        return "{\"javaObject\" : true, \"hashCode\" : " + obj.hashCode() +",\"class\" :"+obj.getClass().getName()+"}";
     }
 
     public static String serializeObject(Object obj) {
