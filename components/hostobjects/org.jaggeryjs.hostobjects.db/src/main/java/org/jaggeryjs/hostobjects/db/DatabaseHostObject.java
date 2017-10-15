@@ -34,12 +34,52 @@ public class DatabaseHostObject extends ScriptableObject {
     private static final Log log = LogFactory.getLog(DatabaseHostObject.class);
 
     private static final String hostObjectName = "Database";
-    public static final String COM_MYSQL_JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    public static final String ORG_H2_DRIVER = "org.h2.Driver";
-    public static final String ORACLE_JDBC_ORACLE_DRIVER = "oracle.jdbc.OracleDriver";
-    public static final String MYSQL = "jdbc:mysql";
+
+    /**
+     * Getting a list of popular JDBC drivers, so that users can just give the connection URL, username and
+     * password without having to do anything extra. Most of driver names are taken from -
+     * http://www.soapui.org/Working-with-soapUI/jdbc-driver-list.html
+     */
     public static final String H2 = "jdbc:h2";
-    public static final String ORACLE = "jdbc:oracle";
+    public static final String H2_DRIVER = "org.h2.Driver";
+    public static final String MYSQL_DRIVER = "com.mysql.jdbc.Driver";
+    public static final String MYSQL = "jdbc:mysql";
+    public static final String POSTGREQSL = "jdbc:postgresql";
+    public static final String POSTGRESQL_DRIVER = "org.postgresql.Driver";
+    public static final String DB2 = "jdbc:db2";
+    public static final String DB2_DRIVER = "COM.ibm.db2.jdbc.app.DB2Driver";
+    public static final String MSSQL = "jdbc:microsoft:sqlserver";
+    public static final String MSSQL_DRIVER = "com.microsoft.jdbc.sqlserver.SQLServerDriver";
+    public static final String MSSQL_WEBLOGIC = "jdbc:weblogic:mssqlserver4";
+    public static final String MSSQL_WEBLOGIC_DRIVER = "weblogic.jdbc.mssqlserver4.Driver";
+    public static final String MSSQL_SPRINTA = "jdbc:inetdae";
+    public static final String MSSQL_SPRINTA_DRIVER = "com.inet.tds.TdsDriver";
+    public static final String MSSQL_JTURBO = "jdbc:JTurbo";
+    public static final String MSSQL_JTURBO_DRIVER = "com.ashna.jturbo.driver.Driver";
+    public static final String ORACLE = "jdbc:oracle:thin";
+    public static final String ORACLE_DRIVER = "oracle.jdbc.driver.OracleDriver";
+    public static final String ORACLE_ORANHO = "jdbc:inetpool:inetora";
+    public static final String ORACLE_ORANHO_DRIVER = "com.inet.pool.PoolDriver";
+    public static final String SYBASE = "jdbc:sybase:Tds";
+    public static final String SYBASE_DRIVER = "com.sybase.jdbc2.jdbc.SybDriver";
+    public static final String POINTBASE = "jdbc:pointbase";
+    public static final String POINTBASE_DRIVER = "com.pointbase.jdbc.jdbcUniversalDriver";
+    public static final String CLOUDSCAPE = "jdbc:cloudscape";
+    public static final String CLOUDSCAPE_DRIVER = "COM.cloudscape.core.JDBCDriver";
+    public static final String CLOUDSCAPE_RMI = "jdbc:rmi";
+    public static final String CLOUDSCAPE_RMI_DRIVER = "RmiJdbc.RJDriver";
+    public static final String FIREBIRD = "jdbc:firebirdsql";
+    public static final String FIREBIRD_DRIVER = "org.firebirdsql.jdbc.FBDriver";
+    public static final String IDS = "jdbc:ids";
+    public static final String IDS_DRIVER = "ids.sql.IDSDriver";
+    public static final String INFORMIX = "jdbc:informix-sqli";
+    public static final String INFORMIX_DRIVER = "com.informix.jdbc.IfxDriver";
+    public static final String INSTANTDB = "jdbc:idb";
+    public static final String INSTANTDB_DRIVER = "org.enhydra.instantdb.jdbc.idbDriver";
+    public static final String INTERBASE = "jdbc:interbase";
+    public static final String INTERBASE_DRIVER = "interbase.interclient.Driver";
+    public static final String HYPERSONIC = "jdbc:HypersonicSQL";
+    public static final String HYPERSONIC_DRIVER = "org.hsql.jdbcDriver";
 
     private boolean autoCommit = true;
 
@@ -143,12 +183,47 @@ public class DatabaseHostObject extends ScriptableObject {
     }
 
     private static String getDriverClassName(String dburl) {
-        if (dburl.contains(MYSQL)) {
-            return COM_MYSQL_JDBC_DRIVER;
-        } else if (dburl.contains(H2)) {
-            return ORG_H2_DRIVER;
+
+        if (dburl.contains(H2)) {
+            return H2_DRIVER;
+        } else if (dburl.contains(MYSQL)) {
+            return MYSQL_DRIVER;
+        } else if (dburl.contains(POSTGREQSL)) {
+            return POSTGRESQL_DRIVER;
+        } else if (dburl.contains(DB2)) {
+            return DB2_DRIVER;
+        } else if (dburl.contains(MSSQL)) {
+            return MSSQL_DRIVER;
+        } else if (dburl.contains(MSSQL_WEBLOGIC)) {
+            return MSSQL_WEBLOGIC_DRIVER;
+        } else if (dburl.contains(MSSQL_SPRINTA)) {
+            return MSSQL_SPRINTA_DRIVER;
+        } else if (dburl.contains(MSSQL_JTURBO)) {
+            return MSSQL_JTURBO_DRIVER;
         } else if (dburl.contains(ORACLE)) {
-            return ORACLE_JDBC_ORACLE_DRIVER;
+            return ORACLE_DRIVER;
+        } else if (dburl.contains(ORACLE_ORANHO)) {
+            return ORACLE_ORANHO_DRIVER;
+        } else if (dburl.contains(SYBASE)) {
+            return SYBASE_DRIVER;
+        } else if (dburl.contains(POINTBASE)) {
+            return POINTBASE_DRIVER;
+        } else if (dburl.contains(CLOUDSCAPE)) {
+            return CLOUDSCAPE_DRIVER;
+        } else if (dburl.contains(CLOUDSCAPE_RMI)) {
+            return CLOUDSCAPE_RMI_DRIVER;
+        } else if (dburl.contains(FIREBIRD)) {
+            return FIREBIRD_DRIVER;
+        } else if (dburl.contains(IDS)) {
+            return IDS_DRIVER;
+        } else if (dburl.contains(INFORMIX)) {
+            return INFORMIX_DRIVER;
+        } else if (dburl.contains(INSTANTDB)) {
+            return INSTANTDB_DRIVER;
+        } else if (dburl.contains(INTERBASE)) {
+            return INTERBASE_DRIVER;
+        } else if (dburl.contains(HYPERSONIC)) {
+            return HYPERSONIC_DRIVER;
         } else {
             return null;
         }
