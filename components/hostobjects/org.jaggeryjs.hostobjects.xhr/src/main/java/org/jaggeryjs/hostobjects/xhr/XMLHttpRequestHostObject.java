@@ -33,6 +33,10 @@ import org.mozilla.javascript.Undefined;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.security.GeneralSecurityException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -91,10 +95,6 @@ public class XMLHttpRequestHostObject extends ScriptableObject {
 
     public XMLHttpRequestHostObject() {
         httpClient = new HttpClient(new MultiThreadedHttpConnectionManager());
-        ProxyHost proxyConfig = getProxyConfig();
-        if (proxyConfig != null) {
-            httpClient.getHostConfiguration().setProxyHost(proxyConfig);
-        }
     }
 
     @Override
@@ -417,6 +417,7 @@ public class XMLHttpRequestHostObject extends ScriptableObject {
             int lastIndex = url.indexOf("#");
             lastIndex = (lastIndex == -1) ? url.length() : lastIndex;
             xhr.url = url.substring(0, lastIndex);
+            xhr.setProxy();
         } else {
             HostObjectUtil.invalidArgsError(hostObjectName, functionName, "2", "string", arg, false);
         }
@@ -619,6 +620,36 @@ public class XMLHttpRequestHostObject extends ScriptableObject {
         }
 
         return proxyConfig;
+    }
+
+    private void setProxy() {
+        ProxyHost proxyConfig = getProxyConfig();
+        if (proxyConfig != null && determineProxyApplicable()) {
+            httpClient.getHostConfiguration().setProxyHost(proxyConfig);
+        } else {
+          httpClient.getHostConfiguration().setProxyHost(null);
+        }
+    }
+
+    private boolean determineProxyApplicable() {
+        try {
+          URL urlObj = new URL(url);
+
+          String targetHost = urlObj.getHost();
+
+          String nonProxyHosts = System.getProperty("http.nonProxyHosts");
+          if (nonProxyHosts != null) {
+              String[] nonProxyHostsArr = nonProxyHosts.split("\\|");
+              for (String nonProxyHost : nonProxyHostsArr) {
+                String nonProxyRegex = nonProxyHost.replaceAll("\\.", "\\\\.");
+                nonProxyRegex = nonProxyRegex.replaceAll("\\*", ".*");
+                if (targetHost.matches("^"+nonProxyRegex+"$")) return false;
+              }
+            }
+        } catch (MalformedURLException e) {
+          e.printStackTrace();
+        }
+        return true;
     }
 
 }
