@@ -40,7 +40,7 @@ create the archive file. </p>
 <p>The folder structure of the Jaggery archive file will be as follows.</p>
 
     <pre>
-        HellowWorld.war
+        HellowWorld.zip
             index.html
             *.jss
             images/
@@ -50,17 +50,18 @@ create the archive file. </p>
 
 <p>Figure 1: Uploading a Jaggery archive file</p>
 <ol>
-  <li>In the navigator, under Manage/Jaggery Applications, click <strong>Add
+  <li>In the navigator, under Manage/Applications, click <strong>Jaggery
    </strong>. </li>
   <li>Click <strong>Browse</strong> to locate the file you want to
   upload. If you want to add multiple services at the same time, click on the 
 <strong>'+'</strong> sign at the right side, and new additional entry to upload a service archive 
 will appear each time you click. So you can select all the services you want and deploy them at the same time.</li>
   <li>Click <strong>Upload</strong>.
-    The <em><strong>Running Jaggery Applications</strong></em> page
-    appears. Subsequently, if the Jaggery application is successful, it will appear in
-    list. If the Jaggery application is faulty, a Faulty Jaggery Application
-    Groups link will appear. You can click the link to view the errors.</li>
+    The <em><strong>Running Applications</strong></em> page
+    appears. If the Jaggery application is successful, it will show a successful message and after refreshing the
+    page new Jaggery Application will appear in the list. Otherwise it will show an error message and redirect to the
+    Upload Jaggery Applications page.
+  </li>
 </ol>
 
 <h2>Testing the Jaggery Application</h2>
@@ -69,13 +70,14 @@ will appear each time you click. So you can select all the services you want and
 interface.Several options are available to control your Jaggery application.</p>
 
 <ol>
-  <li>In the navigator, under Manage/Jaggery Applications, click <strong>List</strong>.
-    The <em><strong>Running Jaggery Applications</strong></em> page appears.</li>
+  <li>In the navigator, under Manage/Applications, click <strong>List</strong>.
+    The <em><strong>Running Applications</strong></em> page appears.</li>Choose the Jaggery Webapp from the
+    <strong>Type</strong> dropdown list. It will list all the running Jaggery Applications.
 
 <p><img alt="" src="images/list_WebApp.png" height="322" width="996"/></p>
 <p>Figure 2: Jaggery Applications List.</p>
 
-  <li>Click on the Jaggery application name you want to test. The <em><strong>Jaggery Application
+  <li>Click on the Jaggery application name you want to test. The <em><strong>Application
     Dashboard</strong></em> page appears.</li>
 
 <p><img alt="" src="images/dashboard_WebApp.png" height="391" width="987"/></p>
@@ -86,7 +88,7 @@ interface.Several options are available to control your Jaggery application.</p>
 </ol>
 
 <p><span style="font-weight: bold;">Note</span>: Instead of using this user interface, you can also manually place
-the .war containing all the required files
+the .zip containing all the required files
 into CARBON_HOME/epository/deployment/jaggeryapps.  These archive files can be deployed
 as Jaggery applications. </p>
 
