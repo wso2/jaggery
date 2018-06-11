@@ -410,6 +410,12 @@ public class FileHostObject extends ScriptableObject {
                         byte[] buffer = new byte[1024];
                         while ((entry = zin.getNextEntry()) != null) {
                             name = entry.getName();
+                            String canonicalDirPath = outdir.getCanonicalPath();
+                            String canonicalEntryPath = new File(canonicalDirPath + entry.getName()).getCanonicalPath();
+                            if(!canonicalEntryPath.startsWith(canonicalDirPath)){
+                                log.error("Invalid entry found in the Zip file: " + name);
+                                return false;
+                            }
                             if (entry.isDirectory()) {
                                 mkdirs(outdir, name);
                                 continue;
