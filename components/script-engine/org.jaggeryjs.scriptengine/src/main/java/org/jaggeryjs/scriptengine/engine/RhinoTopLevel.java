@@ -125,7 +125,7 @@ public class RhinoTopLevel extends ImporterTopLevel {
         final Function callback = function;
         final ContextFactory factory = cx.getFactory();
         timeout = ((Number) args[1]).longValue();
-        String uuid = UUID.randomUUID().toString();
+        final String uuid = UUID.randomUUID().toString();
 
         PrivilegedCarbonContext carbonContext = PrivilegedCarbonContext.getThreadLocalCarbonContext();
         final int tenantId = carbonContext.getTenantId();
@@ -153,6 +153,7 @@ public class RhinoTopLevel extends ImporterTopLevel {
                 } catch (Exception e) {
                     log.error(e.getMessage(), e);
                 } finally {
+                    clearTimeout(uuid);
                     PrivilegedCarbonContext.endTenantFlow();
                     RhinoEngine.exitContext();
                     currentThread.setContextClassLoader(originalClassLoader);
@@ -302,7 +303,7 @@ public class RhinoTopLevel extends ImporterTopLevel {
         if (tasks == null) {
             return;
         }
-        ScheduledFuture future = tasks.get(taskId);
+        ScheduledFuture future = tasks.remove(taskId);
         future.cancel(true);
     }
 
@@ -312,7 +313,7 @@ public class RhinoTopLevel extends ImporterTopLevel {
         if (tasks == null) {
             return;
         }
-        ScheduledFuture future = tasks.get(taskId);
+        ScheduledFuture future = tasks.remove(taskId);
         future.cancel(true);
     }
 

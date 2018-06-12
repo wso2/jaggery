@@ -17,6 +17,7 @@
  -->
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://wso2.org/projects/carbon/taglibs/carbontags.jar" prefix="carbon" %>
+<%@ taglib uri="http://www.owasp.org/index.php/Category:OWASP_CSRFGuard_Project/Owasp.CsrfGuard.tld" prefix="csrf" %>
 
 <!-- This page is included to display messages which are set to request scope or session scope -->
 <jsp:include page="../dialog/display_messages.jsp"/>
@@ -95,7 +96,7 @@
         <h2><fmt:message key="upload.web.application"/></h2>
 
         <div id="workArea">
-            <form method="post" name="webappUploadForm" action="../../fileupload/jaggeryapp"
+            <form method="post" name="webappUploadForm" action="../../fileupload/jaggeryapp?<csrf:tokenname/>=<csrf:tokenvalue/>"
                   enctype="multipart/form-data" target="_self">
                 <input type="hidden" name="errorRedirectionPage"
                             value="../carbon/jaggeryapp-mgt/uploadjaggeryapp.jsp?region=region1&item=webapps_add_menu"/>
