@@ -87,6 +87,13 @@ public class ModuleManager {
             }
         }
         RhinoEngine.exitContext();
+        if (xmlStream != null) {
+            try {
+                xmlStream.close();
+            } catch (IOException ignored) {
+
+            }
+        }
     }
 
     private void loadModule(File module) throws ScriptException {
