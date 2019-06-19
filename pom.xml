@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  ~ Copyright (c) 2005-2010, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  ~
@@ -84,14 +85,6 @@
         </extensions>
         <pluginManagement>
             <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-release-plugin</artifactId>
-                    <configuration>
-                        <preparationGoals>clean install</preparationGoals>
-                        <autoVersionSubmodules>true</autoVersionSubmodules>
-                    </configuration>
-                </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-deploy-plugin</artifactId>
@@ -244,6 +237,19 @@
                         </execution>
                     </executions>
                 </plugin-->
+                <plugin>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>maven-scr-plugin</artifactId>
+                    <version>${maven.scr.plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>generate-scr-scrdescriptor</id>
+                            <goals>
+                                <goal>scr</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
@@ -418,6 +424,8 @@
 
         <httpcomponents-httpclient.wso2.version>4.1.1-wso2v1</httpcomponents-httpclient.wso2.version>
         <httpcomponents-httpcore.wso2.version>4.1.0-wso2v1</httpcomponents-httpcore.wso2.version>
+        <apache.felix.scr.ds.annotations.version>1.2.4</apache.felix.scr.ds.annotations.version>
+        <maven.scr.plugin.version>1.26.0</maven.scr.plugin.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -1010,6 +1018,11 @@
                 <groupId>org.jaggeryjs</groupId>
                 <artifactId>org.jaggeryjs.hostobjects.feed</artifactId>
                 <version>${jaggery.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>org.apache.felix.scr.ds-annotations</artifactId>
+                <version>${apache.felix.scr.ds.annotations.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
