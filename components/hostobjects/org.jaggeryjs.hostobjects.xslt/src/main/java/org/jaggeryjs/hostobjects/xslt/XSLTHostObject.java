@@ -24,6 +24,7 @@ import org.jaggeryjs.scriptengine.util.HostObjectUtil;
 import org.mozilla.javascript.*;
 import org.mozilla.javascript.xml.XMLObject;
 
+import javax.xml.XMLConstants;
 import javax.xml.transform.*;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
@@ -119,7 +120,9 @@ public class XSLTHostObject extends ScriptableObject {
     private static Transformer getTransformer(Context cx, Scriptable scope, XSLTHostObject xho, NativeObject paramMap, Function uriResolver) throws ScriptException {
         Transformer transformer;
         try {
+            xho.factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
             transformer = xho.factory.newTransformer(new StreamSource(xho.xslt));
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             if (paramMap != null) {
                 setParams(transformer, paramMap);
             }
