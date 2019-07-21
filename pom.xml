@@ -170,19 +170,6 @@
                 </plugin>
                 <plugin>
                     <groupId>org.apache.felix</groupId>
-                    <artifactId>maven-scr-plugin</artifactId>
-                    <version>${maven.scrplugin.version}</version>
-                    <executions>
-                        <execution>
-                            <id>generate-scr-scrdescriptor</id>
-                            <goals>
-                                <goal>scr</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
                     <version>${maven.bundleplugin.version}</version>
                     <extensions>true</extensions>
@@ -237,19 +224,6 @@
                         </execution>
                     </executions>
                 </plugin-->
-                <plugin>
-                    <groupId>org.apache.felix</groupId>
-                    <artifactId>maven-scr-plugin</artifactId>
-                    <version>${maven.scr.plugin.version}</version>
-                    <executions>
-                        <execution>
-                            <id>generate-scr-scrdescriptor</id>
-                            <goals>
-                                <goal>scr</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
             </plugins>
         </pluginManagement>
     </build>
@@ -357,7 +331,7 @@
         <maven.jacocoplugin.version>0.6.4.201312101107</maven.jacocoplugin.version>
         <maven.surefireplugin.version>2.12</maven.surefireplugin.version>
         <maven.resourcesplugin.version>2.5</maven.resourcesplugin.version>
-        <maven.bundleplugin.version>2.3.5</maven.bundleplugin.version>
+        <maven.bundleplugin.version>3.2.0</maven.bundleplugin.version>
         <maven.sourceplugin.version>2.1.2</maven.sourceplugin.version>
         <maven.assemblyplugin.version>2.4</maven.assemblyplugin.version>
         <maven.projectinforeportsplugin.version>2.4</maven.projectinforeportsplugin.version>
