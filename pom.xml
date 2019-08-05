@@ -170,19 +170,6 @@
                 </plugin>
                 <plugin>
                     <groupId>org.apache.felix</groupId>
-                    <artifactId>maven-scr-plugin</artifactId>
-                    <version>${maven.scrplugin.version}</version>
-                    <executions>
-                        <execution>
-                            <id>generate-scr-scrdescriptor</id>
-                            <goals>
-                                <goal>scr</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
                     <version>${maven.bundleplugin.version}</version>
                     <extensions>true</extensions>
@@ -237,19 +224,6 @@
                         </execution>
                     </executions>
                 </plugin-->
-                <plugin>
-                    <groupId>org.apache.felix</groupId>
-                    <artifactId>maven-scr-plugin</artifactId>
-                    <version>${maven.scr.plugin.version}</version>
-                    <executions>
-                        <execution>
-                            <id>generate-scr-scrdescriptor</id>
-                            <goals>
-                                <goal>scr</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
             </plugins>
         </pluginManagement>
     </build>
@@ -357,7 +331,7 @@
         <maven.jacocoplugin.version>0.6.4.201312101107</maven.jacocoplugin.version>
         <maven.surefireplugin.version>2.12</maven.surefireplugin.version>
         <maven.resourcesplugin.version>2.5</maven.resourcesplugin.version>
-        <maven.bundleplugin.version>2.3.5</maven.bundleplugin.version>
+        <maven.bundleplugin.version>3.2.0</maven.bundleplugin.version>
         <maven.sourceplugin.version>2.1.2</maven.sourceplugin.version>
         <maven.assemblyplugin.version>2.4</maven.assemblyplugin.version>
         <maven.projectinforeportsplugin.version>2.4</maven.projectinforeportsplugin.version>
@@ -369,7 +343,6 @@
         <maven.resourcesplugin.version>2.5</maven.resourcesplugin.version>
 
         <rhino.osgi.version>1.7.0.R4.wso2v1</rhino.osgi.version>
-        <commons-logging.version>1.1.1</commons-logging.version>
         <opensaml2.wso2.version>2.4.1.wso2v1</opensaml2.wso2.version>
         <commons-codec.osgi.version>1.4.0.wso2v1</commons-codec.osgi.version>
         <gson.version>2.1</gson.version>
@@ -425,6 +398,7 @@
         <httpcomponents-httpcore.wso2.version>4.1.0-wso2v1</httpcomponents-httpcore.wso2.version>
         <apache.felix.scr.ds.annotations.version>1.2.4</apache.felix.scr.ds.annotations.version>
         <maven.scr.plugin.version>1.26.0</maven.scr.plugin.version>
+        <pax.logging.api.version>1.10.1</pax.logging.api.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -438,11 +412,6 @@
                 <groupId>com.google.code.findbugs</groupId>
                 <artifactId>findbugs</artifactId>
                 <version>${findbugs-annotations.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-logging</groupId>
-                <artifactId>commons-logging</artifactId>
-                <version>${commons-logging.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.ws.security.wso2</groupId>
@@ -728,9 +697,9 @@
             </dependency>
 
             <dependency>
-                <groupId>org.wso2.carbon</groupId>
-                <artifactId>org.wso2.carbon.logging</artifactId>
-                <version>${carbon.kernel.version}</version>
+                <groupId>org.ops4j.pax.logging</groupId>
+                <artifactId>pax-logging-api</artifactId>
+                <version>${pax.logging.api.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon.deployment</groupId>
