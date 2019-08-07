@@ -20,8 +20,6 @@ package org.jaggeryjs.hostobjects.log;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 import org.jaggeryjs.scriptengine.EngineConstants;
 import org.jaggeryjs.scriptengine.engine.JaggeryContext;
 import org.jaggeryjs.scriptengine.engine.RhinoEngine;
@@ -58,7 +56,7 @@ public class LogHostObject extends ScriptableObject {
 
     private static final String WARN_NON_THROWABLE = "Non throwable Java object has been passed as an argument";
 
-    private Logger logger;
+    private Log logger;
 
     @Override
     public String getClassName() {
@@ -96,22 +94,8 @@ public class LogHostObject extends ScriptableObject {
             loggerName = ROOT_LOGGER + requestString.replace(".jag", ":jag").replace(".js", ":js").replace("/", ".");
         }
         LogHostObject logObj = new LogHostObject();
-        logObj.logger = Logger.getLogger(loggerName);
+        logObj.logger = LogFactory.getLog(loggerName);
 
-        String logLevel = (String) context.getProperty(LOG_LEVEL);
-        if (LOG_LEVEL_FATAL.equalsIgnoreCase(logLevel)) {
-            logObj.logger.setLevel(Level.FATAL);
-        } else if (LOG_LEVEL_WARN.equalsIgnoreCase(logLevel)) {
-            logObj.logger.setLevel(Level.WARN);
-        } else if (LOG_LEVEL_DEBUG.equalsIgnoreCase(logLevel)) {
-            logObj.logger.setLevel(Level.DEBUG);
-        } else if (LOG_LEVEL_ERROR.equalsIgnoreCase(logLevel)) {
-            logObj.logger.setLevel(Level.ERROR);
-        } else if (LOG_LEVEL_TRACE.equalsIgnoreCase(logLevel)) {
-            logObj.logger.setLevel(Level.TRACE);
-        } else {
-            logObj.logger.setLevel(Level.INFO);
-        }
         return logObj;
     }
 
@@ -205,7 +189,7 @@ public class LogHostObject extends ScriptableObject {
         logException(logObj.logger, logLevel, message, exception);
     }
 
-    private static void logMessage(Logger log, String logLevel, String message) {
+    private static void logMessage(Log log, String logLevel, String message) {
         if (LOG_LEVEL_DEBUG.equals(logLevel)) {
             log.debug(message);
             return;
@@ -231,7 +215,7 @@ public class LogHostObject extends ScriptableObject {
         }
     }
 
-    private static void logException(Logger log, String logLevel, String message, Throwable throwable) {
+    private static void logException(Log log, String logLevel, String message, Throwable throwable) {
         if (LOG_LEVEL_DEBUG.equals(logLevel)) {
             log.debug(message, throwable);
             return;
