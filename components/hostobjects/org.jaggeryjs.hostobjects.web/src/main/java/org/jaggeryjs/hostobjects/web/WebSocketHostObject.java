@@ -1,8 +1,6 @@
 package org.jaggeryjs.hostobjects.web;
 
 
-import org.apache.catalina.websocket.MessageInbound;
-import org.apache.catalina.websocket.WsOutbound;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaggeryjs.hostobjects.file.FileHostObject;
@@ -17,11 +15,13 @@ import org.mozilla.javascript.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.util.HashMap;
 import java.util.Stack;
+import javax.websocket.EncodeException;
+import javax.websocket.RemoteEndpoint;
+import javax.websocket.Session;
 
 public class WebSocketHostObject extends ScriptableObject {
 
@@ -30,8 +30,7 @@ public class WebSocketHostObject extends ScriptableObject {
     private static final String hostObjectName = "WebSocket";
 
     private ContextFactory contextFactory;
-    private MessageInbound inbound;
-	private WsOutbound outbound;
+    private Session session;
 	private Function textCallback = null;
     private Function onOpencallback = null;
     private Function onCloseCallback = null;
@@ -132,26 +131,20 @@ public class WebSocketHostObject extends ScriptableObject {
         }
 
         WebSocketHostObject who = (WebSocketHostObject) thisObj;
-        if (args[0] instanceof String) {
-            try {
-                who.inbound.getWsOutbound().writeTextMessage(CharBuffer.wrap((String) args[0]));
-            } catch (IOException e) {
-                log.error(e.getMessage(), e);
-                throw new ScriptException(e);
+        RemoteEndpoint.Basic remoteEndpoint = who.session.getBasicRemote();
+        Object result = args[0];
+        try {
+            if (result instanceof String) {
+                remoteEndpoint.sendText((String) result);
+            } else if (result instanceof ByteBuffer) {
+                remoteEndpoint.sendBinary((ByteBuffer) result);
+            } else if (result instanceof byte[]) {
+                remoteEndpoint.sendBinary(ByteBuffer.wrap((byte[]) result));
+            } else {
+                remoteEndpoint.sendObject(result);
             }
-        } else {
-            StreamHostObject sho = (StreamHostObject) args[0];
-            InputStream is = sho.getStream();
-            try {
-                byte[] buffer = new byte[1024];
-                int length;
-                while ((length = is.read(buffer)) != -1) {
-                    who.inbound.getWsOutbound().writeBinaryMessage(ByteBuffer.wrap(buffer, 0, length));
-                }
-            } catch (IOException e) {
-                log.error(e.getMessage(), e);
-                throw new ScriptException(e);
-            }
+        } catch (IOException | EncodeException ioe) {
+            throw new IllegalStateException(ioe);
         }
     }
 
@@ -164,42 +157,30 @@ public class WebSocketHostObject extends ScriptableObject {
         }
         WebSocketHostObject who = (WebSocketHostObject) thisObj;
         try {
-            who.outbound.close(0, null);
+            who.session.close();
         } catch (IOException e) {
             log.error("Unable to close the websocket connection. ", e);
             throw new ScriptException(e);
         }
     }
 
-    public void setInbound(MessageInbound inbound) {
-        this.inbound = inbound;
-    }
-    
-    public WsOutbound getOutbound() {
-		return outbound;
-	}
-
-	public void setOutbound(WsOutbound outbound) {
-		this.outbound = outbound;
-	}
-
-    public void processText(CharBuffer charBuffer) {
+    public void processText(String msg) {
         if (textCallback == null) {
             return;
         }
         Context cx = RhinoEngine.enterContext(this.contextFactory);
         RhinoEngine.putContextProperty(EngineConstants.JAGGERY_CONTEXT, this.asyncContext);
-        textCallback.call(cx, this, this, new Object[]{charBuffer.toString()});
+        textCallback.call(cx, this, this, new Object[]{msg});
         RhinoEngine.exitContext();
     }
     
-    public void processOnOpen(WsOutbound wsOutbound) {
+    public void processOnOpen() {
         if (onOpencallback == null) {
             return;
         }
         Context cx = RhinoEngine.enterContext(this.contextFactory);
         RhinoEngine.putContextProperty(EngineConstants.JAGGERY_CONTEXT, this.asyncContext);
-        onOpencallback.call(cx, this, this, new Object[]{wsOutbound});
+        onOpencallback.call(cx, this, this, new Object[]{});
         RhinoEngine.exitContext();
     }
     
@@ -223,6 +204,11 @@ public class WebSocketHostObject extends ScriptableObject {
         StreamHostObject sho = (StreamHostObject) cx.newObject(this, "Stream", new Object[]{bis});
         binaryCallback.call(cx, this, this, new Object[]{sho});
         RhinoEngine.exitContext();
+    }
+
+    public void setSession(Session session) {
+        this.session = session;
+
     }
 }
 
