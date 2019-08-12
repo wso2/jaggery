@@ -28,7 +28,7 @@ import org.wso2.carbon.registry.core.service.RegistryService;
 import org.wso2.carbon.user.core.service.RealmService;
 
 @Component(
-        name = "mashup.javascript.hostobjects.registry.dscomponent",
+        name = "hostobjects.registry.dscomponent",
         immediate = true)
 public class RegistryHostObjectServiceComponent {
 
