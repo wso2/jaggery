@@ -566,6 +566,11 @@
                 <version>${tomcat.osgi.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.wso2.orbit.org.apache.tomcat</groupId>
+                <artifactId>tomcat-websocket</artifactId>
+                <version>${tomcat.osgi.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.codehaus.jettison.wso2</groupId>
                 <artifactId>jettison</artifactId>
                 <version>${jettison.osgi.version}</version>

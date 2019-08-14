@@ -87,7 +87,6 @@
         <dependency>
             <groupId>org.wso2.orbit.org.apache.tomcat</groupId>
             <artifactId>tomcat-websocket</artifactId>
-            <version>9.0.21.wso2v1</version>
         </dependency>
     </dependencies>
     <build>
