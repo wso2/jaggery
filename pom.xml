@@ -27,7 +27,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jaggeryjs</groupId>
     <artifactId>jaggery-parent</artifactId>
-    <version>0.14.7-SNAPSHOT</version>
+    <version>0.14.7</version>
     <packaging>pom</packaging>
     <name>jaggeryjs - Parent</name>
     <url>http://jaggeryjs.org</url>
@@ -230,7 +230,7 @@
     <scm>
         <connection>scm:git:https://github.com/wso2/jaggery.git</connection>
         <developerConnection>scm:git:https://github.com/wso2/jaggery.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>v0.14.7</tag>
     </scm>
     <repositories>
         <repository>
@@ -320,7 +320,7 @@
 
         <carbon.deployment.version>4.9.0</carbon.deployment.version>
 
-        <jaggery.version>0.14.7-SNAPSHOT</jaggery.version>
+        <jaggery.version>0.14.7</jaggery.version>
 
         <test.framework.version>4.3.1</test.framework.version>
         <automationutils.version>4.3.0</automationutils.version>
