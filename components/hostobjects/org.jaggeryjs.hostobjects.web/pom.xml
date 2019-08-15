@@ -26,6 +26,10 @@
             <artifactId>js</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.wso2.orbit.org.apache.tomcat</groupId>
+            <artifactId>tomcat-websocket</artifactId>
+        </dependency>
+        <dependency>
             <groupId>commons-fileupload.wso2</groupId>
             <artifactId>commons-fileupload</artifactId>
         </dependency>
@@ -52,10 +56,6 @@
         <dependency>
             <groupId>org.wso2.uri.template</groupId>
             <artifactId>wso2-uri-templates</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tomcat.wso2</groupId>
-            <artifactId>tomcat</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.felix</groupId>

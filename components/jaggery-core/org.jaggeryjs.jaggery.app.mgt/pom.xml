@@ -29,6 +29,10 @@
     <url>http://wso2.org</url>
     <dependencies>
         <dependency>
+            <groupId>org.wso2.orbit.org.apache.tomcat</groupId>
+            <artifactId>tomcat</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.jaggeryjs</groupId>
             <artifactId>org.jaggeryjs.jaggery.core</artifactId>
         </dependency>

@@ -84,6 +84,10 @@
             <artifactId>org.apache.felix.scr.ds-annotations</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.wso2.orbit.org.apache.tomcat</groupId>
+            <artifactId>tomcat-websocket</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -102,6 +106,7 @@
                         <Private-Package>org.jaggeryjs.jaggery.core.internal</Private-Package>
                         <Import-Package>
                             org.jaggeryjs.jaggery.core.*,
+                            org.apache.tomcat.websocket.*.
                             javax.servlet; version="${servlet-api.version}",
                             javax.servlet.http; version="${servlet-api.version}",
                             *;resolution:=optional

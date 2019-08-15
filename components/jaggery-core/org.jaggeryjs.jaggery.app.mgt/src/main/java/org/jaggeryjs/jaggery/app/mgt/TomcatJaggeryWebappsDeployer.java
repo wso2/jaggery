@@ -18,14 +18,25 @@ package org.jaggeryjs.jaggery.app.mgt;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.axis2.context.ConfigurationContext;
-import org.apache.catalina.*;
+import org.apache.catalina.Context;
+import org.apache.catalina.Host;
+import org.apache.catalina.Lifecycle;
+import org.apache.catalina.LifecycleEvent;
+import org.apache.catalina.LifecycleException;
+import org.apache.catalina.LifecycleListener;
 import org.apache.catalina.Manager;
+import org.apache.catalina.Wrapper;
 import org.apache.catalina.core.StandardContext;
-import org.apache.catalina.deploy.*;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.tomcat.util.descriptor.web.ErrorPage;
+import org.apache.tomcat.util.descriptor.web.FilterDef;
+import org.apache.tomcat.util.descriptor.web.FilterMap;
+import org.apache.tomcat.util.descriptor.web.LoginConfig;
+import org.apache.tomcat.util.descriptor.web.SecurityCollection;
+import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
 import org.jaggeryjs.hostobjects.log.LogHostObject;
 import org.jaggeryjs.jaggery.core.JaggeryCoreConstants;
 import org.jaggeryjs.jaggery.core.ScriptReader;
@@ -45,18 +56,29 @@ import org.wso2.carbon.CarbonConstants;
 import org.wso2.carbon.CarbonException;
 import org.wso2.carbon.context.PrivilegedCarbonContext;
 import org.wso2.carbon.core.session.CarbonTomcatClusterableSessionManager;
-import org.wso2.carbon.webapp.mgt.*;
-import org.wso2.carbon.utils.FileManipulator;
-import org.wso2.carbon.utils.deployment.GhostDeployerUtils;
+import org.wso2.carbon.webapp.mgt.CarbonTomcatSessionManager;
+import org.wso2.carbon.webapp.mgt.CarbonTomcatSessionPersistentManager;
+import org.wso2.carbon.webapp.mgt.DataHolder;
+import org.wso2.carbon.webapp.mgt.TomcatGenericWebappsDeployer;
+import org.wso2.carbon.webapp.mgt.WebApplication;
+import org.wso2.carbon.webapp.mgt.WebApplicationsHolder;
+import org.wso2.carbon.webapp.mgt.WebContextParameter;
+import org.wso2.carbon.webapp.mgt.WebappsConstants;
 import org.wso2.carbon.webapp.mgt.utils.WebAppUtils;
 
-
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Stack;
 import javax.servlet.ServletContext;
-import java.io.*;
-import java.util.*;
-
-//import org.wso2.carbon.context.ApplicationContext;
-//import org.wso2.carbon.tomcat.ext.utils.URLMappingHolder;
 
 /**
  * This deployer is responsible for deploying/undeploying/updating those Jaggery apps.
@@ -297,9 +319,9 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                     ((CarbonTomcatSessionManager) manager).setOwnerTenantId(tenantId);
                 } else if (manager instanceof CarbonTomcatSessionPersistentManager) {
                     ((CarbonTomcatSessionPersistentManager) manager).setOwnerTenantId(tenantId);
-                    log.debug(manager.getInfo() +
+                    log.debug(((CarbonTomcatSessionPersistentManager) manager).getName() +
                             " enabled Tomcat HTTP Session Persistent mode using " +
-                            ((CarbonTomcatSessionPersistentManager) manager).getStore().getInfo());
+                            ((CarbonTomcatSessionPersistentManager) manager).getStore().toString());
                 } else {
                     context.setManager(new CarbonTomcatSessionManager(tenantId));
                 }
@@ -391,7 +413,6 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
     private static void initJaggeryappDefaults(Context ctx, JSONObject jaggeryConfig, SecurityConstraint securityConstraint) {
 
         Tomcat.addServlet(ctx, JaggeryCoreConstants.JAGGERY_SERVLET_NAME, JaggeryCoreConstants.JAGGERY_SERVLET_CLASS);
-        Tomcat.addServlet(ctx, JaggeryCoreConstants.JAGGERY_WEBSOCKET_SERVLET_NAME, JaggeryCoreConstants.JAGGERY_WEBSOCKET_SERVLET_CLASS);
 
         addContextParams(ctx, jaggeryConfig);
         addListeners(ctx, jaggeryConfig);
@@ -981,7 +1002,7 @@ public class TomcatJaggeryWebappsDeployer extends TomcatGenericWebappsDeployer {
                     String url = (String) mapping
                             .get(JaggeryCoreConstants.JaggeryConfigParams.SERVLET_MAPPINGS_URL);
 
-                    ctx.addServletMapping(url, name);
+                    ctx.addServletMappingDecoded(url, name);
                 }
             }
         }
