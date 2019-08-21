@@ -18,10 +18,7 @@ package org.jaggeryjs.jaggery.tools;
 import java.io.PrintStream;
 
 import org.apache.commons.cli.*;
-import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
 
 public final class CommandLineClient {
 
@@ -38,11 +35,6 @@ public final class CommandLineClient {
 
     static {
         final Logger rootLogger = Logger.getRootLogger();
-        if (!rootLogger.getAllAppenders().hasMoreElements()) {
-            rootLogger.setLevel(Level.OFF);
-            rootLogger.addAppender(new ConsoleAppender(
-                    new PatternLayout("%-5p [%t]: %m%n")));
-        }
     }
 
     public static void main(final String[] args) {
