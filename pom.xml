@@ -312,13 +312,13 @@
         <project.scm.id>github-scm</project.scm.id>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <carbon.kernel.version>4.5.0-alpha</carbon.kernel.version>
+        <carbon.kernel.version>4.5.0</carbon.kernel.version>
         <carbon.kernel.feature.version>4.5.0</carbon.kernel.feature.version>
-        <carbon.registry.version>4.7.0</carbon.registry.version>
-        <carbon.identity.version>5.13.0</carbon.identity.version>
+        <carbon.registry.version>4.7.12</carbon.registry.version>
+        <carbon.identity.version>5.14.67</carbon.identity.version>
         <carbon.registry.imp.pkg.version>[4.7.0, 5.0.0)</carbon.registry.imp.pkg.version>
 
-        <carbon.deployment.version>4.9.0</carbon.deployment.version>
+        <carbon.deployment.version>4.9.11</carbon.deployment.version>
 
         <jaggery.version>0.14.11-SNAPSHOT</jaggery.version>
 
@@ -359,7 +359,7 @@
         <eclipse-transport.version>1.0.100.v201109150330</eclipse-transport.version>
         <geronimo-servlet_3.0_spec.version>1.0</geronimo-servlet_3.0_spec.version>
         <commons-fileupload.osgi.version>1.2.2.wso2v1</commons-fileupload.osgi.version>
-        <axis2.osgi.version>1.6.1-wso2v37</axis2.osgi.version>
+        <axis2.osgi.version>1.6.1-wso2v38</axis2.osgi.version>
         <axiom.osgi.version>1.2.11-wso2v16</axiom.osgi.version>
         <activation.version>1.1</activation.version>
         <javax.servlet.jsp.osgi.version>2.0.0.v200806031607</javax.servlet.jsp.osgi.version>
@@ -388,7 +388,7 @@
         <h2-engine.osgi.version>1.2.140.wso2v3</h2-engine.osgi.version>
         <commons-cli.osgi.version>1.2.0.wso2v1</commons-cli.osgi.version>
         <commons-lang3.version>3.1</commons-lang3.version>
-        <rampart.osgi.version>1.6.1-wso2v36</rampart.osgi.version>
+        <rampart.osgi.version>1.6.1-wso2v39</rampart.osgi.version>
         <xmlbeans.osgi.version>2.3.0.wso2v1</xmlbeans.osgi.version>
         <saxon.bps.osgi.version>9.0.0.x-wso2v1</saxon.bps.osgi.version>
         <jettison.osgi.version>1.3.4.wso2v1</jettison.osgi.version>
