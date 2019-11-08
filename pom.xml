@@ -312,13 +312,13 @@
         <project.scm.id>github-scm</project.scm.id>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <carbon.kernel.version>4.5.0</carbon.kernel.version>
-        <carbon.kernel.feature.version>4.5.0</carbon.kernel.feature.version>
-        <carbon.registry.version>4.7.12</carbon.registry.version>
-        <carbon.identity.version>5.14.67</carbon.identity.version>
+        <carbon.kernel.version>4.5.2</carbon.kernel.version>
+        <carbon.kernel.feature.version>${carbon.kernel.version}</carbon.kernel.feature.version>
+        <carbon.registry.version>4.7.19</carbon.registry.version>
+        <carbon.identity.version>5.14.127</carbon.identity.version>
         <carbon.registry.imp.pkg.version>[4.7.0, 5.0.0)</carbon.registry.imp.pkg.version>
 
-        <carbon.deployment.version>4.9.11</carbon.deployment.version>
+        <carbon.deployment.version>4.9.13</carbon.deployment.version>
 
         <jaggery.version>0.14.12-SNAPSHOT</jaggery.version>
 
@@ -359,7 +359,7 @@
         <eclipse-transport.version>1.0.100.v201109150330</eclipse-transport.version>
         <geronimo-servlet_3.0_spec.version>1.0</geronimo-servlet_3.0_spec.version>
         <commons-fileupload.osgi.version>1.2.2.wso2v1</commons-fileupload.osgi.version>
-        <axis2.osgi.version>1.6.1-wso2v38</axis2.osgi.version>
+        <axis2.osgi.version>1.6.1-wso2v40</axis2.osgi.version>
         <axiom.osgi.version>1.2.11-wso2v16</axiom.osgi.version>
         <activation.version>1.1</activation.version>
         <javax.servlet.jsp.osgi.version>2.0.0.v200806031607</javax.servlet.jsp.osgi.version>
