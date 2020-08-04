@@ -31,5 +31,6 @@
         <module>org.jaggeryjs.server.feature</module>
         <module>org.jaggeryjs.ui.feature</module>
         <module>org.jaggeryjs.feature</module>
+        <module>org.jaggeryjs.jaggery.tools.server.feature</module>
     </modules>
 </project>
