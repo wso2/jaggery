@@ -77,24 +77,11 @@
                             <goal>p2-feature-gen</goal>
                         </goals>
                         <configuration>
-                            <id>org.jaggeryjs.server</id>
+                            <id>org.jaggeryjs.jaggery.tools.server</id>
                             <propertiesFile>../etc/feature.properties</propertiesFile>
                             <bundles>
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.jaggery.tools</bundleDef>
                             </bundles>
-                            <importBundles>
-                                <importBundleDef>rhino.wso2:js</importBundleDef>
-                                <importBundleDef>org.eclipse.wst.jsdt:org.eclipse.wst.jsdt.debug.rhino.debugger
-                                </importBundleDef>
-                                <importBundleDef>org.eclipse.wst.jsdt:org.eclipse.wst.jsdt.debug.transport
-                                </importBundleDef>
-                                <importBundleDef>rome.wso2:rome</importBundleDef>
-                                <importBundleDef>org.wso2.uri.template:wso2-uri-templates</importBundleDef>
-                                <importBundleDef>net.sf.saxon.wso2:saxon.bps</importBundleDef>
-                                <importBundleDef>jdom.wso2:jdom</importBundleDef>
-                                <importBundleDef>commons-cli.wso2:commons-cli</importBundleDef>
-                                <importBundleDef>com.googlecode.json-simple.wso2:json-simple</importBundleDef>
-                            </importBundles>
                             <importFeatures>
                                 <importFeatureDef>org.wso2.carbon.registry.core.server:compatible:${carbon.kernel.version}</importFeatureDef>
                                 <importFeatureDef>org.wso2.carbon.registry.core.common:compatible:${carbon.kernel.version}</importFeatureDef>
