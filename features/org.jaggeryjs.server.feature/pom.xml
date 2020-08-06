@@ -27,8 +27,8 @@
     <packaging>pom</packaging>
     <name>Jaggery Server Feature</name>
     <url>http://wso2.org</url>
-    <description>This feature contains the core bundles required for jaggery
-        functionality
+
+    <description>This feature contains the core bundles required for jaggery functionality without jaggery.tools dependency
     </description>
     <dependencies>
         <dependency>
@@ -62,10 +62,6 @@
         <dependency>
             <groupId>org.wso2.apache.solr</groupId>
             <artifactId>solr</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jaggeryjs</groupId>
-            <artifactId>org.jaggeryjs.jaggery.tools</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jaggeryjs</groupId>
@@ -296,7 +292,6 @@
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.jaggery.deployer</bundleDef>
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.jaggery.core</bundleDef>
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.jaggery.app.mgt</bundleDef>
-                                <bundleDef>org.jaggeryjs:org.jaggeryjs.jaggery.tools</bundleDef>
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.scriptengine</bundleDef>
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.registry</bundleDef>
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.web</bundleDef>
