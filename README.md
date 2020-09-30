@@ -1,4 +1,4 @@
-{jaggery.js} - The delicious Javascript framework
+{jaggery.js} - The delicious and marvelous Javascript framework
 ============================================
 
 Jaggery is a framework to write webapps and HTTP-focused web services 
