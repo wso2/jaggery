@@ -605,7 +605,6 @@ public class XMLHttpRequestHostObject extends ScriptableObject {
         String proxyPortStr = System.getProperty(HTTP_PROXY_PORT);
         String nonProxyHosts = System.getProperty(HTTP_NON_PROXY_HOSTS);
 
-
         if (isHostInNonProxyList(host, nonProxyHosts)) {
             return null;
         }
@@ -669,8 +668,7 @@ public class XMLHttpRequestHostObject extends ScriptableObject {
      * @return <code>true</code> when the string matches against the pattern,
      *         <code>false</code> otherwise.
      */
-    private static boolean match(String pattern, String str,
-                                 boolean isCaseSensitive) {
+    private static boolean match(String pattern, String str, boolean isCaseSensitive) {
 
         char[] patArr = pattern.toCharArray();
         char[] strArr = str.toCharArray();
@@ -711,8 +709,7 @@ public class XMLHttpRequestHostObject extends ScriptableObject {
         }
 
         // Process characters before first star
-        while ((ch = patArr[patIdxStart]) != '*'
-                && (strIdxStart <= strIdxEnd)) {
+        while ((ch = patArr[patIdxStart]) != '*' && (strIdxStart <= strIdxEnd)) {
             if (isCaseSensitive && (ch != strArr[strIdxStart])) {
                 return false;    // Character mismatch
             }
@@ -818,5 +815,4 @@ public class XMLHttpRequestHostObject extends ScriptableObject {
         }
         return true;
     }
-
 }
