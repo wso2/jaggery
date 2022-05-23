@@ -105,10 +105,6 @@
         </dependency>
         <dependency>
             <groupId>org.jaggeryjs</groupId>
-            <artifactId>org.jaggeryjs.hostobjects.feed</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jaggeryjs</groupId>
             <artifactId>org.jaggeryjs.hostobjects.jaggeryparser</artifactId>
         </dependency>
         <dependency>
@@ -190,10 +186,6 @@
         <dependency>
             <groupId>org.apache.rampart.wso2</groupId>
             <artifactId>rampart-trust</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>rome.wso2</groupId>
-            <artifactId>rome</artifactId>
         </dependency>
         <dependency>
             <groupId>org.scribe</groupId>
@@ -299,7 +291,6 @@
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.stream</bundleDef>
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.xhr</bundleDef>
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.db</bundleDef>
-                                <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.feed</bundleDef>
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.xslt</bundleDef>
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.uri</bundleDef>
                                 <bundleDef>org.jaggeryjs:org.jaggeryjs.hostobjects.jaggeryparser</bundleDef>
@@ -311,7 +302,6 @@
                                 </importBundleDef>
                                 <importBundleDef>org.eclipse.wst.jsdt:org.eclipse.wst.jsdt.debug.transport
                                 </importBundleDef>
-                                <importBundleDef>rome.wso2:rome</importBundleDef>
                                 <importBundleDef>org.wso2.uri.template:wso2-uri-templates</importBundleDef>
                                 <importBundleDef>net.sf.saxon.wso2:saxon.bps</importBundleDef>
                                 <importBundleDef>jdom.wso2:jdom</importBundleDef>
