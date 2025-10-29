@@ -21,6 +21,7 @@ import org.apache.axis2.AxisFault;
 import org.apache.axis2.engine.AxisConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.wso2.carbon.CarbonException;
 import org.jaggeryjs.jaggery.core.JaggeryCoreConstants;
 import org.wso2.carbon.utils.ArchiveManipulator;
 import org.wso2.carbon.webapp.mgt.SessionsWrapper;
@@ -92,6 +93,12 @@ public class JaggeryAppAdmin extends WebappAdmin {
 
         for (WebappUploadData uploadData : webappUploadDataList) {
             String fName = uploadData.getFileName();
+            try {
+                // validate file name
+                JaggeryDeploymentUtil.validateFileName(fName, jaggeryAppsPath);
+            } catch (CarbonException e) {
+                throw new AxisFault(e.getMessage(), e);
+            }
             if (fName.contains(".")) {
                 fName = fName.split("\\.")[0];
             }
