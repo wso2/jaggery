@@ -411,8 +411,7 @@ public class FileHostObject extends ScriptableObject {
                         while ((entry = zin.getNextEntry()) != null) {
                             name = entry.getName();
                             String canonicalDirPath = outdir.getCanonicalPath();
-                            String canonicalEntryPath = new File(canonicalDirPath + entry.getName()).getCanonicalPath();
-                            if(!canonicalEntryPath.startsWith(canonicalDirPath)){
+                            if(!new File(canonicalDirPath + entry.getName()).getCanonicalFile().toPath().startsWith(canonicalDirPath)){
                                 log.error("Invalid entry found in the Zip file: " + name);
                                 return false;
                             }

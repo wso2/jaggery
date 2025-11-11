@@ -44,7 +44,7 @@ public final class JaggeryDeploymentUtil {
             ZipEntry entry;
             while ((entry = zis.getNextEntry()) != null) {
                 if (entry.isDirectory()) {
-                    File entryDir = new File(unzipDestinationDirectory.getAbsolutePath() + File.separator + entry.getName());
+                    File entryDir = new File(unzipDestinationDirectory.getAbsolutePath(), entry.getName());
                     boolean created = entryDir.mkdir();
                     if (!created) {
                     	log.error("Could not create DIR : " + unzipDestinationDirectory.getAbsolutePath() + 
@@ -56,7 +56,11 @@ public final class JaggeryDeploymentUtil {
                     // write the files to the disk
                     FileOutputStream fos = null;
                     try {
-	                    fos = new FileOutputStream(unzipDestinationDirectory.getAbsolutePath() + File.separator + entry.getName());
+                        final File zipEntryFile = new File(unzipDestinationDirectory.getAbsolutePath(), entry.getName());
+                        if (!zipEntryFile.toPath().normalize().startsWith(unzipDestinationDirectory.getAbsolutePath())) {
+                            throw new IOException("Bad zip entry");
+                        }
+                        fos = new FileOutputStream(zipEntryFile);
 	                    dest = new BufferedOutputStream(fos, BYTE_BUFFER_SIZE);
 	                    while ((count = zis.read(data, 0, BYTE_BUFFER_SIZE))
 	                            != -1) {
