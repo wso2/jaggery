@@ -24,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map.Entry;
 import java.util.TimeZone;
+import java.util.regex.Pattern;
 
 public class HostObjectUtil {
 
@@ -31,6 +32,9 @@ public class HostObjectUtil {
 
     private static final String FORMAT_DATE_ISO = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
     private static final DateFormat dateFormat = new SimpleDateFormat(FORMAT_DATE_ISO);
+
+    private static final String escapable = "[\u0000-\u001f\u007f-\u009f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]";
+    private static final Pattern escapablePattern = Pattern.compile(escapable);
 
     static {
         dateFormat.setTimeZone(TimeZone.getDefault());
@@ -96,7 +100,12 @@ public class HostObjectUtil {
             return serializeString(obj.toString());
         }
         if (obj instanceof Number) {
-            return obj.toString();
+            if (((Number)obj).intValue() == ((Number)obj).doubleValue()) {
+                return String.valueOf(new Integer(((Number)obj).intValue()));
+            }
+            else {
+                return obj.toString();
+            }
         }
         if (obj instanceof XMLObject) {
             return serializeString(serializeXML((ScriptableObject) obj));
@@ -271,10 +280,46 @@ public class HostObjectUtil {
         return serializeJSON(o);
     }
 
+    private static String quote(String in) {
+        StringBuilder out = new StringBuilder();
+        out.append("\"");
+        int len = in.length();
+        for (int i = 0; i < len; i++) {
+            char c = in.charAt(i);
+            if (c == '\"') {
+                out.append("\\\"");
+            }
+            else if (c == '\\') {
+                out.append("\\\\");
+            }
+            else if (c == '\b') {
+                out.append("\\b");
+            }
+            else if (c == '\f') {
+                out.append("\\f");
+            }
+            else if (c == '\n') {
+                out.append("\\n");
+            }
+            else if (c == '\r') {
+                out.append("\\r");
+            }
+            else if (c == '\t') {
+                out.append("\\t");
+            }
+            else if (escapablePattern.matcher(String.valueOf(c)).matches()) {
+                out.append("\\u").append(String.format("%04X", (int) c));
+            }
+            else {
+                out.append(c);
+            }
+        }
+        out.append("\"");
+        return out.toString();
+    }
+
     private static String serializeString(String obj) {
-        return "\"" + obj.replace("\\", "\\\\").replace("\"", "\\\"").replace("\r", "\\r").replace("\n", "\\n")
-                .replace("\t", "\\t").replace("\f", "\\f").replace("\b", "\\b").replace("\u2028", "\\u2028")
-                .replace("\u2029", "\\u2029") + "\"";
+        return quote(obj);
     }
 
     private static String serializeXML(ScriptableObject obj) {
